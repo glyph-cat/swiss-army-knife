@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "*.json": "jsonc"
+  },
+  "javascript.format.semicolons": "remove",
+  "typescript.format.semicolons": "remove",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/*.code-search": true,
+    "lib/": true,
+  }
+}

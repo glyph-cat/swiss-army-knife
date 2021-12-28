@@ -1,0 +1,8 @@
+*.draft*
+*.old*
+*.secret*
+*.scripted*
+dist
+lib
+node_modules
+temp/

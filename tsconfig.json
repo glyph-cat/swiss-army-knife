@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationDir": "./temp/tsc/types",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "importHelpers": false,
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "./temp/tsc/js",
+    "skipLibCheck": true,
+    "strict": false,
+    "stripInternal": true,
+    "target": "ESNext"
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ],
+  "include": [
+    "src",
+    "env.d.ts",
+  ]
+}
