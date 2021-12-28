@@ -4,7 +4,7 @@ on each platform. Others that do not have this tag means it is written in plain
 TypeScript/JavaScript and you should be able to use them virtually everywhere.
 
 ## Concerning Platforms
-* **Node** — Node JS.
+* **Node** — Node JS.
 * **Web** — The web in general. Unless explicitly stated, this includes both
 client-side and server-side rendering.
 * **Android** — Android (React Native).
@@ -21,4 +21,12 @@ itself might only be available on just a few.
 * ✅ Supported
 * ❌ Not supported
 * 🟠 Not tested
+
+<br/>
+
+# Support This Project
+
+* Ko-fi: [`ko-fi.com/glyphcat`](https://ko-fi.com/glyphcat)
+* BTC: [`bc1q5qp6a972l8m0k26ln9deuhup0nmldf86ndu5we`](bitcoin:bc1q5qp6a972l8m0k26ln9deuhup0nmldf86ndu5we)
+
 <br/>
