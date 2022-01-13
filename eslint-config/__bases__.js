@@ -1,4 +1,5 @@
 const chalk = require('chalk')
+const { name: PACKAGE_NAME } = require('../package.json')
 
 const emphasize = chalk.bold.underline.cyan
 
@@ -90,9 +91,8 @@ const createConfig = ({
         }, {
           name: 'react',
           importNames: ['useRef', 'useLayoutEffect'],
-          message: 'Please import from ' + emphasize('\'@glyph-cat/swiss-army-knife\'') +
-            ' instead.',
-        }]
+          message: 'Please import from ' + emphasize(`'${PACKAGE_NAME}'`) + ' instead.'
+        }],
       }],
       'no-unreachable': WARN,
 

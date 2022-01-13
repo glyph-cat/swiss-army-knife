@@ -10,7 +10,6 @@ export interface ThemeColorProps {
 
 /**
  * @availability
- * - ❌ Node
  * - ✅ Web
  * - ❌ Android
  * - ❌ iOS

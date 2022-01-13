@@ -3,6 +3,7 @@ import { lazyDeclare } from '../../../data/lazy-declare'
 import { createTruthMap } from '../../../data/truth-map'
 import { isNumber, isString } from '../../../data/type-check'
 import { getRandomHash } from '../../../random/hash'
+import { JSObjectKey } from '../../../types'
 import { useRef } from '../lazy-ref'
 
 /**
@@ -20,7 +21,7 @@ const __hashTracker__ = lazyDeclare(() => createTruthMap<string>())
  */
 function __idFactory__(
   idType: number | typeof Number | typeof Symbol
-): () => string | number | symbol {
+): () => JSObjectKey {
   return () => {
     if (isNumber(idType)) {
       let hash: string
@@ -88,7 +89,7 @@ export function useComponentId(idType: typeof Symbol): symbol
  */
 export function useComponentId(
   idType: number | typeof Number | typeof Symbol
-): string | number | symbol {
+): JSObjectKey {
   const id = useRef(__idFactory__(idType))
   useEffect(() => {
     return () => {

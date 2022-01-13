@@ -2,10 +2,18 @@ import { hasProperty } from '.'
 
 describe(hasProperty.name, (): void => {
 
-  const SAMPLE_OBJECT = { foo: 1, bar: undefined } as const
+  const $internals = Symbol()
+  const SAMPLE_OBJECT = {
+    foo: 1,
+    bar: undefined,
+    7: 'seven',
+    [$internals]: {},
+  } as const
 
   test('Does exist', (): void => {
     expect(hasProperty(SAMPLE_OBJECT, 'foo')).toBe(true)
+    expect(hasProperty(SAMPLE_OBJECT, 7)).toBe(true)
+    expect(hasProperty(SAMPLE_OBJECT, $internals)).toBe(true)
   })
 
   test('Does exist, but undefined', (): void => {

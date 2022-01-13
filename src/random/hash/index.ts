@@ -1,4 +1,5 @@
 import { isNumber } from '../../data/type-check'
+import { pickRandom } from '../pick'
 
 /**
  * @public
@@ -26,7 +27,7 @@ export function getRandomHash(
   }
   let hash = ''
   while (hash.length < length) {
-    hash += charset[Math.floor(Math.random() * charset.length)]
+    hash += pickRandom(charset)
   }
   return hash
 }

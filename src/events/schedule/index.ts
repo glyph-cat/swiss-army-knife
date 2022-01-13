@@ -19,7 +19,7 @@ export interface Schedule {
  * @returns The Schedule instance.
  * @public
  */
-export function createSchedule(
+export function setSchedule(
   callback: () => void,
   triggerTime: Date
 ): Schedule {

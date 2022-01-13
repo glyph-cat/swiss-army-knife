@@ -1,1 +1,28 @@
-{}
+{
+  "Scoped CSS": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "import styles",
+    "body": "import styles from './index.module.css'",
+    "description": "Import a scoped CSS file",
+  },
+  "Safe Area Inset Top": {
+    "scope": "css",
+    "prefix": "env(safe-area-inset-top)",
+    "body": "env(safe-area-inset-top)",
+  },
+  "Safe Area Inset Bottom": {
+    "scope": "css",
+    "prefix": "env(safe-area-inset-bottom)",
+    "body": "env(safe-area-inset-bottom)",
+  },
+  "Safe Area Inset Left": {
+    "scope": "css",
+    "prefix": "env(safe-area-inset-left)",
+    "body": "env(safe-area-inset-left)",
+  },
+  "Safe Area Inset Right": {
+    "scope": "css",
+    "prefix": "env(safe-area-inset-right)",
+    "body": "env(safe-area-inset-right)",
+  },
+}

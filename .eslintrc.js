@@ -1,4 +1,4 @@
-const config = require('./eslint-config/configs/strict')
+const { strict: config } = require('./eslint-config')
 
 module.exports = {
   root: true,

@@ -2,9 +2,9 @@
  * @public
  */
 export function AnimationTiming(
-  durationInMiliseconds: number
+  durationInMilliseconds: number
 ): any { // eslint-disable-line @typescript-eslint/no-explicit-any
-  return durationInMiliseconds
+  return durationInMilliseconds
 }
 
 export * from './constants'

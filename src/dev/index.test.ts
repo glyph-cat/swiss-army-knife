@@ -8,7 +8,7 @@ import {
 
 // describe(devPrintOnce.name, () => {
 
-//   it('devPrintOnce', () => {
+//   test('devPrintOnce', () => {
 //     const spyInfo = jest.spyOn(console, 'info')
 //     const spyWarn = jest.spyOn(console, 'warn')
 //     devPrintOnce('info', 'a', 'lorem ipsum')
@@ -20,15 +20,15 @@ import {
 //   })
 // })
 
-describe(displayObjectPath.name, () => {
+describe(displayObjectPath.name, (): void => {
 
-  it('No items', () => {
+  test('No items', (): void => {
     const path = []
     const output = displayObjectPath(path)
     expect(output).toBe('``')
   })
 
-  it('Path with items', () => {
+  test('Path with items', (): void => {
     const path = ['foo', '42', 'bar', 'baz3', '4bax']
     const output = displayObjectPath(path)
     // eslint-disable-next-line quotes
@@ -37,14 +37,14 @@ describe(displayObjectPath.name, () => {
 
 })
 
-describe(displayStringArray.name, () => {
+describe(displayStringArray.name, (): void => {
 
-  it('Empty array', () => {
+  test('Empty array', (): void => {
     const output = displayStringArray([])
     expect(output).toBe('[]')
   })
 
-  it('Array with items', () => {
+  test('Array with items', (): void => {
     const output = displayStringArray(['foo', 42, true])
     // eslint-disable-next-line quotes
     expect(output).toBe("['foo', '42', 'true']")
@@ -52,14 +52,14 @@ describe(displayStringArray.name, () => {
 
 })
 
-describe(displayMixedArray.name, () => {
+describe(displayMixedArray.name, (): void => {
 
-  it('Empty array', () => {
+  test('Empty array', (): void => {
     const output = displayMixedArray([])
     expect(output).toBe('[]')
   })
 
-  it('Array with items', () => {
+  test('Array with items', (): void => {
     const output = displayMixedArray(['foo', 42, true])
     // eslint-disable-next-line quotes
     expect(output).toBe("['foo', 42, true]")
@@ -67,9 +67,9 @@ describe(displayMixedArray.name, () => {
 
 })
 
-describe(displayOrdinalNumber.name, () => {
+describe(displayOrdinalNumber.name, (): void => {
 
-  it('1 to 15', () => {
+  test('1 to 15', (): void => {
     const outputStack = []
     for (let i = 1; i <= 15; i++) {
       outputStack.push(displayOrdinalNumber(i))
@@ -93,7 +93,7 @@ describe(displayOrdinalNumber.name, () => {
     ])
   })
 
-  it('21 to 24', () => {
+  test('21 to 24', (): void => {
     const outputStack = []
     for (let i = 21; i <= 24; i++) {
       outputStack.push(displayOrdinalNumber(i))
@@ -106,7 +106,7 @@ describe(displayOrdinalNumber.name, () => {
     ])
   })
 
-  it('111 to 114', () => {
+  test('111 to 114', (): void => {
     const outputStack = []
     for (let i = 111; i <= 114; i++) {
       outputStack.push(displayOrdinalNumber(i))

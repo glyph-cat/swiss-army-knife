@@ -1,6 +1,4 @@
 module.exports = {
-  configs: {
-    recommended: require('./configs/recommended'),
-    strict: require('./configs/strict'),
-  },
+  recommended: require('./recommended'),
+  strict: require('./strict'),
 }

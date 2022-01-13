@@ -47,7 +47,7 @@ function getPlugins(config = {}) {
   const { overrides = {}, mode, buildEnv } = config
   const basePlugins = {
     nodeResolve: nodeResolve(),
-    AutoImportReact: AutoImportReact(),
+    autoImportReact: autoImportReact(),
     babel: babel({
       presets: ['@babel/preset-react'],
       plugins: [
@@ -191,38 +191,40 @@ const config = [
 
 export default config
 
-function forceCleanup() {
+/**
+ * Automatically `imports React from "react"` if a file ends with '.tsx'.
+ */
+function autoImportReact() {
   return {
-    name: 'forceCleanup',
-    transform: (code, id) => {
-      if (id.includes('tslib')) {
-        return new Promise((resolve) => {
-          const indexOfFirstCommentCloseAsterisk = code.indexOf('*/')
-          if (indexOfFirstCommentCloseAsterisk >= 0) {
-            // +2 to include the 2 searched characters as well
-            code = code.substring(
-              indexOfFirstCommentCloseAsterisk + 2,
-              code.length
-            )
-          }
-          resolve({ code })
-        })
+    name: 'autoImportReact',
+    transform(code, id) {
+      if (/tsx/gi.test(id)) {
+        code = 'import React from "react";\n' + code
+        return { code }
       }
       return null
     },
   }
 }
 
-function AutoImportReact() {
+/**
+ * Removes redundant license information about tslib that is wasting precious
+ * bytes in the final code bundle.
+ */
+function forceCleanup() {
   return {
-    name: 'AutoImportReact',
-    transform: (code, id) => {
-      if (/\.(tsx|jsx)$/.test(id)) {
-        return new Promise((resolve) => {
-          resolve({
-            code: 'import React from "react"\n' + code,
-          })
-        })
+    name: 'forceCleanup',
+    transform(code, id) {
+      if (id.includes('tslib')) {
+        const indexOfFirstCommentCloseAsterisk = code.indexOf('*/')
+        if (indexOfFirstCommentCloseAsterisk >= 0) {
+          // +2 to include the 2 searched characters as well
+          code = code.substring(
+            indexOfFirstCommentCloseAsterisk + 2,
+            code.length
+          )
+        }
+        return { code }
       }
       return null
     },

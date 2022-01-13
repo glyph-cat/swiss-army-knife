@@ -14,10 +14,16 @@ client-side and server-side rendering.
 <br/>
 
 ## Indicators
-These indicators refer to whether functions/variables/types are can be used in a
-platform without experiencing errors or unexpected behaviours. So while the prop
-`interface` of a React component may be available on all platforms, the component
-itself might only be available on just a few.
+These indicators refer to whether functions/variables/types can work properly on
+each platform. At best, these functions/variables/types will do nothing if used
+on unsupported platforms. However, you should still test their behaviours if you
+intend to share code between different platforms as some might cause native
+errors that require manual handling.
+
+Also, it's worth noticing that while prop `interface`s of React
+components may be available on every platforms, the components themselves might
+only be available on just a few.
+
 * ✅ Supported
 * ❌ Not supported
 * 🟠 Not tested

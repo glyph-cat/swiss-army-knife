@@ -1,6 +1,6 @@
 /**
  * Create an empty promise that is resolved after a specified time.
- * @param time - The time in miliseconds.
+ * @param time - The time in milliseconds.
  * @returns An empty promise.
  * @public
  */

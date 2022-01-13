@@ -1,3 +1,4 @@
+import { pickRandom } from '../../random/pick'
 import { isNumber } from '../type-check'
 
 /**
@@ -40,7 +41,7 @@ export function getLoremIpsum(wordCount: number): string {
   }
   const paragraph = []
   while (paragraph.length < wordCount) {
-    paragraph.push(LOREM_IPSUM_SOURCE[Math.floor(Math.random() * LOREM_IPSUM_SOURCE.length)])
+    paragraph.push(pickRandom(LOREM_IPSUM_SOURCE))
   }
   return paragraph.join(' ')
 }

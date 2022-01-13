@@ -5,6 +5,8 @@ const config: Config.InitialOptions = {
     '<rootDir>/jest.setup.ts',
   ],
   testRegex: '.test.(tsx|ts|jsx|js)',
+  testTimeout: 1000,
+  timers: 'fake',
   verbose: true,
 }
 

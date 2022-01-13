@@ -1,30 +1,40 @@
 import { useEffect } from 'react'
-import { removeDuplicates } from '../../../data/array/remove-duplicates'
-import { isUndefined } from '../../../data/type-check'
-import { devWarn } from '../../../dev'
-import { JSFunction } from '../../../types'
+import { removeDuplicates } from '../../../../data/array/remove-duplicates'
+import { EMPTY_OBJECT } from '../../../../data/dummies'
+import { JSFunction } from '../../../../types'
 import {
+  MATERIAL_ICON_DEFAULTS,
   MaterialIconProps,
   MaterialIconStyleSheetProps,
   MaterialIconVariant,
-} from './schema'
-import {
-  MATERIAL_ICON_DEFAULT_SIZE,
-  MATERIAL_ICON_DEFAULT_VARIANT,
-} from './__shared__'
+} from '../schema'
 
 /**
- * A convenience component to use Material Icons.
+ * A convenience wrapper component around the Material Icon fonts.
  *
- * You need to load the the Material Icon stylesheet to use this component.
+ * NOTE: Fonts need to be loaded before the icons can be used.
+ *
  * For web, there are a few ways:
  * - With the `loadMaterialIconStyleSheet` method
  * - With the `useMaterialIconStyleSheet` hook
  * - With the `<MaterialIconStyleSheet/>` component
  * - Download the icons and host them yourself (See [docs](https://developers.google.com/fonts/docs/material_icons#setup_method_2_self_hosting))
+ *
+ * For React Native, please follow the instructions here:
+ * https://github.com/glyph-cat/swiss-army-knife/blob/main/src/react/components/material-icon/rn-setup.md
+ *
  * @see https://fonts.google.com/icons
+ * @example
+ * function App(): JSX.Element {
+ *   return (
+ *     <MaterialIcon
+ *       name='emoji_people'
+ *       size={64}
+ *       color='#888888'
+ *     />
+ *   )
+ * }
  * @availability
- * - ❌ Node
  * - ✅ Web
  * - ✅ Android
  * - ✅ iOS
@@ -34,17 +44,12 @@ import {
  */
 export function MaterialIcon({
   name,
-  size = MATERIAL_ICON_DEFAULT_SIZE,
-  variant = MATERIAL_ICON_DEFAULT_VARIANT,
-  htmlProps = {},
+  color,
+  size = MATERIAL_ICON_DEFAULTS.size,
+  variant = MATERIAL_ICON_DEFAULTS.variant,
+  htmlProps = EMPTY_OBJECT,
 }: MaterialIconProps): JSX.Element {
   const { className = '', style, ...remaingHtmlProps } = htmlProps
-  if (!isUndefined(style.fontSize)) {
-    devWarn(
-      'The `style.fontSize` property is ignored in <MaterialComponent/>. ' +
-      'Please use the `size` prop instead.'
-    )
-  }
   return (
     <span
       className={[
@@ -52,8 +57,9 @@ export function MaterialIcon({
         className,
       ].join(' ')}
       style={{
-        ...style,
+        ...(color ? { color } : {}),
         fontSize: size,
+        ...style,
       }}
       {...remaingHtmlProps}
     >
@@ -64,13 +70,14 @@ export function MaterialIcon({
 
 /**
  * Manually load/unload material icon stylesheet.
+ * @param variants - The list of variants that you need in your app.
  * @example
+ * import { loadMaterialIconStyleSheets } from '{:PACKAGE_NAME:}'
  * // To load
  * const unloadMaterialIconStyleSheets = loadMaterialIconStyleSheets('round', 'filled')
  * // To unload
  * unloadMaterialIconStyleSheets()
  * @availability
- * - ❌ Node
  * - ✅ Web
  * - ❌ Android
  * - ❌ iOS
@@ -93,8 +100,15 @@ export function loadMaterialIconStyleSheet(
 
 /**
  * Automatically load/unload material icon stylesheet through a React hook.
+ * @param variants - The list of variants that you need in your app.
+ * @example
+ * import { useMaterialIconStyleSheet } from '{:PACKAGE_NAME:}'
+ *
+ * function App(): JSX.Element {
+ *   useMaterialIconStyleSheet(['outlined', 'filled', 'rounded'])
+ *   return '...'
+ * }
  * @availability
- * - ❌ Node
  * - ✅ Web
  * - ❌ Android
  * - ❌ iOS
@@ -112,8 +126,18 @@ export function useMaterialIconStyleSheet(
 }
 
 /**
+ * @example
+ * import { MaterialIcon, MaterialIconStyleSheet } from '{:PACKAGE_NAME:}'
+ *
+ * function App(): JSX.Element {
+ *   return (
+ *     <>
+ *       <MaterialIconStyleSheet variants={['outlined', 'filled', 'rounded']} />
+ *       {'(...other components...)'}
+ *     </>
+ *   )
+ * }
  * @availability
- * - ❌ Node
  * - ✅ Web
  * - ❌ Android
  * - ❌ iOS
@@ -159,29 +183,32 @@ export function getVariantSpecs(
 ): [className: string, paramName: string] {
   const MATERIAL_ICONS_CLASSNAME = 'material-icons'
   const MATERIAL_ICONS_PARAM = 'Material+Icons'
-  if (variant === 'outlined') {
-    return [
-      MATERIAL_ICONS_CLASSNAME + 'outlined',
-      MATERIAL_ICONS_PARAM + '+Outlined',
-    ]
-  } else if (variant === 'rounded') {
-    return [
-      MATERIAL_ICONS_CLASSNAME + 'round', 'Material+Icons+Round']
-  } else if (variant === 'sharp') {
-    return [
-      MATERIAL_ICONS_CLASSNAME + 'sharp',
-      'Material+Icons+Sharp',
-    ]
-  } else if (variant === 'two-tone') {
-    return [
-      MATERIAL_ICONS_CLASSNAME + 'two-tone',
-      'Material+Icons+Two+Tone',
-    ]
-  } else {
-    // This covers `variant === 'filled'`
-    return [
-      MATERIAL_ICONS_CLASSNAME,
-      'Material+Icons',
-    ]
+  switch (variant) {
+    case 'outlined':
+      return [
+        MATERIAL_ICONS_CLASSNAME + '-outlined',
+        MATERIAL_ICONS_PARAM + '+Outlined',
+      ]
+    case 'rounded':
+      return [
+        MATERIAL_ICONS_CLASSNAME + '-round',
+        MATERIAL_ICONS_PARAM + '+Round',
+      ]
+    case 'sharp':
+      return [
+        MATERIAL_ICONS_CLASSNAME + '-sharp',
+        MATERIAL_ICONS_PARAM + '+Sharp',
+      ]
+    case 'two-tone':
+      return [
+        MATERIAL_ICONS_CLASSNAME + '-two-tone',
+        MATERIAL_ICONS_PARAM + '+Two+Tone',
+      ]
+    default:
+      // This covers `variant === 'filled'`
+      return [
+        MATERIAL_ICONS_CLASSNAME,
+        MATERIAL_ICONS_PARAM,
+      ]
   }
 }

@@ -41,11 +41,6 @@ export interface Watcher<A extends Array<unknown>> {
  */
 export function createWatcher<A extends Array<unknown>>(): Watcher<A> {
 
-  // KIV: Consider using a linked list as it is a better representation of how
-  // listeners should be added, removed and fired in sequence.
-  // The linked list needs to have the following characteristics:
-  // * Elements are always added to end of list
-  // * Elements can be removed at any position
   let watcherCollection: Record<number, CallableFunction> = {}
   let incrementalWatchId = 1
 
