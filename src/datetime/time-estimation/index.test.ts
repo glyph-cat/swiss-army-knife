@@ -10,6 +10,17 @@ describe(createTimeEstimator.name, (): void => {
     expect(timeEstimator.getEstimation()).toBe(Infinity)
   })
 
+  test('Reset', (): void => {
+    const timeEstimator = createTimeEstimator()
+    timeEstimator.mark(10)
+    jest.advanceTimersByTime(5000)
+    timeEstimator.mark(20)
+    jest.advanceTimersByTime(1000)
+    timeEstimator.mark(30)
+    timeEstimator.reset()
+    expect(timeEstimator.getEstimation()).toBe(Infinity)
+  })
+
   test(`Snapshot limit: ${MINIMUM_TIME_ESTIMATOR_CACHE_SIZE} (Default)`, (): void => {
     const timeEstimator = createTimeEstimator()
     timeEstimator.mark(10)

@@ -14,6 +14,7 @@ const directoriesToProcess = [
   './src/data/object/for-each',
   './src/datetime',
   './src/events',
+  './src/function',
   './src/math',
   './src/promise',
   './src/random',

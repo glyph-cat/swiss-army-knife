@@ -1,16 +1,16 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 /**
- * Valid data types that can be used as JavaScript object keys.
- * @public
- */
-export type JSObjectKey = number | string | symbol
-
-/**
  * Valid data types that can be used as JavaScript object keys, EXCLUDING symbols.
  * @public
  */
 export type JSObjectKeyStrict = number | string
+
+/**
+ * Valid data types that can be used as JavaScript object keys.
+ * @public
+ */
+export type JSObjectKey = JSObjectKeyStrict | symbol
 
 /**
  * A representation of a generic JavaScript object.

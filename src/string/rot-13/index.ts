@@ -1,6 +1,6 @@
+import { enumerate } from '../../data/enumeration'
 import { lazyDeclare } from '../../data/lazy-declare'
 import { isUndefined } from '../../data/type-check'
-import { enumerate } from '../../data/enumerate'
 import { isUpperCase } from '../case-checking'
 
 /**

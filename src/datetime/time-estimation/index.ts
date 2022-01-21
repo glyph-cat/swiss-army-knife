@@ -22,6 +22,10 @@ export interface TimeEstimator {
    *     theoritically means it will take forever to complete.
    */
   getEstimation(): number
+  /**
+   * Clears all snapshots in the cache.
+   */
+  reset(): void
 }
 
 /**
@@ -102,9 +106,14 @@ export function createTimeEstimator(
     return Math.round(estimatedRemainingTimeInMs)
   }
 
+  const reset = (): void => {
+    snapshotStack = []
+  }
+
   return {
     mark,
     getEstimation,
+    reset,
   }
 
 }
