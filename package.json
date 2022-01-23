@@ -43,6 +43,16 @@
     "all": "yarn fwd-exp && yarn lint:fix && yarn build && yarn test && yarn pack",
     "ci:test": "yarn lint && yarn build && yarn test"
   },
+  "dependencies": {
+    "@sinonjs/fake-timers": "^8.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "luxon": "^2.2.0"
+  },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.16.5",
     "@babel/plugin-transform-react-jsx": "^7.16.5",
@@ -52,7 +62,6 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.1",
     "@rollup/plugin-replace": "^3.0.0",
-    "@sinonjs/fake-timers": "^8.1.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@types/jest": "^27.0.3",
     "@types/luxon": "^2.0.8",
@@ -96,14 +105,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "@typescript-eslint/parser": "^5.8.1",
-    "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "luxon": "^2.2.0"
   }
 }

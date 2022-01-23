@@ -17,6 +17,7 @@ import { isFunction } from '../../type-check'
  * const extractor = (item) => String.prototype.charCodeAt.call(item, 0)
  * const sortedArray = sleepSort(['C', 'A', 'D', 'B'], extractor)
  * console.log(sortedArray) // ['A', 'B', 'C', 'D']
+ * @public
  */
 export function sleepSort<T>(
   array: Array<T>,
