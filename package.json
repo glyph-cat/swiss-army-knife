@@ -44,7 +44,6 @@
     "ci:test": "yarn lint && yarn build && yarn test"
   },
   "dependencies": {
-    "@sinonjs/fake-timers": "^8.1.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "eslint-import-resolver-typescript": "^2.5.0",
@@ -62,6 +61,7 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.1",
     "@rollup/plugin-replace": "^3.0.0",
+    "@sinonjs/fake-timers": "^8.1.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@types/jest": "^27.0.3",
     "@types/luxon": "^2.0.8",

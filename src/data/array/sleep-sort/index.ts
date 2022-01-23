@@ -19,7 +19,9 @@ import { isFunction } from '../../type-check'
  * console.log(sortedArray) // ['A', 'B', 'C', 'D']
  * @public
  */
-export function sleepSort<T>(
+// TOFIX: Unable to resolve module util from .../rekorder/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js: util could not be found within the project or in these directories: node_modules
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function sleepSort<T>(
   array: Array<T>,
   extractor?: (item: T) => number
 ): Array<T> {
