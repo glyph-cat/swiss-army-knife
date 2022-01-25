@@ -27,7 +27,7 @@ import { isFunction } from '../../../data/type-check'
  * @public
  */
 export function useRef<E>(
-  valueOrFactory: E | (() => E)
+  valueOrFactory: E | (() => E) = null
 ): MutableRefObject<E> {
   const mutableRefObj = useRef_REACT(EMPTY_OBJECT as unknown as E)
   if (Object.is(mutableRefObj.current, EMPTY_OBJECT)) {
