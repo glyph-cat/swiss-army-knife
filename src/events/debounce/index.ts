@@ -1,3 +1,5 @@
+import { JSFunction } from '../../types'
+
 /**
  * Creates a debounced callback.
  * @param callback - The callback to be invoked.
@@ -9,15 +11,16 @@
  * window.addEventListener('resize', debouncedFn)
  * @public
  */
-export function createDebouncedCallback(
-  callback: () => void,
+export function createDebouncedCallback<C extends JSFunction>(
+  callback: C,
   timeout?: number
-): () => void {
+): C {
   let timer: ReturnType<typeof setTimeout>
-  return (): void => {
+  const debouncedCallback = (...args: any[]) => {
     clearTimeout(timer)
-    timer = setTimeout(callback, timeout)
+    timer = setTimeout(() => { callback(...args) }, timeout)
   }
+  return debouncedCallback as C
 }
 
 /**

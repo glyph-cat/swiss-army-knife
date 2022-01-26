@@ -91,7 +91,7 @@ export interface MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObj
  * @public
  */
 export function mutableEnumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict>(
-  entries: Record<K, V>
+  entries: Record<K, V> = ({} as Record<K, V>)
 ): MutableEnumeration<K, V> {
   const enumeration = {}
   forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {

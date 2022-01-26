@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3577F033E15204FD1C0C2503 /* libPods-playground.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0065E3F335F4C60069FB1E4 /* libPods-playground.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A562E69E27A1311200E66B0F /* MaterialIconsRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A562E69D27A1311200E66B0F /* MaterialIconsRound-Regular.ttf */; };
 		E8A8F5DCA3E9F9848E3A6C58 /* libPods-playground-playgroundTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8AFDFC97DB1645372EEA25 /* libPods-playground-playgroundTests.a */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		4B8AFDFC97DB1645372EEA25 /* libPods-playground-playgroundTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-playground-playgroundTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = playground/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8637EB53F627CAF1012CF6E4 /* Pods-playground-playgroundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-playground-playgroundTests.release.xcconfig"; path = "Target Support Files/Pods-playground-playgroundTests/Pods-playground-playgroundTests.release.xcconfig"; sourceTree = "<group>"; };
+		A562E69D27A1311200E66B0F /* MaterialIconsRound-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MaterialIconsRound-Regular.ttf"; path = "../assets/fonts/material-icons/MaterialIconsRound-Regular.ttf"; sourceTree = "<group>"; };
 		D0065E3F335F4C60069FB1E4 /* libPods-playground.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-playground.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E808F9943E1D97056B4E9E4D /* Pods-playground-playgroundTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-playground-playgroundTests.debug.xcconfig"; path = "Target Support Files/Pods-playground-playgroundTests/Pods-playground-playgroundTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -116,6 +118,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A562E69D27A1311200E66B0F /* MaterialIconsRound-Regular.ttf */,
 				13B07FAE1A68108700A75B9A /* playground */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* playgroundTests */,
@@ -145,7 +148,6 @@
 				E808F9943E1D97056B4E9E4D /* Pods-playground-playgroundTests.debug.xcconfig */,
 				8637EB53F627CAF1012CF6E4 /* Pods-playground-playgroundTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -243,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A562E69E27A1311200E66B0F /* MaterialIconsRound-Regular.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

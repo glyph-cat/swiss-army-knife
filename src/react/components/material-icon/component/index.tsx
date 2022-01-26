@@ -159,7 +159,7 @@ export function getRequestUrlFromVariants(
   variants: Array<MaterialIconVariant>
 ): string {
   const variantStack = removeDuplicates(variants)
-  const BASE_URL = 'https://fonts.googleapis.com/icon?'
+  const BASE_URL = 'https://fonts.googleapis.com/icon'
   const paramStack = []
   for (const variant of variantStack) {
     paramStack.push(`family=${getVariantSpecs(variant)[1]}`)
