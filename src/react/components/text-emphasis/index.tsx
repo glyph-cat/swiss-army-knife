@@ -21,7 +21,7 @@ export interface TextEmphasisProps {
    * >
    * > Quoted from: https://thewebdev.info/2021/11/13/how-to-highlight-text-using-react
    * @example 'a' // string
-   * @example /(a)/g // RegExp
+   * @example /(a)/i // RegExp
    */
   patterns: Array<string | RegExp>
   /**
@@ -56,7 +56,7 @@ export interface TextEmphasisComponentProps {
  * function App(): JSX.Element {
  *   return (
  *     <p style={{ fontSize: 48 }}>
- *       <TextEmphasis patterns={[/(a|e|i)/g, 'o', 'u']} component='u'>
+ *       <TextEmphasis patterns={[/(a|e|i)/i, 'o', 'u']} component='u'>
  *         {'The quick brown fox jumped over the fence'}
  *       </TextEmphasis>
  *     </p>
@@ -72,10 +72,11 @@ export function TextEmphasis({
   const textStack = [children]
   const safePatternStack: Array<RegExp> = []
   for (const currentPattern of patterns) {
+    if (currentPattern === '') { continue }
     for (let i = 0; i < textStack.length; i++) {
       const currentTextSegment = textStack[i]
       const currentSafePattern: RegExp = isString(currentPattern)
-        ? new RegExp(`(${currentPattern})`, caseSensitive ? 'g' : 'gi')
+        ? new RegExp(`(${currentPattern})`, caseSensitive ? '' : 'i')
         : currentPattern as RegExp
       safePatternStack.push(currentSafePattern)
       const newlySplitted = currentTextSegment.split(currentSafePattern)
