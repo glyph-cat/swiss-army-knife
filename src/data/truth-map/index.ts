@@ -1,3 +1,5 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
+
 /**
  * @public
  */
@@ -13,7 +15,7 @@ export type TruthMapCoreType<K extends number | string> = Partial<Record<TruthMa
 /**
  * @public
  */
-export interface StaticTruthMap<K extends number | string> {
+export interface StaticTruthMap<K extends number | string> extends GCFunctionalObject {
   /**
    * Retrieve all available keys.
    * @returns An array containing all the keys that exist in the TruthMap.
@@ -91,12 +93,14 @@ export interface TruthMap<K extends number | string> extends StaticTruthMap<K> {
 export function createStaticTruthMap<K extends number | string>(
   keys: Array<TruthMapKey<K>>
 ): StaticTruthMap<K> {
+  const $factoryObject = createGCFactoryObject()
   const map: TruthMapCoreType<K> = {}
   const nonDuplicatedKeys = [...new Set(keys)]
   for (let i = 0; i < nonDuplicatedKeys.length; i++) {
     map[nonDuplicatedKeys[i]] = true
   }
   return {
+    ...$factoryObject,
     getKeys(): Array<TruthMapKey<K>> {
       return nonDuplicatedKeys
     },

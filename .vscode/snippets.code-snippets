@@ -1,4 +1,10 @@
 {
+  "GC factory (Function)": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "gc",
+    "body": "const \\$factoryObject = createGCFactoryObject()",
+    "description": "Declares a `GCFactoryObject`",
+  },
   "Scoped CSS": {
     "scope": "javascript,javascriptreact,typescript,typescriptreact",
     "prefix": "import styles",

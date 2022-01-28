@@ -1,10 +1,11 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
 import { isFunction } from '../../data/type-check'
 import { useLayoutEffect } from '../../react/hooks/isomorphic-layout-effect'
 
 /**
  * @public
  */
-export interface PaymentPointerProtector {
+export interface PaymentPointerProtector extends GCFunctionalObject {
   /**
    * Start guarding the payment pointer.
    */
@@ -22,6 +23,8 @@ export interface PaymentPointerProtector {
 export function createPaymentPointerProtector(
   paymentPointer: PaymentPointerProps['value']
 ): PaymentPointerProtector {
+
+  const $factoryObject = createGCFactoryObject()
 
   // KIV: Properties 'name' and 'content' do not exist under mutationStack[number].target
   const ATTR_NAME = 'name'
@@ -115,6 +118,7 @@ export function createPaymentPointerProtector(
   }
 
   return {
+    ...$factoryObject,
     guard,
     release,
   }

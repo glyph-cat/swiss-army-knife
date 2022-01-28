@@ -1,3 +1,4 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
 import { JSFunction } from '../../types'
 
 /**
@@ -13,7 +14,7 @@ export type UnwatchCallback = JSFunction
 /**
  * @public
  */
-export interface Watcher<A extends Array<unknown>> {
+export interface Watcher<A extends Array<unknown>> extends GCFunctionalObject {
   /**
    * Accepts a callback and start watching for changes. The callback will be
    * invoked whenever a refresh is triggered.
@@ -41,6 +42,7 @@ export interface Watcher<A extends Array<unknown>> {
  */
 export function createWatcher<A extends Array<unknown>>(): Watcher<A> {
 
+  const $factoryObject = createGCFactoryObject()
   let watcherCollection: Record<number, CallableFunction> = {}
   let incrementalWatchId = 1
 
@@ -65,6 +67,7 @@ export function createWatcher<A extends Array<unknown>>(): Watcher<A> {
   }
 
   return {
+    ...$factoryObject,
     watch,
     unwatchAll,
     refresh,

@@ -1,3 +1,4 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
 import { JSObjectKeyStrict } from '../../types'
 import { forEachChild } from '../object/for-each'
 import { hasProperty } from '../object/has-property'
@@ -40,7 +41,7 @@ export function enumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStri
 /**
  * @public
  */
-export interface MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict> {
+export interface MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict> extends GCFunctionalObject {
   /**
    * Inserts a new item into the enumeration.
    * @param key - Key of the new item.
@@ -93,6 +94,7 @@ export interface MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObj
 export function mutableEnumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict>(
   entries: Record<K, V> = ({} as Record<K, V>)
 ): MutableEnumeration<K, V> {
+  const $factoryObject = createGCFactoryObject()
   const enumeration = {}
   forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {
     enumeration[key] = value
@@ -113,6 +115,7 @@ export function mutableEnumerate<K extends JSObjectKeyStrict, V extends JSObject
     return hasProperty(enumeration, keyOrValue)
   }
   return {
+    ...$factoryObject,
     add,
     remove,
     has,

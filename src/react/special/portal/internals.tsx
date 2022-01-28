@@ -13,9 +13,6 @@ function createPortalSet(): PortalSet {
   const PortalSource = createSource<PortalStateData>({
     key: Symbol('Portal'),
     default: {},
-    options: {
-      mutable: true,
-    },
   })
 
   const renderInPortal = async (

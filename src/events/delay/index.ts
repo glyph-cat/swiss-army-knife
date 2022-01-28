@@ -1,9 +1,10 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
 import { JSFunction } from '../../types'
 
 /**
  * Create an empty promise that is resolved after a specified time. The delay
  * cannot be cancelled once executed. To create a cancellable delay, use
- * `createDelay` instead.
+ * `createAdjustableDelay` instead.
  * @param time - The delay time in milliseconds.
  * @returns A promise that returns nothing.
  * @public
@@ -17,11 +18,16 @@ export function delay(time: number): Promise<void> {
 /**
  * @public
  */
-export interface DelayInstance {
+export interface AdjustableDelay extends GCFunctionalObject {
   /**
    * Run the delay.
    */
   now(): Promise<void>
+  /**
+   * ## Placeholder property - not yet available
+   * Add time to the delay. Only effective if the delay has not yet resolved.
+   */
+  add(time: number): void
   /**
    * Cancel the delay.
    */
@@ -36,17 +42,22 @@ export interface DelayInstance {
  * @returns A `DelayInstance`
  * @example
  * // Create
- * const delay = createDelay()
+ * const adjustableDelay = createAdjustableDelay()
  *
  * // Run and wait
- * await delay.run()
+ * await adjustableDelay.now()
+ *
+ * // Add more time
+ * await adjustableDelay.add(1000)
  *
  * // Cancel
- * delay.cancel()
+ * adjustableDelay.cancel()
  * @public
  */
-export function createDelay(time: number): DelayInstance {
+export function createAdjustableDelay(time: number): AdjustableDelay {
+  const $factoryObject = createGCFactoryObject()
   // TODO: Test
+  // TODO: Add time to delay if not yet resolved
   let timeoutRef: ReturnType<typeof setTimeout>
   let resolveRef: JSFunction
   const now = (): Promise<void> => {
@@ -55,12 +66,19 @@ export function createDelay(time: number): DelayInstance {
       timeoutRef = setTimeout(() => { resolve() }, time)
     })
   }
+  /* eslint-disable */
+  const add = (time: number): void => {
+    // ...
+  }
+  /* eslint-enable */
   const cancel = (): void => {
     clearTimeout(timeoutRef)
     resolveRef()
   }
   return {
+    ...$factoryObject,
     now,
+    add,
     cancel,
   }
 }

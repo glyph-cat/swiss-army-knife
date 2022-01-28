@@ -1,3 +1,4 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
 import { clampedPush } from '../../data/array/clamp'
 import { devError } from '../../dev'
 import { clamp, withMinimumLimit } from '../../math/clamp'
@@ -5,7 +6,7 @@ import { clamp, withMinimumLimit } from '../../math/clamp'
 /**
  * @public
  */
-export interface TimeEstimator {
+export interface TimeEstimator extends GCFunctionalObject {
   /**
    * Insert a snapshot of the current progress.
    * @param progress - The current progress in percentage. Value must be between
@@ -44,6 +45,7 @@ export function createTimeEstimator(
   cacheSize = MINIMUM_TIME_ESTIMATOR_CACHE_SIZE,
 ): TimeEstimator {
 
+  const $factoryObject = createGCFactoryObject()
   // Error is not thrown because this is just a time estimation utility.
   // Even with a decent cache size, the estimation might still be wrong.
   // It makes more sense to throw an error only when we rather prefer the
@@ -111,6 +113,7 @@ export function createTimeEstimator(
   }
 
   return {
+    ...$factoryObject,
     mark,
     getEstimation,
     reset,

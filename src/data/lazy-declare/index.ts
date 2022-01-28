@@ -1,9 +1,10 @@
+import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
 import { EMPTY_OBJECT } from '../dummies'
 
 /**
  * @public
  */
-export interface LazyVariable<T> {
+export interface LazyVariable<T> extends GCFunctionalObject {
   get(): T
 }
 
@@ -21,6 +22,7 @@ export interface LazyVariable<T> {
  * @public
  */
 export function lazyDeclare<T>(factory: () => T): LazyVariable<T> {
+  const $factoryObject = createGCFactoryObject()
   // @ts-expect-error: Type Record<never, never> is not assignable to type 'T'.
   let value: T = EMPTY_OBJECT
   const get = () => {
@@ -29,5 +31,8 @@ export function lazyDeclare<T>(factory: () => T): LazyVariable<T> {
     }
     return value
   }
-  return { get }
+  return {
+    ...$factoryObject,
+    get,
+  }
 }
