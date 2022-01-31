@@ -4,61 +4,25 @@
 let idCounter = 0
 
 /**
-* The base structure of utility objects in this library.
-* Factories(functions) will return objects that extends from this interface
-* whereas classes will implement it.
-* GC = Glyph Cat
-* @public
-*/
-export interface GCFunctionalObject {
-  $id: number
-}
-
-/**
- * @internal
- */
-export function createGCFactoryObject(): GCFunctionalObject {
-  return {
-    $id: ++idCounter,
-  }
-}
-
-// export function createGCFactory<A extends Array<unknown>, R>(
-//   initializer: ({ self: GCFunctionalObject, params: A }) => R
-// ): ((...params: A) => GCFunctionalObject & R) {
-//   const self = createGCFactoryObject()
-//   return (...params) => ({
-//     ...self,
-//     ...initializer({ self, params }),
-//   })
-// }
-
-// export interface ExperimentalObject {
-//   get(): number
-// }
-
-// export const createExperimentalObject = createGCFactory<[inputNum: number], ExperimentalObject>(
-//   ({ params }) => {
-//     const [inputNum] = params
-//     const get = (): number => inputNum + 42
-//     return {
-//       get,
-//     }
-//   }
-// )
-
-// const experimentalObject = createExperimentalObject(10)
-
-/**
+ * Base class for custom data types provided in this library.
  * @public
  */
-export class GCClassObject implements GCFunctionalObject {
+export class GCObject {
 
+  /**
+   * A sort of unique signature that is created during instantiation of object
+   * at runtime. Mainly used for debugging.
+   */
   $id: number
 
+  /**
+   * @example
+   * class Something extends GCObject {
+   *   // ...
+   * }
+   */
   constructor() {
-    const baseObject = createGCFactoryObject()
-    this.$id = baseObject.$id
+    this.$id = ++idCounter
   }
 
 }

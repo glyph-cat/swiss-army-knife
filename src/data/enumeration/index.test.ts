@@ -1,5 +1,5 @@
 import { tryOnly } from '../../function/try-only'
-import { enumerate, mutableEnumerate } from '.'
+import { enumerate, MutableEnumeration } from '.'
 
 // NOTE: Not sure why but error is only thrown when trying to modify values of
 // freezed objects in some environment. That's why `tryOnly` is used.
@@ -32,25 +32,31 @@ describe(enumerate.name, (): void => {
 
 })
 
-describe(mutableEnumerate.name, (): void => {
+describe(MutableEnumeration.name, (): void => {
 
-  test('Check structure of enumeration', (): void => {
-    const enumeration = mutableEnumerate({ a: 1, b: 2 })
-    expect(enumeration.getAll()).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
+  test('constructor', (): void => {
+    const enumeration = new MutableEnumeration({ a: 1, b: 2 })
+    expect(enumeration.toJSON()).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
   })
 
-  test('.get', (): void => {
-    const enumeration = mutableEnumerate({ a: 1, b: 2 })
+  test(MutableEnumeration.prototype.get.name, (): void => {
+    const enumeration = new MutableEnumeration({ a: 1, b: 2 })
     expect(enumeration.get('a')).toStrictEqual(1)
     expect(enumeration.get('b')).toStrictEqual(2)
     expect(enumeration.get(1)).toStrictEqual('a')
     expect(enumeration.get(2)).toStrictEqual('b')
   })
 
-  test('.add', (): void => {
-    const enumeration = mutableEnumerate({ a: 1, b: 2 })
-    enumeration.add('c', 3)
-    expect(enumeration.getAll()).toStrictEqual({
+  test(MutableEnumeration.prototype.add.name, (): void => {
+    const oldEnumeration = new MutableEnumeration({ a: 1, b: 2 })
+    const newEnumeration = oldEnumeration.add('c', 3)
+    expect(oldEnumeration.toJSON()).toStrictEqual({
+      a: 1,
+      b: 2,
+      1: 'a',
+      2: 'b',
+    })
+    expect(newEnumeration.toJSON()).toStrictEqual({
       a: 1,
       b: 2,
       c: 3,
@@ -60,19 +66,39 @@ describe(mutableEnumerate.name, (): void => {
     })
   })
 
-  test('.remove', (): void => {
-    const enumeration = mutableEnumerate({ a: 1, b: 2 })
-    enumeration.remove('a')
-    expect(enumeration.getAll()).toStrictEqual({ b: 2, 2: 'b' })
+  test(MutableEnumeration.prototype.remove.name, (): void => {
+    const oldEnumeration = new MutableEnumeration({ a: 1, b: 2 })
+    const newEnumeration = oldEnumeration.remove('a')
+    expect(oldEnumeration.toJSON()).toStrictEqual({
+      a: 1,
+      b: 2,
+      1: 'a',
+      2: 'b',
+    })
+    expect(newEnumeration.toJSON()).toStrictEqual({
+      b: 2,
+      2: 'b',
+    })
   })
 
-  test('.has', (): void => {
-    const enumeration = mutableEnumerate({ a: 1, b: 2 })
+  test(MutableEnumeration.prototype.has.name, (): void => {
+    const enumeration = new MutableEnumeration({ a: 1, b: 2 })
     expect(enumeration.has(1)).toBe(true)
     expect(enumeration.has(2)).toBe(true)
     expect(enumeration.has('a')).toBe(true)
     expect(enumeration.has('b')).toBe(true)
     expect(enumeration.has('c')).toBe(false)
+  })
+
+  test(MutableEnumeration.prototype.clone.name, (): void => {
+    const oldEnumeration = new MutableEnumeration({ a: 1, b: 2 })
+    const newEnumeration = oldEnumeration.clone()
+    expect(newEnumeration.toJSON()).toStrictEqual({
+      a: 1,
+      b: 2,
+      1: 'a',
+      2: 'b',
+    })
   })
 
 })

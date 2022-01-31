@@ -1,38 +1,46 @@
-import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
+import { GCObject } from '../../bases'
 import { EMPTY_OBJECT } from '../dummies'
-
-/**
- * @public
- */
-export interface LazyVariable<T> extends GCFunctionalObject {
-  get(): T
-}
 
 /**
  * Allows the declaration of a variable lazily. Constructor or functions that
  * initializes the data will not be run until is is needed (when `.get()` is
  * called).
- * @param factory - The function that returns the initialized data.
- * @example
- * const foo = lazyDeclare(() => createFoo(param1, param2))
- * // Parameters can be passed in here
- * @example
- * const foo = lazyDeclare(createFoo)
- * // Or just pass the function itself if there are no parameters
  * @public
  */
-export function lazyDeclare<T>(factory: () => T): LazyVariable<T> {
-  const $factoryObject = createGCFactoryObject()
-  // @ts-expect-error: Type Record<never, never> is not assignable to type 'T'.
-  let value: T = EMPTY_OBJECT
-  const get = () => {
-    if (Object.is(value, EMPTY_OBJECT)) {
-      value = factory()
+export class LazyVariable<T> extends GCObject {
+
+  private value: T
+  private factory: () => T
+
+  /**
+   * @param factory - The function that returns the initialized data.
+   * @example
+   * // Parameters can be passed in here.
+   * const foo = new LazyVariable(() => createFoo(param1, param2))
+   * @example
+   * // Or just pass the function itself if there are no parameters.
+   * const foo = new LazyVariable(createFoo)
+   */
+  constructor(factory: () => T) {
+    super()
+    this.value = EMPTY_OBJECT as T
+    this.factory = factory
+  }
+
+  /**
+   * Get the value of the lazy variable.
+   * @returns The lazily instantiated variable.
+   * @example
+   * import { Animated } from 'react-native'
+   *
+   * const animationRef = new LazyVariable(() => new Animated.Value(0))
+   * animationRef.get()
+   */
+  get(): T {
+    if (Object.is(this.value, EMPTY_OBJECT)) {
+      this.value = this.factory()
     }
-    return value
+    return this.value
   }
-  return {
-    ...$factoryObject,
-    get,
-  }
+
 }

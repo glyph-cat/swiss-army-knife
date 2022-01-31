@@ -1,30 +1,30 @@
-import { createStaticTruthMap, createTruthMap } from '.'
+import { DynamicTruthMap, FixedTruthMap } from '.'
 
-describe(createStaticTruthMap.name, (): void => {
+describe(FixedTruthMap.name, (): void => {
 
-  test('.getKeys', (): void => {
-    const output = createStaticTruthMap(['foo', 'bar']).getKeys()
+  test(FixedTruthMap.prototype.getKeys.name, (): void => {
+    const output = new FixedTruthMap(['foo', 'bar']).getKeys()
     expect(output).toStrictEqual(['foo', 'bar'])
   })
 
-  describe('.has', (): void => {
+  describe(FixedTruthMap.prototype.has.name, (): void => {
 
     test('Should be true', (): void => {
-      const output = createStaticTruthMap(['foo', 'bar']).has('foo')
+      const output = new FixedTruthMap(['foo', 'bar']).has('foo')
       expect(output).toBe(true)
     })
 
     test('Should be false', (): void => {
-      const output = createStaticTruthMap(['foo', 'bar']).has('baz')
+      const output = new FixedTruthMap(['foo', 'bar']).has('baz')
       expect(output).toBe(false)
     })
 
   })
 
-  describe('.toJSON', (): void => {
+  describe(FixedTruthMap.prototype.toJSON.name, (): void => {
 
     test('Output structure', (): void => {
-      const output = createStaticTruthMap(['foo', 'bar']).toJSON()
+      const output = new FixedTruthMap(['foo', 'bar']).toJSON()
       expect(output).toStrictEqual({
         foo: true,
         bar: true,
@@ -32,10 +32,10 @@ describe(createStaticTruthMap.name, (): void => {
     })
 
     test('Immutability', (): void => {
-      const truthMap = createStaticTruthMap(['foo', 'bar'])
-      const JSON1 = truthMap.toJSON()
-      const JSON2 = truthMap.toJSON()
-      expect(Object.is(JSON1, JSON2)).toBe(false)
+      const truthMap = new FixedTruthMap(['foo', 'bar'])
+      const json1 = truthMap.toJSON()
+      const json2 = truthMap.toJSON()
+      expect(Object.is(json1, json2)).toBe(false)
       // Each time `.toJSON` is called, a new copy of the map is returned.
     })
 
@@ -43,20 +43,18 @@ describe(createStaticTruthMap.name, (): void => {
 
 })
 
-describe(createTruthMap.name, (): void => {
+describe(DynamicTruthMap.name, (): void => {
 
-  test('.clear', (): void => {
-    const output = createTruthMap(['foo', 'bar']).clear()
-    expect(output.getKeys()).toStrictEqual([])
-    expect(output.toJSON()).toStrictEqual({})
-  })
-
-  describe('.add', (): void => {
+  describe(DynamicTruthMap.prototype.add.name, (): void => {
 
     test('Normal', (): void => {
-      const output = createTruthMap(['foo', 'bar']).add('baz')
-      expect(output.getKeys()).toStrictEqual(['foo', 'bar', 'baz'])
-      expect(output.toJSON()).toStrictEqual({
+      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const newDynamicTruthMap = oldDynamicTruthMap.add('baz')
+      expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
+        foo: true,
+        bar: true,
+      })
+      expect(newDynamicTruthMap.toJSON()).toStrictEqual({
         foo: true,
         bar: true,
         baz: true,
@@ -64,9 +62,13 @@ describe(createTruthMap.name, (): void => {
     })
 
     test('Duplicate handling', (): void => {
-      const output = createTruthMap(['foo', 'bar']).add('bar')
-      expect(output.getKeys()).toStrictEqual(['foo', 'bar'])
-      expect(output.toJSON()).toStrictEqual({
+      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const newDynamicTruthMap = oldDynamicTruthMap.add('bar')
+      expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
+        foo: true,
+        bar: true,
+      })
+      expect(newDynamicTruthMap.toJSON()).toStrictEqual({
         foo: true,
         bar: true,
       })
@@ -74,18 +76,31 @@ describe(createTruthMap.name, (): void => {
 
   })
 
-  describe('.remove', (): void => {
+  describe(DynamicTruthMap.prototype.remove.name, (): void => {
 
     test('Key exists', (): void => {
-      const output = createTruthMap(['foo', 'bar']).remove('bar')
-      expect(output.getKeys()).toStrictEqual(['foo'])
-      expect(output.toJSON()).toStrictEqual({ foo: true })
+      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const newDynamicTruthMap = oldDynamicTruthMap.remove('bar')
+      expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
+        foo: true,
+        bar: true,
+      })
+      expect(newDynamicTruthMap.toJSON()).toStrictEqual({
+        foo: true,
+      })
     })
 
     test('Key does not exist', (): void => {
-      const output = createTruthMap(['foo', 'bar']).remove('baz')
-      expect(output.getKeys()).toStrictEqual(['foo', 'bar'])
-      expect(output.toJSON()).toStrictEqual({ foo: true, bar: true })
+      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const newDynamicTruthMap = oldDynamicTruthMap.remove('baz')
+      expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
+        foo: true,
+        bar: true,
+      })
+      expect(newDynamicTruthMap.toJSON()).toStrictEqual({
+        foo: true,
+        bar: true,
+      })
     })
 
   })

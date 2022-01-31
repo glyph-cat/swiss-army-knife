@@ -1,74 +1,61 @@
-import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
+import { GCObject } from '../../bases'
 import { isFunction } from '../../data/type-check'
 import { useLayoutEffect } from '../../react/hooks/isomorphic-layout-effect'
 
+const ATTR_NAME = 'name'
+const ATTR_CONTENT = 'content'
+const META_NAME = 'monetization'
+
 /**
  * @public
  */
-export interface PaymentPointerProtector extends GCFunctionalObject {
-  /**
-   * Start guarding the payment pointer.
-   */
-  guard(): void
-  /**
-   * Stop guarding the payment pointer.
-   */
-  release(): void
-}
+export class PaymentPointerProtector extends GCObject {
 
-/**
- * Create a `PaymentPointerProtector` object.
- * @public
- */
-export function createPaymentPointerProtector(
-  paymentPointer: PaymentPointerProps['value']
-): PaymentPointerProtector {
-
-  const $factoryObject = createGCFactoryObject()
-
+  private paymentPointer: string
+  private metaTagElement: HTMLMetaElement
+  private metaObserver: MutationObserver
+  private headObserver: MutationObserver
   // KIV: Properties 'name' and 'content' do not exist under mutationStack[number].target
-  const ATTR_NAME = 'name'
-  const ATTR_CONTENT = 'content'
-  const META_NAME = 'monetization'
-  let metaTagElement: HTMLMetaElement = null
-  let metaObserver: MutationObserver = null
-  let headObserver: MutationObserver = null
 
-  const onMetaMutated = (mutationStack: Array<MutationRecord>): void => {
+  constructor(paymentPointer: PaymentPointerProps['value']) {
+    super()
+    this.paymentPointer = paymentPointer
+  }
+
+  private onMetaMutated(mutationStack: Array<MutationRecord>): void {
     // This makes the element seem like a read-only tag because attribute values
     // are reverted the moment a new value is commited to it
     for (const mutation of mutationStack) {
       if (mutation.target[ATTR_NAME] !== META_NAME) {
         mutation.target[ATTR_NAME] = META_NAME
       }
-      if (mutation.target[ATTR_CONTENT] !== paymentPointer) {
-        mutation.target[ATTR_CONTENT] = paymentPointer
+      if (mutation.target[ATTR_CONTENT] !== this.paymentPointer) {
+        mutation.target[ATTR_CONTENT] = this.paymentPointer
       }
     }
   }
 
-  const startMetaObserver = (): void => {
-    metaTagElement = document.createElement('meta')
-    metaTagElement.name = META_NAME
-    metaTagElement.content = paymentPointer
-    document.head.appendChild(metaTagElement)
-    metaObserver = new MutationObserver(onMetaMutated)
-    metaObserver.observe(metaTagElement, { attributes: true })
+  private startMetaObserver(): void {
+    this.metaTagElement = document.createElement('meta')
+    this.metaTagElement.name = META_NAME
+    this.metaTagElement.content = this.paymentPointer
+    document.head.appendChild(this.metaTagElement)
+    this.metaObserver = new MutationObserver(this.onMetaMutated)
+    this.metaObserver.observe(this.metaTagElement, { attributes: true })
   }
 
-  const stopMetaObserver = (): void => {
-    if (isFunction(metaObserver?.disconnect)) {
-      metaObserver.disconnect()
+  private stopMetaObserver(): void {
+    if (isFunction(this.metaObserver?.disconnect)) {
+      this.metaObserver.disconnect()
     }
-    metaObserver = null
-    if (isFunction(metaTagElement?.remove)) {
-      metaTagElement.remove()
+    this.metaObserver = null
+    if (isFunction(this.metaTagElement?.remove)) {
+      this.metaTagElement.remove()
     }
-    metaTagElement = null
+    this.metaTagElement = null
   }
 
-  // const a :MutationCallback
-  const onHeadMutated = (mutationStack: Array<MutationRecord>): void => {
+  private onHeadMutated(mutationStack: Array<MutationRecord>): void {
     // NOTE: People can still add a meta tag with attributes that do not match
     // 'monetization', then rename it to 'monetization' afterwards since no
     // observer attached to it, there will be 2 payment pointers then.
@@ -77,17 +64,17 @@ export function createPaymentPointerProtector(
         // In case own payment pointer is deleted
         if (
           removedNode[ATTR_NAME] === META_NAME &&
-          removedNode[ATTR_CONTENT] === paymentPointer
+          removedNode[ATTR_CONTENT] === this.paymentPointer
         ) {
-          stopMetaObserver()
-          startMetaObserver() // New tag is created in the process
+          this.stopMetaObserver()
+          this.startMetaObserver() // New tag is created in the process
         }
       }
       for (const addedNode of mutation.addedNodes) {
         // In case someone else's payment pointer is added
         if (
           addedNode[ATTR_NAME] === META_NAME &&
-          addedNode[ATTR_CONTENT] !== paymentPointer
+          addedNode[ATTR_CONTENT] !== this.paymentPointer
         ) {
           document.head.removeChild(addedNode)
         }
@@ -95,32 +82,32 @@ export function createPaymentPointerProtector(
     }
   }
 
-  const startHeadObserver = (): void => {
-    headObserver = new MutationObserver(onHeadMutated)
-    headObserver.observe(document.head, { childList: true })
+  private startHeadObserver(): void {
+    this.headObserver = new MutationObserver(this.onHeadMutated)
+    this.headObserver.observe(document.head, { childList: true })
   }
 
-  const stopHeadObserver = (): void => {
-    if (isFunction(headObserver?.disconnect)) {
-      headObserver.disconnect()
+  private stopHeadObserver(): void {
+    if (isFunction(this.headObserver?.disconnect)) {
+      this.headObserver.disconnect()
     }
-    headObserver = null
+    this.headObserver = null
   }
 
-  const guard = (): void => {
-    startMetaObserver()
-    startHeadObserver()
+  /**
+   * Start guarding the payment pointer.
+   */
+  guard(): void {
+    this.startMetaObserver()
+    this.startHeadObserver()
   }
 
-  const release = (): void => {
-    stopMetaObserver()
-    stopHeadObserver()
-  }
-
-  return {
-    ...$factoryObject,
-    guard,
-    release,
+  /**
+   * Stop guarding the payment pointer.
+   */
+  release(): void {
+    this.stopMetaObserver()
+    this.stopHeadObserver()
   }
 
 }
@@ -148,7 +135,7 @@ export function usePaymentPointer(
   paymentPointer: PaymentPointerProps['value']
 ): void {
   useLayoutEffect(() => {
-    const protector = createPaymentPointerProtector(paymentPointer)
+    const protector = new PaymentPointerProtector(paymentPointer)
     protector.guard()
     return () => {
       protector.release()

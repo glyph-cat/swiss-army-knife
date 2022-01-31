@@ -1,14 +1,14 @@
-import { createLongPollingInterval, createVaryingInterval } from '.'
+import { LongPollingInterval, VaryingInterval } from '.'
 
-test(createLongPollingInterval.name, (): void => {
+test(LongPollingInterval.name, (): void => {
   // TODO
   expect('').toBe('')
 })
 
-test(createVaryingInterval.name, (): void => {
+test(VaryingInterval.name, (): void => {
 
   const callback = jest.fn()
-  const varyingInterval = createVaryingInterval(callback)
+  const varyingInterval = new VaryingInterval(callback)
 
   // Check if callbacks are called correctly
   varyingInterval.start(1000)

@@ -1,4 +1,4 @@
-import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
+import { GCObject } from '../../bases'
 import { JSFunction } from '../../types'
 
 /**
@@ -13,64 +13,58 @@ export type UnwatchCallback = JSFunction
 
 /**
  * @public
+ * @example abc
  */
-export interface Watcher<A extends Array<unknown>> extends GCFunctionalObject {
+export class Watcher<A extends Array<unknown>> extends GCObject {
+
+  private incrementalWatchId = 0
+  private watcherCollection: Record<number, CallableFunction> = {}
+
+  /**
+   * @example
+   * const myWatcher = new Watcher<[number]>()
+   */
+  constructor() {
+    super()
+  }
+
   /**
    * Accepts a callback and start watching for changes. The callback will be
    * invoked whenever a refresh is triggered.
+   * @example
+   * let totalScore = 0
+   * const unwatch = myWatcher.watch((newScore: number) => {
+   *   totalScore += newScore
+   * })
    */
-  watch(callback: WatcherCallback<A>): UnwatchCallback
-  /**
-   * Forcecully remove all watchers.
-   */
-  unwatchAll(): void
-  /**
-   * Triggers a refresh.
-   */
-  refresh: WatcherCallback<A>
-}
-
-/**
- * Creates a Watcher.
- * @example
- * const watcher = createWatcher()
- * const unwatch = watcher.M$watch(() => { ... })
- * watcher.M$refresh(...) // Arguments can be passed
- * unwatch()
- * @returns A Watcher object.
- * @public
- */
-export function createWatcher<A extends Array<unknown>>(): Watcher<A> {
-
-  const $factoryObject = createGCFactoryObject()
-  let watcherCollection: Record<number, CallableFunction> = {}
-  let incrementalWatchId = 1
-
-  const watch = (callback: WatcherCallback<A>): UnwatchCallback => {
-    const newId = incrementalWatchId++
-    watcherCollection[newId] = callback
+  watch(callback: WatcherCallback<A>): UnwatchCallback {
+    const newId = ++this.incrementalWatchId
+    this.watcherCollection[newId] = callback
     const unwatch = (): void => {
-      delete watcherCollection[newId]
+      delete this.watcherCollection[newId]
     }
     return unwatch
   }
 
-  const unwatchAll = (): void => {
-    watcherCollection = {}
+  /**
+   * Forcecully remove all watchers.
+   * @example
+   * myWatcher.unwatchAll()
+   */
+  unwatchAll(): void {
+    this.watcherCollection = {}
   }
 
-  const refresh = (...args: A): void => {
-    const callbackStack = Object.values(watcherCollection)
+  /**
+   * Triggers a refresh.
+   * * @example
+   * myWatcher.refresh(42)
+   */
+  refresh(...args: A): void {
+    const callbackStack = Object.values(this.watcherCollection)
     for (let i = 0; i < callbackStack.length; i++) {
       callbackStack[i](...args)
     }
-  }
-
-  return {
-    ...$factoryObject,
-    watch,
-    unwatchAll,
-    refresh,
   }
 
 }

@@ -1,4 +1,4 @@
-import { createGCFactoryObject, GCFunctionalObject } from '../../bases'
+import { GCObject } from '../../bases'
 import { JSObjectKeyStrict } from '../../types'
 import { forEachChild } from '../object/for-each'
 import { hasProperty } from '../object/has-property'
@@ -39,88 +39,126 @@ export function enumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStri
 }
 
 /**
+ * Creates an enumaration from an object that is similar to TypeScript's `enum`,
+ * but with additional flexibility of mutating the values.
  * @public
  */
-export interface MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict> extends GCFunctionalObject {
+export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict> extends GCObject {
+
+  /**
+   * Underlying data of the enumeration.
+   */
+  private enumeration: Enumeration<K, V> = ({} as Enumeration<K, V>)
+
+  /**
+   * @param entries - The object to enumerate.
+   * @example
+   * let myMutableEnum = new MutableEnumeration({
+   *   a: 1,
+   *   b: 2,
+   * })
+   */
+  constructor(entries: Record<K, V> = ({} as Record<K, V>)) {
+    super()
+    forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {
+      this.enumeration[key] = value
+      this.enumeration[value] = key
+    })
+  }
+
   /**
    * Inserts a new item into the enumeration.
    * @param key - Key of the new item.
    * @param value - Value of the new item.
+   * @example
+   * myMutableEnum = myMutableEnum.add('c', 3)
+   * @returns A new `MutableEnumeration` instance. The original instance remains
+   * unaffected.
    */
-  add(key: JSObjectKeyStrict, value: JSObjectKeyStrict): void
+  add(
+    key: JSObjectKeyStrict,
+    value: JSObjectKeyStrict
+  ): MutableEnumeration<K, V> {
+    const newMutableEnumeration = this.clone()
+    newMutableEnumeration.enumeration[key] = value
+    newMutableEnumeration.enumeration[value] = key
+    return newMutableEnumeration
+  }
+
   /**
    * Removes an item from the enumeration.
    * @param keyOrValue - The key or value to remove. Either way, both the key
    * and the value will be removed.
    * removed
+   * @example myMutableEnum = myMutableEnum.remove('a') // Remove by key
+   * @example myMutableEnum = myMutableEnum.remove(1)   // Remove by value
+   * @returns A new `MutableEnumeration` instance. The original instance remains
+   * unaffected.
    */
-  remove(keyOrValue: JSObjectKeyStrict): void
+  remove(keyOrValue: JSObjectKeyStrict): MutableEnumeration<K, V> {
+    const newMutableEnumeration = this.clone()
+    const theOtherKeyOrValue = newMutableEnumeration.enumeration[keyOrValue]
+    delete newMutableEnumeration.enumeration[keyOrValue]
+    delete newMutableEnumeration.enumeration[theOtherKeyOrValue]
+    return newMutableEnumeration
+  }
+
   /**
    * Get the value of an item by key.
    * @param key - Key of the item.
    * @returns The value.
+   * @example
+   * myMutableEnum.get('a') // 1
    */
   get(key: K): V
+
   /**
    * Get the key of an item by value.
    * @param value - Value of the item.
    * @returns The key.
+   * @example
+   * myMutableEnum.get(1) // 'a'
    */
   get(value: V): K
+
+  get(keyOrValue: JSObjectKeyStrict): K | V {
+    return this.enumeration[keyOrValue] as K | V
+  }
+
   /**
    * Get the entire enumeration as a JavaScript object.
+   * @example
+   * myMutableEnum.toJSON()
+   * @returns The enumeration as a JavaScript object.
    */
-  getAll(): Enumeration<K, V>
+  toJSON(): Enumeration<K, V> {
+    return { ...this.enumeration }
+  }
+
   /**
    * Check if a key or value exists in the enumeration.
    * @param keyOrValue - Key of value to check.
    * @returns A boolean indicating whether the key or value exists.
+   * @example
+   * myMutableEnum.has('a') // Check by key
+   * @example
+   * myMutableEnum.has(1)   // Check by value
    */
-  has(keyOrValue: JSObjectKeyStrict): boolean
-}
+  has(keyOrValue: JSObjectKeyStrict): boolean {
+    return hasProperty(this.enumeration, keyOrValue)
+  }
 
-/**
- * Creates an enumaration from an object that is similar to TypeScript's `enum`,
- * but with additional flexibility of mutating the values.
- * @param entries - The object to enumerate.
- * @returns A `MutableEnumeration` instance.
- * @example
- * const enumeration = mutableEnumerate({
- *   a: 1,
- *   b: 2,
- * })
- * @public
- */
-export function mutableEnumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict>(
-  entries: Record<K, V> = ({} as Record<K, V>)
-): MutableEnumeration<K, V> {
-  const $factoryObject = createGCFactoryObject()
-  const enumeration = {}
-  forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {
-    enumeration[key] = value
-    enumeration[value] = key
-  })
-  const add = (key: JSObjectKeyStrict, value: JSObjectKeyStrict): void => {
-    enumeration[key] = value
-    enumeration[value] = key
+  /**
+   * Deep clones the current MutableEnumeration.
+   * @example
+   * const clonedMutableEnum = myMutableEnum.clone()
+   * @returns A new `MutableEnumeration` instance. The original instance remains
+   * unaffected.
+   */
+  clone(): MutableEnumeration<K, V> {
+    const newMutableEnumeration = new MutableEnumeration<K, V>()
+    newMutableEnumeration.enumeration = this.toJSON()
+    return newMutableEnumeration
   }
-  const remove = (keyOrValue: JSObjectKeyStrict): void => {
-    const theOtherKeyOrValue = enumeration[keyOrValue]
-    delete enumeration[keyOrValue]
-    delete enumeration[theOtherKeyOrValue]
-  }
-  const get = (keyOrValue: JSObjectKeyStrict) => enumeration[keyOrValue] as K | V
-  const getAll = () => enumeration as Enumeration<K, V>
-  const has = (keyOrValue: JSObjectKeyStrict): boolean => {
-    return hasProperty(enumeration, keyOrValue)
-  }
-  return {
-    ...$factoryObject,
-    add,
-    remove,
-    has,
-    // @ts-expect-error Overloading behavior is a bit weird when not using class
-    get,
-    getAll,
-  }
+
 }

@@ -1,6 +1,5 @@
 *.draft*
 *.old*
-*.secret*
 *.scripted*
 dist
 lib

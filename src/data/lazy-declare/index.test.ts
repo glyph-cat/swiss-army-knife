@@ -1,16 +1,16 @@
-import { lazyDeclare } from '.'
+import { LazyVariable } from '.'
 
-test(lazyDeclare.name, (): void => {
+test(LazyVariable.name, (): void => {
 
-  const createObj = jest.fn(() => 'obj')
+  const factory = jest.fn(() => 'obj')
 
-  // NOTE: Can also be written as `lazyDeclare(createObj)` in this case
-  // because we don't need to pass any parameters into `createObj`.
-  const obj = lazyDeclare(() => createObj())
-  expect(createObj).not.toBeCalled()
+  // NOTE: Can also be written as `new LazyVariable(factory)` in this case
+  // because we don't need to pass any parameters into `factory`.
+  const obj = new LazyVariable(() => factory())
+  expect(factory).not.toBeCalled()
 
   const output = obj.get()
   expect(output).toBe('obj')
-  expect(createObj).toBeCalledTimes(1)
+  expect(factory).toBeCalledTimes(1)
 
 })

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { lazyDeclare } from '../../../data/lazy-declare'
-import { createTruthMap } from '../../../data/truth-map'
+import { LazyVariable } from '../../../data/lazy-declare'
+import { DynamicTruthMap } from '../../../data/truth-map'
 import { isNumber, isString } from '../../../data/type-check'
 import { getRandomHash } from '../../../random/hash'
 import { JSObjectKey } from '../../../types'
@@ -14,7 +14,7 @@ let __numericComponentIdCounter__ = 0
 /**
  * @internal
  */
-const __hashTracker__ = lazyDeclare(() => createTruthMap<string>())
+const __hashTracker__ = new LazyVariable(() => new DynamicTruthMap<string>())
 
 /**
  * @internal

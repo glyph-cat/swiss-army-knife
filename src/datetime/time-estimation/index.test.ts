@@ -1,17 +1,17 @@
 import {
-  createTimeEstimator,
+  TimeEstimator,
   MINIMUM_TIME_ESTIMATOR_CACHE_SIZE,
 } from '.'
 
-describe(createTimeEstimator.name, (): void => {
+describe(TimeEstimator.name, (): void => {
 
   test('Not enough snapshots', (): void => {
-    const timeEstimator = createTimeEstimator()
+    const timeEstimator = new TimeEstimator()
     expect(timeEstimator.getEstimation()).toBe(Infinity)
   })
 
-  test('Reset', (): void => {
-    const timeEstimator = createTimeEstimator()
+  test(TimeEstimator.prototype.reset.name, (): void => {
+    const timeEstimator = new TimeEstimator()
     timeEstimator.mark(10)
     jest.advanceTimersByTime(5000)
     timeEstimator.mark(20)
@@ -22,7 +22,7 @@ describe(createTimeEstimator.name, (): void => {
   })
 
   test(`Snapshot limit: ${MINIMUM_TIME_ESTIMATOR_CACHE_SIZE} (Default)`, (): void => {
-    const timeEstimator = createTimeEstimator()
+    const timeEstimator = new TimeEstimator()
     timeEstimator.mark(10)
     jest.advanceTimersByTime(5000)
     timeEstimator.mark(20)
@@ -32,7 +32,7 @@ describe(createTimeEstimator.name, (): void => {
   })
 
   test('Snapshot limit: 5 (Custom)', (): void => {
-    const timeEstimator = createTimeEstimator(5)
+    const timeEstimator = new TimeEstimator(5)
     timeEstimator.mark(5)
     jest.advanceTimersByTime(100)
     timeEstimator.mark(5)
@@ -45,13 +45,13 @@ describe(createTimeEstimator.name, (): void => {
   })
 
   test('Upon completion', (): void => {
-    const timeEstimator = createTimeEstimator(5)
+    const timeEstimator = new TimeEstimator(5)
     timeEstimator.mark(100)
     expect(timeEstimator.getEstimation()).toBe(0)
   })
 
   test('Very rapid snapshots', (): void => {
-    const timeEstimator = createTimeEstimator(5)
+    const timeEstimator = new TimeEstimator(5)
     timeEstimator.mark(25)
     timeEstimator.mark(50)
     timeEstimator.mark(75)
@@ -59,7 +59,7 @@ describe(createTimeEstimator.name, (): void => {
   })
 
   test('Some snapshots have same progress', (): void => {
-    const timeEstimator = createTimeEstimator(5)
+    const timeEstimator = new TimeEstimator(5)
     timeEstimator.mark(10)
     jest.advanceTimersByTime(1000)
     timeEstimator.mark(20)
@@ -75,7 +75,7 @@ describe(createTimeEstimator.name, (): void => {
   })
 
   test('All snapshots have same progress', (): void => {
-    const timeEstimator = createTimeEstimator(5)
+    const timeEstimator = new TimeEstimator(5)
     timeEstimator.mark(5)
     jest.advanceTimersByTime(100)
     timeEstimator.mark(5)

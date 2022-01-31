@@ -1,5 +1,5 @@
 import { enumerate } from '../../data/enumeration'
-import { lazyDeclare } from '../../data/lazy-declare'
+import { LazyVariable } from '../../data/lazy-declare'
 import { isUndefined } from '../../data/type-check'
 import { isUpperCase } from '../case-checking'
 
@@ -34,7 +34,7 @@ export function rot13(text: string): string {
 /**
  * @internal
  */
-const ROT_13_DICTIONARY = lazyDeclare(() => enumerate({
+const ROT_13_DICTIONARY = new LazyVariable(() => enumerate({
   a: 'n',
   b: 'o',
   c: 'p',
