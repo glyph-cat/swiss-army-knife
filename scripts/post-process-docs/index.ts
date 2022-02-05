@@ -15,6 +15,7 @@ import { forEachChild } from '../../src/data/object/for-each/for-each-child'
 
 const REPLACEMENTS = {
   'PACKAGE_NAME': PACKAGE_NAME,
+  'ColorFormatIgnoreAlphaDescription': '// Note: If alpha is not equals to `1`, then it will be included anyway.',
 }
 
 const FILES_TO_PROCESS = [

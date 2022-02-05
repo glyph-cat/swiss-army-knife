@@ -8,8 +8,8 @@ import { delay } from '../delay'
  */
 export class VaryingInterval extends GCObject {
 
-  private callback: JSFunction
-  private intervalRef: ReturnType<typeof setInterval>
+  private M$callback: JSFunction
+  private M$intervalRef: ReturnType<typeof setInterval>
 
   /**
    * @param callback - The callback to run at the varying intervals.
@@ -20,7 +20,7 @@ export class VaryingInterval extends GCObject {
    */
   constructor(callback: JSFunction) {
     super()
-    this.callback = callback
+    this.M$callback = callback
   }
 
   /**
@@ -31,7 +31,7 @@ export class VaryingInterval extends GCObject {
    */
   start(interval: number): void {
     this.stop()
-    this.intervalRef = setInterval(this.callback, interval)
+    this.M$intervalRef = setInterval(this.M$callback, interval)
   }
 
   /**
@@ -39,7 +39,7 @@ export class VaryingInterval extends GCObject {
    * myVaryingInterval.stop(1000)
    */
   stop(): void {
-    clearInterval(this.intervalRef)
+    clearInterval(this.M$intervalRef)
   }
 
 }
@@ -49,9 +49,9 @@ export class VaryingInterval extends GCObject {
  */
 export class LongPollingInterval extends GCObject {
 
-  shouldRun: boolean
-  callback: JSFunction
-  interval: number
+  private M$shouldRun: boolean
+  private M$callback: JSFunction
+  private M$interval: number
 
   /**
    * @param callback - The callback to run.
@@ -65,14 +65,14 @@ export class LongPollingInterval extends GCObject {
    */
   constructor(callback: JSFunction, interval: number) {
     super()
-    this.callback = callback
-    this.interval = interval
+    this.M$callback = callback
+    this.M$interval = interval
   }
 
-  private runLoop = async (): Promise<void> => {
-    while (this.shouldRun) {
-      const callbackPromise = this.callback()
-      const delayPromise = delay(this.interval)
+  private async M$runLoop(): Promise<void> {
+    while (this.M$shouldRun) {
+      const callbackPromise = this.M$callback()
+      const delayPromise = delay(this.M$interval)
       await Promise.all([callbackPromise, delayPromise])
       // Explanation:
       // If callback completes early, wait for delay
@@ -81,19 +81,19 @@ export class LongPollingInterval extends GCObject {
   }
 
   async start(): Promise<void> {
-    if (this.shouldRun) {
+    if (this.M$shouldRun) {
       devError(
         `($id: ${this.$id}) Cannot start a long polling ` +
         'interval that is already running.'
       )
       return // Early exit
     }
-    this.shouldRun = true
-    await this.runLoop()
+    this.M$shouldRun = true
+    await this.M$runLoop()
   }
 
   stop(): void {
-    this.shouldRun = false
+    this.M$shouldRun = false
   }
 
 }

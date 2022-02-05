@@ -11,51 +11,51 @@ const META_NAME = 'monetization'
  */
 export class PaymentPointerProtector extends GCObject {
 
-  private paymentPointer: string
-  private metaTagElement: HTMLMetaElement
-  private metaObserver: MutationObserver
-  private headObserver: MutationObserver
+  private M$paymentPointer: string
+  private M$metaTagElement: HTMLMetaElement
+  private M$metaObserver: MutationObserver
+  private M$headObserver: MutationObserver
   // KIV: Properties 'name' and 'content' do not exist under mutationStack[number].target
 
   constructor(paymentPointer: PaymentPointerProps['value']) {
     super()
-    this.paymentPointer = paymentPointer
+    this.M$paymentPointer = paymentPointer
   }
 
-  private onMetaMutated(mutationStack: Array<MutationRecord>): void {
+  private M$onMetaMutated(mutationStack: Array<MutationRecord>): void {
     // This makes the element seem like a read-only tag because attribute values
     // are reverted the moment a new value is commited to it
     for (const mutation of mutationStack) {
       if (mutation.target[ATTR_NAME] !== META_NAME) {
         mutation.target[ATTR_NAME] = META_NAME
       }
-      if (mutation.target[ATTR_CONTENT] !== this.paymentPointer) {
-        mutation.target[ATTR_CONTENT] = this.paymentPointer
+      if (mutation.target[ATTR_CONTENT] !== this.M$paymentPointer) {
+        mutation.target[ATTR_CONTENT] = this.M$paymentPointer
       }
     }
   }
 
-  private startMetaObserver(): void {
-    this.metaTagElement = document.createElement('meta')
-    this.metaTagElement.name = META_NAME
-    this.metaTagElement.content = this.paymentPointer
-    document.head.appendChild(this.metaTagElement)
-    this.metaObserver = new MutationObserver(this.onMetaMutated)
-    this.metaObserver.observe(this.metaTagElement, { attributes: true })
+  private M$startMetaObserver(): void {
+    this.M$metaTagElement = document.createElement('meta')
+    this.M$metaTagElement.name = META_NAME
+    this.M$metaTagElement.content = this.M$paymentPointer
+    document.head.appendChild(this.M$metaTagElement)
+    this.M$metaObserver = new MutationObserver(this.M$onMetaMutated)
+    this.M$metaObserver.observe(this.M$metaTagElement, { attributes: true })
   }
 
-  private stopMetaObserver(): void {
-    if (isFunction(this.metaObserver?.disconnect)) {
-      this.metaObserver.disconnect()
+  private M$stopMetaObserver(): void {
+    if (isFunction(this.M$metaObserver?.disconnect)) {
+      this.M$metaObserver.disconnect()
     }
-    this.metaObserver = null
-    if (isFunction(this.metaTagElement?.remove)) {
-      this.metaTagElement.remove()
+    this.M$metaObserver = null
+    if (isFunction(this.M$metaTagElement?.remove)) {
+      this.M$metaTagElement.remove()
     }
-    this.metaTagElement = null
+    this.M$metaTagElement = null
   }
 
-  private onHeadMutated(mutationStack: Array<MutationRecord>): void {
+  private M$onHeadMutated(mutationStack: Array<MutationRecord>): void {
     // NOTE: People can still add a meta tag with attributes that do not match
     // 'monetization', then rename it to 'monetization' afterwards since no
     // observer attached to it, there will be 2 payment pointers then.
@@ -64,17 +64,17 @@ export class PaymentPointerProtector extends GCObject {
         // In case own payment pointer is deleted
         if (
           removedNode[ATTR_NAME] === META_NAME &&
-          removedNode[ATTR_CONTENT] === this.paymentPointer
+          removedNode[ATTR_CONTENT] === this.M$paymentPointer
         ) {
-          this.stopMetaObserver()
-          this.startMetaObserver() // New tag is created in the process
+          this.M$stopMetaObserver()
+          this.M$startMetaObserver() // New tag is created in the process
         }
       }
       for (const addedNode of mutation.addedNodes) {
         // In case someone else's payment pointer is added
         if (
           addedNode[ATTR_NAME] === META_NAME &&
-          addedNode[ATTR_CONTENT] !== this.paymentPointer
+          addedNode[ATTR_CONTENT] !== this.M$paymentPointer
         ) {
           document.head.removeChild(addedNode)
         }
@@ -82,32 +82,32 @@ export class PaymentPointerProtector extends GCObject {
     }
   }
 
-  private startHeadObserver(): void {
-    this.headObserver = new MutationObserver(this.onHeadMutated)
-    this.headObserver.observe(document.head, { childList: true })
+  private M$startHeadObserver(): void {
+    this.M$headObserver = new MutationObserver(this.M$onHeadMutated)
+    this.M$headObserver.observe(document.head, { childList: true })
   }
 
-  private stopHeadObserver(): void {
-    if (isFunction(this.headObserver?.disconnect)) {
-      this.headObserver.disconnect()
+  private M$stopHeadObserver(): void {
+    if (isFunction(this.M$headObserver?.disconnect)) {
+      this.M$headObserver.disconnect()
     }
-    this.headObserver = null
+    this.M$headObserver = null
   }
 
   /**
    * Start guarding the payment pointer.
    */
   guard(): void {
-    this.startMetaObserver()
-    this.startHeadObserver()
+    this.M$startMetaObserver()
+    this.M$startHeadObserver()
   }
 
   /**
    * Stop guarding the payment pointer.
    */
   release(): void {
-    this.stopMetaObserver()
-    this.stopHeadObserver()
+    this.M$stopMetaObserver()
+    this.M$stopHeadObserver()
   }
 
 }

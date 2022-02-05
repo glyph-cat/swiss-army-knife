@@ -6,8 +6,8 @@
     "declaration": true,
     "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
-    "isolatedModules": true,
     "importHelpers": false,
+    "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": [
       "dom",

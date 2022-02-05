@@ -1,6 +1,6 @@
 import { ComponentType, useEffect, useState } from 'react'
-import { createTruthMap } from '../../../data/truth-map'
-import { createWatcher } from '../../../events/watcher'
+import { DynamicTruthMap } from '../../../data/truth-map'
+import { Watcher } from '../../../events/watcher'
 
 /**
  * @public
@@ -26,8 +26,8 @@ export function createLoadingCover(
 ): LoadingCoverSet {
 
   let idCounter = 0
-  const hookers = createTruthMap<number>()
-  const watcher = createWatcher()
+  const hookers = new DynamicTruthMap<number>()
+  const watcher = new Watcher()
 
   const show = (): (() => void) => {
     const id = ++idCounter

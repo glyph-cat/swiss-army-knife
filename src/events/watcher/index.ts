@@ -13,12 +13,11 @@ export type UnwatchCallback = JSFunction
 
 /**
  * @public
- * @example abc
+ * @example
  */
 export class Watcher<A extends Array<unknown>> extends GCObject {
 
-  private incrementalWatchId = 0
-  private watcherCollection: Record<number, CallableFunction> = {}
+  private M$watcherCollection: Record<number, CallableFunction> = {}
 
   /**
    * @example
@@ -38,10 +37,9 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * })
    */
   watch(callback: WatcherCallback<A>): UnwatchCallback {
-    const newId = ++this.incrementalWatchId
-    this.watcherCollection[newId] = callback
+    this.M$watcherCollection[this.$id] = callback
     const unwatch = (): void => {
-      delete this.watcherCollection[newId]
+      delete this.M$watcherCollection[this.$id]
     }
     return unwatch
   }
@@ -52,7 +50,7 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * myWatcher.unwatchAll()
    */
   unwatchAll(): void {
-    this.watcherCollection = {}
+    this.M$watcherCollection = {}
   }
 
   /**
@@ -61,7 +59,7 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * myWatcher.refresh(42)
    */
   refresh(...args: A): void {
-    const callbackStack = Object.values(this.watcherCollection)
+    const callbackStack = Object.values(this.M$watcherCollection)
     for (let i = 0; i < callbackStack.length; i++) {
       callbackStack[i](...args)
     }

@@ -10,10 +10,10 @@ import { GCObject } from '../../bases'
  */
 export class ScheduledCallback extends GCObject {
 
-  private isActive = true
-  private callback: JSFunction
-  private triggerTime: Date
-  private timeoutId: ReturnType<typeof setTimeout>
+  private M$isActive = true
+  private M$callback: JSFunction
+  private M$triggerTime: Date
+  private M$timeoutId: ReturnType<typeof setTimeout>
 
   /**
    * @param callback - The callback to be scheduled.
@@ -23,8 +23,8 @@ export class ScheduledCallback extends GCObject {
    */
   constructor(callback: () => void, triggerTime: Date) {
     super()
-    this.callback = callback
-    this.triggerTime = triggerTime
+    this.M$callback = callback
+    this.M$triggerTime = triggerTime
   }
 
   /**
@@ -35,10 +35,10 @@ export class ScheduledCallback extends GCObject {
    * // `myScheduledCallback` will be runned invoked seconds later.
    */
   run(): void {
-    const timeout = Math.max(0, this.triggerTime.getTime() - new Date().getTime())
-    this.timeoutId = setTimeout(() => {
-      this.callback()
-      this.isActive = false
+    const timeout = Math.max(0, this.M$triggerTime.getTime() - new Date().getTime())
+    this.M$timeoutId = setTimeout(() => {
+      this.M$callback()
+      this.M$isActive = false
     }, timeout)
   }
 
@@ -48,8 +48,8 @@ export class ScheduledCallback extends GCObject {
    * myScheduledCallback.clear()
    */
   clear(): void {
-    clearTimeout(this.timeoutId)
-    this.isActive = false
+    clearTimeout(this.M$timeoutId)
+    this.M$isActive = false
   }
 
   /**
@@ -61,8 +61,8 @@ export class ScheduledCallback extends GCObject {
    */
   flush(): void {
     this.clear()
-    if (!this.isActive) {
-      this.callback()
+    if (!this.M$isActive) {
+      this.M$callback()
     }
   }
 

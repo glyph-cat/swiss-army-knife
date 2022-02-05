@@ -21,8 +21,8 @@ export type TruthMapCore<K extends JSObjectKeyStrict> = Partial<Record<TruthMapK
  */
 export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
 
-  protected map: TruthMapCore<K>
-  private nonDuplicatedKeys: Array<TruthMapKey<K>>
+  protected M$map: TruthMapCore<K>
+  private M$nonDuplicatedKeys: Array<TruthMapKey<K>>
 
   /**
    * @param keys - The values that will evaluate to be truthy when checking.
@@ -31,10 +31,10 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
    */
   constructor(keys: Array<TruthMapKey<K>>) {
     super()
-    this.map = {}
-    this.nonDuplicatedKeys = [...new Set(keys)]
-    for (let i = 0; i < this.nonDuplicatedKeys.length; i++) {
-      this.map[this.nonDuplicatedKeys[i]] = true
+    this.M$map = {}
+    this.M$nonDuplicatedKeys = [...new Set(keys)]
+    for (let i = 0; i < this.M$nonDuplicatedKeys.length; i++) {
+      this.M$map[this.M$nonDuplicatedKeys[i]] = true
     }
   }
 
@@ -46,7 +46,7 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
    * myFixedTruthMap.getKeys() // ['foo', 'bar']
    */
   getKeys(): Array<TruthMapKey<K>> {
-    return [...this.nonDuplicatedKeys]
+    return [...this.M$nonDuplicatedKeys]
   }
 
   /**
@@ -58,7 +58,7 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
    * }
    */
   has(key: TruthMapKey<K>): boolean {
-    return !!this.map[key] //  || false
+    return !!this.M$map[key] //  || false
   }
 
   /**
@@ -69,7 +69,7 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
    * myFixedTruthMap.toJSON() // { foo: true, bar: true }
    */
   toJSON(): TruthMapCore<K> {
-    return { ...this.map }
+    return { ...this.M$map }
   }
 
 }
@@ -117,7 +117,7 @@ export class DynamicTruthMap<K extends JSObjectKeyStrict> extends FixedTruthMap<
     const locallyDuplicatedMap = this.toJSON()
     delete locallyDuplicatedMap[key] // See footnote
     const newDynamicTruthMap = new DynamicTruthMap()
-    newDynamicTruthMap.map = locallyDuplicatedMap
+    newDynamicTruthMap.M$map = locallyDuplicatedMap
     return newDynamicTruthMap
   }
 

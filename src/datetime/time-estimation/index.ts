@@ -24,9 +24,9 @@ export const MINIMUM_TIME_ESTIMATOR_CACHE_SIZE = 2
  */
 export class TimeEstimator extends GCObject {
 
-  private cacheSize: number
-  private snapshotStack: Array<[progress: number, timeStamp: number]> = []
-  private alreadyCompleted = false
+  private M$cacheSize: number
+  private M$snapshotStack: Array<[progress: number, timeStamp: number]> = []
+  private M$alreadyCompleted = false
 
   /**
    * @param cacheSize - Number of snapshots to store. (Default: `2`)
@@ -45,7 +45,7 @@ export class TimeEstimator extends GCObject {
         `but got ${cacheSize}. Automatically setting to ${MINIMUM_TIME_ESTIMATOR_CACHE_SIZE}.`
       )
     }
-    this.cacheSize = Math.max(cacheSize, MINIMUM_TIME_ESTIMATOR_CACHE_SIZE)
+    this.M$cacheSize = Math.max(cacheSize, MINIMUM_TIME_ESTIMATOR_CACHE_SIZE)
   }
 
   /**
@@ -55,13 +55,13 @@ export class TimeEstimator extends GCObject {
    */
   mark(progress: number): void {
     if (progress === MAX_PROGRESS) {
-      this.alreadyCompleted = true
+      this.M$alreadyCompleted = true
       return // Early exit
     }
-    this.snapshotStack = clampedPush(this.cacheSize, [[
+    this.M$snapshotStack = clampedPush(this.M$cacheSize, [[
       clamp(progress, MIN_PROGRESS, MAX_PROGRESS),
       Date.now() // TESTSAFE_getDateNow(),
-    ]], this.snapshotStack)
+    ]], this.M$snapshotStack)
   }
 
   /**
@@ -74,16 +74,16 @@ export class TimeEstimator extends GCObject {
    *     theoritically means it will take forever to complete.
    */
   getEstimation(): number {
-    if (this.alreadyCompleted) {
+    if (this.M$alreadyCompleted) {
       return 0 // Early exit
     }
-    if (this.snapshotStack.length < MINIMUM_TIME_ESTIMATOR_CACHE_SIZE) {
+    if (this.M$snapshotStack.length < MINIMUM_TIME_ESTIMATOR_CACHE_SIZE) {
       return Infinity // Early exit
     }
     let summedProgressRatePerMs = 0
-    for (let i = 1; i < this.snapshotStack.length; i++) {
-      const [previousProgress, previousTimestamp] = this.snapshotStack[i - 1]
-      const [currentProgress, currentTimestamp] = this.snapshotStack[i]
+    for (let i = 1; i < this.M$snapshotStack.length; i++) {
+      const [previousProgress, previousTimestamp] = this.M$snapshotStack[i - 1]
+      const [currentProgress, currentTimestamp] = this.M$snapshotStack[i]
       const progressDiff = currentProgress - previousProgress
       const timeDiffInMs = currentTimestamp - previousTimestamp
       // KIV
@@ -92,13 +92,13 @@ export class TimeEstimator extends GCObject {
       const progressRatePerMs = progressDiff / timeDiffInMs
       summedProgressRatePerMs += progressRatePerMs
     }
-    const averageProgressPerMs = summedProgressRatePerMs / (this.snapshotStack.length - 1)
+    const averageProgressPerMs = summedProgressRatePerMs / (this.M$snapshotStack.length - 1)
     // ^ Must be `snapshotStack.length - 1` because we are calculating the differences
     // ^ Take note: Loop above is written `for (let i = 1; ...`
 
     if (averageProgressPerMs <= 0) { return Infinity } // Early exit
 
-    const [latestProgress] = this.snapshotStack[this.snapshotStack.length - 1]
+    const [latestProgress] = this.M$snapshotStack[this.M$snapshotStack.length - 1]
     const remainingProgess = MAX_PROGRESS - latestProgress
     // Formula:
     // rate = progress / time
@@ -111,8 +111,8 @@ export class TimeEstimator extends GCObject {
    * Clears all snapshots in the cache.
    */
   reset(): void {
-    this.alreadyCompleted = false
-    this.snapshotStack = []
+    this.M$alreadyCompleted = false
+    this.M$snapshotStack = []
   }
 
 }

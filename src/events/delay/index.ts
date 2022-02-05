@@ -25,9 +25,9 @@ export function delay(time: number): Promise<void> {
  */
 export class AdjustableDelay extends GCObject {
 
-  private time: number
-  private timeoutRef: ReturnType<typeof setTimeout>
-  private resolveRef: JSFunction
+  private M$time: number
+  private M$timeoutRef: ReturnType<typeof setTimeout>
+  private M$resolveRef: JSFunction
 
   /**
    * @param time - The delay time in milliseconds.
@@ -36,7 +36,7 @@ export class AdjustableDelay extends GCObject {
    */
   constructor(time: number) {
     super()
-    this.time = time
+    this.M$time = time
   }
 
   /**
@@ -46,8 +46,8 @@ export class AdjustableDelay extends GCObject {
    */
   now(): Promise<void> {
     return new Promise((resolve) => {
-      this.resolveRef = resolve
-      this.timeoutRef = setTimeout(() => { resolve() }, this.time)
+      this.M$resolveRef = resolve
+      this.M$timeoutRef = setTimeout(() => { resolve() }, this.M$time)
     })
   }
 
@@ -70,8 +70,8 @@ export class AdjustableDelay extends GCObject {
    * myAdjustableDelay.cancel()
    */
   cancel(): void {
-    clearTimeout(this.timeoutRef)
-    this.resolveRef()
+    clearTimeout(this.M$timeoutRef)
+    this.M$resolveRef()
   }
 
 }

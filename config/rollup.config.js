@@ -1,5 +1,4 @@
-import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
+// import babel from '@rollup/plugin-babel'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import autoprefixer from 'autoprefixer'
@@ -48,14 +47,23 @@ function getPlugins(config = {}) {
   const basePlugins = {
     nodeResolve: nodeResolve(),
     autoImportReact: autoImportReact(),
-    babel: babel({
-      presets: ['@babel/preset-react'],
-      plugins: [
-        '@babel/plugin-proposal-optional-chaining',
-      ],
-      exclude: '**/node_modules/**',
-      babelHelpers: 'bundled',
-    }),
+    // babel: babel({
+    //   presets: [
+    //     // '@babel/preset-env',
+    //     '@babel/preset-react',
+    //   ],
+    //   plugins: [
+    //     // ['@babel/plugin-proposal-class-properties', {
+    //     //   // loose: true,
+    //     //   // setPublicClassFields: true,
+    //     // }],
+    //     // ['@babel/plugin-transform-classes', {
+    //     //   // loose: true,
+    //     // }],
+    //   ],
+    //   exclude: '**/node_modules/**',
+    //   babelHelpers: 'bundled',
+    // }),
     postcss: postcss({
       plugins: [autoprefixer()],
       sourceMap: false,
@@ -72,7 +80,6 @@ function getPlugins(config = {}) {
         },
       },
     }),
-    commonjs: commonjs(),
   }
 
   // Override plugins
@@ -104,10 +111,13 @@ function getPlugins(config = {}) {
   }))
 
   // Minification and cleanup
-  if (mode === 'production') {
-    const terserPlugin = terser({ mangle: { properties: { regex: /^M\$/ } } })
-    pluginStack.push(terserPlugin)
-  }
+  pluginStack.push(terser({
+    mangle: {
+      properties: {
+        regex: /^M\$/,
+      },
+    },
+  }))
   pluginStack.push(forceCleanup())
 
   return pluginStack

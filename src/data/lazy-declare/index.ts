@@ -9,8 +9,8 @@ import { EMPTY_OBJECT } from '../dummies'
  */
 export class LazyVariable<T> extends GCObject {
 
-  private value: T
-  private factory: () => T
+  private M$value: T
+  private M$factory: () => T
 
   /**
    * @param factory - The function that returns the initialized data.
@@ -23,8 +23,8 @@ export class LazyVariable<T> extends GCObject {
    */
   constructor(factory: () => T) {
     super()
-    this.value = EMPTY_OBJECT as T
-    this.factory = factory
+    this.M$value = EMPTY_OBJECT as T
+    this.M$factory = factory
   }
 
   /**
@@ -37,10 +37,10 @@ export class LazyVariable<T> extends GCObject {
    * animationRef.get()
    */
   get(): T {
-    if (Object.is(this.value, EMPTY_OBJECT)) {
-      this.value = this.factory()
+    if (Object.is(this.M$value, EMPTY_OBJECT)) {
+      this.M$value = this.M$factory()
     }
-    return this.value
+    return this.M$value
   }
 
 }

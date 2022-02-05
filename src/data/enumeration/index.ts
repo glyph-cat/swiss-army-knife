@@ -48,7 +48,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
   /**
    * Underlying data of the enumeration.
    */
-  private enumeration: Enumeration<K, V> = ({} as Enumeration<K, V>)
+  private M$enumeration: Enumeration<K, V> = ({} as Enumeration<K, V>)
 
   /**
    * @param entries - The object to enumerate.
@@ -61,8 +61,8 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
   constructor(entries: Record<K, V> = ({} as Record<K, V>)) {
     super()
     forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {
-      this.enumeration[key] = value
-      this.enumeration[value] = key
+      this.M$enumeration[key] = value
+      this.M$enumeration[value] = key
     })
   }
 
@@ -80,8 +80,8 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
     value: JSObjectKeyStrict
   ): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
-    newMutableEnumeration.enumeration[key] = value
-    newMutableEnumeration.enumeration[value] = key
+    newMutableEnumeration.M$enumeration[key] = value
+    newMutableEnumeration.M$enumeration[value] = key
     return newMutableEnumeration
   }
 
@@ -97,9 +97,9 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    */
   remove(keyOrValue: JSObjectKeyStrict): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
-    const theOtherKeyOrValue = newMutableEnumeration.enumeration[keyOrValue]
-    delete newMutableEnumeration.enumeration[keyOrValue]
-    delete newMutableEnumeration.enumeration[theOtherKeyOrValue]
+    const theOtherKeyOrValue = newMutableEnumeration.M$enumeration[keyOrValue]
+    delete newMutableEnumeration.M$enumeration[keyOrValue]
+    delete newMutableEnumeration.M$enumeration[theOtherKeyOrValue]
     return newMutableEnumeration
   }
 
@@ -122,7 +122,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
   get(value: V): K
 
   get(keyOrValue: JSObjectKeyStrict): K | V {
-    return this.enumeration[keyOrValue] as K | V
+    return this.M$enumeration[keyOrValue] as K | V
   }
 
   /**
@@ -132,7 +132,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    * @returns The enumeration as a JavaScript object.
    */
   toJSON(): Enumeration<K, V> {
-    return { ...this.enumeration }
+    return { ...this.M$enumeration }
   }
 
   /**
@@ -145,7 +145,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    * myMutableEnum.has(1)   // Check by value
    */
   has(keyOrValue: JSObjectKeyStrict): boolean {
-    return hasProperty(this.enumeration, keyOrValue)
+    return hasProperty(this.M$enumeration, keyOrValue)
   }
 
   /**
@@ -157,7 +157,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    */
   clone(): MutableEnumeration<K, V> {
     const newMutableEnumeration = new MutableEnumeration<K, V>()
-    newMutableEnumeration.enumeration = this.toJSON()
+    newMutableEnumeration.M$enumeration = this.toJSON()
     return newMutableEnumeration
   }
 
