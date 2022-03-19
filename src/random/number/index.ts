@@ -9,8 +9,8 @@ import { TESTSAFE_random } from '../../__internals__'
  * @returns A random number between the lower and upper bounds, but excluding
  * the upper bound.
  * @example
- * // Generate a random number between 0 - 9.
- * getRandomNumber(0, 10)
+ * // Generate a random number between 5 to 9.
+ * getRandomNumber(5, 10)
  * @example
  * // Generate a random number that is a valid index of the array.
  * getRandomNumber(0, array.length)
@@ -21,5 +21,6 @@ export function getRandomNumber(
   upperBoundExclusive: number
   // ^ Designed this way to make it easy to use with arrays
 ): number {
-  return lowerBoundInclusive + Math.floor(TESTSAFE_random() * upperBoundExclusive)
+  const padding = upperBoundExclusive - lowerBoundInclusive
+  return lowerBoundInclusive + Math.floor(TESTSAFE_random() * padding)
 }

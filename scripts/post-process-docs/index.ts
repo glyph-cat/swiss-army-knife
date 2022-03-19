@@ -5,7 +5,7 @@ import { forEachChild } from '../../src/data/object/for-each/for-each-child'
 // Example usage:
 // /**
 //  * @example
-//  * import { example } from {:PACKAGE_NAME:}
+//  * import { example } from '{:PACKAGE_NAME:}'
 //  *
 //  * example()
 //  */

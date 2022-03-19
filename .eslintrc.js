@@ -1,14 +1,16 @@
-const { strict: config } = require('./eslint-config')
+const { configs } = require('@glyph-cat/eslint-config')
+
+const strictConfig = configs.strict
 
 module.exports = {
   root: true,
-  ...config,
+  ...strictConfig,
   rules: {
-    ...config.rules,
+    ...strictConfig.rules,
     'no-restricted-imports': [
-      config.rules['no-restricted-imports'][0],
+      strictConfig.rules['no-restricted-imports'][0],
       (function () {
-        const paths = [...config.rules['no-restricted-imports'][1].paths]
+        const paths = [...strictConfig.rules['no-restricted-imports'][1].paths]
         const index = paths.findIndex((item) => {
           return item.name === 'react' &&
             item.importNames.includes('useRef') &&

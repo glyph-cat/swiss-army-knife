@@ -20,9 +20,9 @@ export interface RenderInClientOnlyProps {
  */
 export function RenderInClientOnly(
   props: RenderInClientOnlyProps
-): ReactNode {
+): JSX.Element {
   const { children } = props
   const [selfIsMounted, setMoutedStatus] = useState(false)
   useEffect(() => { setMoutedStatus(true) }, [])
-  return selfIsMounted ? children : null
+  return selfIsMounted ? children as JSX.Element : null
 }

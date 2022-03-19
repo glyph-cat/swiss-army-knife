@@ -79,7 +79,6 @@ lib
 *.draft*
 *.secret*
 *.scripted*
-lib
 temp/
 
 # OS
