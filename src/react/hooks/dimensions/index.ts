@@ -1,5 +1,7 @@
 import { useReducer } from 'react'
+import { IS_CLIENT_ENV } from '../../../constants'
 import { useLayoutEffect } from '../isomorphic-layout-effect'
+import { DEFAULT_WINDOW_DIMENSIONS } from './constants'
 import { ScreenDimensionSpec, WindowDimensionSpec } from './schema'
 
 /**
@@ -16,9 +18,13 @@ export function getScreenDimensions(): ScreenDimensionSpec {
  * @public
  */
 export function getWindowDimensions(): WindowDimensionSpec {
-  return {
-    height: document.documentElement.clientHeight,
-    width: document.documentElement.clientWidth,
+  if (IS_CLIENT_ENV) {
+    return {
+      height: document.documentElement.clientHeight,
+      width: document.documentElement.clientWidth,
+    }
+  } else {
+    return DEFAULT_WINDOW_DIMENSIONS
   }
 }
 
@@ -28,7 +34,7 @@ export function getWindowDimensions(): WindowDimensionSpec {
 export function useWindowDimensions(): WindowDimensionSpec {
   const [dimensions, updateDimensions] = useReducer(
     getWindowDimensions,
-    { height: 0, width: 0 },
+    DEFAULT_WINDOW_DIMENSIONS,
     getWindowDimensions,
   )
   useLayoutEffect(() => {
