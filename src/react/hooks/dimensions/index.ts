@@ -1,5 +1,4 @@
 import { useReducer } from 'react'
-import { IS_CLIENT_ENV } from '../../../constants'
 import { useLayoutEffect } from '../isomorphic-layout-effect'
 import { DEFAULT_WINDOW_DIMENSIONS } from './constants'
 import { ScreenDimensionSpec, WindowDimensionSpec } from './schema'
@@ -18,7 +17,7 @@ export function getScreenDimensions(): ScreenDimensionSpec {
  * @public
  */
 export function getWindowDimensions(): WindowDimensionSpec {
-  if (IS_CLIENT_ENV) {
+  if (typeof document !== 'undefined') {
     return {
       height: document.documentElement.clientHeight,
       width: document.documentElement.clientWidth,
