@@ -1,6 +1,5 @@
 import { __idFactory__ } from '.'
 
-
 describe(__idFactory__.name, (): void => {
 
   test('Number', (): void => {
