@@ -17,6 +17,23 @@ let __numericComponentIdCounter__ = 0
 const __hashTracker__ = new LazyVariable(() => new DynamicTruthMap<string>())
 
 /**
+ * @private
+ */
+function hasCollision(hash: string | number): boolean {
+  const hashAsString = String(hash)
+  const hashAsNumber = parseInt(hashAsString, 10)
+  const hasClashingStrings = __hashTracker__.get().has(hash)
+  /**
+   * Check for clashing numbers if the string hash consists of only numeric
+   * characters.
+   */
+  const hasClashingNumbers = /^\d+$/.test(hashAsString)
+    ? hashAsNumber < __numericComponentIdCounter__
+    : false
+  return hasClashingStrings || hasClashingNumbers
+}
+
+/**
  * @internal
  */
 export function __idFactory__(
@@ -27,7 +44,7 @@ export function __idFactory__(
       let hash: string
       do {
         hash = getRandomHash(idType) // as hash length
-      } while (__hashTracker__.get().has(hash))
+      } while (hasCollision(hash))
       __hashTracker__.get().add(hash)
       return hash
     } else if (Object.is(idType, String)) {
@@ -37,11 +54,15 @@ export function __idFactory__(
         // NOTE: length is increased to drastically reduce the chances of
         // collision so as to not trigger another loop.
         hash = getRandomHash(autoLength++)
-      } while (__hashTracker__.get().has(hash))
+      } while (hasCollision(hash))
       __hashTracker__.get().add(hash)
       return hash
     } else if (Object.is(idType, Number)) {
-      return ++__numericComponentIdCounter__
+      let hash: number
+      do {
+        hash = ++__numericComponentIdCounter__
+      } while (hasCollision(hash))
+      return hash
     } else {
       return Symbol()
     }
