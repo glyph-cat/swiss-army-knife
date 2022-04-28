@@ -40,8 +40,8 @@ export function __idFactory__(
   idType: number | typeof String | typeof Number | typeof Symbol,
   minimumLength?: number
 ): () => JSObjectKey {
-  minimumLength = minimumLength || 4
   return () => {
+    minimumLength = minimumLength || 4
     if (isNumber(idType)) {
       let hash: string
       do {
