@@ -13,10 +13,20 @@ describe(__idFactory__.name, (): void => {
     expect(output).toMatch(/^[0-9a-z]{8}$/i)
   })
 
-  test('String', (): void => {
-    const output = __idFactory__(String)(/* needs invocation */)
-    expect(output).toMatch(/^[0-9a-z]{4}$/i)
-    // Internally, we know the length starts at 4
+  describe('String', (): void => {
+
+    test('Auto length', (): void => {
+      const output = __idFactory__(String)(/* needs invocation */)
+      expect(output).toMatch(/^[0-9a-z]{4}$/i)
+      // Internally, we know the length starts at 4
+    })
+
+    test('Minimum length', (): void => {
+      const output = __idFactory__(String, 8)(/* needs invocation */)
+      expect(output).toMatch(/^[0-9a-z]{8}$/i)
+      // The length is now expected to start at 8
+    })
+
   })
 
   test('Symbol', (): void => {

@@ -37,8 +37,10 @@ function hasCollision(hash: string | number): boolean {
  * @internal
  */
 export function __idFactory__(
-  idType: number | typeof String | typeof Number | typeof Symbol
+  idType: number | typeof String | typeof Number | typeof Symbol,
+  minimumLength?: number
 ): () => JSObjectKey {
+  minimumLength = minimumLength || 4
   return () => {
     if (isNumber(idType)) {
       let hash: string
@@ -49,7 +51,7 @@ export function __idFactory__(
       return hash
     } else if (Object.is(idType, String)) {
       let hash: string
-      let autoLength = 4
+      let autoLength = minimumLength
       do {
         // NOTE: length is increased to drastically reduce the chances of
         // collision so as to not trigger another loop.
@@ -95,6 +97,7 @@ export function useComponentId(hashLength: number): string
  * symbol as component ID.
  *
  * NOTES:
+ * - Minimum length defaults to `4`.
  * - In React ≥18, prefer the `useId` hook available when possible, only use this
  *   hook when it doesn't work or if you just need some sort of hash-ish ID.
  * - The length of the string is automatically determined.
@@ -106,7 +109,7 @@ export function useComponentId(hashLength: number): string
  * console.log(componentId) // 'k28f'
  * @public
  */
-export function useComponentId(idType: typeof String): string
+export function useComponentId(idType: typeof String, minimumLength?: number): string
 
 /**
  * Generates a numeric component ID. To ensure uniqueness, IDs are genarated
@@ -141,9 +144,10 @@ export function useComponentId(idType: typeof Symbol): symbol
  * @public
  */
 export function useComponentId(
-  idType: number | typeof String | typeof Number | typeof Symbol
+  idType: number | typeof String | typeof Number | typeof Symbol,
+  minimumLength?: number
 ): JSObjectKey {
-  const id = useRef(__idFactory__(idType))
+  const id = useRef(__idFactory__(idType, minimumLength))
   useEffect(() => {
     return () => {
       if (isString(idType)) {
