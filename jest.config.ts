@@ -6,7 +6,9 @@ const config: Config.InitialOptions = {
   ],
   testRegex: '.test.(tsx|ts|jsx|js)',
   testTimeout: 1000,
-  timers: 'fake',
+  fakeTimers: {
+    enableGlobally: true,
+  },
   verbose: true,
 }
 

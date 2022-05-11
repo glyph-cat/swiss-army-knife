@@ -1,5 +1,5 @@
 import { Children, ElementType, Fragment, ReactNode, useEffect } from 'react'
-import { createSource, useRelinkValue } from 'react-relink'
+import { RelinkSource, useRelinkValue } from 'react-relink'
 import { devWarn } from '../../../dev'
 import { useRef } from '../../hooks/lazy-ref'
 import { PortalSet, PortalStateData, PORTAL_TYPE } from './schema'
@@ -10,7 +10,7 @@ import { PortalSet, PortalStateData, PORTAL_TYPE } from './schema'
 function createPortalSet(): PortalSet {
   let portalIdCounter = 0
 
-  const PortalSource = createSource<PortalStateData>({
+  const PortalSource = new RelinkSource<PortalStateData>({
     key: Symbol('Portal'),
     default: {},
   })
