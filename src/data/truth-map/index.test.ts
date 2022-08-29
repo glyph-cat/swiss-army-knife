@@ -105,4 +105,62 @@ describe(DynamicTruthMap.name, (): void => {
 
   })
 
+  test('Stress test', () => {
+    const initialDynamicTruthMap = new DynamicTruthMap()
+    let currentDynamicTruthMap = initialDynamicTruthMap
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({})
+
+    currentDynamicTruthMap = currentDynamicTruthMap.add('foo')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.add('bar')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      bar: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.add('baz')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      bar: true,
+      baz: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.remove('bar')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      baz: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.add('bar')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      baz: true,
+      bar: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.remove('bar')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      baz: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.add('bar')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      baz: true,
+      bar: true,
+    })
+
+    currentDynamicTruthMap = currentDynamicTruthMap.add('meow')
+    expect(currentDynamicTruthMap.toJSON()).toStrictEqual({
+      foo: true,
+      baz: true,
+      bar: true,
+      meow: true,
+    })
+  })
+
 })

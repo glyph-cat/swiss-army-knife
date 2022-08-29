@@ -14,7 +14,7 @@ export type TruthMapKey<T> = T | (number & {}) | (string & {})
 export type TruthMapCore<K extends JSObjectKeyStrict> = Partial<Record<TruthMapKey<K>, true>>
 
 /**
- * Allows checking existence of a value in an array, but with 0(1) performance
+ * Allows checking existence of a value in an array, with near 0(1) performance
  * by using object lookup under the hood. Once declared, the values cannot be
  * changed.
  * @public
@@ -72,10 +72,21 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
     return { ...this.M$map }
   }
 
+  /**
+   * Get all keys of the TruthMap.
+   * @returns A all keys of the TruthMap as an array.
+   * @example
+   * let myFixedTruthMap = new FixedTruthMap(['foo', 'bar'])
+   * myFixedTruthMap.toArray() // ['foo', 'bar']
+   */
+  toArray(): Array<K> {
+    return Object.keys(this.M$map) as Array<K>
+  }
+
 }
 
 /**
- * Allows checking existence of a value in an array, but with 0(1) performance
+ * Allows checking existence of a value in an array with near 0(1) performance
  * by using object lookup under the hood. Values can be changed after
  * declaration.
  * @public
@@ -116,9 +127,21 @@ export class DynamicTruthMap<K extends JSObjectKeyStrict> extends FixedTruthMap<
     // tK = targetKey
     const locallyDuplicatedMap = this.toJSON()
     delete locallyDuplicatedMap[key] // See footnote
-    const newDynamicTruthMap = new DynamicTruthMap()
-    newDynamicTruthMap.M$map = locallyDuplicatedMap
-    return newDynamicTruthMap
+    const newKeys = Object.keys(locallyDuplicatedMap)
+    const newDynamicTruthMap = new DynamicTruthMap(newKeys)
+    return newDynamicTruthMap as DynamicTruthMap<Exclude<K, tK>>
+  }
+
+  /**
+   * Get all keys of the TruthMap.
+   * @returns A all keys of the TruthMap as an array.
+   * @example
+   * let myDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+   * myDynamicTruthMap = myDynamicTruthMap.add('baz')
+   * myDynamicTruthMap.toArray() // ['foo', 'bar', 'baz']
+   */
+  toArray(): Array<K> {
+    return super.toArray()
   }
 
 }
