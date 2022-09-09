@@ -42,8 +42,8 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
    * Retrieve all available keys.
    * @returns An array containing all the keys that exist in the TruthMap.
    * @example
-   * let myFixedTruthMap = new FixedTruthMap(['foo', 'bar'])
-   * myFixedTruthMap.getKeys() // ['foo', 'bar']
+   * let myTruthMap = new FixedTruthMap(['foo', 'bar']) // or DynamicTruthMap
+   * myTruthMap.getKeys() // ['foo', 'bar']
    */
   getKeys(): Array<TruthMapKey<K>> {
     return [...this.M$nonDuplicatedKeys]
@@ -52,8 +52,8 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
   /**
    * Check if a value exists in the list.
    * @example
-   * let myFixedTruthMap = new FixedTruthMap(['foo', 'bar'])
-   * if (myFixedTruthMap.has('foo')) {
+   * let myTruthMap = new FixedTruthMap(['foo', 'bar']) // or DynamicTruthMap
+   * if (myTruthMap.has('foo')) {
    *   console.log('It contains "foo"!')
    * }
    */
@@ -65,22 +65,11 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
    * Get the underlying object.
    * @returns A JavaScript object representation of the TruthMap.
    * @example
-   * let myFixedTruthMap = new FixedTruthMap(['foo', 'bar'])
-   * myFixedTruthMap.toJSON() // { foo: true, bar: true }
+   * let myTruthMap = new FixedTruthMap(['foo', 'bar']) // or DynamicTruthMap
+   * myTruthMap.toJSON() // { foo: true, bar: true }
    */
   toJSON(): TruthMapCore<K> {
     return { ...this.M$map }
-  }
-
-  /**
-   * Get all keys of the TruthMap.
-   * @returns A all keys of the TruthMap as an array.
-   * @example
-   * let myFixedTruthMap = new FixedTruthMap(['foo', 'bar'])
-   * myFixedTruthMap.toArray() // ['foo', 'bar']
-   */
-  toArray(): Array<K> {
-    return Object.keys(this.M$map) as Array<K>
   }
 
 }
@@ -130,18 +119,6 @@ export class DynamicTruthMap<K extends JSObjectKeyStrict> extends FixedTruthMap<
     const newKeys = Object.keys(locallyDuplicatedMap)
     const newDynamicTruthMap = new DynamicTruthMap(newKeys)
     return newDynamicTruthMap as DynamicTruthMap<Exclude<K, tK>>
-  }
-
-  /**
-   * Get all keys of the TruthMap.
-   * @returns A all keys of the TruthMap as an array.
-   * @example
-   * let myDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
-   * myDynamicTruthMap = myDynamicTruthMap.add('baz')
-   * myDynamicTruthMap.toArray() // ['foo', 'bar', 'baz']
-   */
-  toArray(): Array<K> {
-    return super.toArray()
   }
 
 }

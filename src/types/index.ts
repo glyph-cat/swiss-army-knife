@@ -26,6 +26,13 @@ export type JSObject = Record<JSObjectKey, unknown>
 export type JSFunction = (...args: Array<any>) => any
 
 /**
+ * Use this to explicitly mark variables as nullable when `strictNullChecks` is
+ * set to `true` in the `tsconfig.json` file.
+ * @public
+ */
+export type Nullable<T> = T | null
+
+/**
  * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the HTML
  * Element.
  * @public

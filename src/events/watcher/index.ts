@@ -70,7 +70,9 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * myWatcher.unwatchAll()
    */
   unwatchAll(): void {
+    const currentWatcherCount = Object.keys(this.M$watcherCollection).length
     this.M$watcherCollection = {}
+    this.M$watchersRemoved += currentWatcherCount
   }
 
   /**
