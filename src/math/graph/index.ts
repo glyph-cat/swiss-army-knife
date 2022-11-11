@@ -28,10 +28,10 @@ export function createLinearEquationFromPointAndGradient(
  * @param y2 - Y coordinate of the second point.
  * @returns A linear equation function.
  * @example
- * const f = createLinearEquationFromTwoPoints(3, 7, 5, 9)
+ * const f = createLinearEquationFromTwoPoints(3, 6, 7, 9)
  * const x = 42
  * const y = f(x)
- * console.log(y) // 44
+ * console.log(y) // 33
  * @public
  */
 export function createLinearEquationFromTwoPoints(
