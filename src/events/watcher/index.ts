@@ -36,6 +36,7 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
   private M$watcherCollection: Record<number, CallableFunction> = {}
   private M$watchersAdded = 0
   private M$watchersRemoved = 0
+  private M$counter = 0
 
   /**
    * @example
@@ -55,10 +56,11 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * })
    */
   watch(callback: WatcherCallback<A>): UnwatchCallback {
-    this.M$watcherCollection[this.$id] = callback
+    const currentSubscriberId = `${this.$id}_${++this.M$counter}`
+    this.M$watcherCollection[currentSubscriberId] = callback
     this.M$watchersAdded += 1
     const unwatch = (): void => {
-      delete this.M$watcherCollection[this.$id]
+      delete this.M$watcherCollection[currentSubscriberId]
       this.M$watchersRemoved += 1
     }
     return unwatch
