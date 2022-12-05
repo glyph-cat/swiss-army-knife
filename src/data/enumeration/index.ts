@@ -1,12 +1,12 @@
 import { GCObject } from '../../bases'
-import { JSObjectKeyStrict } from '../../types'
-import { forEachChild } from '../object/for-each'
+import { StrictPropertyKey } from '../../types'
+import { forEachInObject } from '../object/for-each/in-object'
 import { hasProperty } from '../object/has-property'
 
 /**
  * @public
  */
-export type Enumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict> = Record<K | V, V | K>
+export type Enumeration<K extends StrictPropertyKey, V extends StrictPropertyKey> = Record<K | V, V | K>
 
 /**
  * Creates an enumaration from an object that is similar to TypeScript's `enum`.
@@ -26,13 +26,13 @@ export type Enumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict
  * // }
  * @public
  */
-export function enumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict>(
+export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyKey>(
   entries: Record<K, V>
 ): Enumeration<K, V> {
   const enumeration = {}
-  forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {
-    enumeration[key] = value
-    enumeration[value] = key
+  forEachInObject(entries, ({ key, value }) => {
+    enumeration[key as StrictPropertyKey] = value as StrictPropertyKey
+    enumeration[value as StrictPropertyKey] = key
   })
   Object.freeze(enumeration)
   return enumeration as Enumeration<K, V>
@@ -43,7 +43,7 @@ export function enumerate<K extends JSObjectKeyStrict, V extends JSObjectKeyStri
  * but with additional flexibility of mutating the values.
  * @public
  */
-export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectKeyStrict> extends GCObject {
+export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPropertyKey> extends GCObject {
 
   /**
    * Underlying data of the enumeration.
@@ -60,7 +60,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    */
   constructor(entries: Record<K, V> = ({} as Record<K, V>)) {
     super()
-    forEachChild(entries, (key: JSObjectKeyStrict, value: JSObjectKeyStrict) => {
+    forEachInObject(entries, ({ key, value }) => {
       this.M$enumeration[key] = value
       this.M$enumeration[value] = key
     })
@@ -76,8 +76,8 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    * unaffected.
    */
   add(
-    key: JSObjectKeyStrict,
-    value: JSObjectKeyStrict
+    key: StrictPropertyKey,
+    value: StrictPropertyKey
   ): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
     newMutableEnumeration.M$enumeration[key] = value
@@ -95,7 +95,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    * @returns A new `MutableEnumeration` instance. The original instance remains
    * unaffected.
    */
-  remove(keyOrValue: JSObjectKeyStrict): MutableEnumeration<K, V> {
+  remove(keyOrValue: StrictPropertyKey): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
     const theOtherKeyOrValue = newMutableEnumeration.M$enumeration[keyOrValue]
     delete newMutableEnumeration.M$enumeration[keyOrValue]
@@ -121,7 +121,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    */
   get(value: V): K
 
-  get(keyOrValue: JSObjectKeyStrict): K | V {
+  get(keyOrValue: StrictPropertyKey): K | V {
     return this.M$enumeration[keyOrValue] as K | V
   }
 
@@ -144,7 +144,7 @@ export class MutableEnumeration<K extends JSObjectKeyStrict, V extends JSObjectK
    * @example
    * myMutableEnum.has(1)   // Check by value
    */
-  has(keyOrValue: JSObjectKeyStrict): boolean {
+  has(keyOrValue: StrictPropertyKey): boolean {
     return hasProperty(this.M$enumeration, keyOrValue)
   }
 

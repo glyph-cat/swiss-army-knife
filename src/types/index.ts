@@ -1,14 +1,27 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 /**
+ * @public
+ */
+export type KeyValuePair<Key, Value> = [Key, Value]
+
+/**
  * Valid data types that can be used as JavaScript object keys, EXCLUDING symbols.
  * @public
+ * @deprecated Please use {@link StrictPropertyKey} instead.
  */
 export type JSObjectKeyStrict = number | string
 
 /**
+ * Valid data types that can be used as JavaScript object keys, EXCLUDING symbols.
+ * @public
+ */
+export type StrictPropertyKey = number | string
+
+/**
  * Valid data types that can be used as JavaScript object keys.
  * @public
+ * @deprecated Please use TypeScript's built-in `PropertyKey` instead.
  */
 export type JSObjectKey = JSObjectKeyStrict | symbol
 
@@ -16,7 +29,7 @@ export type JSObjectKey = JSObjectKeyStrict | symbol
  * A representation of a generic JavaScript object.
  * @public
  */
-export type JSObject = Record<JSObjectKey, unknown>
+export type JSObject = Record<PropertyKey, unknown>
 
 /**
  * A representation of a generic JavaScript function.
@@ -38,6 +51,11 @@ export type Nullable<T> = T | null
  * @public
  */
 export type QuickHTMLProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
+
+/**
+ * @public
+ */
+export type Awaitable<T> = T | Promise<T>
 
 /**
  * @author Gerrit0

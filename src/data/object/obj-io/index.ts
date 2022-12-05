@@ -1,10 +1,9 @@
 import { hasProperty } from '../has-property'
 import { EMPTY_OBJECT } from '../../dummies'
-import { JSObjectKey } from '../../../types'
 
 export function objAt(
-  object: Record<JSObjectKey, unknown>,
-  path: Array<JSObjectKey>
+  object: Record<PropertyKey, unknown>,
+  path: Array<PropertyKey>
 ): unknown {
   let valueRef: unknown = object
   for (let i = 0; i < path.length; i++) {
@@ -17,7 +16,7 @@ export function objAt(
   return valueRef
 }
 
-export function objSet<O extends Record<JSObjectKey, unknown>>(
+export function objSet<O extends Record<PropertyKey, unknown>>(
   object: O,
   path: string,
   value: unknown

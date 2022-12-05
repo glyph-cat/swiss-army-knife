@@ -3,7 +3,6 @@ import { LazyVariable } from '../../../data/lazy-declare'
 import { DynamicTruthMap } from '../../../data/truth-map'
 import { isNumber, isString } from '../../../data/type-check'
 import { getRandomHash } from '../../../random/hash'
-import { JSObjectKey } from '../../../types'
 import { useRef } from '../lazy-ref'
 
 /**
@@ -39,7 +38,7 @@ function hasCollision(hash: string | number): boolean {
 export function __idFactory__(
   idType: number | typeof String | typeof Number | typeof Symbol,
   minimumLength?: number
-): () => JSObjectKey {
+): () => PropertyKey {
   return () => {
     minimumLength = minimumLength || 4
     if (isNumber(idType)) {
@@ -146,7 +145,7 @@ export function useComponentId(idType: typeof Symbol): symbol
 export function useComponentId(
   idType: number | typeof String | typeof Number | typeof Symbol,
   minimumLength?: number
-): JSObjectKey {
+): PropertyKey {
   const id = useRef(__idFactory__(idType, minimumLength))
   useEffect(() => {
     return () => {

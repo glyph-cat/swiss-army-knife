@@ -1,4 +1,4 @@
-import { JSObjectKeyStrict } from '../../types'
+import { StrictPropertyKey } from '../../types'
 import { GCObject } from '../../bases'
 
 /**
@@ -11,7 +11,7 @@ export type TruthMapKey<T> = T | (number & {}) | (string & {})
 /**
  * @public
  */
-export type TruthMapCore<K extends JSObjectKeyStrict> = Partial<Record<TruthMapKey<K>, true>>
+export type TruthMapCore<K extends StrictPropertyKey> = Partial<Record<TruthMapKey<K>, true>>
 
 /**
  * Allows checking existence of a value in an array, with near 0(1) performance
@@ -19,7 +19,7 @@ export type TruthMapCore<K extends JSObjectKeyStrict> = Partial<Record<TruthMapK
  * changed.
  * @public
  */
-export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
+export class FixedTruthMap<K extends StrictPropertyKey> extends GCObject {
 
   protected M$map: TruthMapCore<K>
   private M$nonDuplicatedKeys: Array<TruthMapKey<K>>
@@ -80,7 +80,7 @@ export class FixedTruthMap<K extends JSObjectKeyStrict> extends GCObject {
  * declaration.
  * @public
  */
-export class DynamicTruthMap<K extends JSObjectKeyStrict> extends FixedTruthMap<K>{
+export class DynamicTruthMap<K extends StrictPropertyKey> extends FixedTruthMap<K>{
 
   /**
    * @param keys - The values that will evaluate to be truthy when checking.

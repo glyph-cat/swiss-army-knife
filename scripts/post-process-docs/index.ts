@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import { name as PACKAGE_NAME } from '../../package.json'
-import { forEachChild } from '../../src/data/object/for-each/for-each-child'
+import { forEachInObject } from '../../src/data/object/for-each/in-object'
 
 // Example usage:
 // /**
@@ -26,7 +26,7 @@ console.log('Post-processing docs...')
 for (const filePath of FILES_TO_PROCESS) {
   console.log(` * ${filePath}`)
   let fileContents = fs.readFileSync(filePath, 'utf-8')
-  forEachChild(REPLACEMENTS, (replacementKey, replacementValue) => {
+  forEachInObject(REPLACEMENTS, ({ key: replacementKey, value: replacementValue }) => {
     fileContents = fileContents.replace(
       new RegExp(`{:${replacementKey}:}`, 'g'),
       replacementValue

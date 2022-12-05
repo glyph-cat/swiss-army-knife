@@ -1,5 +1,3 @@
-import { JSObjectKey } from '../../../types'
-
 /**
  * Checks if a property exists in an object.
  * @param object The object to check.
@@ -12,7 +10,7 @@ import { JSObjectKey } from '../../../types'
  */
 export function hasProperty(
   object: unknown,
-  propertyName: JSObjectKey
+  propertyName: PropertyKey
 ): boolean {
   return Object.prototype.hasOwnProperty.call(object, propertyName)
 }
@@ -20,7 +18,7 @@ export function hasProperty(
 // TODO: `hasDeepProperty`
 // export function hasDeepProperty(
 //   object: unknown,
-//   pathToPropertyName: JSObjectKey
+//   pathToPropertyName: PropertyKey
 // ): boolean {
 //   return
 // }

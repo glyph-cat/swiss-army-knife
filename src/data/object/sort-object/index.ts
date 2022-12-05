@@ -1,4 +1,4 @@
-import { JSObjectKeyStrict } from '../../../types'
+import { StrictPropertyKey } from '../../../types'
 
 /**
  * Sort an object by it's key or value.
@@ -18,7 +18,7 @@ import { JSObjectKeyStrict } from '../../../types'
  *   }
  * })
  */
-export function sortObject<O extends Record<JSObjectKeyStrict, unknown>>(
+export function sortObject<O extends Record<StrictPropertyKey, unknown>>(
   object: O,
   compareFn: (
     a: { key: keyof O, value: O[keyof O] },
