@@ -56,9 +56,9 @@ export function forEachInObjectToObject<SourceObject, DerivedKey extends Propert
       if (!Object.is(returnValue, breakSymbol)) {
         throw new BreakLoopSyntaxError(forEachInObjectToObject.name)
       }
-      breakSymbolGenerator.M$revoke(returnValue as symbol)
+      breakSymbolGenerator.M$revoke(returnValue as unknown as symbol)
       break
-    } else if (breakSymbolGenerator.M$has(returnValue as symbol)) {
+    } else if (breakSymbolGenerator.M$has(returnValue as unknown as symbol)) {
       throw new MismatchedBreakLoopError(forEachInObjectToObject.name)
     }
     if (!Object.is(returnValue, exclusionSymbol)) {
@@ -118,9 +118,9 @@ export async function forEachInObjectToObjectAsync<SourceObject, DerivedKey exte
       if (!Object.is(returnValue, breakSymbol)) {
         throw new BreakLoopSyntaxError(forEachInObjectToObjectAsync.name)
       }
-      breakSymbolGenerator.M$revoke(returnValue as symbol)
+      breakSymbolGenerator.M$revoke(returnValue as unknown as symbol)
       break
-    } else if (breakSymbolGenerator.M$has(returnValue as symbol)) {
+    } else if (breakSymbolGenerator.M$has(returnValue as unknown as symbol)) {
       throw new MismatchedBreakLoopError(forEachInObjectToObjectAsync.name)
     }
     if (!Object.is(returnValue, exclusionSymbol)) {

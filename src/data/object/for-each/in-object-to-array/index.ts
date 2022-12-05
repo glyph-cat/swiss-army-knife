@@ -56,9 +56,9 @@ export function forEachInObjectToArray<SourceObject, DerivedItem>(
       if (!Object.is(value, breakSymbol)) {
         throw new BreakLoopSyntaxError(forEachInObjectToArray.name)
       }
-      breakSymbolGenerator.M$revoke(value as symbol)
+      breakSymbolGenerator.M$revoke(value as unknown as symbol)
       break
-    } else if (breakSymbolGenerator.M$has(value as symbol)) {
+    } else if (breakSymbolGenerator.M$has(value as unknown as symbol)) {
       throw new MismatchedBreakLoopError(forEachInObjectToArray.name)
     }
     if (!Object.is(value, exclusionSymbol)) {
@@ -117,9 +117,9 @@ export async function forEachInObjectToArrayAsync<SourceObject, DerivedItem>(
       if (!Object.is(value, breakSymbol)) {
         throw new BreakLoopSyntaxError(forEachInObjectToArray.name)
       }
-      breakSymbolGenerator.M$revoke(value as symbol)
+      breakSymbolGenerator.M$revoke(value as unknown as symbol)
       break
-    } else if (breakSymbolGenerator.M$has(value as symbol)) {
+    } else if (breakSymbolGenerator.M$has(value as unknown as symbol)) {
       throw new MismatchedBreakLoopError(forEachInObjectToArray.name)
     }
     if (!Object.is(value, exclusionSymbol)) {
