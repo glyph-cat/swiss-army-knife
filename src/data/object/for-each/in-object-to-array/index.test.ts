@@ -6,11 +6,17 @@ import {
 import { generateTestCollection } from '../test-helpers'
 import { forEachInObjectToArray, forEachInObjectToArrayAsync } from '.'
 
+interface TestItem {
+  index: number
+  key: string
+  area: number
+}
+
 describe(forEachInObjectToArray.name, () => {
 
   test('Happy path', () => {
     const collection = generateTestCollection()
-    const output = forEachInObjectToArray(collection, ({ index, key, value, breakLoop, NOTHING }) => {
+    const output: Array<TestItem> = forEachInObjectToArray(collection, ({ index, key, value, breakLoop, NOTHING }) => {
       if (index === 2) {
         return NOTHING
       } else {
@@ -71,7 +77,7 @@ describe(forEachInObjectToArrayAsync.name, () => {
 
   test('Happy path', async () => {
     const collection = generateTestCollection()
-    const output = await forEachInObjectToArrayAsync(collection, async ({ index, key, value, breakLoop, NOTHING }) => {
+    const output: Array<TestItem> = await forEachInObjectToArrayAsync(collection, async ({ index, key, value, breakLoop, NOTHING }) => {
       if (index === 2) {
         return NOTHING
       } else {
@@ -125,51 +131,3 @@ describe(forEachInObjectToArrayAsync.name, () => {
   })
 
 })
-
-
-
-
-
-
-
-
-// describe(forEachInObjectToArrayAsync.name, () => {
-
-//   jest.useRealTimers()
-
-//   test('Happy path', async () => {
-//     const output = await forEachInObjectToArrayAsync(collection, async ({ key, value, breakLoop, NOTHING }) => {
-//       await delay(0)
-//       if (value.count === 2) {
-//         return NOTHING
-//       } else {
-//         if (value.count === 4) { return breakLoop() }
-//         return { id: key, count: value.count }
-//       }
-//     })
-//     expect(output).toStrictEqual([
-//       { id: 'id1', count: 1 },
-//       { id: 'id3', count: 3 },
-//     ])
-//   })
-
-//   test('Incorrect break loop syntax', async () => {
-//     const promise = forEachInObjectToArrayAsync(collection, async ({ breakLoop }) => {
-//       await delay(0)
-//       breakLoop()
-//       return
-//     })
-//     await expect(promise).rejects.toThrow(BreakLoopSyntaxError)
-//   })
-
-//   test('Mismatched break loop', async () => {
-//     const promise = forEachInObjectToArrayAsync(collection, async ({ breakLoop }) => {
-//       await forEachInObjectToArrayAsync(collection, async () => {
-//         await delay(0)
-//         return breakLoop()
-//       })
-//     })
-//     await expect(promise).rejects.toThrow(MismatchedBreakLoopError)
-//   })
-
-// })

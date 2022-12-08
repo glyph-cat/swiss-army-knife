@@ -36,7 +36,7 @@ export function forEachInObjectToObject<SourceObject, DerivedKey extends Propert
   const breakSymbol = breakSymbolGenerator.M$create()
   const exclusionSymbol = Symbol()
   let shouldBreakLoop = false
-  const breakLoop = () => {
+  const breakLoop = (): symbol => {
     if (shouldBreakLoop) {
       throw new MultipleBreakLoopError(forEachInObjectToObject.name)
     }
@@ -98,7 +98,7 @@ export async function forEachInObjectToObjectAsync<SourceObject, DerivedKey exte
   const breakSymbol = breakSymbolGenerator.M$create()
   const exclusionSymbol = Symbol()
   let shouldBreakLoop = false
-  const breakLoop = () => {
+  const breakLoop = (): symbol => {
     if (shouldBreakLoop) {
       throw new MultipleBreakLoopError(forEachInObjectToObjectAsync.name)
     }

@@ -6,11 +6,16 @@ import {
   MultipleBreakLoopError,
 } from '../errors'
 
+interface TestItem {
+  index: number
+  area: number
+}
+
 describe(forEachInObjectToObject.name, () => {
 
   test('Happy path', () => {
     const collection = generateTestCollection()
-    const output = forEachInObjectToObject(collection, ({ index, key, value, breakLoop, NOTHING }) => {
+    const output: Record<string, TestItem> = forEachInObjectToObject(collection, ({ index, key, value, breakLoop, NOTHING }) => {
       if (index === 2) {
         return NOTHING
       } else {
@@ -74,7 +79,7 @@ describe(forEachInObjectToObjectAsync.name, () => {
 
   test('Happy path', async () => {
     const collection = generateTestCollection()
-    const output = await forEachInObjectToObjectAsync(collection, async ({ index, key, value, breakLoop, NOTHING }) => {
+    const output: Record<string, TestItem> = await forEachInObjectToObjectAsync(collection, async ({ index, key, value, breakLoop, NOTHING }) => {
       if (index === 2) {
         return NOTHING
       } else {

@@ -29,7 +29,7 @@ import {
  */
 export function forEachInObjectToArray<SourceObject, DerivedItem>(
   sourceObject: SourceObject,
-  callback: (args: ForEachInObjectContinuableCallbackArguments<SourceObject>) => DerivedItem
+  callback: (args: ForEachInObjectContinuableCallbackArguments<SourceObject>) => DerivedItem | symbol
 ): Array<DerivedItem> {
   const payload = []
   const keyStack = Object.keys(sourceObject) as Array<keyof SourceObject>
@@ -90,7 +90,7 @@ export function forEachInObjectToArray<SourceObject, DerivedItem>(
  */
 export async function forEachInObjectToArrayAsync<SourceObject, DerivedItem>(
   sourceObject: SourceObject,
-  callback: (args: ForEachInObjectContinuableCallbackArguments<SourceObject>) => Awaitable<DerivedItem>
+  callback: (args: ForEachInObjectContinuableCallbackArguments<SourceObject>) => Awaitable<DerivedItem | symbol>
 ): Promise<Array<DerivedItem>> {
   const payload = []
   const keyStack = Object.keys(sourceObject) as Array<keyof SourceObject>
