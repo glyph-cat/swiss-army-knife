@@ -39,18 +39,19 @@ export type JSObject = Record<PropertyKey, unknown>
 export type JSFunction = (...args: Array<any>) => any
 
 /**
- * Use this to explicitly mark variables as nullable when `strictNullChecks` is
- * set to `true` in the `tsconfig.json` file.
+ * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the HTML
+ * Element.
  * @public
+ * @deprecated Use {@link ShorthandHTMLProps} instead.
  */
-export type Nullable<T> = T | null
+export type QuickHTMLProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
 
 /**
  * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the HTML
  * Element.
  * @public
  */
-export type QuickHTMLProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
+export type ShorthandHTMLProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
 
 /**
  * @public

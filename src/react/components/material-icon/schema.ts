@@ -1,6 +1,6 @@
 import { Property } from 'csstype'
 import { TextProps } from 'react-native'
-import { QuickHTMLProps } from '../../../types'
+import { ShorthandHTMLProps } from '../../../types'
 import { MaterialIconName } from './icon-name'
 
 /**
@@ -27,7 +27,7 @@ export interface MaterialIconProps {
    * Size of the icon (using the 'fontSize' property under the hood).
    * @defaultValue `'28px'`
    */
-  size?: QuickHTMLProps<HTMLSpanElement>['style']['fontSize']
+  size?: ShorthandHTMLProps<HTMLSpanElement>['style']['fontSize']
   /**
    * @defaultValue `'filled'`
    */
@@ -42,7 +42,7 @@ export interface MaterialIconProps {
    * - ❌ Windows
    * @defaultValue `{}`
    */
-  htmlProps?: QuickHTMLProps<HTMLSpanElement>
+  htmlProps?: ShorthandHTMLProps<HTMLSpanElement>
   /**
    * Props to be passed to the `<Text/>` component containing the icon.
    * @availability
