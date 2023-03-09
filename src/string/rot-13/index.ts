@@ -1,7 +1,6 @@
 import { enumerate } from '../../data/enumeration'
 import { LazyVariable } from '../../data/lazy-declare'
 import { isUndefined } from '../../data/type-check'
-import { isUpperCase } from '../case-checking'
 
 /**
  * Ciphers a string with rot-13.
@@ -14,19 +13,8 @@ import { isUpperCase } from '../case-checking'
 export function rot13(text: string): string {
   let cipheredString = ''
   for (let i = 0; i < text.length; i++) {
-    const charIsUpperCase = isUpperCase(text[i])
-    let cipheredChar = ROT_13_DICTIONARY.get()[charIsUpperCase
-      ? text[i].toLowerCase()
-      : text[i]
-    ]
-    if (isUndefined(cipheredChar)) {
-      cipheredString += text[i]
-    } else {
-      cipheredChar = charIsUpperCase
-        ? cipheredChar.toUpperCase()
-        : cipheredChar
-      cipheredString += cipheredChar
-    }
+    const cipheredChar = ROT_13_DICTIONARY.get()[text[i]]
+    cipheredString += isUndefined(cipheredChar) ? text[i] : cipheredChar
   }
   return cipheredString
 }
@@ -40,12 +28,25 @@ const ROT_13_DICTIONARY = new LazyVariable(() => enumerate({
   c: 'p',
   d: 'q',
   e: 'r',
-  g: 's',
-  f: 't',
+  f: 's',
+  g: 't',
   h: 'u',
   i: 'v',
   j: 'w',
   k: 'x',
   l: 'y',
   m: 'z',
+  A: 'N',
+  B: 'O',
+  C: 'P',
+  D: 'Q',
+  E: 'R',
+  F: 'S',
+  G: 'T',
+  H: 'U',
+  I: 'V',
+  J: 'W',
+  K: 'X',
+  L: 'Y',
+  M: 'Z',
 }))

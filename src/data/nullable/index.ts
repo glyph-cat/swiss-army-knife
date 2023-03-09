@@ -9,7 +9,7 @@ export type Nullable<T> = T | null
 
 /**
  * Converts a value to `null` if it is undefined.
- * @param value The value to check/convert.
+ * @param value - The value to check/convert.
  * @returns `null` if undefined, otherwise the orignal value.
  * @public
  */
