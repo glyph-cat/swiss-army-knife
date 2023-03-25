@@ -27,7 +27,7 @@ export function isFunction(value: unknown): value is JSFunction {
  * @public
  */
 export function isNaN(value: unknown): value is typeof NaN {
-  return isNaN(Object.is(value, NaN))
+  return Object.is(value, NaN)
 }
 
 /**
