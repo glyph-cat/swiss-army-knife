@@ -8,22 +8,8 @@ export type KeyValuePair<Key, Value> = [Key, Value]
 /**
  * Valid data types that can be used as JavaScript object keys, EXCLUDING symbols.
  * @public
- * @deprecated Please use {@link StrictPropertyKey} instead.
- */
-export type JSObjectKeyStrict = number | string
-
-/**
- * Valid data types that can be used as JavaScript object keys, EXCLUDING symbols.
- * @public
  */
 export type StrictPropertyKey = number | string
-
-/**
- * Valid data types that can be used as JavaScript object keys.
- * @public
- * @deprecated Please use TypeScript's built-in `PropertyKey` instead.
- */
-export type JSObjectKey = JSObjectKeyStrict | symbol
 
 /**
  * A representation of a generic JavaScript object.
@@ -37,14 +23,6 @@ export type JSObject = Record<PropertyKey, unknown>
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type JSFunction = (...args: Array<any>) => any
-
-/**
- * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the HTML
- * Element.
- * @public
- * @deprecated Use {@link ShorthandHTMLProps} instead.
- */
-export type QuickHTMLProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
 
 /**
  * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the HTML

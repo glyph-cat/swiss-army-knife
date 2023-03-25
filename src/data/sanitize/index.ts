@@ -60,31 +60,4 @@ export namespace Sanitize {
     return value.replace(/(^(\s|\n|\t)+|(\s|\n|\t)+$)/g, '')
   }
 
-  // export function removeLeadingCharacters(
-  //   value: string,
-  //   charactersToRemove: Array<string>
-  // ): string {
-  //   // TODO: How to control case sensitivity?
-  //   return value.replace(new RegExp('', 'g'), '')
-  // }
-
-  // export function removeTrailingCharacters(
-  //   value: string,
-  //   charactersToRemove: Array<string>
-  // ): string {
-  //   // TODO: How to control case sensitivity?
-  //   return value.replace(new RegExp('', 'g'), '')
-  // }
-
-  // export function removeLeadingAndTrailingCharacters(
-  //   value: string,
-  //   charactersToRemove: Array<string>
-  // ): string {
-  //   // TODO: How to control case sensitivity?
-  //   return removeTrailingCharacters(
-  //     removeLeadingCharacters(value, charactersToRemove),
-  //     charactersToRemove
-  //   )
-  // }
-
 }

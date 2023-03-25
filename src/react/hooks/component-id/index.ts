@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { LazyVariable } from '../../../data/lazy-declare'
+import { LazyVariable } from '../../../data/lazy-variable'
 import { DynamicTruthMap } from '../../../data/truth-map'
 import { isNumber, isString } from '../../../data/type-check'
 import { getRandomHash } from '../../../random/hash'

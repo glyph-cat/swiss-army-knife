@@ -1,7 +1,15 @@
-import { EMPTY_FUNCTION } from '../../data/dummies'
+import { PaymentPointerProps } from '.'
+import { useUnsupportedPlatformHandler } from '../../__internals__'
 
-export const usePaymentPointer = EMPTY_FUNCTION
+export function usePaymentPointer(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  paymentPointer: PaymentPointerProps['value']
+): void {
+  useUnsupportedPlatformHandler('Web monetization')
+}
 
-export function PaymentPointer(): JSX.Element {
+export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
+  const { value } = props
+  usePaymentPointer(value)
   return null
 }

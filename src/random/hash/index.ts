@@ -1,4 +1,3 @@
-import { isNumber } from '../../data/type-check'
 import { pickRandom } from '../pick'
 
 /**
@@ -22,8 +21,8 @@ export function getRandomHash(
   length: number,
   charset: string = HASH_CHARSET.DEFAULT
 ): string {
-  if (!isNumber(length) || length <= 0) {
-    throw new TypeError(`Invalid hash length: ${String(length)}`)
+  if (length <= 0) {
+    throw new RangeError(`Invalid hash length: ${length}`)
   }
   let hash = ''
   while (hash.length < length) {

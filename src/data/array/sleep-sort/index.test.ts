@@ -54,6 +54,6 @@
 
 // })
 
-test('', (): void => { expect('').toBe('') })
+test.skip('', (): void => { expect('').toBe('') })
 
 export { }

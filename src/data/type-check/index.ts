@@ -21,6 +21,16 @@ export function isFunction(value: unknown): value is JSFunction {
 }
 
 /**
+ * Determine if a value is `NaN`.
+ * @param value - The value to check.
+ * @returns A boolean indicating whether the value is `NaN`.
+ * @public
+ */
+export function isNaN(value: unknown): value is typeof NaN {
+  return isNaN(Object.is(value, NaN))
+}
+
+/**
  * Determine if a value is a number or `NaN`.
  * @param value - The value to check.
  * @returns A boolean indicating whether the value is a number or `NaN`.
@@ -37,7 +47,7 @@ export function isNumberOrNaN(value: unknown): value is number {
  * @public
  */
 export function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && !Object.is(value, NaN)
+  return typeof value === 'number' && !isNaN(value)
 }
 
 /**

@@ -27,7 +27,7 @@ export function useMediaQuery(query: string): boolean {
         _mq.addEventListener('change', forceUpdate)
         return () => { _mq.removeEventListener('change', forceUpdate) }
       } else if (isFunction(_mq.addListener)) {
-        // Deprecated API
+        // Deprecated API (fallback for old systems)
         _mq.addListener(forceUpdate)
         return () => { _mq.removeListener(forceUpdate) }
       }

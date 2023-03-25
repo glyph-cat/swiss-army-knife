@@ -43,4 +43,18 @@ export class LazyVariable<T> extends GCObject {
     return this.M$value
   }
 
+  /**
+   * Get the value of the lazy variable asynchronously.
+   * @returns A promise of the lazily instantiated variable.
+   * @example
+   * const someRef = new LazyVariable(() => fetch('...'))
+   * await someRef.getAsync()
+   */
+  async getAsync(): Promise<T> {
+    if (Object.is(this.M$value, EMPTY_OBJECT)) {
+      this.M$value = await this.M$factory()
+    }
+    return this.M$value
+  }
+
 }
