@@ -7,6 +7,7 @@ import { isNumber } from '../../../data'
  * @param refreshInterval - The interval at which the current {@link DateTime}
  * is refreshed.
  * @returns The current {@link DateTime}.
+ * @public
  */
 export function useCurrentDateTime(refreshInterval?: number): DateTime {
   const [currentDateTime, setCurrentDateTime] = useState<DateTime>(DateTime.now)
