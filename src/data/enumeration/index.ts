@@ -4,6 +4,26 @@ import { forEachInObject } from '../object/for-each/in-object'
 import { hasProperty } from '../object/has-property'
 
 /**
+ * "Autofill" key-value properties in enums where values are non-numeric.
+ * This mutates the original enum.
+ * @example
+ * enum SomeEnum {
+ *   FOO = 'a',
+ *   BAR = 'b',
+ * }
+ * console.log(SomeEnum[SomeEnum.a]) // undefined
+ * fullyEnumerate(SomeEnum)
+ * console.log(SomeEnum[SomeEnum.a]) // 'FOO'
+ * @public
+ */
+export function fullyEnumerate<Enum>(enumObj: Enum): void {
+  const allKeys = Object.keys(enumObj)
+  for (const key of allKeys) {
+    enumObj[enumObj[key]] = key
+  }
+}
+
+/**
  * @public
  */
 export type Enumeration<K extends StrictPropertyKey, V extends StrictPropertyKey> = Record<K | V, V | K>

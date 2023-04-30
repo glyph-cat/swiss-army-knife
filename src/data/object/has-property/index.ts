@@ -12,6 +12,7 @@ export function hasProperty(
   object: unknown,
   propertyName: PropertyKey
 ): boolean {
+  if (!object) { return false } // Early exit
   return Object.prototype.hasOwnProperty.call(object, propertyName)
 }
 

@@ -3,5 +3,8 @@
  * @public
  */
 export function concatClassNames(...classNames: Array<string>): string {
-  return classNames.filter((className) => !!className).join(' ').trim()
+  return classNames.filter((className) => !!className)
+    .join(' ')
+    .trim()
+    .replace(/\s+/g, ' ')
 }

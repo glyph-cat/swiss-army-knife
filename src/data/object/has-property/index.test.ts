@@ -24,4 +24,13 @@ describe(hasProperty.name, (): void => {
     expect(hasProperty(SAMPLE_OBJECT, 'baz')).toBe(false)
   })
 
+  test('Non-object types', (): void => {
+    expect(hasProperty(null, 'foo')).toBe(false)
+    expect(hasProperty(undefined, 'foo')).toBe(false)
+    expect(hasProperty(42, 'foo')).toBe(false)
+    // okay... weird:
+    expect(hasProperty(42, 'toString')).toBe(false)
+    expect(hasProperty(false, 'valueOf')).toBe(false)
+  })
+
 })

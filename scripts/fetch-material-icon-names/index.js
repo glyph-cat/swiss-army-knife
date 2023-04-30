@@ -17,34 +17,40 @@ async function runFetchMaterialIconNames() {
 
   // Init browser
   console.info('Initializing...')
-  console.log('puppeteer', puppeteer)
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({ slowMo: 500, headless: false })
   const page = await browser.newPage()
 
   // Go to Material Icons page
   console.info('Launching Material Icons page...')
   await page.goto('https://fonts.google.com/icons', { waitUntil: 'networkidle2' })
+
+  // This is how the page is structured and how it can be navigated as of 30 April 2023.
+
+  console.info('Switching from Material Symbols to Material Icons...')
+  // Default is now Material Symbols, we need to switch to Icons
+  await page.click('#main-content > icons-page > icons-toolbar > form > div > icons-toolbar-group.iconsets-group.right-border.ng-star-inserted > div > button')
+  await page.click('#mat-menu-panel-1 > div > div > button:nth-child(2)')
+
+  console.info('Scrolling through the page...')
   await scrollToBottomUntilCannotScrollAnymore(page)
-  await page.waitForSelector(
-    '#main-content > icons-page > icons-group:nth-child(21) > div > button:nth-child(4) > span.icon-asset.material-icons-outlined.ng-star-inserted'
-    // This is the last item in the page as of 03 December 2021
-  )
+  await page.waitForSelector('#main-content > icons-page > div.aside-container.ng-star-inserted > icons-group:nth-child(19) > div > button:nth-child(28)')
+  // This is the last item in the list so far.
 
   console.info('Getting icon names...')
-  const pageContent = await page.content()
-  // console.log('pageContent')
-  // console.log(pageContent)
-  const rawItemStack = pageContent.match(/class="icon-asset material-icons-outlined ng-star-inserted" style="">[a-z0-9_-]+</gi) || []
-
-  // Example of <span> element in the page when loaded
-  // <span _ngcontent-ano-c121="" class="icon-asset material-icons ng-star-inserted" style="">upgrade</span>
-
   /** @type {Array<string>} */
-  let quotedIconNameStack = []
-  for (const item of rawItemStack) {
-    const iconName = parseRawItem(item)
-    quotedIconNameStack.push(`'${iconName}'`)
+  let quotedIconNameStack = await page.evaluate(() => {
+    const arr = []
+    const stack = document.querySelectorAll('button[class="ng-star-inserted"] > span > span')
+    for (const item of stack) {
+      arr.push(`'${item.textContent}'`)
+    }
+    return arr
+  })
+  // console.log({ quotedIconNameStack })
+  if (quotedIconNameStack.length <= 0) {
+    throw new Error('Unable to find any icons')
   }
+
   quotedIconNameStack = [...new Set(quotedIconNameStack)]
   const now = new Date()
   fs.writeFileSync(
@@ -66,22 +72,13 @@ async function runFetchMaterialIconNames() {
     'utf-8',
   )
 
+  await page.close()
   await browser.close()
   console.log(`Fetched ${quotedIconNameStack.length} icon names`)
 
 }
 
 runFetchMaterialIconNames()
-
-/**
- * @param {string} value
- * @returns {string}
- */
-function parseRawItem(value) {
-  const frontSanitizedIconName = value.split(/">/)[1]
-  const fullySanitizedIconName = frontSanitizedIconName.replace(/<.*$/, '')
-  return fullySanitizedIconName
-}
 
 /**
  * @param {import('puppeteer').Page} page
@@ -95,7 +92,7 @@ async function scrollToBottomUntilCannotScrollAnymore(page) {
     while (documentHeight > scrollPosition) {
       window.scrollBy(0, documentHeight)
       await new Promise(resolve => {
-        setTimeout(resolve, 250 + Math.round(Math.random() * 750))
+        setTimeout(() => { resolve() }, 500)
       })
       scrollPosition = documentHeight
       documentHeight = document.body.scrollHeight

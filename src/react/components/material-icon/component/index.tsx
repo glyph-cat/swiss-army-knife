@@ -8,6 +8,7 @@ import {
   MaterialIconStyleSheetProps,
   MaterialIconVariant,
 } from '../schema'
+import { concatClassNames } from '../../../../styling'
 
 /**
  * A convenience wrapper component around the Material Icon fonts.
@@ -49,13 +50,13 @@ export function MaterialIcon({
   variant = MATERIAL_ICON_DEFAULTS.variant,
   htmlProps = EMPTY_OBJECT,
 }: MaterialIconProps): JSX.Element {
-  const { className = '', style, ...remaingHtmlProps } = htmlProps
+  const { className, style, ...remaingHtmlProps } = htmlProps
   return (
     <span
-      className={[
+      className={concatClassNames(
         getVariantSpecs(variant)[0],
         className,
-      ].join(' ')}
+      )}
       style={{
         ...(color ? { color } : {}),
         fontSize: size,
