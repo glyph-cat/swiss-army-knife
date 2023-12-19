@@ -1,4 +1,4 @@
-import { Animated } from 'react-native'
+import { Animated, DimensionValue } from 'react-native'
 import { EMPTY_FUNCTION, EMPTY_OBJECT } from '../../../../data/dummies'
 import {
   MATERIAL_ICON_DEFAULTS,
@@ -26,9 +26,9 @@ export function MaterialIcon({
         fontSize: size as number,
         fontStyle: 'normal',
         fontWeight: '400',
-        height: size,
+        height: size as DimensionValue,
         textTransform: 'none',
-        width: size,
+        width: size as DimensionValue,
         ...style as Record<string, unknown>,
       }}
       {...remainingNativeProps}

@@ -1,7 +1,7 @@
 /**
  * Checks if a property exists in an object.
- * @param object The object to check.
- * @param propertyName Name of property to check.
+ * @param object - The object to check.
+ * @param propertyName - Name of property to check.
  * @returns A boolean on whether the property exists or not.
  * @example
  * hasProperty({ foo: 'bar' }, 'foo') // true

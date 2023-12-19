@@ -10,8 +10,14 @@ import { exec } from 'child_process'
 import { getPackageInstallPaths } from './get-package-install-paths'
 
 const depStack = Object.keys(PKG_dependencies)
-const devDepStack = Object.keys(PKG_devDependencies)
+const devDepStack = Object.keys(PKG_devDependencies).filter(item => {
+  const exclusionList = [
+    'rollup-plugin-typescript2', // https://stackoverflow.com/a/73784872/5810737
+  ]
+  return exclusionList!.includes(item)
+})
 const allDepStack = [...depStack, ...devDepStack]
+
 
 const command = [
   `yarn remove ${allDepStack.join(' ')}`,

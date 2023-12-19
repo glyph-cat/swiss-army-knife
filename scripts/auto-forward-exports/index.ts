@@ -8,6 +8,7 @@ import * as fs from 'fs'
 
 const directoriesToProcess = [
   './src',
+  './src/dom',
   './src/data',
   './src/data/array',
   './src/data/object',

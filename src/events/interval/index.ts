@@ -1,4 +1,5 @@
 import { GCObject } from '../../bases'
+import { isFunction, isNumber } from '../../data'
 import { devError } from '../../dev'
 import { JSFunction } from '../../types'
 import { delay } from '../delay'
@@ -31,6 +32,7 @@ export class VaryingInterval extends GCObject {
    */
   start(interval: number): void {
     this.stop()
+    // @ts-expect-error Not sure why return type is different
     this.M$intervalRef = setInterval(this.M$callback, interval)
   }
 
@@ -50,8 +52,8 @@ export class VaryingInterval extends GCObject {
 export class LongPollingInterval extends GCObject {
 
   private M$shouldRun: boolean
-  private M$callback: JSFunction
-  private M$interval: number
+  private readonly M$callback: JSFunction
+  private readonly M$interval: number | (() => number)
 
   /**
    * @param callback - The callback to run.
@@ -60,19 +62,41 @@ export class LongPollingInterval extends GCObject {
    * @example
    * const myLongPollingInterval = new LongPollingInterval(
    *   () => { fetchSomeDataAndUpdateState() },
-   *   3000
+   *   3000 // Fixed interval
+   * )
+   * @example
+   * const myLongPollingInterval = new LongPollingInterval(
+   *   () => { fetchSomeDataAndUpdateState() },
+   *   () => (1 + Math.floor(Math.random() * 10)) * 1000
+   *   // Random interval between 1 to 10 seconds
    * )
    */
   constructor(callback: JSFunction, interval: number) {
     super()
     this.M$callback = callback
     this.M$interval = interval
+    this.start = this.start.bind(this)
+    this.stop = this.stop.bind(this)
   }
 
-  private async M$runLoop(): Promise<void> {
+  private M$getInterval = (): number => {
+    if (isNumber(this.M$interval)) {
+      return this.M$interval
+    } else if (isFunction(this.M$interval)) {
+      const generatedInterval = this.M$interval()
+      if (!isNumber(generatedInterval)) {
+        throw new Error(`Generated interval is invalid: ${String(generatedInterval)}`)
+      }
+      return generatedInterval
+    } else {
+      throw new Error(`Invalid interval: ${String(this.M$interval)}`)
+    }
+  }
+
+  private M$runLoop = async (): Promise<void> => {
     while (this.M$shouldRun) {
       const callbackPromise = this.M$callback()
-      const delayPromise = delay(this.M$interval)
+      const delayPromise = delay(this.M$getInterval())
       await Promise.all([callbackPromise, delayPromise])
       // Explanation:
       // If callback completes early, wait for delay
@@ -82,10 +106,7 @@ export class LongPollingInterval extends GCObject {
 
   async start(): Promise<void> {
     if (this.M$shouldRun) {
-      devError(
-        `($id: ${this.$id}) Cannot start a long polling ` +
-        'interval that is already running.'
-      )
+      devError(`${LongPollingInterval.name} ($id: ${this.$id}) is already running.`)
       return // Early exit
     }
     this.M$shouldRun = true
