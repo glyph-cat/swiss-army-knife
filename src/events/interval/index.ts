@@ -51,8 +51,19 @@ export class VaryingInterval extends GCObject {
  */
 export class LongPollingInterval extends GCObject {
 
+  /**
+   * @internal
+   */
   private M$shouldRun: boolean
+
+  /**
+   * @internal
+   */
   private readonly M$callback: JSFunction
+
+  /**
+   * @internal
+   */
   private readonly M$interval: number | (() => number)
 
   /**
@@ -71,7 +82,7 @@ export class LongPollingInterval extends GCObject {
    *   // Random interval between 1 to 10 seconds
    * )
    */
-  constructor(callback: JSFunction, interval: number) {
+  constructor(callback: JSFunction, interval: number | (() => number)) {
     super()
     this.M$callback = callback
     this.M$interval = interval
@@ -79,6 +90,9 @@ export class LongPollingInterval extends GCObject {
     this.stop = this.stop.bind(this)
   }
 
+  /**
+   * @internal
+   */
   private M$getInterval = (): number => {
     if (isNumber(this.M$interval)) {
       return this.M$interval
@@ -93,6 +107,9 @@ export class LongPollingInterval extends GCObject {
     }
   }
 
+  /**
+   * @internal
+   */
   private M$runLoop = async (): Promise<void> => {
     while (this.M$shouldRun) {
       const callbackPromise = this.M$callback()
