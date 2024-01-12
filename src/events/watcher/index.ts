@@ -60,11 +60,21 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
     this.M$watcherCollection[currentSubscriberId] = callback
     this.M$watchersAdded += 1
     const unwatch = (): void => {
+      if (!this.M$watcherCollection[currentSubscriberId]) { return } // Early exit
       delete this.M$watcherCollection[currentSubscriberId]
       this.M$watchersRemoved += 1
     }
     return unwatch
   }
+
+  // KIV
+  // watchOnce(callback: WatcherCallback<A>): UnwatchCallback {
+  //   const unwatch = this.watch((...args) => {
+  //     callback(...args)
+  //     unwatch()
+  //   })
+  //   return unwatch
+  // }
 
   /**
    * Forcecully remove all watchers.
@@ -96,7 +106,7 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * @returns A object containing the number of watchers added and those that
    * have been removed.
    */
-  getStats(): WatcherStats {
+  get stats(): WatcherStats {
     return {
       count: {
         active: this.M$watchersAdded,

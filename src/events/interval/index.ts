@@ -9,7 +9,14 @@ import { delay } from '../delay'
  */
 export class VaryingInterval extends GCObject {
 
+  /**
+   * @internal
+   */
   private M$callback: JSFunction
+
+  /**
+   * @internal
+   */
   private M$intervalRef: ReturnType<typeof setInterval>
 
   /**
@@ -69,7 +76,8 @@ export class LongPollingInterval extends GCObject {
   /**
    * @param callback - The callback to run.
    * @param interval - The interval at which the callback will be invoked in
-   * milliseconds.
+   * milliseconds. Can be a fixed number or a function that returns a different
+   * number each time it is called.
    * @example
    * const myLongPollingInterval = new LongPollingInterval(
    *   () => { fetchSomeDataAndUpdateState() },
