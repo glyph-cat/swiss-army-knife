@@ -77,6 +77,7 @@ lib
 # Temporary
 *.cache*
 *.draft*
+*.old*
 *.secret*
 *.scripted*
 temp/

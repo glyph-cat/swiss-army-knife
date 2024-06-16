@@ -3284,6 +3284,16 @@ cosmiconfig@^5.0.5, cosmiconfig@^5.1.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
+cotton-box-react@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.1.0.tgz#1b344edbdb807669e14e9347394e906e8e9cd211"
+  integrity sha512-rEPH6+/lpEVA7Q8OIZ3aAuN+svGMCK8MA+1sRBYzLeDyOh/kNbwmAeRBqf9cHyulzv5a5oJe+2rsvm5tPuQjEA==
+
+cotton-box@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/cotton-box/-/cotton-box-0.1.0.tgz#0505d723f715dbfc70353eceea0f5939cd5d80a0"
+  integrity sha512-Rap0QQK6x0U9IqQlcNIYYTfY2ADPW8jfnasBHDxP1Gp8DqlrDo8zzsXDzPf98HJHYOjRIDy1cjgI9MmGV9kb1g==
+
 create-jest@^29.7.0:
   version "29.7.0"
   resolved "https://registry.yarnpkg.com/create-jest/-/create-jest-29.7.0.tgz#a355c5b3cb1e1af02ba177fe7afd7feee49a5320"
@@ -7004,13 +7014,6 @@ react-refresh@^0.4.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
-react-relink@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/react-relink/-/react-relink-4.3.0.tgz#dc4397212159657c0f5237b8fb068427fdb5216c"
-  integrity sha512-GHLuae31xLTrDv14JIct2vAhrHUu2m1258UeAyh27V+WQoSULaNltodriflMZ6pJjAo4VXrp7gmPo7Av0Pa96A==
-  dependencies:
-    use-sync-external-store "^1.2.0"
-
 react-router-dom@^6.21.0:
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.21.0.tgz#aa4c6bc046a8e8723095bc09b3c0ab2254532712"
@@ -8126,11 +8129,6 @@ urlpattern-polyfill@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/urlpattern-polyfill/-/urlpattern-polyfill-9.0.0.tgz#bc7e386bb12fd7898b58d1509df21d3c29ab3460"
   integrity sha512-WHN8KDQblxd32odxeIgo83rdVDE2bvdkb86it7bMhYZwWKJz0+O0RK/eZiHYnM+zgt/U7hAHOlCQGfjjvSkw2g==
-
-use-sync-external-store@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
-  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

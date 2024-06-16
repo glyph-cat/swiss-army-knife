@@ -22,7 +22,7 @@ export function RenderInClientOnly(
   props: RenderInClientOnlyProps
 ): JSX.Element {
   const { children } = props
-  const [selfIsMounted, setMoutedStatus] = useState(false)
-  useEffect(() => { setMoutedStatus(true) }, [])
+  const [selfIsMounted, setMountedStatus] = useState(false)
+  useEffect(() => { setMountedStatus(true) }, [])
   return selfIsMounted ? children as JSX.Element : null
 }

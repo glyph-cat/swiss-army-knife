@@ -1,31 +1,27 @@
+import { SimpleStateManager } from 'cotton-box'
+import { useSimpleStateValue } from 'cotton-box-react'
 import { Children, ElementType, Fragment, ReactNode, useEffect } from 'react'
-import { RelinkSource, useRelinkValue } from 'react-relink'
 import { devWarn } from '../../../dev'
 import { useRef } from '../../hooks/lazy-ref'
-import { PortalSet, PortalStateData, PORTAL_TYPE } from './schema'
+import { IPortalFactoryState, PortalType } from './schema'
 
-/**
- * @internal
- */
-function createPortalSet(): PortalSet {
-  let portalIdCounter = 0
+export class PortalFactory {
 
-  const PortalSource = new RelinkSource<PortalStateData>({
-    key: Symbol('Portal'),
-    default: {},
-  })
+  private portalIdCounter = 0
 
-  const renderInPortal = async (
+  private state = new SimpleStateManager<IPortalFactoryState>({})
+
+  render(
     element: ElementType,
     props: Record<string, unknown>,
     children?: ReactNode
-  ): Promise<number> => {
-    const portalId = ++portalIdCounter
-    await PortalSource.set((scopedState) => {
+  ): number {
+    const portalId = ++this.portalIdCounter
+    this.state.set((currentState) => {
       return {
-        ...scopedState,
+        ...currentState,
         [portalId]: {
-          type: PORTAL_TYPE.params,
+          type: PortalType.PARAMS,
           element,
           props,
           children,
@@ -35,8 +31,8 @@ function createPortalSet(): PortalSet {
     return portalId
   }
 
-  const removeFromPortal = async (portalId: number): Promise<void> => {
-    await PortalSource.set((scopedState) => {
+  remove(portalId: number): void {
+    this.state.set((scopedState) => {
       const {
         [portalId]: itemToExclude,
         ...remainingState
@@ -45,23 +41,23 @@ function createPortalSet(): PortalSet {
     })
   }
 
-  const Portal = ({ children }): JSX.Element => {
+  Portal = ({ children }: { children: ReactNode }): JSX.Element => {
     // Only 1 children is allowed
     Children.only(children)
-    const portalId = useRef(() => ++portalIdCounter)
+    const portalId = useRef(() => ++this.portalIdCounter)
     useEffect(() => {
-      PortalSource.set((scopedState) => {
+      this.state.set((scopedState) => {
         return {
           ...scopedState,
           [portalId.current]: {
             children,
-            type: PORTAL_TYPE.jsx,
+            type: PortalType.JSX,
           },
         }
       })
       const portalId_current = portalId.current
       return () => {
-        PortalSource.set((scopedState) => {
+        this.state.set((scopedState) => {
           const {
             [portalId_current]: itemToExclude,
             ...remainingState
@@ -73,19 +69,19 @@ function createPortalSet(): PortalSet {
     return null
   }
 
-  const Canvas = (): JSX.Element => {
-    const portalState = useRelinkValue(PortalSource)
+  Canvas = (): JSX.Element => {
+    const portalState = useSimpleStateValue(this.state)
     const dataStack = Object.values(portalState)
     const renderStack = []
     for (const index in dataStack) {
       const data = dataStack[index]
-      if (data.type === PORTAL_TYPE.jsx) {
+      if (data.type === PortalType.JSX) {
         renderStack.push(
           <Fragment key={index}>
             {data.children}
           </Fragment>
         )
-      } else if (data.type === PORTAL_TYPE.params) {
+      } else if (data.type === PortalType.PARAMS) {
         const { element: Element, props, children = null } = data
         renderStack.push(
           <Element
@@ -99,20 +95,7 @@ function createPortalSet(): PortalSet {
         devWarn(`Unrecognized portal type '${data['type']}'`)
       }
     }
-    return (
-      <Fragment>
-        {renderStack}
-      </Fragment>
-    )
+    return <>{renderStack}</>
   }
 
-  return {
-    Source: PortalSource,
-    Canvas,
-    Portal,
-    renderInPortal,
-    removeFromPortal,
-  }
 }
-
-export default createPortalSet

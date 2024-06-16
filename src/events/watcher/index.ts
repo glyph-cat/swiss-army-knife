@@ -77,7 +77,7 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
   // }
 
   /**
-   * Forcecully remove all watchers.
+   * Forcefully remove all watchers.
    * @example
    * myWatcher.unwatchAll()
    */
