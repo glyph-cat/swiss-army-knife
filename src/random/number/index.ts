@@ -1,5 +1,3 @@
-import { TESTSAFE_random } from '../../__internals__'
-
 /**
  * Get random number between the lower and upper bounds, but excluding the upper
  * bound. The function is designed this way to make it easier to work with,
@@ -22,5 +20,5 @@ export function getRandomNumber(
   // ^ Designed this way to make it easy to use with arrays
 ): number {
   const padding = upperBoundExclusive - lowerBoundInclusive
-  return lowerBoundInclusive + Math.floor(TESTSAFE_random() * padding)
+  return lowerBoundInclusive + Math.floor(Math.random() * padding)
 }

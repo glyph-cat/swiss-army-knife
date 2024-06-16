@@ -1,6 +1,10 @@
 import { getRandomNumber } from '.'
 
 test(getRandomNumber.name, (): void => {
-  const output = getRandomNumber(5, 10)
-  expect(output).toBe(7)
+  for (let i = 0; i < 50; i++) {
+    const output = getRandomNumber(5, 10)
+    if (!(output >= 5 && output < 10)) {
+      throw new Error(`[Attempt#${String(i).padStart(2, '0')}] Expected output to be >=5 && < 10, but got: ${output}.`)
+    }
+  }
 })
