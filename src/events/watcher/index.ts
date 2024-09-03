@@ -1,4 +1,3 @@
-import { GCObject } from '../../bases'
 import { JSFunction } from '../../types'
 
 /**
@@ -30,21 +29,14 @@ export interface WatcherStats {
 /**
  * @public
  * @example
+ * const myWatcher = new Watcher<[number]>()
  */
-export class Watcher<A extends Array<unknown>> extends GCObject {
+export class Watcher<A extends Array<unknown>> {
 
   private M$watcherCollection: Record<number, CallableFunction> = {}
   private M$watchersAdded = 0
   private M$watchersRemoved = 0
   private M$counter = 0
-
-  /**
-   * @example
-   * const myWatcher = new Watcher<[number]>()
-   */
-  constructor() {
-    super()
-  }
 
   /**
    * Accepts a callback and start watching for changes. The callback will be
@@ -56,7 +48,7 @@ export class Watcher<A extends Array<unknown>> extends GCObject {
    * })
    */
   watch(callback: WatcherCallback<A>): UnwatchCallback {
-    const currentSubscriberId = `${this.$id}_${++this.M$counter}`
+    const currentSubscriberId = ++this.M$counter
     this.M$watcherCollection[currentSubscriberId] = callback
     this.M$watchersAdded += 1
     const unwatch = (): void => {

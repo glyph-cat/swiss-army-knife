@@ -1,4 +1,3 @@
-import { GCObject } from '../../bases'
 import { clampedPush } from '../../data/array/clamp'
 import { devError } from '../../dev'
 import { clamp } from '../../math/clamp'
@@ -22,9 +21,8 @@ export const MINIMUM_TIME_ESTIMATOR_CACHE_SIZE = 2
  * A utility for estimating the remaining time for an action.
  * @public
  */
-export class TimeEstimator extends GCObject {
+export class TimeEstimator {
 
-  private M$cacheSize: number
   private M$snapshotStack: Array<[progress: number, timeStamp: number]> = []
   private M$alreadyCompleted = false
 
@@ -33,8 +31,7 @@ export class TimeEstimator extends GCObject {
    * @example
    * const myTimeEstimator = new TimeEstimator()
    */
-  constructor(cacheSize = MINIMUM_TIME_ESTIMATOR_CACHE_SIZE) {
-    super()
+  constructor(private readonly cacheSize: number = MINIMUM_TIME_ESTIMATOR_CACHE_SIZE) {
     // Error is not thrown because this is just a time estimation utility.
     // Even with a decent cache size, the estimation might still be wrong.
     // It makes more sense to throw an error only when we rather prefer the
@@ -45,7 +42,7 @@ export class TimeEstimator extends GCObject {
         `but got ${cacheSize}. Automatically setting to ${MINIMUM_TIME_ESTIMATOR_CACHE_SIZE}.`
       )
     }
-    this.M$cacheSize = Math.max(cacheSize, MINIMUM_TIME_ESTIMATOR_CACHE_SIZE)
+    this.cacheSize = Math.max(cacheSize, MINIMUM_TIME_ESTIMATOR_CACHE_SIZE)
   }
 
   /**
@@ -58,7 +55,7 @@ export class TimeEstimator extends GCObject {
       this.M$alreadyCompleted = true
       return // Early exit
     }
-    this.M$snapshotStack = clampedPush(this.M$cacheSize, [[
+    this.M$snapshotStack = clampedPush(this.cacheSize, [[
       clamp(progress, MIN_PROGRESS, MAX_PROGRESS),
       Date.now() // TESTSAFE_getDateNow(),
     ]], this.M$snapshotStack)

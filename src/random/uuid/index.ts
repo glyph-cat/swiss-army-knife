@@ -1,16 +1,13 @@
-import { GCObject } from '../../bases'
 import { HASH_CHARSET, getRandomHash } from '../hash'
 
 /**
  * @public
  */
-export class UUIDFactory extends GCObject {
+export class UUIDFactory {
 
   private M$history: Record<string, true> = {}
 
-  constructor(private readonly retainHistory: boolean = true) {
-    super()
-  }
+  constructor(private readonly retainHistory: boolean = true) { }
 
   generate(): string {
     let uuid: string

@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes } from 'react'
+import { DetailedHTMLProps, HTMLAttributes, InputHTMLAttributes } from 'react'
 
 /**
  * @public
@@ -25,11 +25,24 @@ export type JSObject = Record<PropertyKey, unknown>
 export type JSFunction = (...args: Array<any>) => any
 
 /**
- * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the HTML
- * Element.
+ * A shorthand for `DetailedHTMLProps<HTMLAttributes<T>, T>` where T is the
+ * HTML Element.
  * @public
  */
 export type ShorthandHTMLProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
+
+/**
+ * A shorthand for `DetailedHTMLProps<InputHTMLAttributes<T>, T>` where T is the
+ * HTML Input Element.
+ * @public
+ */
+export type ShorthandInputHTMLProps<T> = DetailedHTMLProps<InputHTMLAttributes<T>, T>
+
+/**
+ * @public
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type LenientString<T> = T | (string & {})
 
 /**
  * @public

@@ -1,4 +1,3 @@
-import { GCObject } from '../../bases'
 import { StrictPropertyKey } from '../../types'
 import { forEachInObject } from '../object/for-each/in-object'
 import { hasProperty } from '../object/has-property'
@@ -63,7 +62,7 @@ export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyK
  * but with additional flexibility of mutating the values.
  * @public
  */
-export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPropertyKey> extends GCObject {
+export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPropertyKey> {
 
   /**
    * Underlying data of the enumeration.
@@ -79,7 +78,6 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
    * })
    */
   constructor(entries: Record<K, V> = ({} as Record<K, V>)) {
-    super()
     forEachInObject(entries, ({ key, value }) => {
       this.M$enumeration[key] = value
       this.M$enumeration[value] = key

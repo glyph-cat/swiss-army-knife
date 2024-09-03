@@ -1,4 +1,3 @@
-import { GCObject } from '../../bases'
 import { isFunction, isNumber } from '../../data'
 import { devError } from '../../dev'
 import { JSFunction } from '../../types'
@@ -7,7 +6,7 @@ import { delay } from '../delay'
 /**
  * @public
  */
-export class VaryingInterval extends GCObject {
+export class VaryingInterval {
 
   /**
    * @internal
@@ -26,10 +25,7 @@ export class VaryingInterval extends GCObject {
    *   console.log('Hello, world!')
    * })
    */
-  constructor(callback: JSFunction) {
-    super()
-    this.M$callback = callback
-  }
+  constructor(protected readonly callback: JSFunction) { }
 
   /**
    * Run the callback with an interval. If there is an interval already exists,
@@ -56,7 +52,7 @@ export class VaryingInterval extends GCObject {
 /**
  * @public
  */
-export class LongPollingInterval extends GCObject {
+export class LongPollingInterval {
 
   /**
    * @internal
@@ -91,7 +87,6 @@ export class LongPollingInterval extends GCObject {
    * )
    */
   constructor(callback: JSFunction, interval: number | (() => number)) {
-    super()
     this.M$callback = callback
     this.M$interval = interval
     this.start = this.start.bind(this)
@@ -131,7 +126,7 @@ export class LongPollingInterval extends GCObject {
 
   async start(): Promise<void> {
     if (this.M$shouldRun) {
-      devError(`${LongPollingInterval.name} ($id: ${this.$id}) is already running.`)
+      devError(`${LongPollingInterval.name} is already running.`)
       return // Early exit
     }
     this.M$shouldRun = true

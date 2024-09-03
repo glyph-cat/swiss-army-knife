@@ -1,16 +1,13 @@
-import { GCObject } from '../../bases'
-import { EMPTY_OBJECT } from '../dummies'
-
 /**
  * Allows the declaration of a variable lazily. Constructor or functions that
  * initializes the data will not be run until is is needed (when `.get()` is
  * called).
  * @public
  */
-export class LazyVariable<T> extends GCObject {
+export class LazyVariable<T> {
 
-  private M$value: T
-  private M$factory: () => T
+  private M$value: T = null
+  private M$isInitialized = false
 
   /**
    * @param factory - The function that returns the initialized data.
@@ -21,11 +18,7 @@ export class LazyVariable<T> extends GCObject {
    * // Or just pass the function itself if there are no parameters.
    * const foo = new LazyVariable(createFoo)
    */
-  constructor(factory: () => T) {
-    super()
-    this.M$value = EMPTY_OBJECT as T
-    this.M$factory = factory
-  }
+  constructor(private readonly factory: () => T) { }
 
   /**
    * Get the value of the lazy variable.
@@ -37,8 +30,9 @@ export class LazyVariable<T> extends GCObject {
    * animationRef.get()
    */
   get(): T {
-    if (Object.is(this.M$value, EMPTY_OBJECT)) {
-      this.M$value = this.M$factory()
+    if (!this.M$isInitialized) {
+      this.M$value = this.factory()
+      this.M$isInitialized = true
     }
     return this.M$value
   }
@@ -51,10 +45,7 @@ export class LazyVariable<T> extends GCObject {
    * await someRef.getAsync()
    */
   async getAsync(): Promise<T> {
-    if (Object.is(this.M$value, EMPTY_OBJECT)) {
-      this.M$value = await this.M$factory()
-    }
-    return this.M$value
+    return await this.get()
   }
 
 }

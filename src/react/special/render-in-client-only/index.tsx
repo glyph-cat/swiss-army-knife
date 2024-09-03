@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react'
 /**
  * @public
  */
-export interface RenderInClientOnlyProps {
+export interface ClientOnlyProps {
   children: ReactNode
 }
 
@@ -18,8 +18,8 @@ export interface RenderInClientOnlyProps {
  * @see https://github.com/vercel/next.js/discussions/17443#discussioncomment-637879
  * @public
  */
-export function RenderInClientOnly(
-  props: RenderInClientOnlyProps
+export function ClientOnly(
+  props: ClientOnlyProps
 ): JSX.Element {
   const { children } = props
   const [selfIsMounted, setMountedStatus] = useState(false)

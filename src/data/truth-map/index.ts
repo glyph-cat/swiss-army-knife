@@ -1,5 +1,4 @@
 import { StrictPropertyKey } from '../../types'
-import { GCObject } from '../../bases'
 
 /**
  * @public
@@ -19,7 +18,7 @@ export type TruthMapCore<K extends StrictPropertyKey> = Partial<Record<TruthMapK
  * changed.
  * @public
  */
-export class FixedTruthMap<K extends StrictPropertyKey> extends GCObject {
+export class FixedTruthMap<K extends StrictPropertyKey> {
 
   protected M$map: TruthMapCore<K>
   private M$nonDuplicatedKeys: Array<TruthMapKey<K>>
@@ -30,7 +29,6 @@ export class FixedTruthMap<K extends StrictPropertyKey> extends GCObject {
    * const myFixedTruthMap = new FixedTruthMap(['foo', 'bar'])
    */
   constructor(keys: Array<TruthMapKey<K>>) {
-    super()
     this.M$map = {}
     this.M$nonDuplicatedKeys = [...new Set(keys)]
     for (let i = 0; i < this.M$nonDuplicatedKeys.length; i++) {

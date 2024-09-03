@@ -1,4 +1,3 @@
-import { GCObject } from '../../bases'
 import { JSFunction } from '../../types'
 
 /**
@@ -23,9 +22,8 @@ export function delay(time: number): Promise<void> {
  * flexibility, use `delay` instead, which consumes less system resources.
  * @public
  */
-export class AdjustableDelay extends GCObject {
+export class AdjustableDelay {
 
-  private M$time: number
   private M$timeoutRef: ReturnType<typeof setTimeout>
   private M$resolveRef: JSFunction
 
@@ -34,10 +32,7 @@ export class AdjustableDelay extends GCObject {
    * @example
    * const myAdjustableDelay = new AdjustableDelay()
    */
-  constructor(time: number) {
-    super()
-    this.M$time = time
-  }
+  constructor(private readonly time: number) { }
 
   /**
    * Run the delay.
@@ -47,7 +42,7 @@ export class AdjustableDelay extends GCObject {
   now(): Promise<void> {
     return new Promise((resolve) => {
       this.M$resolveRef = resolve
-      this.M$timeoutRef = setTimeout(() => { resolve() }, this.M$time)
+      this.M$timeoutRef = setTimeout(() => { resolve() }, this.time)
     })
   }
 

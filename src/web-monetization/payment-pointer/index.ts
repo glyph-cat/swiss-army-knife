@@ -1,4 +1,3 @@
-import { GCObject } from '../../bases'
 import { isFunction } from '../../data/type-check'
 import { useLayoutEffect } from '../../react/hooks/isomorphic-layout-effect'
 
@@ -9,18 +8,14 @@ const META_NAME = 'monetization'
 /**
  * @public
  */
-export class PaymentPointerProtector extends GCObject {
+export class PaymentPointerProtector {
 
-  private M$paymentPointer: string
   private M$metaTagElement: HTMLMetaElement
   private M$metaObserver: MutationObserver
   private M$headObserver: MutationObserver
   // KIV: Properties 'name' and 'content' do not exist under mutationStack[number].target
 
-  constructor(paymentPointer: PaymentPointerProps['value']) {
-    super()
-    this.M$paymentPointer = paymentPointer
-  }
+  constructor(readonly paymentPointer: PaymentPointerProps['value']) { }
 
   private M$onMetaMutated(mutationStack: Array<MutationRecord>): void {
     // This makes the element seem like a read-only tag because attribute values
@@ -29,8 +24,8 @@ export class PaymentPointerProtector extends GCObject {
       if (mutation.target[ATTR_NAME] !== META_NAME) {
         mutation.target[ATTR_NAME] = META_NAME
       }
-      if (mutation.target[ATTR_CONTENT] !== this.M$paymentPointer) {
-        mutation.target[ATTR_CONTENT] = this.M$paymentPointer
+      if (mutation.target[ATTR_CONTENT] !== this.paymentPointer) {
+        mutation.target[ATTR_CONTENT] = this.paymentPointer
       }
     }
   }
@@ -38,7 +33,7 @@ export class PaymentPointerProtector extends GCObject {
   private M$startMetaObserver(): void {
     this.M$metaTagElement = document.createElement('meta')
     this.M$metaTagElement.name = META_NAME
-    this.M$metaTagElement.content = this.M$paymentPointer
+    this.M$metaTagElement.content = this.paymentPointer
     document.head.appendChild(this.M$metaTagElement)
     this.M$metaObserver = new MutationObserver(this.M$onMetaMutated)
     this.M$metaObserver.observe(this.M$metaTagElement, { attributes: true })
@@ -64,7 +59,7 @@ export class PaymentPointerProtector extends GCObject {
         // In case own payment pointer is deleted
         if (
           removedNode[ATTR_NAME] === META_NAME &&
-          removedNode[ATTR_CONTENT] === this.M$paymentPointer
+          removedNode[ATTR_CONTENT] === this.paymentPointer
         ) {
           this.M$stopMetaObserver()
           this.M$startMetaObserver() // New tag is created in the process
@@ -74,7 +69,7 @@ export class PaymentPointerProtector extends GCObject {
         // In case someone else's payment pointer is added
         if (
           addedNode[ATTR_NAME] === META_NAME &&
-          addedNode[ATTR_CONTENT] !== this.M$paymentPointer
+          addedNode[ATTR_CONTENT] !== this.paymentPointer
         ) {
           document.head.removeChild(addedNode)
         }
