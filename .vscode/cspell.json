@@ -1,10 +1,12 @@
 {
     "words": [
+        "AUTOINCREMENT",
         "csstype",
         "datetime",
         "luxon",
         "muicon",
         "sinonjs",
-        "stringifying"
+        "stringifying",
+        "TOFIX"
     ]
 }
