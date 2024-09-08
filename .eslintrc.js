@@ -2,6 +2,8 @@ const { configs } = require('@glyph-cat/eslint-config')
 
 const strictConfig = configs.strict
 
+// TODO: Upgrade to ESLint v9
+
 module.exports = {
   root: true,
   ...strictConfig,
@@ -26,5 +28,8 @@ module.exports = {
         return { paths }
       })(),
     ],
+    'react-hooks/exhaustive-deps': [1, {
+      additionalHooks: 'useInsertionEffect',
+    }],
   }
 }

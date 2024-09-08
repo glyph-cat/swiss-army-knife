@@ -10,15 +10,22 @@ export function useCSSVariableInjection(
   target: HTMLElement
 ): void {
   useInsertionEffect(() => {
+    return injectCSSVariables(values, target)
+  }, [target, values])
+}
+
+export function injectCSSVariables(
+  values: Record<string, number | string>,
+  target: HTMLElement
+): () => void {
+  for (const key in values) {
+    const value = values[key]
+    const safeValue: string = isNumber(value) ? `${value}px` : value
+    target.style.setProperty(`--${key}`, safeValue)
+  }
+  return () => {
     for (const key in values) {
-      const value = values[key]
-      const safeValue: string = isNumber(value) ? `${value}px` : value
-      target.style.setProperty(`--${key}`, safeValue)
+      target.style.removeProperty(`--${key}`)
     }
-    return () => {
-      for (const key in values) {
-        target.style.removeProperty(`--${key}`)
-      }
-    }
-  }, [values])
+  }
 }
