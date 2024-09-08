@@ -1,6 +1,6 @@
 import { LongPollingInterval, VaryingInterval } from '.'
 
-test(LongPollingInterval.name, (): void => {
+test.skip(LongPollingInterval.name, (): void => {
   // TODO
   expect('').toBe('')
 })

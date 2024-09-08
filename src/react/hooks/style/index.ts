@@ -4,7 +4,7 @@ import {
   useInsertionEffect,
   useMemo,
 } from 'react'
-import { forEachInObject, isNumber } from '../../../data'
+import { isNumber } from '../../../data'
 
 /**
  * @public
@@ -77,27 +77,27 @@ export function getClassNamesAndStyleContent<Key extends string>(
 ): ClassNamesStyleContentPair<Key> {
   const classNames = {} as Record<Key, string>
   let styleContent = ''
-  forEachInObject(styles, ({ key: className, value }) => {
+  for (const className in styles) {
+    const value = styles[className]
     // Example of `className`: '.foo'
     const prefixedClassName = `${prefix}_${className}`
     const attributes = []
     let queuedPseudoStyleContent = ''
-    forEachInObject(value, ({ key: attributeOrPseudoName, value: attributeOrPseudoValue }) => {
+    for (const attributeOrPseudoName in value) {
+      const attributeOrPseudoValue = value[attributeOrPseudoName]
       // Example of `attributeOrPseudoName`: 'background-color' | ':hover'
       if (/^:/.test(attributeOrPseudoName as string)) { // is pseudo property
         // Example of `pseudoAttributeName`: 'background-color'
         const pseudoAttributes = []
-        forEachInObject(attributeOrPseudoValue, ({
-          key: pseudoAttributeName,
-          value: pseudoAttributeValue,
-        }) => {
+        for (const pseudoAttributeName in attributeOrPseudoValue) {
+          const pseudoAttributeValue = attributeOrPseudoValue[pseudoAttributeName]
           const parsedAttributeName = mapPropertyNameFromJSToCSS(String(pseudoAttributeName))
           const parsedAttributeValue = parsePixelValue(
             parsedAttributeName,
             pseudoAttributeValue as unknown as number
           )
           pseudoAttributes.push(`${parsedAttributeName}:${parsedAttributeValue}`)
-        })
+        }
         queuedPseudoStyleContent += `.${prefixedClassName}${attributeOrPseudoName as string}{${pseudoAttributes.join(';')}}`
       } else {
         const parsedAttributeName = mapPropertyNameFromJSToCSS(String(attributeOrPseudoName))
@@ -107,11 +107,11 @@ export function getClassNamesAndStyleContent<Key extends string>(
         )
         attributes.push(`${parsedAttributeName}:${parsedAttributeValue}`)
       }
-    })
+    }
     styleContent += `.${prefixedClassName}{${attributes.join(';')}}`
     styleContent += queuedPseudoStyleContent
     classNames[className] = prefixedClassName
-  })
+  }
   return [classNames, styleContent]
 }
 

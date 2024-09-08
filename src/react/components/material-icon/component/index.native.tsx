@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { Animated, DimensionValue } from 'react-native'
 import { EMPTY_FUNCTION, EMPTY_OBJECT } from '../../../../data/dummies'
 import {
@@ -8,6 +9,7 @@ import {
 
 /**
  * @public
+ * @deprecated
  */
 export function MaterialIcon({
   name,
@@ -40,16 +42,19 @@ export function MaterialIcon({
 
 /**
  * @public
+ * @deprecated
  */
 export const loadMaterialIconStyleSheets = EMPTY_FUNCTION
 
 /**
  * @public
+ * @deprecated
  */
 export const useMaterialIconStyleSheet = EMPTY_FUNCTION
 
 /**
  * @public
+ * @deprecated
  */
 export function MaterialIconStyleSheet(): JSX.Element {
   return null

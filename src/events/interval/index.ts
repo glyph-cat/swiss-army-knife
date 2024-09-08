@@ -11,11 +11,6 @@ export class VaryingInterval {
   /**
    * @internal
    */
-  private M$callback: JSFunction
-
-  /**
-   * @internal
-   */
   private M$intervalRef: ReturnType<typeof setInterval>
 
   /**
@@ -36,7 +31,7 @@ export class VaryingInterval {
   start(interval: number): void {
     this.stop()
     // @ts-expect-error Not sure why return type is different
-    this.M$intervalRef = setInterval(this.M$callback, interval)
+    this.M$intervalRef = setInterval(this.callback, interval)
   }
 
   /**

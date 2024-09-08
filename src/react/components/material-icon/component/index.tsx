@@ -1,3 +1,4 @@
+/* eslint-disable import/no-deprecated */
 import { useEffect } from 'react'
 import { removeDuplicates } from '../../../../data/array/remove-duplicates'
 import { EMPTY_OBJECT } from '../../../../data/dummies'
@@ -42,6 +43,7 @@ import { concatClassNames } from '../../../../styling'
  * - 🟠 macOS
  * - 🟠 Windows
  * @public
+ * @deprecated
  */
 export function MaterialIcon({
   name,
@@ -85,6 +87,7 @@ export function MaterialIcon({
  * - ❌ macOS
  * - ❌ Windows
  * @public
+ * @deprecated
  */
 export function loadMaterialIconStyleSheet(
   variants: MaterialIconStyleSheetProps['variants']
@@ -116,6 +119,7 @@ export function loadMaterialIconStyleSheet(
  * - ❌ macOS
  * - ❌ Windows
  * @public
+ * @deprecated
  */
 export function useMaterialIconStyleSheet(
   variants: MaterialIconStyleSheetProps['variants']
@@ -145,6 +149,7 @@ export function useMaterialIconStyleSheet(
  * - ❌ macOS
  * - ❌ Windows
  * @public
+ * @deprecated
  */
 export function MaterialIconStyleSheet({
   variants,

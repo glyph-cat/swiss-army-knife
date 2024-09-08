@@ -39,7 +39,7 @@
     "build": "yarn rollup && yarn types && yarn api && yarn ts-node ./scripts/post-process-docs",
     "postbuild": "rm -r ./temp/tsc",
     "preall": "yarn clean",
-    "all": "yarn fwd-exp && yarn lint:fix && yarn build && yarn test && yarn pack",
+    "all": "yarn fwd-exp && yarn lint && yarn build && yarn test && yarn pack",
     "ci:test": "yarn lint && yarn build && yarn test"
   },
   "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",

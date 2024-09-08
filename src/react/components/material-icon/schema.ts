@@ -1,15 +1,18 @@
+/* eslint-disable import/no-deprecated */
 import { Property } from 'csstype'
+import { CSSProperties, DetailedHTMLProps, HTMLAttributes } from 'react'
 import { TextProps } from 'react-native'
-import { ShorthandHTMLProps } from '../../../types'
 import { MaterialIconName } from './icon-name'
 
 /**
  * @public
+ * @deprecated
  */
 export type MaterialIconVariant = 'outlined' | 'filled' | 'rounded' | 'sharp' | 'two-tone'
 
 /**
  * @public
+ * @deprecated
  */
 export interface MaterialIconProps {
   /**
@@ -27,7 +30,7 @@ export interface MaterialIconProps {
    * Size of the icon (using the 'fontSize' property under the hood).
    * @defaultValue `'28px'`
    */
-  size?: ShorthandHTMLProps<HTMLSpanElement>['style']['fontSize']
+  size?: CSSProperties['fontSize']
   /**
    * @defaultValue `'filled'`
    */
@@ -42,7 +45,7 @@ export interface MaterialIconProps {
    * - ❌ Windows
    * @defaultValue `{}`
    */
-  htmlProps?: ShorthandHTMLProps<HTMLSpanElement>
+  htmlProps?: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
   /**
    * Props to be passed to the `<Text/>` component containing the icon.
    * @availability
@@ -59,6 +62,7 @@ export interface MaterialIconProps {
 /**
  * Automatically load/unload material icon stylesheet with this component.
  * @public
+ * @deprecated
  */
 export interface MaterialIconStyleSheetProps {
   /**
@@ -69,6 +73,7 @@ export interface MaterialIconStyleSheetProps {
 
 /**
  * @public
+ * @deprecated
  */
 export const MATERIAL_ICON_DEFAULTS: {
   size: number,

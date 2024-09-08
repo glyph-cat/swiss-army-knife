@@ -1,4 +1,4 @@
-import { forEachInObjectToObject } from '../for-each'
+import { hasProperty } from '../has-property'
 
 /**
  * Similar to ordinary spread, except the final output object will only contain
@@ -10,15 +10,15 @@ import { forEachInObjectToObject } from '../for-each'
  */
 export function strictMerge<T>(defaultObject: T, ...objectsToMerge: Array<unknown>): T {
   let finalObject: T = defaultObject
-  for (const objectToMerge of objectsToMerge) {
-    const sanitizedObject = forEachInObjectToObject(defaultObject, ({ key, NOTHING }) => {
-      if (objectToMerge[key]) {
-        return [key, objectToMerge[key]]
-      } else {
-        return NOTHING
+  for (const nextObjectToMerge of objectsToMerge) {
+    for (const key in defaultObject) {
+      if (hasProperty(nextObjectToMerge, key)) {
+        finalObject = {
+          ...finalObject,
+          [key]: (nextObjectToMerge as Partial<T>)[key],
+        }
       }
-    }) as Partial<T>
-    finalObject = { ...finalObject, ...sanitizedObject }
+    }
   }
   return finalObject
 }

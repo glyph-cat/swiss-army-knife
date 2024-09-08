@@ -12,7 +12,6 @@ const directoriesToProcess = [
   './src/data',
   './src/data/array',
   './src/data/object',
-  './src/data/object/for-each',
   './src/datetime',
   './src/events',
   './src/function',

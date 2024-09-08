@@ -1,5 +1,4 @@
 import { StrictPropertyKey } from '../../types'
-import { forEachInObject } from '../object/for-each/in-object'
 import { hasProperty } from '../object/has-property'
 
 /**
@@ -49,10 +48,11 @@ export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyK
   entries: Record<K, V>
 ): Enumeration<K, V> {
   const enumeration = {}
-  forEachInObject(entries, ({ key, value }) => {
+  for (const key in entries) {
+    const value = entries[key]
     enumeration[key as StrictPropertyKey] = value as StrictPropertyKey
     enumeration[value as StrictPropertyKey] = key
-  })
+  }
   Object.freeze(enumeration)
   return enumeration as Enumeration<K, V>
 }
@@ -78,10 +78,11 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
    * })
    */
   constructor(entries: Record<K, V> = ({} as Record<K, V>)) {
-    forEachInObject(entries, ({ key, value }) => {
+    for (const key in entries) {
+      const value = entries[key]
       this.M$enumeration[key] = value
       this.M$enumeration[value] = key
-    })
+    }
   }
 
   /**

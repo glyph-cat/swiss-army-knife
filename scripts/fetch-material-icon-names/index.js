@@ -13,6 +13,7 @@ const puppeteer = require('puppeteer')
 /**
  * @returns {Promise<void>}
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function runFetchMaterialIconNames() {
 
   // Init browser
@@ -78,7 +79,8 @@ async function runFetchMaterialIconNames() {
 
 }
 
-runFetchMaterialIconNames()
+// Disabled for good
+// runFetchMaterialIconNames()
 
 /**
  * @param {import('puppeteer').Page} page

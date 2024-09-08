@@ -1,7 +1,10 @@
 {
     "words": [
+        "csstype",
+        "datetime",
         "luxon",
         "muicon",
-        "sinonjs"
+        "sinonjs",
+        "stringifying"
     ]
 }
