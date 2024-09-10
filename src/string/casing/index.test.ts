@@ -67,6 +67,11 @@ describe(Casing.prototype.toPascalCase.name, () => {
     expect(output).toBe('ABPascalCase00FooBarCDCamelCaseXY123SnakeCase456KebabCase789SpringSummerMacroCase000AutumnWinter')
   })
 
+  test('Input string is macro case but without underscore', () => {
+    const output = new Casing('HELLO').toPascalCase()
+    expect(output).toBe('Hello')
+  })
+
   test('Empty string', () => {
     const output = new Casing('').toPascalCase()
     expect(output).toBe('')

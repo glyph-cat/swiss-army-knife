@@ -48,6 +48,7 @@ export class Casing {
   }
 
   private isWordOriginatedFromMacroCase = (word: string): boolean => {
+    if (word === this.value) { return true } // Early exit
     return new RegExp(`${word}_`).test(this.value) || new RegExp(`_${word}`).test(this.value)
   }
 

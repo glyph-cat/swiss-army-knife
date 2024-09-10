@@ -1,15 +1,30 @@
 {
-  "GC factory (Function)": {
-    "scope": "javascript,javascriptreact,typescript,typescriptreact",
-    "prefix": "gc",
-    "body": "const \\$factoryObject = createGCFactoryObject()",
-    "description": "Declares a `GCFactoryObject`",
-  },
-  "Scoped CSS": {
-    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+  "Import scoped CSS": {
+    "scope": "typescript,typescriptreact",
     "prefix": "import styles",
     "body": "import styles from './index.module.css'",
-    "description": "Import a scoped CSS file",
+    "description": "Import scoped CSS"
+  },
+  "TS expect error on purpose": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "@ts-expect-error",
+    "body": "// @ts-expect-error: Done on purpose to test the error.",
+    "description": "TS expect error to test error on purpose"
+  },
+  "Early exit": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "// Early exit",
+    "body": "// Early exit"
+  },
+  "Import JSX from React": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "import JSX",
+    "body": "import { JSX } from 'react'",
+  },
+  "Render Stack": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "const renderStack",
+    "body": "const renderStack: Array<JSX.Element> = []",
   },
   "Safe Area Inset Top": {
     "scope": "css",
