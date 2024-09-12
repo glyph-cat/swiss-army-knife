@@ -3,7 +3,6 @@ import { isObject, isString } from '../type-check'
 /**
  * @public
  */
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Sanitize {
 
   /**

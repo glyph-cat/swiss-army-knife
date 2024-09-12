@@ -13,16 +13,16 @@ test(VaryingInterval.name, (): void => {
   // Check if callbacks are called correctly
   varyingInterval.start(1000)
   jest.advanceTimersByTime(3000 + 100) // 100 as padding
-  expect(callback).toBeCalledTimes(3)
+  expect(callback).toHaveBeenCalledTimes(3)
 
   // Check if frequency of callbacks have increased
   varyingInterval.start(500)
   jest.advanceTimersByTime(3000 + 100) // 100 as padding
-  expect(callback).toBeCalledTimes(9)
+  expect(callback).toHaveBeenCalledTimes(9)
 
   // Check callback is still being invoked after stopping
   varyingInterval.stop()
   jest.advanceTimersByTime(1000)
-  expect(callback).toBeCalledTimes(9)
+  expect(callback).toHaveBeenCalledTimes(9)
 
 })

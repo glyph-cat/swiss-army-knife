@@ -1,6 +1,6 @@
 import { isFunction, isNumber } from '../../data'
 import { devError } from '../../dev'
-import { JSFunction } from '../../types'
+import { TypedFunction } from '../../types'
 import { delay } from '../delay'
 
 /**
@@ -20,7 +20,7 @@ export class VaryingInterval {
    *   console.log('Hello, world!')
    * })
    */
-  constructor(protected readonly callback: JSFunction) { }
+  constructor(protected readonly callback: TypedFunction<[], void>) { }
 
   /**
    * Run the callback with an interval. If there is an interval already exists,
@@ -30,7 +30,6 @@ export class VaryingInterval {
    */
   start(interval: number): void {
     this.stop()
-    // @ts-expect-error Not sure why return type is different
     this.M$intervalRef = setInterval(this.callback, interval)
   }
 
@@ -57,7 +56,7 @@ export class LongPollingInterval {
   /**
    * @internal
    */
-  private readonly M$callback: JSFunction
+  private readonly M$callback: TypedFunction<[], void>
 
   /**
    * @internal
@@ -81,7 +80,7 @@ export class LongPollingInterval {
    *   // Random interval between 1 to 10 seconds
    * )
    */
-  constructor(callback: JSFunction, interval: number | (() => number)) {
+  constructor(callback: TypedFunction<[], void>, interval: number | (() => number)) {
     this.M$callback = callback
     this.M$interval = interval
     this.start = this.start.bind(this)

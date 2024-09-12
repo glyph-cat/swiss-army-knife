@@ -18,3 +18,18 @@ export function JSONclone<T>(obj: T): T {
 export function isJSONequal(a: unknown, b: unknown): b is typeof a {
   return JSON.stringify(a) === JSON.stringify(b)
 }
+
+/**
+ * Tries to serialize an object with `JSON.stringify`, if it fails, will
+ * fallback to `String(...)`.
+ * @param value - The value to serialize
+ * @returns A string representation of the object.
+ * @public
+ */
+export function trySerialize(value: unknown): string {
+  try {
+    return JSON.stringify(value)
+  } catch (e) {
+    return String(value)
+  }
+}

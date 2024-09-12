@@ -1,4 +1,4 @@
-import { JSFunction } from '../../types'
+import { TypedFunction } from '../../types'
 
 /**
  * Create an empty promise that is resolved after a specified time. The delay
@@ -25,7 +25,7 @@ export function delay(time: number): Promise<void> {
 export class AdjustableDelay {
 
   private M$timeoutRef: ReturnType<typeof setTimeout>
-  private M$resolveRef: JSFunction
+  private M$resolveRef: TypedFunction
 
   /**
    * @param time - The delay time in milliseconds.

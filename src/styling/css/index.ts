@@ -8,3 +8,9 @@ export function concatClassNames(...classNames: Array<string>): string {
     .trim()
     .replace(/\s+/g, ' ')
 }
+
+/**
+ * An alias for {@link concatClassNames}.
+ * @public
+ */
+export const c = concatClassNames

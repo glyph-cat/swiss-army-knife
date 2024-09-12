@@ -1,9 +1,9 @@
 /**
  * Add new items to the end of an array and removes old items from the front if
  * its length exceeds the specified limit.
- * @param maxSize Maximum size of array allowed.
- * @param items The items to push.
- * @param array The original array.
+ * @param maxSize - Maximum size of array allowed.
+ * @param items - The items to push.
+ * @param array - The original array.
  * @returns A new array containing the new items.
  * @example
  * const array = [1, 2, 3, 4]
@@ -36,9 +36,9 @@ export interface ClampedUnshiftOptions {
 /**
  * Add new items to the front of an array and removes old items from the end if
  * its length exceeds the specified limit.
- * @param maxSize Maximum size of array allowed.
- * @param items The items to unshift.
- * @param array The original array.
+ * @param maxSize - Maximum size of array allowed.
+ * @param items - The items to unshift.
+ * @param array - The original array.
  * @returns A new array containing the new items.
  * @example
  * const array = [1, 2, 3, 4]

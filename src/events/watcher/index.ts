@@ -1,14 +1,14 @@
-import { JSFunction } from '../../types'
+import { TypedFunction } from '../../types'
 
 /**
  * @public
  */
-export type WatcherCallback<A extends Array<unknown>> = (...args: A) => void
+export type WatcherCallback<A extends Array<unknown>> = TypedFunction<A, void>
 
 /**
  * @public
  */
-export type UnwatchCallback = JSFunction
+export type UnwatchCallback = TypedFunction<[], void>
 
 /**
  * @public

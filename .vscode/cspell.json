@@ -2,12 +2,22 @@
     "words": [
         "Amet",
         "AUTOINCREMENT",
+        "charsets",
         "csstype",
         "datetime",
+        "endregion",
+        "falsey",
+        "Gerrit",
         "luxon",
         "muicon",
+        "penguinboy",
+        "RRGGBB",
+        "RRGGBBAA",
         "sinonjs",
+        "spreaded",
         "stringifying",
-        "TOFIX"
+        "TOFIX",
+        "tsdoc",
+        "whooosh"
     ]
 }

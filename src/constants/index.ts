@@ -30,7 +30,7 @@ export const LIB_BUILD_TYPE = process.env.BUILD_TYPE as (
  * separate build for React Native where `IS_CLIENT_ENV` will always be true.
  * Here, it is also assumed that the internal debug environment runs on a client.
  *
- * NOTE: This should only be used to control the library's behaviour in different
+ * NOTE: This should only be used to control the library's behavior in different
  * environments, NOT for checking whether browser APIs are available.
  *
  * @public

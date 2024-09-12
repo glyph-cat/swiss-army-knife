@@ -9,7 +9,7 @@
  * @public
  */
 export function isLowerCase(char: string): boolean {
-  return char[0] === char[0].toLowerCase()
+  return char?.[0] ? char[0] === char[0].toLowerCase() : false
 }
 
 /**
@@ -23,5 +23,5 @@ export function isLowerCase(char: string): boolean {
  * @public
  */
 export function isUpperCase(char: string): boolean {
-  return char[0] === char[0].toUpperCase()
+  return char?.[0] ? char[0] === char[0]?.toUpperCase() : false
 }

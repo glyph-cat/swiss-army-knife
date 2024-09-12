@@ -1,4 +1,4 @@
-import { hasProperty } from '.'
+import { hasEitherProperties, hasProperty, hasTheseProperties } from '.'
 
 describe(hasProperty.name, (): void => {
 
@@ -31,6 +31,22 @@ describe(hasProperty.name, (): void => {
     // okay... weird:
     expect(hasProperty(42, 'toString')).toBe(false)
     expect(hasProperty(false, 'valueOf')).toBe(false)
+  })
+
+})
+
+describe.skip(hasEitherProperties, () => {
+
+  test('todo', () => {
+    hasEitherProperties()
+  })
+
+})
+
+describe.skip(hasTheseProperties, () => {
+
+  test('todo', () => {
+    hasTheseProperties()
   })
 
 })

@@ -1,36 +1,10 @@
-import { useEffect } from 'react'
-import { LazyVariable } from '../../../data/lazy-variable'
-import { DynamicTruthMap } from '../../../data/truth-map'
-import { isNumber, isString } from '../../../data/type-check'
-import { getRandomHash } from '../../../random/hash'
+import { isNumber } from '../../../data/type-check'
+import { HashFactory } from '../../../hash'
 import { useRef } from '../lazy-ref'
 
-/**
- * @internal
- */
 let __numericComponentIdCounter__ = 0
 
-/**
- * @internal
- */
-const __hashTracker__ = new LazyVariable(() => new DynamicTruthMap<string>())
-
-/**
- * @private
- */
-function hasCollision(hash: string | number): boolean {
-  const hashAsString = String(hash)
-  const hashAsNumber = parseInt(hashAsString, 10)
-  const hasClashingStrings = __hashTracker__.get().has(hash)
-  /**
-   * Check for clashing numbers if the string hash consists of only numeric
-   * characters.
-   */
-  const hasClashingNumbers = /^\d+$/.test(hashAsString)
-    ? hashAsNumber < __numericComponentIdCounter__
-    : false
-  return hasClashingStrings || hasClashingNumbers
-}
+const hashFactory = new HashFactory(8)
 
 /**
  * @internal
@@ -40,29 +14,13 @@ export function __idFactory__(
   minimumLength?: number
 ): () => PropertyKey {
   return () => {
-    minimumLength = minimumLength || 4
     if (isNumber(idType)) {
-      let hash: string
-      do {
-        hash = getRandomHash(idType) // as hash length
-      } while (hasCollision(hash))
-      __hashTracker__.get().add(hash)
-      return hash
+      return hashFactory.create(idType) // as hash length
     } else if (Object.is(idType, String)) {
-      let hash: string
-      let autoLength = minimumLength
-      do {
-        // NOTE: length is increased to drastically reduce the chances of
-        // collision so as to not trigger another loop.
-        hash = getRandomHash(autoLength++)
-      } while (hasCollision(hash))
-      __hashTracker__.get().add(hash)
-      return hash
+      return hashFactory.create(minimumLength || 4)
     } else if (Object.is(idType, Number)) {
-      let hash: number
-      do {
-        hash = ++__numericComponentIdCounter__
-      } while (hasCollision(hash))
+      const hash = ++__numericComponentIdCounter__
+      hashFactory.track(String(hash))
       return hash
     } else {
       return Symbol()
@@ -71,7 +29,7 @@ export function __idFactory__(
 }
 
 /**
- * Generates a hash-based component ID. Each genarated hash is cached and
+ * Generates a hash-based component ID. Each generated hash is cached and
  * checked against every time a new one is generated to guarantee its
  * uniqueness, therefore, consumes more memory compared to using numbers or
  * symbol as component ID.
@@ -90,7 +48,7 @@ export function __idFactory__(
 export function useComponentId(hashLength: number): string
 
 /**
- * Generates a hash-based component ID. Each genarated hash is cached and
+ * Generates a hash-based component ID. Each generated hash is cached and
  * checked against every time a new one is generated to guarantee its
  * uniqueness, therefore, consumes more memory compared to using numbers or
  * symbol as component ID.
@@ -111,7 +69,7 @@ export function useComponentId(hashLength: number): string
 export function useComponentId(idType: typeof String, minimumLength?: number): string
 
 /**
- * Generates a numeric component ID. To ensure uniqueness, IDs are genarated
+ * Generates a numeric component ID. To ensure uniqueness, IDs are generated
  * from a global counter that increases by `1` each time a new one is requested.
  *
  * NOTES:
@@ -147,12 +105,9 @@ export function useComponentId(
   minimumLength?: number
 ): PropertyKey {
   const id = useRef(__idFactory__(idType, minimumLength))
-  useEffect(() => {
-    return () => {
-      if (isString(idType)) {
-        __hashTracker__.get().remove(id as unknown as string)
-      }
-    }
-  }, [idType])
+  // NOTE: Previously ids are untracked upon unmount but there are some problems:
+  // - This produces problem in StrictMode as the incorrect id will be untracked
+  // - It would still be a better practice if none of the ids are reused, even if
+  //   the components using them are already unmounted.
   return id.current
 }

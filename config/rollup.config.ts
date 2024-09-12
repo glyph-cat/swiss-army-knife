@@ -12,7 +12,7 @@ import { version } from '../package.json'
 const NODE_RESOLVE_EXTENSIONS_BASE = ['.tsx', '.jsx', '.ts', '.js']
 
 const NODE_RESOLVE_EXTENSIONS_WEB = [
-  // NOTE: This is to accomodate 3rd party libraries in rare cases.
+  // NOTE: This is to accommodate 3rd party libraries in rare cases.
   // For this project, always use '.ts' for web implementation.
   '.web.tsx',
   '.web.jsx',

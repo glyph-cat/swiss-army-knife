@@ -9,6 +9,7 @@ module.exports = {
   ...strictConfig,
   rules: {
     ...strictConfig.rules,
+    '@typescript-eslint/no-namespace': 0,
     'no-restricted-imports': [
       strictConfig.rules['no-restricted-imports'][0],
       (function () {
@@ -31,5 +32,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': [1, {
       additionalHooks: 'useInsertionEffect',
     }],
-  }
+    'import/no-cycle': 0,
+    // ^ can be ignored because everything will be bundled into one file in the end
+  },
 }

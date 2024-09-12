@@ -1,5 +1,5 @@
 import { enumerate } from '../../data/enumeration'
-import { LazyVariable } from '../../data/lazy-variable'
+import { LazyValue } from '../../data/lazy-variable'
 import { isUndefined } from '../../data/type-check'
 
 /**
@@ -13,7 +13,7 @@ import { isUndefined } from '../../data/type-check'
 export function rot13(text: string): string {
   let cipheredString = ''
   for (let i = 0; i < text.length; i++) {
-    const cipheredChar = ROT_13_DICTIONARY.get()[text[i]]
+    const cipheredChar = ROT_13_DICTIONARY.value[text[i]]
     cipheredString += isUndefined(cipheredChar) ? text[i] : cipheredChar
   }
   return cipheredString
@@ -22,7 +22,7 @@ export function rot13(text: string): string {
 /**
  * @internal
  */
-const ROT_13_DICTIONARY = new LazyVariable(() => enumerate({
+const ROT_13_DICTIONARY = new LazyValue(() => enumerate({
   a: 'n',
   b: 'o',
   c: 'p',

@@ -1,4 +1,4 @@
-import { JSFunction, JSObject } from '../../types'
+import { PlainRecord, TypedFunction } from '../../types'
 
 /**
  * Determine if a value is a boolean.
@@ -13,10 +13,19 @@ export function isBoolean(value: unknown): value is boolean {
 /**
  * Determine if a value is a function.
  * @param value - The value to check.
+ * @example
+ * const getSum = (a: number, b: number): number => a + b
+ * isTypedFunction<[a: number, b: number], number>(getSum)
+ * // NOTE: Type inference is optional
+ * @returns A boolean indicating whether the value is a function.
  * @returns A boolean indicating whether the value is a function.
  * @public
  */
-export function isFunction(value: unknown): value is JSFunction {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isFunction<Args extends any[] = any[], Payload = any>(
+  value: unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): value is TypedFunction<Args, Payload> {
   return typeof value === 'function'
 }
 
@@ -56,7 +65,7 @@ export function isNumber(value: unknown): value is number {
  * @returns A boolean indicating whether the value is an object.
  * @public
  */
-export function isObject(value: unknown): value is JSObject {
+export function isObject(value: unknown): value is PlainRecord {
   return typeof value === 'object'
 }
 

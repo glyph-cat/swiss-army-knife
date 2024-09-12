@@ -14,7 +14,6 @@ import { name as PACKAGE_NAME } from '../../package.json'
 
 const REPLACEMENTS = {
   'PACKAGE_NAME': PACKAGE_NAME,
-  'ColorFormatIgnoreAlphaDescription': '// Note: If alpha is not equals to `1`, then it will be included anyway.',
 }
 
 const FILES_TO_PROCESS = [

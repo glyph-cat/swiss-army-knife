@@ -23,7 +23,14 @@ export const MINIMUM_TIME_ESTIMATOR_CACHE_SIZE = 2
  */
 export class TimeEstimator {
 
+  /**
+   * @internal
+   */
   private M$snapshotStack: Array<[progress: number, timeStamp: number]> = []
+
+  /**
+   * @internal
+   */
   private M$alreadyCompleted = false
 
   /**
@@ -68,7 +75,7 @@ export class TimeEstimator {
    * - or `Infinity` if:
    *   - there are not enough snapshots yet,
    *   - all snapshots in memory have the same progress value, since this
-   *     theoritically means it will take forever to complete.
+   *     theoretically means it will take forever to complete.
    */
   getEstimation(): number {
     if (this.M$alreadyCompleted) {
@@ -96,11 +103,11 @@ export class TimeEstimator {
     if (averageProgressPerMs <= 0) { return Infinity } // Early exit
 
     const [latestProgress] = this.M$snapshotStack[this.M$snapshotStack.length - 1]
-    const remainingProgess = MAX_PROGRESS - latestProgress
+    const remainingProgress = MAX_PROGRESS - latestProgress
     // Formula:
     // rate = progress / time
     // time = progress / rate
-    const estimatedRemainingTimeInMs = remainingProgess / averageProgressPerMs
+    const estimatedRemainingTimeInMs = remainingProgress / averageProgressPerMs
     return Math.round(estimatedRemainingTimeInMs)
   }
 

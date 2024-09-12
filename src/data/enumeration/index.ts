@@ -27,7 +27,7 @@ export function fullyEnumerate<Enum>(enumObj: Enum): void {
 export type Enumeration<K extends StrictPropertyKey, V extends StrictPropertyKey> = Record<K | V, V | K>
 
 /**
- * Creates an enumaration from an object that is similar to TypeScript's `enum`.
+ * Creates an enumeration from an object that is similar to TypeScript's `enum`.
  * @param entries - The object to enumerate.
  * @returns The enumeration.
  * @example
@@ -58,7 +58,7 @@ export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyK
 }
 
 /**
- * Creates an enumaration from an object that is similar to TypeScript's `enum`,
+ * Creates an enumeration from an object that is similar to TypeScript's `enum`,
  * but with additional flexibility of mutating the values.
  * @public
  */

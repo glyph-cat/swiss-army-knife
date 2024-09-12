@@ -1,4 +1,4 @@
-import { JSFunction } from '../../types'
+import { TypedFunction } from '../../types'
 
 /**
  * Creates a debounced callback.
@@ -11,7 +11,7 @@ import { JSFunction } from '../../types'
  * window.addEventListener('resize', debouncedFn)
  * @public
  */
-export function createDebouncedCallback<C extends JSFunction>(
+export function createDebouncedCallback<C extends TypedFunction>(
   callback: C,
   timeout?: number
 ): C {
