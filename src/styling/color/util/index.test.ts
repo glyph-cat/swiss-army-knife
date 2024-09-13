@@ -4,14 +4,8 @@ import {
   getValuesFromRGBString,
 } from '.'
 
-// Colors are obtained from https://www.color-hex.com/color-palette/19601
-// #373b3e	rgb(55,59,62)
-// #bec8d1	rgb(190,200,209)
-// #86cecb	rgb(134,206,203)
-// #137a7f	rgb(19,122,127)
-// #e12885	rgb(225,40,133)
-
-// todo: fix failing tests
+// Some colors are obtained from https://www.color-hex.com/color-palette/19601
+// :wink:
 
 describe(getValuesFromHSLString.name, () => {
 
