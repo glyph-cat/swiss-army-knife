@@ -45,6 +45,7 @@ export class LazyValue<T> {
   get value(): T {
     if (!this.M$isInitialized) {
       this.M$value = this.factory()
+      this.M$isInitialized = true
     }
     return this.M$value
   }

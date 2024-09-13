@@ -15,7 +15,7 @@ import {
 } from '../../data'
 import { devError } from '../../dev'
 import { average, clamp } from '../../math'
-import { LenientString, NumericValues3, StrictRecord } from '../../types'
+import { LenientString, NumericValues3 } from '../../types'
 import {
   ColorFormat,
   ColorModifier,
