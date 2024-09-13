@@ -1,4 +1,4 @@
-import { ColorUtil } from '.'
+import { Color, ColorLookup, ColorUtil } from '.'
 
 describe('ColorUtil', (): void => {
 

@@ -1,5 +1,5 @@
 import { enumerate } from '../../data/enumeration'
-import { LazyValue } from '../../data/lazy-variable'
+import { LazyValue } from '../../data/lazy-value'
 import { isUndefined } from '../../data/type-check'
 
 /**

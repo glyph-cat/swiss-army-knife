@@ -83,7 +83,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      0.6, '60%',
+      60, '60%',
     ])
   })
 
@@ -92,7 +92,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      0.6, '60%',
+      60, '60%',
     ])
   })
 

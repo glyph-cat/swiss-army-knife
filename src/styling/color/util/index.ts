@@ -73,20 +73,6 @@ export function getValuesFromRGBString(value: string): ColorSyntaxArray {
     alphaRaw ?? null,
   ]
 }
-// todo: handle alpha in 'n%' format and normalize to `0-1`, should be handled like
-
-
-
-
-// todo: can include mdn reference for syntax in the inline docs, relative syntax not supported only
-
-
-
-// todo: normalize hue into deg values
-// todo: decide in which format `39` or `0.39` we want to use for saturation and lightness
-// ...wait, these should be done inside `M$validateAndAssign`???
-// problem is with showing raw value for debugging only
-// might need to have n sets of validators for each color property
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#syntax
 export function getValuesFromHSLString(value: string): ColorSyntaxArray {
@@ -101,8 +87,9 @@ export function getValuesFromHSLString(value: string): ColorSyntaxArray {
     lightnessRaw,
     alphaRaw,
   ] = value.match(/([\d.]+(deg|rad)?|none)\s+[\d.]+%?\s+[\d.]+%?(\s+[\d.]+%?)?/i)[0].split(/\s+/g)
+  const hueStringMatchResult = hueRaw.match(/[\d.]+/)
   return [
-    Number(hueRaw.match(/[\d.]+/)[0]),
+    hueStringMatchResult?.[0] ? Number(hueStringMatchResult[0]) : 0,
     hueRaw,
     Number(saturationRaw.match(/[\d.]+/)[0]),
     saturationRaw,
@@ -112,29 +99,3 @@ export function getValuesFromHSLString(value: string): ColorSyntaxArray {
     alphaRaw ?? null,
   ]
 }
-
-// * NOTE: for alpha value, there are two valid syntaxes:
-// * - with % (Example: '39%')
-// * - without % (Example: '0.39')
-// * '39' alone is invalid and will be treated by CSS as without '%', capping the value at '1'
-
-
-
-// /**
-//  * Parse alpha value from string syntax.
-//  *
-//  * NOTE: for alpha value, there are two valid syntaxes:
-//  * - with % (Example: '39%')
-//  * - without % (Example: '0.39')
-//  * '39' alone is invalid and will be treated by CSS as without '%', capping the value at '1'
-//  * @param value - The raw value.
-//  * @returns Decimal representation of alpha value as a number between `0` and `1`.
-//  */
-// export function getNormalizedAlphaValue(value: string): number {
-//   const numericValue = Number(value.match(/[\d.]+/)[0])
-//   if (/%/.test(value)) {
-//     return numericValue / 100
-//   } else {
-//     return numericValue
-//   }
-// }

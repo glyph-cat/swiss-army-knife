@@ -1,4 +1,4 @@
-import { StrictRecord, StrictPropertyKey } from '../../../types'
+import { StrictPropertyKey } from '../../../types'
 import { hasProperty } from '../has-property'
 
 /**
@@ -13,7 +13,7 @@ import { hasProperty } from '../has-property'
  * remains untouched.
  * @public
  */
-export function omit<SourceObject extends StrictRecord, Key extends StrictPropertyKey>(
+export function omit<SourceObject, Key extends StrictPropertyKey>(
   fromObject: SourceObject,
   ...items: [Key | keyof SourceObject, ...Array<Key | keyof SourceObject>]
   // NOTE: `keyof SourceObject` for autocomplete only

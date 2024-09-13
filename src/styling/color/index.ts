@@ -9,19 +9,23 @@ import {
   isNumber,
   isObject,
   isString,
+  Nullable,
+  omit,
   trySerialize
 } from '../../data'
 import { devError } from '../../dev'
 import { average, clamp } from '../../math'
-import { LenientString, NumericValues3 } from '../../types'
+import { LenientString, NumericValues3, StrictRecord } from '../../types'
 import {
   ColorFormat,
   ColorModifier,
   ContrastingValueSpecifications,
+  CSSColor,
   MultiColorModifier,
   SerializedColor,
   SerializedHSL,
   SerializedRGB,
+  ToStringOptions,
   WithAlphaAsOptional,
 } from './abstractions'
 import { LOOKUP_DICTIONARY } from './lookup'
@@ -42,18 +46,19 @@ export namespace ColorUtil {
 
   /**
    * Converts HSL values to RGB values.
-   * @param hue - 
-   * @param saturation - 
-   * @param lightness - 
-   * @returns  A tuple containing 3 numbers that represent the `[red, green, blue]` values.
+   * @param hue - The hue value in degrees (between 0 to 360)
+   * @param saturation - The saturation value in percentage (between 0 to 100)
+   * @param lightness - The lightness value in percentage (between 0 to 100)
+   * @returns A tuple containing 3 numbers (each between 0 to 255) that represent
+   * the `[red, green, blue]` values.
    * @public
    */
   export function fromHSLToRGB(
-    hue: number, // todo: decide whether in deg or rad
-    saturation: number, // todo: decide whether in 0-1 or 0-100
-    lightness: number // todo: decide whether in 0-1 or 0-100
+    hue: number,
+    saturation: number,
+    lightness: number
   ): NumericValues3 {
-    return [0, 0, 0] // todo
+    return [0, 0, 0]
   }
 
   /**
@@ -61,12 +66,13 @@ export namespace ColorUtil {
    * @param red - The red value in integer form (between 0 to 255)
    * @param green - The green value in integer form (between 0 to 255)
    * @param blue - The blue value in integer form (between 0 to 255)
-   * @returns A tuple containing 3 numbers that represent the `[hue, saturation, lightness]`.
+   * @returns A tuple containing 3 numbers that represent the `[hue, saturation, lightness]`
+   * where hue is a number between 0 to 360, saturation is a value between 0 to 100,
+   * and lightness is a value between 0 to 100.
    * @public
    */
   export function fromRGBToHSL(red: number, green: number, blue: number): NumericValues3 {
     // Reference: https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl
-    // todo: refactor and refine
     const r = red / Color.MAX_RGB_VALUE
     const g = green / Color.MAX_RGB_VALUE
     const b = blue / Color.MAX_RGB_VALUE
@@ -79,16 +85,16 @@ export namespace ColorUtil {
         ? maxMinRGBDiff / (maxRGB + minRGB)
         : maxMinRGBDiff / (2 - maxRGB - minRGB)
     )
-    const hue = (() => {
-      if (r === maxRGB) {
-        return (g - b) / maxMinRGBDiff
-      } else if (g === maxRGB) {
-        return 2 + (b - r) / maxMinRGBDiff
-      } else {
-        return 4 + (r - g) / maxMinRGBDiff
-      }
-    })()
-    return [(hue < 0 ? hue + 360 : hue) * 60, 100 * saturation, 100 * lightness]
+    const hue = r === maxRGB
+      ? (g - b) / maxMinRGBDiff
+      : g === maxRGB
+        ? 2 + (b - r) / maxMinRGBDiff
+        : 4 + (r - g) / maxMinRGBDiff
+    return [
+      (hue < 0 ? hue + Color.MAX_HUE_VALUE : hue) * 60,
+      saturation * Color.MAX_SATURATION_VALUE,
+      lightness * Color.MAX_LIGHTNESS_VALUE,
+    ]
   }
 
   /**
@@ -154,10 +160,10 @@ export class Color {
   static readonly MAX_RGB_VALUE = 255
   static readonly MIN_HUE_VALUE = 0
   static readonly MAX_HUE_VALUE = 360
-  static readonly MIN_SATURATION_VALUE = 0 // todo: confirm format
-  static readonly MAX_SATURATION_VALUE = 1 // todo: confirm format
-  static readonly MIN_LIGHTNESS_VALUE = 0 // todo: confirm format
-  static readonly MAX_LIGHTNESS_VALUE = 1 // todo: confirm format
+  static readonly MIN_SATURATION_VALUE = 0
+  static readonly MAX_SATURATION_VALUE = 100
+  static readonly MIN_LIGHTNESS_VALUE = 0
+  static readonly MAX_LIGHTNESS_VALUE = 100
   // #endregion Constants
 
   // #region .fromRGB
@@ -478,9 +484,7 @@ export class Color {
   set(
     partialValueOrModifier: Partial<SerializedRGB> | Partial<SerializedHSL> | MultiColorModifier
   ): Color {
-    // todo: find a way to exclude `luminance`
-    const currentValues = this.toJSON()
-    // todo: need validate + assign
+    // todo: validate & assign new RGB(A)HSL values for each of the methods below
     if (hasEitherProperties(partialValueOrModifier, 'red', 'green', 'blue')) {
       return Color.fromRGBObject({
         red: this.red,
@@ -496,9 +500,11 @@ export class Color {
         ...partialValueOrModifier,
       })
     } else if (isFunction(partialValueOrModifier)) {
+      const currentValues = omit(this.toJSON(), 'luminance')
       return Color.fromJSON(partialValueOrModifier(currentValues))
     }
-    throw new Error('') // todo
+    devError(`Expected ${Color.name}.set to be called with a function or an object that contains either RGB or HSL values, but got ${isObject(partialValueOrModifier) ? trySerialize(partialValueOrModifier) : typeof partialValueOrModifier}.`)
+    throw new Error(`Invalid \`${Color.name}.set\` parameter`)
   }
 
   // #endregion Setters
@@ -518,10 +524,51 @@ export class Color {
     }
   }
 
-  toString(format?: ColorFormat, truncateDecimals?: number): string {
+  toString(format?: ColorFormat, options?: ToStringOptions): string {
     if (this.isInvalid) { return '#InvalidColor' }
-    // note - truncateDecimals can be done using `.toFixed(...)`
-    return 'todo' // todo
+    switch (format) {
+      case ColorFormat.FFFFFF: {
+        const output = this.M$getRGBHexString()
+        return options?.upperCase ? output.toUpperCase() : output
+      }
+      case ColorFormat.FFFFFFFF: {
+        const output = this.M$getRGBAHexString()
+        return options?.upperCase ? output.toUpperCase() : output
+      }
+      case ColorFormat.FFF: {
+        let output: string
+        const fullString = this.M$getRGBHexString()
+        if (
+          fullString[1] === fullString[2] &&
+          fullString[3] === fullString[4] &&
+          fullString[5] === fullString[6]
+        ) {
+          output = '#' + fullString[1] + fullString[3] + fullString[5]
+        } else {
+          output = fullString
+        }
+        return options?.upperCase ? output.toUpperCase() : output
+      }
+      case ColorFormat.FFFF: {
+        let output: string
+        const fullString = this.M$getRGBAHexString()
+        if (
+          fullString[1] === fullString[2] &&
+          fullString[3] === fullString[4] &&
+          fullString[5] === fullString[6]
+        ) {
+          output = '#' + fullString[1] + fullString[3] + fullString[5]
+        } else {
+          output = fullString
+        }
+        return options?.upperCase ? output.toUpperCase() : output
+      }
+      case ColorFormat.RGB: return this.M$getRGBString(0, options?.truncateDecimals).toUpperCase()
+      case ColorFormat.RGBA: return this.M$getRGBString(1, options?.truncateDecimals).toUpperCase()
+      case ColorFormat.HSL: return '' // todo
+      case ColorFormat.HSLA: return '' // todo
+      default: throw new Error(`Invalid format '${format}'`)
+    }
   }
 
   valueOf(): string {
@@ -558,6 +605,33 @@ export class Color {
     return newObj
   }
 
+  private M$getRGBHexString = (): string => (
+    '#' +
+    this.red.toString(16) +
+    this.blue.toString(16) +
+    this.green.toString(16)
+  )
+
+  private M$getRGBAHexString = (): string => (
+    '#' +
+    this.red.toString(16) +
+    this.blue.toString(16) +
+    this.green.toString(16) +
+    this.alpha.toString(16)
+  )
+
+  private M$getRGBString = (showAlpha: 0 | 1, decimalPoints: number): string => {
+    const outputStack = [
+      parseFloat(this.red.toFixed(decimalPoints)),
+      parseFloat(this.green.toFixed(decimalPoints)),
+      parseFloat(this.blue.toFixed(decimalPoints)),
+    ]
+    if (showAlpha) {
+      outputStack.push(parseFloat(this.alpha.toFixed(decimalPoints)))
+    }
+    return `rgb(${outputStack.join(', ')})`
+  }
+
   /**
    * @deprecated
    * - To have one validator for each color field.
@@ -567,7 +641,7 @@ export class Color {
   private M$validateAndAssign = (
     name: keyof SerializedColor,
     value: number,
-    rawValue: unknown,
+    rawValue: number | string,
   ): this => {
     this[`$${name}`] = name !== 'alpha' ? value : (value ?? Color.MAX_ALPHA_VALUE)
     const [minValue, maxValue] = validationRanges[name]
@@ -580,7 +654,7 @@ export class Color {
     minValue: number,
     maxValue: number,
     value: number,
-    rawValue: unknown,
+    rawValue: number | string,
     // kiv: extra flag to trigger display min/max values in error message in hex???
   ): void => {
     if (value < minValue || value > maxValue) {
@@ -591,10 +665,13 @@ export class Color {
 
   private M$validateAndAssignAlpha = (
     value: number,
-    rawValue: unknown,
+    rawValue: number | string,
   ): this => {
-    // todo: handle `alpha` can be 0.39 or 39% based on raw value
-    this.M$alpha = value ?? Color.MAX_ALPHA_VALUE
+    if (rawValue && isString(rawValue)) {
+      value = /%/.test(rawValue) ? (value / 100) : value
+    } else {
+      value = Color.MAX_ALPHA_VALUE
+    }
     this.M$validateBase(
       'alpha',
       Color.MIN_ALPHA_VALUE,
@@ -602,19 +679,25 @@ export class Color {
       value,
       rawValue,
     )
+    this.M$alpha = value
     return this
   }
 
   private M$validateAndAssignRGB = (
     name: 'red' | 'green' | 'blue',
     value: number,
-    rawValue: unknown,
+    rawValue: number | string,
   ): this => {
+    this.M$validateBase(name, Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE, value, rawValue)
     this[`$${name}`] = value
-    const [minValue, maxValue] = validationRanges[name]
-    this.M$validateBase(name, minValue, maxValue, value, rawValue)
     return this
   }
+
+  // todo: normalize hue into deg values
+  // todo: decide in which format `39` or `0.39` we want to use for saturation and lightness
+  // ...wait, these should be done inside `M$validateAndAssign`???
+  // problem is with showing raw value for debugging only
+  // might need to have n sets of validators for each color property
 
   // #endregion Private instance helpers
 
@@ -647,10 +730,10 @@ export namespace ColorLookup {
    * @returns A {@link Color} object if it is a valid CSS color name, otherwise `null`.
    * @public
    */
-  export function fromCSSName(name: LenientString<string>): Color {
+  export function fromCSSName(name: LenientString<CSSColor>): Color {
     name = name.toLowerCase()
     if (LOOKUP_DICTIONARY[name]) {
-      return Color.fromHex(LOOKUP_DICTIONARY[name])
+      return Color.fromHex(`#${LOOKUP_DICTIONARY[name]}`)
     }
     return null
   }
@@ -664,9 +747,9 @@ export namespace ColorLookup {
    * name, otherwise `null`.
    * @public
    */
-  export function toCSSName(color: Color): string {
-    const hexCode = color.toString(ColorFormat.ffffff)
-    return LOOKUP_DICTIONARY[hexCode] ?? null
+  export function toCSSName(color: Color): Nullable<CSSColor> {
+    const hexCode = color.toString(ColorFormat.FFFFFF)
+    return LOOKUP_DICTIONARY[hexCode.replace('#', '')] ?? null
   }
 
 }
