@@ -5,7 +5,14 @@
  */
 export class LazyValue<T> {
 
+  /**
+   * @internal
+   */
   private M$isInitialized = false
+
+  /**
+   * @internal
+   */
   private M$value: T
 
   /**
@@ -21,12 +28,12 @@ export class LazyValue<T> {
 
   /**
    * A flag indicating whether the value has been initialized.
+   * @returns A `true` if the value has been initialized, otherwise `false`.
    * @example
    * const c = new LazyValue(() => new VeryComplexObject())
    * console.log(c.isInitialized) // false
    * doSomethingWith(c.value)
    * console.log(c.isInitialized) // true
-   * @returns A `true` if the value has been initialized, otherwise `false`.
    */
   get isInitialized(): boolean {
     return this.M$isInitialized
@@ -37,10 +44,10 @@ export class LazyValue<T> {
    *
    * NOTE: For lazy values with asynchronous factory,
    * use `await` on the `.value`.
+   * @returns The lazily instantiated value.
    * @example
    * const c = new LazyValue(() => new VeryComplexObject())
    * console.log(c.value)
-   * @returns The lazily instantiated value.
    */
   get value(): T {
     if (!this.M$isInitialized) {

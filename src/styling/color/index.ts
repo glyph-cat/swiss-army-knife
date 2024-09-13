@@ -39,6 +39,7 @@ import {
 // /* eslint-disable */
 
 // #region Public utilities
+
 /**
  * @public
  */
@@ -109,6 +110,7 @@ export namespace ColorUtil {
    * between integer form (between 0 to 255) but must be consistent across all
    * three parameters.
    * @returns A number representing the luminance.
+   * @public
    */
   export function getLuminance(red: number, green: number, blue: number): number {
     return 0.21 * red + 0.72 * green + 0.07 * blue
@@ -347,14 +349,40 @@ export class Color {
   }
 
   // #region Class properties
+
+  /**
+   * @internal
+   */
   private M$isInvalid: boolean = false
+  /**
+   * @internal
+   */
   private M$red: number = null
+  /**
+   * @internal
+   */
   private M$green: number = null
+  /**
+   * @internal
+   */
   private M$blue: number = null
+  /**
+   * @internal
+   */
   private M$alpha: number = Color.MAX_ALPHA_VALUE
+  /**
+   * @internal
+   */
   private M$lightness: number = null
+  /**
+   * @internal
+   */
   private M$hue: number = null
+  /**
+   * @internal
+   */
   private M$saturation: number = null
+
   // #endregion Class properties
 
   private constructor() {
@@ -481,6 +509,9 @@ export class Color {
 
   set(modifier: MultiColorModifier): Color
 
+  /**
+   * @internal
+   */
   set(
     partialValueOrModifier: Partial<SerializedRGB> | Partial<SerializedHSL> | MultiColorModifier
   ): Color {
@@ -579,6 +610,9 @@ export class Color {
 
   // #region Private instance helpers
 
+  /**
+   * @internal
+   */
   private initRGBValues = (): void => {
     const [r, g, b] = ColorUtil.fromHSLToRGB(this.M$hue, this.M$saturation, this.M$lightness)
     this.M$red = r
@@ -586,6 +620,9 @@ export class Color {
     this.M$blue = b
   }
 
+  /**
+   * @internal
+   */
   private initHSLValues = (): void => {
     const [h, s, l] = ColorUtil.fromRGBToHSL(this.M$red, this.M$green, this.M$blue)
     this.M$hue = h
@@ -593,6 +630,9 @@ export class Color {
     this.M$lightness = l
   }
 
+  /**
+   * @internal
+   */
   private M$clone = (): Color => {
     const newObj = new Color()
     newObj.M$red = this.M$red
@@ -605,6 +645,9 @@ export class Color {
     return newObj
   }
 
+  /**
+   * @internal
+   */
   private M$getRGBHexString = (): string => (
     '#' +
     this.red.toString(16) +
@@ -612,6 +655,9 @@ export class Color {
     this.green.toString(16)
   )
 
+  /**
+   * @internal
+   */
   private M$getRGBAHexString = (): string => (
     '#' +
     this.red.toString(16) +
@@ -620,6 +666,9 @@ export class Color {
     this.alpha.toString(16)
   )
 
+  /**
+   * @internal
+   */
   private M$getRGBString = (showAlpha: 0 | 1, decimalPoints: number): string => {
     const outputStack = [
       parseFloat(this.red.toFixed(decimalPoints)),
@@ -637,6 +686,7 @@ export class Color {
    * - To have one validator for each color field.
    * - for RGB need to accommodate [base-10] and [hex]
    * - for % values need to handle [%] and [0.1]
+   * @internal
    */
   private M$validateAndAssign = (
     name: keyof SerializedColor,
@@ -649,6 +699,9 @@ export class Color {
     return this
   }
 
+  /**
+   * @internal
+   */
   private M$validateBase = (
     name: keyof SerializedColor,
     minValue: number,
@@ -663,6 +716,9 @@ export class Color {
     }
   }
 
+  /**
+   * @internal
+   */
   private M$validateAndAssignAlpha = (
     value: number,
     rawValue: number | string,
@@ -683,6 +739,9 @@ export class Color {
     return this
   }
 
+  /**
+   * @internal
+   */
   private M$validateAndAssignRGB = (
     name: 'red' | 'green' | 'blue',
     value: number,
@@ -725,9 +784,12 @@ export namespace ColorLookup {
   /**
    * Get a {@link Color} from the CSS color name.
    * @param name - Name of the color.
-   * @example
-   * 
    * @returns A {@link Color} object if it is a valid CSS color name, otherwise `null`.
+   * @example
+   * ColorLookup.fromCSSName('red')
+   * ColorLookup.fromCSSName('blue')
+   * ColorLookup.fromCSSName('aquamarine')
+   * ColorLookup.fromCSSName('peachpuff')
    * @public
    */
   export function fromCSSName(name: LenientString<CSSColor>): Color {
@@ -739,17 +801,31 @@ export namespace ColorLookup {
   }
 
   /**
-   * Get the CSS color name from a {@link Color}.
-   * @param color - The color to look up.
-   * @example
-   * 
+   * Get the CSS color name from a color.
+   * @param color - A color string or {@link Color} object.
    * @returns A string representing the name of the color if it happens to have a
+   * @throws An error when the string is not a valid syntax supported by {@link Color.fromString}.
+   * @example
+   * const color = Color.fromString('#556b2f')
+   * ColorLookup.toCSSName(color) // 'darkolivegreen'
+   * ColorLookup.toCSSName('#7fffd4') // 'aquamarine'
    * name, otherwise `null`.
    * @public
    */
-  export function toCSSName(color: Color): Nullable<CSSColor> {
-    const hexCode = color.toString(ColorFormat.FFFFFF)
-    return LOOKUP_DICTIONARY[hexCode.replace('#', '')] ?? null
+  export function toCSSName(color: string | Color): Nullable<CSSColor> {
+    let lookupHexCode: string
+    if (isString(color)) {
+      if (/^#([\da-f]{6,})$/i.test(color)) {
+        lookupHexCode = color.replace('#', '').substring(0, 6) // ignore alpha
+      } else {
+        lookupHexCode = Color.fromString(color).toString(ColorFormat.FFFFFF)
+      }
+    } else {
+      lookupHexCode = color.toString(ColorFormat.FFFFFF)
+    }
+    return lookupHexCode
+      ? LOOKUP_DICTIONARY[lookupHexCode.replace('#', '')] ?? null
+      : null
   }
 
 }
