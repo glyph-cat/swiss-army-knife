@@ -2,7 +2,7 @@
  * @public
  */
 export interface DoNotRenderProps {
-  children: unknown
+  children?: unknown
 }
 
 /**

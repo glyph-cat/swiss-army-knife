@@ -45,13 +45,3 @@ export function isResolved(
     })
   }
 }
-
-
-export function isResolved2(
-  promise: Promise<unknown>,
-  flag: MutableRefObject<boolean>
-): void {
-  promise.then((): void => {
-    flag.current = true
-  })
-}

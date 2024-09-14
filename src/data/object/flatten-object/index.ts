@@ -13,11 +13,11 @@ import { hasProperty } from '../has-property'
 export function getFlattenedObject(
   object: StrictRecord
 ): StrictRecord {
-  const toReturn = {}
+  const toReturn = {} as StrictRecord
   for (const key in object) {
     if (!hasProperty(object, key)) { continue }
     if (isObject(object[key])) {
-      const flatObject = getFlattenedObject(object[key])
+      const flatObject = getFlattenedObject(object[key] as StrictRecord)
       for (const subKey in flatObject) {
         if (!hasProperty(flatObject, subKey)) { continue }
         toReturn[key + '.' + subKey] = flatObject[subKey]

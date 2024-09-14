@@ -24,8 +24,8 @@ export type DivModStruct<T> = [quotient: T, remainder: T] & {
 
 /**
  * Creates a tuple that containing a quotient and a remainder.
- * @param q The quotient.
- * @param r The remainder.
+ * @param q - The quotient.
+ * @param r - The remainder.
  * @returns A tuple containing the quotient and remainder.
  * @public
  */

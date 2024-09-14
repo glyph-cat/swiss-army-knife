@@ -53,9 +53,3 @@ export class SQLUtil<Table, Column> {
   // }
 
 }
-
-export enum A { FOO = 'foo' }
-export enum B { FOO = 'foo' }
-
-const sqlUtil = new SQLUtil<A, B>()
-sqlUtil.createTable(A.FOO, [''])

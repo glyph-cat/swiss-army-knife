@@ -14,6 +14,13 @@ export function useCSSVariableInjection(
   }, [target, values])
 }
 
+/**
+ * Injects CSS variables into a HTML element.
+ * @param values - The values to be injected
+ * @param target - The HTML element to be injected with the values
+ * @returns A cleanup function that removes the injected values from the HTML element.
+ * @public
+ */
 export function injectCSSVariables(
   values: Record<string, number | string>,
   target: HTMLElement

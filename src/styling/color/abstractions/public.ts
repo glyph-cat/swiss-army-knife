@@ -52,13 +52,23 @@ export enum ColorFormat {
  */
 export interface ToStringOptions {
   /**
-   * @defaultValue `false`
-   */
-  upperCase?: boolean
-  /**
+   * Decimal values will be rounded to the nearest 2 digits by default but this
+   * behavior can be customized using this option.
    * @defaultValue `2`
    */
   truncateDecimals?: number
+  /**
+   * By default alpha values will be forcefully displayed when it is not `1.0`,
+   * even when using short formats, so for example:
+   * - `ColorFormat.RGB` automatically becomes `ColorFormat.RGBA`
+   * - `ColorFormat.HSL` automatically becomes `ColorFormat.HSLA`
+   * - `ColorFormat.FFF` automatically becomes `ColorFormat.FFFF`
+   * - `ColorFormat.FFFFFF` automatically becomes `ColorFormat.FFFFFFFF`
+   * This is a safety measure to prevent loss of data during serialization.
+   * However, when there is valid reason to omit the alpha value, set this option
+   * to `true` so that the output strictly follows the intended `ColorFormat`.
+   */
+  suppressAlphaInShortFormats?: boolean
 }
 
 /**
@@ -103,11 +113,6 @@ export interface SerializedColor {
 /**
  * @public
  */
-export type ColorField = keyof SerializedColor
-
-/**
- * @public
- */
 export type ColorModifier = (value: number) => number
 
 /**
@@ -131,7 +136,7 @@ export interface ContrastingValueSpecifications<T> {
   dark: T
   /**
    * A value between 0 - 255.
-   * A color is considered 'dark' once its brightness cross this value.
+   * A color is considered 'dark' once its brightness exceeds this value.
    * @defaultValue `127`
    */
   threshold?: number

@@ -3,6 +3,7 @@ import { IS_CLIENT_ENV } from '../../constants'
 import {
   hasEitherProperties,
   hasProperty,
+  hasTheseProperties,
   isFunction,
   isNull,
   isNullOrUndefined,
@@ -15,6 +16,7 @@ import {
 } from '../../data'
 import { devError } from '../../dev'
 import { average, clamp } from '../../math'
+import { isOutOfRange } from '../../math/range'
 import { LenientString, NumericValues3 } from '../../types'
 import {
   ColorFormat,
@@ -33,10 +35,19 @@ import {
   getValuesFromHexString,
   getValuesFromHSLString,
   getValuesFromRGBString,
+  showErrorIfInvalid,
 } from './util'
 // #endregion Imports
 
-// /* eslint-disable */
+// This helps to reduce chances typo and bundle size
+const RED = 'red'
+const GREEN = 'green'
+const BLUE = 'blue'
+const ALPHA = 'alpha'
+const HUE = 'hue'
+const SATURATION = 'saturation'
+const LIGHTNESS = 'lightness'
+const LUMINANCE = 'luminance'
 
 // #region Public utilities
 
@@ -117,10 +128,8 @@ export namespace ColorUtil {
   }
 
   /**
-   * @param lightValue - Color to use if background is light.
-   * @param darkValue - Color to use if background is dark.
-   * @returns A function that accepts the background color and returns the
-   * (supposed) light/dark foreground color.
+   * @returns A function that accepts a color and returns the corresponding
+   * light or dark values based on the threshold set.
    * @example
    * const getColorFromBg = createContrastingValue({
    *   light: '#000000',
@@ -140,9 +149,10 @@ export namespace ColorUtil {
     dark: darkValue,
     threshold = 127,
   }: ContrastingValueSpecifications<T>): ((bgColor: string) => T) {
-    return (color: string): T => {
+    return (color: string | Color): T => {
+      if (isString(color)) { color = Color.fromString(color) }
       const clampedThreshold = clamp(threshold, Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE)
-      return Color.fromString(color).luminance >= clampedThreshold ? lightValue : darkValue
+      return color.luminance >= clampedThreshold ? lightValue : darkValue
     }
   }
 
@@ -150,12 +160,14 @@ export namespace ColorUtil {
 
 // #endregion Public utilities
 
+type InternalValues = Omit<Record<keyof SerializedColor, number>, 'luminance'>
+
 /**
  * @public
  */
 export class Color {
 
-  // #region Constants
+  // #region Public constants
   static readonly MIN_ALPHA_VALUE = 0
   static readonly MAX_ALPHA_VALUE = 1
   static readonly MIN_RGB_VALUE = 0
@@ -166,7 +178,20 @@ export class Color {
   static readonly MAX_SATURATION_VALUE = 100
   static readonly MIN_LIGHTNESS_VALUE = 0
   static readonly MAX_LIGHTNESS_VALUE = 100
-  // #endregion Constants
+  // #endregion Public constants
+
+  /**
+   * @internal
+   */
+  private static readonly M$DEFAULT_INTERNAL_VALUES: InternalValues = {
+    red: null,
+    green: null,
+    blue: null,
+    alpha: Color.MAX_ALPHA_VALUE,
+    hue: null,
+    saturation: null,
+    lightness: null,
+  }
 
   // #region .fromRGB
 
@@ -204,11 +229,18 @@ export class Color {
   }
 
   static fromRGBValues(red: number, green: number, blue: number, alpha?: number): Color {
+    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, red, red)
+    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, green, green)
+    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, blue, blue)
+    if (alpha) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alpha) }
     const color = new Color()
-      .M$validateAndAssignRGB('red', red, red)
-      .M$validateAndAssignRGB('green', green, green)
-      .M$validateAndAssignRGB('blue', blue, blue)
-    if (!isNullOrUndefined(alpha)) { color.M$validateAndAssignAlpha(alpha, alpha) }
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      red,
+      green,
+      blue,
+      ...(isNullOrUndefined(alpha) ? {} : { alpha }),
+    }
     return color
   }
 
@@ -224,11 +256,18 @@ export class Color {
       blue, blueRaw,
       alpha, alphaRaw,
     ] = getValuesFromRGBString(value)
+    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, red, redRaw)
+    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, green, greenRaw)
+    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, blue, blueRaw)
+    if (alphaRaw) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alphaRaw) }
     const color = new Color()
-      .M$validateAndAssignRGB('red', red, redRaw)
-      .M$validateAndAssignRGB('green', green, greenRaw)
-      .M$validateAndAssignRGB('blue', blue, blueRaw)
-    if (!isNullOrUndefined(alpha)) { color.M$validateAndAssignAlpha(alpha, alphaRaw) }
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      red,
+      green,
+      blue,
+      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
+    }
     return color
   }
 
@@ -275,11 +314,18 @@ export class Color {
     lightness: number,
     alpha?: number
   ): Color {
+    showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, hue, hue)
+    showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, saturation, saturation)
+    showErrorIfInvalid(LIGHTNESS, ...VALIDATION_RANGES.lightness, lightness, lightness)
+    if (alpha) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alpha) }
     const color = new Color()
-      .M$validateAndAssign('hue', hue, hue)
-      .M$validateAndAssign('saturation', saturation, saturation)
-      .M$validateAndAssign('lightness', lightness, lightness)
-    if (!isNullOrUndefined(alpha)) { color.M$validateAndAssignAlpha(alpha, alpha) }
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      hue,
+      saturation,
+      lightness,
+      ...(isNullOrUndefined(alpha) ? {} : { alpha }),
+    }
     return color
   }
 
@@ -288,6 +334,14 @@ export class Color {
     return Color.fromHSLValues(hue, saturation, lightness, alpha)
   }
 
+  /**
+   * Parses a HSL color string into a {@link Color}.
+   * @param value - A HSL formatted string that is not case-sensitive.
+   * @throws An error if the string is not a valid color syntax.
+   * @example
+   * Color.fromString('hsl(0, 100%, 50%)')
+   * @returns A {@link Color} instance.
+   */
   static fromHSLString(value: string): Color {
     const [
       hue, hueRaw,
@@ -295,11 +349,18 @@ export class Color {
       lightness, lightnessRaw,
       alpha, alphaRaw,
     ] = getValuesFromHSLString(value)
+    showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, hue, hueRaw)
+    showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, saturation, saturationRaw)
+    showErrorIfInvalid(LIGHTNESS, ...VALIDATION_RANGES.lightness, lightness, lightnessRaw)
+    if (alphaRaw) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alphaRaw) }
     const color = new Color()
-      .M$validateAndAssign('hue', hue, hueRaw)
-      .M$validateAndAssign('saturation', saturation, saturationRaw)
-      .M$validateAndAssign('lightness', lightness, lightnessRaw)
-    if (!isNullOrUndefined(alpha)) { color.M$validateAndAssignAlpha(alpha, alphaRaw) }
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      hue,
+      saturation,
+      lightness,
+      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
+    }
     return color
   }
 
@@ -307,6 +368,13 @@ export class Color {
 
   // #region .fromString
 
+  /**
+   * Parses a hex color string into a {@link Color}.
+   * @param value - A hex formatted string that is not case-sensitive.
+   * @example
+   * Color.fromString('#ff0000)
+   * @returns A {@link Color} instance.
+   */
   static fromHex(value: string): Color {
     const [
       red, redRaw,
@@ -314,23 +382,40 @@ export class Color {
       blue, blueRaw,
       alpha, alphaRaw,
     ] = getValuesFromHexString(value)
+    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, red, redRaw)
+    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, green, greenRaw)
+    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, blue, blueRaw)
+    if (alphaRaw) { showErrorIfInvalid('alpha', ...VALIDATION_RANGES.alpha, alpha, alphaRaw) }
     const color = new Color()
-      .M$validateAndAssignRGB('red', red, redRaw)
-      .M$validateAndAssignRGB('green', green, greenRaw)
-      .M$validateAndAssignRGB('blue', blue, blueRaw)
-    if (!isNullOrUndefined(alpha)) { color.M$validateAndAssignAlpha(alpha, alphaRaw) }
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      red,
+      green,
+      blue,
+      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
+    }
     return color
   }
 
+  /**
+   * Parses a color string into a {@link Color}.
+   * @param value - A hex/rgb/rgba/hsl/hsla formatted string that is not case-sensitive.
+   * @throws An error if the string is not a valid color syntax.
+   * @example
+   * Color.fromString('#ff0000)
+   * Color.fromString('rgb(255, 0, 0)')
+   * Color.fromString('hsl(0, 100%, 50%)')
+   * @returns A {@link Color} instance.
+   */
   static fromString(value: string): Color {
-    if (/^\s*#/.test(value)) {
+    if (/^#/.test(value)) {
       return Color.fromHex(value)
-    } else if (/^\s*rgb/i.test(value)) {
+    } else if (/^rgb/i.test(value)) {
       return Color.fromRGBString(value)
-    } else if (/^\s*hsl/i.test(value)) {
+    } else if (/^hsl/i.test(value)) {
       return Color.fromHSLString(value)
     } else {
-      throw new Error(`Invalid hex color code '${value}'`)
+      throw new Error(`Invalid color syntax '${value}'`)
     }
   }
 
@@ -340,9 +425,9 @@ export class Color {
     // Using `hasProperty` only because all fields are mandatory here
     // can use static `from...` methods here because the values are not processed
     // before being passed to the constructor.
-    if (hasProperty(value, 'red')) {
+    if (hasProperty(value, RED)) {
       return Color.fromRGBObject(value as SerializedRGB)
-    } else if (hasProperty(value, 'hue')) {
+    } else if (hasProperty(value, HUE)) {
       return Color.fromHSLObject(value as SerializedHSL)
     }
     throw new Error(`Invalid object: ${trySerialize(value)}`)
@@ -353,35 +438,7 @@ export class Color {
   /**
    * @internal
    */
-  private M$isInvalid: boolean = false
-  /**
-   * @internal
-   */
-  private M$red: number = null
-  /**
-   * @internal
-   */
-  private M$green: number = null
-  /**
-   * @internal
-   */
-  private M$blue: number = null
-  /**
-   * @internal
-   */
-  private M$alpha: number = Color.MAX_ALPHA_VALUE
-  /**
-   * @internal
-   */
-  private M$lightness: number = null
-  /**
-   * @internal
-   */
-  private M$hue: number = null
-  /**
-   * @internal
-   */
-  private M$saturation: number = null
+  private M$internalValues: InternalValues = { ...Color.M$DEFAULT_INTERNAL_VALUES }
 
   // #endregion Class properties
 
@@ -392,45 +449,87 @@ export class Color {
   // #region Getters
 
   get isInvalid(): boolean {
-    return this.M$isInvalid
-  }
-
-  get red(): number {
-    if (isNull(this.M$red)) { this.initRGBValues() }
-    return this.M$red
-  }
-
-  get green(): number {
-    if (isNull(this.M$green)) { this.initRGBValues() }
-    return this.M$green
-  }
-
-  get blue(): number {
-    if (isNull(this.M$blue)) { this.initRGBValues() }
-    return this.M$blue
-  }
-
-  get alpha(): number {
-    return this.M$alpha
-  }
-
-  get lightness(): number {
-    if (isNull(this.M$lightness)) { this.initHSLValues() }
-    return this.M$lightness
-  }
-
-  get hue(): number {
-    if (isNull(this.M$hue)) { this.initHSLValues() }
-    return this.M$hue
-  }
-
-  get saturation(): number {
-    if (isNull(this.M$saturation)) { this.initHSLValues() }
-    return this.M$saturation
+    if (hasProperty(this.M$internalValues, RED)) {
+      if (
+        isOutOfRange(this.M$internalValues.red, ...VALIDATION_RANGES.red) ||
+        isOutOfRange(this.M$internalValues.blue, ...VALIDATION_RANGES.blue) ||
+        isOutOfRange(this.M$internalValues.green, ...VALIDATION_RANGES.green)
+      ) {
+        return true // Early exit
+      }
+    } else if (hasProperty(this.M$internalValues, HUE)) {
+      if (
+        isOutOfRange(this.M$internalValues.hue, ...VALIDATION_RANGES.hue) ||
+        isOutOfRange(this.M$internalValues.saturation, ...VALIDATION_RANGES.saturation) ||
+        isOutOfRange(this.M$internalValues.lightness, ...VALIDATION_RANGES.lightness)
+      ) {
+        return true // Early exit
+      }
+    }
+    if (isOutOfRange(this.M$internalValues.alpha, ...VALIDATION_RANGES.alpha)) {
+      return true // Early exit
+    }
+    return false
   }
 
   /**
-   * The perceived brightness of the color.
+   * The red value of the color represented by a number between `0` to `255`.
+   */
+  get red(): number {
+    if (isNull(this.M$internalValues.red)) { this.initRGBValues() }
+    return this.M$internalValues.red
+  }
+
+  /**
+   * The green value of the color represented by a number between `0` to `255`.
+   */
+  get green(): number {
+    if (isNull(this.M$internalValues.green)) { this.initRGBValues() }
+    return this.M$internalValues.green
+  }
+
+  /**
+   * The blue value of the color represented by a number between `0` to `255`.
+   */
+  get blue(): number {
+    if (isNull(this.M$internalValues.blue)) { this.initRGBValues() }
+    return this.M$internalValues.blue
+  }
+
+  /**
+   * The alpha value of the color represented by a number between `0.0` to `1.0`.
+   */
+  get alpha(): number {
+    return this.M$internalValues.alpha
+  }
+
+  /**
+   * The hue value of the color, measured in degrees, represented by a number
+   * between `0` to `360`.
+   */
+  get hue(): number {
+    if (isNull(this.M$internalValues.hue)) { this.initHSLValues() }
+    return this.M$internalValues.hue
+  }
+
+  /**
+   * The saturation value of the color represented by a number between `0` to `100`.
+   */
+  get saturation(): number {
+    if (isNull(this.M$internalValues.saturation)) { this.initHSLValues() }
+    return this.M$internalValues.saturation
+  }
+
+  /**
+   * The lightness value of the color represented by a number between `0` to `100`.
+   */
+  get lightness(): number {
+    if (isNull(this.M$internalValues.lightness)) { this.initHSLValues() }
+    return this.M$internalValues.lightness
+  }
+
+  /**
+   * The perceived brightness of the color represented by a number between `0` to `100`.
    */
   get luminance(): number {
     return ColorUtil.getLuminance(this.red, this.green, this.blue)
@@ -441,66 +540,45 @@ export class Color {
   // #region Setters
 
   setRed(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.red)
-      return this.M$clone().M$validateAndAssignRGB('red', nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssignRGB('red', value, value)
-    }
-  }
-
-  setBlue(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.blue)
-      return this.M$clone().M$validateAndAssignRGB('blue', nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssignRGB('blue', value, value)
-    }
+    if (isFunction(value)) { value = value(this.red) }
+    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, value, value)
+    return this.M$clone({ red: value })
   }
 
   setGreen(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.green)
-      return this.M$clone().M$validateAndAssignRGB('green', nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssignRGB('green', value, value)
-    }
+    if (isFunction(value)) { value = value(this.green) }
+    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, value, value)
+    return this.M$clone({ green: value })
+  }
+
+  setBlue(value: number | ColorModifier): Color {
+    if (isFunction(value)) { value = value(this.blue) }
+    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, value, value)
+    return this.M$clone({ blue: value })
   }
 
   setAlpha(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.alpha)
-      return this.M$clone().M$validateAndAssignAlpha(nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssignAlpha(value, value)
-    }
+    if (isFunction(value)) { value = value(this.alpha) }
+    showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, value, value)
+    return this.M$clone({ alpha: value })
   }
 
   setHue(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.hue)
-      return this.M$clone().M$validateAndAssign('hue', nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssign('hue', value, value)
-    }
+    if (isFunction(value)) { value = value(this.hue) }
+    showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, value, value)
+    return this.M$clone({ hue: value })
   }
 
   setSaturation(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.saturation)
-      return this.M$clone().M$validateAndAssign('saturation', nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssign('saturation', value, value)
-    }
+    if (isFunction(value)) { value = value(this.saturation) }
+    showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, value, value)
+    return this.M$clone({ saturation: value })
   }
 
   setLightness(value: number | ColorModifier): Color {
-    if (isFunction(value)) {
-      const nextValue = value(this.lightness)
-      return this.M$clone().M$validateAndAssign('lightness', nextValue, nextValue)
-    } else {
-      return this.M$clone().M$validateAndAssign('lightness', value, value)
-    }
+    if (isFunction(value)) { value = value(this.lightness) }
+    showErrorIfInvalid(LIGHTNESS, ...VALIDATION_RANGES.lightness, value, value)
+    return this.M$clone({ lightness: value })
   }
 
   set(rgb: Partial<SerializedRGB>): Color
@@ -516,14 +594,14 @@ export class Color {
     partialValueOrModifier: Partial<SerializedRGB> | Partial<SerializedHSL> | MultiColorModifier
   ): Color {
     // todo: validate & assign new RGB(A)HSL values for each of the methods below
-    if (hasEitherProperties(partialValueOrModifier, 'red', 'green', 'blue')) {
+    if (hasEitherProperties(partialValueOrModifier, RED, GREEN, BLUE)) {
       return Color.fromRGBObject({
         red: this.red,
         green: this.green,
         blue: this.blue,
         ...partialValueOrModifier,
       })
-    } else if (hasEitherProperties(partialValueOrModifier, 'hue', 'saturation', 'lightness')) {
+    } else if (hasEitherProperties(partialValueOrModifier, HUE, SATURATION, LIGHTNESS)) {
       return Color.fromHSLObject({
         hue: this.hue,
         saturation: this.saturation,
@@ -531,7 +609,7 @@ export class Color {
         ...partialValueOrModifier,
       })
     } else if (isFunction(partialValueOrModifier)) {
-      const currentValues = omit(this.toJSON(), 'luminance')
+      const currentValues = omit(this.toJSON(), LUMINANCE)
       return Color.fromJSON(partialValueOrModifier(currentValues))
     }
     devError(`Expected ${Color.name}.set to be called with a function or an object that contains either RGB or HSL values, but got ${isObject(partialValueOrModifier) ? trySerialize(partialValueOrModifier) : typeof partialValueOrModifier}.`)
@@ -555,18 +633,36 @@ export class Color {
     }
   }
 
-  toString(format?: ColorFormat, options?: ToStringOptions): string {
-    if (this.isInvalid) { return '#InvalidColor' }
-    switch (format) {
-      case ColorFormat.FFFFFF: {
-        const output = this.M$getRGBHexString()
-        return options?.upperCase ? output.toUpperCase() : output
+  /**
+   * Converts the color into a string representation.
+   * @param format - The {@link ColorFormat}.
+   * @param options - Additional formatting options.
+   * @returns A string representation of the color.
+   * @throws An error when an invalid color format is provided.
+   * @example
+   * const color = Color.fromString('#00ff00')
+   *
+   * console.log(color.toString(ColorFormat.RGB))
+   * console.log(color.toString(ColorFormat.HSL))
+   * console.log(color.toString())
+   *
+   * // The equivalent of calling `toString` without any parameters:
+   * console.log(`The hex color code for green is ${color}`)
+   */
+  toString(format: ColorFormat = ColorFormat.FFFFFF, options?: ToStringOptions): string {
+    if (this.isInvalid) { return '#InvalidColor' } // Early exit
+    if (format === ColorFormat.FFFFFF) {
+      if (this.alpha === Color.MAX_ALPHA_VALUE) {
+        return this.M$getRGBHexString() // Early exit
+      } else {
+        format = ColorFormat.FFFFFFFF
       }
-      case ColorFormat.FFFFFFFF: {
-        const output = this.M$getRGBAHexString()
-        return options?.upperCase ? output.toUpperCase() : output
-      }
-      case ColorFormat.FFF: {
+    }
+    if (format === ColorFormat.FFFFFFFF) {
+      return this.M$getRGBAHexString() // Early exit
+    }
+    if (format === ColorFormat.FFF) {
+      if (this.alpha === Color.MAX_ALPHA_VALUE) {
         let output: string
         const fullString = this.M$getRGBHexString()
         if (
@@ -578,70 +674,112 @@ export class Color {
         } else {
           output = fullString
         }
-        return options?.upperCase ? output.toUpperCase() : output
+        return output // Early exit
+      } else {
+        format = ColorFormat.FFFF
       }
-      case ColorFormat.FFFF: {
-        let output: string
-        const fullString = this.M$getRGBAHexString()
-        if (
-          fullString[1] === fullString[2] &&
-          fullString[3] === fullString[4] &&
-          fullString[5] === fullString[6]
-        ) {
-          output = '#' + fullString[1] + fullString[3] + fullString[5]
-        } else {
-          output = fullString
-        }
-        return options?.upperCase ? output.toUpperCase() : output
-      }
-      case ColorFormat.RGB: return this.M$getRGBString(0, options?.truncateDecimals).toUpperCase()
-      case ColorFormat.RGBA: return this.M$getRGBString(1, options?.truncateDecimals).toUpperCase()
-      case ColorFormat.HSL: return '' // todo
-      case ColorFormat.HSLA: return '' // todo
-      default: throw new Error(`Invalid format '${format}'`)
     }
+    if (format === ColorFormat.FFFF) {
+      let output: string
+      const fullString = this.M$getRGBAHexString()
+      if (
+        fullString[1] === fullString[2] &&
+        fullString[3] === fullString[4] &&
+        fullString[5] === fullString[6] &&
+        fullString[7] === fullString[8]
+      ) {
+        output = '#' + fullString[1] + fullString[3] + fullString[5] + fullString[7]
+      } else {
+        output = fullString
+      }
+      return output // Early exit
+    }
+    if (format === ColorFormat.RGB) {
+      return this.M$getRGBString(
+        this.alpha !== Color.MAX_ALPHA_VALUE ? 1 : 0,
+        options?.truncateDecimals
+      ) // Early exit
+    }
+    if (format === ColorFormat.RGBA) {
+      return this.M$getRGBString(1, options?.truncateDecimals) // Early exit
+    }
+    if (format === ColorFormat.HSL) {
+      return this.M$getHSLString(
+        this.alpha !== Color.MAX_ALPHA_VALUE ? 1 : 0,
+        options?.truncateDecimals
+      ) // Early exit
+    }
+    if (format === ColorFormat.HSLA) {
+      return this.M$getHSLString(1, options?.truncateDecimals) // Early exit
+    }
+    throw new Error(`Invalid format '${format}'`)
   }
 
+  /**
+   * Shorthand of {@link toString} without any parameters.
+   * @returns A string representation of the color.
+   */
   valueOf(): string {
     return this.toString()
   }
 
   // #endregion Serialization
 
-  // #region Private instance helpers
+  // #region Private helpers
 
   /**
    * @internal
    */
   private initRGBValues = (): void => {
-    const [r, g, b] = ColorUtil.fromHSLToRGB(this.M$hue, this.M$saturation, this.M$lightness)
-    this.M$red = r
-    this.M$green = g
-    this.M$blue = b
+    const [r, g, b] = ColorUtil.fromHSLToRGB(
+      this.M$internalValues.hue,
+      this.M$internalValues.saturation,
+      this.M$internalValues.lightness,
+    )
+    // this.M$red = r
+    this.M$internalValues.red = r
+    this.M$internalValues.green = g
+    this.M$internalValues.blue = b
   }
 
   /**
    * @internal
    */
   private initHSLValues = (): void => {
-    const [h, s, l] = ColorUtil.fromRGBToHSL(this.M$red, this.M$green, this.M$blue)
-    this.M$hue = h
-    this.M$saturation = s
-    this.M$lightness = l
+    const [h, s, l] = ColorUtil.fromRGBToHSL(
+      this.M$internalValues.red,
+      this.M$internalValues.green,
+      this.M$internalValues.blue,
+    )
+    this.M$internalValues.hue = h
+    this.M$internalValues.saturation = s
+    this.M$internalValues.lightness = l
   }
 
   /**
    * @internal
    */
-  private M$clone = (): Color => {
+  private M$clone = (overrideValues?: Partial<typeof this.M$internalValues>): Color => {
     const newObj = new Color()
-    newObj.M$red = this.M$red
-    newObj.M$green = this.M$green
-    newObj.M$blue = this.M$blue
-    newObj.M$alpha = this.M$alpha
-    newObj.M$lightness = this.M$lightness
-    newObj.M$hue = this.M$hue
-    newObj.M$saturation = this.M$saturation
+    newObj.M$internalValues = {
+      ...Color.M$DEFAULT_INTERNAL_VALUES,
+      alpha: this.alpha, // Should always be copied
+      ...(() => {
+        if (hasEitherProperties(overrideValues, 'red', 'green', 'blue')) {
+          return {
+            red: this.red,
+            green: this.green,
+            blue: this.blue,
+          }
+        } else if (hasTheseProperties(overrideValues, 'hue', 'saturation', 'lightness')) {
+          return {
+            hue: this.hue,
+            saturation: this.saturation,
+            lightness: this.lightness,
+          }
+        }
+      })(),
+    }
     return newObj
   }
 
@@ -650,30 +788,27 @@ export class Color {
    */
   private M$getRGBHexString = (): string => (
     '#' +
-    this.red.toString(16) +
-    this.blue.toString(16) +
-    this.green.toString(16)
+    this.red.toString(16).padStart(2, '0') +
+    this.green.toString(16).padStart(2, '0') +
+    this.blue.toString(16).padStart(2, '0')
   )
 
   /**
    * @internal
    */
   private M$getRGBAHexString = (): string => (
-    '#' +
-    this.red.toString(16) +
-    this.blue.toString(16) +
-    this.green.toString(16) +
-    this.alpha.toString(16)
+    this.M$getRGBHexString() +
+    this.alpha.toString(16).padStart(2, '0')
   )
 
   /**
    * @internal
    */
   private M$getRGBString = (showAlpha: 0 | 1, decimalPoints: number): string => {
-    const outputStack = [
-      parseFloat(this.red.toFixed(decimalPoints)),
-      parseFloat(this.green.toFixed(decimalPoints)),
-      parseFloat(this.blue.toFixed(decimalPoints)),
+    const outputStack: Array<number | string> = [
+      this.red,
+      this.green,
+      this.blue,
     ]
     if (showAlpha) {
       outputStack.push(parseFloat(this.alpha.toFixed(decimalPoints)))
@@ -682,90 +817,97 @@ export class Color {
   }
 
   /**
-   * @deprecated
-   * - To have one validator for each color field.
-   * - for RGB need to accommodate [base-10] and [hex]
-   * - for % values need to handle [%] and [0.1]
    * @internal
    */
-  private M$validateAndAssign = (
-    name: keyof SerializedColor,
-    value: number,
-    rawValue: number | string,
-  ): this => {
-    this[`$${name}`] = name !== 'alpha' ? value : (value ?? Color.MAX_ALPHA_VALUE)
-    const [minValue, maxValue] = validationRanges[name]
-    this.M$validateBase(name, minValue, maxValue, value, rawValue)
-    return this
-  }
-
-  /**
-   * @internal
-   */
-  private M$validateBase = (
-    name: keyof SerializedColor,
-    minValue: number,
-    maxValue: number,
-    value: number,
-    rawValue: number | string,
-    // kiv: extra flag to trigger display min/max values in error message in hex???
-  ): void => {
-    if (value < minValue || value > maxValue) {
-      devError(`Expected ${name} value to be equal to or between ${minValue} and ${maxValue} but got <${rawValue}>`)
-      this.M$isInvalid = true
+  private M$getHSLString = (showAlpha: 0 | 1, decimalPoints: number): string => {
+    // return null // todo
+    const outputStack: Array<number | string> = [
+      `${this.hue} deg`,
+      `${this.saturation} %`,
+      `${this.lightness} %`,
+    ]
+    if (showAlpha) {
+      outputStack.push(parseFloat(this.alpha.toFixed(decimalPoints)))
     }
+    return `hsl(${outputStack.join(', ')})`
   }
 
-  /**
-   * @internal
-   */
-  private M$validateAndAssignAlpha = (
-    value: number,
-    rawValue: number | string,
-  ): this => {
-    if (rawValue && isString(rawValue)) {
-      value = /%/.test(rawValue) ? (value / 100) : value
-    } else {
-      value = Color.MAX_ALPHA_VALUE
-    }
-    this.M$validateBase(
-      'alpha',
-      Color.MIN_ALPHA_VALUE,
-      Color.MAX_ALPHA_VALUE,
-      value,
-      rawValue,
-    )
-    this.M$alpha = value
-    return this
-  }
+  // /**
+  //  * @deprecated
+  //  * - To have one validator for each color field.
+  //  * - for RGB need to accommodate [base-10] and [hex]
+  //  * - for % values need to handle [%] and [0.1]
+  //  * @internal
+  //  */
+  // private M$validateAndAssign = (
+  //   name: keyof SerializedColor,
+  //   value: number,
+  //   rawValue: number | string,
+  // ): this => {
+  //   this[`$${name}`] = name !== 'alpha' ? value : (value ?? Color.MAX_ALPHA_VALUE)
+  //   const [minValue, maxValue] = validationRanges[name]
+  //   this.M$validateBase(name, minValue, maxValue, value, rawValue)
+  //   return this
+  // }
 
-  /**
-   * @internal
-   */
-  private M$validateAndAssignRGB = (
-    name: 'red' | 'green' | 'blue',
-    value: number,
-    rawValue: number | string,
-  ): this => {
-    this.M$validateBase(name, Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE, value, rawValue)
-    this[`$${name}`] = value
-    return this
-  }
+  // /**
+  //  * @internal
+  //  */
+  // private M$validateBase = (
+  //   name: keyof SerializedColor,
+  //   minValue: number,
+  //   maxValue: number,
+  //   value: number,
+  //   rawValue: number | string,
+  //   // kiv: extra flag to trigger display min/max values in error message in hex???
+  // ): void => {
+  //   if (value < minValue || value > maxValue) {
+  //     devError(`Expected ${name} value to be equal to or between ${minValue} and ${maxValue} but got <${rawValue}>`)
+  //     this.M$isInvalid[name] = true
+  //   }
+  // }
 
-  // todo: normalize hue into deg values
-  // todo: decide in which format `39` or `0.39` we want to use for saturation and lightness
-  // ...wait, these should be done inside `M$validateAndAssign`???
-  // problem is with showing raw value for debugging only
-  // might need to have n sets of validators for each color property
+  // /**
+  //  * @internal
+  //  */
+  // private M$validateAndAssignAlpha = (
+  //   value: number,
+  //   rawValue: number | string,
+  // ): this => {
+  //   if (rawValue && isString(rawValue)) {
+  //     value = /%/.test(rawValue) ? (value / 100) : value
+  //   } else {
+  //     value = Color.MAX_ALPHA_VALUE
+  //   }
+  //   this.M$validateBase(
+  //     'alpha',
+  //     Color.MIN_ALPHA_VALUE,
+  //     Color.MAX_ALPHA_VALUE,
+  //     value,
+  //     rawValue,
+  //   )
+  //   this.M$internalValues.alpha = value
+  //   return this
+  // }
 
-  // #endregion Private instance helpers
+  // /**
+  //  * @internal
+  //  */
+  // private M$validateAndAssignRGB = (
+  //   name: 'red' | 'green' | 'blue',
+  //   value: number,
+  //   rawValue: number | string,
+  // ): this => {
+  //   this.M$validateBase(name, Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE, value, rawValue)
+  //   this.M$internalValues[name] = value
+  //   return this
+  // }
+
+  // #endregion Private helpers
 
 }
 
-/**
- * @deprecated
- */
-const validationRanges: Record<keyof SerializedColor, [min: number, max: number]> = {
+const VALIDATION_RANGES: Omit<Record<keyof SerializedColor, [min: number, max: number]>, 'luminance'> = {
   red: [Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE],
   green: [Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE],
   blue: [Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE],
@@ -773,7 +915,6 @@ const validationRanges: Record<keyof SerializedColor, [min: number, max: number]
   hue: [Color.MIN_HUE_VALUE, Color.MAX_HUE_VALUE],
   saturation: [Color.MIN_SATURATION_VALUE, Color.MAX_SATURATION_VALUE],
   lightness: [Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE],
-  luminance: [0, 1], // dummy
 }
 
 /**
@@ -794,8 +935,8 @@ export namespace ColorLookup {
    */
   export function fromCSSName(name: LenientString<CSSColor>): Color {
     name = name.toLowerCase()
-    if (LOOKUP_DICTIONARY[name]) {
-      return Color.fromHex(`#${LOOKUP_DICTIONARY[name]}`)
+    if (LOOKUP_DICTIONARY.value[name]) {
+      return Color.fromHex(`#${LOOKUP_DICTIONARY.value[name]}`)
     }
     return null
   }
@@ -804,7 +945,6 @@ export namespace ColorLookup {
    * Get the CSS color name from a color.
    * @param color - A color string or {@link Color} object.
    * @returns A string representing the name of the color if it happens to have a
-   * @throws An error when the string is not a valid syntax supported by {@link Color.fromString}.
    * @example
    * const color = Color.fromString('#556b2f')
    * ColorLookup.toCSSName(color) // 'darkolivegreen'
@@ -824,7 +964,7 @@ export namespace ColorLookup {
       lookupHexCode = color.toString(ColorFormat.FFFFFF)
     }
     return lookupHexCode
-      ? LOOKUP_DICTIONARY[lookupHexCode.replace('#', '')] ?? null
+      ? LOOKUP_DICTIONARY.value[lookupHexCode.replace('#', '')] as CSSColor ?? null
       : null
   }
 

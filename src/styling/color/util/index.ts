@@ -1,4 +1,7 @@
-import { Color } from '..'
+import { Color, SerializedColor } from '..'
+import { isString } from '../../../data'
+import { devError } from '../../../dev'
+import { isOutOfRange } from '../../../math/range'
 
 export type ColorSyntaxPair = [value: number, rawValue: string]
 
@@ -77,7 +80,7 @@ export function getValuesFromRGBString(value: string): ColorSyntaxArray {
 // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#syntax
 export function getValuesFromHSLString(value: string): ColorSyntaxArray {
   value = value.replace(/[,/]/g, ' ')
-  if (!/^\s*hsla?\(\s*([\d.]+(deg|rad)?|none)\s+[\d.]+%?\s+[\d.]+%?(\s+[\d.]+%?)?\s*\)\s*$/i.test(value)) {
+  if (!/^hsla?\(\s*([\d.]+(deg|rad)?|none)\s+[\d.]+%?\s+[\d.]+%?(\s+[\d.]+%?)?\s*\)$/i.test(value)) {
     throw new Error(`Invalid HSL string '${value}'`)
   }
   // Matches below are guaranteed because of earlier validations
@@ -98,4 +101,20 @@ export function getValuesFromHSLString(value: string): ColorSyntaxArray {
     alphaRaw ? Number(alphaRaw.match(/[\d.]+/)[0]) : null,
     alphaRaw ?? null,
   ]
+}
+
+export function showErrorIfInvalid(
+  name: keyof SerializedColor,
+  minValue: number,
+  maxValue: number,
+  value: number,
+  rawValue: number | string,
+): void {
+  if (name === 'alpha' && isString(rawValue) && /%/.test(rawValue)) {
+    // Because alpha can be in percentage or decimal
+    maxValue = 100
+  }
+  if (isOutOfRange(value, minValue, maxValue)) {
+    devError(`Expected ${name} value to be equal to or between ${minValue} and ${maxValue} but got: ${isString(rawValue) ? `"${rawValue}"` : `\`${rawValue}\``}`)
+  }
 }

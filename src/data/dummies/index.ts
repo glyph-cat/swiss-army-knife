@@ -36,6 +36,7 @@ const LOREM_IPSUM_SOURCE = ['lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectet
  * Lorem ipsum text generator.
  * @param wordCount - The number of words to generate.
  * @returns A string of dummy text.
+ * @public
  */
 export function getLoremIpsum(wordCount: number): string {
   const paragraph = []

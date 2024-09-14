@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react'
  * @public
  */
 export interface ClientOnlyProps {
-  children: ReactNode
+  children?: ReactNode
 }
 
 /**

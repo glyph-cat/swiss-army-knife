@@ -17,6 +17,7 @@ import { StrictPropertyKey } from '../../../types'
  *     return a.value < b.value ? -1 : 1
  *   }
  * })
+ * @public
  */
 export function sortObject<O extends Record<StrictPropertyKey, unknown>>(
   object: O,

@@ -5,6 +5,9 @@ import { devWarn } from '../../../dev'
 import { useRef } from '../../hooks/lazy-ref'
 import { IPortalFactoryState, PortalType } from './schema'
 
+/**
+ * @public
+ */
 export class PortalFactory {
 
   private portalIdCounter = 0
