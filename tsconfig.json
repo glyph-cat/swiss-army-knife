@@ -30,7 +30,9 @@
     "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
-    "./src/**/*.test*",
+    // NOTE: tests are not excluded so that they can benefit from having the
+    // same config that are being used in the source code.
+    // "./src/**/*.test*",
   ],
   "include": [
     "src",
