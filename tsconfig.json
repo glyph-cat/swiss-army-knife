@@ -37,5 +37,6 @@
   "include": [
     "src",
     "env.d.ts",
+    "custom.d.ts",
   ]
 }

@@ -5,17 +5,47 @@
 export const IS_DEBUG_ENV = process.env.NODE_ENV !== 'production'
 
 /**
- * Refers to the build type of this library used.
- * Possible values:
- * * `cjs` - Common JS
- * * `es`  - EcmaScript
- * * `mjs` - EcmaScript (minified)
- * * `rn`  - React Native
+ * The available build types of the package.
  * @public
  */
-export const LIB_BUILD_TYPE = process.env.BUILD_TYPE as (
-  'cjs' | 'es' | 'mjs' | 'rn'
-)
+export enum BuildType {
+  /**
+   * Common JS
+   */
+  CJS = 'CJS',
+  /**
+   * EcmaScript
+   */
+  ES = 'ES',
+  /**
+   * EcmaScript (minified)
+   */
+  MJS = 'MJS',
+  /**
+   * React Native
+   */
+  RN = 'RN',
+  /**
+   * Universal Module Definition
+   */
+  UMD = 'UMD',
+  /**
+   * Universal Module Definition (Minified)
+   */
+  UMD_MIN = 'UMD_MIN',
+}
+
+/**
+ * The package's build type.
+ * @public
+ */
+export const BUILD_TYPE = process.env.BUILD_TYPE as BuildType
+
+/**
+ * Hash of the Git commit in which the package's version is built.
+ * @public
+ */
+export const BUILD_HASH = process.env.BUILD_HASH as string
 
 /**
  * In React Native, the window is not exactly the same as what it is in the
@@ -30,7 +60,7 @@ export const LIB_BUILD_TYPE = process.env.BUILD_TYPE as (
  * @public
  */
 export const IS_CLIENT_ENV = IS_DEBUG_ENV ||
-  LIB_BUILD_TYPE === 'rn' ||
+  BUILD_TYPE === BuildType.RN ||
   typeof window !== 'undefined'
 // ^ NOTE: `typeof window !== 'undefined'` must be placed at the last because
 // the value remains unknown at compile time, and will result in dead code not
@@ -39,4 +69,4 @@ export const IS_CLIENT_ENV = IS_DEBUG_ENV ||
 /**
  * @public
  */
-export const VERSION = process.env.NPM_PACKAGE_VERSION
+export const VERSION = process.env.PACKAGE_VERSION

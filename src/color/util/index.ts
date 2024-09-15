@@ -1,7 +1,7 @@
 import { Color, SerializedColor } from '..'
-import { isString } from '../../../data'
-import { devError } from '../../../dev'
-import { isOutOfRange } from '../../../math/range'
+import { isString } from '../../data'
+import { devError } from '../../dev'
+import { isOutOfRange } from '../../math/range'
 
 export type ColorSyntaxPair = [value: number, rawValue: string]
 

@@ -3,11 +3,13 @@
 import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import autoprefixer from 'autoprefixer'
+import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import { version } from '../package.json'
+import { BuildType } from '../src/constants/public'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = ['.tsx', '.jsx', '.ts', '.js']
 
@@ -40,7 +42,7 @@ const EXTERNAL_LIBS = [
 interface IPluginConfig {
   overrides?: Record<string, unknown>
   mode?: 'development' | 'production'
-  buildEnv?: string
+  buildEnv?: BuildType
 }
 
 function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
@@ -99,9 +101,12 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
 
   // Replace values
   const replaceValues = {
+    'process.env.BUILD_HASH': JSON.stringify(
+      execSync('git rev-parse HEAD').toString().trim()
+    ),
     'process.env.BUILD_TYPE': JSON.stringify(buildEnv),
     'process.env.IS_INTERNAL_DEBUG_ENV': JSON.stringify('false'),
-    'process.env.NPM_PACKAGE_VERSION': JSON.stringify(version),
+    'process.env.PACKAGE_VERSION': JSON.stringify(version),
   }
   if (mode) {
     replaceValues['process.env.NODE_ENV'] = JSON.stringify(mode)
@@ -134,7 +139,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: 'cjs',
+      buildEnv: BuildType.CJS,
       overrides: {
         nodeResolve: nodeResolve({
           extensions: NODE_RESOLVE_EXTENSIONS_WEB,
@@ -152,7 +157,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: 'es',
+      buildEnv: BuildType.ES,
       overrides: {
         nodeResolve: nodeResolve({
           extensions: NODE_RESOLVE_EXTENSIONS_WEB,
@@ -170,7 +175,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: 'mjs',
+      buildEnv: BuildType.MJS,
       mode: 'production',
       overrides: {
         nodeResolve: nodeResolve({
@@ -189,7 +194,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: 'rn',
+      buildEnv: BuildType.RN,
       overrides: {
         nodeResolve: nodeResolve({
           extensions: NODE_RESOLVE_EXTENSIONS_RN,
@@ -198,6 +203,8 @@ const config: Array<RollupOptions> = [
     }),
   },
 ]
+
+// todo: add UMD builds?
 
 export default config
 

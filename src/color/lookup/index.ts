@@ -1,4 +1,4 @@
-import { LazyValue } from '../../../data/lazy-value'
+import { LazyValue } from '../../data/lazy-value'
 
 // Values are taken from https://www.w3.org/wiki/CSS/Properties/color/keywords
 

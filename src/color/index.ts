@@ -1,5 +1,5 @@
 // #region Imports
-import { IS_CLIENT_ENV } from '../../constants'
+import { IS_CLIENT_ENV } from '../constants'
 import {
   hasEitherProperties,
   hasProperty,
@@ -13,11 +13,11 @@ import {
   Nullable,
   omit,
   trySerialize
-} from '../../data'
-import { devError } from '../../dev'
-import { average, clamp } from '../../math'
-import { isOutOfRange } from '../../math/range'
-import { LenientString, NumericValues3 } from '../../types'
+} from '../data'
+import { devError } from '../dev'
+import { average, clamp } from '../math'
+import { isOutOfRange } from '../math/range'
+import { LenientString, NumericValues3 } from '../types'
 import {
   ColorFormat,
   ColorModifier,
