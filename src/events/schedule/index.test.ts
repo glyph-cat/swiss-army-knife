@@ -20,7 +20,7 @@ describe('Schedule', () => {
     const callback = jest.fn()
     const date = DateTime.now().plus({ seconds: 5 }).toJSDate()
     const scheduleRef = new ScheduledCallback(callback, date)
-    scheduleRef.clear()
+    scheduleRef.cancel()
     jest.advanceTimersByTime(5000 + 100) // <─────────┐
     // Give some time padding to compensate drifting ─┘
     expect(callback).not.toBeCalled()

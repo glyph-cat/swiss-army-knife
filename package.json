@@ -70,8 +70,8 @@
     "@types/luxon": "^3.3.7",
     "@types/node": "^20.10.5",
     "@types/object-hash": "^3.0.6",
-    "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc",
     "@types/react-native": "^0.72.8",
     "@types/react-test-renderer": "^18.0.7",
     "@types/sinonjs__fake-timers": "^8.1.5",
@@ -90,8 +90,8 @@
     "object-hash": "^3.0.0",
     "postcss": "^8.4.32",
     "puppeteer": "^21.6.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0-rc-fb9a90fa48-20240614",
+    "react-dom": "^19.0.0-rc-fb9a90fa48-20240614",
     "react-native": "^0.73.1",
     "react-router-dom": "^6.21.0",
     "react-test-renderer": "^18.2.0",
@@ -102,6 +102,10 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.19.0",
     "typescript": "^5.3.3"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
   },
   "browserslist": {
     "production": [

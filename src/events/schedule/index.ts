@@ -7,12 +7,19 @@
  */
 export class ScheduledCallback {
 
-  private M$isActive = true
+  /**
+   * @internal
+   */
+  private M$isTriggered = false
+
+  /**
+   * @internal
+   */
   private M$timeoutId: ReturnType<typeof setTimeout>
 
   /**
    * @param callback - The callback to be scheduled.
-   * @param triggerTime - Date and time of when the callback should be invoked.
+   * @param triggerTime - Date/time of when the callback should be invoked.
    * @example
    * const myScheduledCallback = new ScheduledCallback(someFunction, 3000)
    */
@@ -26,24 +33,24 @@ export class ScheduledCallback {
    * @example
    * const myScheduledCallback = new ScheduledCallback(someFunction, 3000)
    * myScheduledCallback.run()
-   * // `myScheduledCallback` will be runned invoked seconds later.
+   * // `myScheduledCallback` will be invoked 3 seconds later.
    */
   run(): void {
     const timeout = Math.max(0, this.triggerTime.getTime() - new Date().getTime())
     this.M$timeoutId = setTimeout(() => {
       this.callback()
-      this.M$isActive = false
+      this.M$isTriggered = true
     }, timeout)
   }
 
   /**
    * Cancel the schedule.
    * @example
-   * myScheduledCallback.clear()
+   * myScheduledCallback.cancel()
    */
-  clear(): void {
+  cancel(): void {
     clearTimeout(this.M$timeoutId)
-    this.M$isActive = false
+    this.M$isTriggered = true
   }
 
   /**
@@ -54,8 +61,8 @@ export class ScheduledCallback {
    * has not passed.
    */
   flush(): void {
-    this.clear()
-    if (!this.M$isActive) {
+    this.cancel()
+    if (!this.M$isTriggered) {
       this.callback()
     }
   }

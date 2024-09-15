@@ -21,6 +21,7 @@ const directoriesToProcess = [
   './src/random',
   './src/react',
   './src/react/components',
+  './src/react/core-ui',
   './src/react/hooks',
   './src/react/special',
   './src/string',

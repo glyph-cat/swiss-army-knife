@@ -54,6 +54,16 @@ const SATURATION = 'saturation'
 const LIGHTNESS = 'lightness'
 const LUMINANCE = 'luminance'
 
+// todo: what do these parameters stand for?
+function hueToRgb(p, q, t) {
+  if (t < 0) t += 1
+  if (t > 1) t -= 1
+  if (t < 1 / 6) return p + (q - p) * 6 * t
+  if (t < 1 / 2) return q
+  if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
+  return p
+}
+
 // #region Public utilities
 
 /**
@@ -75,7 +85,20 @@ export namespace ColorUtil {
     saturation: number,
     lightness: number
   ): NumericValues3 {
-    return [0, 0, 0]
+    // Reference: https://stackoverflow.com/a/9493060/5810737
+    let r: number, g: number, b: number
+    if (saturation === 0) {
+      r = g = b = lightness
+    } else {
+      const q = lightness < 0.5
+        ? lightness * (1 + saturation)
+        : lightness + saturation - lightness * saturation
+      const p = 2 * lightness - q
+      r = hueToRgb(p, q, hue + 1 / 3)
+      g = hueToRgb(p, q, hue)
+      b = hueToRgb(p, q, hue - 1 / 3)
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)]
   }
 
   /**

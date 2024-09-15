@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import { removeDuplicates } from '../../../../data/array/remove-duplicates'
 import { EMPTY_OBJECT } from '../../../../data/dummies'
+import { c } from '../../../../styling'
 import { JSFunction } from '../../../../types'
 import {
   MATERIAL_ICON_DEFAULTS,
@@ -9,7 +10,6 @@ import {
   MaterialIconStyleSheetProps,
   MaterialIconVariant,
 } from '../schema'
-import { concatClassNames } from '../../../../styling'
 
 /**
  * A convenience wrapper component around the Material Icon fonts.
@@ -55,7 +55,7 @@ export function MaterialIcon({
   const { className, style, ...remaingHtmlProps } = htmlProps
   return (
     <span
-      className={concatClassNames(
+      className={c(
         getVariantSpecs(variant)[0],
         className,
       )}
