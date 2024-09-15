@@ -27,3 +27,14 @@ export enum Spacing {
   XXL = 40,
   XXXL = 60,
 }
+
+/**
+ * CSS safe area insets.
+ * @public
+ */
+export enum SafeAreaInset {
+  TOP = 'env(safe-area-inset-top)',
+  LEFT = 'env(safe-area-inset-left)',
+  RIGHT = 'env(safe-area-inset-right)',
+  BOTTOM = 'env(safe-area-inset-bottom)',
+}

@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react'
+import { RefObject } from 'react'
 import { IS_INTERNAL_DEBUG_ENV } from '../../constants'
 import { clampedUnshift } from '../array/clamp'
 import { isUndefined } from '../type-check'
@@ -81,7 +81,7 @@ export function deepMemoize<A extends Array<unknown>, R>(
    * @defaultValue `2`
    */
   cacheSize = 2,
-  cacheSpy?: MutableRefObject<Array<[A, R]>>
+  cacheSpy?: RefObject<Array<[A, R]>>
 ): (...args: A) => R {
   let cacheStack: Array<[A, R]> = []
   return (...currentArgs: A) => {

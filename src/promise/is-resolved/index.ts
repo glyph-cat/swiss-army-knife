@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react'
+import { RefObject } from 'react'
 import { delay } from '../../events/delay'
 
 /**
@@ -26,7 +26,7 @@ import { delay } from '../../events/delay'
  */
 export function isResolved(
   promise: Promise<unknown>,
-  flag?: MutableRefObject<boolean>
+  flag?: RefObject<boolean>
 ): Promise<boolean> | void {
   if (flag) {
     promise.then((): void => {

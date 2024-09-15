@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react'
+import { RefObject } from 'react'
 import { areDepsEqual, deepMemoize, memoize } from '.'
 
 describe(areDepsEqual.name, (): void => {
@@ -69,7 +69,7 @@ test(memoize.name, (): void => {
 test(deepMemoize.name, (): void => {
 
   const add = jest.fn((num1: number, num2: number): number => num1 + num2)
-  const cacheSpy: MutableRefObject<Array<[[number, number], number]>> = {
+  const cacheSpy: RefObject<Array<[[number, number], number]>> = {
     current: null,
   }
   const memoizedAdd = deepMemoize(add, 2, cacheSpy)

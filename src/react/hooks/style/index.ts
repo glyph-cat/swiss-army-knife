@@ -1,20 +1,7 @@
-import {
-  CSSProperties,
-  useId,
-  useInsertionEffect,
-  useMemo,
-} from 'react'
+import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
 import { isNumber } from '../../../data'
 
-/**
- * @public
- */
-export enum EnvSafeAreaInset {
-  TOP = 'env(safe-area-inset-top)',
-  LEFT = 'env(safe-area-inset-left)',
-  RIGHT = 'env(safe-area-inset-right)',
-  BOTTOM = 'env(safe-area-inset-bottom)',
-}
+// todo: some of these functions are not exclusive to React, split them out
 
 /**
  * @public

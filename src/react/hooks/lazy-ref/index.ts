@@ -1,5 +1,5 @@
 import {
-  MutableRefObject,
+  RefObject,
   useRef as useRef_REACT, // eslint-disable-line no-restricted-imports
 } from 'react'
 import { EMPTY_OBJECT } from '../../../data/dummies'
@@ -28,7 +28,7 @@ import { isFunction } from '../../../data/type-check'
  */
 export function useRef<E>(
   valueOrFactory: E | (() => E) = null
-): MutableRefObject<E> {
+): RefObject<E> {
   const mutableRefObj = useRef_REACT(EMPTY_OBJECT as unknown as E)
   if (Object.is(mutableRefObj.current, EMPTY_OBJECT)) {
     const initialValue = isFunction(valueOrFactory)
