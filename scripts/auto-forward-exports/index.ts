@@ -50,7 +50,9 @@ function autoForwardExports(path: string): void {
       // Ignore if has '__...__' naming pattern
       !/^__.+__$/.test(rawItemStack[i])
     ) {
-      codeLineStack.push(`export * from './${rawItemStack[i]}'`)
+      let item = rawItemStack[i]
+      if (item === 'constants') { item += '/public' }
+      codeLineStack.push(`export * from './${item}'`)
       forwardedItemsCount += 1
     }
   }

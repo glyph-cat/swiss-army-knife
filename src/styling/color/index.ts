@@ -39,6 +39,11 @@ import {
 } from './util'
 // #endregion Imports
 
+// todo: add `@throws` to inline docs
+// todo: mention in docs that leading/trailing spaces are not allowed for all `fromString...` methods
+// todo: include MDN references for syntax in the inline docs, only relative syntax is not supported
+// todo: move `src/styling/color` to `src/color`
+
 // This helps to reduce chances typo and bundle size
 const RED = 'red'
 const GREEN = 'green'

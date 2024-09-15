@@ -170,15 +170,15 @@ describe('ColorUtil', (): void => {
 
   })
 
-  describe.skip(ColorUtil.fromHSLToRGB, (): void => {
+  describe.skip(ColorUtil.fromHSLToRGB.name, (): void => {
     // ...
   })
 
-  describe.skip(ColorUtil.fromRGBToHSL, (): void => {
+  describe.skip(ColorUtil.fromRGBToHSL.name, (): void => {
     // ...
   })
 
-  describe.skip(ColorUtil.getLuminance, (): void => {
+  test.skip(ColorUtil.getLuminance.name, (): void => {
     // ...
   })
 
