@@ -13,6 +13,7 @@ const directoriesToProcess = [
   './src/data/array',
   './src/data/object',
   './src/datetime',
+  './src/encoding',
   './src/events',
   './src/function',
   './src/hash',

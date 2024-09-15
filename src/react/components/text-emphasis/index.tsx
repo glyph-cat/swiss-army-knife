@@ -1,6 +1,5 @@
-import { ComponentType, ReactHTML } from 'react'
+import { ComponentType, HTMLElementType } from 'react'
 import { isString } from '../../../data/type-check'
-
 
 /**
  * @public
@@ -27,7 +26,7 @@ export interface TextEmphasisProps {
   /**
    * The component to render for the emphasized text.
    */
-  component: ComponentType<TextEmphasisComponentProps> | keyof ReactHTML
+  component: ComponentType<TextEmphasisComponentProps> | HTMLElementType
   /**
    * @defaultValue `false`
    */

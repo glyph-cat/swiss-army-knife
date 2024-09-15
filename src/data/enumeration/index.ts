@@ -66,6 +66,7 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
 
   /**
    * Underlying data of the enumeration.
+   * @internal
    */
   private M$enumeration: Enumeration<K, V> = ({} as Enumeration<K, V>)
 

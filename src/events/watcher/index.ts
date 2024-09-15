@@ -33,9 +33,24 @@ export interface WatcherStats {
  */
 export class Watcher<A extends Array<unknown>> {
 
+  /**
+   * @internal
+   */
   private M$watcherCollection: Record<number, CallableFunction> = {}
+
+  /**
+   * @internal
+   */
   private M$watchersAdded = 0
+
+  /**
+   * @internal
+   */
   private M$watchersRemoved = 0
+
+  /**
+   * @internal
+   */
   private M$counter = 0
 
   /**

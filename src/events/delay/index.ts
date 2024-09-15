@@ -24,7 +24,14 @@ export function delay(time: number): Promise<void> {
  */
 export class AdjustableDelay {
 
+  /**
+   * @internal
+   */
   private M$timeoutRef: ReturnType<typeof setTimeout>
+
+  /**
+   * @internal
+   */
   private M$resolveRef: TypedFunction
 
   /**

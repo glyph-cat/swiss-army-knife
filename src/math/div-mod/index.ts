@@ -1,4 +1,3 @@
-
 /**
  * A data structure that store the quotient and remainder of a division. There
  * are two methods to use this, pick whichever that is more convenient for your

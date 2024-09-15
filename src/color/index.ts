@@ -15,7 +15,7 @@ import {
   trySerialize
 } from '../data'
 import { devError } from '../dev'
-import { average, clamp } from '../math'
+import { clamp, NumericDataSet } from '../math'
 import { isOutOfRange } from '../math/range'
 import { LenientString, NumericValues3 } from '../types'
 import {
@@ -118,7 +118,7 @@ export namespace ColorUtil {
     const b = blue / Color.MAX_RGB_VALUE
     const maxRGB = Math.max(r, g, b)
     const minRGB = Math.min(r, g, b)
-    const lightness = average(maxRGB, minRGB)
+    const lightness = new NumericDataSet(maxRGB, minRGB).mean
     const maxMinRGBDiff = maxRGB - minRGB
     const saturation = maxRGB === minRGB ? 0 : (
       lightness <= 0.5

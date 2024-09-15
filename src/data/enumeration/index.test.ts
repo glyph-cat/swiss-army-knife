@@ -54,27 +54,27 @@ describe(fullyEnumerate.name, () => {
 describe(enumerate.name, (): void => {
 
   test('Check structure of enumeration', (): void => {
-    const enumaration = enumerate({ a: 1, b: 2 })
-    expect(enumaration).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
+    const enumeration = enumerate({ a: 1, b: 2 })
+    expect(enumeration).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
   })
 
   test('Attempt to modify existing value', (): void => {
-    const enumaration = enumerate({ a: 1, b: 2 })
+    const enumeration = enumerate({ a: 1, b: 2 })
     tryOnly(() => {
-      // @ts-expect-error Done on purpose to test behaviour.
-      enumaration.a = -1
+      // @ts-expect-error Done on purpose to test behavior.
+      enumeration.a = -1
     })
     // Check if structure of enumeration is still in tact
-    expect(enumaration).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
+    expect(enumeration).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
   })
 
   test('Attempt to add new value', (): void => {
-    const enumaration = enumerate({ a: 1, b: 2 })
+    const enumeration = enumerate({ a: 1, b: 2 })
     tryOnly(() => {
-      enumaration['c'] = 3
+      enumeration['c'] = 3
     })
     // Check if structure of original enumeration is still in tact
-    expect(enumaration).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
+    expect(enumeration).toStrictEqual({ a: 1, b: 2, 1: 'a', 2: 'b' })
   })
 
 })

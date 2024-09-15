@@ -20,7 +20,14 @@ export type TruthMapCore<K extends StrictPropertyKey> = Partial<Record<TruthMapK
  */
 export class FixedTruthMap<K extends StrictPropertyKey> {
 
+  /**
+   * @internal
+   */
   protected M$map: TruthMapCore<K>
+
+  /**
+   * @internal
+   */
   private M$nonDuplicatedKeys: Array<TruthMapKey<K>>
 
   /**
@@ -78,7 +85,7 @@ export class FixedTruthMap<K extends StrictPropertyKey> {
  * declaration.
  * @public
  */
-export class DynamicTruthMap<K extends StrictPropertyKey> extends FixedTruthMap<K>{
+export class DynamicTruthMap<K extends StrictPropertyKey> extends FixedTruthMap<K> {
 
   /**
    * @param keys - The values that will evaluate to be truthy when checking.
