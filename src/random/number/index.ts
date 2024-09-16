@@ -19,7 +19,7 @@ export function getRandomNumber(
   upperBoundExclusive: number
   // ^ Designed this way to make it easy to use with arrays
 ): number {
-  // TODO: use `crypto.getRandomValues`???
+  // TODO [medium priority]: use `crypto.getRandomValues`???
   const padding = upperBoundExclusive - lowerBoundInclusive
   return lowerBoundInclusive + Math.floor(Math.random() * padding)
 }
