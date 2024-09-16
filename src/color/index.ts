@@ -39,12 +39,9 @@ import {
 } from './util'
 // #endregion Imports
 
-// todo: examples for static `from...` methods
 // todo: add `@throws` to inline docs
 // todo: mention in docs that leading/trailing spaces are not allowed for all `fromString...` methods
 // todo: include MDN references for syntax in the inline docs, only relative syntax is not supported
-
-// todo: replace descriptions for properties "The red value in integer form (between `0` to `255`)." with "The red value of the color represented by a number between `0` to `255`."
 
 // This helps to reduce chances typo and bundle size
 const RED = 'red'
@@ -285,44 +282,6 @@ export class Color {
   }
 
   /**
-   * Creates a {@link Color} from the given RGB values.
-   * @param red - The red value represented by an integer between `0` to `255`.
-   * @param green - The green value represented by an integer between `0` to `255`.
-   * @param blue - The blue value represented by an integer between `0` to `255`.
-   * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
-   * @returns A {@link Color} instance with the given values.
-   * @example
-   * Color.fromRGBValues(255, 0, 0)
-   */
-  static fromRGBValues(red: number, green: number, blue: number, alpha?: number): Color {
-    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, red, red)
-    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, green, green)
-    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, blue, blue)
-    if (alpha) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alpha) }
-    const color = new Color()
-    color.M$internalValues = {
-      ...color.M$internalValues,
-      red,
-      green,
-      blue,
-      ...(isNullOrUndefined(alpha) ? {} : { alpha }),
-    }
-    return color
-  }
-
-  /**
-   * Creates a {@link Color} from a JavaScript object that contains the RGB values of a color.
-   * @param value - The JavaScript object representing the color.
-   * @returns A {@link Color} instance with the given values.
-   * @example
-   * Color.fromRGBObject({ red: 255, blue: 0, green: 0 })
-   */
-  static fromRGBObject(value: WithAlphaAsOptional<SerializedRGB>): Color {
-    const { red, green, blue, alpha } = value
-    return Color.fromRGBValues(red, green, blue, alpha)
-  }
-
-  /**
    * Creates a {@link Color} from a string that represents a color in RGB format.
    * @param value - The string representing the color (not case-sensitive).
    * @returns A {@link Color} instance with the given values.
@@ -351,21 +310,48 @@ export class Color {
     return color
   }
 
-  // #endregion .fromRGB
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains the RGB values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGBObject({ red: 255, blue: 0, green: 0 })
+   */
+  static fromRGBObject(value: WithAlphaAsOptional<SerializedRGB>): Color {
+    const { red, green, blue, alpha } = value
+    return Color.fromRGBValues(red, green, blue, alpha)
+  }
 
-  // #region .fromHSL
 
   /**
-   * Creates a {@link Color} from the given HSL values.
-   * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
-   * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
-   * @param lightness - The lightness, in percentage, represented by an integer between `0` to `100`.
+   * Creates a {@link Color} from the given RGB values.
+   * @param red - The red value represented by an integer between `0` to `255`.
+   * @param green - The green value represented by an integer between `0` to `255`.
+   * @param blue - The blue value represented by an integer between `0` to `255`.
    * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
    * @returns A {@link Color} instance with the given values.
    * @example
-   * Color.fromHSL(0, 100, 50)
+   * Color.fromRGBValues(255, 0, 0)
    */
-  static fromHSL(hue: number, saturation: number, lightness: number, alpha?: number): Color
+  static fromRGBValues(red: number, green: number, blue: number, alpha?: number): Color {
+    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, red, red)
+    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, green, green)
+    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, blue, blue)
+    if (alpha) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alpha) }
+    const color = new Color()
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      red,
+      green,
+      blue,
+      ...(isNullOrUndefined(alpha) ? {} : { alpha }),
+    }
+    return color
+  }
+
+  // #endregion .fromRGB
+
+  // #region .fromHSL
 
   /**
    * Creates a {@link Color} from a string that represents a color in HSL format.
@@ -385,6 +371,18 @@ export class Color {
    * Color.fromHSL({ hue: 0, saturation: 100, lightness: 50 })
    */
   static fromHSL(json: SerializedHSL): Color
+
+  /**
+   * Creates a {@link Color} from the given HSL values.
+   * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
+   * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
+   * @param lightness - The lightness, in percentage, represented by an integer between `0` to `100`.
+   * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSL(0, 100, 50)
+   */
+  static fromHSL(hue: number, saturation: number, lightness: number, alpha?: number): Color
 
   /**
    * @internal
@@ -416,6 +414,48 @@ export class Color {
   }
 
   /**
+   * Creates a {@link Color} from a string that represents a color in HSL format.
+   * @param value - The string representing the color (not case-sensitive).
+   * @throws An error if the string is not a valid color syntax.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSLString('hsl(0, 100%, 50%)')
+   */
+  static fromHSLString(value: string): Color {
+    const [
+      hue, hueRaw,
+      saturation, saturationRaw,
+      lightness, lightnessRaw,
+      alpha, alphaRaw,
+    ] = getValuesFromHSLString(value)
+    showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, hue, hueRaw)
+    showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, saturation, saturationRaw)
+    showErrorIfInvalid(LIGHTNESS, ...VALIDATION_RANGES.lightness, lightness, lightnessRaw)
+    if (alphaRaw) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alphaRaw) }
+    const color = new Color()
+    color.M$internalValues = {
+      ...color.M$internalValues,
+      hue,
+      saturation,
+      lightness,
+      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
+    }
+    return color
+  }
+
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains the HSL values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSLObject({ hue: 0, saturation: 100, lightness: 50 })
+   */
+  static fromHSLObject(value: WithAlphaAsOptional<SerializedHSL>): Color {
+    const { hue, saturation, lightness, alpha } = value
+    return Color.fromHSLValues(hue, saturation, lightness, alpha)
+  }
+
+  /**
    * Creates a {@link Color} from the given HSL values.
    * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
    * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
@@ -442,48 +482,6 @@ export class Color {
       saturation,
       lightness,
       ...(isNullOrUndefined(alpha) ? {} : { alpha }),
-    }
-    return color
-  }
-
-  /**
-   * Creates a {@link Color} from a JavaScript object that contains the HSL values of a color.
-   * @param value - The JavaScript object representing the color.
-   * @returns A {@link Color} instance with the given values.
-   * @example
-   * Color.fromHSLObject({ hue: 0, saturation: 100, lightness: 50 })
-   */
-  static fromHSLObject(value: WithAlphaAsOptional<SerializedHSL>): Color {
-    const { hue, saturation, lightness, alpha } = value
-    return Color.fromHSLValues(hue, saturation, lightness, alpha)
-  }
-
-  /**
-   * Creates a {@link Color} from a string that represents a color in HSL format.
-   * @param value - The string representing the color (not case-sensitive).
-   * @throws An error if the string is not a valid color syntax.
-   * @returns A {@link Color} instance with the given values.
-   * @example
-   * Color.fromHSLString('hsl(0, 100%, 50%)')
-   */
-  static fromHSLString(value: string): Color {
-    const [
-      hue, hueRaw,
-      saturation, saturationRaw,
-      lightness, lightnessRaw,
-      alpha, alphaRaw,
-    ] = getValuesFromHSLString(value)
-    showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, hue, hueRaw)
-    showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, saturation, saturationRaw)
-    showErrorIfInvalid(LIGHTNESS, ...VALIDATION_RANGES.lightness, lightness, lightnessRaw)
-    if (alphaRaw) { showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, alpha, alphaRaw) }
-    const color = new Color()
-    color.M$internalValues = {
-      ...color.M$internalValues,
-      hue,
-      saturation,
-      lightness,
-      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
     }
     return color
   }
