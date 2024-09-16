@@ -39,10 +39,6 @@ import {
 } from './util'
 // #endregion Imports
 
-// todo: add `@throws` to inline docs
-// todo: mention in docs that leading/trailing spaces are not allowed for all `fromString...` methods
-// todo: include MDN references for syntax in the inline docs, only relative syntax is not supported
-
 // This helps to reduce chances typo and bundle size
 const RED = 'red'
 const GREEN = 'green'
@@ -224,8 +220,10 @@ export class Color {
 
   /**
    * Creates a {@link Color} from a string that represents a color in RGB format.
-   * @param value - The string representing the color (not case-sensitive).
+   * @param value - A case-insensitive string representing the color.
+   * Leading and trailing spaces are not allowed.
    * @returns A {@link Color} instance with the given values.
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
    * @example
    * Color.fromRGB('rgb(255, 0, 0)')
    */
@@ -283,8 +281,10 @@ export class Color {
 
   /**
    * Creates a {@link Color} from a string that represents a color in RGB format.
-   * @param value - The string representing the color (not case-sensitive).
+   * @param value - A case-insensitive string representing the color.
+   * Leading and trailing spaces are not allowed.
    * @returns A {@link Color} instance with the given values.
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb
    * @example
    * Color.fromRGB('rgb(255, 0, 0)')
    */
@@ -355,9 +355,10 @@ export class Color {
 
   /**
    * Creates a {@link Color} from a string that represents a color in HSL format.
-   * @param value - The string representing the color (not case-sensitive).
-   * @throws An error if the string is not a valid color syntax.
+   * @param value - A case-insensitive string representing the color.
+   * Leading and trailing spaces are not allowed.
    * @returns A {@link Color} instance with the given values.
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl
    * @example
    * Color.fromHSL('hsl(0, 100%, 50%)')
    */
@@ -415,9 +416,10 @@ export class Color {
 
   /**
    * Creates a {@link Color} from a string that represents a color in HSL format.
-   * @param value - The string representing the color (not case-sensitive).
-   * @throws An error if the string is not a valid color syntax.
+   * @param value - A case-insensitive string representing the color.
+   * Leading and trailing spaces are not allowed.
    * @returns A {@link Color} instance with the given values.
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl
    * @example
    * Color.fromHSLString('hsl(0, 100%, 50%)')
    */
@@ -522,7 +524,6 @@ export class Color {
   /**
    * Creates a {@link Color} from a string that represents a color either in hex/rgb/hsl format.
    * @param value - A hex/rgb/hsl formatted string (not case-sensitive).
-   * @throws An error if the string is not a valid color syntax.
    * @returns A {@link Color} instance with the given values.
    * @example
    * Color.fromString('#ff0000)
@@ -776,7 +777,6 @@ export class Color {
    * @param format - The {@link ColorFormat}.
    * @param options - Additional formatting options.
    * @returns A string representation of the color.
-   * @throws An error when an invalid color format is provided.
    * @example
    * const color = Color.fromString('#00ff00')
    *

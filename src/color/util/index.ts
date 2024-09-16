@@ -77,7 +77,7 @@ export function getValuesFromRGBString(value: string): ColorSyntaxArray {
   ]
 }
 
-// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#syntax
+// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl
 export function getValuesFromHSLString(value: string): ColorSyntaxArray {
   value = value.replace(/[,/]/g, ' ')
   if (!/^hsla?\(\s*([\d.]+(deg|rad)?|none)\s+[\d.]+%?\s+[\d.]+%?(\s+[\d.]+%?)?\s*\)$/i.test(value)) {
