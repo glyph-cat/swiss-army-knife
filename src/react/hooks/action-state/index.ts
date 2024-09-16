@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 import { useCallback, useRef, useState, useTransition } from 'react'
 
 /**

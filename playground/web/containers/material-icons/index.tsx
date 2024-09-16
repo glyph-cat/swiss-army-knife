@@ -1,4 +1,3 @@
-/* eslint-disable import/no-deprecated */
 import {
   loadMaterialIconStyleSheet,
   MaterialIcon,

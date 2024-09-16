@@ -24,7 +24,7 @@ export function tryOnly(
         executedCallback.then(() => { resolve() })
       })
     }
-  } catch (e) {
+  } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
     // Do nothing
   }
 }

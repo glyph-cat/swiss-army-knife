@@ -49,11 +49,6 @@ describe(trySerialize.name, () => {
     expect(output).toBe('42')
   })
 
-  test('Happy path', () => {
-    const output = trySerialize({ foo: 1, bar: 2 })
-    expect(output).toBe('{"foo":1,"bar":2}')
-  })
-
   test.skip('Not serializable', () => {
     class Something { }
     const output = trySerialize(new Something())

@@ -29,7 +29,7 @@ export function isJSONequal(a: unknown, b: unknown): b is typeof a {
 export function trySerialize(value: unknown): string {
   try {
     return JSON.stringify(value)
-  } catch (e) {
+  } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
     return String(value)
   }
 }

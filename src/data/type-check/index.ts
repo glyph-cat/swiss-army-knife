@@ -24,7 +24,6 @@ export function isBoolean(value: unknown): value is boolean {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isFunction<Args extends any[] = any[], Payload = any>(
   value: unknown
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): value is TypedFunction<Args, Payload> {
   return typeof value === 'function'
 }

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-deprecated */
 import { Property } from 'csstype'
 import { CSSProperties, DetailedHTMLProps, HTMLAttributes } from 'react'
 import { TextProps } from 'react-native'

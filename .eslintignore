@@ -1,7 +1,0 @@
-*.draft*
-*.old*
-*.scripted*
-dist
-lib
-node_modules
-temp/

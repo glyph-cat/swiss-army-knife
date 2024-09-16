@@ -1,7 +1,4 @@
-import {
-  RefObject,
-  useRef as useRef_REACT, // eslint-disable-line no-restricted-imports
-} from 'react'
+import { RefObject, useRef as useRef_REACT } from 'react'
 import { EMPTY_OBJECT } from '../../../data/dummies'
 import { isFunction } from '../../../data/type-check'
 

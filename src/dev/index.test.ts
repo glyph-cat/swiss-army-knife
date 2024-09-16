@@ -31,7 +31,7 @@ describe(displayObjectPath.name, (): void => {
   test('Path with items', (): void => {
     const path = ['foo', '42', 'bar', 'baz3', '4bax']
     const output = displayObjectPath(path)
-    // eslint-disable-next-line quotes
+    // eslint-disable-next-line @stylistic/quotes
     expect(output).toBe("`foo['42'].bar.baz3['4bax']`")
   })
 
@@ -46,7 +46,7 @@ describe(displayStringArray.name, (): void => {
 
   test('Array with items', (): void => {
     const output = displayStringArray(['foo', 42, true])
-    // eslint-disable-next-line quotes
+    // eslint-disable-next-line @stylistic/quotes
     expect(output).toBe("['foo', '42', 'true']")
   })
 
@@ -61,7 +61,7 @@ describe(displayMixedArray.name, (): void => {
 
   test('Array with items', (): void => {
     const output = displayMixedArray(['foo', 42, true])
-    // eslint-disable-next-line quotes
+    // eslint-disable-next-line @stylistic/quotes
     expect(output).toBe("['foo', 42, true]")
   })
 

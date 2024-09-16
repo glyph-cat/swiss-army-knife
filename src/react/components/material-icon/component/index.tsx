@@ -1,4 +1,3 @@
-/* eslint-disable import/no-deprecated */
 import { JSX, useEffect } from 'react'
 import { removeDuplicates } from '../../../../data/array/remove-duplicates'
 import { EMPTY_OBJECT } from '../../../../data/dummies'

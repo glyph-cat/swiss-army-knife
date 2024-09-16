@@ -3,8 +3,6 @@ import { StrictPropertyKey } from '../../types'
 /**
  * @public
  */
-// Done on purpose
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type TruthMapKey<T> = T | (number & {}) | (string & {})
 
 /**

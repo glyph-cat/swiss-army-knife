@@ -1,4 +1,3 @@
-/* eslint-disable import/no-deprecated */
 import { AppRegistry, View } from 'react-native'
 // import { clamp } from '../../src'
 import { MaterialIcon, MATERIAL_ICON_DEFAULTS } from '../../src'
