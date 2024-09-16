@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useState } from 'react'
+import { ComponentType, JSX, useEffect, useState } from 'react'
 import { DynamicTruthMap } from '../../../data/truth-map'
 import { Watcher } from '../../../events/watcher'
 

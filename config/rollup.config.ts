@@ -35,6 +35,7 @@ const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
   'node_modules',
+  'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   ...Object.keys(require('../package.json').dependencies),
   ...Object.keys(require('../package.json').devDependencies),
 ].sort()
@@ -48,7 +49,6 @@ interface IPluginConfig {
 function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
   const { overrides = {}, mode, buildEnv } = config
   const basePlugins = {
-    autoImportReact: autoImportReact(),
     nodeResolve: nodeResolve(),
     // babel: babel({
     //   presets: [
@@ -77,7 +77,7 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
       tsconfigOverride: {
         compilerOptions: {
           declaration: false,
-          jsx: 'react',
+          jsx: 'react-jsx',
           declarationDir: null,
           outDir: null,
         },
@@ -207,19 +207,3 @@ const config: Array<RollupOptions> = [
 // todo: add UMD builds?
 
 export default config
-
-/**
- * Automatically `imports React from "react"` if file is JSX/TSX.
- */
-function autoImportReact() {
-  return {
-    name: 'autoImportReact',
-    transform(code, id) {
-      if (/(jsx|tsx)/gi.test(id)) {
-        code = 'import React from "react";\n' + code
-        return { code }
-      }
-      return null
-    },
-  }
-}

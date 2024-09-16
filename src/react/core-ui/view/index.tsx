@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes, forwardRef, useImperativeHandle } from 'react'
+import { DetailedHTMLProps, HTMLAttributes, JSX, forwardRef, useImperativeHandle } from 'react'
 import { c } from '../../../styling'
 import { useRef } from '../../hooks'
 import styles from './index.module.css'

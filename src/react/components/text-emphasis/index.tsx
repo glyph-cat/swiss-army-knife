@@ -1,4 +1,4 @@
-import { ComponentType, HTMLElementType } from 'react'
+import { ComponentType, HTMLElementType, JSX } from 'react'
 import { isString } from '../../../data/type-check'
 
 /**

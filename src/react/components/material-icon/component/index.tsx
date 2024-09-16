@@ -1,5 +1,5 @@
 /* eslint-disable import/no-deprecated */
-import { useEffect } from 'react'
+import { JSX, useEffect } from 'react'
 import { removeDuplicates } from '../../../../data/array/remove-duplicates'
 import { EMPTY_OBJECT } from '../../../../data/dummies'
 import { c } from '../../../../styling'

@@ -1,4 +1,5 @@
 /* eslint-disable import/no-deprecated */
+import { JSX } from 'react'
 import { Animated, DimensionValue } from 'react-native'
 import { EMPTY_FUNCTION, EMPTY_OBJECT } from '../../../../data/dummies'
 import {

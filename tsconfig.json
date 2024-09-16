@@ -32,7 +32,7 @@
     "./src/**/*.old*",
     // NOTE: tests are not excluded so that they can benefit from having the
     // same config that are being used in the source code.
-    // "./src/**/*.test*",
+    "./src/**/*.test*",
   ],
   "include": [
     "src",
