@@ -80,9 +80,21 @@ export type WithAlphaAsOptional<T> = Omit<T, 'alpha'> & { alpha?: number }
  * @public
  */
 export interface SerializedRGB {
+  /**
+   * The red value represented by an integer between `0` to `255`.
+   */
   red: number
+  /**
+   * The green value represented by an integer between `0` to `255`.
+   */
   green: number
+  /**
+   * The blue value represented by an integer between `0` to `255`.
+   */
   blue: number
+  /**
+   * The alpha value represented by a decimal between `0.0 to `1.0`.
+   */
   alpha: number
 }
 
@@ -90,9 +102,21 @@ export interface SerializedRGB {
  * @public
  */
 export interface SerializedHSL {
+  /**
+   * The hue, in degrees, represented by an integer between `0` to `360`.
+   */
   hue: number
+  /**
+   * The saturation, in percentage, represented by an integer between 0 to 100.
+   */
   saturation: number
+  /**
+   * The lightness, in percentage, represented by an integer between 0 to 100.
+   */
   lightness: number
+  /**
+   * The alpha value represented by a decimal between `0.0 to `1.0`.
+   */
   alpha: number
 }
 
@@ -100,13 +124,38 @@ export interface SerializedHSL {
  * @public
  */
 export interface SerializedColor {
+  /**
+   * The red value represented by an integer between `0` to `255`.
+   */
   red: number
+  /**
+   * The green value represented by an integer between `0` to `255`.
+   */
   green: number
+  /**
+   * The blue value represented by an integer between `0` to `255`.
+   */
   blue: number
+  /**
+   * The alpha value represented by a decimal between `0.0 to `1.0`.
+   */
   alpha: number
+  /**
+   * The hue, in degrees, represented by an integer between `0` to `360`.
+   */
   hue: number
+  /**
+   * The saturation, in percentage, represented by an integer between `0` to `100`.
+   */
   saturation: number
+  /**
+   * The lightness, in percentage, represented by an integer between `0` to `100`.
+   */
   lightness: number
+  /**
+   * The perceived brightness of the color, in percentage, represented by a number
+   * between `0` to `100`.
+   */
   luminance: number
 }
 
@@ -135,7 +184,7 @@ export interface ContrastingValueSpecifications<T> {
    */
   dark: T
   /**
-   * A value between 0 - 255.
+   * A value between `0` to `255`.
    * A color is considered 'dark' once its brightness exceeds this value.
    * @defaultValue `127`
    */

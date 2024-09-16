@@ -1,7 +1,4 @@
-import {
-  TimeEstimator,
-  MINIMUM_TIME_ESTIMATOR_CACHE_SIZE,
-} from '.'
+import { TimeEstimator } from '.'
 
 describe(TimeEstimator.name, (): void => {
 
@@ -21,7 +18,7 @@ describe(TimeEstimator.name, (): void => {
     expect(timeEstimator.getEstimation()).toBe(Infinity)
   })
 
-  test(`Snapshot limit: ${MINIMUM_TIME_ESTIMATOR_CACHE_SIZE} (Default)`, (): void => {
+  test(`Snapshot limit: ${TimeEstimator.MINIMUM_CACHE_SIZE} (Default)`, (): void => {
     const timeEstimator = new TimeEstimator()
     timeEstimator.mark(10)
     jest.advanceTimersByTime(5000)

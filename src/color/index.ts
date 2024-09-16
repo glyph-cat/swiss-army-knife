@@ -39,10 +39,12 @@ import {
 } from './util'
 // #endregion Imports
 
+// todo: examples for static `from...` methods
 // todo: add `@throws` to inline docs
 // todo: mention in docs that leading/trailing spaces are not allowed for all `fromString...` methods
 // todo: include MDN references for syntax in the inline docs, only relative syntax is not supported
-// todo: move `src/styling/color` to `src/color`
+
+// todo: replace descriptions for properties "The red value in integer form (between `0` to `255`)." with "The red value of the color represented by a number between `0` to `255`."
 
 // This helps to reduce chances typo and bundle size
 const RED = 'red'
@@ -64,7 +66,7 @@ function hueToRgb(p, q, t) {
   return p
 }
 
-// #region Public utilities
+// #region ColorUtil
 
 /**
  * @public
@@ -73,10 +75,10 @@ export namespace ColorUtil {
 
   /**
    * Converts HSL values to RGB values.
-   * @param hue - The hue value in degrees (between 0 to 360)
-   * @param saturation - The saturation value in percentage (between 0 to 100)
-   * @param lightness - The lightness value in percentage (between 0 to 100)
-   * @returns A tuple containing 3 numbers (each between 0 to 255) that represent
+   * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
+   * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
+   * @param lightness - The lightness, in percentage, represented by an integer between `0` to `100`.
+   * @returns A tuple containing 3 numbers (each between `0` to `255`) that represent
    * the `[red, green, blue]` values.
    * @public
    */
@@ -103,12 +105,12 @@ export namespace ColorUtil {
 
   /**
    * Converts RGB values to HSL values.
-   * @param red - The red value in integer form (between 0 to 255)
-   * @param green - The green value in integer form (between 0 to 255)
-   * @param blue - The blue value in integer form (between 0 to 255)
+   * @param red - The red value represented by an integer between `0` to `255`.
+   * @param green - The green value represented by an integer between `0` to `255`.
+   * @param blue - The blue value represented by an integer between `0` to `255`.
    * @returns A tuple containing 3 numbers that represent the `[hue, saturation, lightness]`
-   * where hue is a number between 0 to 360, saturation is a value between 0 to 100,
-   * and lightness is a value between 0 to 100.
+   * where hue is an integer between `0` to `360`, and saturation and lightness
+   * are each integers between `0` to `100`.
    * @public
    */
   export function fromRGBToHSL(red: number, green: number, blue: number): NumericValues3 {
@@ -118,7 +120,7 @@ export namespace ColorUtil {
     const b = blue / Color.MAX_RGB_VALUE
     const maxRGB = Math.max(r, g, b)
     const minRGB = Math.min(r, g, b)
-    const lightness = new NumericDataSet(maxRGB, minRGB).mean
+    const lightness = new NumericDataSet([maxRGB, minRGB]).mean
     const maxMinRGBDiff = maxRGB - minRGB
     const saturation = maxRGB === minRGB ? 0 : (
       lightness <= 0.5
@@ -139,16 +141,16 @@ export namespace ColorUtil {
 
   /**
    * Determine the perceived brightness of a color.
-   * @param red - The red value, can be in decimal form (between 0 to 1) or
-   * between integer form (between 0 to 255) but must be consistent across all
-   * three parameters.
-   * @param green - The green value, can be in decimal form (between 0 to 1) or
-   * between integer form (between 0 to 255) but must be consistent across all
-   * three parameters.
-   * @param blue - The blue value, can be in decimal form (between 0 to 1) or
-   * between integer form (between 0 to 255) but must be consistent across all
-   * three parameters.
-   * @returns A number representing the luminance.
+   * @param red - The red value represented either by an integer between `0` to `255`
+   * or a decimal between `0.0` to `1.0`, but this must be consistent across
+   * all three parameters.
+   * @param green - The green value represented either by an integer between `0` to `255`
+   * or a decimal between `0.0` to `1.0`, but this must be consistent across
+   * all three parameters.
+   * @param blue - The blue value represented either by an integer between `0` to `255`
+   * or a decimal between `0.0` to `1.0`, but this must be consistent across
+   * all three parameters.
+   * @returns An integer representing the luminance between `0` to `100`.
    * @public
    */
   export function getLuminance(red: number, green: number, blue: number): number {
@@ -186,7 +188,7 @@ export namespace ColorUtil {
 
 }
 
-// #endregion Public utilities
+// #endregion ColorUtil
 
 type InternalValues = Omit<Record<keyof SerializedColor, number>, 'luminance'>
 
@@ -223,15 +225,41 @@ export class Color {
 
   // #region .fromRGB
 
+  /**
+   * Creates a {@link Color} from a string that represents a color in RGB format.
+   * @param value - The string representing the color (not case-sensitive).
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGB('rgb(255, 0, 0)')
+   */
   static fromRGB(string: string): Color
-  static fromRGB(json: SerializedRGB): Color
+
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains the RGB values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGB({ red: 255, blue: 0, green: 0 })
+   */
+  static fromRGB(json: WithAlphaAsOptional<SerializedRGB>): Color
+
+  /**
+   * Creates a {@link Color} from the given RGB values.
+   * @param red - The red value represented by an integer between `0` to `255`.
+   * @param green - The green value represented by an integer between `0` to `255`.
+   * @param blue - The blue value represented by an integer between `0` to `255`.
+   * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGB(255, 0, 0)
+   */
   static fromRGB(red: number, green: number, blue: number, alpha?: number): Color
 
   /**
    * @internal
    */
   static fromRGB(
-    firstArg: SerializedRGB | number | string,
+    firstArg: WithAlphaAsOptional<SerializedRGB> | number | string,
     green?: number,
     blue?: number,
     alpha?: number
@@ -256,6 +284,16 @@ export class Color {
     throw new Error('Invalid RGB parameter')
   }
 
+  /**
+   * Creates a {@link Color} from the given RGB values.
+   * @param red - The red value represented by an integer between `0` to `255`.
+   * @param green - The green value represented by an integer between `0` to `255`.
+   * @param blue - The blue value represented by an integer between `0` to `255`.
+   * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGBValues(255, 0, 0)
+   */
   static fromRGBValues(red: number, green: number, blue: number, alpha?: number): Color {
     showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, red, red)
     showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, green, green)
@@ -272,11 +310,25 @@ export class Color {
     return color
   }
 
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains the RGB values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGBObject({ red: 255, blue: 0, green: 0 })
+   */
   static fromRGBObject(value: WithAlphaAsOptional<SerializedRGB>): Color {
     const { red, green, blue, alpha } = value
     return Color.fromRGBValues(red, green, blue, alpha)
   }
 
+  /**
+   * Creates a {@link Color} from a string that represents a color in RGB format.
+   * @param value - The string representing the color (not case-sensitive).
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromRGB('rgb(255, 0, 0)')
+   */
   static fromRGBString(value: string): Color {
     const [
       red, redRaw,
@@ -303,8 +355,35 @@ export class Color {
 
   // #region .fromHSL
 
+  /**
+   * Creates a {@link Color} from the given HSL values.
+   * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
+   * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
+   * @param lightness - The lightness, in percentage, represented by an integer between `0` to `100`.
+   * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSL(0, 100, 50)
+   */
   static fromHSL(hue: number, saturation: number, lightness: number, alpha?: number): Color
+
+  /**
+   * Creates a {@link Color} from a string that represents a color in HSL format.
+   * @param value - The string representing the color (not case-sensitive).
+   * @throws An error if the string is not a valid color syntax.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSL('hsl(0, 100%, 50%)')
+   */
   static fromHSL(string: string): Color
+
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains the HSL values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSL({ hue: 0, saturation: 100, lightness: 50 })
+   */
   static fromHSL(json: SerializedHSL): Color
 
   /**
@@ -336,6 +415,16 @@ export class Color {
     throw new Error('Invalid HSL parameter')
   }
 
+  /**
+   * Creates a {@link Color} from the given HSL values.
+   * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
+   * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
+   * @param lightness - The lightness, in percentage, represented by an integer between `0` to `100`.
+   * @param alpha - The alpha value represented by a decimal between `0.0` to `1.0`.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSLValues(0, 100, 50)
+   */
   static fromHSLValues(
     hue: number,
     saturation: number,
@@ -357,18 +446,25 @@ export class Color {
     return color
   }
 
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains the HSL values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromHSLObject({ hue: 0, saturation: 100, lightness: 50 })
+   */
   static fromHSLObject(value: WithAlphaAsOptional<SerializedHSL>): Color {
     const { hue, saturation, lightness, alpha } = value
     return Color.fromHSLValues(hue, saturation, lightness, alpha)
   }
 
   /**
-   * Parses a HSL color string into a {@link Color}.
-   * @param value - A HSL formatted string that is not case-sensitive.
+   * Creates a {@link Color} from a string that represents a color in HSL format.
+   * @param value - The string representing the color (not case-sensitive).
    * @throws An error if the string is not a valid color syntax.
+   * @returns A {@link Color} instance with the given values.
    * @example
-   * Color.fromString('hsl(0, 100%, 50%)')
-   * @returns A {@link Color} instance.
+   * Color.fromHSLString('hsl(0, 100%, 50%)')
    */
   static fromHSLString(value: string): Color {
     const [
@@ -397,11 +493,11 @@ export class Color {
   // #region .fromString
 
   /**
-   * Parses a hex color string into a {@link Color}.
-   * @param value - A hex formatted string that is not case-sensitive.
+   * Creates a {@link Color} from a string that represents a color in hex format.
+   * @param value - A hex formatted string (not case-sensitive).
+   * @returns A {@link Color} instance with the given values.
    * @example
-   * Color.fromString('#ff0000)
-   * @returns A {@link Color} instance.
+   * Color.fromHex('#ff0000)
    */
   static fromHex(value: string): Color {
     const [
@@ -426,14 +522,14 @@ export class Color {
   }
 
   /**
-   * Parses a color string into a {@link Color}.
-   * @param value - A hex/rgb/rgba/hsl/hsla formatted string that is not case-sensitive.
+   * Creates a {@link Color} from a string that represents a color either in hex/rgb/hsl format.
+   * @param value - A hex/rgb/hsl formatted string (not case-sensitive).
    * @throws An error if the string is not a valid color syntax.
+   * @returns A {@link Color} instance with the given values.
    * @example
    * Color.fromString('#ff0000)
    * Color.fromString('rgb(255, 0, 0)')
    * Color.fromString('hsl(0, 100%, 50%)')
-   * @returns A {@link Color} instance.
    */
   static fromString(value: string): Color {
     if (/^#/.test(value)) {
@@ -449,6 +545,15 @@ export class Color {
 
   // #endregion `fromString`
 
+  /**
+   * Creates a {@link Color} from a JavaScript object that contains either the
+   * RGB or HSL values of a color.
+   * @param value - The JavaScript object representing the color.
+   * @returns A {@link Color} instance with the given values.
+   * @example
+   * Color.fromJSON({ red: 255, blue: 0, green: 0 })
+   * Color.fromJSON({ hue: 0, saturation: 100, lightness: 50 })
+   */
   static fromJSON(value: SerializedRGB | SerializedHSL): Color {
     // Using `hasProperty` only because all fields are mandatory here
     // can use static `from...` methods here because the values are not processed
@@ -476,6 +581,9 @@ export class Color {
 
   // #region Getters
 
+  /**
+   * A flag indicating whether the color has invalid values.
+   */
   get isInvalid(): boolean {
     if (hasProperty(this.M$internalValues, RED)) {
       if (
@@ -501,7 +609,7 @@ export class Color {
   }
 
   /**
-   * The red value of the color represented by a number between `0` to `255`.
+   * The red value represented by an integer between `0` to `255`.
    */
   get red(): number {
     if (isNull(this.M$internalValues.red)) { this.initRGBValues() }
@@ -509,7 +617,7 @@ export class Color {
   }
 
   /**
-   * The green value of the color represented by a number between `0` to `255`.
+   * The green value represented by an integer between `0` to `255`.
    */
   get green(): number {
     if (isNull(this.M$internalValues.green)) { this.initRGBValues() }
@@ -517,7 +625,7 @@ export class Color {
   }
 
   /**
-   * The blue value of the color represented by a number between `0` to `255`.
+   * The blue value represented by an integer between `0` to `255`.
    */
   get blue(): number {
     if (isNull(this.M$internalValues.blue)) { this.initRGBValues() }
@@ -525,15 +633,14 @@ export class Color {
   }
 
   /**
-   * The alpha value of the color represented by a number between `0.0` to `1.0`.
+   * The alpha value represented by a decimal between `0.0` to `1.0`.
    */
   get alpha(): number {
     return this.M$internalValues.alpha
   }
 
   /**
-   * The hue value of the color, measured in degrees, represented by a number
-   * between `0` to `360`.
+   * The hue, in degrees, represented by an integer between `0` to `360`.
    */
   get hue(): number {
     if (isNull(this.M$internalValues.hue)) { this.initHSLValues() }
@@ -541,7 +648,7 @@ export class Color {
   }
 
   /**
-   * The saturation value of the color represented by a number between `0` to `100`.
+   * The saturation, in percentage, represented by an integer between `0` to `100`.
    */
   get saturation(): number {
     if (isNull(this.M$internalValues.saturation)) { this.initHSLValues() }
@@ -549,7 +656,7 @@ export class Color {
   }
 
   /**
-   * The lightness value of the color represented by a number between `0` to `100`.
+   * The lightness, in percentage, represented by an integer between `0` to `100`.
    */
   get lightness(): number {
     if (isNull(this.M$internalValues.lightness)) { this.initHSLValues() }
@@ -557,7 +664,8 @@ export class Color {
   }
 
   /**
-   * The perceived brightness of the color represented by a number between `0` to `100`.
+   * The perceived brightness of the color, in percentage, represented by a number
+   * between `0` to `100`.
    */
   get luminance(): number {
     return ColorUtil.getLuminance(this.red, this.green, this.blue)
@@ -648,6 +756,10 @@ export class Color {
 
   // #region Serialization
 
+  /**
+   * Serializes the color into a JavaScript object.
+   * @returns A plain JavaScript object representing the color.
+   */
   toJSON(): SerializedColor {
     return {
       red: this.red,
@@ -859,77 +971,6 @@ export class Color {
     }
     return `hsl(${outputStack.join(', ')})`
   }
-
-  // /**
-  //  * @deprecated
-  //  * - To have one validator for each color field.
-  //  * - for RGB need to accommodate [base-10] and [hex]
-  //  * - for % values need to handle [%] and [0.1]
-  //  * @internal
-  //  */
-  // private M$validateAndAssign = (
-  //   name: keyof SerializedColor,
-  //   value: number,
-  //   rawValue: number | string,
-  // ): this => {
-  //   this[`$${name}`] = name !== 'alpha' ? value : (value ?? Color.MAX_ALPHA_VALUE)
-  //   const [minValue, maxValue] = validationRanges[name]
-  //   this.M$validateBase(name, minValue, maxValue, value, rawValue)
-  //   return this
-  // }
-
-  // /**
-  //  * @internal
-  //  */
-  // private M$validateBase = (
-  //   name: keyof SerializedColor,
-  //   minValue: number,
-  //   maxValue: number,
-  //   value: number,
-  //   rawValue: number | string,
-  //   // kiv: extra flag to trigger display min/max values in error message in hex???
-  // ): void => {
-  //   if (value < minValue || value > maxValue) {
-  //     devError(`Expected ${name} value to be equal to or between ${minValue} and ${maxValue} but got <${rawValue}>`)
-  //     this.M$isInvalid[name] = true
-  //   }
-  // }
-
-  // /**
-  //  * @internal
-  //  */
-  // private M$validateAndAssignAlpha = (
-  //   value: number,
-  //   rawValue: number | string,
-  // ): this => {
-  //   if (rawValue && isString(rawValue)) {
-  //     value = /%/.test(rawValue) ? (value / 100) : value
-  //   } else {
-  //     value = Color.MAX_ALPHA_VALUE
-  //   }
-  //   this.M$validateBase(
-  //     'alpha',
-  //     Color.MIN_ALPHA_VALUE,
-  //     Color.MAX_ALPHA_VALUE,
-  //     value,
-  //     rawValue,
-  //   )
-  //   this.M$internalValues.alpha = value
-  //   return this
-  // }
-
-  // /**
-  //  * @internal
-  //  */
-  // private M$validateAndAssignRGB = (
-  //   name: 'red' | 'green' | 'blue',
-  //   value: number,
-  //   rawValue: number | string,
-  // ): this => {
-  //   this.M$validateBase(name, Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE, value, rawValue)
-  //   this.M$internalValues[name] = value
-  //   return this
-  // }
 
   // #endregion Private helpers
 

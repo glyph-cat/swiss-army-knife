@@ -1,5 +1,5 @@
-import { RefObject } from 'react'
 import { areDepsEqual, deepMemoize, memoize } from '.'
+import { RefObject } from '../../types'
 
 describe(areDepsEqual.name, (): void => {
 

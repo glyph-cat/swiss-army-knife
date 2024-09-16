@@ -1,5 +1,5 @@
-import { RefObject } from 'react'
 import { delay } from '../../events/delay'
+import { RefObject } from '../../types'
 
 /**
  * Determine if a promise has been resolved.

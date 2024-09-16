@@ -93,6 +93,11 @@ export type NumericValues4 = [number, number, number, number]
 /**
  * @public
  */
+export type RefObject<T> = { current: T }
+
+/**
+ * @public
+ */
 export type Awaitable<T> = T | Promise<T>
 
 /**

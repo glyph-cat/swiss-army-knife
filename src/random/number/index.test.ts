@@ -1,5 +1,7 @@
 import { getRandomNumber } from '.'
 
+// todo: test with negative range and mixed range
+
 test(getRandomNumber.name, (): void => {
   for (let i = 0; i < 50; i++) {
     const output = getRandomNumber(5, 10)
