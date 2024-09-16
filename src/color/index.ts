@@ -39,7 +39,7 @@ import {
 } from './util'
 // #endregion Imports
 
-// This helps to reduce chances typo and bundle size
+// This helps to reduce chances of typo and bundle size
 const RED = 'red'
 const GREEN = 'green'
 const BLUE = 'blue'
