@@ -49,11 +49,4 @@ describe(trySerialize.name, () => {
     expect(output).toBe('42')
   })
 
-  test.skip('Not serializable', () => {
-    class Something { }
-    const output = trySerialize(new Something())
-    expect(output).toBe('{}')
-    // kiv: what triggers '[Object object]'?
-  })
-
 })

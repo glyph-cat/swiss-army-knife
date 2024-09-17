@@ -1,24 +1,9 @@
 import {
-  // devPrintOnce,
   displayObjectPath,
   displayMixedArray,
   displayOrdinalNumber,
   displayStringArray,
 } from '.'
-
-// describe(devPrintOnce.name, () => {
-
-//   test('devPrintOnce', () => {
-//     const spyInfo = jest.spyOn(console, 'info')
-//     const spyWarn = jest.spyOn(console, 'warn')
-//     devPrintOnce('info', 'a', 'lorem ipsum')
-//     devPrintOnce('info', 'b', 'lorem ipsum')
-//     devPrintOnce('info', 'a', 'lorem ipsum')
-//     devPrintOnce('warn', 'a', 'lorem ipsum')
-//     expect(spyInfo).toHaveBeenCalledTimes(2)
-//     expect(spyWarn).toHaveBeenCalledTimes(1)
-//   })
-// })
 
 describe(displayObjectPath.name, (): void => {
 

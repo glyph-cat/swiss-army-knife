@@ -26,6 +26,15 @@ export function shuffle<T>(array: Array<T>, strict = false): Array<T> {
       newArray[arrayLength] = newArray[randomIndex]
       newArray[randomIndex] = temporaryItem
     }
-  } while (strict && String(array) === String(newArray))
+  } while (strict && shallowEqual(array, newArray))
   return newArray
+}
+
+function shallowEqual<T>(a: Array<T>, b: Array<T>): boolean {
+  // Lengths should be the same but just in case
+  if (a.length !== b.length) { return false } // Early exit
+  for (let i = 0; i < a.length; i++) {
+    if (!Object.is(a[i], b[i])) { return false } // Early exit
+  }
+  return true
 }
