@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { name as PACKAGE_NAME } from '../../package.json'
+import { name as PACKAGE_NAME } from '../../../package.json'
 
 // Example usage:
 // /**
