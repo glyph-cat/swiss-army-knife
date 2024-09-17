@@ -82,10 +82,14 @@ export class NumericDataSet {
     if (isUndefined(this.M$median)) {
       if (IS_INTERNAL_DEBUG_ENV) { spyFn.current?.('median') }
       if (this.values.length % 2 !== 0) {
-        this.M$median = this.values[Math.ceil(this.values.length / 2)]
+        // NOTE: `Math.floor` is used instead of `Math.ceil` because array indices
+        // are zero-based.
+        this.M$median = this.values[Math.floor(this.values.length / 2)]
       } else {
         const halfLength = this.values.length / 2
-        this.M$median = (this.values[halfLength] + this.values[halfLength + 1]) / 2
+        // NOTE: Normally it would be `(n÷2)` and `(n÷2)+1`, but because
+        // array indices are zero-based, it becomes `(n÷2)-1` and `(n÷2)`
+        this.M$median = (this.values[halfLength - 1] + this.values[halfLength]) / 2
       }
     }
     return this.M$median
