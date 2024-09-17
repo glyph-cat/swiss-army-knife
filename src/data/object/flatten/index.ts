@@ -1,6 +1,6 @@
 import { StrictRecord } from '../../../types'
 import { isObject } from '../../type-check'
-import { hasProperty } from '../has-property'
+import { hasProperty } from '../property'
 
 /**
  * Flattens objects until they have one layer of depth only.

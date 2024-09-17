@@ -1,4 +1,4 @@
-import { hasProperty } from '../has-property'
+import { hasProperty } from '../property'
 
 /**
  * Similar to ordinary spread, except the final output object will only contain

@@ -1,5 +1,5 @@
 import { StrictPropertyKey } from '../../../types'
-import { hasProperty } from '../has-property'
+import { hasProperty } from '../property'
 
 /**
  * Removes items from an object. This does not mutate the original object.

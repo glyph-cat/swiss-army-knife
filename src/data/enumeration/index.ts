@@ -1,5 +1,5 @@
 import { StrictPropertyKey } from '../../types'
-import { hasProperty } from '../object/has-property'
+import { hasProperty } from '../object/property'
 
 /**
  * "Autofill" key-value properties in enums where values are non-numeric.
