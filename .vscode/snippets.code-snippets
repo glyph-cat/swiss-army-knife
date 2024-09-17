@@ -1,9 +1,26 @@
 {
+  "Import JSX from React": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "import JSX",
+    "body": "import { JSX } from 'react'",
+  },
   "Import scoped CSS": {
     "scope": "typescript,typescriptreact",
     "prefix": "import styles",
     "body": "import styles from './index.module.css'",
     "description": "Import scoped CSS"
+  },
+  "Region": {
+    "scope": "javascript,javascriptreact,typescript,typescriptreact",
+    "prefix": "//#region",
+    "body": [
+      "// #region $1",
+      "",
+      "$0",
+      "",
+      "// #endregion $1",
+    ],
+    "description": "Region block"
   },
   "TS expect error on purpose": {
     "scope": "typescript,typescriptreact",
@@ -15,11 +32,6 @@
     "scope": "typescript,typescriptreact",
     "prefix": "// Early exit",
     "body": "// Early exit"
-  },
-  "Import JSX from React": {
-    "scope": "typescript,typescriptreact",
-    "prefix": "import JSX",
-    "body": "import { JSX } from 'react'",
   },
   "Render Stack": {
     "scope": "typescript,typescriptreact",

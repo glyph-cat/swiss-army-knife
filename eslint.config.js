@@ -15,7 +15,7 @@ module.exports = [
   },
   {
     ignores: [
-      // 'eslint.config.js',
+      'eslint.config.js',
       'config/rollup.config.js',
       '*.draft*',
       '*.old*',
