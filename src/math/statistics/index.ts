@@ -2,6 +2,10 @@ import { IS_INTERNAL_DEBUG_ENV } from '../../constants'
 import { isUndefined } from '../../data'
 import { spyFn } from './test-utils'
 
+// References:
+// * https://www.youtube.com/watch?v=IaTFpp-uzp0
+// * https://www.youtube.com/watch?v=Uk98hiMQgN0
+
 /**
  * @public
  */
