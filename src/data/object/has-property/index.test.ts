@@ -35,18 +35,18 @@ describe(hasProperty.name, (): void => {
 
 })
 
-describe.skip(hasEitherProperties, () => {
+describe.skip(hasEitherProperties.name, () => {
 
   test('todo', () => {
-    hasEitherProperties()
+    // hasEitherProperties()
   })
 
 })
 
-describe.skip(hasTheseProperties, () => {
+describe.skip(hasTheseProperties.name, () => {
 
   test('todo', () => {
-    hasTheseProperties()
+    // hasTheseProperties()
   })
 
 })

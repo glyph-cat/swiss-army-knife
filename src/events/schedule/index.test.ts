@@ -10,10 +10,10 @@ describe('Schedule', () => {
     const date = DateTime.now().plus({ seconds: 5 }).toJSDate()
     const scheduleRef = new ScheduledCallback(callback, date)
     scheduleRef.run()
-    expect(callback).not.toBeCalled()
+    expect(callback).not.toHaveBeenCalled()
     jest.advanceTimersByTime(5000 + 100) // <─────────┐
     // Give some time padding to compensate drifting ─┘
-    expect(callback).toBeCalled()
+    expect(callback).toHaveBeenCalled()
   })
 
   test('Cancel schedule before timer matures', () => {
@@ -23,7 +23,7 @@ describe('Schedule', () => {
     scheduleRef.cancel()
     jest.advanceTimersByTime(5000 + 100) // <─────────┐
     // Give some time padding to compensate drifting ─┘
-    expect(callback).not.toBeCalled()
+    expect(callback).not.toHaveBeenCalled()
   })
 
 })
