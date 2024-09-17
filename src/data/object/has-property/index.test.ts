@@ -1,4 +1,12 @@
-import { hasEitherProperties, hasProperty, hasTheseProperties } from '.'
+import {
+  getObjectPathSegments,
+  hasDeepProperty,
+  hasEitherDeepProperties,
+  hasEitherProperties,
+  hasProperty,
+  hasTheseDeepProperties,
+  hasTheseProperties,
+} from '.'
 
 describe(hasProperty.name, (): void => {
 
@@ -35,18 +43,57 @@ describe(hasProperty.name, (): void => {
 
 })
 
-describe.skip(hasEitherProperties.name, () => {
+describe(hasEitherProperties.name, () => {
 
-  test('todo', () => {
+  test('Has none', () => {
+    // hasEitherProperties()
+  })
+
+  test('Has some', () => {
+    // hasEitherProperties()
+  })
+
+  test('Has all', () => {
     // hasEitherProperties()
   })
 
 })
 
-describe.skip(hasTheseProperties.name, () => {
+describe(hasTheseProperties.name, () => {
 
-  test('todo', () => {
+  test('Has none', () => {
     // hasTheseProperties()
   })
+
+  test('Has some', () => {
+    // hasTheseProperties()
+  })
+
+  test('Has all', () => {
+    // hasTheseProperties()
+  })
+
+})
+
+test.only(getObjectPathSegments.name, () => {
+  const output = getObjectPathSegments('foo.bar.123[a]["b"][\'c\'].d[`e`]')
+  expect(output).toStrictEqual(['foo', 'bar', '123', 'a', 'b', 'c', 'd', 'e'])
+})
+
+describe(hasDeepProperty.name, () => {
+
+  // ...
+
+})
+
+describe(hasEitherDeepProperties.name, () => {
+
+  // ...
+
+})
+
+describe(hasTheseDeepProperties.name, () => {
+
+  // ...
 
 })
