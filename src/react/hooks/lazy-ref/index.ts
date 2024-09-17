@@ -1,6 +1,7 @@
 import { RefObject, useRef as useRef_REACT } from 'react'
-import { EMPTY_OBJECT } from '../../../data/dummies'
 import { isFunction } from '../../../data/type-check'
+
+const EMPTY_OBJECT = {} as const
 
 /**
  * A drop-in replacement for React's built-in `useRef` hook but with additional
@@ -26,7 +27,7 @@ import { isFunction } from '../../../data/type-check'
 export function useRef<E>(
   valueOrFactory: E | (() => E) = null
 ): RefObject<E> {
-  const mutableRefObj = useRef_REACT(EMPTY_OBJECT as unknown as E)
+  const mutableRefObj = useRef_REACT(EMPTY_OBJECT as E)
   if (Object.is(mutableRefObj.current, EMPTY_OBJECT)) {
     const initialValue = isFunction(valueOrFactory)
       ? (valueOrFactory as (() => E))()

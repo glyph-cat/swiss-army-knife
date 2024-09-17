@@ -1,6 +1,5 @@
 import { JSX, useEffect } from 'react'
 import { removeDuplicates } from '../../../../data/array/remove-duplicates'
-import { EMPTY_OBJECT } from '../../../../data/dummies'
 import { c } from '../../../../styling'
 import { JSFunction } from '../../../../types'
 import {
@@ -49,7 +48,7 @@ export function MaterialIcon({
   color,
   size = MATERIAL_ICON_DEFAULTS.size,
   variant = MATERIAL_ICON_DEFAULTS.variant,
-  htmlProps = EMPTY_OBJECT,
+  htmlProps = {},
 }: MaterialIconProps): JSX.Element {
   const { className, style, ...remaingHtmlProps } = htmlProps
   return (

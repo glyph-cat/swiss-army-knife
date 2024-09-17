@@ -1,6 +1,5 @@
 import { JSX } from 'react'
 import { Animated, DimensionValue } from 'react-native'
-import { EMPTY_FUNCTION, EMPTY_OBJECT } from '../../../../data/dummies'
 import {
   MATERIAL_ICON_DEFAULTS,
   MaterialIconProps,
@@ -16,7 +15,7 @@ export function MaterialIcon({
   color,
   size = MATERIAL_ICON_DEFAULTS.size,
   variant = MATERIAL_ICON_DEFAULTS.variant,
-  nativeProps = EMPTY_OBJECT,
+  nativeProps = {},
 }: MaterialIconProps): JSX.Element {
   const { style, ...remainingNativeProps } = nativeProps
   return (
@@ -40,17 +39,21 @@ export function MaterialIcon({
   )
 }
 
-/**
- * @public
- * @deprecated
- */
-export const loadMaterialIconStyleSheets = EMPTY_FUNCTION
+/* eslint-disable */
 
 /**
  * @public
  * @deprecated
  */
-export const useMaterialIconStyleSheet = EMPTY_FUNCTION
+export const loadMaterialIconStyleSheets = () => { }
+
+/**
+ * @public
+ * @deprecated
+*/
+export const useMaterialIconStyleSheet = () => { }
+
+/* eslint-enable */
 
 /**
  * @public
