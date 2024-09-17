@@ -209,5 +209,3 @@ export function objSet(
     }
   }
 }
-
-// TODO: rename 'has-property' to 'property'
