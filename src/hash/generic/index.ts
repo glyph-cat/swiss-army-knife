@@ -30,12 +30,13 @@ export class HashFactory extends BaseHashFactory {
    * increased automatically.
    * @param minimumLength - The minimum length of the hash.
    * @param charset - The character set of the hash. Defaults to {@link Charset.DEFAULT}.
-   * @param bumpThreshold - When value is `1`, each time the number of collisions
-   * reach the maximum number of combinations based on the character set and
-   * minimum length, the minimum length of the generated hash will be increased
-   * by `1`. A lower value will allow the minimum length to be increased before
-   * all possible combinations are exhausted, therefore reducing retry attempts
-   * and minimizing computing resources. The default value is `0.8`.
+   * @param bumpThreshold - When value is `1`, each time the number of
+   * _**non-unique**_ collisions reach the maximum number of combinations
+   * based on the character set and minimum length, the minimum length of the
+   * generated hash will be increased by `1`. A lower value will allow the
+   * minimum length to be increased before all possible combinations are exhausted,
+   * therefore reducing retry attempts and minimizing computing resources.
+   * The default value is `0.8`.
    */
   constructor(
     public minimumLength: number,

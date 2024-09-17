@@ -1,4 +1,5 @@
 import { HashFactory } from '.'
+import { TruthRecord } from '../../types'
 
 describe(`static ${HashFactory.create.name}`, () => {
 
@@ -43,31 +44,27 @@ describe(HashFactory.prototype.create.name, () => {
     const minimumLength = 2
     const hashFactory = new HashFactory(minimumLength, charset, 1)
 
-    const sortFn = (a: string, b: string) => {
-      const lengthDiff = a.length - b.length
-      return lengthDiff !== 0 ? lengthDiff : (a < b ? -1 : 1)
+    const output: TruthRecord = {}
+    const numberOfHashesToGenerate = Math.pow(charset.length, minimumLength) + 1
+    for (let i = 0; i < numberOfHashesToGenerate; i++) {
+      output[hashFactory.create()] = true
     }
+    const generatedHashes = Object.keys(output)
 
-    const output1: Array<string> = []
-    for (let i = 0; i < Math.pow(charset.length, minimumLength); i++) {
-      output1.push(hashFactory.create())
-    }
-    expect(output1.sort(sortFn)).toStrictEqual(['aa', 'ab', 'ba', 'bb'])
+    // Check for uniqueness:
+    expect(generatedHashes.length).toBe(5)
 
-    const output2: Array<string> = []
-    for (let i = 0; i < Math.pow(charset.length, minimumLength + 1); i++) {
-      output2.push(hashFactory.create())
-    }
-    expect(output2.sort(sortFn)).toStrictEqual([
-      'aaa',
-      'aab',
-      'aba',
-      'abb',
-      'baa',
-      'bab',
-      'bba',
-      'bbb',
-    ])
+    // Check for length bump
+    expect(generatedHashes.some((hash) => hash.length > minimumLength)).toBe(true)
+
+    // NOTE:
+    // - The collision count is non-unique
+    // - For example, if 3 'aa' hashes were generated, the unique collision count
+    //   would be 1 but the total collision count is 3
+    // - Put bluntly, length bumping can occur prematurely, but this is an
+    //   acceptable compromise because we don't want to exhaust every possible
+    //   combination in a given charset and length before bumping it as it would
+    //   waste a lot of system resources.
 
   })
 
