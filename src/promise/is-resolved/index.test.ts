@@ -1,5 +1,5 @@
-import { delay } from '../../events/delay'
 import { isResolved } from '.'
+import { delay } from '../../events/delay'
 
 describe(isResolved.name, (): void => {
 
@@ -7,10 +7,7 @@ describe(isResolved.name, (): void => {
 
   test('With flag', async (): Promise<void> => {
 
-    async function exampleCallback(): Promise<void> {
-      await delay(100)
-    }
-    const examplePromise = exampleCallback()
+    const examplePromise = delay(100)
     const flag = { current: false }
 
     const output1 = isResolved(examplePromise, flag)
@@ -25,17 +22,10 @@ describe(isResolved.name, (): void => {
   })
 
   test('Without flag', async (): Promise<void> => {
-
-    async function exampleCallback(): Promise<void> {
-      await delay(100)
-    }
-    const examplePromise = exampleCallback()
-
+    const examplePromise = delay(100)
     expect(await isResolved(examplePromise)).toBe(false)
-
     await delay(100)
     expect(await isResolved(examplePromise)).toBe(true)
-
   })
 
 })
