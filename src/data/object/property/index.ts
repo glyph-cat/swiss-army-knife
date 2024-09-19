@@ -1,3 +1,13 @@
+import { IS_CLIENT_ENV } from '../../../constants'
+import { devError } from '../../../dev'
+import { StrictPropertyKey } from '../../../types'
+import { isNumber } from '../../type-check'
+
+/**
+ * @public
+ */
+export type ObjectPathSegments = Array<PropertyKey> | string
+
 /**
  * Checks if a property exists in an object.
  * This excludes the object's prototype.
@@ -28,12 +38,17 @@ export function hasProperty(
  */
 export function hasEitherProperties(
   object: unknown,
-  ...propertyNames: Array<PropertyKey>
+  propertyNames: Array<PropertyKey>
 ): boolean {
+  if (IS_CLIENT_ENV) {
+    if (propertyNames.length < 1) {
+      devError('Expected there to be at least one property name but got none')
+    }
+  }
   if (!object) { return false } // Early exit
   for (const propertyName of propertyNames) {
     if (Object.prototype.hasOwnProperty.call(object, propertyName)) {
-      return true
+      return true // Early exit
     }
   }
   return false
@@ -50,38 +65,83 @@ export function hasEitherProperties(
  */
 export function hasTheseProperties(
   object: unknown,
-  ...propertyNames: Array<PropertyKey>
+  propertyNames: Array<PropertyKey>
 ): boolean {
+  if (IS_CLIENT_ENV) {
+    if (propertyNames.length < 1) {
+      devError('Expected there to be at least one property name but got none')
+    }
+  }
   if (!object) { return false } // Early exit
   for (const propertyName of propertyNames) {
     if (!Object.prototype.hasOwnProperty.call(object, propertyName)) {
-      return false
+      return false // Early exit
     }
   }
-  return false
+  return true
 }
 
 /**
  * Breaks down string representing a path to a deeply nested property in an object
  * into an array.
+ *
+ * Tokenization strategy:
+ * ### `bar` will be treated as a string (object property) in the following conditions:
+ * ```txt
+ *   - foo.bar    // preceded by a dot
+ *   - foo[bar]   // closed in square brackets
+ *   - foo["bar"] // closed in square brackets with double quotes
+ *   - foo['bar'] // closed in square brackets with single quotes
+ *   - foo[`bar`] // closed in square brackets with backtick quotes
+ * ```
+ *
+ * ### `42` will be treated as a string (object property) in the following conditions:
+ * ```txt
+ *   - foo.42     // preceded by a dot
+ *   - foo["42"]  // closed in square brackets with double quotes
+ *   - foo['42']  // closed in square brackets with single quotes
+ *   - foo[`42`]  // closed in square brackets with backtick quotes
+ *   - foo[bar]42 // preceded by closing square bracket
+ * ```
+ *
+ * ### `42` will be treated as a number (array index) in the following condition:
+ * ```txt
+ *   - foo[42]    // closed in square brackets
+ * ```
+ *
+ * ### Miscellaneous
+ * ```txt
+ * // Optional chaining operators (`?.`) will be ignored
+ *   - foo?.bar     // = foo.bar
+ *   - foo?.['bar'] // = foo['bar']
+ * // Quotes within quotes are preserved
+ *   - [""a"]
+ * // Empty segments will be ignored
+ *   - a..b[]c      // = a.b.c
+ * ```
  * @param path - Path to a deeply nested property in an object.
  * @returns An array representing the path to the deeply nested property.
  * @example
- * getObjectPathAsArray('foo.bar.baz[0]')
- * // Output: ['foo', 'bar', 'baz', 0]
+ * getObjectPathAsArray('foo.bar[baz]["qux"]["0"][1]')
+ * // Output: ['foo', 'bar', 'baz', '0', 1]
  * @public
  */
-export function getObjectPathSegments(path: string): Array<string> {
-  // Adapted from https://stackoverflow.com/a/6491621
-  return String(path)
-    .replace(/\[(\w+)\]/g, '.$1') // convert indexes to properties
-    .replace(/^\./, '')           // strip a leading dot
-    .split('.')
-  // path = path
-  //   .replace(/\[["'`]/g, '[')
-  //   .replace(/["'`]\]/g, ']')
-  //   .replace(/\].?\[/g, '.')
-  // return path.split(/\./g)
+export function getObjectPathSegments(path: string): Array<StrictPropertyKey> {
+  path = path
+    .replace(/[.\]]([\d][\da-z_-]*)/gi, '["$1"]')
+    .replace(/[\]?]/g, '')
+    .replace(/\.?\[/g, '.')
+  const rawPathSegments = path.split(/\.\[?/g)
+  const pathSegments: Array<StrictPropertyKey> = []
+  for (let i = 0; i < rawPathSegments.length; i++) {
+    if (rawPathSegments[i].length <= 0) { continue }
+    if (/^\d+$/.test(rawPathSegments[i])) {
+      pathSegments.push(Number(rawPathSegments[i]))
+    } else {
+      pathSegments.push(rawPathSegments[i].replace(/^["'`]/, '').replace(/["'`]$/, ''))
+    }
+  }
+  return pathSegments
 }
 
 /**
@@ -97,9 +157,9 @@ export function getObjectPathSegments(path: string): Array<string> {
  */
 export function hasDeepProperty(
   object: unknown,
-  propertyPath: Array<PropertyKey> | PropertyKey
+  propertyPath: ObjectPathSegments
 ): boolean {
-  return objAt(object, propertyPath)[1]
+  return deepGet(object, propertyPath)[1]
 }
 
 /**
@@ -119,11 +179,16 @@ export function hasDeepProperty(
  */
 export function hasEitherDeepProperties(
   object: unknown,
-  ...propertyPaths: Array<Array<PropertyKey> | PropertyKey>
+  propertyPaths: Array<ObjectPathSegments>
 ): boolean {
+  if (IS_CLIENT_ENV) {
+    if (propertyPaths.length < 1) {
+      devError('Expected there to be at least one property path but got none')
+    }
+  }
   if (!object) { return false } // Early exit
   for (const propertyPath of propertyPaths) {
-    if (objAt(object, propertyPath)[1]) {
+    if (deepGet(object, propertyPath)[1]) {
       return true // Early exit
     }
   }
@@ -147,11 +212,16 @@ export function hasEitherDeepProperties(
  */
 export function hasTheseDeepProperties(
   object: unknown,
-  ...propertyPaths: Array<Array<PropertyKey> | PropertyKey>
+  propertyPaths: Array<ObjectPathSegments>
 ): boolean {
+  if (IS_CLIENT_ENV) {
+    if (propertyPaths.length < 1) {
+      devError('Expected there to be at least one property path but got none')
+    }
+  }
   if (!object) { return false } // Early exit
   for (const propertyPath of propertyPaths) {
-    if (!objAt(object, propertyPath)[1]) {
+    if (!deepGet(object, propertyPath)[1]) {
       return false // Early exit
     }
   }
@@ -167,14 +237,19 @@ export function hasTheseDeepProperties(
  * - `1`: a boolean indicating whether the value exists at the specified path
  * @public
  */
-export function objAt<T = unknown>(
+export function deepGet<T = unknown>(
   object: unknown,
-  pathSegments: PropertyKey | Array<PropertyKey>
+  pathSegments: ObjectPathSegments
 ): [value: T, exists: boolean] {
   if (!object) { return [undefined, false] } // Early exit
   let valueRef: unknown = object
   if (!Array.isArray(pathSegments)) {
-    pathSegments = getObjectPathSegments(String(pathSegments))
+    pathSegments = getObjectPathSegments(pathSegments)
+  }
+  if (IS_CLIENT_ENV) {
+    if (pathSegments.length <= 0) {
+      devError('Expected there to be at least one path segment but got none')
+    }
   }
   for (let i = 0; i < pathSegments.length; i++) {
     const key = pathSegments[i]
@@ -187,25 +262,63 @@ export function objAt<T = unknown>(
 }
 
 /**
- * Gets a value inside a deeply nested object. This mutates the original object.
- * @param object - The object to act on.
- * @param path - Path to the value in the object
+ * Sets a value inside a deeply nested object. This mutates the original object.
+ * @param object - The object to modify.
+ * @param pathSegments - Path to the value in the object.
  * @param value - The value to set.
  * @public
  */
-export function objSet(
+export function deepSetMutable(
   object: unknown,
-  path: string,
+  pathSegments: ObjectPathSegments,
   value: unknown
 ): void {
   let valueRef: unknown = object
-  for (let i = 0; i < path.length; i++) {
-    const key = path[i]
-    const isParentOfTarget = i === path.length - 1
-    if (isParentOfTarget) {
-      valueRef[key] = value
+  if (!Array.isArray(pathSegments)) {
+    pathSegments = getObjectPathSegments(pathSegments)
+  }
+  const indexOfParentOfTarget = pathSegments.length - 1
+  for (let i = 0; i < pathSegments.length; i++) {
+    const pathSegment = pathSegments[i]
+    if (i === indexOfParentOfTarget) {
+      valueRef[pathSegment] = value
+      break
     } else {
-      valueRef = hasProperty(valueRef, key) ? valueRef[key] : {}
+      if (!Object.prototype.hasOwnProperty.call(valueRef, pathSegment)) {
+        // If not number, then could be string or symbol:
+        valueRef[pathSegment] = isNumber(pathSegments[i + 1]) ? [] : {}
+      }
+      valueRef = valueRef[pathSegment]
     }
   }
+}
+
+export function deepSet<T>(
+  object: T,
+  pathSegments: ObjectPathSegments,
+  value: unknown
+): T {
+  const newObject = object
+  let valueRef = newObject
+  if (!Array.isArray(pathSegments)) {
+    pathSegments = getObjectPathSegments(pathSegments)
+  }
+  const indexOfParentOfTarget = pathSegments.length - 1
+  for (let i = 0; i < indexOfParentOfTarget; i++) {
+    const pathSegment = pathSegments[i]
+    // todo: still need to check if current valueRef is obj or arr, should assign if undefined in parent loop so that we don't need to check extra??
+    const subItemIsArray = false // todo
+    // NOTE: `valueRef` beyond this point is expected to be always defined:
+    // const subItem = valueRef[pathSegment] ?? (subItemIsArray ? [] : {})
+    if (Array.isArray(valueRef)) {
+      valueRef = [...valueRef] as T;
+      (valueRef as Array<unknown>).splice(pathSegment as number, 1, valueRef[pathSegment as number])
+    } else {
+      valueRef = {
+        ...valueRef,
+        [pathSegment]: valueRef[pathSegment],
+      }
+    }
+  }
+  return newObject
 }

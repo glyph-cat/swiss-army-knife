@@ -729,14 +729,14 @@ export class Color {
     partialValueOrModifier: Partial<SerializedRGB> | Partial<SerializedHSL> | MultiColorModifier
   ): Color {
     // todo: validate & assign new RGB(A)HSL values for each of the methods below
-    if (hasEitherProperties(partialValueOrModifier, RED, GREEN, BLUE)) {
+    if (hasEitherProperties(partialValueOrModifier, [RED, GREEN, BLUE])) {
       return Color.fromRGBObject({
         red: this.red,
         green: this.green,
         blue: this.blue,
         ...partialValueOrModifier,
       })
-    } else if (hasEitherProperties(partialValueOrModifier, HUE, SATURATION, LIGHTNESS)) {
+    } else if (hasEitherProperties(partialValueOrModifier, [HUE, SATURATION, LIGHTNESS])) {
       return Color.fromHSLObject({
         hue: this.hue,
         saturation: this.saturation,
@@ -903,13 +903,13 @@ export class Color {
       ...Color.M$DEFAULT_INTERNAL_VALUES,
       alpha: this.alpha, // Should always be copied
       ...(() => {
-        if (hasEitherProperties(overrideValues, 'red', 'green', 'blue')) {
+        if (hasEitherProperties(overrideValues, ['red', 'green', 'blue'])) {
           return {
             red: this.red,
             green: this.green,
             blue: this.blue,
           }
-        } else if (hasTheseProperties(overrideValues, 'hue', 'saturation', 'lightness')) {
+        } else if (hasTheseProperties(overrideValues, ['hue', 'saturation', 'lightness'])) {
           return {
             hue: this.hue,
             saturation: this.saturation,

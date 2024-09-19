@@ -93,7 +93,7 @@ export interface SerializedRGB {
    */
   blue: number
   /**
-   * The alpha value represented by a decimal between `0.0 to `1.0`.
+   * The alpha value represented by a decimal between `0.0 to` `1.0`.
    */
   alpha: number
 }
@@ -115,7 +115,7 @@ export interface SerializedHSL {
    */
   lightness: number
   /**
-   * The alpha value represented by a decimal between `0.0 to `1.0`.
+   * The alpha value represented by a decimal between `0.0` to `1.0`.
    */
   alpha: number
 }
@@ -137,7 +137,7 @@ export interface SerializedColor {
    */
   blue: number
   /**
-   * The alpha value represented by a decimal between `0.0 to `1.0`.
+   * The alpha value represented by a decimal between `0.0` to `1.0`.
    */
   alpha: number
   /**
