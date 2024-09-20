@@ -1,27 +1,29 @@
+import { isString } from '../../data'
+
 /**
- * Determine if a character is lower case. If the string contains more than `1`
- * character, they remaining ones are ignored.
- * @param char - The character to check.
- * @returns A boolean indicating whether the character is lower case.
+ * Determine if a whole string is lower case.
+ * @param value - The string to check.
+ * @returns A boolean indicating whether the whole string is lower case.
  * @example
- * isLowerCase('a') // true
- * isLowerCase('A') // false
+ * isLowerCase('hello world') // true
+ * isLowerCase('Hello World') // false
+ * isUpperCase('HELLO WORLD') // false
  * @public
  */
-export function isLowerCase(char: string): boolean {
-  return char?.[0] ? char[0] === char[0].toLowerCase() : false
+export function isLowerCase(value: string): boolean {
+  return isString(value) ? value === value.toLowerCase() : true
 }
 
 /**
- * Determine if a character is upper case. If the string contains more than `1`
- * character, they remaining ones are ignored.
- * @param char - The character to check.
- * @returns A boolean indicating whether the character is upper case.
+ * Determine if a whole string is upper case.
+ * @param value - The string to check.
+ * @returns A boolean indicating whether the whole string is upper case.
  * @example
- * isUpperCase('A') // true
- * isUpperCase('a') // false
+ * isUpperCase('HELLO WORLD') // true
+ * isUpperCase('Hello World') // false
+ * isUpperCase('hello world') // false
  * @public
  */
-export function isUpperCase(char: string): boolean {
-  return char?.[0] ? char[0] === char[0]?.toUpperCase() : false
+export function isUpperCase(value: string): boolean {
+  return isString(value) ? value === value.toUpperCase() : true
 }
