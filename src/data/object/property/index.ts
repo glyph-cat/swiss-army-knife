@@ -278,11 +278,10 @@ export function deepSetMutable(
     pathSegments = getObjectPathSegments(pathSegments)
   }
   const indexOfParentOfTarget = pathSegments.length - 1
-  for (let i = 0; i < pathSegments.length; i++) {
+  for (let i = 0; i <= indexOfParentOfTarget; i++) {
     const pathSegment = pathSegments[i]
     if (i === indexOfParentOfTarget) {
       valueRef[pathSegment] = value
-      break
     } else {
       if (!Object.prototype.hasOwnProperty.call(valueRef, pathSegment)) {
         // If not number, then could be string or symbol:
@@ -299,26 +298,28 @@ export function deepSet<T>(
   value: unknown
 ): T {
   const newObject = object
+  let newObjectRef: T
   let valueRef = newObject
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
   const indexOfParentOfTarget = pathSegments.length - 1
-  for (let i = 0; i < indexOfParentOfTarget; i++) {
+  for (let i = 0; i <= indexOfParentOfTarget; i++) {
     const pathSegment = pathSegments[i]
-    // todo: still need to check if current valueRef is obj or arr, should assign if undefined in parent loop so that we don't need to check extra??
-    const subItemIsArray = false // todo
-    // NOTE: `valueRef` beyond this point is expected to be always defined:
-    // const subItem = valueRef[pathSegment] ?? (subItemIsArray ? [] : {})
     if (Array.isArray(valueRef)) {
-      valueRef = [...valueRef] as T;
-      (valueRef as Array<unknown>).splice(pathSegment as number, 1, valueRef[pathSegment as number])
+      valueRef = [...valueRef] as T
     } else {
-      valueRef = {
-        ...valueRef,
-        [pathSegment]: valueRef[pathSegment],
+      valueRef = { ...valueRef }
+    }
+    if (i === 0) { newObjectRef = valueRef }
+    if (i !== indexOfParentOfTarget) {
+      if (!Object.prototype.hasOwnProperty.call(valueRef, pathSegment)) {
+        valueRef[pathSegment] = isNumber(pathSegment) ? [] : {}
       }
+      valueRef = valueRef[pathSegment]
+    } else {
+      valueRef[pathSegment] = value
     }
   }
-  return newObject
+  return newObjectRef
 }

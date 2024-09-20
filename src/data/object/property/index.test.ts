@@ -205,8 +205,50 @@ describe(deepGet.name, () => {
 
 describe(deepSet.name, () => {
 
-  test('', () => {
+  test.only('Value already exists', () => {
+    const obj = {
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    }
+    const originalSnapshot = JSON.stringify(obj)
+    const output = deepSet(obj, ['player', 'coord', 'x'], 2)
+    expect(output).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 2, y: 5 },
+      },
+    })
+    expect(Object.is(obj, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(originalSnapshot)
+  })
+
+  test('Value does not already exist', () => {
     // ...
+  })
+
+  test('Single key', () => {
+    const obj = {}
+    const originalSnapshot = JSON.stringify(obj)
+    const output = deepSet(obj, 'foo', 42)
+    expect(output).toStrictEqual({ foo: 42 })
+    expect(Object.is(obj, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(originalSnapshot)
+  })
+
+  describe('Object and array differentiation', () => {
+
+    test('Object property', () => {
+      // ...
+    })
+
+    test('Array index', () => {
+      // ...
+    })
+
   })
 
 })
@@ -237,6 +279,12 @@ describe(deepSetMutable.name, () => {
     expect(obj.player.coord['z']).toBe(2)
     deepSetMutable(obj, ['player', 'preferences', 'effects'], 'ultra')
     expect(obj.player['preferences']['effects']).toBe('ultra')
+  })
+
+  test('Single key', () => {
+    const obj = {}
+    deepSetMutable(obj, ['foo'], 42)
+    expect(obj['foo']).toBe(42)
   })
 
   describe('Object and array differentiation', () => {
