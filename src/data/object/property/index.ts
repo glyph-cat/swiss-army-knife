@@ -235,6 +235,9 @@ export function hasTheseDeepProperties(
  * @returns A tuple containing:
  * - `0`: the deeply nested value if it exists, otherwise `undefined`
  * - `1`: a boolean indicating whether the value exists at the specified path
+ * @example
+ * deepGet({ foo: { bar: 42 } }, 'foo.bar') // [42, true]
+ * deepGet({ foo: { bar: 42 } }, 'foo.baz') // [undefined, false]
  * @public
  */
 export function deepGet<T = unknown>(
@@ -262,10 +265,29 @@ export function deepGet<T = unknown>(
 }
 
 /**
- * Sets a value inside a deeply nested object. This mutates the original object.
+ * Sets a deeply nested value inside an object. This mutates the original object.
+ *
+ * If in-between properties do not already exist they will be created automatically:
+ * - if the path segment is a number, an array will be created
+ * - if the path segment is a string or symbol, an object will be created
+ *
+ * Path segments can be specified as a string and they will be automatically split
+ * into an array containing either strings or numbers. To learn more about
+ * the splitting behavior, see {@link getObjectPathSegments}.
+ *
  * @param object - The object to modify.
  * @param pathSegments - Path to the value in the object.
  * @param value - The value to set.
+ * @example
+ * const sourceObject = { foo: 1 }
+ * deepSet(sourceObject, 'bar.baz[0]', 42)
+ * // sourceObject:
+ * // {
+ * //   foo: 1,
+ * //   bar: {
+ * //     baz: [42],
+ * //   },
+ * // }
  * @public
  */
 export function deepSetMutable(
@@ -292,6 +314,36 @@ export function deepSetMutable(
   }
 }
 
+/**
+ * Creates a new object with the deeply nested property modified.
+ * This does not mutate the original object.
+ *
+ * If in-between properties do not already exist they will be created automatically:
+ * - if the path segment is a number, an array will be created
+ * - if the path segment is a string or symbol, an object will be created
+ *
+ * Path segments can be specified as a string and they will be automatically split
+ * into an array containing either strings or numbers. To learn more about
+ * the splitting behavior, see {@link getObjectPathSegments}.
+ *
+ * @param object - The object to modify.
+ * @param pathSegments - Path to the value in the object.
+ * @param value - The value to set.
+ * @returns A new object with the modified value.
+ * @example
+ * const sourceObject = { foo: 1 }
+ * const output = deepSet(sourceObject, 'bar.baz[0]', 42)
+ * // sourceObject:
+ * // { foo: 1 }
+ * //
+ * // output:
+ * // {
+ * //   foo: 1,
+ * //   bar: {
+ * //     baz: [42],
+ * //   },
+ * // }
+ */
 export function deepSet<T>(
   object: T,
   pathSegments: ObjectPathSegments,
