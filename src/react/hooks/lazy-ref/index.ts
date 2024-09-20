@@ -24,13 +24,13 @@ const EMPTY_OBJECT = {} as const
  * }
  * @public
  */
-export function useRef<E>(
-  valueOrFactory: E | (() => E) = null
-): RefObject<E> {
-  const mutableRefObj = useRef_REACT(EMPTY_OBJECT as E)
+export function useRef<T>(
+  valueOrFactory: T | (() => T) = null
+): RefObject<T> {
+  const mutableRefObj = useRef_REACT(EMPTY_OBJECT as T)
   if (Object.is(mutableRefObj.current, EMPTY_OBJECT)) {
     const initialValue = isFunction(valueOrFactory)
-      ? (valueOrFactory as (() => E))()
+      ? (valueOrFactory as (() => T))()
       : valueOrFactory
     mutableRefObj.current = initialValue
   }
