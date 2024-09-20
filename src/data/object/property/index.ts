@@ -297,29 +297,33 @@ export function deepSet<T>(
   pathSegments: ObjectPathSegments,
   value: unknown
 ): T {
-  const newObject = object
-  let newObjectRef: T
-  let valueRef = newObject
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
-  const indexOfParentOfTarget = pathSegments.length - 1
-  for (let i = 0; i <= indexOfParentOfTarget; i++) {
-    const pathSegment = pathSegments[i]
-    if (Array.isArray(valueRef)) {
-      valueRef = [...valueRef] as T
-    } else {
-      valueRef = { ...valueRef }
-    }
-    if (i === 0) { newObjectRef = valueRef }
-    if (i !== indexOfParentOfTarget) {
-      if (!Object.prototype.hasOwnProperty.call(valueRef, pathSegment)) {
-        valueRef[pathSegment] = isNumber(pathSegment) ? [] : {}
-      }
-      valueRef = valueRef[pathSegment]
-    } else {
-      valueRef[pathSegment] = value
+  return recursiveAssign(object, pathSegments, value)
+}
+
+/**
+ * @internal
+ */
+function recursiveAssign<T>(
+  object: T,
+  pathSegments: Array<PropertyKey>,
+  value: unknown
+): T {
+  const [pathSegment, ...nextPathSegments] = pathSegments
+  if (isNumber(pathSegment)) {
+    const arr = [...(object as Array<unknown>) ?? []]
+    arr[pathSegment] = nextPathSegments.length > 0
+      ? recursiveAssign(arr[pathSegment], nextPathSegments, value)
+      : value
+    return arr as T
+  } else {
+    return {
+      ...object,
+      [pathSegment]: nextPathSegments.length > 0
+        ? recursiveAssign(object?.[pathSegment], nextPathSegments, value)
+        : value,
     }
   }
-  return newObjectRef
 }

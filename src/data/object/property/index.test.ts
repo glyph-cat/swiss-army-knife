@@ -176,27 +176,27 @@ describe(hasTheseDeepProperties.name, () => {
 describe(deepGet.name, () => {
 
   test('Value exists', () => {
-    const obj = {
+    const sourceObject = {
       stageId: 1,
       player: {
         name: 'John',
         coord: { x: 1, y: 5 },
       },
     }
-    const [value, exists] = deepGet(obj, ['player', 'coord', 'x'])
+    const [value, exists] = deepGet(sourceObject, ['player', 'coord', 'x'])
     expect(value).toBe(1)
     expect(exists).toBe(true)
   })
 
   test('Value does not exist', () => {
-    const obj = {
+    const sourceObject = {
       stageId: 1,
       player: {
         name: 'John',
         coord: { x: 1, y: 5 },
       },
     }
-    const [value, exists] = deepGet(obj, ['player', 'coord', 'z'])
+    const [value, exists] = deepGet(sourceObject, ['player', 'coord', 'z'])
     expect(value).toBe(undefined)
     expect(exists).toBe(false)
   })
@@ -205,16 +205,16 @@ describe(deepGet.name, () => {
 
 describe(deepSet.name, () => {
 
-  test.only('Value already exists', () => {
-    const obj = {
+  test('Value already exists', () => {
+    const sourceObject = {
       stageId: 1,
       player: {
         name: 'John',
         coord: { x: 1, y: 5 },
       },
     }
-    const originalSnapshot = JSON.stringify(obj)
-    const output = deepSet(obj, ['player', 'coord', 'x'], 2)
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const output = deepSet(sourceObject, ['player', 'coord', 'x'], 2)
     expect(output).toStrictEqual({
       stageId: 1,
       player: {
@@ -222,31 +222,74 @@ describe(deepSet.name, () => {
         coord: { x: 2, y: 5 },
       },
     })
-    expect(Object.is(obj, output)).toBe(false)
-    expect(JSON.stringify(output)).not.toBe(originalSnapshot)
+    expect(Object.is(output, sourceObject)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
   })
 
   test('Value does not already exist', () => {
-    // ...
+    const sourceObject = {
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    }
+    const sourceSnapshot = JSON.stringify(sourceObject)
+
+    const output1 = deepSet(sourceObject, ['player', 'coord', 'z'], 2)
+    expect(output1).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5, z: 2 },
+      },
+    })
+    const output1Snapshot = JSON.stringify(output1)
+    expect(Object.is(sourceObject, output1)).toBe(false)
+    expect(output1Snapshot).not.toBe(sourceSnapshot)
+
+    const output2 = deepSet(output1, ['player', 'preferences', 'effects'], 'ultra')
+    expect(output2).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5, z: 2 },
+        preferences: { effects: 'ultra' },
+      },
+    })
+    expect(Object.is(output2, sourceObject)).toBe(false)
+    expect(Object.is(output2, output1)).toBe(false)
+    expect(JSON.stringify(output2)).not.toBe(sourceSnapshot)
+    expect(JSON.stringify(output2)).not.toBe(output1Snapshot)
   })
 
   test('Single key', () => {
-    const obj = {}
-    const originalSnapshot = JSON.stringify(obj)
-    const output = deepSet(obj, 'foo', 42)
+    const sourceObject = {}
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const output = deepSet(sourceObject, 'foo', 42)
     expect(output).toStrictEqual({ foo: 42 })
-    expect(Object.is(obj, output)).toBe(false)
-    expect(JSON.stringify(output)).not.toBe(originalSnapshot)
+    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
   })
 
   describe('Object and array differentiation', () => {
 
     test('Object property', () => {
-      // ...
+      const sourceObject = {}
+      const sourceSnapshot = JSON.stringify(sourceObject)
+      const output = deepSet(sourceObject, 'a["2"]', 'foo')
+      expect(output).toStrictEqual({ a: { 2: 'foo' } })
+      expect(Object.is(output, sourceObject)).toBe(false)
+      expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     })
 
     test('Array index', () => {
-      // ...
+      const sourceObject = {}
+      const sourceSnapshot = JSON.stringify(sourceObject)
+      const output = deepSet(sourceObject, 'a[2]', 'foo')
+      expect(JSON.stringify(output)).toBe(JSON.stringify({ a: [null, null, 'foo'] }))
+      expect(Object.is(output, sourceObject)).toBe(false)
+      expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     })
 
   })
@@ -256,49 +299,49 @@ describe(deepSet.name, () => {
 describe(deepSetMutable.name, () => {
 
   test('Value already exists', () => {
-    const obj = {
+    const sourceObject = {
       stageId: 1,
       player: {
         name: 'John',
         coord: { x: 1, y: 5 },
       },
     }
-    deepSetMutable(obj, ['player', 'coord', 'x'], 2)
-    expect(obj.player.coord.x).toBe(2)
+    deepSetMutable(sourceObject, ['player', 'coord', 'x'], 2)
+    expect(sourceObject.player.coord.x).toBe(2)
   })
 
   test('Value does not already exist', () => {
-    const obj = {
+    const sourceObject = {
       stageId: 1,
       player: {
         name: 'John',
         coord: { x: 1, y: 5 },
       },
     }
-    deepSetMutable(obj, ['player', 'coord', 'z'], 2)
-    expect(obj.player.coord['z']).toBe(2)
-    deepSetMutable(obj, ['player', 'preferences', 'effects'], 'ultra')
-    expect(obj.player['preferences']['effects']).toBe('ultra')
+    deepSetMutable(sourceObject, ['player', 'coord', 'z'], 2)
+    expect(sourceObject.player.coord['z']).toBe(2)
+    deepSetMutable(sourceObject, ['player', 'preferences', 'effects'], 'ultra')
+    expect(sourceObject.player['preferences']['effects']).toBe('ultra')
   })
 
   test('Single key', () => {
-    const obj = {}
-    deepSetMutable(obj, ['foo'], 42)
-    expect(obj['foo']).toBe(42)
+    const sourceObject = {}
+    deepSetMutable(sourceObject, ['foo'], 42)
+    expect(sourceObject['foo']).toBe(42)
   })
 
   describe('Object and array differentiation', () => {
 
     test('Object property', () => {
-      const obj = {}
-      deepSetMutable(obj, 'a["2"]', 'foo')
-      expect(obj).toStrictEqual({ a: { 2: 'foo' } })
+      const sourceObject = {}
+      deepSetMutable(sourceObject, 'a["2"]', 'foo')
+      expect(sourceObject).toStrictEqual({ a: { 2: 'foo' } })
     })
 
     test('Array index', () => {
-      const obj = {}
-      deepSetMutable(obj, 'a[2]', 'foo')
-      expect(JSON.stringify(obj)).toBe(JSON.stringify({ a: [null, null, 'foo'] }))
+      const sourceObject = {}
+      deepSetMutable(sourceObject, 'a[2]', 'foo')
+      expect(JSON.stringify(sourceObject)).toBe(JSON.stringify({ a: [null, null, 'foo'] }))
     })
 
   })
