@@ -8,6 +8,7 @@ import * as fs from 'fs'
 
 const directoriesToProcess = [
   './src',
+  './src/cli',
   './src/dom',
   './src/data',
   './src/data/array',
@@ -18,6 +19,7 @@ const directoriesToProcess = [
   './src/function',
   './src/hash',
   './src/math',
+  './src/music',
   './src/promise',
   './src/random',
   './src/react',
@@ -53,13 +55,13 @@ function autoForwardExports(path: string): void {
       !/^__.+__$/.test(rawItemStack[i])
     ) {
       let item = rawItemStack[i]
-      if (item === 'constants') { item += '/public' }
+      if (item === 'abstractions' || item === 'constants') { item += '/public' }
       codeLineStack.push(`export * from './${item}'`)
       forwardedItemsCount += 1
     }
   }
   codeLineStack.push(
-    `\n// Last updated: ${now.toDateString()} ${now.toTimeString()}.`,
+    `\n// Last updated: ${now.toDateString()} ${now.toTimeString().match(/\d{2}:\d{2}:\d{2} [a-z]+\+\d{4}/i)[0]}.`,
   )
   fs.writeFileSync(
     `${path}/index.scripted.ts`,

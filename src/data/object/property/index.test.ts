@@ -1,5 +1,7 @@
 import {
+  complexDeepSet,
   deepGet,
+  deepRemove,
   deepSet,
   deepSetMutable,
   getObjectPathSegments,
@@ -127,15 +129,23 @@ describe(getObjectPathSegments.name, () => {
 
 describe(hasDeepProperty.name, () => {
 
-  test('Has none', () => {
+  test('Does exist', (): void => {
     // ...
   })
 
-  test('Has some', () => {
+  test('Does exist, but undefined', (): void => {
     // ...
   })
 
-  test('Has all', () => {
+  test('Does not exist', (): void => {
+    // ...
+  })
+
+  test('Preceding properties do not exist', (): void => {
+    // ...
+  })
+
+  test('Non-object types', (): void => {
     // ...
   })
 
@@ -248,13 +258,13 @@ describe(deepSet.name, () => {
     expect(Object.is(sourceObject, output1)).toBe(false)
     expect(output1Snapshot).not.toBe(sourceSnapshot)
 
-    const output2 = deepSet(output1, ['player', 'preferences', 'effects'], 'ultra')
+    const output2 = deepSet(output1, ['player', 'preferences', 'graphics', 'effects'], 'ultra')
     expect(output2).toStrictEqual({
       stageId: 1,
       player: {
         name: 'John',
         coord: { x: 1, y: 5, z: 2 },
-        preferences: { effects: 'ultra' },
+        preferences: { graphics: { effects: 'ultra' } },
       },
     })
     expect(Object.is(output2, sourceObject)).toBe(false)
@@ -320,8 +330,8 @@ describe(deepSetMutable.name, () => {
     }
     deepSetMutable(sourceObject, ['player', 'coord', 'z'], 2)
     expect(sourceObject.player.coord['z']).toBe(2)
-    deepSetMutable(sourceObject, ['player', 'preferences', 'effects'], 'ultra')
-    expect(sourceObject.player['preferences']['effects']).toBe('ultra')
+    deepSetMutable(sourceObject, ['player', 'preferences', 'graphics', 'effects'], 'ultra')
+    expect(sourceObject.player['preferences']['graphics']['effects']).toBe('ultra')
   })
 
   test('Single key', () => {
@@ -342,6 +352,228 @@ describe(deepSetMutable.name, () => {
       const sourceObject = {}
       deepSetMutable(sourceObject, 'a[2]', 'foo')
       expect(JSON.stringify(sourceObject)).toBe(JSON.stringify({ a: [null, null, 'foo'] }))
+    })
+
+  })
+
+})
+
+describe(complexDeepSet, () => {
+
+  test('Value already exists', () => {
+    const sourceObject = {
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    }
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const setter = jest.fn((value: number) => value + 1)
+    const output = complexDeepSet(sourceObject, ['player', 'coord', 'x'], setter)
+    expect(setter).toHaveBeenCalledWith(1, true)
+    expect(setter).toHaveBeenCalledTimes(1)
+    expect(output).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 2, y: 5 },
+      },
+    })
+    expect(Object.is(output, sourceObject)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+  })
+
+  test('Value does not already exist', () => {
+    const sourceObject = {
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    }
+    const sourceSnapshot = JSON.stringify(sourceObject)
+
+    const setter1 = jest.fn(() => 2)
+    const output1 = complexDeepSet(sourceObject, ['player', 'coord', 'z'], setter1)
+    expect(output1).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5, z: 2 },
+      },
+    })
+    const output1Snapshot = JSON.stringify(output1)
+    expect(setter1).toHaveBeenCalledWith(undefined, false)
+    expect(setter1).toHaveBeenCalledTimes(1)
+    expect(Object.is(sourceObject, output1)).toBe(false)
+    expect(output1Snapshot).not.toBe(sourceSnapshot)
+
+    const setter2 = jest.fn(() => 'ultra')
+    const output2 = complexDeepSet(
+      output1,
+      ['player', 'preferences', 'graphics', 'effects'],
+      setter2
+    )
+    expect(output2).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5, z: 2 },
+        preferences: { graphics: { effects: 'ultra' } },
+      },
+    })
+    expect(setter2).toHaveBeenCalledWith(undefined, false)
+    expect(setter2).toHaveBeenCalledTimes(1)
+    expect(Object.is(output2, sourceObject)).toBe(false)
+    expect(Object.is(output2, output1)).toBe(false)
+    expect(JSON.stringify(output2)).not.toBe(sourceSnapshot)
+    expect(JSON.stringify(output2)).not.toBe(output1Snapshot)
+
+  })
+
+  test('Single key', () => {
+    const sourceObject = {}
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const setter = jest.fn(() => 42)
+    const output = complexDeepSet(sourceObject, 'foo', setter)
+    expect(setter).toHaveBeenCalledWith(undefined, false)
+    expect(setter).toHaveBeenCalledTimes(1)
+    expect(output).toStrictEqual({ foo: 42 })
+    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+  })
+
+  describe('Object and array differentiation', () => {
+
+    test('Object property', () => {
+      const sourceObject = {}
+      const sourceSnapshot = JSON.stringify(sourceObject)
+      const setter = jest.fn(() => 'foo')
+      const output = complexDeepSet(sourceObject, 'a["2"]', setter)
+      expect(setter).toHaveBeenCalledWith(undefined, false)
+      expect(setter).toHaveBeenCalledTimes(1)
+      expect(output).toStrictEqual({ a: { 2: 'foo' } })
+      expect(Object.is(output, sourceObject)).toBe(false)
+      expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+    })
+
+    test('Array index', () => {
+      const sourceObject = {}
+      const sourceSnapshot = JSON.stringify(sourceObject)
+      const setter = jest.fn(() => 'foo')
+      const output = complexDeepSet(sourceObject, 'a[2]', setter)
+      expect(setter).toHaveBeenCalledWith(undefined, false)
+      expect(setter).toHaveBeenCalledTimes(1)
+      expect(JSON.stringify(output)).toStrictEqual(JSON.stringify({ a: [null, null, 'foo'] }))
+      expect(Object.is(output, sourceObject)).toBe(false)
+      expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+    })
+
+  })
+
+})
+
+describe(deepRemove.name, () => {
+
+  test('Value exists', () => {
+    const sourceObject = {
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    }
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const output = deepRemove(sourceObject, 'player.coord.x')
+    expect(output).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { y: 5 },
+      },
+    })
+    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+  })
+
+  // todo: test when in-between property does not exist, test with 'preferences.graphics.effects'
+  test('Value does not already exist', () => {
+    const sourceObject = {
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    }
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const output = deepRemove(sourceObject, 'player.coord.z')
+    expect(output).toStrictEqual({
+      stageId: 1,
+      player: {
+        name: 'John',
+        coord: { x: 1, y: 5 },
+      },
+    })
+    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+  })
+
+  test('Single key', () => {
+    const sourceObject = { foo: 1, bar: 2 }
+    const sourceSnapshot = JSON.stringify(sourceObject)
+    const output = deepRemove(sourceObject, 'foo')
+    expect(output).toStrictEqual({ bar: 2 })
+    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+  })
+
+  describe('options', () => {
+
+    test('clean: false', () => {
+      const sourceObject = {
+        stageId: 1,
+        player: {
+          name: 'John',
+          coord: { x: 1, y: 5 },
+          preferences: { effects: 'ultra' },
+        },
+      }
+      const sourceSnapshot = JSON.stringify(sourceObject)
+      const output = deepRemove(sourceObject, 'player.coord.z')
+      expect(output).toStrictEqual({
+        stageId: 1,
+        player: {
+          name: 'John',
+          coord: { x: 1, y: 5 },
+          preferences: {},
+        },
+      })
+      expect(Object.is(sourceObject, output)).toBe(false)
+      expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
+    })
+
+    // todo: also test that it will 'collapse' but not cause the root object to be undefined
+    test('clean: true', () => {
+      const sourceObject = {
+        stageId: 1,
+        player: {
+          name: 'John',
+          coord: { x: 1, y: 5 },
+          preferences: { effects: 'ultra' },
+        },
+      }
+      const sourceSnapshot = JSON.stringify(sourceObject)
+      const output = deepRemove(sourceObject, 'player.coord.z', { clean: true })
+      expect(output).toStrictEqual({
+        stageId: 1,
+        player: {
+          name: 'John',
+          coord: { x: 1, y: 5 },
+        },
+      })
+      expect(Object.is(sourceObject, output)).toBe(false)
+      expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     })
 
   })

@@ -1,4 +1,4 @@
-import { IS_CLIENT_ENV } from '../../../constants'
+import { IS_CLIENT_ENV, ShortBool } from '../../../constants'
 import { devError } from '../../../dev'
 import { StrictPropertyKey } from '../../../types'
 import { isNumber } from '../../type-check'
@@ -231,7 +231,7 @@ export function hasTheseDeepProperties(
 /**
  * Gets a value from a deeply nested object.
  * @param object - The source object
- * @param pathSegments - Path to the value in the object
+ * @param pathSegments - Path to the property in the object
  * @returns A tuple containing:
  * - `0`: the deeply nested value if it exists, otherwise `undefined`
  * - `1`: a boolean indicating whether the value exists at the specified path
@@ -276,7 +276,7 @@ export function deepGet<T = unknown>(
  * the splitting behavior, see {@link getObjectPathSegments}.
  *
  * @param object - The object to modify.
- * @param pathSegments - Path to the value in the object.
+ * @param pathSegments - Path to the property in the object.
  * @param value - The value to set.
  * @example
  * const sourceObject = { foo: 1 }
@@ -314,6 +314,12 @@ export function deepSetMutable(
   }
 }
 
+// NOTE:
+// `complexDeepSetMutable` is not created to reduce complexity and tech debt.
+// Actually, `deepSetMutable` itself is kind of redundant because, it could've
+// been done in JavaScript directly, but it is provided just in case there is
+// ever such a GUI for modifying JS objects that requires this utility.
+
 /**
  * Creates a new object with the deeply nested property modified.
  * This does not mutate the original object.
@@ -327,9 +333,9 @@ export function deepSetMutable(
  * the splitting behavior, see {@link getObjectPathSegments}.
  *
  * @param object - The object to modify.
- * @param pathSegments - Path to the value in the object.
+ * @param pathSegments - Path to the property in the object.
  * @param value - The value to set.
- * @returns A new object with the modified value.
+ * @returns A new object with the modified property.
  * @example
  * const sourceObject = { foo: 1 }
  * const output = deepSet(sourceObject, 'bar.baz[0]', 42)
@@ -352,7 +358,7 @@ export function deepSet<T>(
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
-  return recursiveAssign(object, pathSegments, value)
+  return recursiveAssign<T>(object, pathSegments, value)
 }
 
 /**
@@ -376,6 +382,186 @@ function recursiveAssign<T>(
       [pathSegment]: nextPathSegments.length > 0
         ? recursiveAssign(object?.[pathSegment], nextPathSegments, value)
         : value,
+    }
+  }
+}
+
+/**
+ * Creates a new object with the deeply nested property modified.
+ * This does not mutate the original object.
+ * This is similar to {@link deepSet} except the value is modified using a function
+ * where the function will have context to the current value of the property that
+ * it is about to replace.
+ * @param object - The object to modify.
+ * @param pathSegments - Path to the property in the object.
+ * @param setter - A function that receives two parameters (the current value if
+ * the property exists, else undefined, and a boolean indicating whether the property
+ * exists (NOTE: a property can exist while having `undefined` as value)).
+ * @returns A new object with the modified property.
+ * @example
+ * const sourceObject = { foo: { bar: 1 } }
+ * const output = deepSet(sourceObject, 'foo.bar', (value) => value + 1)
+ * // sourceObject: { foo: { bar: 1 } }
+ * //       output: { foo: { bar: 2 } }
+ * @public
+ */
+export function complexDeepSet<T, K = unknown>(
+  object: T,
+  pathSegments: ObjectPathSegments,
+  setter: (value: K, exists: boolean) => unknown
+): T {
+  if (!Array.isArray(pathSegments)) {
+    pathSegments = getObjectPathSegments(pathSegments)
+  }
+  return complexRecursiveAssign<T, K>(object, pathSegments, setter, true)
+}
+
+/**
+ * @internal
+ */
+function complexRecursiveAssign<T, K>(
+  object: T,
+  pathSegments: Array<PropertyKey>,
+  setter: (value: K, exists: boolean) => unknown,
+  exists: boolean
+): T {
+  const [pathSegment, ...nextPathSegments] = pathSegments
+  if (isNumber(pathSegment)) {
+    const arr = [...(object as Array<unknown>) ?? []]
+    arr[pathSegment] = nextPathSegments.length > 0
+      ? complexRecursiveAssign(
+        arr[pathSegment],
+        nextPathSegments,
+        setter,
+        Object.prototype.hasOwnProperty.call(object, pathSegment)
+      )
+      : setter(object as unknown as K, exists)
+    return arr as T
+  } else {
+    return {
+      ...object,
+      [pathSegment]: nextPathSegments.length > 0
+        ? complexRecursiveAssign(
+          object?.[pathSegment],
+          nextPathSegments,
+          setter,
+          Object.prototype.hasOwnProperty.call(object, pathSegment)
+        )
+        : setter(object as unknown as K, exists),
+    }
+  }
+}
+
+/**
+ * @public
+ */
+export interface DeepRemoveOptions {
+  /**
+   * Removes the parent property when its last child item is also removed.
+   * @defaultValue `false`
+   */
+  clean?: boolean
+}
+
+/**
+ * Creates a new object with the deeply nested property removed.
+ * This does not mutate the original object.
+ * @param object - The object to modify.
+ * @param pathSegments - Path to the property in the object.
+ * @param options - Additional options to configure the behavior of removal.
+ * @returns A new object with the deeply nested property removed.
+ * @example
+ * const sourceObject = { foo: { bar: { baz: 42 } } }
+ * const output = deepRemove(sourceObject, 'foo.bar.baz')
+ * // sourceObject: { foo: { bar: { baz: 42 } } }
+ * //       output: { foo: { bar: {} } }
+ * @example
+ * const sourceObject = { foo: { bar: { baz: 42 } } }
+ * const output = deepRemove(sourceObject, 'foo.bar.baz', { clean: true })
+ * // sourceObject: { foo: { bar: { baz: 42 } } }
+ * //       output: {}
+ * @public
+ */
+export function deepRemove<T>(
+  object: T,
+  pathSegments: ObjectPathSegments,
+  options?: DeepRemoveOptions
+): T {
+  if (!Array.isArray(pathSegments)) {
+    pathSegments = getObjectPathSegments(pathSegments)
+  }
+  return recursiveRemove<T>(object, pathSegments, options)[0]
+}
+
+/**
+ * @internal
+ */
+function recursiveRemove<T>(
+  object: T,
+  pathSegments: ObjectPathSegments,
+  options?: DeepRemoveOptions
+): [filteredObject: T, exists: ShortBool] {
+  const [pathSegment, ...nextPathSegments] = pathSegments
+  if (Object.prototype.hasOwnProperty.call(object, pathSegment)) {
+    return [undefined, 0]
+  }
+  if (isNumber(pathSegment)) {
+    const filteredArray = [...(object as Array<unknown>)]
+    if (nextPathSegments.length > 0) {
+      const [filteredChildArray, exists] = recursiveRemove(
+        object[pathSegment],
+        nextPathSegments,
+        options
+      )
+      if (exists) {
+        return [filteredArray as T, 1]
+      } else {
+        return [filteredArray as T, 1]
+      }
+      // const filteredArray =
+      // {
+      //   ...object,
+      //   ...((!exists && options?.clean) ? {} : {
+      //     [pathSegment]: filteredChildObject,
+      //   }),
+      // }
+    } else {
+      filteredArray.splice(pathSegment, 1)
+      if (options?.clean) {
+        const isEmpty = filteredArray.length > 0
+        return isEmpty ? [undefined, 0] : [filteredArray as T, 1]
+      } else {
+        return [filteredArray as T, null]
+      }
+    }
+  } else {
+    const { [pathSegment]: _toExclude, ...remainingItems } = object
+    if (nextPathSegments.length > 0) {
+      const [filteredChildObject, exists] = recursiveRemove(
+        object[pathSegment],
+        nextPathSegments,
+        options
+      )
+      const filteredObject = {
+        ...remainingItems,
+        ...((!exists && options?.clean) ? {} : {
+          [pathSegment]: filteredChildObject,
+        }),
+      } as T
+      if (options?.clean) {
+        const isEmpty = Object.keys(filteredObject).length > 0
+        return isEmpty ? [undefined, 0] : [filteredObject, 1]
+      } else {
+        return [filteredObject, null]
+      }
+    } else {
+      if (options?.clean) {
+        const isEmpty = Object.keys(remainingItems).length > 0
+        return isEmpty ? [undefined, 0] : [remainingItems as T, 1]
+      } else {
+        return [remainingItems as T, null]
+        // null to indicate that it is not relevant since `.clear` is not true
+      }
     }
   }
 }

@@ -1,3 +1,5 @@
+import { TimestampId } from '../datetime'
+
 /**
  * Refers to the non-production environment where this library is used by developers.
  * @public
@@ -70,3 +72,16 @@ export const IS_CLIENT_ENV = IS_DEBUG_ENV ||
  * @public
  */
 export const VERSION = process.env.PACKAGE_VERSION
+
+/**
+ * @public
+ */
+export enum ShortBool {
+  NO,
+  YES,
+}
+
+/**
+ * @public
+ */
+export const RUNTIME_ID = TimestampId()

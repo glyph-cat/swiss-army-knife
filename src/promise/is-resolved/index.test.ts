@@ -7,14 +7,14 @@ describe(isResolved.name, (): void => {
 
   test('With flag', async (): Promise<void> => {
 
-    const examplePromise = delay(100)
+    const examplePromise = delay(50)
     const flag = { current: false }
 
     const output1 = isResolved(examplePromise, flag)
     expect(output1).toBe(undefined)
     expect(flag.current).toBe(false)
 
-    await delay(100)
+    await delay(50)
     const output2 = isResolved(examplePromise, flag)
     expect(output2).toBe(undefined)
     expect(flag.current).toBe(true)
@@ -22,9 +22,9 @@ describe(isResolved.name, (): void => {
   })
 
   test('Without flag', async (): Promise<void> => {
-    const examplePromise = delay(100)
+    const examplePromise = delay(50)
     expect(await isResolved(examplePromise)).toBe(false)
-    await delay(100)
+    await delay(50)
     expect(await isResolved(examplePromise)).toBe(true)
   })
 
