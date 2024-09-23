@@ -1,7 +1,7 @@
 import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
 import { StrictPropertyKey } from '../../../types'
-import { isNumber } from '../../type-check'
+import { isNullOrUndefined, isNumber } from '../../type-check'
 
 /**
  * @public
@@ -484,75 +484,66 @@ export function deepRemove<T>(
   return recursiveRemove<T>(object, pathSegments, options)[0]
 }
 
-/**
- * @internal
- */
+// todo: add to ts-doc that it will always respect the original structure, if doesn't exist then only will infer from the path segments. this applies to deepRemove, deepSet, complexDeepSet
+
 function recursiveRemove<T>(
   object: T,
-  pathSegments: ObjectPathSegments,
-  options?: DeepRemoveOptions
-): [filteredObject: T, exists: boolean] {
+  pathSegments: Array<PropertyKey>,
+  options: DeepRemoveOptions
+): [filteredObject: T, nextPropertyExists?: boolean] {
+
+  if (isNullOrUndefined(object)) {
+    return [object, false] // Early exit
+    // Since object is null or undefined, it would be logical to assume that its
+    // sub-property does not exist too
+  }
   const [pathSegment, ...nextPathSegments] = pathSegments
   if (!Object.prototype.hasOwnProperty.call(object, pathSegment)) {
-    return [object, false]
+    return [object, false] // Early exit
   }
-  if (isNumber(pathSegment)) {
-    const filteredArray = [...(object as Array<unknown>)]
+
+  if (Array.isArray(object)) {
+    const remainingItems = [...object as Array<unknown>]
+    const nextProperty = remainingItems.splice(pathSegment as number, 1)
     if (nextPathSegments.length > 0) {
-      const [filteredChildArray, exists] = recursiveRemove(
-        object[pathSegment],
-        nextPathSegments,
-        options
-      )
-      if (exists) {
-        return [filteredArray as T, true]
-      } else {
-        return [filteredArray as T, true]
+      const [
+        nextPropertyPostProcess,
+        nextPropertyExists,
+      ] = recursiveRemove(nextProperty, nextPathSegments, options)
+      remainingItems[pathSegment as number] = null
+      if (!options?.clean || nextPropertyExists) {
+        remainingItems.splice(pathSegment as number, 0, nextPropertyPostProcess)
       }
-      // const filteredArray =
-      // {
-      //   ...object,
-      //   ...((!exists && options?.clean) ? {} : {
-      //     [pathSegment]: filteredChildObject,
-      //   }),
-      // }
+      return [
+        remainingItems as T,
+        options?.clean ? remainingItems.length > 0 : true,
+      ]
     } else {
-      filteredArray.splice(pathSegment, 1)
-      if (options?.clean) {
-        const isEmpty = filteredArray.length > 0
-        return isEmpty ? [undefined, false] : [filteredArray as T, true]
-      } else {
-        return [filteredArray as T, null]
-      }
+      return [
+        remainingItems as T,
+        options?.clean ? remainingItems.length > 0 : true,
+      ]
     }
   } else {
-    const { [pathSegment]: _toExclude, ...remainingItems } = object
+    const { [pathSegment]: nextProperty, ...remainingItems } = object
     if (nextPathSegments.length > 0) {
-      const [filteredChildObject, exists] = recursiveRemove(
-        object[pathSegment],
-        nextPathSegments,
-        options
-      )
-      const filteredObject = {
-        ...remainingItems,
-        ...((!exists && options?.clean) ? {} : {
-          [pathSegment]: filteredChildObject,
-        }),
-      } as T
-      if (options?.clean) {
-        const isEmpty = Object.keys(filteredObject).length > 0
-        return isEmpty ? [undefined, false] : [filteredObject, true]
-      } else {
-        return [filteredObject, null]
+      const [
+        nextPropertyPostProcess,
+        nextPropertyExists,
+      ] = recursiveRemove(nextProperty, nextPathSegments, options)
+      if (!options?.clean || nextPropertyExists) {
+        remainingItems[pathSegment] = nextPropertyPostProcess
       }
+      return [
+        remainingItems as T,
+        options?.clean ? Object.keys(remainingItems).length > 0 : true,
+      ]
     } else {
-      if (options?.clean) {
-        const isEmpty = Object.keys(remainingItems).length > 0
-        return isEmpty ? [undefined, false] : [remainingItems as T, true]
-      } else {
-        return [remainingItems as T, null]
-        // null to indicate that it is not relevant since `.clear` is not true
-      }
+      return [
+        remainingItems as T,
+        options?.clean ? Object.keys(remainingItems).length > 0 : true,
+      ]
     }
   }
+
 }

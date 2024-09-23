@@ -46,13 +46,10 @@ export class NumericDataSet {
    */
   private M$stddev: number
 
-  readonly values: Readonly<Array<number>>
-  readonly options: Readonly<NumericDataSetOptions>
-
-  constructor(values: Array<number>, options?: NumericDataSetOptions) {
-    this.values = values
-    this.options = { ...options }
-  }
+  constructor(
+    readonly values: Readonly<Array<number>>,
+    readonly options?: Readonly<NumericDataSetOptions>
+  ) { }
 
   get size(): number {
     return this.values.length
