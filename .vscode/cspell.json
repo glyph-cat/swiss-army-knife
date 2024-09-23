@@ -9,6 +9,7 @@
         "burlywood",
         "cadetblue",
         "charsets",
+        "concat",
         "cornflowerblue",
         "cornsilk",
         "csstype",
@@ -109,6 +110,7 @@
         "stringifying",
         "TOFIX",
         "tsdoc",
+        "unwatch",
         "whitesmoke",
         "whooosh",
         "yellowgreen"
