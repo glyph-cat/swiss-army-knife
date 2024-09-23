@@ -5,6 +5,9 @@ describe(Color.name, (): void => {
   // todo: also test `isInvalid` + test when setting valid colors again does it change back to false
   // also test with multiple invalid fields and make sure they don't cross pollute
 
+  // temp
+  /* eslint-disable jest/no-disabled-tests */
+
   describe('Static methods', () => {
 
     describe.skip(Color.fromHSL.name, () => {

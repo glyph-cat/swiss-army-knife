@@ -104,7 +104,7 @@ export class NumericDataSet {
         differenceOfSumAndMeanSquared += Math.pow(this.values[i] - this.mean, 2)
       }
       this.M$variance = differenceOfSumAndMeanSquared / (
-        this.values.length - (this.options.forPopulation ? 0 : 1)
+        this.values.length - (this.options?.forPopulation ? 0 : 1)
       )
     }
     return this.M$variance
