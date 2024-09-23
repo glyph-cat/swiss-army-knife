@@ -1,4 +1,4 @@
-import { IS_CLIENT_ENV, ShortBool } from '../../../constants'
+import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
 import { StrictPropertyKey } from '../../../types'
 import { isNumber } from '../../type-check'
@@ -426,28 +426,19 @@ function complexRecursiveAssign<T, K>(
   exists: boolean
 ): T {
   const [pathSegment, ...nextPathSegments] = pathSegments
+  const nextExists = exists ? Object.prototype.hasOwnProperty.call(object, pathSegment) : false
   if (isNumber(pathSegment)) {
-    const arr = [...(object as Array<unknown>) ?? []]
+    const arr = [...(exists ? object as Array<unknown> : [])]
     arr[pathSegment] = nextPathSegments.length > 0
-      ? complexRecursiveAssign(
-        arr[pathSegment],
-        nextPathSegments,
-        setter,
-        Object.prototype.hasOwnProperty.call(object, pathSegment)
-      )
-      : setter(object as unknown as K, exists)
+      ? complexRecursiveAssign(arr[pathSegment], nextPathSegments, setter, nextExists)
+      : setter(object?.[pathSegment] as unknown as K, nextExists)
     return arr as T
   } else {
     return {
       ...object,
       [pathSegment]: nextPathSegments.length > 0
-        ? complexRecursiveAssign(
-          object?.[pathSegment],
-          nextPathSegments,
-          setter,
-          Object.prototype.hasOwnProperty.call(object, pathSegment)
-        )
-        : setter(object as unknown as K, exists),
+        ? complexRecursiveAssign(object?.[pathSegment], nextPathSegments, setter, nextExists)
+        : setter(object?.[pathSegment], nextExists),
     }
   }
 }
@@ -500,10 +491,10 @@ function recursiveRemove<T>(
   object: T,
   pathSegments: ObjectPathSegments,
   options?: DeepRemoveOptions
-): [filteredObject: T, exists: ShortBool] {
+): [filteredObject: T, exists: boolean] {
   const [pathSegment, ...nextPathSegments] = pathSegments
-  if (Object.prototype.hasOwnProperty.call(object, pathSegment)) {
-    return [undefined, 0]
+  if (!Object.prototype.hasOwnProperty.call(object, pathSegment)) {
+    return [object, false]
   }
   if (isNumber(pathSegment)) {
     const filteredArray = [...(object as Array<unknown>)]
@@ -514,9 +505,9 @@ function recursiveRemove<T>(
         options
       )
       if (exists) {
-        return [filteredArray as T, 1]
+        return [filteredArray as T, true]
       } else {
-        return [filteredArray as T, 1]
+        return [filteredArray as T, true]
       }
       // const filteredArray =
       // {
@@ -529,7 +520,7 @@ function recursiveRemove<T>(
       filteredArray.splice(pathSegment, 1)
       if (options?.clean) {
         const isEmpty = filteredArray.length > 0
-        return isEmpty ? [undefined, 0] : [filteredArray as T, 1]
+        return isEmpty ? [undefined, false] : [filteredArray as T, true]
       } else {
         return [filteredArray as T, null]
       }
@@ -550,14 +541,14 @@ function recursiveRemove<T>(
       } as T
       if (options?.clean) {
         const isEmpty = Object.keys(filteredObject).length > 0
-        return isEmpty ? [undefined, 0] : [filteredObject, 1]
+        return isEmpty ? [undefined, false] : [filteredObject, true]
       } else {
         return [filteredObject, null]
       }
     } else {
       if (options?.clean) {
         const isEmpty = Object.keys(remainingItems).length > 0
-        return isEmpty ? [undefined, 0] : [remainingItems as T, 1]
+        return isEmpty ? [undefined, false] : [remainingItems as T, true]
       } else {
         return [remainingItems as T, null]
         // null to indicate that it is not relevant since `.clear` is not true
