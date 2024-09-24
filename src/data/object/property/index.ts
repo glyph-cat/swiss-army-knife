@@ -328,6 +328,10 @@ export function deepSetMutable(
  * - if the path segment is a number, an array will be created
  * - if the path segment is a string or symbol, an object will be created
  *
+ * If in-between properties already exist, their original types will be respected.
+ * For example, if a path segment is a number type but the in-between property
+ * is an object, then it will remain as an object even if the path segment is a number.
+ *
  * Path segments can be specified as a string and they will be automatically split
  * into an array containing either strings or numbers. To learn more about
  * the splitting behavior, see {@link getObjectPathSegments}.
@@ -457,6 +461,11 @@ export interface DeepRemoveOptions {
 /**
  * Creates a new object with the deeply nested property removed.
  * This does not mutate the original object.
+ *
+ * NOTE: For arrays, the element will be removed using the
+ * [splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+ * method. To preserve the order of elements, consider using {@link deepSet} to
+ * replace the values with `null` or `undefined` instead.
  * @param object - The object to modify.
  * @param pathSegments - Path to the property in the object.
  * @param options - Additional options to configure the behavior of removal.
@@ -483,8 +492,6 @@ export function deepRemove<T>(
   }
   return recursiveRemove<T>(object, pathSegments, options)[0]
 }
-
-// todo: add to ts-doc that it will always respect the original structure, if doesn't exist then only will infer from the path segments. this applies to deepRemove, deepSet, complexDeepSet
 
 function recursiveRemove<T>(
   object: T,
