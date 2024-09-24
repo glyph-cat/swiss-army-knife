@@ -9,6 +9,9 @@ beforeEach(() => {
   // KIV: [Low priority] Why do previous call data still exist after calling mockClear???
   // resetSpyFn = (spyFn.current as jest.Mock).mockClear()
   resetSpyFn = () => { spyFn.current = jest.fn() }
+  // KIV: Possibly a better solution? but how to configure properly?
+  // jest.spyOn(NumericDataSet, 'prototype', 'get')
+  // throws error "Property `prototype` is not declared configurable"
 })
 
 afterEach(() => {
