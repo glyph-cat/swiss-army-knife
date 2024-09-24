@@ -1,54 +1,232 @@
-import { Color, ColorLookup, ColorUtil } from '.'
+import {
+  Color,
+  ColorLookup,
+  ColorUtil,
+  SerializedHSL,
+  SerializedRGB,
+  WithAlphaAsOptional,
+} from '.'
+
+// #region Color
 
 describe(Color.name, (): void => {
 
   // todo: also test `isInvalid` + test when setting valid colors again does it change back to false
   // also test with multiple invalid fields and make sure they don't cross pollute
 
-  // temp
-  /* eslint-disable jest/no-disabled-tests */
+  // #region Static methods
 
   describe('Static methods', () => {
 
-    describe.skip(Color.fromHSL.name, () => {
-      // ...
+    // #region Setup/teardown
+    let spiedMethods: Array<ReturnType<typeof jest.spyOn>>
+    beforeEach(() => {
+      spiedMethods = [
+        jest.spyOn(Color, 'fromHSLObject'),
+        jest.spyOn(Color, 'fromHSLValues'),
+        jest.spyOn(Color, 'fromHSLString'),
+        jest.spyOn(Color, 'fromRGBObject'),
+        jest.spyOn(Color, 'fromRGBValues'),
+        jest.spyOn(Color, 'fromRGBString'),
+        jest.spyOn(Color, 'fromHex'),
+      ]
+    })
+    afterEach(() => {
+      for (const spiedMethod of spiedMethods) {
+        spiedMethod.mockClear()
+      }
+      spiedMethods = []
+    })
+    // #endregion Setup/teardown
+
+    // #region .fromHSL...
+
+    describe(Color.fromHSL.name, () => {
+
+      test('by object', () => {
+        const inputParameter: WithAlphaAsOptional<SerializedHSL> = {
+          hue: 0,
+          saturation: 100,
+          lightness: 50,
+        }
+        Color.fromHSL(inputParameter)
+        expect(Color.fromHSLObject).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('by values', () => {
+        const inputParameter: Parameters<typeof Color.fromHSLValues> = [0, 100, 50]
+        Color.fromHSL(...inputParameter)
+        expect(Color.fromHSLValues).toHaveBeenCalledWith(...inputParameter, undefined)
+      })
+
+      test('by string', () => {
+        const inputParameter = 'hsl(0 100 50)'
+        Color.fromHSL(inputParameter)
+        expect(Color.fromHSLString).toHaveBeenCalledWith(inputParameter)
+      })
+
     })
 
-    describe.skip(Color.fromHSLObject.name, () => {
-      // ...
+    test(Color.fromHSLObject.name, () => {
+      const inputParameter: WithAlphaAsOptional<SerializedHSL> = {
+        hue: 0,
+        saturation: 100,
+        lightness: 50,
+      }
+      Color.fromHSLObject(inputParameter)
+      expect(Color.fromHSLValues).toHaveBeenCalledWith(...Object.values(inputParameter), undefined)
     })
 
     describe.skip(Color.fromHSLValues.name, () => {
-      // ...
+      // const color = Color.fromHSLValues()
+      // expect(color.red).toBe()
+      // expect(color.green).toBe()
+      // expect(color.blue).toBe()
+      // expect(color.alpha).toBe()
+      // expect(color.hue).toBe()
+      // expect(color.saturation).toBe()
+      // expect(color.lightness).toBe()
     })
 
-    describe.skip(Color.fromJSON.name, () => {
-      // ...
+    // #endregion .fromHSL...
+
+    // #region fromRGB...
+
+    describe(Color.fromRGB.name, () => {
+
+      test('by object', () => {
+        const inputParameter: WithAlphaAsOptional<SerializedRGB> = {
+          red: 128,
+          green: 64,
+          blue: 16,
+        }
+        Color.fromRGB(inputParameter)
+        expect(Color.fromRGBObject).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('by values', () => {
+        const inputParameter: Parameters<typeof Color.fromRGBValues> = [128, 62, 16]
+        Color.fromRGB(...inputParameter)
+        expect(Color.fromRGBValues).toHaveBeenCalledWith(...inputParameter, undefined)
+      })
+
+      test('by string', () => {
+        const inputParameter = 'rgb(128 64 16)'
+        Color.fromRGB(inputParameter)
+        expect(Color.fromRGBString).toHaveBeenCalledWith(inputParameter)
+      })
+
     })
 
-    describe.skip(Color.fromRGB.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.fromRGBObject.name, () => {
-      // ...
+    test(Color.fromRGBObject.name, () => {
+      const inputParameter: WithAlphaAsOptional<SerializedRGB> = {
+        red: 128,
+        green: 64,
+        blue: 16,
+      }
+      Color.fromRGBObject(inputParameter)
+      expect(Color.fromRGBValues).toHaveBeenCalledWith(...Object.values(inputParameter), undefined)
     })
 
     describe.skip(Color.fromRGBValues.name, () => {
-      // ...
+      // const color = Color.fromRGBValues()
+      // expect(color.red).toBe()
+      // expect(color.green).toBe()
+      // expect(color.blue).toBe()
+      // expect(color.alpha).toBe()
+      // expect(color.hue).toBe()
+      // expect(color.saturation).toBe()
+      // expect(color.lightness).toBe()
     })
 
-    describe.skip(Color.fromString.name, () => {
-      // This covers `Color.fromHSLString`, `Color.fromHex`, `Color.fromRGBString`
+    // #endregion fromRGB...
+
+
+    // #region fromJSON
+
+    describe(Color.fromJSON.name, () => {
+
+      test('RGB object', () => {
+        const inputParameter: WithAlphaAsOptional<SerializedRGB> = {
+          red: 128,
+          green: 64,
+          blue: 16,
+        }
+        Color.fromJSON(inputParameter)
+        expect(Color.fromRGBObject).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('HSL object', () => {
+        const inputParameter: WithAlphaAsOptional<SerializedHSL> = {
+          hue: 0,
+          saturation: 100,
+          lightness: 50,
+        }
+        Color.fromJSON(inputParameter)
+        expect(Color.fromHSLObject).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('Invalid object', () => {
+        // @ts-expect-error: Done on purpose to test the error.
+        expect(() => { Color.fromJSON({}) }).toThrow('Invalid object: {}')
+      })
+
     })
+
+    // #endregion fromJSON
+
+    // #region .fromString
+
+    describe(Color.fromString.name, () => {
+
+      // Not all formats are tested here because the parsing logic has been tested
+      // in the utils section.
+
+      test('HSL string', () => {
+        const inputParameter = 'hsl(0 100 50)'
+        Color.fromString(inputParameter)
+        expect(Color.fromHSLString).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('RGB string', () => {
+        const inputParameter = 'rgb(128 64 16)'
+        Color.fromString(inputParameter)
+        expect(Color.fromRGBString).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('Hex string', () => {
+        const inputParameter = '#00ff00'
+        Color.fromString(inputParameter)
+        expect(Color.fromHex).toHaveBeenCalledWith(inputParameter)
+      })
+
+      test('Invalid string', () => {
+        expect(() => { Color.fromString('') }).toThrow('Invalid color syntax \'\'')
+      })
+
+    })
+
+    // #endregion .fromString
+
+    // todo: test `.fromHSLString`, `.fromHex`, `.fromRGBString`.
 
   })
+
+  // #endregion Static methods
+
+  // #region Getters
 
   describe.skip('Getters', () => {
 
-    // ...
+    // test the lazy initialization
+    // check `.M$initRGBValues` calls
+    // check `.M$initHSLValues` calls
 
   })
+
+  // #endregion Getters
+
+  // #region Prototype methods
 
   describe('Prototype methods', () => {
 
@@ -98,7 +276,13 @@ describe(Color.name, (): void => {
 
   })
 
+  // #endregion Prototype methods
+
 })
+
+// #endregion Color
+
+// #region ColorLookup
 
 describe('ColorLookup', (): void => {
 
@@ -145,6 +329,10 @@ describe('ColorLookup', (): void => {
 
 })
 
+// #endregion ColorLookup
+
+// #region ColorUtil
+
 describe('ColorUtil', (): void => {
 
   describe(ColorUtil.createContrastingValue.name, (): void => {
@@ -186,3 +374,5 @@ describe('ColorUtil', (): void => {
   })
 
 })
+
+// #endregion ColorUtil

@@ -371,7 +371,7 @@ export class Color {
    * @example
    * Color.fromHSL({ hue: 0, saturation: 100, lightness: 50 })
    */
-  static fromHSL(json: SerializedHSL): Color
+  static fromHSL(json: WithAlphaAsOptional<SerializedHSL>): Color
 
   /**
    * Creates a {@link Color} from the given HSL values.
@@ -389,7 +389,7 @@ export class Color {
    * @internal
    */
   static fromHSL(
-    firstArg: SerializedHSL | number | string,
+    firstArg: WithAlphaAsOptional<SerializedHSL> | number | string,
     hue?: number,
     saturation?: number,
     lightness?: number
@@ -553,14 +553,16 @@ export class Color {
    * Color.fromJSON({ red: 255, blue: 0, green: 0 })
    * Color.fromJSON({ hue: 0, saturation: 100, lightness: 50 })
    */
-  static fromJSON(value: SerializedRGB | SerializedHSL): Color {
+  static fromJSON(
+    value: WithAlphaAsOptional<SerializedRGB> | WithAlphaAsOptional<SerializedHSL>
+  ): Color {
     // Using `hasProperty` only because all fields are mandatory here
     // can use static `from...` methods here because the values are not processed
     // before being passed to the constructor.
     if (hasProperty(value, RED)) {
-      return Color.fromRGBObject(value as SerializedRGB)
+      return Color.fromRGBObject(value as WithAlphaAsOptional<SerializedRGB>)
     } else if (hasProperty(value, HUE)) {
-      return Color.fromHSLObject(value as SerializedHSL)
+      return Color.fromHSLObject(value as WithAlphaAsOptional<SerializedHSL>)
     }
     throw new Error(`Invalid object: ${trySerialize(value)}`)
   }
@@ -611,7 +613,7 @@ export class Color {
    * The red value represented by an integer between `0` to `255`.
    */
   get red(): number {
-    if (isNull(this.M$internalValues.red)) { this.initRGBValues() }
+    if (isNull(this.M$internalValues.red)) { this.M$initRGBValues() }
     return this.M$internalValues.red
   }
 
@@ -619,7 +621,7 @@ export class Color {
    * The green value represented by an integer between `0` to `255`.
    */
   get green(): number {
-    if (isNull(this.M$internalValues.green)) { this.initRGBValues() }
+    if (isNull(this.M$internalValues.green)) { this.M$initRGBValues() }
     return this.M$internalValues.green
   }
 
@@ -627,7 +629,7 @@ export class Color {
    * The blue value represented by an integer between `0` to `255`.
    */
   get blue(): number {
-    if (isNull(this.M$internalValues.blue)) { this.initRGBValues() }
+    if (isNull(this.M$internalValues.blue)) { this.M$initRGBValues() }
     return this.M$internalValues.blue
   }
 
@@ -642,7 +644,7 @@ export class Color {
    * The hue, in degrees, represented by an integer between `0` to `360`.
    */
   get hue(): number {
-    if (isNull(this.M$internalValues.hue)) { this.initHSLValues() }
+    if (isNull(this.M$internalValues.hue)) { this.M$initHSLValues() }
     return this.M$internalValues.hue
   }
 
@@ -650,7 +652,7 @@ export class Color {
    * The saturation, in percentage, represented by an integer between `0` to `100`.
    */
   get saturation(): number {
-    if (isNull(this.M$internalValues.saturation)) { this.initHSLValues() }
+    if (isNull(this.M$internalValues.saturation)) { this.M$initHSLValues() }
     return this.M$internalValues.saturation
   }
 
@@ -658,7 +660,7 @@ export class Color {
    * The lightness, in percentage, represented by an integer between `0` to `100`.
    */
   get lightness(): number {
-    if (isNull(this.M$internalValues.lightness)) { this.initHSLValues() }
+    if (isNull(this.M$internalValues.lightness)) { this.M$initHSLValues() }
     return this.M$internalValues.lightness
   }
 
@@ -866,9 +868,10 @@ export class Color {
   // #region Private helpers
 
   /**
+   * NOTE: Not private so that they can be accessed from test.
    * @internal
    */
-  private initRGBValues = (): void => {
+  M$initRGBValues = (): void => {
     const [r, g, b] = ColorUtil.fromHSLToRGB(
       this.M$internalValues.hue,
       this.M$internalValues.saturation,
@@ -881,9 +884,10 @@ export class Color {
   }
 
   /**
+   * NOTE: Not private so that they can be accessed from test.
    * @internal
    */
-  private initHSLValues = (): void => {
+  M$initHSLValues = (): void => {
     const [h, s, l] = ColorUtil.fromRGBToHSL(
       this.M$internalValues.red,
       this.M$internalValues.green,
