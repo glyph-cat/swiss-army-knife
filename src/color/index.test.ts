@@ -19,7 +19,7 @@ describe(Color.name, (): void => {
   describe('Static methods', () => {
 
     // #region Setup/teardown
-    let spiedMethods: Array<ReturnType<typeof jest.spyOn>>
+    let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null
     beforeEach(() => {
       spiedMethods = [
         jest.spyOn(Color, 'fromHSLObject'),
@@ -35,7 +35,7 @@ describe(Color.name, (): void => {
       for (const spiedMethod of spiedMethods) {
         spiedMethod.mockClear()
       }
-      spiedMethods = []
+      spiedMethods = null
     })
     // #endregion Setup/teardown
 
@@ -77,15 +77,15 @@ describe(Color.name, (): void => {
       expect(Color.fromHSLValues).toHaveBeenCalledWith(...Object.values(inputParameter), undefined)
     })
 
-    describe.skip(Color.fromHSLValues.name, () => {
-      // const color = Color.fromHSLValues()
-      // expect(color.red).toBe()
-      // expect(color.green).toBe()
-      // expect(color.blue).toBe()
-      // expect(color.alpha).toBe()
-      // expect(color.hue).toBe()
-      // expect(color.saturation).toBe()
-      // expect(color.lightness).toBe()
+    test(Color.fromHSLValues.name, () => {
+      const color = Color.fromHSLValues(0, 100, 50)
+      expect(color.red).toBe(255)
+      expect(color.green).toBe(0)
+      expect(color.blue).toBe(0)
+      expect(color.alpha).toBe(1)
+      expect(color.hue).toBe(0)
+      expect(color.saturation).toBe(100)
+      expect(color.lightness).toBe(50)
     })
 
     // #endregion .fromHSL...
@@ -128,15 +128,15 @@ describe(Color.name, (): void => {
       expect(Color.fromRGBValues).toHaveBeenCalledWith(...Object.values(inputParameter), undefined)
     })
 
-    describe.skip(Color.fromRGBValues.name, () => {
-      // const color = Color.fromRGBValues()
-      // expect(color.red).toBe()
-      // expect(color.green).toBe()
-      // expect(color.blue).toBe()
-      // expect(color.alpha).toBe()
-      // expect(color.hue).toBe()
-      // expect(color.saturation).toBe()
-      // expect(color.lightness).toBe()
+    test(Color.fromRGBValues.name, () => {
+      const color = Color.fromRGBValues(128, 64, 16)
+      expect(color.red).toBe(128)
+      expect(color.green).toBe(64)
+      expect(color.blue).toBe(16)
+      expect(color.alpha).toBe(1)
+      expect(color.hue).toBe(26)
+      expect(color.saturation).toBe(78)
+      expect(color.lightness).toBe(28)
     })
 
     // #endregion fromRGB...
@@ -206,9 +206,40 @@ describe(Color.name, (): void => {
 
     })
 
-    // #endregion .fromString
+    test(Color.fromHSLString.name, () => {
+      const color = Color.fromHSLString('hsl(0 100 50)')
+      expect(color.red).toBe(255)
+      expect(color.green).toBe(0)
+      expect(color.blue).toBe(0)
+      expect(color.alpha).toBe(1)
+      expect(color.hue).toBe(0)
+      expect(color.saturation).toBe(100)
+      expect(color.lightness).toBe(50)
+    })
 
-    // todo: test `.fromHSLString`, `.fromHex`, `.fromRGBString`.
+    test(Color.fromRGBString.name, () => {
+      const color = Color.fromRGBString('rgb(128 64 16)')
+      expect(color.red).toBe(128)
+      expect(color.green).toBe(64)
+      expect(color.blue).toBe(16)
+      expect(color.alpha).toBe(1)
+      expect(color.hue).toBe(26)
+      expect(color.saturation).toBe(78)
+      expect(color.lightness).toBe(28)
+    })
+
+    test(Color.fromHex.name, () => {
+      const color = Color.fromHex('#00ff00')
+      expect(color.red).toBe(0)
+      expect(color.green).toBe(255)
+      expect(color.blue).toBe(0)
+      expect(color.alpha).toBe(1)
+      expect(color.hue).toBe(120)
+      expect(color.saturation).toBe(100)
+      expect(color.lightness).toBe(50)
+    })
+
+    // #endregion .fromString
 
   })
 
@@ -216,11 +247,106 @@ describe(Color.name, (): void => {
 
   // #region Getters
 
-  describe.skip('Getters', () => {
+  describe('Getters (internal values initialization test)', () => {
 
-    // test the lazy initialization
-    // check `.M$initRGBValues` calls
-    // check `.M$initHSLValues` calls
+    // #region Setup/teardown
+    let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null
+    const customSpy = (c: Color): Color => {
+      spiedMethods.push(
+        jest.spyOn(c, 'M$initRGBValues'),
+        jest.spyOn(c, 'M$initHSLValues'),
+      )
+      return c
+    }
+    beforeEach(() => {
+      spiedMethods = []
+    })
+    afterEach(() => {
+      for (const spiedMethod of spiedMethods) {
+        spiedMethod.mockClear()
+      }
+      spiedMethods = null
+    })
+    // #endregion Setup/teardown
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const doSomethingWith = (...args: unknown[]) => null
+    const propertiesToTestRGB: Readonly<Array<keyof typeof Color.prototype>> = [
+      'red',
+      'green',
+      'blue',
+    ]
+    const propertiesToTestHSL: Readonly<Array<keyof typeof Color.prototype>> = [
+      'hue',
+      'saturation',
+      'lightness',
+    ]
+
+    describe('From HSL', () => {
+
+      describe('These values should have been assigned from the start', () => {
+        for (const propertyToTest of propertiesToTestHSL) {
+          test(`.${propertyToTest}`, () => {
+            const color = customSpy(Color.fromHSLValues(0, 100, 50))
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+            doSomethingWith(color[propertyToTest])
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+          })
+        }
+      })
+
+      describe('These values should be lazily calculated', () => {
+        for (const propertyToTest of propertiesToTestRGB) {
+          test(`.${propertyToTest}`, () => {
+            const color = customSpy(Color.fromHSLValues(0, 100, 50))
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+            doSomethingWith(color[propertyToTest])
+            expect(color.M$initRGBValues).toHaveBeenCalledTimes(1)
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+            doSomethingWith(color[propertyToTest])
+            expect(color.M$initRGBValues).toHaveBeenCalledTimes(1)
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+          })
+        }
+      })
+
+    })
+
+    describe('From RGB', () => {
+
+      describe('These values should have been assigned from the start', () => {
+        for (const propertyToTest of propertiesToTestRGB) {
+          test(`.${propertyToTest}`, () => {
+            const color = customSpy(Color.fromRGBValues(128, 64, 16))
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+            doSomethingWith(color[propertyToTest])
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+          })
+        }
+      })
+
+      describe('These values should be lazily calculated', () => {
+        for (const propertyToTest of propertiesToTestHSL) {
+          test(`.${propertyToTest} (values should be lazily calculated)`, () => {
+            const color = customSpy(Color.fromRGBValues(128, 64, 16))
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).not.toHaveBeenCalled()
+            doSomethingWith(color[propertyToTest])
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).toHaveBeenCalledTimes(1)
+            doSomethingWith(color[propertyToTest])
+            expect(color.M$initRGBValues).not.toHaveBeenCalled()
+            expect(color.M$initHSLValues).toHaveBeenCalledTimes(1)
+          })
+        }
+      })
+
+    })
 
   })
 

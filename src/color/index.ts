@@ -126,9 +126,9 @@ export namespace ColorUtil {
         ? 2 + (b - r) / maxMinRGBDiff
         : 4 + (r - g) / maxMinRGBDiff
     return [
-      (hue < 0 ? hue + Color.MAX_HUE_VALUE : hue) * 60,
-      saturation * Color.MAX_SATURATION_VALUE,
-      lightness * Color.MAX_LIGHTNESS_VALUE,
+      Math.round((hue < 0 ? hue + Color.MAX_HUE_VALUE : hue) * 60),
+      Math.round(saturation * Color.MAX_SATURATION_VALUE),
+      Math.round(lightness * Color.MAX_LIGHTNESS_VALUE),
     ]
   }
 
