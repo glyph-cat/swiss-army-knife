@@ -504,13 +504,12 @@ function recursiveRemove<T>(
 
   if (Array.isArray(object)) {
     const remainingItems = [...object as Array<unknown>]
-    const nextProperty = remainingItems.splice(pathSegment as number, 1)
+    const [nextProperty] = remainingItems.splice(pathSegment as number, 1)
     if (nextPathSegments.length > 0) {
       const [
         nextPropertyPostProcess,
         nextPropertyExists,
       ] = recursiveRemove(nextProperty, nextPathSegments, options)
-      remainingItems[pathSegment as number] = null
       if (!options?.clean || nextPropertyExists) {
         remainingItems.splice(pathSegment as number, 0, nextPropertyPostProcess)
       }
