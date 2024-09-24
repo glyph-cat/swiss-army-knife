@@ -11,9 +11,6 @@ import {
 
 describe(Color.name, (): void => {
 
-  // todo: also test `isInvalid` + test when setting valid colors again does it change back to false
-  // also test with multiple invalid fields and make sure they don't cross pollute
-
   // #region Static methods
 
   describe('Static methods', () => {
@@ -140,7 +137,6 @@ describe(Color.name, (): void => {
     })
 
     // #endregion fromRGB...
-
 
     // #region fromJSON
 
@@ -282,6 +278,8 @@ describe(Color.name, (): void => {
       'lightness',
     ]
 
+    // #region From HSL
+
     describe('From HSL', () => {
 
       describe('These values should have been assigned from the start', () => {
@@ -314,6 +312,10 @@ describe(Color.name, (): void => {
       })
 
     })
+
+    // #endregion From HSL
+
+    // #region From RGB
 
     describe('From RGB', () => {
 
@@ -348,6 +350,8 @@ describe(Color.name, (): void => {
 
     })
 
+    // #endregion From RGB
+
   })
 
   // #endregion Getters
@@ -356,49 +360,67 @@ describe(Color.name, (): void => {
 
   describe('Prototype methods', () => {
 
-    describe.skip(Color.prototype.toJSON.name, () => {
-      // ...
+    // #region Serialization
+
+    describe('Serialization', () => {
+
+      describe.skip(Color.prototype.toJSON.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.toString.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.valueOf.name, () => {
+        // ...
+      })
+
     })
 
-    describe.skip(Color.prototype.toString.name, () => {
-      // ...
+    // #endregion Serialization
+
+    // #region Setters
+
+    describe('Setters', () => {
+
+      // todo: also test `isInvalid` + test when setting valid colors again does it change back to false also test with multiple invalid fields and make sure they don't cross pollute
+
+      describe.skip(Color.prototype.setRed.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.setGreen.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.setBlue.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.setAlpha.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.setHue.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.setSaturation.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.setLightness.name, () => {
+        // ...
+      })
+
+      describe.skip(Color.prototype.set.name, () => {
+        // ...
+      })
+
     })
 
-    describe.skip(Color.prototype.valueOf.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setRed.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setGreen.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setBlue.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setAlpha.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setHue.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setSaturation.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.setLightness.name, () => {
-      // ...
-    })
-
-    describe.skip(Color.prototype.set.name, () => {
-      // ...
-    })
+    // #endregion Setters
 
   })
 
@@ -495,9 +517,7 @@ describe('ColorUtil', (): void => {
     // ...
   })
 
-  test.skip(ColorUtil.getLuminance.name, (): void => {
-    // ...
-  })
+  // NOTE: `getLuminance` is not tested because it is a straightforward formula
 
 })
 
