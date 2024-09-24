@@ -1,6 +1,6 @@
 import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
-import { StrictPropertyKey } from '../../../types'
+import { PlainRecord, StrictPropertyKey } from '../../../types'
 import { isNullOrUndefined, isNumber } from '../../type-check'
 
 /**
@@ -524,20 +524,25 @@ function recursiveRemove<T>(
       ]
     }
   } else {
-    const { [pathSegment]: nextProperty, ...remainingItems } = object
+    // This is to ensure order of keys remain untouched as much as possible
+    const shallowCopiedObject = { ...object }
+    const nextProperty = shallowCopiedObject[pathSegment]
     if (nextPathSegments.length > 0) {
       const [
         nextPropertyPostProcess,
         nextPropertyExists,
       ] = recursiveRemove(nextProperty, nextPathSegments, options)
-      if (!options?.clean || nextPropertyExists) {
-        remainingItems[pathSegment] = nextPropertyPostProcess
+      if (options?.clean && !nextPropertyExists) {
+        delete shallowCopiedObject[pathSegment]
+      } else {
+        shallowCopiedObject[pathSegment] = nextPropertyPostProcess
       }
       return [
-        remainingItems as T,
-        options?.clean ? Object.keys(remainingItems).length > 0 : true,
+        shallowCopiedObject as T,
+        options?.clean ? Object.keys(shallowCopiedObject).length > 0 : true,
       ]
     } else {
+      const { [pathSegment]: _toRemove, ...remainingItems } = object as PlainRecord
       return [
         remainingItems as T,
         options?.clean ? Object.keys(remainingItems).length > 0 : true,
