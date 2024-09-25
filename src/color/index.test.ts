@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   Color,
   ColorLookup,
@@ -241,6 +242,8 @@ describe(Color.name, (): void => {
 
   // #endregion Static methods
 
+  // #region Parameter validation
+
   describe('Parameter validation', () => {
 
     // These are the only methods that actually perform validation:
@@ -252,18 +255,28 @@ describe(Color.name, (): void => {
     // The other methods are just a kind of wrapper that eventually calls the
     // base methods above.
 
-    // todo: concept is to test for the `.isInvalid` property and whether `console.error` is called
-
+    // #region -  .fromRGBString
     describe(Color.fromRGBString.name, () => {
 
       describe('Is valid', () => {
 
-        test('With alpha', () => {
-          // ...
+        describe('With alpha', () => {
+
+          test('Decimal', () => {
+            const color = Color.fromRGBString('rgb(128 64 16 0.5)')
+            expect(color.isInvalid).toBe(false)
+          })
+
+          test('Percentage', () => {
+            const color = Color.fromRGBString('rgb(128 64 16 50%)')
+            expect(color.isInvalid).toBe(false)
+          })
+
         })
 
         test('Without alpha', () => {
-          // ...
+          const color = Color.fromRGBString('rgb(128 64 16)')
+          expect(color.isInvalid).toBe(false)
         })
 
       })
@@ -271,35 +284,57 @@ describe(Color.name, (): void => {
       describe('Is invalid', () => {
 
         test('Red', () => {
-          // ...
+          const color = Color.fromRGBString('rgb(300 64 16)')
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Green', () => {
-          // ...
+          const color = Color.fromRGBString('rgb(128 300 16)')
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Blue', () => {
-          // ...
+          const color = Color.fromRGBString('rgb(128 64 300)')
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
-        test('Alpha', () => {
-          // ...
+        describe('Alpha', () => {
+
+          test('Decimal', () => {
+            const color = Color.fromRGBString('rgb(128 64 16 1.1)')
+            expect(color.isInvalid).toBe(true)
+            expect(console.error).toHaveBeenCalled()
+          })
+
+          test('Percentage', () => {
+            const color = Color.fromRGBString('rgb(128 64 16 110%)')
+            expect(color.isInvalid).toBe(true)
+            expect(console.error).toHaveBeenCalled()
+          })
+
         })
 
       })
 
     })
+    // #endregion -  .fromRGBString
 
+    // #region -  .fromRGBValues
     describe(Color.fromRGBValues.name, () => {
 
       describe('Is valid', () => {
 
         test('With alpha', () => {
-          // ...
+          const color = Color.fromRGBValues(128, 64, 16, 0.5)
+          expect(color.isInvalid).toBe(false)
         })
 
         test('Without alpha', () => {
-          // ...
+          const color = Color.fromRGBValues(128, 64, 16)
+          expect(color.isInvalid).toBe(false)
         })
 
       })
@@ -307,35 +342,47 @@ describe(Color.name, (): void => {
       describe('Is invalid', () => {
 
         test('Red', () => {
-          // ...
+          const color = Color.fromRGBValues(300, 64, 16)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Green', () => {
-          // ...
+          const color = Color.fromRGBValues(128, 300, 16)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Blue', () => {
-          // ...
+          const color = Color.fromRGBValues(128, 64, 300)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Alpha', () => {
-          // ...
+          const color = Color.fromRGBValues(128, 64, 16, 1.1)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
       })
 
     })
+    // #endregion -  .fromRGBValues
 
+    // #region -  .fromHSLString
     describe(Color.fromHSLString.name, () => {
 
       describe('Is valid', () => {
 
         test('With alpha', () => {
-          // ...
+          const color = Color.fromHSLString('hsl(0 100 50 0.5)')
+          expect(color.isInvalid).toBe(false)
         })
 
         test('Without alpha', () => {
-          // ...
+          const color = Color.fromHSLString('hsl(0 100 50)')
+          expect(color.isInvalid).toBe(false)
         })
 
       })
@@ -343,35 +390,56 @@ describe(Color.name, (): void => {
       describe('Is invalid', () => {
 
         test('Hue', () => {
-          // ...
+          const color = Color.fromHSLString('hsl(460 100 50)')
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Saturation', () => {
-          // ...
+          const color = Color.fromHSLString('hsl(0 200 50)')
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Lightness', () => {
-          // ...
+          const color = Color.fromHSLString('hsl(0 100 200)')
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Alpha', () => {
-          // ...
+
+          test('Decimal', () => {
+            const color = Color.fromHSLString('hsl(0 100 50 0.5)')
+            expect(color.isInvalid).toBe(true)
+            expect(console.error).toHaveBeenCalled()
+          })
+
+          test('Percentage', () => {
+            const color = Color.fromHSLString('hsl(0 100 50 50%)')
+            expect(color.isInvalid).toBe(true)
+            expect(console.error).toHaveBeenCalled()
+          })
         })
 
       })
 
     })
+    // #endregion -  .fromHSLString
 
+    // #region -  .fromHSLValues
     describe(Color.fromHSLValues.name, () => {
 
       describe('Is valid', () => {
 
         test('With alpha', () => {
-          // ...
+          const color = Color.fromHSLValues(0, 100, 50, 0.5)
+          expect(color.isInvalid).toBe(false)
         })
 
         test('Without alpha', () => {
-          // ...
+          const color = Color.fromHSLValues(0, 100, 50)
+          expect(color.isInvalid).toBe(false)
         })
 
       })
@@ -379,71 +447,145 @@ describe(Color.name, (): void => {
       describe('Is invalid', () => {
 
         test('Hue', () => {
-          // ...
+          const color = Color.fromHSLValues(460, 100, 50)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Saturation', () => {
-          // ...
+          const color = Color.fromHSLValues(0, 200, 50)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Lightness', () => {
-          // ...
+          const color = Color.fromHSLValues(0, 100, 200)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
         test('Alpha', () => {
-          // ...
+          const color = Color.fromHSLValues(0, 100, 50, 0.5)
+          expect(color.isInvalid).toBe(true)
+          expect(console.error).toHaveBeenCalled()
         })
 
       })
 
     })
+    // #endregion -  .fromHSLValues
 
+    // #region -  .fromHex
     describe(Color.fromHex.name, () => {
-
-      // todo: test when each R, G, B, A value is valid and invalid
 
       describe('Is valid', () => {
 
         test('FFF', () => {
-          // ...
+          const color = Color.fromHex('#0f0')
+          expect(color.isInvalid).toBe(false)
         })
 
         test('FFFF', () => {
-          // ...
+          const color = Color.fromHex('#0f08')
+          expect(color.isInvalid).toBe(false)
         })
 
         test('FFFFFF', () => {
-          // ...
+          const color = Color.fromHex('#00ff00')
+          expect(color.isInvalid).toBe(false)
         })
 
         test('FFFFFFFF', () => {
-          // ...
+          const color = Color.fromHex('#00ff0088')
+          expect(color.isInvalid).toBe(false)
         })
+
       })
 
       describe('Is invalid', () => {
 
-        test('Red', () => {
-          // ...
+        describe('Red', () => {
+
+          test('FFF', () => {
+            expect(() => { Color.fromHex('#x00') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFF', () => {
+            expect(() => { Color.fromHex('#x00f') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFF', () => {
+            expect(() => { Color.fromHex('#xx0000') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFFFF', () => {
+            expect(() => { Color.fromHex('#xx0000ff') }).toThrow(/Invalid hex code/)
+          })
+
         })
 
-        test('Green', () => {
-          // ...
+        describe('Green', () => {
+
+          test('FFF', () => {
+            expect(() => { Color.fromHex('#0x0') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFF', () => {
+            expect(() => { Color.fromHex('#0x0f') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFF', () => {
+            expect(() => { Color.fromHex('#00xx00') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFFFF', () => {
+            expect(() => { Color.fromHex('#00xx00ff') }).toThrow(/Invalid hex code/)
+          })
+
         })
 
-        test('Blue', () => {
-          // ...
+        describe('Blue', () => {
+
+          test('FFF', () => {
+            expect(() => { Color.fromHex('#00x') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFF', () => {
+            expect(() => { Color.fromHex('#00xf') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFF', () => {
+            expect(() => { Color.fromHex('#0000xx') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFFFF', () => {
+            expect(() => { Color.fromHex('#0000xxff') }).toThrow(/Invalid hex code/)
+          })
+
         })
 
-        test('Alpha', () => {
-          // ...
+        describe('Alpha', () => {
+
+          // NOTE: 'FFF' and 'FFFFFF' are irrelevant
+
+          test('FFFF', () => {
+            expect(() => { Color.fromHex('#000x') }).toThrow(/Invalid hex code/)
+          })
+
+          test('FFFFFFFF', () => {
+            expect(() => { Color.fromHex('#000000xx') }).toThrow(/Invalid hex code/)
+          })
+
         })
 
       })
 
     })
+    // #endregion -  .fromHex
 
   })
+
+  // #endregion Parameter validation
 
   // #region Getters
 
@@ -567,8 +709,15 @@ describe(Color.name, (): void => {
     describe('Serialization', () => {
 
       test(Color.prototype.toJSON.name, () => {
-        expect(Color.fromHex('#ddeeff').toJSON()).toStrictEqual({
-          // todo
+        expect(Color.fromHex('#12345678').toJSON()).toStrictEqual({
+          red: 18,
+          green: 52,
+          blue: 86,
+          alpha: 0.471,
+          hue: 210,
+          saturation: 65,
+          lightness: 20,
+          luminance: 47.24,
         })
       })
 
@@ -600,7 +749,7 @@ describe(Color.name, (): void => {
             // ...
           })
 
-          test('truncateDecimals: 4', () => {
+          test('truncateDecimals: 1', () => {
             // ...
           })
 
@@ -628,7 +777,7 @@ describe(Color.name, (): void => {
             // ...
           })
 
-          test('truncateDecimals: 4', () => {
+          test('truncateDecimals: 1', () => {
             // ...
           })
 
@@ -775,12 +924,12 @@ describe('ColorUtil', (): void => {
 
   })
 
-  describe.skip(ColorUtil.fromHSLToRGB.name, (): void => {
-    // ...
+  test(ColorUtil.fromHSLToRGB.name, (): void => {
+    expect(ColorUtil.fromHSLToRGB(0, 100, 50)).toStrictEqual([255, 0, 0])
   })
 
-  describe.skip(ColorUtil.fromRGBToHSL.name, (): void => {
-    // ...
+  test(ColorUtil.fromRGBToHSL.name, (): void => {
+    expect(ColorUtil.fromRGBToHSL(128, 64, 16)).toStrictEqual([26, 78, 28])
   })
 
   // NOTE: `getLuminance` is not tested because it is a straightforward formula

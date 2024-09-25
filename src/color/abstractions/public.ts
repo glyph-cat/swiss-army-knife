@@ -54,7 +54,7 @@ export interface ToStringOptions {
   /**
    * Decimal values will be rounded to the nearest 2 digits by default but this
    * behavior can be customized using this option.
-   * @defaultValue `2`
+   * @defaultValue `3`
    */
   truncateDecimals?: number
   /**

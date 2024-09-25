@@ -43,8 +43,8 @@ const SATURATION = 'saturation'
 const LIGHTNESS = 'lightness'
 // const LUMINANCE = 'luminance'
 
-// todo: what do these parameters stand for?
-function hueToRgb(p, q, t) {
+// todo: [mid priority] they work, but... what do these parameters stand for?
+function hueToRgb(p: number, q: number, t: number): number {
   if (t < 0) t += 1
   if (t > 1) t -= 1
   if (t < 1 / 6) return p + (q - p) * 6 * t
@@ -75,6 +75,9 @@ export namespace ColorUtil {
     lightness: number
   ): NumericValues3 {
     // Reference: https://stackoverflow.com/a/9493060/5810737
+    hue /= 100
+    saturation /= 100
+    lightness /= 100
     let r: number, g: number, b: number
     if (saturation === 0) {
       r = g = b = lightness
@@ -299,7 +302,9 @@ export class Color {
       red,
       green,
       blue,
-      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
+      ...(isNullOrUndefined(alphaRaw) ? {} : {
+        alpha: /%/.test(alphaRaw) ? alpha / 100 : alpha,
+      }),
     }
     return color
   }
@@ -580,7 +585,7 @@ export class Color {
    * A flag indicating whether the color has invalid values.
    */
   get isInvalid(): boolean {
-    if (hasProperty(this.M$internalValues, RED)) {
+    if (!isNull(this.M$internalValues.red)) {
       if (
         isOutOfRange(this.M$internalValues.red, ...VALIDATION_RANGES.red) ||
         isOutOfRange(this.M$internalValues.blue, ...VALIDATION_RANGES.blue) ||
@@ -588,7 +593,7 @@ export class Color {
       ) {
         return true // Early exit
       }
-    } else if (hasProperty(this.M$internalValues, HUE)) {
+    } else if (!isNull(this.M$internalValues.hue)) {
       if (
         isOutOfRange(this.M$internalValues.hue, ...VALIDATION_RANGES.hue) ||
         isOutOfRange(this.M$internalValues.saturation, ...VALIDATION_RANGES.saturation) ||
@@ -752,23 +757,24 @@ export class Color {
       }
       return output // Early exit
     }
+    const truncateDecimals = options?.truncateDecimals ?? 3 // the default value
     if (format === ColorFormat.RGB) {
       return this.M$getRGBString(
         this.alpha !== Color.MAX_ALPHA_VALUE ? 1 : 0,
-        options?.truncateDecimals
+        truncateDecimals
       ) // Early exit
     }
     if (format === ColorFormat.RGBA) {
-      return this.M$getRGBString(1, options?.truncateDecimals) // Early exit
+      return this.M$getRGBString(1, truncateDecimals) // Early exit
     }
     if (format === ColorFormat.HSL) {
       return this.M$getHSLString(
         this.alpha !== Color.MAX_ALPHA_VALUE ? 1 : 0,
-        options?.truncateDecimals
+        truncateDecimals
       ) // Early exit
     }
     if (format === ColorFormat.HSLA) {
-      return this.M$getHSLString(1, options?.truncateDecimals) // Early exit
+      return this.M$getHSLString(1, truncateDecimals) // Early exit
     }
     throw new Error(`Invalid format '${format}'`)
   }
