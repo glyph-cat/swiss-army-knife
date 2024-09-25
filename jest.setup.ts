@@ -18,6 +18,8 @@ const consoleMethodNames: Array<ConsoleKey> = [
 
 const originalMethods: Partial<Record<ConsoleKey, IConsole[ConsoleKey]>> = {}
 
+// todo: [low priority] use `jest.spyOn`
+
 beforeEach(() => {
   for (const consoleMethodName of consoleMethodNames) {
     originalMethods[consoleMethodName] = console[consoleMethodName]

@@ -1,17 +1,13 @@
 // #region Imports
 import { IS_CLIENT_ENV } from '../constants'
 import {
-  hasEitherProperties,
   hasProperty,
-  hasTheseProperties,
-  isFunction,
   isNull,
   isNullOrUndefined,
   isNumber,
   isObject,
   isString,
   Nullable,
-  omit,
   trySerialize
 } from '../data'
 import { devError } from '../dev'
@@ -20,10 +16,8 @@ import { isOutOfRange } from '../math/range'
 import { LenientString, NumericValues3 } from '../types'
 import {
   ColorFormat,
-  ColorModifier,
   ContrastingValueSpecifications,
   CSSColor,
-  MultiColorModifier,
   SerializedColor,
   SerializedHSL,
   SerializedRGB,
@@ -47,7 +41,7 @@ const ALPHA = 'alpha'
 const HUE = 'hue'
 const SATURATION = 'saturation'
 const LIGHTNESS = 'lightness'
-const LUMINANCE = 'luminance'
+// const LUMINANCE = 'luminance'
 
 // todo: what do these parameters stand for?
 function hueToRgb(p, q, t) {
@@ -674,86 +668,10 @@ export class Color {
 
   // #endregion Getters
 
-  // #region Setters
-
-  setRed(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.red) }
-    showErrorIfInvalid(RED, ...VALIDATION_RANGES.red, value, value)
-    return this.M$clone({ red: value })
-  }
-
-  setGreen(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.green) }
-    showErrorIfInvalid(GREEN, ...VALIDATION_RANGES.green, value, value)
-    return this.M$clone({ green: value })
-  }
-
-  setBlue(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.blue) }
-    showErrorIfInvalid(BLUE, ...VALIDATION_RANGES.blue, value, value)
-    return this.M$clone({ blue: value })
-  }
-
-  setAlpha(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.alpha) }
-    showErrorIfInvalid(ALPHA, ...VALIDATION_RANGES.alpha, value, value)
-    return this.M$clone({ alpha: value })
-  }
-
-  setHue(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.hue) }
-    showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, value, value)
-    return this.M$clone({ hue: value })
-  }
-
-  setSaturation(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.saturation) }
-    showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, value, value)
-    return this.M$clone({ saturation: value })
-  }
-
-  setLightness(value: number | ColorModifier): Color {
-    if (isFunction(value)) { value = value(this.lightness) }
-    showErrorIfInvalid(LIGHTNESS, ...VALIDATION_RANGES.lightness, value, value)
-    return this.M$clone({ lightness: value })
-  }
-
-  set(rgb: Partial<SerializedRGB>): Color
-
-  set(hsl: Partial<SerializedHSL>): Color
-
-  set(modifier: MultiColorModifier): Color
-
-  /**
-   * @internal
-   */
-  set(
-    partialValueOrModifier: Partial<SerializedRGB> | Partial<SerializedHSL> | MultiColorModifier
-  ): Color {
-    // todo: validate & assign new RGB(A)HSL values for each of the methods below
-    if (hasEitherProperties(partialValueOrModifier, [RED, GREEN, BLUE])) {
-      return Color.fromRGBObject({
-        red: this.red,
-        green: this.green,
-        blue: this.blue,
-        ...partialValueOrModifier,
-      })
-    } else if (hasEitherProperties(partialValueOrModifier, [HUE, SATURATION, LIGHTNESS])) {
-      return Color.fromHSLObject({
-        hue: this.hue,
-        saturation: this.saturation,
-        lightness: this.lightness,
-        ...partialValueOrModifier,
-      })
-    } else if (isFunction(partialValueOrModifier)) {
-      const currentValues = omit(this.toJSON(), LUMINANCE)
-      return Color.fromJSON(partialValueOrModifier(currentValues))
-    }
-    devError(`Expected ${Color.name}.set to be called with a function or an object that contains either RGB or HSL values, but got ${isObject(partialValueOrModifier) ? trySerialize(partialValueOrModifier) : typeof partialValueOrModifier}.`)
-    throw new Error(`Invalid \`${Color.name}.set\` parameter`)
-  }
-
-  // #endregion Setters
+  // NOTE: Setters were removed to reduce complexity, since the instance is an
+  // immutable representation of a color, it would be more feasible to have a
+  // new Color instance created based on the properties from an existing color.
+  // That is also why so much consideration has been put into designing the getters.
 
   // #region Serialization
 
@@ -896,33 +814,6 @@ export class Color {
     this.M$internalValues.hue = h
     this.M$internalValues.saturation = s
     this.M$internalValues.lightness = l
-  }
-
-  /**
-   * @internal
-   */
-  private M$clone = (overrideValues?: Partial<typeof this.M$internalValues>): Color => {
-    const newObj = new Color()
-    newObj.M$internalValues = {
-      ...Color.M$DEFAULT_INTERNAL_VALUES,
-      alpha: this.alpha, // Should always be copied
-      ...(() => {
-        if (hasEitherProperties(overrideValues, ['red', 'green', 'blue'])) {
-          return {
-            red: this.red,
-            green: this.green,
-            blue: this.blue,
-          }
-        } else if (hasTheseProperties(overrideValues, ['hue', 'saturation', 'lightness'])) {
-          return {
-            hue: this.hue,
-            saturation: this.saturation,
-            lightness: this.lightness,
-          }
-        }
-      })(),
-    }
-    return newObj
   }
 
   /**

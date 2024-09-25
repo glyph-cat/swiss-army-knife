@@ -162,18 +162,6 @@ export interface SerializedColor {
 /**
  * @public
  */
-export type ColorModifier = (value: number) => number
-
-/**
- * @public
- */
-export type MultiColorModifier = (
-  currentValues: Omit<SerializedColor, 'luminance'>
-) => SerializedRGB | SerializedHSL
-
-/**
- * @public
- */
 export interface ContrastingValueSpecifications<T> {
   /**
    * Value to return if color is considered 'light'.

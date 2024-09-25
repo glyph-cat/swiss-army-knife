@@ -241,6 +241,210 @@ describe(Color.name, (): void => {
 
   // #endregion Static methods
 
+  describe('Parameter validation', () => {
+
+    // These are the only methods that actually perform validation:
+    // - fromRGBString
+    // - fromRGBValues
+    // - fromHSLString
+    // - fromHSLValues
+    // - fromHex
+    // The other methods are just a kind of wrapper that eventually calls the
+    // base methods above.
+
+    // todo: concept is to test for the `.isInvalid` property and whether `console.error` is called
+
+    describe(Color.fromRGBString.name, () => {
+
+      describe('Is valid', () => {
+
+        test('With alpha', () => {
+          // ...
+        })
+
+        test('Without alpha', () => {
+          // ...
+        })
+
+      })
+
+      describe('Is invalid', () => {
+
+        test('Red', () => {
+          // ...
+        })
+
+        test('Green', () => {
+          // ...
+        })
+
+        test('Blue', () => {
+          // ...
+        })
+
+        test('Alpha', () => {
+          // ...
+        })
+
+      })
+
+    })
+
+    describe(Color.fromRGBValues.name, () => {
+
+      describe('Is valid', () => {
+
+        test('With alpha', () => {
+          // ...
+        })
+
+        test('Without alpha', () => {
+          // ...
+        })
+
+      })
+
+      describe('Is invalid', () => {
+
+        test('Red', () => {
+          // ...
+        })
+
+        test('Green', () => {
+          // ...
+        })
+
+        test('Blue', () => {
+          // ...
+        })
+
+        test('Alpha', () => {
+          // ...
+        })
+
+      })
+
+    })
+
+    describe(Color.fromHSLString.name, () => {
+
+      describe('Is valid', () => {
+
+        test('With alpha', () => {
+          // ...
+        })
+
+        test('Without alpha', () => {
+          // ...
+        })
+
+      })
+
+      describe('Is invalid', () => {
+
+        test('Hue', () => {
+          // ...
+        })
+
+        test('Saturation', () => {
+          // ...
+        })
+
+        test('Lightness', () => {
+          // ...
+        })
+
+        test('Alpha', () => {
+          // ...
+        })
+
+      })
+
+    })
+
+    describe(Color.fromHSLValues.name, () => {
+
+      describe('Is valid', () => {
+
+        test('With alpha', () => {
+          // ...
+        })
+
+        test('Without alpha', () => {
+          // ...
+        })
+
+      })
+
+      describe('Is invalid', () => {
+
+        test('Hue', () => {
+          // ...
+        })
+
+        test('Saturation', () => {
+          // ...
+        })
+
+        test('Lightness', () => {
+          // ...
+        })
+
+        test('Alpha', () => {
+          // ...
+        })
+
+      })
+
+    })
+
+    describe(Color.fromHex.name, () => {
+
+      // todo: test when each R, G, B, A value is valid and invalid
+
+      describe('Is valid', () => {
+
+        test('FFF', () => {
+          // ...
+        })
+
+        test('FFFF', () => {
+          // ...
+        })
+
+        test('FFFFFF', () => {
+          // ...
+        })
+
+        test('FFFFFFFF', () => {
+          // ...
+        })
+      })
+
+      describe('Is invalid', () => {
+
+        test('Red', () => {
+          // ...
+        })
+
+        test('Green', () => {
+          // ...
+        })
+
+        test('Blue', () => {
+          // ...
+        })
+
+        test('Alpha', () => {
+          // ...
+        })
+
+      })
+
+    })
+
+  })
+
   // #region Getters
 
   describe('Getters (internal values initialization test)', () => {
@@ -360,67 +564,129 @@ describe(Color.name, (): void => {
 
   describe('Prototype methods', () => {
 
-    // #region Serialization
-
     describe('Serialization', () => {
 
-      describe.skip(Color.prototype.toJSON.name, () => {
-        // ...
+      test(Color.prototype.toJSON.name, () => {
+        expect(Color.fromHex('#ddeeff').toJSON()).toStrictEqual({
+          // todo
+        })
       })
 
-      describe.skip(Color.prototype.toString.name, () => {
-        // ...
+      describe(Color.prototype.toString.name, () => {
+
+        test('No parameters provided', () => {
+          // ...
+        })
+
+        describe('RGB', () => {
+
+          test('suppressAlphaInShortFormats: true', () => {
+            // ...
+          })
+
+          test('suppressAlphaInShortFormats: false', () => {
+            // ...
+          })
+
+        })
+
+        describe('RGBA', () => {
+
+          test('truncateDecimals: none', () => {
+            // ...
+          })
+
+          test('truncateDecimals: 0', () => {
+            // ...
+          })
+
+          test('truncateDecimals: 4', () => {
+            // ...
+          })
+
+        })
+
+        describe('HSL', () => {
+
+          test('suppressAlphaInShortFormats: true', () => {
+            // ...
+          })
+
+          test('suppressAlphaInShortFormats: false', () => {
+            // ...
+          })
+
+        })
+
+        describe('HSLA', () => {
+
+          test('truncateDecimals: none', () => {
+            // ...
+          })
+
+          test('truncateDecimals: 0', () => {
+            // ...
+          })
+
+          test('truncateDecimals: 4', () => {
+            // ...
+          })
+
+        })
+
+        describe('FFF', () => {
+
+          test('Possible to use short hex form', () => {
+            // ...
+          })
+
+          test('Not possible to use short hex form', () => {
+            // ...
+          })
+
+        })
+
+        describe('FFFF', () => {
+
+          test('Possible to use short hex form', () => {
+            // ...
+          })
+
+          test('Not possible to use short hex form', () => {
+            // ...
+          })
+
+        })
+
+        describe('FFFFFFFF', () => {
+
+          test('suppressAlphaInShortFormats: true', () => {
+            // ...
+          })
+
+          test('suppressAlphaInShortFormats: false', () => {
+            // ...
+          })
+
+        })
+
+        test('FFFFFFFF', () => {
+          // ...
+        })
+
+        test('Invalid color', () => {
+          // ...
+        })
+
       })
 
-      describe.skip(Color.prototype.valueOf.name, () => {
-        // ...
+      test(Color.prototype.valueOf.name, () => {
+        const color = Color.fromHex('#00ff00')
+        color.valueOf()
+        expect(color.toString).toHaveBeenCalledWith(undefined)
       })
 
     })
-
-    // #endregion Serialization
-
-    // #region Setters
-
-    describe('Setters', () => {
-
-      // todo: also test `isInvalid` + test when setting valid colors again does it change back to false also test with multiple invalid fields and make sure they don't cross pollute
-
-      describe.skip(Color.prototype.setRed.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.setGreen.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.setBlue.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.setAlpha.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.setHue.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.setSaturation.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.setLightness.name, () => {
-        // ...
-      })
-
-      describe.skip(Color.prototype.set.name, () => {
-        // ...
-      })
-
-    })
-
-    // #endregion Setters
 
   })
 
