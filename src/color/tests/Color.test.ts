@@ -370,9 +370,18 @@ describe('Parameter validation', () => {
 
     describe('Is valid', () => {
 
-      test('With alpha', () => {
-        const color = Color.fromHSLString('hsl(0 100 50 0.5)')
-        expect(color.isInvalid).toBe(false)
+      describe('With alpha', () => {
+
+        test('Decimal', () => {
+          const color = Color.fromHSLString('hsl(0 100 50 0.5)')
+          expect(color.isInvalid).toBe(false)
+        })
+
+        test('Percentage', () => {
+          const color = Color.fromHSLString('hsl(0 100 50 50%)')
+          expect(color.isInvalid).toBe(false)
+        })
+
       })
 
       test('Without alpha', () => {
@@ -402,16 +411,16 @@ describe('Parameter validation', () => {
         expect(console.error).toHaveBeenCalled()
       })
 
-      test('Alpha', () => {
+      describe('Alpha', () => {
 
         test('Decimal', () => {
-          const color = Color.fromHSLString('hsl(0 100 50 0.5)')
+          const color = Color.fromHSLString('hsl(0 100 50 1.1)')
           expect(color.isInvalid).toBe(true)
           expect(console.error).toHaveBeenCalled()
         })
 
         test('Percentage', () => {
-          const color = Color.fromHSLString('hsl(0 100 50 50%)')
+          const color = Color.fromHSLString('hsl(0 100 50 110%)')
           expect(color.isInvalid).toBe(true)
           expect(console.error).toHaveBeenCalled()
         })
@@ -460,7 +469,7 @@ describe('Parameter validation', () => {
       })
 
       test('Alpha', () => {
-        const color = Color.fromHSLValues(0, 100, 50, 0.5)
+        const color = Color.fromHSLValues(0, 100, 50, 1.1)
         expect(color.isInvalid).toBe(true)
         expect(console.error).toHaveBeenCalled()
       })
@@ -703,12 +712,31 @@ describe('Prototype methods', () => {
 
   describe('Serialization', () => {
 
+    // #region Setup/teardown
+    let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null
+    const customSpy = (c: Color): Color => {
+      spiedMethods.push(
+        jest.spyOn(c, 'toString'),
+      )
+      return c
+    }
+    beforeEach(() => {
+      spiedMethods = []
+    })
+    afterEach(() => {
+      for (const spiedMethod of spiedMethods) {
+        spiedMethod.mockClear()
+      }
+      spiedMethods = null
+    })
+    // #endregion Setup/teardown
+
     test(Color.prototype.toJSON.name, () => {
       expect(Color.fromHex('#12345678').toJSON()).toStrictEqual({
         red: 18,
         green: 52,
         blue: 86,
-        alpha: 0.471,
+        alpha: 0.47058823529411764,
         hue: 210,
         saturation: 65,
         lightness: 20,
@@ -720,28 +748,28 @@ describe('Prototype methods', () => {
 
       test('No parameters provided', () => {
         const color = Color.fromRGBValues(128, 64, 16)
-        expect(color.toString()).toBe('#')
+        expect(color.toString()).toBe('#804010')
       })
 
       describe('RGB', () => {
 
         test('Alpha === 1', () => {
-          const color = Color.fromHex('#')
+          const color = Color.fromHex('#804010')
           expect(color.toString(ColorFormat.RGB)).toBe('rgb(128, 64, 16)')
         })
 
         describe('Alpha !== 1', () => {
 
           test('suppressAlphaInShortFormats: true', () => {
-            const color = Color.fromHex('#')
+            const color = Color.fromHex('#80401080')
             expect(color.toString(ColorFormat.RGB, {
               suppressAlphaInShortFormats: true,
-            })).toBe('rgb(128, 64, 16, 0.5)')
+            })).toBe('rgb(128, 64, 16)')
           })
 
           test('suppressAlphaInShortFormats: false', () => {
-            const color = Color.fromHex('#')
-            expect(color.toString(ColorFormat.RGB)).toBe('rgb(128, 64, 16)')
+            const color = Color.fromHex('#80401080')
+            expect(color.toString(ColorFormat.RGB)).toBe('rgb(128, 64, 16, 0.502)')
           })
 
         })
@@ -750,51 +778,89 @@ describe('Prototype methods', () => {
 
       describe('RGBA', () => {
 
-        test('truncateDecimals: default', () => {
-          const color = Color.fromHex('#') // should have transparency
-          expect(color.toString(ColorFormat.RGBA)).toBe('rgb(128, 64, 16)')
+        test('Alpha = 1', () => {
+          const color = Color.fromHex('#804010')
+          expect(color.toString(ColorFormat.RGBA)).toBe('rgba(128, 64, 16, 1)')
         })
 
-        test('truncateDecimals: 0', () => {
-          const color = Color.fromHex('#') // should have transparency
-          expect(color.toString(ColorFormat.RGBA, {
-            truncateDecimals: 0,
-          })).toBe('rgb(128, 64, 16)')
-        })
+        describe('truncateDecimals', () => {
 
-        test('truncateDecimals: 1', () => {
-          const color = Color.fromHex('#') // should have transparency
-          expect(color.toString(ColorFormat.RGBA, {
-            truncateDecimals: 0,
-          })).toBe('rgb(128, 64, 16)')
+          test('default', () => {
+            const color = Color.fromHex('#80401088')
+            expect(color.toString(ColorFormat.RGBA)).toBe('rgba(128, 64, 16, 0.533)')
+          })
+
+          test('0', () => {
+            const color = Color.fromHex('#80401088')
+            expect(color.toString(ColorFormat.RGBA, {
+              truncateDecimals: 0,
+            })).toBe('rgba(128, 64, 16, 1)')
+          })
+
+          test('1', () => {
+            const color = Color.fromHex('#80401088')
+            expect(color.toString(ColorFormat.RGBA, {
+              truncateDecimals: 1,
+            })).toBe('rgba(128, 64, 16, 0.5)')
+          })
+
         })
 
       })
 
       describe('HSL', () => {
 
-        test('suppressAlphaInShortFormats: true', () => {
-          // ...
+        test('Alpha === 1', () => {
+          const color = Color.fromHex('#804010')
+          expect(color.toString(ColorFormat.HSL)).toBe('hsl(26deg, 78%, 28%)')
         })
 
-        test('suppressAlphaInShortFormats: false', () => {
-          // ...
+        describe('Alpha !== 1', () => {
+
+          test('suppressAlphaInShortFormats: true', () => {
+            const color = Color.fromHex('#80401080')
+            expect(color.toString(ColorFormat.HSL, {
+              suppressAlphaInShortFormats: true,
+            })).toBe('hsl(26deg, 78%, 28%)')
+          })
+
+          test('suppressAlphaInShortFormats: false', () => {
+            const color = Color.fromHex('#80401080')
+            expect(color.toString(ColorFormat.HSL)).toBe('hsl(26deg, 78%, 28%, 0.502)')
+          })
+
         })
 
       })
 
       describe('HSLA', () => {
 
-        test('truncateDecimals: none', () => {
-          // ...
+        test('Alpha = 1', () => {
+          const color = Color.fromHex('#804010')
+          expect(color.toString(ColorFormat.HSLA)).toBe('hsla(26deg, 78%, 28%, 1)')
         })
 
-        test('truncateDecimals: 0', () => {
-          // ...
-        })
+        describe('truncateDecimals', () => {
 
-        test('truncateDecimals: 1', () => {
-          // ...
+          test('default', () => {
+            const color = Color.fromHex('#80401088')
+            expect(color.toString(ColorFormat.HSLA)).toBe('hsla(26deg, 78%, 28%, 0.533)')
+          })
+
+          test('0', () => {
+            const color = Color.fromHex('#80401088')
+            expect(color.toString(ColorFormat.HSLA, {
+              truncateDecimals: 0,
+            })).toBe('hsla(26deg, 78%, 28%, 1)')
+          })
+
+          test('1', () => {
+            const color = Color.fromHex('#80401088')
+            expect(color.toString(ColorFormat.HSLA, {
+              truncateDecimals: 1,
+            })).toBe('hsla(26deg, 78%, 28%, 0.5)')
+          })
+
         })
 
       })
@@ -840,15 +906,16 @@ describe('Prototype methods', () => {
       })
 
       test('Invalid color', () => {
-        // ...
+        const color = Color.fromRGBValues(256, 0, 0)
+        expect(color.toString()).toBe('#InvalidColor')
       })
 
     })
 
     test(Color.prototype.valueOf.name, () => {
-      const color = Color.fromHex('#00ff00')
+      const color = customSpy(Color.fromHex('#00ff00'))
       color.valueOf()
-      expect(color.toString).toHaveBeenCalledWith(undefined)
+      expect(color.toString).toHaveBeenCalledWith()
     })
 
   })

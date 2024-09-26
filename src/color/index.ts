@@ -439,7 +439,9 @@ export class Color {
       hue,
       saturation,
       lightness,
-      ...(isNullOrUndefined(alphaRaw) ? {} : { alpha }),
+      ...(isNullOrUndefined(alphaRaw) ? {} : {
+        alpha: /%/.test(alphaRaw) ? alpha / 100 : alpha,
+      }),
     }
     return color
   }
@@ -758,23 +760,26 @@ export class Color {
       return output // Early exit
     }
     const truncateDecimals = options?.truncateDecimals ?? 3 // the default value
+    const suppressAlphaInShortFormats = options?.suppressAlphaInShortFormats
     if (format === ColorFormat.RGB) {
       return this.M$getRGBString(
-        this.alpha !== Color.MAX_ALPHA_VALUE ? 1 : 0,
+        0,
+        (this.alpha !== Color.MAX_ALPHA_VALUE && !suppressAlphaInShortFormats) ? 1 : 0,
         truncateDecimals
       ) // Early exit
     }
     if (format === ColorFormat.RGBA) {
-      return this.M$getRGBString(1, truncateDecimals) // Early exit
+      return this.M$getRGBString(1, 1, truncateDecimals) // Early exit
     }
     if (format === ColorFormat.HSL) {
       return this.M$getHSLString(
-        this.alpha !== Color.MAX_ALPHA_VALUE ? 1 : 0,
+        0,
+        (this.alpha !== Color.MAX_ALPHA_VALUE && !suppressAlphaInShortFormats) ? 1 : 0,
         truncateDecimals
       ) // Early exit
     }
     if (format === ColorFormat.HSLA) {
-      return this.M$getHSLString(1, truncateDecimals) // Early exit
+      return this.M$getHSLString(1, 1, truncateDecimals) // Early exit
     }
     throw new Error(`Invalid format '${format}'`)
   }
@@ -843,7 +848,11 @@ export class Color {
   /**
    * @internal
    */
-  private M$getRGBString = (showAlpha: 0 | 1, decimalPoints: number): string => {
+  private M$getRGBString = (
+    showA: 0 | 1,
+    showAlpha: 0 | 1,
+    decimalPoints: number
+  ): string => {
     const outputStack: Array<number | string> = [
       this.red,
       this.green,
@@ -852,23 +861,26 @@ export class Color {
     if (showAlpha) {
       outputStack.push(parseFloat(this.alpha.toFixed(decimalPoints)))
     }
-    return `rgb(${outputStack.join(', ')})`
+    return `rgb${showA ? 'a' : ''}(${outputStack.join(', ')})`
   }
 
   /**
    * @internal
    */
-  private M$getHSLString = (showAlpha: 0 | 1, decimalPoints: number): string => {
-    // return null // todo
+  private M$getHSLString = (
+    showA: 0 | 1,
+    showAlpha: 0 | 1,
+    decimalPoints: number
+  ): string => {
     const outputStack: Array<number | string> = [
-      `${this.hue} deg`,
-      `${this.saturation} %`,
-      `${this.lightness} %`,
+      `${this.hue}deg`,
+      `${this.saturation}%`,
+      `${this.lightness}%`,
     ]
     if (showAlpha) {
       outputStack.push(parseFloat(this.alpha.toFixed(decimalPoints)))
     }
-    return `hsl(${outputStack.join(', ')})`
+    return `hsl${showA ? 'a' : ''}(${outputStack.join(', ')})`
   }
 
   // #endregion Private helpers
@@ -882,7 +894,7 @@ const VALIDATION_RANGES: Omit<Record<keyof SerializedColor, [min: number, max: n
   alpha: [Color.MIN_ALPHA_VALUE, Color.MAX_ALPHA_VALUE],
   hue: [Color.MIN_HUE_VALUE, Color.MAX_HUE_VALUE],
   saturation: [Color.MIN_SATURATION_VALUE, Color.MAX_SATURATION_VALUE],
-  lightness: [Color.MIN_RGB_VALUE, Color.MAX_RGB_VALUE],
+  lightness: [Color.MIN_LIGHTNESS_VALUE, Color.MAX_LIGHTNESS_VALUE],
 }
 
 /**
