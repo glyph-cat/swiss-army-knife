@@ -1,0 +1,6 @@
+module Pods_playground {
+  umbrella header "Pods-playground-umbrella.h"
+
+  export *
+  module * { export * }
+}
