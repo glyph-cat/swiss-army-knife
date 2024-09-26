@@ -753,12 +753,12 @@ describe('Prototype methods', () => {
 
       describe('RGB', () => {
 
-        test('Alpha === 1', () => {
+        test('Alpha == 1', () => {
           const color = Color.fromHex('#804010')
           expect(color.toString(ColorFormat.RGB)).toBe('rgb(128, 64, 16)')
         })
 
-        describe('Alpha !== 1', () => {
+        describe('Alpha != 1', () => {
 
           test('suppressAlphaInShortFormats: true', () => {
             const color = Color.fromHex('#80401080')
@@ -778,7 +778,7 @@ describe('Prototype methods', () => {
 
       describe('RGBA', () => {
 
-        test('Alpha = 1', () => {
+        test('Alpha == 1', () => {
           const color = Color.fromHex('#804010')
           expect(color.toString(ColorFormat.RGBA)).toBe('rgba(128, 64, 16, 1)')
         })
@@ -810,12 +810,12 @@ describe('Prototype methods', () => {
 
       describe('HSL', () => {
 
-        test('Alpha === 1', () => {
+        test('Alpha == 1', () => {
           const color = Color.fromHex('#804010')
           expect(color.toString(ColorFormat.HSL)).toBe('hsl(26deg, 78%, 28%)')
         })
 
-        describe('Alpha !== 1', () => {
+        describe('Alpha != 1', () => {
 
           test('suppressAlphaInShortFormats: true', () => {
             const color = Color.fromHex('#80401080')
@@ -835,7 +835,7 @@ describe('Prototype methods', () => {
 
       describe('HSLA', () => {
 
-        test('Alpha = 1', () => {
+        test('Alpha == 1', () => {
           const color = Color.fromHex('#804010')
           expect(color.toString(ColorFormat.HSLA)).toBe('hsla(26deg, 78%, 28%, 1)')
         })
@@ -868,11 +868,29 @@ describe('Prototype methods', () => {
       describe('FFF', () => {
 
         test('Possible to use short hex form', () => {
-          // ...
+          const color = Color.fromRGBValues(17, 34, 51)
+          expect(color.toString(ColorFormat.FFF)).toBe('#123')
         })
 
         test('Not possible to use short hex form', () => {
-          // ...
+          const color = Color.fromRGBValues(17, 34, 52)
+          expect(color.toString(ColorFormat.FFF)).toBe('#112234')
+        })
+
+        describe('Alpha != 1', () => {
+
+          test('suppressAlphaInShortFormats: true', () => {
+            const color = Color.fromRGBValues(17, 34, 51, 0.267)
+            expect(color.toString(ColorFormat.FFF, {
+              suppressAlphaInShortFormats: true,
+            })).toBe('#123')
+          })
+
+          test('suppressAlphaInShortFormats: false', () => {
+            const color = Color.fromRGBValues(17, 34, 51, 0.267)
+            expect(color.toString(ColorFormat.FFF)).toBe('#1234')
+          })
+
         })
 
       })
@@ -880,29 +898,54 @@ describe('Prototype methods', () => {
       describe('FFFF', () => {
 
         test('Possible to use short hex form', () => {
-          // ...
+          const color = Color.fromRGBValues(17, 34, 51, 0.267)
+          expect(color.toString(ColorFormat.FFFF)).toBe('#1234')
         })
 
         test('Not possible to use short hex form', () => {
-          // ...
+          const color = Color.fromRGBValues(17, 34, 52, 0.267)
+          expect(color.toString(ColorFormat.FFFF)).toBe('#11223444')
+        })
+
+      })
+
+      describe('FFFFFF', () => {
+
+        test('Alpha == 1', () => {
+          const color = Color.fromRGBValues(17, 34, 51)
+          expect(color.toString(ColorFormat.FFFFFF)).toBe('#112233')
+        })
+
+        describe('Alpha != 1', () => {
+
+          test('suppressAlphaInShortFormats: true', () => {
+            const color = Color.fromRGBValues(17, 34, 51, 0.267)
+            expect(color.toString(ColorFormat.FFFFFF, {
+              suppressAlphaInShortFormats: true,
+            })).toBe('#112233')
+          })
+
+          test('suppressAlphaInShortFormats: false', () => {
+            const color = Color.fromRGBValues(17, 34, 51, 0.267)
+            expect(color.toString(ColorFormat.FFFFFF)).toBe('#11223344')
+          })
+
         })
 
       })
 
       describe('FFFFFFFF', () => {
 
-        test('suppressAlphaInShortFormats: true', () => {
-          // ...
+        test('Alpha == 1', () => {
+          const color = Color.fromRGBValues(17, 34, 51)
+          expect(color.toString(ColorFormat.FFFFFFFF)).toBe('#112233ff')
         })
 
-        test('suppressAlphaInShortFormats: false', () => {
-          // ...
+        test('Alpha != 1', () => {
+          const color = Color.fromRGBValues(17, 34, 51, 0.267)
+          expect(color.toString(ColorFormat.FFFFFFFF)).toBe('#11223344')
         })
 
-      })
-
-      test('FFFFFFFF', () => {
-        // ...
       })
 
       test('Invalid color', () => {

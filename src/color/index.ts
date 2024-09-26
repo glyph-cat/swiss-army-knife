@@ -717,8 +717,9 @@ export class Color {
    */
   toString(format: ColorFormat = ColorFormat.FFFFFF, options?: ToStringOptions): string {
     if (this.isInvalid) { return '#InvalidColor' } // Early exit
+    const suppressAlphaInShortFormats = options?.suppressAlphaInShortFormats
     if (format === ColorFormat.FFFFFF) {
-      if (this.alpha === Color.MAX_ALPHA_VALUE) {
+      if (this.alpha === Color.MAX_ALPHA_VALUE || suppressAlphaInShortFormats) {
         return this.M$getRGBHexString() // Early exit
       } else {
         format = ColorFormat.FFFFFFFF
@@ -728,7 +729,7 @@ export class Color {
       return this.M$getRGBAHexString() // Early exit
     }
     if (format === ColorFormat.FFF) {
-      if (this.alpha === Color.MAX_ALPHA_VALUE) {
+      if (this.alpha === Color.MAX_ALPHA_VALUE || suppressAlphaInShortFormats) {
         let output: string
         const fullString = this.M$getRGBHexString()
         if (
@@ -761,7 +762,6 @@ export class Color {
       return output // Early exit
     }
     const truncateDecimals = options?.truncateDecimals ?? 3 // the default value
-    const suppressAlphaInShortFormats = options?.suppressAlphaInShortFormats
     if (format === ColorFormat.RGB) {
       return this.M$getRGBString(
         0,
@@ -843,7 +843,7 @@ export class Color {
    */
   private M$getRGBAHexString = (): string => (
     this.M$getRGBHexString() +
-    this.alpha.toString(16).padStart(2, '0')
+    Math.round(this.alpha * Color.MAX_RGB_VALUE).toString(16).padStart(2, '0')
   )
 
   /**
