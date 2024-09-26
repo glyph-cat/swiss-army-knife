@@ -42,6 +42,8 @@ import {
  * - 🟠 Windows
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export function MaterialIcon({
   name,
@@ -86,6 +88,8 @@ export function MaterialIcon({
  * - ❌ Windows
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export function loadMaterialIconStyleSheet(
   variants: MaterialIconStyleSheetProps['variants']
@@ -118,6 +122,8 @@ export function loadMaterialIconStyleSheet(
  * - ❌ Windows
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export function useMaterialIconStyleSheet(
   variants: MaterialIconStyleSheetProps['variants']
@@ -148,6 +154,8 @@ export function useMaterialIconStyleSheet(
  * - ❌ Windows
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export function MaterialIconStyleSheet({
   variants,

@@ -1,7 +1,8 @@
-import { Color, SerializedColor } from '..'
+import { SerializedColor } from '..'
 import { isString } from '../../data'
 import { devError } from '../../dev'
 import { isOutOfRange } from '../../math/range'
+import { MAX_RGB_VALUE } from '../constants'
 
 export type ColorSyntaxPair = [value: number, rawValue: string]
 
@@ -28,7 +29,7 @@ export function getValuesFromHexString(value: string): ColorSyntaxArray {
       parseInt(`${b}${b}`, 16),
       b,
       // Alpha is 0 to 1, but since it is in hex, we can derive using max RGB value:
-      a ? parseInt(`${a}${a}`, 16) / Color.MAX_RGB_VALUE : null,
+      a ? parseInt(`${a}${a}`, 16) / MAX_RGB_VALUE : null,
       a ?? null,
     ]
   } else {
@@ -45,7 +46,7 @@ export function getValuesFromHexString(value: string): ColorSyntaxArray {
       g,
       parseInt(b, 16),
       b,
-      a2 ? parseInt(a, 16) / Color.MAX_RGB_VALUE : null,
+      a2 ? parseInt(a, 16) / MAX_RGB_VALUE : null,
       a2 ? a : null,
     ]
   }

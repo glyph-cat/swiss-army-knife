@@ -353,6 +353,7 @@ export function deepSetMutable(
  * //     baz: [42],
  * //   },
  * // }
+ * @public
  */
 export function deepSet<T>(
   object: T,

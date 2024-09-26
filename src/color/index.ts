@@ -24,6 +24,7 @@ import {
   ToStringOptions,
   WithAlphaAsOptional,
 } from './abstractions'
+import { MAX_RGB_VALUE } from './constants'
 import { LOOKUP_DICTIONARY } from './lookup'
 import {
   getValuesFromHexString,
@@ -191,7 +192,7 @@ export class Color {
   static readonly MIN_ALPHA_VALUE = 0
   static readonly MAX_ALPHA_VALUE = 1
   static readonly MIN_RGB_VALUE = 0
-  static readonly MAX_RGB_VALUE = 255
+  static readonly MAX_RGB_VALUE = MAX_RGB_VALUE
   static readonly MIN_HUE_VALUE = 0
   static readonly MAX_HUE_VALUE = 360
   static readonly MIN_SATURATION_VALUE = 0
@@ -785,7 +786,7 @@ export class Color {
   }
 
   /**
-   * Shorthand of {@link toString} without any parameters.
+   * Shorthand of {@link Color.prototype.toString | `.toString()`} without any parameters.
    * @returns A string representation of the color.
    */
   valueOf(): string {

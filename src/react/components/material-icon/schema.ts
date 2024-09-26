@@ -6,12 +6,16 @@ import { MaterialIconName } from './icon-name'
 /**
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export type MaterialIconVariant = 'outlined' | 'filled' | 'rounded' | 'sharp' | 'two-tone'
 
 /**
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export interface MaterialIconProps {
   /**
@@ -62,6 +66,8 @@ export interface MaterialIconProps {
  * Automatically load/unload material icon stylesheet with this component.
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export interface MaterialIconStyleSheetProps {
   /**
@@ -73,6 +79,8 @@ export interface MaterialIconStyleSheetProps {
 /**
  * @public
  * @deprecated
+ * Material Icons have been officially marked as deprecated.
+ * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export const MATERIAL_ICON_DEFAULTS: {
   size: number,

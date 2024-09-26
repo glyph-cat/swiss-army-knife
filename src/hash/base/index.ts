@@ -48,7 +48,8 @@ export class BaseHashFactory<GeneratorArg = unknown> {
 
   /**
    * Removes the hash from the history. Once removed, it becomes possible again
-   * for that hash to be returned by the {@link create} method.
+   * for that hash to be returned by the {@link BaseHashFactory.prototype.create | `.create`}
+   * method.
    */
   untrack(hash: string): void {
     delete this.M$history[hash]
@@ -63,7 +64,8 @@ export class BaseHashFactory<GeneratorArg = unknown> {
 
   /**
    * Resets the history of generated hashes. Once reset, it becomes possible again
-   * for all previously generated hashes to be returned by the {@link create} method.
+   * for all previously generated hashes to be returned by the
+   * {@link BaseHashFactory.prototype.create | `.create`} method.
    */
   reset(): void {
     this.M$history = {}

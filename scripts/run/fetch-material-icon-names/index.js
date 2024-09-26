@@ -65,6 +65,9 @@ async function runFetchMaterialIconNames() {
       '/**',
       ` * Last updated: ${now.toDateString()} ${now.toTimeString()}`,
       ' * @public',
+      ' * @deprecated',
+      ' * Material Icons have been officially marked as deprecated.',
+      ' * See https://fonts.google.com/icons?icon.set=Material+Icons',
       ' */',
       `export type MaterialIconName = ${quotedIconNameStack.join('|')}`,
       '', // (Empty line)

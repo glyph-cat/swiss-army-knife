@@ -1,4 +1,4 @@
-import { TimestampId } from '../datetime'
+import { TimestampId } from '../datetime/timestamp-id'
 
 /**
  * Refers to the non-production environment where this library is used by developers.
