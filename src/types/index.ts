@@ -43,14 +43,6 @@ export type NumericRecord<T = unknown> = Record<number, T>
 export type StringRecord<T = unknown> = Record<string, T>
 
 /**
- * Representation of a JavaScript object that helps to keep track whether
- * a property exists.
- * @public
- */
-export type TruthRecord<Key extends StrictPropertyKey = StrictPropertyKey> = PartialRecord<Key, true>
-
-
-/**
  * An shorthand for `Partial<Record<Key, Value>>`.
  * @public
  */

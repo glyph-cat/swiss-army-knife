@@ -1,5 +1,5 @@
 import { HashFactory } from '.'
-import { TruthRecord } from '../../types'
+import { TruthMap } from '../../data/indexing'
 
 describe(`static ${HashFactory.create.name}`, () => {
 
@@ -44,7 +44,7 @@ describe(HashFactory.prototype.create.name, () => {
     const minimumLength = 2
     const hashFactory = new HashFactory(minimumLength, charset, 1)
 
-    const output: TruthRecord = {}
+    const output: TruthMap = {}
     const numberOfHashesToGenerate = Math.pow(charset.length, minimumLength) + 1
     for (let i = 0; i < numberOfHashesToGenerate; i++) {
       output[hashFactory.create()] = true

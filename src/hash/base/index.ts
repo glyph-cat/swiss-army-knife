@@ -1,5 +1,5 @@
 import { hasProperty } from '../../data'
-import { TruthRecord } from '../../types'
+import { TruthMap } from '../../data/indexing'
 
 /**
  * @public
@@ -18,7 +18,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
   /**
    * @internal
    */
-  private M$history: TruthRecord = {}
+  private M$history: TruthMap = {}
 
   constructor(
     /**

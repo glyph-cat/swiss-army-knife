@@ -366,6 +366,15 @@ export function deepSet<T>(
   return recursiveAssign<T>(object, pathSegments, value)
 }
 
+// tofix for `deepSet`:
+// const s = {}
+// const ids = [1, 2, 3, 4]
+// for (const id of ids) {
+//   s = deepSet(s, id, true)
+// }
+// expect `s` to be { 1: true, 2: true, 3: true, 4: true }
+// but got [null, 1, 2, 3, 4]
+
 /**
  * @internal
  */

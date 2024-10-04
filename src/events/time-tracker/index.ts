@@ -1,4 +1,4 @@
-import { IS_CLIENT_ENV } from '../../constants'
+import { IS_DEBUG_ENV } from '../../constants'
 import { devError } from '../../dev'
 
 /**
@@ -28,7 +28,7 @@ export class TimeTracker {
 
   start(): void {
     if (this.M$isStarted) {
-      if (IS_CLIENT_ENV) {
+      if (IS_DEBUG_ENV) {
         devError(`Attempted to start a ${TimeTracker.name} that has already been started`)
       }
       return // Early exit
@@ -39,7 +39,7 @@ export class TimeTracker {
 
   stop(): void {
     if (!this.M$isStarted) {
-      if (IS_CLIENT_ENV) {
+      if (IS_DEBUG_ENV) {
         devError(`Attempted to stop a ${TimeTracker.name} that has already been stopped`)
       }
       return // Early exit

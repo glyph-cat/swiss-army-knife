@@ -1,30 +1,30 @@
-import { DynamicTruthMap, FixedTruthMap } from '.'
+import { LEGACY_DynamicTruthMap, LEGACY_FixedTruthMap } from '.'
 
-describe(FixedTruthMap.name, (): void => {
+describe(LEGACY_FixedTruthMap.name, (): void => {
 
-  test(FixedTruthMap.prototype.getKeys.name, (): void => {
-    const output = new FixedTruthMap(['foo', 'bar']).getKeys()
+  test(LEGACY_FixedTruthMap.prototype.getKeys.name, (): void => {
+    const output = new LEGACY_FixedTruthMap(['foo', 'bar']).getKeys()
     expect(output).toStrictEqual(['foo', 'bar'])
   })
 
-  describe(FixedTruthMap.prototype.has.name, (): void => {
+  describe(LEGACY_FixedTruthMap.prototype.has.name, (): void => {
 
     test('Should be true', (): void => {
-      const output = new FixedTruthMap(['foo', 'bar']).has('foo')
+      const output = new LEGACY_FixedTruthMap(['foo', 'bar']).has('foo')
       expect(output).toBe(true)
     })
 
     test('Should be false', (): void => {
-      const output = new FixedTruthMap(['foo', 'bar']).has('baz')
+      const output = new LEGACY_FixedTruthMap(['foo', 'bar']).has('baz')
       expect(output).toBe(false)
     })
 
   })
 
-  describe(FixedTruthMap.prototype.toJSON.name, (): void => {
+  describe(LEGACY_FixedTruthMap.prototype.toJSON.name, (): void => {
 
     test('Output structure', (): void => {
-      const output = new FixedTruthMap(['foo', 'bar']).toJSON()
+      const output = new LEGACY_FixedTruthMap(['foo', 'bar']).toJSON()
       expect(output).toStrictEqual({
         foo: true,
         bar: true,
@@ -32,7 +32,7 @@ describe(FixedTruthMap.name, (): void => {
     })
 
     test('Immutability', (): void => {
-      const truthMap = new FixedTruthMap(['foo', 'bar'])
+      const truthMap = new LEGACY_FixedTruthMap(['foo', 'bar'])
       const json1 = truthMap.toJSON()
       const json2 = truthMap.toJSON()
       expect(Object.is(json1, json2)).toBe(false)
@@ -43,12 +43,12 @@ describe(FixedTruthMap.name, (): void => {
 
 })
 
-describe(DynamicTruthMap.name, (): void => {
+describe(LEGACY_DynamicTruthMap.name, (): void => {
 
-  describe(DynamicTruthMap.prototype.add.name, (): void => {
+  describe(LEGACY_DynamicTruthMap.prototype.add.name, (): void => {
 
     test('Normal', (): void => {
-      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const oldDynamicTruthMap = new LEGACY_DynamicTruthMap(['foo', 'bar'])
       const newDynamicTruthMap = oldDynamicTruthMap.add('baz')
       expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
         foo: true,
@@ -62,7 +62,7 @@ describe(DynamicTruthMap.name, (): void => {
     })
 
     test('Duplicate handling', (): void => {
-      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const oldDynamicTruthMap = new LEGACY_DynamicTruthMap(['foo', 'bar'])
       const newDynamicTruthMap = oldDynamicTruthMap.add('bar')
       expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
         foo: true,
@@ -76,10 +76,10 @@ describe(DynamicTruthMap.name, (): void => {
 
   })
 
-  describe(DynamicTruthMap.prototype.remove.name, (): void => {
+  describe(LEGACY_DynamicTruthMap.prototype.remove.name, (): void => {
 
     test('Key exists', (): void => {
-      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const oldDynamicTruthMap = new LEGACY_DynamicTruthMap(['foo', 'bar'])
       const newDynamicTruthMap = oldDynamicTruthMap.remove('bar')
       expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
         foo: true,
@@ -91,7 +91,7 @@ describe(DynamicTruthMap.name, (): void => {
     })
 
     test('Key does not exist', (): void => {
-      const oldDynamicTruthMap = new DynamicTruthMap(['foo', 'bar'])
+      const oldDynamicTruthMap = new LEGACY_DynamicTruthMap(['foo', 'bar'])
       const newDynamicTruthMap = oldDynamicTruthMap.remove('baz')
       expect(oldDynamicTruthMap.toJSON()).toStrictEqual({
         foo: true,
@@ -106,7 +106,7 @@ describe(DynamicTruthMap.name, (): void => {
   })
 
   test('Stress test', () => {
-    const initialDynamicTruthMap = new DynamicTruthMap()
+    const initialDynamicTruthMap = new LEGACY_DynamicTruthMap()
     let currentDynamicTruthMap = initialDynamicTruthMap
     expect(currentDynamicTruthMap.toJSON()).toStrictEqual({})
 

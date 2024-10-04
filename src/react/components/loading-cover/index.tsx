@@ -1,5 +1,5 @@
 import { ComponentType, JSX, useEffect, useState } from 'react'
-import { DynamicTruthMap } from '../../../data/truth-map'
+import { TruthMap } from '../../../data/indexing'
 import { Watcher } from '../../../events/watcher'
 
 /**
@@ -26,15 +26,15 @@ export function createLoadingCover(
 ): LoadingCoverSet {
 
   let idCounter = 0
-  const hookers = new DynamicTruthMap<number>()
+  const hookers: TruthMap<number> = {}
   const watcher = new Watcher()
 
   const show = (): (() => void) => {
     const id = ++idCounter
-    hookers.add(id)
+    hookers[id] = true
     watcher.refresh()
     return () => {
-      hookers.remove(id)
+      delete hookers[id]
       watcher.refresh()
     }
   }
@@ -44,7 +44,7 @@ export function createLoadingCover(
     const [isVisible, setVisibility] = useState(false)
     useEffect(() => {
       const unwatch = watcher.watch(() => {
-        const shouldBeVisible = hookers.getKeys().length > 0
+        const shouldBeVisible = Object.keys(hookers).length > 0
         setVisibility(shouldBeVisible)
       })
       return () => { unwatch() }
