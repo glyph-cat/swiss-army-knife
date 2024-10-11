@@ -5,22 +5,22 @@ import { PartialRecord, StrictPropertyKey } from '../../types'
  * whether a property exists.
  * @public
  */
-export type TruthMap<Key extends StrictPropertyKey = StrictPropertyKey> = PartialRecord<Key, true>
+export type TruthRecord<Key extends StrictPropertyKey = StrictPropertyKey> = PartialRecord<Key, true>
 
 /**
  * Creates an object with properties specified in an array where all of their
  * values are `true`.
  * @param array - The list of keys.
- * @returns A mutable truth map.
+ * @returns A mutable truth record.
  * @example
- * const truthMap = TruthMap(['a', 'b', 'c'])
+ * const truthRecord = TruthRecord(['a', 'b', 'c'])
  * // { a: true, b: true, c: true }
  * @public
  */
-export function TruthMap<T extends StrictPropertyKey>(
+export function TruthRecord<T extends StrictPropertyKey>(
   array: Array<T> | Readonly<Array<T>>
-): Readonly<TruthMap<T>> {
-  const obj = {} as TruthMap<T>
+): Readonly<TruthRecord<T>> {
+  const obj = {} as TruthRecord<T>
   for (const item of array) {
     obj[item as StrictPropertyKey] = true
   }
@@ -32,22 +32,22 @@ export function TruthMap<T extends StrictPropertyKey>(
  * whether a property exists.
  * @public
  */
-export type ReadonlyTruthMap<Key extends StrictPropertyKey = StrictPropertyKey> = Readonly<TruthMap<Key>>
+export type ReadonlyTruthRecord<Key extends StrictPropertyKey = StrictPropertyKey> = Readonly<TruthRecord<Key>>
 
 /**
  * Creates an object with properties specified in an array where all of their
  * values are `true`.
  * @param array - The list of keys.
- * @returns A read-only truth map.
+ * @returns A read-only truth record.
  * @example
- * const truthMap = ReadonlyTruthMap(['a', 'b', 'c'])
+ * const truthRecord = ReadonlyTruthRecord(['a', 'b', 'c'])
  * // { a: true, b: true, c: true }
  * @public
  */
-export function ReadonlyTruthMap<T extends StrictPropertyKey>(
+export function ReadonlyTruthRecord<T extends StrictPropertyKey>(
   array: Array<T> | Readonly<Array<T>>
-): ReadonlyTruthMap<T> {
-  return Object.freeze(TruthMap(array))
+): ReadonlyTruthRecord<T> {
+  return Object.freeze(TruthRecord(array))
 }
 
 /**

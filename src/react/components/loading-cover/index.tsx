@@ -1,5 +1,5 @@
 import { ComponentType, JSX, useEffect, useState } from 'react'
-import { TruthMap } from '../../../data/indexing'
+import { TruthRecord } from '../../../data/indexing'
 import { Watcher } from '../../../events/watcher'
 
 /**
@@ -26,15 +26,15 @@ export function createLoadingCover(
 ): LoadingCoverSet {
 
   let idCounter = 0
-  const hookers: TruthMap<number> = {}
+  const hooks: TruthRecord<number> = {}
   const watcher = new Watcher()
 
   const show = (): (() => void) => {
     const id = ++idCounter
-    hookers[id] = true
+    hooks[id] = true
     watcher.refresh()
     return () => {
-      delete hookers[id]
+      delete hooks[id]
       watcher.refresh()
     }
   }
@@ -44,7 +44,7 @@ export function createLoadingCover(
     const [isVisible, setVisibility] = useState(false)
     useEffect(() => {
       const unwatch = watcher.watch(() => {
-        const shouldBeVisible = Object.keys(hookers).length > 0
+        const shouldBeVisible = Object.keys(hooks).length > 0
         setVisibility(shouldBeVisible)
       })
       return () => { unwatch() }

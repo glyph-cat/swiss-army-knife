@@ -1,8 +1,8 @@
 import {
   MultiKeyRecord,
   ReadonlyMultiKeyRecord,
-  ReadonlyTruthMap,
-  TruthMap,
+  ReadonlyTruthRecord,
+  TruthRecord,
 } from '.'
 
 test(MultiKeyRecord.name, () => {
@@ -26,17 +26,7 @@ test(ReadonlyMultiKeyRecord.name, () => {
     a: [1, 3, 5, 7],
     b: [2, 4, 6, 7],
   })
-  expect(output).toStrictEqual({
-    1: 'a',
-    3: 'a',
-    5: 'a',
-    2: 'b',
-    4: 'b',
-    6: 'b',
-    7: 'b',
-  })
-  // @ts-expect-error: Done on purpose for testing.
-  output[7] = 'x'
+  expect(Object.isFrozen(output)).toBe(true)
   expect(output).toStrictEqual({
     1: 'a',
     3: 'a',
@@ -48,8 +38,8 @@ test(ReadonlyMultiKeyRecord.name, () => {
   })
 })
 
-test(TruthMap.name, () => {
-  const output = TruthMap(['a', 'b', 'c', 'a'])
+test(TruthRecord.name, () => {
+  const output = TruthRecord(['a', 'b', 'c', 'a'])
   expect(output).toStrictEqual({
     c: true,
     a: true,
@@ -57,15 +47,9 @@ test(TruthMap.name, () => {
   })
 })
 
-test(ReadonlyTruthMap.name, () => {
-  const output = ReadonlyTruthMap(['a', 'b', 'c', 'a'])
-  expect(output).toStrictEqual({
-    c: true,
-    a: true,
-    b: true,
-  })
-  // @ts-expect-error: Done on purpose for testing.
-  output.b = 42
+test(ReadonlyTruthRecord.name, () => {
+  const output = ReadonlyTruthRecord(['a', 'b', 'c', 'a'])
+  expect(Object.isFrozen(output)).toBe(true)
   expect(output).toStrictEqual({
     c: true,
     a: true,
