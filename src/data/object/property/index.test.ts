@@ -312,6 +312,33 @@ describe(deepSet.name, () => {
     expect(JSON.stringify(output1)).toBe(output1Snapshot)
   })
 
+  test('Value does not already exist (number key in object)', () => {
+    // This is a test as part of a bugfix
+    const sourceObject = {
+      1: true,
+      6: true,
+      7: true,
+      8: true,
+      9: true,
+    }
+    let output = { ...sourceObject }
+    const ids = [2, 3, 4, 5]
+    for (const id of ids) {
+      output = deepSet(output, [id], true)
+    }
+    expect(output).toStrictEqual({
+      1: true,
+      2: true,
+      3: true,
+      4: true,
+      5: true,
+      6: true,
+      7: true,
+      8: true,
+      9: true,
+    })
+  })
+
   test('Single key', () => {
     const sourceObject = {}
     const sourceSnapshot = JSON.stringify(sourceObject)
@@ -470,6 +497,33 @@ describe(complexDeepSet, () => {
     expect(JSON.stringify(output2)).not.toBe(output1Snapshot)
     expect(JSON.stringify(output1)).toBe(output1Snapshot)
 
+  })
+
+  test('Value does not already exist (number key in object)', () => {
+    // This is a test as part of a bugfix
+    const sourceObject = {
+      1: true,
+      6: true,
+      7: true,
+      8: true,
+      9: true,
+    }
+    let output = { ...sourceObject }
+    const ids = [2, 3, 4, 5]
+    for (const id of ids) {
+      output = complexDeepSet(output, [id], () => true)
+    }
+    expect(output).toStrictEqual({
+      1: true,
+      2: true,
+      3: true,
+      4: true,
+      5: true,
+      6: true,
+      7: true,
+      8: true,
+      9: true,
+    })
   })
 
   test('Single key', () => {

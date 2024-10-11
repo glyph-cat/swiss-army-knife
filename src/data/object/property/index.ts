@@ -363,38 +363,40 @@ export function deepSet<T>(
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
-  return recursiveAssign<T>(object, pathSegments, value)
+  return recursiveAssign<T>(object, true, pathSegments, value)
 }
-
-// tofix for `deepSet`:
-// const s = {}
-// const ids = [1, 2, 3, 4]
-// for (const id of ids) {
-//   s = deepSet(s, id, true)
-// }
-// expect `s` to be { 1: true, 2: true, 3: true, 4: true }
-// but got [null, 1, 2, 3, 4]
 
 /**
  * @internal
  */
 function recursiveAssign<T>(
   object: T,
+  objectExists: boolean,
   pathSegments: Array<PropertyKey>,
   value: unknown
 ): T {
   const [pathSegment, ...nextPathSegments] = pathSegments
-  if (isNumber(pathSegment)) {
+  if (Array.isArray(object) || !objectExists && isNumber(pathSegment)) {
     const arr = [...(object as Array<unknown>) ?? []]
     arr[pathSegment] = nextPathSegments.length > 0
-      ? recursiveAssign(arr[pathSegment], nextPathSegments, value)
+      ? recursiveAssign(
+        arr[pathSegment],
+        hasProperty(arr, pathSegment),
+        nextPathSegments,
+        value,
+      )
       : value
     return arr as T
   } else {
     return {
       ...object,
       [pathSegment]: nextPathSegments.length > 0
-        ? recursiveAssign(object?.[pathSegment], nextPathSegments, value)
+        ? recursiveAssign(
+          object?.[pathSegment],
+          hasProperty(object, pathSegment),
+          nextPathSegments,
+          value,
+        )
         : value,
     }
   }
@@ -441,7 +443,7 @@ function complexRecursiveAssign<T, K>(
 ): T {
   const [pathSegment, ...nextPathSegments] = pathSegments
   const nextExists = exists ? Object.prototype.hasOwnProperty.call(object, pathSegment) : false
-  if (isNumber(pathSegment)) {
+  if (Array.isArray(object) || !exists && isNumber(pathSegment)) {
     const arr = [...(exists ? object as Array<unknown> : [])]
     arr[pathSegment] = nextPathSegments.length > 0
       ? complexRecursiveAssign(arr[pathSegment], nextPathSegments, setter, nextExists)
