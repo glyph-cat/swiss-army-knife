@@ -20,6 +20,7 @@ const directoriesToProcess = [
   './src/hash',
   './src/math',
   './src/music',
+  './src/network',
   './src/promise',
   './src/random',
   './src/react',
