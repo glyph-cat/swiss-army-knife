@@ -117,3 +117,10 @@ export type Awaited<T> = T extends PromiseLike<infer U>
  * @public
  */
 export type AwaitedReturnType<T extends JSFunction> = Awaited<ReturnType<T>>
+
+/**
+ * @public
+ */
+export interface IDisposable {
+  dispose(): void
+}
