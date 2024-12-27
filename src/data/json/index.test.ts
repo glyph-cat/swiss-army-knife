@@ -1,7 +1,7 @@
 import {
   JSONclone,
   isJSONequal,
-  trySerialize,
+  trySerializeJSON,
 } from '.'
 
 
@@ -37,15 +37,15 @@ describe(isJSONequal.name, () => {
 
 })
 
-describe(trySerialize.name, () => {
+describe(trySerializeJSON.name, () => {
 
   test('Happy path', () => {
-    const output = trySerialize({ foo: 1, bar: 2 })
+    const output = trySerializeJSON({ foo: 1, bar: 2 })
     expect(output).toBe('{"foo":1,"bar":2}')
   })
 
   test('Non-object type', () => {
-    const output = trySerialize(42)
+    const output = trySerializeJSON(42)
     expect(output).toBe('42')
   })
 

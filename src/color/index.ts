@@ -8,7 +8,7 @@ import {
   isObject,
   isString,
   Nullable,
-  trySerialize
+  trySerializeJSON
 } from '../data'
 import { devError } from '../dev'
 import { clamp, NumericDataSet } from '../math'
@@ -566,7 +566,7 @@ export class Color {
     } else if (hasProperty(value, HUE)) {
       return Color.fromHSLObject(value as WithAlphaAsOptional<SerializedHSL>)
     }
-    throw new Error(`Invalid object: ${trySerialize(value)}`)
+    throw new Error(`Invalid object: ${trySerializeJSON(value)}`)
   }
 
   // #region Class properties
