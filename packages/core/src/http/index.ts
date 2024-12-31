@@ -19,12 +19,18 @@ export enum HttpMethod {
  * @public
  */
 export enum HttpStatus {
-  // Information responses
+
+  // #region Information responses
+
   CONTINUE = 100,
   SWITCHING_PROTOCOLS = 101,
   PROCESSING = 102,
   EARLY_HINTS = 103,
-  // Successful responses
+
+  // #endregion Information responses
+
+  // #region Successful responses
+
   OK = 200,
   CREATED = 201,
   ACCEPTED = 202,
@@ -35,7 +41,11 @@ export enum HttpStatus {
   MULTI_STATUS = 207,
   ALREADY_REPORTED = 208,
   IM_USED = 226,
-  // Redirection Messages
+
+  // #endregion Successful responses
+
+  // #region Redirection Messages
+
   MOVED_PERMANENTLY = 301,
   FOUND = 302,
   SEE_OTHER = 303,
@@ -44,7 +54,11 @@ export enum HttpStatus {
   UNUSED = 306,
   TEMPORARY_REDIRECT = 307,
   PERMANENT_REDIRECT = 308,
-  // Client error responses
+
+  // #endregion Redirection Messages
+
+  // #region Client error responses
+
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   PAYMENT_REQUIRED = 402,
@@ -74,7 +88,10 @@ export enum HttpStatus {
   TOO_MANY_REQUESTS = 429,
   REQUEST_HEADER_FIELDS_TOO_LARGE = 431,
   UNAVAILABLE_FOR_LEGAL_REASONS = 451,
-  // Server error responses
+  // #endregion Client error responses
+
+  // #region Server error responses
+
   INTERNAL_ERROR = 500,
   NOT_IMPLEMENTED = 501,
   BAD_GATEWAY = 502,
@@ -86,4 +103,7 @@ export enum HttpStatus {
   LOOP_DETECTED = 508,
   NOT_EXTENDED = 510,
   NETWORK_AUTHENTICATION_REQUIRED = 511,
+
+  // #endregion Server error responses
+
 }

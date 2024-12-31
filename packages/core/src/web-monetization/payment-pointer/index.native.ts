@@ -1,15 +1,14 @@
 import { PaymentPointerProps } from '.'
-import { useUnsupportedPlatformHandler } from '../../__internals__'
+import { UnsupportedPlatformError } from '../../error'
 
 export function usePaymentPointer(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   paymentPointer: PaymentPointerProps['value']
 ): void {
-  useUnsupportedPlatformHandler('Web monetization')
+  throw new UnsupportedPlatformError()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
-  const { value } = props
-  usePaymentPointer(value)
-  return null
+  throw new UnsupportedPlatformError()
 }

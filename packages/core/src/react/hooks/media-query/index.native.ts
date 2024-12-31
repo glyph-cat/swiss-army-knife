@@ -1,4 +1,4 @@
-import { useUnsupportedPlatformHandler } from '../../../__internals__'
+import { UnsupportedPlatformError } from '../../../error'
 
 /**
  * @public
@@ -6,6 +6,5 @@ import { useUnsupportedPlatformHandler } from '../../../__internals__'
 export function useMediaQuery(
   query: string // eslint-disable-line @typescript-eslint/no-unused-vars
 ): boolean {
-  useUnsupportedPlatformHandler('Media query')
-  return false
+  throw new UnsupportedPlatformError()
 }

@@ -14,6 +14,7 @@ export const NavigatorState = new SimpleStateManager(false)
  * unwatchNavigatorState() // stop watching
  */
 export function watchNavigatorState(): CleanupFunction {
+  // TOFIX: This would not be supported on RN
   if (typeof window === 'undefined') { return () => { /* empty */ } } // Early exit
   NavigatorState.set(navigator.onLine)
   const onOnLine = () => { NavigatorState.set(true) }

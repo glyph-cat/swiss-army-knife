@@ -1,4 +1,4 @@
-import { handleUnsupportedPlatform } from '../../../__internals__'
+import { UnsupportedPlatformError } from '../../../error'
 
 /**
  * Allows appending CSS values dynamically to the [style](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) property of a HTML element.
@@ -10,5 +10,5 @@ export function useCSSVariableInjection(
   target: HTMLElement
   /* eslint-enable @typescript-eslint/no-unused-vars */
 ): void {
-  handleUnsupportedPlatform('CSS variable injection')
+  throw new UnsupportedPlatformError()
 }
