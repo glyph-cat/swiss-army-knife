@@ -1,5 +1,6 @@
 import { SimpleStateManager } from 'cotton-box'
 import { useEffect } from 'react'
+import { CleanupFunction } from '../../types'
 
 /**
  * @public
@@ -12,8 +13,8 @@ export const NavigatorState = new SimpleStateManager(false)
  * const unwatchNavigatorState = watchNavigatorState() // start watching
  * unwatchNavigatorState() // stop watching
  */
-export function watchNavigatorState(): (() => void) {
-  if (typeof window === 'undefined') { return () => { } } // Early exit
+export function watchNavigatorState(): CleanupFunction {
+  if (typeof window === 'undefined') { return () => { /* empty */ } } // Early exit
   NavigatorState.set(navigator.onLine)
   const onOnLine = () => { NavigatorState.set(true) }
   const onOffLine = () => { NavigatorState.set(false) }

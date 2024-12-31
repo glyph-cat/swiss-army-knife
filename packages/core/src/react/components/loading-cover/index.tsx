@@ -1,6 +1,7 @@
 import { ComponentType, JSX, useEffect, useState } from 'react'
 import { TruthRecord } from '../../../data/indexing'
 import { Watcher } from '../../../events/watcher'
+import { CleanupFunction } from '../../../types'
 
 /**
  * @public
@@ -15,7 +16,7 @@ export interface LoadingCoverConfig {
 export interface LoadingCoverSet {
   Component(): JSX.Element
   PseudoComponent(): JSX.Element
-  show(): (() => void)
+  show(): CleanupFunction
 }
 
 /**
@@ -29,7 +30,7 @@ export function createLoadingCover(
   const hooks: TruthRecord<number> = {}
   const watcher = new Watcher()
 
-  const show = (): (() => void) => {
+  const show = (): CleanupFunction => {
     const id = ++idCounter
     hooks[id] = true
     watcher.refresh()

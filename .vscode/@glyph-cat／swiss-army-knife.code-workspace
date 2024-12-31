@@ -1,0 +1,34 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": ".."
+    },
+    {
+      "name": "core",
+      "path": "../packages/core"
+    },
+    {
+      "name": "react",
+      "path": "../packages/react"
+    },
+    {
+      "name": "Playground (web)",
+      "path": "../packages/playground-web"
+    },
+    {
+      "name": "Playground (native)",
+      "path": "../packages/playground-native"
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "*.json": "jsonc"
+    },
+    "javascript.format.semicolons": "remove",
+    "typescript.format.semicolons": "remove",
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "search.useParentIgnoreFiles": true,
+  }
+}

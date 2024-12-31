@@ -1,4 +1,5 @@
 import { isJSONequal } from '../../data'
+import { CleanupFunction } from '../../types'
 
 /**
  * @public
@@ -17,7 +18,7 @@ export class ExperimentalSizeObserver {
 
   constructor(private readonly element: HTMLElement) { }
 
-  observe(callback: (bounds: RectangularBoundary) => void): (() => void) {
+  observe(callback: (bounds: RectangularBoundary) => void): CleanupFunction {
     let prevBounds: RectangularBoundary = null
     const measureAndUpdateBoundsIfChanged = () => {
       const rawBounds = this.element.getBoundingClientRect()

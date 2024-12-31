@@ -1,5 +1,6 @@
 import { useInsertionEffect } from 'react'
 import { isNumber } from '../../../data'
+import { CleanupFunction } from '../../../types'
 
 /**
  * Allows appending CSS values dynamically to the [style](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style) property of a HTML element.
@@ -24,7 +25,7 @@ export function useCSSVariableInjection(
 export function injectCSSVariables(
   values: Record<string, number | string>,
   target: HTMLElement
-): () => void {
+): CleanupFunction {
   for (const key in values) {
     const value = values[key]
     const safeValue: string = isNumber(value) ? `${value}px` : value

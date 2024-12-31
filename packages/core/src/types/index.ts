@@ -69,6 +69,11 @@ export type TypedFunction<Args extends any[] = any[], Payload = any> = (...args:
 /**
  * @public
  */
+export type CleanupFunction = () => void
+
+/**
+ * @public
+ */
 export type LenientString<T> = T | (string & {})
 
 /**
