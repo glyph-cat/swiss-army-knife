@@ -85,3 +85,6 @@ temp/
 # OS
 .DS_Store
 thumbs.db
+
+# Automatically generated
+packages/**/LICENSE

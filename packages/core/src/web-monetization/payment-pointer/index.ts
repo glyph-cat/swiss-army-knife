@@ -1,5 +1,4 @@
 import { isFunction } from '../../data/type-check'
-import { useLayoutEffect } from '../../react/hooks/isomorphic-layout-effect'
 
 const ATTR_NAME = 'name'
 const ATTR_CONTENT = 'content'
@@ -26,12 +25,15 @@ export class PaymentPointerProtector {
   private M$headObserver: MutationObserver
   // KIV: Properties 'name' and 'content' do not exist under mutationStack[number].target
 
-  constructor(readonly paymentPointer: PaymentPointerProps['value']) { }
+  constructor(readonly paymentPointer: string) {
+    this.guard = this.guard.bind(this)
+    this.release = this.release.bind(this)
+  }
 
   /**
    * @internal
    */
-  private M$onMetaMutated(mutationStack: Array<MutationRecord>): void {
+  private M$onMetaMutated = (mutationStack: Array<MutationRecord>): void => {
     // This makes the element seem like a read-only tag because attribute values
     // are reverted the moment a new value is commited to it
     for (const mutation of mutationStack) {
@@ -47,7 +49,7 @@ export class PaymentPointerProtector {
   /**
    * @internal
    */
-  private M$startMetaObserver(): void {
+  private M$startMetaObserver = (): void => {
     this.M$metaTagElement = document.createElement('meta')
     this.M$metaTagElement.name = META_NAME
     this.M$metaTagElement.content = this.paymentPointer
@@ -59,7 +61,7 @@ export class PaymentPointerProtector {
   /**
    * @internal
    */
-  private M$stopMetaObserver(): void {
+  private M$stopMetaObserver = (): void => {
     if (isFunction(this.M$metaObserver?.disconnect)) {
       this.M$metaObserver.disconnect()
     }
@@ -73,7 +75,7 @@ export class PaymentPointerProtector {
   /**
    * @internal
    */
-  private M$onHeadMutated(mutationStack: Array<MutationRecord>): void {
+  private M$onHeadMutated = (mutationStack: Array<MutationRecord>): void => {
     // NOTE: People can still add a meta tag with attributes that do not match
     // 'monetization', then rename it to 'monetization' afterwards since no
     // observer attached to it, there will be 2 payment pointers then.
@@ -103,7 +105,7 @@ export class PaymentPointerProtector {
   /**
    * @internal
    */
-  private M$startHeadObserver(): void {
+  private M$startHeadObserver = (): void => {
     this.M$headObserver = new MutationObserver(this.M$onHeadMutated)
     this.M$headObserver.observe(document.head, { childList: true })
   }
@@ -111,7 +113,7 @@ export class PaymentPointerProtector {
   /**
    * @internal
    */
-  private M$stopHeadObserver(): void {
+  private M$stopHeadObserver = (): void => {
     if (isFunction(this.M$headObserver?.disconnect)) {
       this.M$headObserver.disconnect()
     }
@@ -134,35 +136,4 @@ export class PaymentPointerProtector {
     this.M$stopHeadObserver()
   }
 
-}
-
-/**
- * @public
- */
-export interface PaymentPointerProps {
-  value: string
-}
-
-/**
- * @public
- */
-export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
-  const { value } = props
-  usePaymentPointer(value)
-  return null
-}
-
-/**
- * @public
- */
-export function usePaymentPointer(
-  paymentPointer: PaymentPointerProps['value']
-): void {
-  useLayoutEffect(() => {
-    const protector = new PaymentPointerProtector(paymentPointer)
-    protector.guard()
-    return () => {
-      protector.release()
-    }
-  }, [paymentPointer])
 }

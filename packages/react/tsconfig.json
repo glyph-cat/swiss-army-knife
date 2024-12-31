@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
+    "jsx": "react-jsx",
     "lib": [
       "dom",
       "dom.iterable",

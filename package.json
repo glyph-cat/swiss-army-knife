@@ -9,10 +9,7 @@
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",
     "test": "sh ./scripts/run/test.sh",
-    "license": "yarn ts-node ./scripts/run/update-license",
-    "sync-version": "yarn ts-node ./scripts/run/sync-subpackage-versions",
-    "sync-subpackage-license": "yarn ts-node ./scripts/run/sync-subpackage-license",
-    "sync-readme": "yarn ts-node ./scripts/run/sync-subpackage-readme"
+    "bump-version": "yarn tsx ./scripts/bump-version"
   },
   "keywords": [
     "react",

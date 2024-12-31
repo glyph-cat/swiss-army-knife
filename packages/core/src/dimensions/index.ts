@@ -1,0 +1,29 @@
+import { DEFAULT_WINDOW_DIMENSIONS } from './constants'
+import { ScreenDimensionSpec, WindowDimensionSpec } from './abstractions'
+
+/**
+ * @public
+ */
+export function getScreenDimensions(): ScreenDimensionSpec {
+  return {
+    height: window.screen.height,
+    width: window.screen.width,
+  }
+}
+
+/**
+ * @public
+ */
+export function getWindowDimensions(): WindowDimensionSpec {
+  if (typeof document !== 'undefined') {
+    return {
+      height: document.documentElement.clientHeight,
+      width: document.documentElement.clientWidth,
+    }
+  } else {
+    return DEFAULT_WINDOW_DIMENSIONS
+  }
+}
+
+export * from './abstractions'
+export * from './constants'

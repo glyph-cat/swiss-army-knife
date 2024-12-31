@@ -1,16 +1,16 @@
 /**
  * @public
  */
-export enum ColorSchemeType {
-  dark = 1,
-  light,
+export enum ColorScheme {
+  dark = 'dark',
+  light = 'light',
 }
 
 /**
  * @public
  */
-export enum ColorSchemeConfigType {
-  dark = ColorSchemeType.dark,
-  light = ColorSchemeType.light,
-  auto,
+export enum LenientColorScheme {
+  dark = ColorScheme.dark,
+  light = ColorScheme.light,
+  auto = 'auto',
 }

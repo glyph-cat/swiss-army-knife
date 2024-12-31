@@ -1,27 +1,22 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { Severity } = require('@glyph-cat/eslint-config')
 const { libraryAuthoring: baseLibraryAuthoring } = require('@glyph-cat/eslint-config/base')
+const { libraryAuthoring: reactLibraryAuthoring } = require('@glyph-cat/eslint-config/react')
 const { recommended: jestRecommended } = require('@glyph-cat/eslint-config/jest')
 
 module.exports = [
   ...baseLibraryAuthoring,
   ...jestRecommended,
+  ...reactLibraryAuthoring,
   {
     rules: {
-      '@typescript-eslint/no-namespace': Severity.OFF,
-      '@typescript-eslint/no-require-imports': Severity.OFF,
+      '@typescript-eslint/no-explicit-any': Severity.OFF,
     },
   },
   {
     ignores: [
-      'eslint.config.js',
+      '*/eslint.config.js',
       'config/rollup.config.js',
-      '*.draft*',
-      '*.old*',
-      '*.scripted*',
-      'dist',
-      'lib',
-      'node_modules',
-      'temp/',
     ],
   },
 ]
