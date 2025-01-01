@@ -5,8 +5,6 @@ import { ENCODING_UTF_8 } from '../../constants'
 
 function run(version: string): void {
 
-  throw new Error('Not yet tested') // TODO
-
   const gitStatusOutput = execSync('git status --porcelain', {
     encoding: ENCODING_UTF_8,
   }).trim()
@@ -15,6 +13,8 @@ function run(version: string): void {
     console.log(chalk.redBright('Cannot bump version when there are uncommitted git changes'))
     process.exit(1)
   }
+
+  throw new Error('Not yet tested') // TODO
 
   const PROPERTY_KEY_VERSION = 'version'
   const PACKAGE_JSON = 'package.json'

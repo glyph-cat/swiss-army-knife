@@ -9,7 +9,7 @@
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",
     "test": "sh ./scripts/run/test.sh",
-    "bump-version": "yarn tsx ./scripts/bump-version"
+    "bump-version": "yarn tsx ./scripts/run/bump-version"
   },
   "keywords": [
     "react",
