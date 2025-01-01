@@ -1,7 +1,7 @@
 import { devWarn } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { Children, ElementType, Fragment, JSX, ReactNode, useEffect, useRef } from 'react'
+import { Children, ElementType, Fragment, JSX, ReactNode, useEffect, useState } from 'react'
 import { IPortalFactoryState, PortalType } from './abstractions'
 
 /**
@@ -46,18 +46,18 @@ export class PortalFactory {
   Portal = ({ children }: { children: ReactNode }): JSX.Element => {
     // Only 1 children is allowed
     Children.only(children)
-    const portalId = useRef(() => ++this.portalIdCounter)
+    const [portalId] = useState(() => ++this.portalIdCounter)
     useEffect(() => {
       this.state.set((scopedState) => {
         return {
           ...scopedState,
-          [portalId.current]: {
+          [portalId]: {
             children,
             type: PortalType.JSX,
           },
         }
       })
-      const portalId_current = portalId.current
+      const portalId_current = portalId
       return () => {
         this.state.set((scopedState) => {
           const {
@@ -67,7 +67,7 @@ export class PortalFactory {
           return remainingState
         })
       }
-    }, [children])
+    }, [children, portalId])
     return null
   }
 

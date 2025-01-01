@@ -13,6 +13,8 @@ import { ENCODING_UTF_8 } from '../../constants'
 //   return undefined
 // }
 
+process.exit(0) // temp
+
 const REPLACEMENTS = {
   'PACKAGE_NAME': PACKAGE_NAME,
 }

@@ -6,11 +6,13 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
+    "afe": "yarn tsx ./scripts/run/auto-forward-exports",
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",
-    "afe": "yarn tsx ./scripts/run/auto-forward-exports",
+    "post-process-docs": "yarn tsx ./scripts/run/post-process-docs",
     "test": "sh ./scripts/run/test.sh",
-    "bump-version": "yarn tsx ./scripts/run/bump-version"
+    "bump-version": "yarn tsx ./scripts/run/bump-version",
+    "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
     "react",

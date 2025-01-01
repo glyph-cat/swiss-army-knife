@@ -10,34 +10,26 @@
     "assets",
     "lib"
   ],
+  "description": "GlyphCat's set of common utilities.",
   "author": "glyph-cat",
   "license": "MIT",
   "readme": "README.md",
+  "scripts": {
+    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "lint:path": "eslint",
+    "rollup": "rollup -c ./config/rollup.config.js",
+    "test": "jest -c jest.config.ts",
+    "types": "yarn tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh"
+  },
   "keywords": [
     "common utilities",
     "javascript",
     "typescript"
   ],
-  "scripts": {
-    "pod": "arch -x86_64 pod install --project-directory=ios",
-    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
-    "bot:muicon": "yarn tsx ./scripts/run/fetch-material-icon-names",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix",
-    "lint:path": "eslint",
-    "playground:android": "cd playground/native && react-native run-android",
-    "playground:ios": "cd playground/native && react-native run-ios",
-    "playground:web": "parcel playground/web/index.html --port 3000",
-    "rollup": "rollup -c ./config/rollup.config.js",
-    "test": "jest -c jest.config.ts",
-    "types": "yarn tsc --declaration",
-    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
-    "build": "yarn rollup && yarn types && yarn api && yarn tsx ./scripts/run/post-process-docs",
-    "postbuild": "rm -r ./temp/tsc",
-    "preall": "yarn clean",
-    "all": "yarn fwd-exp && yarn lint && yarn build && yarn test && yarn pack",
-    "ci:test": "yarn lint && yarn build && yarn test"
-  },
   "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
   "repository": {
     "type": "git",
