@@ -12,15 +12,24 @@ function run(packageNames: Array<string>): void {
     process.exit(1)
   }
   const now = new Date()
+  const directoriesWithMissingIndexFiles: Array<string> = []
   for (const packageName of packageNames) {
-    autoForwardExports(`./packages/${packageName}/src`, now)
+    directoriesWithMissingIndexFiles.push(
+      ...autoForwardExports(`./packages/${packageName}/src`, now)
+    )
+  }
+  if (directoriesWithMissingIndexFiles.length > 0) {
+    console.log(chalk.redBright('\nThese directories are missing index files:\n  ' + directoriesWithMissingIndexFiles.join('\n  ')) + '\n')
+    process.exit(1)
   }
 }
 
 const [, , ...packageNames] = process.argv
 run(packageNames)
 
-function autoForwardExports(path: string, now: Date): void {
+function autoForwardExports(path: string, now: Date): Array<string> {
+
+  const directoriesWithMissingIndexFiles: Array<string> = []
 
   crawl(path, (filePath: string) => {
 
@@ -51,7 +60,14 @@ function autoForwardExports(path: string, now: Date): void {
     for (let i = 0; i < items.length; i++) {
       const item = items[i]
       const connector = i >= items.length - 1 ? '└' : '├'
-      console.log(chalk.gray(` ${connector} ${item}`))
+      const subPath = `${directoryPath}/${item}`
+      const hasIndexFile = checkIndexFile(subPath)
+      if (!hasIndexFile) { directoriesWithMissingIndexFiles.push(subPath) }
+      const indicator = hasIndexFile ? chalk.green('✓') : chalk.red('×')
+      console.log(chalk.gray(` ${connector} ${indicator} ${hasIndexFile
+        ? item
+        : chalk.red(`${item} (missing index file)`)}`
+      ))
       codeLineStack.push(`export * from './${item}'`)
     }
     codeLineStack.push(
@@ -65,6 +81,8 @@ function autoForwardExports(path: string, now: Date): void {
     // #endregion Writing scripted output
 
   })
+
+  return directoriesWithMissingIndexFiles
 
 }
 
@@ -80,4 +98,9 @@ function crawl(dirPath: string, callback: (filePath: string) => void) {
     }
   }
 
+}
+
+function checkIndexFile(directoryPath: string): boolean {
+  const items = readdirSync(directoryPath)
+  return !!items.find((item) => /^index\.tsx?$/.test(item))
 }

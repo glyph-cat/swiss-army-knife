@@ -1,1 +1,1 @@
-export * from './index.scripted.ts'
+export * from './index.scripted'
