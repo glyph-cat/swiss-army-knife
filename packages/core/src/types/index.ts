@@ -10,13 +10,6 @@ export type KeyValuePair<Key, Value> = [Key, Value]
 export type StrictPropertyKey = number | string
 
 /**
- * A representation of a generic JavaScript object.
- * @public
- * @deprecated Please use {@link PlainRecord} instead.
- */
-export type JSObject = Record<PropertyKey, unknown>
-
-/**
  * Representation of a JavaScript object where the key can be either
  * a number, string, or symbol.
  * @public
@@ -47,14 +40,6 @@ export type StringRecord<T = unknown> = Record<string, T>
  * @public
  */
 export type PartialRecord<Key extends PropertyKey, Value> = Partial<Record<Key, Value>>
-
-/**
- * A representation of a generic JavaScript function.
- * @public
- * @deprecated Please use {@link TypedFunction} instead.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type JSFunction = (...args: Array<any>) => any
 
 /**
  * A representation of a generic JavaScript function with type inference.
@@ -121,7 +106,7 @@ export type Awaited<T> = T extends PromiseLike<infer U>
  * myString = await getString()
  * @public
  */
-export type AwaitedReturnType<T extends JSFunction> = Awaited<ReturnType<T>>
+export type AwaitedReturnType<T extends TypedFunction> = Awaited<ReturnType<T>>
 
 /**
  * @public
