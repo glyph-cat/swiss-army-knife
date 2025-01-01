@@ -1,6 +1,6 @@
 set -e
 
-yarn afe # Auto forward exports
+yarn afe core react # Auto forward exports
 
 yarn lint
 

@@ -8,7 +8,6 @@ module.exports = [
   {
     rules: {
       '@typescript-eslint/no-namespace': Severity.OFF,
-      '@typescript-eslint/no-require-imports': Severity.OFF,
     },
   },
   {
