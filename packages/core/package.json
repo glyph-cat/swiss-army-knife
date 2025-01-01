@@ -14,8 +14,6 @@
   "license": "MIT",
   "readme": "README.md",
   "keywords": [
-    "react",
-    "react-native",
     "common utilities",
     "javascript",
     "typescript"

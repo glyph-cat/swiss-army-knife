@@ -19,8 +19,6 @@ function run(version: string): void {
     process.exit(1)
   }
 
-  // throw new Error('Not yet tested') // TODO
-
   const PROPERTY_KEY_VERSION = 'version'
   const PACKAGE_JSON = 'package.json'
   const PACKAGES_PATH = './packages'
@@ -40,6 +38,11 @@ function run(version: string): void {
   reactPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(reactPackageJsonPath, reactPackageJson)
 
+  execSync(`git add ${[
+    rootPackageJsonPath,
+    corePackageJsonPath,
+    reactPackageJsonPath,
+  ].join(' ')}`)
   execSync(`git commit -m '${version}'`)
   execSync(`git tag '${version}'`)
 
