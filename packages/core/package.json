@@ -21,7 +21,6 @@
   "scripts": {
     "pod": "arch -x86_64 pod install --project-directory=ios",
     "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
-    "fwd-exp": "yarn tsx ./scripts/run/auto-forward-exports",
     "bot:muicon": "yarn tsx ./scripts/run/fetch-material-icon-names",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",

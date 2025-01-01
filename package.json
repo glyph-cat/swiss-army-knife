@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",
+    "afe": "yarn tsx ./scripts/run/auto-forward-exports",
     "test": "sh ./scripts/run/test.sh",
     "bump-version": "yarn tsx ./scripts/run/bump-version"
   },
