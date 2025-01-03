@@ -211,6 +211,4 @@ const config: Array<RollupOptions> = [
   },
 ]
 
-// KIV: should we add UMD builds?
-
 export default config

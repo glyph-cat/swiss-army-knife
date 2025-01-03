@@ -1,8 +1,6 @@
 import { isNumber } from '@glyph-cat/swiss-army-knife'
 import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
 
-// todo: some of these functions are not exclusive to React, split them out???
-
 /**
  * @public
  */
