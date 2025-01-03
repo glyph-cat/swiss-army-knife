@@ -7,3 +7,5 @@ import { CleanupFunction } from '../../types'
 export function loadTemplateStyles(): CleanupFunction {
   throw new UnsupportedPlatformError()
 }
+
+export * from './abstractions.scripted'

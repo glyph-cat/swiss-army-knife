@@ -1,11 +1,7 @@
 set -e
 
-# Loop through each subpackage and do `yarn build`
-for item in ./packages/*; do
-  if [ -d "$item" ]; then
-    if [[ $item =~ "playground" ]]; then
-      continue; # Temporary
-    fi
-    yarn --cwd $item lint
-  fi
-done
+ECHO "Linting './packages/core'..."
+yarn --cwd ./packages/core lint
+
+ECHO "Linting './packages/react'..."
+yarn --cwd ./packages/react lint
