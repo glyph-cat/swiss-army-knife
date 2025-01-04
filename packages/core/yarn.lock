@@ -1372,10 +1372,10 @@
   dependencies:
     levn "^0.4.1"
 
-"@glyph-cat/eslint-config@^1.0.1-alpha.9":
-  version "1.0.1-alpha.9"
-  resolved "https://registry.yarnpkg.com/@glyph-cat/eslint-config/-/eslint-config-1.0.1-alpha.9.tgz#e53bee5ac965db52953287527aa5665681d0489b"
-  integrity sha512-Th+Tm1GvMGS9UFSWOlxcDItFySJzy573rr3EC4/hZSUQ6oyWPiyEiIY097ctmzWqd0gwIUa2PapuXpIIQcyUEg==
+"@glyph-cat/eslint-config@^1.0.1-alpha.12":
+  version "1.0.1-alpha.12"
+  resolved "https://registry.yarnpkg.com/@glyph-cat/eslint-config/-/eslint-config-1.0.1-alpha.12.tgz#296ebcbbcf6585d2337052f3b3f5fe45ac317529"
+  integrity sha512-ZGYXUowcQnIAwu0gV4BrU2yUOOW+SKz5j8SalX6apbYOAo2svqpj5hBjKQRrZWQMUYwUx/5RjcUKp4ys26SeaA==
   dependencies:
     "@eslint/compat" "^1.1.1"
     "@stylistic/eslint-plugin" "^2.6.1"

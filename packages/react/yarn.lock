@@ -858,10 +858,10 @@
   dependencies:
     levn "^0.4.1"
 
-"@glyph-cat/eslint-config@^1.0.1-alpha.10":
-  version "1.0.1-alpha.10"
-  resolved "https://registry.yarnpkg.com/@glyph-cat/eslint-config/-/eslint-config-1.0.1-alpha.10.tgz#149b28b31087a76d1407c7070b8f53752e13481b"
-  integrity sha512-MWOOM9f6MLpiO40iWdVJI/kpCM18fK6B3g+3/vlK8hsLg1XAxuplDfetHFVOXxZZnwuiJPv+5EElAelB/tf7RQ==
+"@glyph-cat/eslint-config@^1.0.1-alpha.12":
+  version "1.0.1-alpha.12"
+  resolved "https://registry.yarnpkg.com/@glyph-cat/eslint-config/-/eslint-config-1.0.1-alpha.12.tgz#296ebcbbcf6585d2337052f3b3f5fe45ac317529"
+  integrity sha512-ZGYXUowcQnIAwu0gV4BrU2yUOOW+SKz5j8SalX6apbYOAo2svqpj5hBjKQRrZWQMUYwUx/5RjcUKp4ys26SeaA==
   dependencies:
     "@eslint/compat" "^1.1.1"
     "@stylistic/eslint-plugin" "^2.6.1"
@@ -870,14 +870,6 @@
     eslint-import-resolver-typescript "^3.6.1"
     eslint-plugin-import "^2.29.1"
     typescript-eslint "^8.0.1"
-
-"@glyph-cat/swiss-army-knife@^0.0.0-experimental.41":
-  version "0.0.0-experimental.41"
-  resolved "https://registry.yarnpkg.com/@glyph-cat/swiss-army-knife/-/swiss-army-knife-0.0.0-experimental.41.tgz#af5390fbe35b7c4fdbd21e2f7095fb2f487274f8"
-  integrity sha512-q8OhsL9rqUFxTFc1yPzTNWKVRE5RBBGqUbjpwT8wYwEj9XqSoTBLBWPao3QY4ihYeR1x/6fNjXuO5SI0kPglJA==
-  dependencies:
-    cotton-box "^0.2.0"
-    cotton-box-react "^0.2.0"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -2526,20 +2518,10 @@ cosmiconfig@^5.0.5:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-cotton-box-react@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.2.0.tgz#872cbd4924e2683ab4f12e6881a78f74bfdf5ba7"
-  integrity sha512-+YrMiNs+8KwNmm/dsXLfNBaB+M+RJKyaSCDhRSb3u0prCMPfwZ0XB/pwfxF4XYlGBxpBO5LzlwY/pVMl5aU+Fg==
-
 cotton-box-react@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.3.0.tgz#06d884e834c14ccdf3a02539b15c6ed38c23e602"
   integrity sha512-XDkMuYQynuaBqThmajRquptls+36mV7QWCG+nYgKszESSz7A05lt3jMc8eOSw5xzIBSrVYS8L15L9ig0EJO1rg==
-
-cotton-box@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/cotton-box/-/cotton-box-0.2.0.tgz#60786b86640ac93ec8783235de7ba5a8a51a5aef"
-  integrity sha512-LeIrMIhjbh21pUhLqlfMlviOic7HdBb94nUGTBHL3Pg1UbJ8DSurq993dqqKuEmy4IxfK7M9y+bP73/prjYqAg==
 
 cotton-box@^0.3.0:
   version "0.3.0"

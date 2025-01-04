@@ -1,7 +1,7 @@
 set -e
 
-ECHO "Linting './packages/core'..."
+ECHO "Linting core package..."
 yarn --cwd ./packages/core lint
 
-ECHO "Linting './packages/react'..."
+ECHO "Linting react package..."
 yarn --cwd ./packages/react lint

@@ -47,7 +47,7 @@
     "@babel/plugin-transform-react-jsx": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
-    "@glyph-cat/eslint-config": "^1.0.1-alpha.9",
+    "@glyph-cat/eslint-config": "^1.0.1-alpha.12",
     "@jest/types": "^29.6.3",
     "@microsoft/api-extractor": "^7.47.9",
     "@rollup/plugin-babel": "^6.0.4",

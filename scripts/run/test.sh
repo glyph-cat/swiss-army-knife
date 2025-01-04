@@ -1,7 +1,7 @@
 set -e
 
-ECHO "Testing './packages/core'..."
+ECHO "Running tests for core package..."
 yarn --cwd ./packages/core test
 
-ECHO "Testing './packages/react'..."
+ECHO "Running tests for react package..."
 yarn --cwd ./packages/react test

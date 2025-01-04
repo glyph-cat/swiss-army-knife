@@ -6,12 +6,14 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
+    "postinstall": "sh ./scripts/run/post-install.sh",
     "afe": "yarn tsx ./scripts/run/auto-forward-exports",
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",
     "post-process-docs": "yarn tsx ./scripts/run/post-process-docs",
     "test": "sh ./scripts/run/test.sh",
     "bump-version": "yarn tsx ./scripts/run/bump-version",
+    "pack-packages": "sh ./scripts/run/pack-packages.sh",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [

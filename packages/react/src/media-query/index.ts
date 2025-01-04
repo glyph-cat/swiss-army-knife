@@ -1,5 +1,5 @@
 import { isFunction } from '@glyph-cat/swiss-army-knife'
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
  * @public
@@ -11,7 +11,7 @@ export function useMediaQuery(query: string): boolean {
   const [matches, setMatchState] = useState(() => {
     return isMediaQuerySupported ? window.matchMedia(query).matches : false
   })
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isMediaQuerySupported) { return } // Early exit
     const mq = window.matchMedia(query)
     const onChange = (e: MediaQueryListEvent) => { setMatchState(e.matches) }

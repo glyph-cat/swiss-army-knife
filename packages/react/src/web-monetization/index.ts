@@ -1,5 +1,6 @@
 import { PaymentPointerProtector } from '@glyph-cat/swiss-army-knife'
-import { JSX, useLayoutEffect } from 'react'
+import { JSX } from 'react'
+import { useIsomorphicLayoutEffect } from '../hooks/isomorphic-layout-effect'
 import { PaymentPointerProps } from './abstractions'
 
 /**
@@ -17,7 +18,7 @@ export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
 export function usePaymentPointer(
   paymentPointer: PaymentPointerProps['value']
 ): void {
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const protector = new PaymentPointerProtector(paymentPointer)
     protector.guard()
     return () => { protector.release() }

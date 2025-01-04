@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const { Severity } = require('@glyph-cat/eslint-config')
 const { libraryAuthoring: baseLibraryAuthoring } = require('@glyph-cat/eslint-config/base')
-const { libraryAuthoring: reactLibraryAuthoring } = require('@glyph-cat/eslint-config/react')
+const {
+  BuildRule,
+  EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
+  libraryAuthoring: reactLibraryAuthoring,
+} = require('@glyph-cat/eslint-config/react')
 const { recommended: jestRecommended } = require('@glyph-cat/eslint-config/jest')
 
 module.exports = [
@@ -11,6 +15,9 @@ module.exports = [
   {
     rules: {
       '@typescript-eslint/no-explicit-any': Severity.OFF,
+      ...BuildRule.ReactHooks.ExhaustiveDeps(Severity.WARN, [
+        ...EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
+      ]),
     },
   },
   {

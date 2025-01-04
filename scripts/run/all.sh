@@ -10,4 +10,4 @@ yarn post-process-docs
 
 yarn test
 
-yarn pack
+yarn pack-packages

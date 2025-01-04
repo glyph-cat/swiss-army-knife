@@ -1,4 +1,4 @@
-import { JSFunction, c, removeDuplicates } from '@glyph-cat/swiss-army-knife'
+import { c, removeDuplicates, TypedFunction } from '@glyph-cat/swiss-army-knife'
 import { JSX, useEffect } from 'react'
 import {
   MATERIAL_ICON_DEFAULTS,
@@ -91,7 +91,7 @@ export function MaterialIcon({
  */
 export function loadMaterialIconStyleSheet(
   variants: MaterialIconStyleSheetProps['variants']
-): JSFunction {
+): TypedFunction {
   const requestUrl = getRequestUrlFromVariants(variants)
   const styleElement = document.createElement('style')
   styleElement.innerHTML = `@import url(${requestUrl})`
