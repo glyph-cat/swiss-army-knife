@@ -13,7 +13,9 @@
     "post-process-docs": "yarn tsx ./scripts/run/post-process-docs",
     "test": "sh ./scripts/run/test.sh",
     "sync": "yarn tsx ./scripts/run/sync",
+    "preversion": "ECHO 'Please run `bump-version` instead.' && exit 1;",
     "bump-version": "yarn tsx ./scripts/run/bump-version",
+    "prepack": "ECHO 'Please run `pack-packages` instead.' && exit 1;",
     "pack-packages": "sh ./scripts/run/pack-packages.sh",
     "all": "sh ./scripts/run/all.sh"
   },
