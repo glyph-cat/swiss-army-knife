@@ -88,3 +88,4 @@ thumbs.db
 
 # Automatically generated
 packages/**/LICENSE
+packages/**/README.md

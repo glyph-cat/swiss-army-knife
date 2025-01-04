@@ -12,6 +12,7 @@
     "build": "sh ./scripts/run/build.sh",
     "post-process-docs": "yarn tsx ./scripts/run/post-process-docs",
     "test": "sh ./scripts/run/test.sh",
+    "sync": "yarn tsx ./scripts/run/sync",
     "bump-version": "yarn tsx ./scripts/run/bump-version",
     "pack-packages": "sh ./scripts/run/pack-packages.sh",
     "all": "sh ./scripts/run/all.sh"
