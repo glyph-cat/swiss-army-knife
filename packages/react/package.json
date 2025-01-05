@@ -15,7 +15,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-    "postinstall": "node ./scripts/run/post-install",
+    "postinstall": "if [ -e \"./scripts/run/post-install.sh\" ]; then sh ./scripts/run/post-install.sh; fi",
     "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
