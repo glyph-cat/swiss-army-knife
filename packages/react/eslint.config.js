@@ -18,6 +18,17 @@ module.exports = [
       ...BuildRule.ReactHooks.ExhaustiveDeps(Severity.WARN, [
         ...EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
       ]),
+      'no-restricted-imports': [Severity.ERROR, {
+        paths: [
+          {
+            name: 'react',
+            importNames: [
+              'RefObject',
+            ],
+            message: 'Please import from \'@glyph-cat/swiss-army-knife\' instead.',
+          },
+        ],
+      }],
     },
   },
   {

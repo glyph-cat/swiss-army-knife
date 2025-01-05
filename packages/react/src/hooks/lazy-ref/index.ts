@@ -1,4 +1,5 @@
-import { RefObject, useState } from 'react'
+import { RefObject } from '@glyph-cat/swiss-army-knife'
+import { useState } from 'react'
 
 /**
  * @public
