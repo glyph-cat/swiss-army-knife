@@ -1,6 +1,7 @@
 import {
-  BUILD_HASH,
+  addStyles,
   c,
+  compileStyles,
   deepRemove,
   deepSet,
   RefObject,
@@ -8,6 +9,7 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
+import { Properties } from 'csstype'
 import {
   createElement,
   DetailedHTMLProps,
@@ -26,17 +28,11 @@ import {
   useRef
 } from 'react'
 
-enum ComponentMarker {
-  VIEW = 1,
-  INPUT, // Shared with textarea
-}
+// NOTE: Hashes cannot be generated and used on the fly because
+// there would be a mismatch between client and server.
 
-const DATA_MARKER_KEY = 'data-marker'
-const DATA_MARKER_VALUE_PREFIX = 'core-ui'
-
-const SHORT_HASH = BUILD_HASH.substring(0, 6)
-const CLASSNAME_VIEW = `core-ui-view-${SHORT_HASH}`
-const CLASSNAME_INPUT = `core-ui-input-${SHORT_HASH}`
+const CORE_UI_CLASSNAME_PREFIX = 'core-ui-'
+const PRECEDENCE_LEVEL_INTERNAL = -1
 
 /**
  * @public
@@ -56,7 +52,36 @@ export type TextAreaProps = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAre
 /**
  * @public
  */
+export interface IView extends HTMLDivElement { (props: ViewProps): JSX.Element }
+
+/**
+ * @public
+ */
+export interface IInput extends HTMLInputElement { (props: InputProps): JSX.Element }
+
+/**
+ * @public
+ */
+export interface ITextArea extends HTMLTextAreaElement { (props: TextAreaProps): JSX.Element }
+
+/**
+ * @example
+ * import { CoreUIComposer } from '@glyph-cat/swiss-army-knife-react'
+ *
+ * const composer = new CoreUIComposer()
+ * @public
+ */
 export class CoreUIComposer {
+
+  /**
+   * @internal
+   */
+  private static M$isViewStylesLoaded = false
+
+  /**
+   * @internal
+   */
+  private static M$isInputStylesLoaded = false
 
   /**
    * @internal
@@ -76,9 +101,14 @@ export class CoreUIComposer {
   /**
    * Creates a drop-in replacement for the `<div>` element with the `display`
    * CSS property set to 'grid'.
+   * @example
+   * import { IView } from '@glyph-cat/swiss-army-knife-react'
+   *
+   * export type View = IView
+   * export const View = composer.createViewComponent()
    */
   createViewComponent(): ForwardRefExoticComponent<Omit<ViewProps, 'ref'> & RefAttributes<HTMLDivElement>> {
-    this.M$loadViewStyles()
+    const baseClassName = this.M$createViewStyles()
     const View = forwardRef<HTMLDivElement, ViewProps>(({
       children,
       className,
@@ -88,7 +118,7 @@ export class CoreUIComposer {
       useImperativeHandle(ref, () => divRef.current)
       return createElement('div', {
         ref: divRef,
-        className: c(CLASSNAME_VIEW, className),
+        className: c(baseClassName, className),
         ...otherProps,
       }, children)
     })
@@ -100,9 +130,14 @@ export class CoreUIComposer {
    * Reasons:
    * - Easy to track and check if any `<input>` elements are in focus.
    * - This can be used to control whether certain keyboard shortcuts should be triggered or not.
+   * @example
+   * import { IInput } from '@glyph-cat/swiss-army-knife-react'
+   *
+   * export type Input = IInput
+   * export const Input = composer.createInputComponent()
    */
   createInputComponent(): ForwardRefExoticComponent<Omit<InputProps, 'ref'> & RefAttributes<HTMLInputElement>> {
-    this.M$loadInputStyles()
+    const baseClassName = this.M$loadInputStyles()
     this.M$initInputFocusState()
     const { useSharedInputRefHandler } = this
     const Input = forwardRef(({
@@ -112,7 +147,7 @@ export class CoreUIComposer {
       const inputRef = useSharedInputRefHandler(props, ref)
       return createElement('input', {
         ref: inputRef,
-        className: c(CLASSNAME_INPUT, className),
+        className: c(baseClassName, className),
         ...props,
       })
     })
@@ -124,9 +159,14 @@ export class CoreUIComposer {
    * Reasons:
    * - Easy to track and check if any `<textarea>` elements are in focus.
    * - This can be used to control whether certain keyboard shortcuts should be triggered or not.
+   * @example
+   * import { ITextArea } from '@glyph-cat/swiss-army-knife-react'
+   *
+   * export type TextArea = ITextArea
+   * export const TextArea = composer.createTextAreaComponent()
    */
   createTextAreaComponent(): ForwardRefExoticComponent<Omit<TextAreaProps, 'ref'> & RefAttributes<HTMLInputElement>> {
-    this.M$loadInputStyles()
+    const baseClassName = this.M$loadInputStyles()
     this.M$initInputFocusState()
     const { useSharedInputRefHandler } = this
     const TextArea = forwardRef(({
@@ -136,7 +176,7 @@ export class CoreUIComposer {
       const textAreaRef = useSharedInputRefHandler(props, ref)
       return createElement('textarea', {
         ref: textAreaRef,
-        className: c(CLASSNAME_INPUT, className),
+        className: c(baseClassName, className),
         ...props,
       })
     })
@@ -153,7 +193,7 @@ export class CoreUIComposer {
   /**
    * @internal
    */
-  private readonly M$initInputFocusState = (): void => {
+  private M$initInputFocusState(): void {
     if (this._InputFocusState) { return } // Early exit
     this._InputFocusState = new SimpleStateManager<TruthRecord<string>>({})
   }
@@ -210,59 +250,43 @@ export class CoreUIComposer {
 
   }
 
-  // #region Unstable
-
-  // These methods are declared as non-static because we might want styles to be
-  // customizable in the future.
-
-  private checkIfStylesAreLoaded(
-    marker: ComponentMarker
-  ): [isLoaded: boolean, dataMarkerValue: string] {
-    const dataMarkerValue = `${DATA_MARKER_VALUE_PREFIX}/${marker}`
-    const selectorString = `style[${DATA_MARKER_KEY}="${dataMarkerValue}"]`
-    return [
-      !!document.querySelector(selectorString),
-      dataMarkerValue,
-    ]
-  }
-
-  private M$loadViewStyles(): void {
+  /**
+   * @internal
+   */
+  private M$createViewStyles(): string {
+    const className = CORE_UI_CLASSNAME_PREFIX + 'view'
     if (typeof window !== 'undefined') {
-      const [isLoaded, dataMarkerValue] = this.checkIfStylesAreLoaded(ComponentMarker.VIEW)
-      if (isLoaded) { return } // Early exit
-      const style = document.createElement('style')
-      style.setAttribute(DATA_MARKER_KEY, dataMarkerValue)
-      style.innerHTML = `.${CLASSNAME_VIEW}{display:grid;position:relative;}`
-      const firstStyleLikeElement = findFirstStyleLikeElement()
-      document.head.insertBefore(style, firstStyleLikeElement)
+      if (!CoreUIComposer.M$isViewStylesLoaded) {
+        addStyles(compileStyles(new Map<string, Properties>([
+          [className, {
+            display: 'grid',
+            position: 'relative',
+          }],
+          // @ts-expect-error `-1` is an internal value for `.INTERNAL`
+        ])), PRECEDENCE_LEVEL_INTERNAL)
+        CoreUIComposer.M$isViewStylesLoaded = true
+      }
     }
+    return className
   }
 
-  private M$loadInputStyles(): void {
-    if (typeof window !== 'undefined') {
-      const [isLoaded, dataMarkerValue] = this.checkIfStylesAreLoaded(ComponentMarker.INPUT)
-      if (isLoaded) { return } // Early exit
-      const style = document.createElement('style')
-      style.setAttribute(DATA_MARKER_KEY, dataMarkerValue)
-      style.innerHTML = `.${CLASSNAME_INPUT}{font-family:inherit;}`
-      document.head.append(style)
-      const firstStyleLikeElement = findFirstStyleLikeElement()
-      document.head.insertBefore(style, firstStyleLikeElement)
+  /**
+   * @internal
+   */
+  private M$loadInputStyles(): string {
+    const className = CORE_UI_CLASSNAME_PREFIX + 'input'
+    if (typeof window === 'undefined') {
+      if (!CoreUIComposer.M$isInputStylesLoaded) {
+        addStyles(compileStyles(new Map<string, Properties>([
+          [className, {
+            fontFamily: 'inherit',
+          }],
+          // @ts-expect-error `-1` is an internal value for `.INTERNAL`
+        ])), PRECEDENCE_LEVEL_INTERNAL)
+        CoreUIComposer.M$isInputStylesLoaded = true
+      }
     }
+    return className
   }
 
-  // #endregion Unstable
-
-}
-
-function findFirstStyleLikeElement(): Element {
-  const nodeList = document.head.querySelectorAll([
-    'link[rel="stylesheet"]',
-    'link[rel="preload"][as="style"]',
-    `style:not([${DATA_MARKER_KEY}^="${DATA_MARKER_VALUE_PREFIX}"])`,
-  ].join(','))
-  // References:
-  // - https://stackoverflow.com/a/56328426/5810737
-  // - https://stackoverflow.com/a/10777783/5810737
-  return nodeList.length > 0 ? nodeList.item(0) : undefined
 }

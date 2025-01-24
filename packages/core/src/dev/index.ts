@@ -7,10 +7,8 @@ import { isString } from '../data/type-check'
 export type DevLogType = 'info' | 'warn' | 'error'
 
 /**
- * A wrapper around console methods. However, they will be omitted during
- * minification for production, saving a few bytes and slightly improving
- * performance.
- * @internal
+ * A wrapper around console methods.
+ * @public
  */
 export function devPrint(
   type: DevLogType,
@@ -122,28 +120,4 @@ export function displayOrdinalNumber(num: number | string): string {
   } else {
     return `${num}th`
   }
-}
-
-/**
- * @public
- */
-export interface JsxLineTracerProps {
-  type?: DevLogType
-  message?: string
-}
-
-/**
- * @example
- * return (
- *   <View>
- *     <JsxLineTracer type='log' message='...' />
- *     <ComponentA />
- *   </View>
- * )
- * @public
- */
-export function JsxLineTracer(props: JsxLineTracerProps): JSX.Element {
-  const { type = 'info', message = '(Empty string)' } = props
-  devPrint(type, message)
-  return null
 }

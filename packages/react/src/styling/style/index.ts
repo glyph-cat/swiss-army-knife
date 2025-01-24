@@ -1,4 +1,4 @@
-import { isNumber } from '@glyph-cat/swiss-army-knife'
+import { isNumber, mapPropertyNameFromJSToCSS } from '@glyph-cat/swiss-army-knife'
 import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
 
 /**
@@ -98,19 +98,6 @@ export function getClassNamesAndStyleContent<Key extends string>(
     classNames[className] = prefixedClassName
   }
   return [classNames, styleContent]
-}
-
-/**
- * @see https://www.geeksforgeeks.org/how-to-convert-a-string-into-kebab-case-using-javascript
- */
-function mapPropertyNameFromJSToCSS(value: string): string {
-  let parsedValue = value.replace(/([a-z])([A-Z])/g, '$1-$2')
-    .replace(/[\s_]+/g, '-')
-    .toLowerCase()
-  if (parsedValue.match(/^(moz|ms|o(?=-)|webkit)/)) {
-    parsedValue = `-${parsedValue}`
-  }
-  return parsedValue
 }
 
 function parsePixelValue(attribKey: string, attribValue: number): string | number {

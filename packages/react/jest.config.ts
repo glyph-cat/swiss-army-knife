@@ -8,6 +8,7 @@ const config: Config.InitialOptions = {
     '.draft',
     '.old',
   ],
+  testEnvironment: 'jsdom',
   testRegex: '.test.(tsx|ts|jsx|js)',
   testTimeout: 1000,
   fakeTimers: {

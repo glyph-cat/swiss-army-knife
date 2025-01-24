@@ -100,10 +100,7 @@ export function isSymbol(value: unknown): value is symbol {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isThenable(executedFn: unknown): executedFn is Promise<any> {
-  // Check if is falsey value first, because checking for `undefined.then` will
-  // throw error.
-  if (!executedFn) { return false } // Early exit
-  return isFunction(executedFn['then'])
+  return isFunction(executedFn?.['then'])
 }
 
 /**

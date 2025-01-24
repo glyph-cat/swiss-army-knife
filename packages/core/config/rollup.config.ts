@@ -49,17 +49,16 @@ const EXTERNAL_LIBS = [
 interface IPluginConfig {
   overrides?: Record<string, unknown>
   mode?: 'development' | 'production'
-  buildEnv?: BuildType
+  buildEnv: BuildType
 }
 
-function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
+function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { overrides = {}, mode, buildEnv } = config
   const basePlugins = {
     nodeResolve: nodeResolve(),
     // babel: babel({
     //   presets: [
     //     // '@babel/preset-env',
-    //     '@babel/preset-react',
     //   ],
     //   plugins: [
     //     // ['@babel/plugin-proposal-class-properties', {

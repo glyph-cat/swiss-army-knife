@@ -1,4 +1,4 @@
-import { devWarn } from '@glyph-cat/swiss-army-knife'
+import { devWarn, IDisposable } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { Children, ElementType, Fragment, JSX, ReactNode, useEffect, useState } from 'react'
@@ -7,19 +7,30 @@ import { IPortalFactoryState, PortalType } from './abstractions'
 /**
  * @public
  */
-export class PortalFactory {
+export class PortalFactory implements IDisposable {
 
-  private portalIdCounter = 0
+  /**
+   * @internal
+   */
+  private M$portalIdCounter = 0
 
-  private state = new SimpleStateManager<IPortalFactoryState>({})
+  /**
+   * @internal
+   */
+  private M$state = new SimpleStateManager<IPortalFactoryState>({})
+
+  constructor() {
+    this.remove = this.remove.bind(this)
+    this.render = this.render.bind(this)
+  }
 
   render(
     element: ElementType,
     props: Record<string, unknown>,
     children?: ReactNode
   ): number {
-    const portalId = ++this.portalIdCounter
-    this.state.set((currentState) => {
+    const portalId = ++this.M$portalIdCounter
+    this.M$state.set((currentState) => {
       return {
         ...currentState,
         [portalId]: {
@@ -34,7 +45,7 @@ export class PortalFactory {
   }
 
   remove(portalId: number): void {
-    this.state.set((scopedState) => {
+    this.M$state.set((scopedState) => {
       const {
         [portalId]: itemToExclude,
         ...remainingState
@@ -46,9 +57,9 @@ export class PortalFactory {
   Portal = ({ children }: { children: ReactNode }): JSX.Element => {
     // Only 1 children is allowed
     Children.only(children)
-    const [portalId] = useState(() => ++this.portalIdCounter)
+    const [portalId] = useState(() => ++this.M$portalIdCounter)
     useEffect(() => {
-      this.state.set((scopedState) => {
+      this.M$state.set((scopedState) => {
         return {
           ...scopedState,
           [portalId]: {
@@ -59,7 +70,7 @@ export class PortalFactory {
       })
       const portalId_current = portalId
       return () => {
-        this.state.set((scopedState) => {
+        this.M$state.set((scopedState) => {
           const {
             [portalId_current]: itemToExclude,
             ...remainingState
@@ -72,7 +83,7 @@ export class PortalFactory {
   }
 
   Canvas = (): JSX.Element => {
-    const portalState = useSimpleStateValue(this.state)
+    const portalState = useSimpleStateValue(this.M$state)
     const dataStack = Object.values(portalState)
     const renderStack = []
     for (const index in dataStack) {
@@ -98,6 +109,10 @@ export class PortalFactory {
       }
     }
     return <>{renderStack}</>
+  }
+
+  dispose(): void {
+    this.M$state.dispose()
   }
 
 }
