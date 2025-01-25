@@ -13,7 +13,7 @@ function run(version: string): void {
     process.exit(1)
   }
 
-  if (!/^\d+\.\d+\.\d+$/.test(version)) {
+  if (!/^\d+\.\d+\.\d+(-[a-z]+\.\d+)?$/.test(version)) {
     console.log(chalk.redBright(`Invalid version "${version}"`))
     process.exit(1)
   }
