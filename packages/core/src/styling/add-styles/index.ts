@@ -38,18 +38,13 @@ export function addStyles(
     if (lastOccurringInternalPriorityElement) {
       lastOccurringInternalPriorityElement.insertAdjacentElement('afterend', styleElement)
     } else {
-      const firstOccurringLowPriorityElement = document.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW)
-      if (firstOccurringLowPriorityElement) {
-        document.head.insertBefore(styleElement, firstOccurringLowPriorityElement)
-      } else {
-        // This also takes `PrecedenceLevel.HIGH` into consideration already:
-        const firstOccurringStyleElement = document.head.querySelector([
-          'style',
-          'link[rel="stylesheet"]',
-          'link[rel="preload"][as="style"]',
-        ].join(','))
-        document.head.insertBefore(styleElement, firstOccurringStyleElement)
-      }
+      // This also takes styles of other precedence levels into consideration already:
+      const firstOccurringStyleElement = document.head.querySelector([
+        'style',
+        'link[rel="stylesheet"]',
+        'link[rel="preload"][as="style"]',
+      ].join(','))
+      document.head.insertBefore(styleElement, firstOccurringStyleElement)
     }
   } else if (precedenceLevel === PrecedenceLevel.LOW) {
     const lastOccurringLowPriorityElement = querySelectorLast(
@@ -59,9 +54,8 @@ export function addStyles(
     if (lastOccurringLowPriorityElement) {
       lastOccurringLowPriorityElement.insertAdjacentElement('afterend', styleElement)
     } else {
-      // TOFIX: this should be the first occurring NON-INTERNAL PRECEDENCE style element
       const firstOccurringStyleElement = document.head.querySelector([
-        'style',
+        `style:not([${DATA_PRECEDENCE_LEVEL}^="${PrecedenceLevel.INTERNAL}"])`,
         'link[rel="stylesheet"]',
         'link[rel="preload"][as="style"]',
       ].join(','))
@@ -87,4 +81,4 @@ export function addStyles(
 export * from './constants/public'
 // #endregion Other exports
 
-// KIV: Create a class that is built on top of `addStyles` instead to enabled editing style contents?
+// KIV: [low priority] Not sure if there is a need to reate a class that is built on top of `addStyles` instead to enabled editing style contents?

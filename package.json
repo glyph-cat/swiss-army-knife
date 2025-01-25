@@ -6,7 +6,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-    "postinstall": "sh ./scripts/run/post-install.sh",
+    "patch-install": "sh ./scripts/run/post-install.sh",
     "afe": "yarn tsx ./scripts/run/auto-forward-exports",
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",

@@ -4,7 +4,12 @@ import { Properties } from 'csstype'
 import { addStyles } from '.'
 import { RefObject } from '../../types'
 import { compileStyles } from '../compile-styles'
-import { DATA_PRECEDENCE_LEVEL, PrecedenceLevel } from './constants'
+import {
+  DATA_PRECEDENCE_LEVEL,
+  PrecedenceLevel,
+  QUERY_SELECTOR_PRECEDENCE_LEVEL_INTERNAL,
+  QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW,
+} from './constants'
 
 let cleanupManager: CleanupManager
 beforeEach(() => { cleanupManager = new CleanupManager() })
@@ -62,19 +67,13 @@ test('Ref object should be assigned when added; and unassigned when removed', ()
 
 describe(TestGroupFor(PrecedenceLevel.HIGH), () => {
 
-  test('Has no style elements', () => {
-    const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.HIGH))
-    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_HIGH)
-    expect(element.innerHTML).toBe(mockStyles)
-  })
-
   test('Has style elements', () => {
     document.head.innerHTML = `
       <style ${DATA_TEST_MARKER}="a" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.INTERNAL}">.foo{}</style>
       <style ${DATA_TEST_MARKER}="b" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.LOW}">.bar{}</style>
       <style ${DATA_TEST_MARKER}="c">.baz{}</style>
       <link ${DATA_TEST_MARKER}="d" rel='stylesheet' href='styles.css' />
+      <!-- Styles should be added here -->
     `
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.HIGH))
@@ -86,44 +85,110 @@ describe(TestGroupFor(PrecedenceLevel.HIGH), () => {
     expect(allStyleElements[4].innerHTML).toBe(mockStyles)
   })
 
+  test('Has no style elements', () => {
+    const mockStyles = createMockStyles()
+    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.HIGH))
+    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_HIGH)
+    expect(element.innerHTML).toBe(mockStyles)
+  })
+
 })
 
 describe(TestGroupFor(PrecedenceLevel.LOW), () => {
 
   test('Has low precedence style elements', () => {
-    // should add after last low precedence element
     document.head.innerHTML = `
-      <!-- TODO -->
+      <style ${DATA_TEST_MARKER}="a" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.INTERNAL}">.foo{}</style>
+      <style ${DATA_TEST_MARKER}="b" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.LOW}">.bar{}</style>
+      <!-- Styles should be added here -->
+      <style ${DATA_TEST_MARKER}="c" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.HIGH}">.baz{}</style>
+      <style ${DATA_TEST_MARKER}="d">.baz{}</style>
+      <link ${DATA_TEST_MARKER}="e" rel='stylesheet' href='styles.css' />
     `
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
+    expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
+    expect(allStyleElements[1].getAttribute(DATA_TEST_MARKER)).toBe('b')
+    expect(allStyleElements[2].innerHTML).toBe(mockStyles)
+    expect(allStyleElements[3].getAttribute(DATA_TEST_MARKER)).toBe('c')
+    expect(allStyleElements[4].getAttribute(DATA_TEST_MARKER)).toBe('d')
+    expect(allStyleElements[5].getAttribute(DATA_TEST_MARKER)).toBe('e')
   })
 
   test('Has no low precedence style elements, but has other precedence and unmanaged style elements', () => {
-    // should add after internal precedence, but before high precedence and unmanaged style elements
     document.head.innerHTML = `
-      <!-- TODO -->
+      <style ${DATA_TEST_MARKER}="a" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.INTERNAL}">.foo{}</style>
+      <!-- Styles should be added here -->
+      <style ${DATA_TEST_MARKER}="b" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.HIGH}">.baz{}</style>
+      <style ${DATA_TEST_MARKER}="c">.baz{}</style>
+      <link ${DATA_TEST_MARKER}="d" rel='stylesheet' href='styles.css' />
     `
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
+    expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
+    expect(allStyleElements[1].innerHTML).toBe(mockStyles)
+    expect(allStyleElements[2].getAttribute(DATA_TEST_MARKER)).toBe('b')
+    expect(allStyleElements[3].getAttribute(DATA_TEST_MARKER)).toBe('c')
+    expect(allStyleElements[4].getAttribute(DATA_TEST_MARKER)).toBe('d')
   })
 
   test('Has no style elements', () => {
-    // should just add style
-    document.head.innerHTML = `
-      <!-- TODO -->
-    `
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
-    const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
+    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW)
+    expect(element.innerHTML).toBe(mockStyles)
   })
 
 })
 
 describe(TestGroupFor(PrecedenceLevel.INTERNAL), () => {
 
-  // TODO
+  test('Has internal precedence style elements', () => {
+    document.head.innerHTML = `
+      <style ${DATA_TEST_MARKER}="a" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.INTERNAL}">.foo{}</style>
+      <!-- Styles should be added here -->
+      <style ${DATA_TEST_MARKER}="b" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.LOW}">.bar{}</style>
+      <style ${DATA_TEST_MARKER}="c" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.HIGH}">.baz{}</style>
+      <style ${DATA_TEST_MARKER}="d">.baz{}</style>
+      <link ${DATA_TEST_MARKER}="e" rel='stylesheet' href='styles.css' />
+    `
+    const mockStyles = createMockStyles()
+    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
+    const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
+    expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
+    expect(allStyleElements[1].innerHTML).toBe(mockStyles)
+    expect(allStyleElements[2].getAttribute(DATA_TEST_MARKER)).toBe('b')
+    expect(allStyleElements[3].getAttribute(DATA_TEST_MARKER)).toBe('c')
+    expect(allStyleElements[4].getAttribute(DATA_TEST_MARKER)).toBe('d')
+    expect(allStyleElements[5].getAttribute(DATA_TEST_MARKER)).toBe('e')
+  })
+
+  // has no internal style, but have low and high level styles only, should add before it
+  test('Has no internal precedence style elements, but has other precedence and unmanaged style elements', () => {
+    document.head.innerHTML = `
+      <!-- Styles should be added here -->
+      <style ${DATA_TEST_MARKER}="a" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.LOW}">.foo{}</style>
+      <style ${DATA_TEST_MARKER}="b" ${DATA_PRECEDENCE_LEVEL}="${PrecedenceLevel.HIGH}">.baz{}</style>
+      <style ${DATA_TEST_MARKER}="c">.baz{}</style>
+      <link ${DATA_TEST_MARKER}="d" rel='stylesheet' href='styles.css' />
+    `
+    const mockStyles = createMockStyles()
+    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
+    const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
+    expect(allStyleElements[0].innerHTML).toBe(mockStyles)
+    expect(allStyleElements[1].getAttribute(DATA_TEST_MARKER)).toBe('a')
+    expect(allStyleElements[2].getAttribute(DATA_TEST_MARKER)).toBe('b')
+    expect(allStyleElements[3].getAttribute(DATA_TEST_MARKER)).toBe('c')
+    expect(allStyleElements[4].getAttribute(DATA_TEST_MARKER)).toBe('d')
+  })
+
+  test('Has no style elements', () => {
+    const mockStyles = createMockStyles()
+    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
+    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_INTERNAL)
+    expect(element.innerHTML).toBe(mockStyles)
+  })
 
 })
