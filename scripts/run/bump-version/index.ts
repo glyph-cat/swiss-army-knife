@@ -3,9 +3,17 @@ import { execSync } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
 import { ENCODING_UTF_8 } from '../../constants'
 
+// What this script does:
+// Bumps the versions of the root package along with its sub-packages.
+
 function run(version: string): void {
 
   if (!version) {
+    console.log(chalk.redBright(`Missing argument "${version}"`))
+    process.exit(1)
+  }
+
+  if (!/^\d+\.\d+\.\d+$/.test(version)) {
     console.log(chalk.redBright(`Invalid version "${version}"`))
     process.exit(1)
   }
