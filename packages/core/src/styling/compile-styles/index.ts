@@ -72,6 +72,7 @@ export function compileStyleObjectToString(styleObject: Properties): string {
 export function compileStyles(styles: Map<string, Properties>): string {
   const compiledStyles: Array<string> = []
   styles.forEach((value, key) => {
+    // TODO: [low priority] Consider showing warning (in dev environment only) if key is not valid html element and has no leading "." or "#"; perhaps we can have a register function to whitelist custom web components
     compiledStyles.push(`${key}{${compileStyleObjectToString(value)}}`)
   })
   return compiledStyles.join('')

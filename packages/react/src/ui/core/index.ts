@@ -36,11 +36,11 @@ const PRECEDENCE_LEVEL_INTERNAL = -1
 
 if (typeof window !== 'undefined') {
   addStyles(compileStyles(new Map<string, Properties>([
-    [CORE_UI_CLASSNAME_VIEW, {
+    [`.${CORE_UI_CLASSNAME_VIEW}`, {
       display: 'grid',
       position: 'relative',
     }],
-    [CORE_UI_CLASSNAME_INPUT, {
+    [`.${CORE_UI_CLASSNAME_INPUT}`, {
       fontFamily: 'inherit',
     }],
     // @ts-expect-error `-1` is an internal value for `.INTERNAL`
