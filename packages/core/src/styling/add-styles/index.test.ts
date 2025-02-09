@@ -1,6 +1,5 @@
 /** @jest-environment jsdom */
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { Properties } from 'csstype'
 import { addStyles } from '.'
 import { RefObject } from '../../types'
 import { compileStyles } from '../compile-styles'
@@ -21,7 +20,7 @@ afterEach(() => { document.head.innerHTML = '' })
 let mockCounter = 0
 
 function createMockStyles(): string {
-  return compileStyles(new Map<string, Properties>([
+  return compileStyles(new Map([
     [`mockStyle${++mockCounter}`, { color: '#ffffff' }],
   ]))
 }

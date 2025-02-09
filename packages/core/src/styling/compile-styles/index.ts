@@ -1,7 +1,11 @@
-import { Properties } from 'csstype'
+import { IS_DEBUG_ENV } from '../../constants'
+import { isString } from '../../data'
+import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
+import { ExtendedCSSProperties } from '../abstractions'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { serializePixelValue } from '../serialize-pixel-value'
+import { selectorPatternsToIgnore, selectorsToIgnore, tryValidateCSSSelector } from './validator'
 
 /**
  * Converts property keys of an object with CSS property keys from their JS form
@@ -19,9 +23,9 @@ import { serializePixelValue } from '../serialize-pixel-value'
  * @public
  */
 export function convertStyleObjectPropertyKeys(
-  styleObject: Properties
-): StringRecord<Properties[keyof Properties]> {
-  const compiledStyles: StringRecord<Properties[keyof Properties]> = {}
+  styleObject: ExtendedCSSProperties
+): StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]> {
+  const compiledStyles: StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]> = {}
   for (const rawPropertyKey in styleObject) {
     const propertyValue = styleObject[rawPropertyKey]
     const propertyKey = mapPropertyNameFromJSToCSS(rawPropertyKey)
@@ -41,7 +45,7 @@ export function convertStyleObjectPropertyKeys(
  * // Output: '{background-color:#ffffff;font-size:14pt}'
  * @public
  */
-export function compileStyleObjectToString(styleObject: Properties): string {
+export function compileStyleObjectToString(styleObject: ExtendedCSSProperties): string {
   const compiledStyles: Array<string> = []
   for (const rawPropertyKey in styleObject) {
     const propertyValue = styleObject[rawPropertyKey]
@@ -50,6 +54,8 @@ export function compileStyleObjectToString(styleObject: Properties): string {
   }
   return compiledStyles.join(';')
 }
+
+const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null
 
 /**
  * Uses {@link compileStyleObjectToString} to compile a complete CSS syntax string
@@ -69,11 +75,42 @@ export function compileStyleObjectToString(styleObject: Properties): string {
  * // Output: '.foo{background-color:#ffffff}.bar{background-color:#ff0000}'
  * @public
  */
-export function compileStyles(styles: Map<string, Properties>): string {
+export function compileStyles(styles: Map<string, ExtendedCSSProperties>): string {
   const compiledStyles: Array<string> = []
   styles.forEach((value, key) => {
-    // TODO: [low priority] Consider showing warning (in dev environment only) if key is not valid html element and has no leading "." or "#"; perhaps we can have a register function to whitelist custom web components
+    if (IS_DEBUG_ENV) {
+      if (!selectorsToIgnore.has('*')) {
+        const selectors = key.split(/\s*[\s>+~]\s*/g)
+        for (const $selector of selectors) {
+          const selector = $selector.replace(/:.+$/, '')
+          if (checkedSelectors.has(selector)) { continue }
+          if (!tryValidateCSSSelector(selector)) {
+            devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${ignoreWhenCompilingStyles.name}(['${selector}'])`)
+          }
+          checkedSelectors.add(selector)
+        }
+      }
+    }
     compiledStyles.push(`${key}{${compileStyleObjectToString(value)}}`)
   })
   return compiledStyles.join('')
+}
+
+/**
+ * Whitelist CSS selectors and web components so that warnings are not shown
+ * for them when using with {@link compileStyles}. Optionally, pass a single `'*'`
+ * to turn off this checking feature.
+ * @public
+ */
+export function ignoreWhenCompilingStyles(
+  ...selectors: Array<string | RegExp>
+): void {
+  if (!IS_DEBUG_ENV) { return } // Early exit
+  for (const selector of selectors) {
+    if (isString(selector)) {
+      selectorsToIgnore.add(selector)
+    } else {
+      selectorPatternsToIgnore.push(selector)
+    }
+  }
 }

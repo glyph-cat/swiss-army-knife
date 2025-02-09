@@ -1,5 +1,6 @@
-import { isNumber } from '../../data'
 import { CleanupFunction } from '../../types'
+import { ExtendedCSSProperties } from '../abstractions'
+import { serializePixelValue } from '../serialize-pixel-value'
 
 /**
  * Injects CSS variables into a HTML element.
@@ -9,13 +10,15 @@ import { CleanupFunction } from '../../types'
  * @public
  */
 export function injectCSSVariables(
-  values: Record<string, number | string>,
+  values: Record<string, ExtendedCSSProperties[keyof ExtendedCSSProperties]>,
   target: HTMLElement
 ): CleanupFunction {
   for (const key in values) {
     const value = values[key]
-    const safeValue: string = isNumber(value) ? `${value}px` : value
-    target.style.setProperty(`--${key}`, safeValue)
+    // NOTE: By using `serializePixelValue` we make a smart guess on whether
+    // the variables need to have 'px' appended to them as suffix.
+    serializePixelValue(key, value)
+    target.style.setProperty(`--${key}`, String(serializePixelValue(key, value)))
   }
   return () => {
     for (const key in values) {

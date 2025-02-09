@@ -9,7 +9,6 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import { ReadOnlyStateManager, SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { Properties } from 'csstype'
 import {
   createElement,
   DetailedHTMLProps,
@@ -35,7 +34,7 @@ const CORE_UI_CLASSNAME_INPUT = CORE_UI_CLASSNAME_PREFIX + 'input'
 const PRECEDENCE_LEVEL_INTERNAL = -1
 
 if (typeof window !== 'undefined') {
-  addStyles(compileStyles(new Map<string, Properties>([
+  addStyles(compileStyles(new Map([
     [`.${CORE_UI_CLASSNAME_VIEW}`, {
       display: 'grid',
       position: 'relative',

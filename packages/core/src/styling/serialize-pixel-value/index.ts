@@ -16,7 +16,7 @@ export function serializePixelValue(
   attributeKey: string,
   attributeValue: string | number
 ): string | number {
-  if (keywordsPattern.test(attributeKey) && isNumber(attributeValue)) {
+  if (isNumber(attributeValue) && keywordsPattern.test(attributeKey)) {
     return `${attributeValue}px`
   } else {
     return attributeValue

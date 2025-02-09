@@ -1,4 +1,3 @@
-import { Properties } from 'csstype'
 import {
   compileStyleObjectToString,
   compileStyles,
@@ -29,7 +28,7 @@ test(compileStyleObjectToString.name, () => {
 
 test(compileStyles.name, () => {
 
-  const output = compileStyles(new Map<string, Properties>([
+  const output = compileStyles(new Map([
     ['.foo', {
       backgroundColor: '#ffffff',
       fontWeight: 'bold',
