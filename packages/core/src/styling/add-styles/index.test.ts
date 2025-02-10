@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
 import { addStyles } from '.'
-import { RefObject } from '../../types'
+import { createRef } from '../../data/ref'
 import { compileStyles } from '../compile-styles'
 import {
   DATA_PRECEDENCE_LEVEL,
@@ -56,7 +56,7 @@ test('Happy Path', () => {
 })
 
 test('Ref object should be assigned when added; and unassigned when removed', () => {
-  const refObject: RefObject<HTMLStyleElement> = { current: null }
+  const refObject = createRef<HTMLStyleElement>(null)
   const mockStyles = createMockStyles()
   const removeStyles = addStyles(mockStyles, null, refObject)
   expect(refObject.current).not.toBeNull()

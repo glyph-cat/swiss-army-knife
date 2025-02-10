@@ -64,11 +64,16 @@ function autoForwardExports(path: string, now: Date): Array<string> {
       const hasIndexFile = checkIndexFile(subPath)
       if (!hasIndexFile) { directoriesWithMissingIndexFiles.push(subPath) }
       const indicator = hasIndexFile ? chalk.green('✓') : chalk.red('×')
+      const isAbstractionsOrConstants = item === 'abstractions' || item === 'constants'
       console.log(chalk.gray(` ${connector} ${indicator} ${hasIndexFile
-        ? item
+        ? item + (isAbstractionsOrConstants ? chalk.cyan.dim('/public') : '')
         : chalk.red(`${item} (missing index file)`)}`
       ))
-      codeLineStack.push(`export * from './${item}'`)
+      if (isAbstractionsOrConstants) {
+        codeLineStack.push(`export * from './${item}/public'`)
+      } else {
+        codeLineStack.push(`export * from './${item}'`)
+      }
     }
     codeLineStack.push(
       `\n// Generated on: ${now.toDateString()} ${now.toTimeString().match(/\d{2}:\d{2}:\d{2} [a-z]+\+\d{4}/i)[0]}.`,

@@ -27,11 +27,13 @@ describe(ColorUtil.createContrastingValue.name, (): void => {
 })
 
 test(ColorUtil.fromHSLToRGB.name, (): void => {
-  expect(ColorUtil.fromHSLToRGB(0, 100, 50)).toStrictEqual([255, 0, 0])
+  // NOTE: Some precision is lost during conversion,
+  // hence `41, 126, ...` instead of `43, 128, ...`
+  expect(ColorUtil.fromHSLToRGB(216, 100, 58)).toStrictEqual([41, 126, 255])
 })
 
 test(ColorUtil.fromRGBToHSL.name, (): void => {
-  expect(ColorUtil.fromRGBToHSL(128, 64, 16)).toStrictEqual([26, 78, 28])
+  expect(ColorUtil.fromRGBToHSL(43, 128, 255)).toStrictEqual([216, 100, 58])
 })
 
 // NOTE: `getLuminance` is not tested because it is a straightforward formula

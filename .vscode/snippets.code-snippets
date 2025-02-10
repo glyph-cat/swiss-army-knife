@@ -33,6 +33,37 @@
     "prefix": "// Early exit",
     "body": "// Early exit"
   },
+  "@Internal": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "@internal",
+    "body": "@internal",
+  },
+  "@Internal comment block": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "/**",
+    "body": [
+      "/**",
+      "* @internal",
+      "*/",
+    ],
+  },
+  "Export all from scripted index": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "export*",
+    "body": [
+      "export * from './index.scripted'",
+      "",
+    ],
+  },
+  "Constants/Abstractions index": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "export*",
+    "body": [
+      "export * from './internal'",
+      "export * from './public'",
+      "",
+    ],
+  },
   "Render Stack": {
     "scope": "typescript,typescriptreact",
     "prefix": "const renderStack",

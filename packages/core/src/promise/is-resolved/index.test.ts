@@ -1,4 +1,5 @@
 import { isResolved } from '.'
+import { createRef } from '../../data/ref'
 import { delay } from '../../events/delay'
 
 describe(isResolved.name, (): void => {
@@ -8,7 +9,7 @@ describe(isResolved.name, (): void => {
   test('With flag', async (): Promise<void> => {
 
     const examplePromise = delay(50)
-    const flag = { current: false }
+    const flag = createRef(false)
 
     const output1 = isResolved(examplePromise, flag)
     expect(output1).toBe(undefined)

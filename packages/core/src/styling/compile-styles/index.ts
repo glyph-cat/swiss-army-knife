@@ -1,11 +1,14 @@
 import { IS_DEBUG_ENV } from '../../constants'
-import { isString } from '../../data'
 import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
 import { ExtendedCSSProperties } from '../abstractions'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { serializePixelValue } from '../serialize-pixel-value'
-import { selectorPatternsToIgnore, selectorsToIgnore, tryValidateCSSSelector } from './validator'
+import {
+  ignoreWhenCompilingStyles,
+  selectorsToIgnore,
+  tryValidateCSSSelector,
+} from './validator'
 
 /**
  * Converts property keys of an object with CSS property keys from their JS form
@@ -79,7 +82,7 @@ export function compileStyles(styles: Map<string, ExtendedCSSProperties>): strin
   const compiledStyles: Array<string> = []
   styles.forEach((value, key) => {
     if (IS_DEBUG_ENV) {
-      if (!selectorsToIgnore.has('*')) {
+      if (!selectorsToIgnore.current.has('*')) {
         const selectors = key.split(/\s*[\s>+~]\s*/g)
         for (const $selector of selectors) {
           const selector = $selector.replace(/:.+$/, '')
@@ -94,23 +97,4 @@ export function compileStyles(styles: Map<string, ExtendedCSSProperties>): strin
     compiledStyles.push(`${key}{${compileStyleObjectToString(value)}}`)
   })
   return compiledStyles.join('')
-}
-
-/**
- * Whitelist CSS selectors and web components so that warnings are not shown
- * for them when using with {@link compileStyles}. Optionally, pass a single `'*'`
- * to turn off this checking feature.
- * @public
- */
-export function ignoreWhenCompilingStyles(
-  ...selectors: Array<string | RegExp>
-): void {
-  if (!IS_DEBUG_ENV) { return } // Early exit
-  for (const selector of selectors) {
-    if (isString(selector)) {
-      selectorsToIgnore.add(selector)
-    } else {
-      selectorPatternsToIgnore.push(selector)
-    }
-  }
 }

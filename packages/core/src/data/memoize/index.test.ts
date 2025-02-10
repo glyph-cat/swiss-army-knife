@@ -1,5 +1,5 @@
 import { areDepsEqual, deepMemoize, memoize } from '.'
-import { RefObject } from '../../types'
+import { createRef } from '../ref'
 
 describe(areDepsEqual.name, (): void => {
 
@@ -69,9 +69,7 @@ test(memoize.name, (): void => {
 test(deepMemoize.name, (): void => {
 
   const add = jest.fn((num1: number, num2: number): number => num1 + num2)
-  const cacheSpy: RefObject<Array<[[number, number], number]>> = {
-    current: null,
-  }
+  const cacheSpy = createRef<Array<[[number, number], number]>>(null)
   const memoizedAdd = deepMemoize(add, 2, cacheSpy)
 
   memoizedAdd(1, 2)

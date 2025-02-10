@@ -16,6 +16,8 @@ import { NotImplementedError } from '../../error'
  *
  * For examples and further specifications, refer to the
  * {@link https://github.com/google/protobuf/blob/master/src/google/protobuf/timestamp.proto | Timestamp definition}.
+ *
+ * @public
  */
 export class ITimestamp {
 

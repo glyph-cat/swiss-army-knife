@@ -1,20 +1,44 @@
 import { IS_DEBUG_ENV } from '../../../constants'
+import { isString } from '../../../data'
+import { createRef } from '../../../data/ref'
 import { HTML_ELEMENT_TAGS } from '../../../html'
-import { StringRecord } from '../../../types'
 
-export const selectorsToIgnore = IS_DEBUG_ENV ? new Set<string>() : null
-export const selectorPatternsToIgnore: Array<RegExp> = IS_DEBUG_ENV ? [] : null
-export const validatedSelectors: StringRecord<boolean> = IS_DEBUG_ENV ? {} : null
+export const selectorPatternsToIgnore = createRef<Array<RegExp>>(null)
+export const selectorsToIgnore = createRef<Set<string>>(null)
+
+if (IS_DEBUG_ENV) {
+  selectorPatternsToIgnore.current = []
+  selectorsToIgnore.current = new Set<string>()
+}
 
 export function tryValidateCSSSelector(value: string): boolean {
   if (!IS_DEBUG_ENV) { return true }
-  if (/^(\.|#)/.test(value) || HTML_ELEMENT_TAGS.has(value) || selectorsToIgnore.has(value)) {
+  if (/^(\.|#)/.test(value) || HTML_ELEMENT_TAGS.has(value) || selectorsToIgnore.current.has(value)) {
     return true // Early exit
   }
-  for (const pattern of selectorPatternsToIgnore) {
+  for (const pattern of selectorPatternsToIgnore.current) {
     if (pattern.test(value)) {
       return true // Early exit
     }
   }
   return false
+}
+
+/**
+ * Whitelist CSS selectors and web components so that warnings are not shown
+ * for them when using with {@link compileStyles}. Optionally, pass a single `'*'`
+ * to turn off this checking feature.
+ * @public
+ */
+export function ignoreWhenCompilingStyles(
+  ...selectors: Array<string | RegExp>
+): void {
+  if (!IS_DEBUG_ENV) { return } // Early exit
+  for (const selector of selectors) {
+    if (isString(selector)) {
+      selectorsToIgnore.current.add(selector)
+    } else {
+      selectorPatternsToIgnore.current.push(selector)
+    }
+  }
 }

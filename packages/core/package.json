@@ -40,13 +40,13 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
+    "@glyph-cat/cleanup-manager": "^1.0.0",
     "cotton-box": "^0.4.0",
     "cotton-box-react": "^0.2.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
-    "@glyph-cat/cleanup-manager": "^1.0.0",
     "@glyph-cat/eslint-config": "^1.0.1-alpha.12",
     "@jest/types": "^29.6.3",
     "@microsoft/api-extractor": "^7.47.9",

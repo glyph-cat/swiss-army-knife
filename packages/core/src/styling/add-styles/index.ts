@@ -1,4 +1,9 @@
-import { CleanupFunction, RefObject } from '../../types'
+import { RefObject } from '../../data/ref'
+import { CleanupFunction } from '../../types'
+import {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  compileStyles,
+} from '../compile-styles'
 import { querySelectorLast } from '../query-selector-last'
 import {
   DATA_PRECEDENCE_LEVEL,
@@ -6,9 +11,6 @@ import {
   QUERY_SELECTOR_PRECEDENCE_LEVEL_INTERNAL,
   QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW,
 } from './constants'
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { compileStyles } from '../compile-styles'
 
 /**
  * Appends styles to [`document.head`](https://developer.mozilla.org/docs/Web/HTML/Element/head)

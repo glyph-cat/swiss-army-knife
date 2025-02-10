@@ -13,12 +13,12 @@
       "path": "../packages/react"
     },
     {
-      "name": "Playground (web)",
-      "path": "../packages/playground-web"
+      "name": "Playground (React)",
+      "path": "../packages/playground-react"
     },
     {
-      "name": "Playground (native)",
-      "path": "../packages/playground-native"
+      "name": "Playground (React Native)",
+      "path": "../packages/playground-react-native"
     }
   ],
   "settings": {

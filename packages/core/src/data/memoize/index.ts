@@ -1,6 +1,6 @@
 import { IS_INTERNAL_DEBUG_ENV } from '../../constants'
-import { RefObject } from '../../types'
 import { clampedUnshift } from '../array/clamp'
+import { RefObject } from '../ref'
 import { isUndefined } from '../type-check'
 
 /**
