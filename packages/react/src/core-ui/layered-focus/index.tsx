@@ -10,14 +10,17 @@ import {
 import { ReadOnlyStateManager, SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import {
+  ComponentType,
   createContext,
   DependencyList,
+  Fragment,
   JSX,
   ReactNode,
   useContext,
   useEffect,
   useId,
 } from 'react'
+import { DisabledContext } from '../disabled-context'
 
 const LayeredFocusIdContext = createContext<string>(undefined)
 
@@ -40,7 +43,7 @@ export class LayeredFocusManager implements IDisposable {
 
   get state(): ReadOnlyStateManager<TruthRecord> { return this.M$state }
 
-  constructor() {
+  constructor(readonly disabledContext?: DisabledContext) {
     this.dispose = this.dispose.bind(this)
   }
 
@@ -52,10 +55,24 @@ export class LayeredFocusManager implements IDisposable {
     }, [layerId])
     return (
       <LayeredFocusIdContext.Provider value={layerId}>
-        {children}
+        <this.FocusLayerDisabledContext>
+          {children}
+        </this.FocusLayerDisabledContext>
       </LayeredFocusIdContext.Provider>
     )
   }
+
+  private readonly FocusLayerDisabledContext: ComponentType<{ children: ReactNode }> = this.disabledContext
+    ? ({ children }) => {
+      const { useLayeredFocusState } = this
+      const [isFocused] = useLayeredFocusState()
+      return (
+        <this.disabledContext.Provider disabled={isFocused ? null : false}>
+          {children}
+        </this.disabledContext.Provider>
+      )
+    }
+    : Fragment
 
   readonly useLayeredFocusState = (): [isFocused: boolean, layerId: string] => {
     const layerId = useContext(LayeredFocusIdContext)
