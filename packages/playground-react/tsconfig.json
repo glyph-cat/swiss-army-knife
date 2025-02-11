@@ -17,14 +17,14 @@
     "moduleResolution": "Bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@glyph-cat/swiss-army-knife": [
-        "./~proxy/core/src"
-      ],
-      "@glyph-cat/swiss-army-knife-react": [
-        "./~proxy/react/src"
-      ],
-    },
+    // "paths": {
+    //   "@glyph-cat/swiss-army-knife": [
+    //     "./~proxy/core/src"
+    //   ],
+    //   "@glyph-cat/swiss-army-knife-react": [
+    //     "./~proxy/react/src"
+    //   ],
+    // },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
