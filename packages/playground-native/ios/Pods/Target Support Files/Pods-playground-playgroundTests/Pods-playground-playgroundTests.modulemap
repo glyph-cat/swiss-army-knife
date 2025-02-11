@@ -1,6 +1,0 @@
-module Pods_playground_playgroundTests {
-  umbrella header "Pods-playground-playgroundTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
