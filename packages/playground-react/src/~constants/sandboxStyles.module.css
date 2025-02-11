@@ -1,0 +1,8 @@
+.normal {
+  grid-auto-rows: max-content;
+}
+
+.fullHeight {
+  grid-auto-rows: max-content;
+  height: 100vh;
+}

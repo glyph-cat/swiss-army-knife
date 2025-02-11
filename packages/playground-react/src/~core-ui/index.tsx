@@ -2,7 +2,12 @@ import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
 import {
   CoreUIComposer,
   DisabledContext,
+  IButton,
+  IFocusableView,
+  IInput,
   InputFocusTracker,
+  ISelect,
+  ITextArea,
   IView,
   KeyEventHookUtils,
   LayeredFocusManager,
@@ -33,7 +38,24 @@ export const GlobalCoreUIComposer = new CoreUIComposer(DEFAULT_KEY, {
   disabledContext: GlobalDisabledContext,
   inputFocusTracker: GlobalInputFocusTracker,
   layeredFocusManager: GlobalLayeredFocusManager,
+  // tint: '#ff0000',
+  // textSelectionOpacity: 0.35,
 })
 
 export type View = IView
 export const View = GlobalCoreUIComposer.createViewComponent(DEFAULT_KEY)[0]
+
+export type FocusableView = IFocusableView
+export const FocusableView = GlobalCoreUIComposer.createFocusableViewComponent(DEFAULT_KEY)[0]
+
+export type Input = IInput
+export const Input = GlobalCoreUIComposer.createInputComponent(DEFAULT_KEY)[0]
+
+export type TextArea = ITextArea
+export const TextArea = GlobalCoreUIComposer.createTextAreaComponent(DEFAULT_KEY)[0]
+
+export type Button = IButton
+export const Button = GlobalCoreUIComposer.createButtonComponent(DEFAULT_KEY)[0]
+
+export type Select = ISelect
+export const Select = GlobalCoreUIComposer.createSelectComponent(DEFAULT_KEY)[0]

@@ -7,6 +7,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
+    "init-proxy": "sh ./scripts/run/init-proxy.sh",
     "patch-install": "sh ./scripts/run/post-install.sh",
     "start": "next dev",
     "build": "next build",

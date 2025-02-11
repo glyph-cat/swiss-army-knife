@@ -1,0 +1,42 @@
+.fallbackContainer {
+  font-size: 16pt;
+  letter-spacing: 0.1em;
+  height: 100vh;
+  place-items: center;
+}
+
+.errorBoundaryContainer {
+  place-items: center;
+}
+
+.errorBoundaryContainer > div {
+  gap: 10px;
+  place-items: center;
+}
+
+.errorBoundaryContainer > div > span:nth-child(1) {
+  font-size: 14pt;
+  font-weight: bold;
+  opacity: 0.65;
+}
+
+.errorBoundaryContainer > div > span:nth-child(2) {
+  font-size: 18pt;
+  font-weight: bold;
+  color: #ff4b4b;
+}
+
+.errorBoundaryContainer > div > pre {
+  background-color: #a04b4b20;
+  border-radius: 10px;
+  color: #802b2b;
+  font-size: 12pt;
+  margin: 0;
+  padding: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .errorBoundaryContainer > div > pre {
+    color: #ffcccc;
+  }
+}
