@@ -1,4 +1,5 @@
-import { RefObject, TruthRecord } from '@glyph-cat/swiss-army-knife'
+/* eslint-disable react-hooks/rules-of-hooks */
+import { IDisposable, RefObject, TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { Ref, useCallback, useId, useImperativeHandle, useLayoutEffect, useRef } from 'react'
@@ -22,7 +23,7 @@ export interface IFocusableElementWithEventListener {
 /**
  * @public
  */
-export class InputFocusTracker {
+export class InputFocusTracker implements IDisposable {
 
   /**
    * @internal
@@ -43,6 +44,10 @@ export class InputFocusTracker {
    */
   readonly useCheckInputFocus = (): boolean => {
     return useSimpleStateValue(this.M$IsAnyInputInFocusState)
+  }
+
+  dispose(): void {
+    this.M$IsAnyInputInFocusState.dispose()
   }
 
   /**

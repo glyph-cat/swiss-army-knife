@@ -6,6 +6,7 @@ import {
   ColorFormat,
   compileStyles,
   createRef,
+  deepRemove,
   deepSet,
   devWarn,
   Empty,
@@ -131,12 +132,10 @@ export class CoreUIComposer implements IDisposable {
   }
 
   /**
-   * Creates a drop-in replacement for the `<div>` element with the following styles
-   * by default:
-   * ```css
-   *   display: grid;
-   *   position: relative;
-   * ```
+   * Creates a drop-in replacement for the `<div>` element where
+   * the display is set to `'grid'` and position is set to `'relative'`.
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
    */
   createViewComponent(
     key: string,
@@ -170,7 +169,17 @@ export class CoreUIComposer implements IDisposable {
     return [View, removeStyles]
   }
 
-  // TODO: ts-doc
+  /**
+   * Creates a drop-in replacement for the `<div>` element.
+   * This is similar to {@link IView} except it can track focus using the {@link LayeredFocusManager}.
+   *
+   * Notes:
+   * - Input components track focus using {@link InputFocusTracker} instead.
+   * - {@link LayeredFocusManager} and {@link InputFocusTracker} do not interfere with each other.
+   *
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
+   */
   createFocusableViewComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
@@ -200,7 +209,11 @@ export class CoreUIComposer implements IDisposable {
       const [, layerId] = useLayeredFocusState()
       useLayoutEffect(() => {
         const onMouseDown = () => {
-          layeredFocusManager.M$state.set((s) => deepSet(s, [layerId], true))
+          layeredFocusManager.M$state.set((s) => deepSet(
+            deepRemove(s, [layerId]),
+            [layerId],
+            true
+          ))
         }
         const target = divRef.current
         target.addEventListener('mousedown', onMouseDown)
@@ -237,8 +250,14 @@ export class CoreUIComposer implements IDisposable {
   /**
    * Creates a drop-in replacement for the `<input>` element.
    * Reasons:
-   * - Easy to track and check if any `<input>` elements are in focus.
-   * - This can be used to control whether certain keyboard shortcuts should be triggered or not.
+   * - Easy to track and check if any similar elements sharing
+   *   the same {@link InputFocusTracker} are in focus.
+   * - This can be used to prevent keyboard shortcuts from being triggered when
+   *   the input is in focus.
+   * - Component can be disabled as a group with other components that share
+   *   the same {@link DisabledContext}.
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
    */
   createInputComponent(
     key: string,
@@ -279,10 +298,16 @@ export class CoreUIComposer implements IDisposable {
   }
 
   /**
-   * A drop-in replacement for the `<textarea>` element.
+   * Creates a drop-in replacement for the `<textarea>` element.
    * Reasons:
-   * - Easy to track and check if any `<textarea>` elements are in focus.
-   * - This can be used to control whether certain keyboard shortcuts should be triggered or not.
+   * - Easy to track and check if any similar elements sharing
+   *   the same {@link InputFocusTracker} are in focus.
+   * - This can be used to prevent keyboard shortcuts from being triggered when
+   *   the textarea is in focus.
+   * - Component can be disabled as a group with other components that share
+   *   the same {@link DisabledContext}.
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
    */
   createTextAreaComponent(
     key: string,
@@ -322,7 +347,17 @@ export class CoreUIComposer implements IDisposable {
     return [TextArea, removeStyles]
   }
 
-  // TODO: ts-doc
+  /**
+   * Creates a drop-in replacement for the `<button>` element where
+   * the display is set to `'grid'`, position is set to `'relative'`, and
+   * the margins and paddings are set to `0`.
+   *
+   * The component can also be disabled as a group with other components
+   * that share the same {@link DisabledContext}.
+   *
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
+   */
   createButtonComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
@@ -336,6 +371,7 @@ export class CoreUIComposer implements IDisposable {
           display: 'grid',
           margin: 0,
           padding: 0,
+          position: 'relative',
           ...overrideStyles,
         }],
       ])
@@ -357,7 +393,18 @@ export class CoreUIComposer implements IDisposable {
     return [Button, removeStyles]
   }
 
-  // TODO: ts-doc
+  /**
+   * Creates a drop-in replacement for the `<select>` element.
+   * Reasons:
+   * - Easy to track and check if any similar elements sharing
+   *   the same {@link InputFocusTracker} are in focus.
+   * - This can be used to prevent keyboard shortcuts from being triggered when
+   *   the textarea is in focus.
+   * - Component can be disabled as a group with other components that share
+   *   the same {@link DisabledContext}.
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
+   */
   createSelectComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Nullable } from '@glyph-cat/swiss-army-knife'
 import { createContext, createElement, JSX, ReactNode, useContext } from 'react'
 

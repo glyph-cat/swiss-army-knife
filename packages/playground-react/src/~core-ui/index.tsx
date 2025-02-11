@@ -38,8 +38,6 @@ export const GlobalCoreUIComposer = new CoreUIComposer(DEFAULT_KEY, {
   disabledContext: GlobalDisabledContext,
   inputFocusTracker: GlobalInputFocusTracker,
   layeredFocusManager: GlobalLayeredFocusManager,
-  // tint: '#ff0000',
-  // textSelectionOpacity: 0.35,
 })
 
 export type View = IView
