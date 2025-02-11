@@ -46,10 +46,16 @@ function run(version: string): void {
   reactPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(reactPackageJsonPath, reactPackageJson)
 
+  const reactPlaygroundPackageJsonPath = `${PACKAGES_PATH}/react-playground/${PACKAGE_JSON}`
+  const reactPlaygroundPackageJson = readJson(reactPlaygroundPackageJsonPath)
+  reactPlaygroundPackageJson[PROPERTY_KEY_VERSION] = version
+  writeJson(reactPlaygroundPackageJsonPath, reactPlaygroundPackageJson)
+
   execSync(`git add ${[
     rootPackageJsonPath,
     corePackageJsonPath,
     reactPackageJsonPath,
+    reactPlaygroundPackageJsonPath,
   ].join(' ')}`)
   execSync(`git commit -m '${version}'`)
   execSync(`git tag '${version}'`)
