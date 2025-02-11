@@ -60,6 +60,16 @@ enum CoreComponentType {
 /**
  * @public
  */
+export interface CreateFocusableViewOptions {
+  /**
+   * @defaultValue `true`
+   */
+  allowRefocus?: boolean
+}
+
+/**
+ * @public
+ */
 export interface CoreUIComposerConfigs {
   disabledContext: DisabledContext
   inputFocusTracker: InputFocusTracker
@@ -182,6 +192,7 @@ export class CoreUIComposer implements IDisposable {
    */
   createFocusableViewComponent(
     key: string,
+    options: CreateFocusableViewOptions = { allowRefocus: true },
     overrideStyles?: ExtendedCSSProperties,
   ): CreateComponentPayload<IFocusableViewComponent> {
 
@@ -205,7 +216,7 @@ export class CoreUIComposer implements IDisposable {
       divRef: RefObject<HTMLDivElement>
     }
 
-    const ClickFocusListener = ({ divRef }: ClickFocusListenerProps) => {
+    const RefocusObserver = ({ divRef }: ClickFocusListenerProps) => {
       const [, layerId] = useLayeredFocusState()
       useLayoutEffect(() => {
         const onMouseDown = () => {
@@ -238,7 +249,7 @@ export class CoreUIComposer implements IDisposable {
           >
             {children}
           </div>
-          <ClickFocusListener divRef={divRef} />
+          {options?.allowRefocus && (<RefocusObserver divRef={divRef} />)}
         </FocusLayer>
       )
     })
