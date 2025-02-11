@@ -41,8 +41,7 @@
   },
   "dependencies": {
     "@glyph-cat/cleanup-manager": "^1.0.0",
-    "cotton-box": "^0.4.0",
-    "cotton-box-react": "^0.2.0"
+    "cotton-box": "^0.4.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.25.2",
