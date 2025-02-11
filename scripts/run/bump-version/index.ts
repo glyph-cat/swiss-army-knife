@@ -46,7 +46,7 @@ function run(version: string): void {
   reactPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(reactPackageJsonPath, reactPackageJson)
 
-  const reactPlaygroundPackageJsonPath = `${PACKAGES_PATH}/react-playground/${PACKAGE_JSON}`
+  const reactPlaygroundPackageJsonPath = `${PACKAGES_PATH}/playground-react/${PACKAGE_JSON}`
   const reactPlaygroundPackageJson = readJson(reactPlaygroundPackageJsonPath)
   reactPlaygroundPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(reactPlaygroundPackageJsonPath, reactPlaygroundPackageJson)
