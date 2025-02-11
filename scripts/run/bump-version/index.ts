@@ -57,8 +57,8 @@ function run(version: string): void {
     reactPackageJsonPath,
     reactPlaygroundPackageJsonPath,
   ].join(' ')}`)
-  execSync(`git commit -m '${version}'`)
-  execSync(`git tag '${version}'`)
+  execSync(`git commit -m 'v${version}'`)
+  execSync(`git tag 'v${version}'`)
 
 }
 
