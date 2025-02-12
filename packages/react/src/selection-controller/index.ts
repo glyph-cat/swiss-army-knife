@@ -1,5 +1,5 @@
+import { TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { Dispatch, SetStateAction, useCallback, useMemo, useRef, useState } from 'react'
-import { TruthRecord } from '../indexing'
 
 /**
  * @public
