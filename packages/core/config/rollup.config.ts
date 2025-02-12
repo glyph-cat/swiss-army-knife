@@ -123,13 +123,15 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   }))
 
   // Minification and cleanup
-  pluginStack.push(terser({
-    mangle: {
-      properties: {
-        regex: /^M\$/,
+  if (mode === 'production') {
+    pluginStack.push(terser({
+      mangle: {
+        properties: {
+          regex: /^M\$/,
+        },
       },
-    },
-  }))
+    }))
+  }
 
   return pluginStack
 }
