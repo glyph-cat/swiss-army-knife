@@ -82,5 +82,3 @@ export function addStyles(
 // #region Other exports
 export * from './constants/public'
 // #endregion Other exports
-
-// KIV: [low priority] Not sure if there is a need to reate a class that is built on top of `addStyles` instead to enabled editing style contents?

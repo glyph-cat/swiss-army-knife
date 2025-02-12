@@ -1,4 +1,5 @@
 import {
+  compileStyle,
   compileStyleObjectToString,
   compileStyles,
   convertStyleObjectPropertyKeys,
@@ -24,6 +25,15 @@ test(compileStyleObjectToString.name, () => {
     textTransform: 'uppercase',
   })
   expect(output).toBe('background-color:#ffffff;font-weight:bold;text-transform:uppercase')
+})
+
+test(compileStyle.name, () => {
+  const output = compileStyle('.foo', {
+    backgroundColor: '#ffffff',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  })
+  expect(output).toBe('.foo{background-color:#ffffff;font-weight:bold;text-transform:uppercase}')
 })
 
 test(compileStyles.name, () => {
