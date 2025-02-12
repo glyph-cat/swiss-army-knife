@@ -1,21 +1,17 @@
 import {
-  addStyles,
   c,
-  CleanupFunction,
   Color,
   ColorFormat,
-  compileStyles,
-  createRef,
   deepRemove,
   deepSet,
   devWarn,
-  Empty,
   ExtendedCSSProperties,
   IDisposable,
   IS_DEBUG_ENV,
   isBoolean,
+  PrecedenceLevel,
   RefObject,
-  StringRecord,
+  StyleManager,
 } from '@glyph-cat/swiss-army-knife'
 import {
   createElement,
@@ -31,7 +27,6 @@ import { InputFocusTracker } from '../input-focus'
 import { LayeredFocusManager } from '../layered-focus'
 import {
   ButtonProps,
-  CreateComponentPayload,
   FocusableViewProps,
   IButtonComponent,
   IFocusableViewComponent,
@@ -93,10 +88,7 @@ export class CoreUIComposer implements IDisposable {
   /**
    * @internal
    */
-  private M$allStyleElementsCache: StringRecord<[
-    styleElement: HTMLStyleElement,
-    removeStyles: CleanupFunction,
-  ]> = {}
+  private M$styleManager?: StyleManager
 
   /**
    * @internal
@@ -121,23 +113,22 @@ export class CoreUIComposer implements IDisposable {
     private readonly configs: Readonly<CoreUIComposerConfigs>,
   ) {
     warnIfKeyIsInvalid(this.key)
-    withCoreUIPrefix(this.key)
     this.M$sharedClassName = withCoreUIPrefix(this.key)
     const { tint, textSelectionOpacity } = configs
+    const initialStyles: Array<[string, ExtendedCSSProperties]> = []
     if (tint) {
       this.M$tint = Color.fromString(tint)
       this.M$textSelectionColor = Color.fromRGBObject({
         ...this.M$tint.toJSON(),
         alpha: textSelectionOpacity ?? 0.35,
       })
-      this.M$compileAndAddStylesInClientOnly(
-        this.M$sharedClassName,
-        new Map([
-          [`.${this.M$sharedClassName}::selection`, {
-            backgroundColor: this.M$textSelectionColor.toString(ColorFormat.FFFFFFFF),
-          }],
-        ])
-      )
+      initialStyles.push([`.${this.M$sharedClassName}::selection`, {
+        backgroundColor: this.M$textSelectionColor.toString(ColorFormat.FFFFFFFF),
+      }])
+    }
+    if (typeof window !== 'undefined') {
+      this.M$styleManager = new StyleManager(initialStyles, -1 as PrecedenceLevel)
+      // NOTE `-1` is an internal value for `PrecedenceLevel.INTERNAL`
     }
   }
 
@@ -150,19 +141,14 @@ export class CoreUIComposer implements IDisposable {
   createViewComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
-  ): CreateComponentPayload<IViewComponent> {
+  ): IViewComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.VIEW, key)
-    const removeStyles = this.M$compileAndAddStylesInClientOnly(
-      baseClassName,
-      new Map([
-        [`.${baseClassName}`, {
-          display: 'grid',
-          position: 'relative',
-          ...overrideStyles,
-        }],
-      ])
-    )
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      display: 'grid',
+      position: 'relative',
+      ...overrideStyles,
+    })
     const View = forwardRef<HTMLDivElement, ViewProps>(({
       children,
       className,
@@ -176,7 +162,7 @@ export class CoreUIComposer implements IDisposable {
         ...otherProps,
       }, children)
     })
-    return [View, removeStyles]
+    return View
   }
 
   /**
@@ -194,20 +180,15 @@ export class CoreUIComposer implements IDisposable {
     key: string,
     options: CreateFocusableViewOptions = { allowRefocus: true },
     overrideStyles?: ExtendedCSSProperties,
-  ): CreateComponentPayload<IFocusableViewComponent> {
+  ): IFocusableViewComponent {
 
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.FOCUSABLE_VIEW, key)
-    const removeStyles = this.M$compileAndAddStylesInClientOnly(
-      baseClassName,
-      new Map([
-        [`.${baseClassName}`, {
-          display: 'grid',
-          position: 'relative',
-          ...overrideStyles,
-        }],
-      ])
-    )
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      display: 'grid',
+      position: 'relative',
+      ...overrideStyles,
+    })
 
     const { configs: { layeredFocusManager } } = this
     const { FocusLayer, useLayeredFocusState } = layeredFocusManager
@@ -254,7 +235,7 @@ export class CoreUIComposer implements IDisposable {
       )
     })
 
-    return [FocusableView, removeStyles]
+    return FocusableView
 
   }
 
@@ -273,20 +254,15 @@ export class CoreUIComposer implements IDisposable {
   createInputComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
-  ): CreateComponentPayload<IInputComponent> {
+  ): IInputComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.INPUT, key)
-    const removeStyles = this.M$compileAndAddStylesInClientOnly(
-      baseClassName,
-      new Map([
-        [`.${baseClassName}`, {
-          fontFamily: 'inherit',
-          margin: 0,
-          padding: 0,
-          ...overrideStyles,
-        }],
-      ])
-    )
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      fontFamily: 'inherit',
+      margin: 0,
+      padding: 0,
+      ...overrideStyles,
+    })
     const {
       disabledContext: { useDerivedDisabledState },
       inputFocusTracker: { useSharedFocusableRefHandler },
@@ -305,7 +281,7 @@ export class CoreUIComposer implements IDisposable {
         ...props,
       })
     })
-    return [Input, removeStyles]
+    return Input
   }
 
   /**
@@ -323,20 +299,15 @@ export class CoreUIComposer implements IDisposable {
   createTextAreaComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
-  ): CreateComponentPayload<ITextAreaComponent> {
+  ): ITextAreaComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.TEXTAREA, key)
-    const removeStyles = this.M$compileAndAddStylesInClientOnly(
-      baseClassName,
-      new Map([
-        [`.${baseClassName}`, {
-          fontFamily: 'inherit',
-          margin: 0,
-          padding: 0,
-          ...overrideStyles,
-        }],
-      ])
-    )
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      fontFamily: 'inherit',
+      margin: 0,
+      padding: 0,
+      ...overrideStyles,
+    })
     const {
       disabledContext: { useDerivedDisabledState },
       inputFocusTracker: { useSharedFocusableRefHandler },
@@ -355,7 +326,7 @@ export class CoreUIComposer implements IDisposable {
         ...props,
       })
     })
-    return [TextArea, removeStyles]
+    return TextArea
   }
 
   /**
@@ -372,21 +343,16 @@ export class CoreUIComposer implements IDisposable {
   createButtonComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
-  ): CreateComponentPayload<IButtonComponent> {
+  ): IButtonComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.BUTTON, key)
-    const removeStyles = this.M$compileAndAddStylesInClientOnly(
-      baseClassName,
-      new Map([
-        [`.${baseClassName}`, {
-          display: 'grid',
-          margin: 0,
-          padding: 0,
-          position: 'relative',
-          ...overrideStyles,
-        }],
-      ])
-    )
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      display: 'grid',
+      margin: 0,
+      padding: 0,
+      position: 'relative',
+      ...overrideStyles,
+    })
     const { configs: { disabledContext: { useDerivedDisabledState } } } = this
     const Button = forwardRef(({
       className,
@@ -401,7 +367,7 @@ export class CoreUIComposer implements IDisposable {
         ...props,
       })
     })
-    return [Button, removeStyles]
+    return Button
   }
 
   /**
@@ -419,18 +385,13 @@ export class CoreUIComposer implements IDisposable {
   createSelectComponent(
     key: string,
     overrideStyles?: ExtendedCSSProperties,
-  ): CreateComponentPayload<ISelectComponent> {
+  ): ISelectComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.SELECT, key)
-    const removeStyles = this.M$compileAndAddStylesInClientOnly(
-      baseClassName,
-      new Map([
-        [`.${baseClassName}`, {
-          fontFamily: 'inherit',
-          ...overrideStyles,
-        }],
-      ])
-    )
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      fontFamily: 'inherit',
+      ...overrideStyles,
+    })
     const {
       disabledContext: { useDerivedDisabledState },
       inputFocusTracker: { useSharedFocusableRefHandler },
@@ -450,14 +411,11 @@ export class CoreUIComposer implements IDisposable {
         ...props,
       }, children)
     })
-    return [Select, removeStyles]
+    return Select
   }
 
   dispose(): void {
-    for (const key in this.M$allStyleElementsCache) {
-      const [, removeStyles] = this.M$allStyleElementsCache[key]
-      removeStyles()
-    }
+    this.M$styleManager?.dispose()
   }
 
   // #region Internal methods
@@ -467,33 +425,6 @@ export class CoreUIComposer implements IDisposable {
    */
   private M$getPrefixedClassName(type: CoreComponentType, subKey: string): string {
     return withCoreUIPrefix(`${this.key}-${type}-${subKey}`)
-  }
-
-  /**
-   * @internal
-   */
-  private M$compileAndAddStylesInClientOnly(
-    key: string,
-    ...args: Parameters<typeof compileStyles>
-  ): CleanupFunction {
-    if (typeof window === 'undefined') {
-      return Empty.FUNCTION // Early exit
-    }
-    const compiledStyles = compileStyles(...args)
-    if (this.M$allStyleElementsCache[key]) {
-      const [styleElement, removeStyles] = this.M$allStyleElementsCache[key]
-      styleElement.innerHTML = compiledStyles
-      return removeStyles // Early exit
-    }
-    const styleElementRef = createRef<HTMLStyleElement>(null)
-    const removeStyles = addStyles(
-      compiledStyles,
-      // @ts-expect-error `-1` is an internal value for `.INTERNAL`
-      -1,
-      styleElementRef,
-    )
-    this.M$allStyleElementsCache[key] = [styleElementRef.current, removeStyles]
-    return removeStyles
   }
 
   // #endregion Internal methods

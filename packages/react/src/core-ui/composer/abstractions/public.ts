@@ -1,4 +1,3 @@
-import { CleanupFunction } from '@glyph-cat/swiss-army-knife'
 import { ForwardRefExoticComponent, JSX, RefAttributes } from 'react'
 
 /**
@@ -95,11 +94,3 @@ export interface ISelect extends HTMLSelectElement { (props: SelectProps): JSX.E
  * @public
  */
 export type ISelectComponent = ICoreUIComponent<SelectProps, HTMLSelectElement>
-
-/**
- * @public
- */
-export type CreateComponentPayload<Component> = [
-  component: Component,
-  removeStyles: CleanupFunction,
-]
