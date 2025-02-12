@@ -34,6 +34,7 @@ const INPUT_FILE = 'src/index.ts'
 const EXTERNAL_LIBS = [
   'node_modules',
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
+  '@glyph-cat/swiss-army-knife',
   ...Object.keys(require('../package.json').dependencies ?? {}),
   ...Object.keys(require('../package.json').devDependencies ?? {}),
 ].sort()

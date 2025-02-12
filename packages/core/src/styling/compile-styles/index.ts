@@ -95,7 +95,7 @@ export function compileStyle(key: string, styles: ExtendedCSSProperties): string
  * [`Map`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map)
  * where each key-value pair is the CSS class/selector and the style object.
  * @example
- * compileStyles(new StyleMap([
+ * compileStyles(new Map([
  *   ['.foo', {
  *     backgroundColor: '#ffffff',
  *   }],

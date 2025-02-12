@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, JSX, lazy, ReactNode, Suspense } from 'react'
+import { Component, ErrorInfo, JSX, lazy, ReactNode, Suspense, useEffect, useState } from 'react'
 import { View } from '~core-ui'
 import styles from './index.module.css'
 
@@ -7,11 +7,14 @@ export interface SandboxScreenProps {
 }
 
 function SandboxScreen({ name: sandboxName }: SandboxScreenProps): JSX.Element {
-  const SandboxComponent = lazy(() => import(`~sandboxes/${sandboxName}`))
+  const [SandboxComponent, setSandboxComponent] = useState(null)
+  useEffect(() => {
+    setSandboxComponent(lazy(() => import(`~sandboxes/${sandboxName}`)))
+  }, [sandboxName])
   return (
     <ErrorBoundary>
       <Suspense fallback={<Fallback />}>
-        <SandboxComponent />
+        {SandboxComponent && <SandboxComponent />}
       </Suspense>
     </ErrorBoundary>
   )

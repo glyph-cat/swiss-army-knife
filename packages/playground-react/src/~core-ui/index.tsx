@@ -41,19 +41,19 @@ export const GlobalCoreUIComposer = new CoreUIComposer(DEFAULT_KEY, {
 })
 
 export type View = IView
-export const View = GlobalCoreUIComposer.createViewComponent(DEFAULT_KEY)[0]
+export const View = GlobalCoreUIComposer.createViewComponent(DEFAULT_KEY)
 
 export type FocusableView = IFocusableView
-export const FocusableView = GlobalCoreUIComposer.createFocusableViewComponent(DEFAULT_KEY)[0]
+export const FocusableView = GlobalCoreUIComposer.createFocusableViewComponent(DEFAULT_KEY)
 
 export type Input = IInput
-export const Input = GlobalCoreUIComposer.createInputComponent(DEFAULT_KEY)[0]
+export const Input = GlobalCoreUIComposer.createInputComponent(DEFAULT_KEY)
 
 export type TextArea = ITextArea
-export const TextArea = GlobalCoreUIComposer.createTextAreaComponent(DEFAULT_KEY)[0]
+export const TextArea = GlobalCoreUIComposer.createTextAreaComponent(DEFAULT_KEY)
 
 export type Button = IButton
-export const Button = GlobalCoreUIComposer.createButtonComponent(DEFAULT_KEY)[0]
+export const Button = GlobalCoreUIComposer.createButtonComponent(DEFAULT_KEY)
 
 export type Select = ISelect
-export const Select = GlobalCoreUIComposer.createSelectComponent(DEFAULT_KEY)[0]
+export const Select = GlobalCoreUIComposer.createSelectComponent(DEFAULT_KEY)
