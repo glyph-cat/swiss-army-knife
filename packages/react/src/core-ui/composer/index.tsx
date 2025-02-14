@@ -335,6 +335,7 @@ export class CoreUIComposer implements IDisposable {
       display: 'grid',
       margin: 0,
       padding: 0,
+      placeItems: 'center',
       position: 'relative',
       ...overrideStyles,
     })

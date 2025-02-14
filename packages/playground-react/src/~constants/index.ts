@@ -15,7 +15,9 @@ export const AppRoute = {
 
 export const APIRoute = {
   sandboxes: {
+    create: `${AppRoute.API}/sandboxes/create`,
     getAll: `${AppRoute.API}/sandboxes/get-all`,
+    openInEditor: `${AppRoute.API}/sandboxes/open-in-editor`,
   },
   utils: {
     restartServer: `${AppRoute.API}/utils/restart-server`,

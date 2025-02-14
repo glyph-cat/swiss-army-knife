@@ -8,6 +8,7 @@ import { AppSideBarWrapper } from '~components/app-sidebar-wrapper'
 import { ENV, FixedKeyChordKey } from '~constants'
 import { FocusRoot, useKeyChordActivationListener, useKeyDownListener, View } from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
+import { MaterialSymbolsLoader, MaterialSymbolsProvider } from '~unstable/material-symbols'
 import '../styles/globals.css'
 
 const SHORTCUT_KEYS_TO_IGNORE: Readonly<Array<string>> = [
@@ -30,15 +31,18 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <FocusRoot>
-        <AppSideBarWrapper>
-          <Component {...pageProps} />
-        </AppSideBarWrapper>
-        <CheckApplePlatformProvider>
-          <KeyListeners />
-        </CheckApplePlatformProvider>
-        <RestartServerCover />
-      </FocusRoot>
+      <MaterialSymbolsLoader variants={['rounded']} />
+      <MaterialSymbolsProvider variant='rounded' fill={1}>
+        <FocusRoot>
+          <AppSideBarWrapper>
+            <Component {...pageProps} />
+          </AppSideBarWrapper>
+          <CheckApplePlatformProvider>
+            <KeyListeners />
+          </CheckApplePlatformProvider>
+          <RestartServerCover />
+        </FocusRoot>
+      </MaterialSymbolsProvider>
     </StrictModeWrapper>
   )
 }
