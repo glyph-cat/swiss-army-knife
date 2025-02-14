@@ -2,15 +2,13 @@ import {
   c,
   Color,
   ColorFormat,
-  deepRemove,
-  deepSet,
   devWarn,
   ExtendedCSSProperties,
   IDisposable,
   IS_DEBUG_ENV,
   isBoolean,
+  Nullable,
   PrecedenceLevel,
-  RefObject,
   StyleManager,
 } from '@glyph-cat/swiss-army-knife'
 import {
@@ -19,7 +17,6 @@ import {
   JSX,
   Ref,
   useImperativeHandle,
-  useLayoutEffect,
   useRef,
 } from 'react'
 import { DisabledContext } from '../disabled-context'
@@ -27,6 +24,7 @@ import { InputFocusTracker } from '../input-focus'
 import { LayeredFocusManager } from '../layered-focus'
 import {
   ButtonProps,
+  CreateFocusableViewOptions,
   FocusableViewProps,
   IButtonComponent,
   IFocusableViewComponent,
@@ -50,16 +48,6 @@ enum CoreComponentType {
   TEXTAREA,
   BUTTON,
   SELECT,
-}
-
-/**
- * @public
- */
-export interface CreateFocusableViewOptions {
-  /**
-   * @defaultValue `true`
-   */
-  allowRefocus?: boolean
 }
 
 /**
@@ -165,6 +153,11 @@ export class CoreUIComposer implements IDisposable {
     return View
   }
 
+  static readonly DEFAULT_CREATE_FOCUSABLE_VIEW_OPTIONS: Readonly<CreateFocusableViewOptions> = {
+    allowRefocus: true,
+    ignoreSiblings: false,
+  }
+
   /**
    * Creates a drop-in replacement for the `<div>` element.
    * This is similar to {@link IView} except it can track focus using the {@link LayeredFocusManager}.
@@ -178,7 +171,7 @@ export class CoreUIComposer implements IDisposable {
    */
   createFocusableViewComponent(
     key: string,
-    options: CreateFocusableViewOptions = { allowRefocus: true },
+    options: CreateFocusableViewOptions = CoreUIComposer.DEFAULT_CREATE_FOCUSABLE_VIEW_OPTIONS,
     overrideStyles?: ExtendedCSSProperties,
   ): IFocusableViewComponent {
 
@@ -190,39 +183,28 @@ export class CoreUIComposer implements IDisposable {
       ...overrideStyles,
     })
 
-    const { configs: { layeredFocusManager } } = this
-    const { FocusLayer, useLayeredFocusState } = layeredFocusManager
-
-    interface ClickFocusListenerProps {
-      divRef: RefObject<HTMLDivElement>
-    }
-
-    const RefocusObserver = ({ divRef }: ClickFocusListenerProps) => {
-      const [, layerId] = useLayeredFocusState()
-      useLayoutEffect(() => {
-        const onMouseDown = () => {
-          layeredFocusManager.M$state.set((s) => deepSet(
-            deepRemove(s, [layerId]),
-            [layerId],
-            true
-          ))
-        }
-        const target = divRef.current
-        target.addEventListener('mousedown', onMouseDown)
-        return () => { target.removeEventListener('mousedown', onMouseDown) }
-      }, [divRef, layerId])
-      return null
-    }
+    const {
+      configs: {
+        layeredFocusManager: {
+          FocusLayer,
+          FocusObserver,
+        },
+      },
+    } = this
 
     const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
       children,
       className,
+      allowRefocus: $allowRefocus,
+      ignoreSiblings: $ignoreSiblings,
       ...otherProps
     }, ref): JSX.Element => {
+      const allowRefocus = $allowRefocus ?? options?.allowRefocus
+      const ignoreSiblings = $ignoreSiblings ?? options.ignoreSiblings
       const divRef = useRef<HTMLDivElement>(null)
       useImperativeHandle(ref, () => divRef.current)
       return (
-        <FocusLayer>
+        <FocusLayer ignoreSiblings={ignoreSiblings}>
           <div
             ref={divRef}
             className={c(this.M$sharedClassName, baseClassName, className)}
@@ -230,7 +212,10 @@ export class CoreUIComposer implements IDisposable {
           >
             {children}
           </div>
-          {options?.allowRefocus && (<RefocusObserver divRef={divRef} />)}
+          <FocusObserver
+            allowRefocus={allowRefocus}
+            elementRef={divRef}
+          />
         </FocusLayer>
       )
     })
@@ -264,9 +249,9 @@ export class CoreUIComposer implements IDisposable {
       ...overrideStyles,
     })
     const {
-      disabledContext: { useDerivedDisabledState },
-      inputFocusTracker: { useSharedFocusableRefHandler },
-    } = this.configs
+      configs: { inputFocusTracker: { useSharedFocusableRefHandler } },
+      useDerivedDisabledState,
+    } = this
     const Input = forwardRef(({
       className,
       disabled: $disabled,
@@ -309,9 +294,9 @@ export class CoreUIComposer implements IDisposable {
       ...overrideStyles,
     })
     const {
-      disabledContext: { useDerivedDisabledState },
-      inputFocusTracker: { useSharedFocusableRefHandler },
-    } = this.configs
+      configs: { inputFocusTracker: { useSharedFocusableRefHandler } },
+      useDerivedDisabledState,
+    } = this
     const TextArea = forwardRef(({
       className,
       disabled: $disabled,
@@ -353,7 +338,7 @@ export class CoreUIComposer implements IDisposable {
       position: 'relative',
       ...overrideStyles,
     })
-    const { configs: { disabledContext: { useDerivedDisabledState } } } = this
+    const { useDerivedDisabledState } = this
     const Button = forwardRef(({
       className,
       disabled: $disabled,
@@ -393,9 +378,9 @@ export class CoreUIComposer implements IDisposable {
       ...overrideStyles,
     })
     const {
-      disabledContext: { useDerivedDisabledState },
-      inputFocusTracker: { useSharedFocusableRefHandler },
-    } = this.configs
+      configs: { inputFocusTracker: { useSharedFocusableRefHandler } },
+      useDerivedDisabledState,
+    } = this
     const Select = forwardRef(({
       children,
       className,
@@ -425,6 +410,18 @@ export class CoreUIComposer implements IDisposable {
    */
   private M$getPrefixedClassName(type: CoreComponentType, subKey: string): string {
     return withCoreUIPrefix(`${this.key}-${type}-${subKey}`)
+  }
+
+  /**
+   * @internal
+   */
+  useDerivedDisabledState = (disabled: boolean): Nullable<boolean> => {
+    const {
+      disabledContext: { useDerivedDisabledState },
+      layeredFocusManager: { useLayeredFocusState },
+    } = this.configs
+    const [isFocused] = useLayeredFocusState()
+    return useDerivedDisabledState(disabled || (isFocused ? null : true))
   }
 
   // #endregion Internal methods

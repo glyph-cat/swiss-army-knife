@@ -23,7 +23,21 @@ export type IViewComponent = ICoreUIComponent<ViewProps, HTMLDivElement>
 /**
  * @public
  */
-export type FocusableViewProps = JSX.IntrinsicElements['div']
+export interface CreateFocusableViewOptions {
+  /**
+   * @defaultValue `true`
+   */
+  allowRefocus?: boolean
+  /**
+   * @defaultValue `false`
+   */
+  ignoreSiblings?: boolean
+}
+
+/**
+ * @public
+ */
+export type FocusableViewProps = JSX.IntrinsicElements['div'] & CreateFocusableViewOptions
 
 /**
  * @public

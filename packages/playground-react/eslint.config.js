@@ -15,9 +15,13 @@ module.exports = [
       '@typescript-eslint/no-require-imports': Severity.OFF,
       'no-restricted-imports': [Severity.ERROR, {
         paths: [
-          {
-            name: 'cookies',
-            message: 'Please use `CookieRecord` instead.',
+          { // KIV: This doesn't seem to be working
+            name: '~proxy/core',
+            message: 'Please import from \'@glyph-cat/swiss-army-knife\' instead.',
+          },
+          { // KIV: This doesn't seem to be working
+            name: '~proxy/react',
+            message: 'Please import from \'@glyph-cat/swiss-army-knife-react\' instead.',
           },
         ],
       }],

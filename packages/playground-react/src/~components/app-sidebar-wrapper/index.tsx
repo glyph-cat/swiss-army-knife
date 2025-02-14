@@ -5,10 +5,15 @@ import Link from 'next/link'
 import { JSX, ReactNode, useEffect } from 'react'
 import { PerformanceDebugger } from '~components/debugging/performance'
 import { AppRoute } from '~constants'
-import { View } from '~core-ui'
+import { Button, FocusLayer, View } from '~core-ui'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { CustomDebugger } from '~services/debugging'
 import styles from './index.module.css'
+
+const BUTTON_HEIGHT = 28 // px
+
+const STRICT_MODE_ON_COLOR = '#c40'
+const STRICT_MODE_OFF_COLOR = '#06f'
 
 export interface AppSideBarWrapperProps {
   children: ReactNode
@@ -17,10 +22,10 @@ export interface AppSideBarWrapperProps {
 export function AppSideBarWrapper({
   children,
 }: AppSideBarWrapperProps): JSX.Element {
-  const shouldShowPerformanceDebugger = useSimpleStateValue(
-    CustomDebugger.state,
-    (s) => s.showPerformanceDebugger,
-  )
+  const {
+    showPerformanceDebugger: shouldShowPerformanceDebugger,
+    useStrictMode: shouldUseStrictMode,
+  } = useSimpleStateValue(CustomDebugger.state)
   return (
     <View
       className={styles.container}
@@ -30,17 +35,42 @@ export function AppSideBarWrapper({
       } : {}}
     >
       {shouldShowPerformanceDebugger && (
-        <>
+        <FocusLayer ignoreSiblings>
           <View className={styles.sidebarContainerBase} />
           <View className={c(styles.sidebarContainerBase, styles.sidebarContainer)}>
-            <PerformanceDebugger />
+            <View style={{ gridTemplateColumns: 'auto 1fr' }}>
+              <PerformanceDebugger />
+              <View className={styles.buttonsContainer}>
+                <Button
+                  className={styles.buttonBase}
+                  style={{
+                    backgroundColor: shouldUseStrictMode
+                      ? STRICT_MODE_ON_COLOR
+                      : STRICT_MODE_OFF_COLOR,
+                    height: BUTTON_HEIGHT,
+                  }}
+                  onClick={CustomDebugger.toggleStrictMode}
+                >
+                  Strict Mode: {shouldUseStrictMode ? 'ON' : 'OFF'}
+                </Button>
+                <Button
+                  className={styles.buttonBase}
+                  onClick={CustomDebugger.restartServer}
+                  style={{ height: BUTTON_HEIGHT }}
+                >
+                  Restart server
+                </Button>
+              </View>
+            </View>
             <SidebarContents />
           </View>
-        </>
+        </FocusLayer>
       )}
-      <View className={styles.contentContainer}>
-        {children}
-      </View>
+      <FocusLayer>
+        <View className={styles.contentContainer}>
+          {children}
+        </View>
+      </FocusLayer>
     </View>
   )
 }

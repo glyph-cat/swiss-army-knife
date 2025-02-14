@@ -10,5 +10,6 @@
     "**/node_modules": true,
     "**/*.code-search": true,
     "lib/": true,
+    "**/~proxy/": true, // KIV: This doesn't seem to be working
   }
 }

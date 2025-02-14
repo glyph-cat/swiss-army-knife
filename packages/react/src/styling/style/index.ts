@@ -1,4 +1,4 @@
-import { isNumber, mapPropertyNameFromJSToCSS } from '@glyph-cat/swiss-army-knife'
+import { mapPropertyNameFromJSToCSS, serializePixelValue } from '@glyph-cat/swiss-army-knife'
 import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
 
 /**
@@ -77,18 +77,18 @@ export function getClassNamesAndStyleContent<Key extends string>(
         for (const pseudoAttributeName in attributeOrPseudoValue) {
           const pseudoAttributeValue = attributeOrPseudoValue[pseudoAttributeName]
           const parsedAttributeName = mapPropertyNameFromJSToCSS(String(pseudoAttributeName))
-          const parsedAttributeValue = parsePixelValue(
+          const parsedAttributeValue = serializePixelValue(
             parsedAttributeName,
-            pseudoAttributeValue as unknown as number
+            pseudoAttributeValue as unknown as string | number
           )
           pseudoAttributes.push(`${parsedAttributeName}:${parsedAttributeValue}`)
         }
         queuedPseudoStyleContent += `.${prefixedClassName}${attributeOrPseudoName as string}{${pseudoAttributes.join(';')}}`
       } else {
         const parsedAttributeName = mapPropertyNameFromJSToCSS(String(attributeOrPseudoName))
-        const parsedAttributeValue = parsePixelValue(
+        const parsedAttributeValue = serializePixelValue(
           parsedAttributeName,
-          attributeOrPseudoValue as number
+          attributeOrPseudoValue as string | number
         )
         attributes.push(`${parsedAttributeName}:${parsedAttributeValue}`)
       }
@@ -98,12 +98,4 @@ export function getClassNamesAndStyleContent<Key extends string>(
     classNames[className] = prefixedClassName
   }
   return [classNames, styleContent]
-}
-
-function parsePixelValue(attribKey: string, attribValue: number): string | number {
-  if (/(gap|height|margin|padding|radius|width)/i.test(attribKey) && isNumber(attribValue)) {
-    return `${attribValue}px`
-  } else {
-    return attribValue
-  }
 }

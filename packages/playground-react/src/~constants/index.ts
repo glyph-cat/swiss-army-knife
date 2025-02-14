@@ -2,8 +2,9 @@ export const INTERNAL_APP_IDENTIFIER = 'glyph-cat-playground-react'
 import sandboxStyles from './sandboxStyles.module.css'
 
 export enum FixedKeyChordKey {
-  SOFT_RELOAD = 'r',
   HIDE_PERFORMANCE_DEBUGGER = 'g',
+  RESTART_SERVER = 'q',
+  SOFT_RELOAD = 'r',
 }
 
 export const AppRoute = {
@@ -15,6 +16,9 @@ export const AppRoute = {
 export const APIRoute = {
   sandboxes: {
     getAll: `${AppRoute.API}/sandboxes/get-all`,
+  },
+  utils: {
+    restartServer: `${AppRoute.API}/utils/restart-server`,
   },
 } as const
 

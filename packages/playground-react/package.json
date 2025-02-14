@@ -8,7 +8,7 @@
   "readme": "README.md",
   "scripts": {
     "init-proxy": "sh ./scripts/run/init-proxy.sh",
-    "patch-install": "sh ./scripts/run/post-install.sh",
+    "patch": "sh ./scripts/run/post-install.sh",
     "start": "next dev",
     "build": "next build",
     "serve": "next start",
@@ -23,8 +23,6 @@
     "gamestats.js": "^1.0.7",
     "next": "15.1.6",
     "query-string": "^9.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
     "ua-parser-js": "^2.0.1"
   },
   "devDependencies": {

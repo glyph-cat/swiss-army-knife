@@ -19,6 +19,7 @@ export const GlobalInputFocusTracker = new InputFocusTracker()
 export const { useCheckInputFocus } = GlobalInputFocusTracker
 
 export const GlobalLayeredFocusManager = new LayeredFocusManager()
+export const { FocusRoot, FocusLayer, useLayeredFocusState } = GlobalLayeredFocusManager
 
 export const GlobalKeyChordManager = new KeyChordManager()
 

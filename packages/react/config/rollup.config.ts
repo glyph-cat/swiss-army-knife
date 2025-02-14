@@ -33,6 +33,7 @@ const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
   'node_modules',
+  'react',
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   '@glyph-cat/swiss-army-knife',
   ...Object.keys(require('../package.json').dependencies ?? {}),
@@ -110,15 +111,14 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
   }))
 
   // Minification and cleanup
-  if (mode === 'production') {
-    pluginStack.push(terser({
-      mangle: {
-        properties: {
-          regex: /^M\$/,
-        },
+  // if (mode === 'production') { }
+  pluginStack.push(terser({
+    mangle: {
+      properties: {
+        regex: /^M\$/,
       },
-    }))
-  }
+    },
+  }))
 
   return pluginStack
 }

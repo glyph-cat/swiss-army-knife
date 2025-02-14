@@ -34,7 +34,7 @@ export function useSelectionController<T>(
       if (foundItem) { data.push(foundItem) }
     }
     return data
-  }, [allItems, selection, selectionCount])
+  }, [allItems, selection])
 
   const onSelectAll = useCallback(() => {
     if (selectionCount !== allItems.length) {
