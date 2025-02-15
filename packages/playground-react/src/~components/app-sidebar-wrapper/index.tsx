@@ -3,7 +3,7 @@ import { useActionState } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { JSX, MouseEvent, ReactNode, useEffect } from 'react'
+import { JSX, MouseEvent, ReactNode, useCallback, useEffect } from 'react'
 import { PerformanceDebugger } from '~components/debugging/performance'
 import { AppRoute } from '~constants'
 import { Button, FocusLayer, View } from '~core-ui'
@@ -18,8 +18,7 @@ const BUTTON_HEIGHT = 28 // px
 const STRICT_MODE_ON_COLOR = '#c40'
 const STRICT_MODE_OFF_COLOR = '#06f'
 
-// TODO: Search sandbox
-// TODO: Create sandbox
+// TODO: Search input for sandboxes
 
 export interface AppSideBarWrapperProps {
   children: ReactNode
@@ -28,10 +27,16 @@ export interface AppSideBarWrapperProps {
 export function AppSideBarWrapper({
   children,
 }: AppSideBarWrapperProps): JSX.Element {
+
   const {
     showPerformanceDebugger: shouldShowPerformanceDebugger,
     useStrictMode: shouldUseStrictMode,
   } = useSimpleStateValue(CustomDebugger.state)
+
+  const showCreateSandboxPopup = useCallback(() => {
+    // TODO
+  }, [])
+
   return (
     <View
       className={styles.container}
@@ -65,6 +70,13 @@ export function AppSideBarWrapper({
                   style={{ height: BUTTON_HEIGHT }}
                 >
                   Restart server
+                </Button>
+                <Button
+                  className={styles.buttonBase}
+                  onClick={showCreateSandboxPopup}
+                  style={{ height: BUTTON_HEIGHT }}
+                >
+                  Create sandbox
                 </Button>
               </View>
             </View>
