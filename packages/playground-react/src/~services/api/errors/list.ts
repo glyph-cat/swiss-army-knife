@@ -10,3 +10,9 @@ export class InternalAPIError extends CustomAPIError {
   static readonly http = HttpStatus.INTERNAL_ERROR
   static readonly code = CustomErrorCode.INTERNAL_API
 }
+
+export class InvalidSandboxNameError extends CustomAPIError {
+  static readonly http = HttpStatus.INTERNAL_ERROR
+  static readonly code = CustomErrorCode.INVALID_SANDBOX_NAME
+  constructor(sandboxName: string) { super(sandboxName) }
+}

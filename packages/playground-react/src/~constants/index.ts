@@ -1,6 +1,8 @@
 export const INTERNAL_APP_IDENTIFIER = 'glyph-cat-playground-react'
 import sandboxStyles from './sandboxStyles.module.css'
 
+export const VALID_SANDBOX_NAME_PATTERN = /^[a-z0-9_-]+$/i
+
 export enum FixedKeyChordKey {
   HIDE_PERFORMANCE_DEBUGGER = 'g',
   RESTART_SERVER = 'q',

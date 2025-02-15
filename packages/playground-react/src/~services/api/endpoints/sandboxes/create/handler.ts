@@ -1,6 +1,8 @@
 import { Encoding, HttpMethod } from '@glyph-cat/swiss-army-knife'
 import { writeFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { VALID_SANDBOX_NAME_PATTERN } from '~constants'
+import { InvalidSandboxNameError } from '~services/api/errors'
 import { validateHeaders } from '~services/api/utils/header-validation'
 import {
   emptyResponse,
@@ -15,6 +17,9 @@ export default async function APICreateSandboxHandler(
   try {
     validateHeaders(req, [HttpMethod.POST])
     const { name } = req.body as APICreateSandboxParams
+    if (!VALID_SANDBOX_NAME_PATTERN.test(name)) {
+      throw new InvalidSandboxNameError(name)
+    }
     writeFileSync(`./src/~sandboxes/${name}/index.tsx`, [
       'import { c } from \'@glyph-cat/swiss-army-knife\'',
       'import { JSX } from \'react\'',
