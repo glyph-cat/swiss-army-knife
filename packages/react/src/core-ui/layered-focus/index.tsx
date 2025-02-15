@@ -88,6 +88,8 @@ export class LayeredFocusManager implements IDisposable {
   }: FocusLayerProps): JSX.Element => {
 
     const layerId = useId()
+
+    // NOTE: context is always expected to have a value in this scenario
     const parentContext = useContext(this.M$context)
     const { setFocus: parentSetFocus } = parentContext
     useEffect(() => {
@@ -124,9 +126,10 @@ export class LayeredFocusManager implements IDisposable {
   }
 
   readonly useLayeredFocusState = (): [isFocused: boolean, layerId: string] => {
+    // NOTE: context is sometimes expected to NOT have a value in this scenario
     const context = useContext(this.M$context)
-    const isFocused = getFocusedStateFromContext(context)
-    return [isFocused, context.id]
+    const isFocused = getFocusedStateFromContext(context, false)
+    return [isFocused, context?.id ?? null]
   }
 
   readonly useLayeredFocusEffect = (
@@ -155,10 +158,11 @@ export class LayeredFocusManager implements IDisposable {
     elementRef,
   }: FocusObserverProps): JSX.Element => {
 
+    // NOTE: context is always expected to have a value in this scenario
     const context = useContext(this.M$context)
+    const isFocused = getFocusedStateFromContext(context, true)
     const { id, parentNode, ignoreSiblings } = context
 
-    const isFocused = getFocusedStateFromContext(context)
     useLayoutEffect(() => {
       if (isFocused) {
         const element = elementRef.current
@@ -192,7 +196,11 @@ interface FocusObserverProps {
   elementRef: RefObject<HTMLElement>
 }
 
-function getFocusedStateFromContext(context: IFocusNode): boolean {
+function getFocusedStateFromContext(
+  context: IFocusNode,
+  enforceContextPresence: boolean,
+): boolean {
+  if (!context && !enforceContextPresence) { return true } // Early exit
   if (isNull(context.focusedChild) && context.parentNode) {
     return Object.is(context.parentNode.focusedChild, context.id) || context.ignoreSiblings
   } else {
