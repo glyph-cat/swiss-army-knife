@@ -134,6 +134,7 @@ function SidebarContents(): JSX.Element {
             <Link href={path}>
               <View>
                 <MaterialSymbol
+                  size={20}
                   {...(leadingUnderscorePattern.test(sandboxName) ? {
                     name: 'experiment',
                     grade: -25,

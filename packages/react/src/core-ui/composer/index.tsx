@@ -25,8 +25,10 @@ import { LayeredFocusManager } from '../layered-focus'
 import {
   ButtonProps,
   CreateFocusableViewOptions,
+  FieldSetProps,
   FocusableViewProps,
   IButtonComponent,
+  IFieldSetComponent,
   IFocusableViewComponent,
   IInputComponent,
   InputProps,
@@ -48,6 +50,7 @@ enum CoreComponentType {
   TEXTAREA,
   BUTTON,
   SELECT,
+  FIELDSET,
 }
 
 /**
@@ -153,8 +156,9 @@ export class CoreUIComposer implements IDisposable {
     return View
   }
 
-  static readonly DEFAULT_CREATE_FOCUSABLE_VIEW_OPTIONS: Readonly<CreateFocusableViewOptions> = {
+  static readonly DEFAULT_CREATE_FOCUSABLE_VIEW_OPTIONS: Readonly<Required<CreateFocusableViewOptions>> = {
     allowRefocus: true,
+    effective: true,
     ignoreSiblings: false,
   }
 
@@ -197,14 +201,16 @@ export class CoreUIComposer implements IDisposable {
       className,
       allowRefocus: $allowRefocus,
       ignoreSiblings: $ignoreSiblings,
+      effective: $effective,
       ...otherProps
     }, ref): JSX.Element => {
       const allowRefocus = $allowRefocus ?? options?.allowRefocus
       const ignoreSiblings = $ignoreSiblings ?? options.ignoreSiblings
+      const effective = $effective ?? options.effective
       const divRef = useRef<HTMLDivElement>(null)
       useImperativeHandle(ref, () => divRef.current)
       return (
-        <FocusLayer ignoreSiblings={ignoreSiblings}>
+        <FocusLayer ignoreSiblings={ignoreSiblings} effective={effective}>
           <div
             ref={divRef}
             className={c(this.M$sharedClassName, baseClassName, className)}
@@ -260,10 +266,10 @@ export class CoreUIComposer implements IDisposable {
       const inputRef = useSharedFocusableRefHandler(props, ref)
       const disabled = useDerivedDisabledState($disabled)
       return createElement('input', {
+        ...props,
         ref: inputRef,
         className: c(this.M$sharedClassName, baseClassName, className),
         ...(isBoolean(disabled) ? { disabled } : {}),
-        ...props,
       })
     })
     return Input
@@ -305,10 +311,10 @@ export class CoreUIComposer implements IDisposable {
       const textAreaRef = useSharedFocusableRefHandler(props, ref)
       const disabled = useDerivedDisabledState($disabled)
       return createElement('textarea', {
+        ...props,
         ref: textAreaRef,
         className: c(this.M$sharedClassName, baseClassName, className),
         ...(isBoolean(disabled) ? { disabled } : {}),
-        ...props,
       })
     })
     return TextArea
@@ -347,10 +353,10 @@ export class CoreUIComposer implements IDisposable {
     }: ButtonProps, ref: Ref<HTMLButtonElement>) => {
       const disabled = useDerivedDisabledState($disabled)
       return createElement('button', {
+        ...props,
         ref,
         className: c(this.M$sharedClassName, baseClassName, className),
         ...(isBoolean(disabled) ? { disabled } : {}),
-        ...props,
       })
     })
     return Button
@@ -391,13 +397,48 @@ export class CoreUIComposer implements IDisposable {
       const selectRef = useSharedFocusableRefHandler(props, ref)
       const disabled = useDerivedDisabledState($disabled)
       return createElement('select', {
+        ...props,
         ref: selectRef,
         className: c(this.M$sharedClassName, baseClassName, className),
         ...(isBoolean(disabled) ? { disabled } : {}),
-        ...props,
       }, children)
     })
     return Select
+  }
+
+  /**
+   * Creates a drop-in replacement for the `<fieldset>` element.
+   * This component can be disabled as a group with other components that share
+   * the same {@link DisabledContext}.
+   * @param key - This value should be a unique and stable across server-client renders.
+   * @param overrideStyles - Additional styles to apply.
+   */
+  createFieldSetComponent(
+    key: string,
+    overrideStyles?: ExtendedCSSProperties,
+  ): IFieldSetComponent {
+    warnIfKeyIsInvalid(key)
+    const baseClassName = this.M$getPrefixedClassName(CoreComponentType.FIELDSET, key)
+    this.M$styleManager?.set(`.${baseClassName}`, {
+      fontFamily: 'inherit',
+      ...overrideStyles,
+    })
+    const { useDerivedDisabledState } = this
+    const FieldSet = forwardRef(({
+      children,
+      className,
+      disabled: $disabled,
+      ...props
+    }: FieldSetProps, ref: Ref<HTMLFieldSetElement>) => {
+      const disabled = useDerivedDisabledState($disabled)
+      return createElement('fieldset', {
+        ...props,
+        ref,
+        className: c(this.M$sharedClassName, baseClassName, className),
+        ...(isBoolean(disabled) ? { disabled } : {}),
+      }, children)
+    })
+    return FieldSet
   }
 
   dispose(): void {

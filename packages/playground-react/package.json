@@ -12,11 +12,12 @@
     "start": "next dev",
     "build": "next build",
     "serve": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "env": "yarn tsx ./scripts/run/env"
   },
   "dependencies": {
     "@glyph-cat/cleanup-manager": "^1.0.0",
+    "@monaco-editor/react": "^4.7.0-rc.0",
     "axios": "^1.7.9",
     "cotton-box": "^0.4.0",
     "cotton-box-react": "^0.4.0",
@@ -42,6 +43,8 @@
     "eslint-plugin-react-hooks": "^5.2.0-canary-d46b04a2-20250117",
     "globals": "^15.14.0",
     "jest": "^29.7.0",
+    "monaco-editor": "^0.52.2",
+    "raw-loader": "^4.0.2",
     "shell-quote": "^1.8.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",

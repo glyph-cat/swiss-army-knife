@@ -29,6 +29,10 @@ export interface CreateFocusableViewOptions {
    */
   allowRefocus?: boolean
   /**
+   * @defaultValue `true`
+  */
+  effective?: boolean
+  /**
    * @defaultValue `false`
    */
   ignoreSiblings?: boolean
@@ -108,3 +112,18 @@ export interface ISelect extends HTMLSelectElement { (props: SelectProps): JSX.E
  * @public
  */
 export type ISelectComponent = ICoreUIComponent<SelectProps, HTMLSelectElement>
+
+/**
+ * @public
+ */
+export type FieldSetProps = JSX.IntrinsicElements['fieldset']
+
+/**
+ * @public
+ */
+export interface IFieldSet extends HTMLSelectElement { (props: FieldSetProps): JSX.Element }
+
+/**
+ * @public
+ */
+export type IFieldSetComponent = ICoreUIComponent<FieldSetProps, HTMLFieldSetElement>

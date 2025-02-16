@@ -9,10 +9,10 @@ export interface IFocusNodeState {
 
 export interface IFocusNode extends IFocusNodeState {
   parentNode: IFocusNode | undefined
-  setFocus(id: string): CleanupFunction
+  setFocus(id: string, applyFocus: boolean): CleanupFunction
 }
 
-export function createRegistrationReducers(layerId: string): [
+export function createRegistrationReducers(layerId: string, applyFocus: boolean): [
   registerChildNode: (state: IFocusNodeState) => IFocusNodeState,
   unregisterChildNode: (state: IFocusNodeState) => IFocusNodeState,
 ] {
@@ -25,7 +25,7 @@ export function createRegistrationReducers(layerId: string): [
       }
       return {
         ...state,
-        focusedChild: layerId,
+        ...(applyFocus ? { focusedChild: layerId } : {}),
         childNodes: nextChildNodes,
       }
     },

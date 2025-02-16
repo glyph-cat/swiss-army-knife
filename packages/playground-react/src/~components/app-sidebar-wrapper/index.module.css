@@ -113,6 +113,13 @@
   opacity: 1;
 }
 
+.ul > li code {
+  font-size: 11pt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .contentContainer {
   /* padding: var(--spacingM); */
   padding: 10px;

@@ -1,8 +1,16 @@
 import { devWarn, IDisposable } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { Children, ElementType, Fragment, JSX, ReactNode, useEffect, useState } from 'react'
+import { Children, ElementType, Fragment, JSX, Key, ReactNode, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { IPortalFactoryState, PortalType } from './abstractions'
+
+/**
+ * @public
+ */
+export interface PortalProps {
+  children: ReactNode
+}
 
 /**
  * @public
@@ -54,7 +62,7 @@ export class PortalFactory implements IDisposable {
     })
   }
 
-  Portal = ({ children }: { children: ReactNode }): JSX.Element => {
+  Portal = ({ children }: PortalProps): JSX.Element => {
     // Only 1 children is allowed
     Children.only(children)
     const [portalId] = useState(() => ++this.M$portalIdCounter)
@@ -115,4 +123,32 @@ export class PortalFactory implements IDisposable {
     this.M$state.dispose()
   }
 
+}
+
+/**
+ * @public
+ */
+export interface DOMPortalProps extends PortalProps {
+  container?: Element | DocumentFragment
+  portalKey?: Key
+}
+
+/**
+ * @example
+ * import { DOMPortal as Portal } from '@glyph-cat/swiss-army-knife-react'
+ * function Example(): JSX.Element {
+ *   return (
+ *     <Portal>
+ *       <h1>Hello, world!</h1>
+ *     </Portal>
+ *   )
+ * }
+ * @public
+ */
+export function DOMPortal({
+  children,
+  portalKey,
+  container,
+}: DOMPortalProps): JSX.Element {
+  return createPortal(children, container, portalKey)
 }

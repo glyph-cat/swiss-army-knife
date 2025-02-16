@@ -41,10 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # Special
-# ~sandboxes/_core-ui/
-# ./src/~sandboxes/example/
-# example/
-# **/~sandboxes/_*/
 **/~sandboxes/_*/
-# ~sandboxes/_core-ui/
 ~proxy/

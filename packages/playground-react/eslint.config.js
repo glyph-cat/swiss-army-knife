@@ -33,6 +33,11 @@ module.exports = [
         'useKeyDownListener',
         'useKeyUpListener',
       ]),
+      'import/no-unresolved': [Severity.ERROR, {
+        ignore: [
+          '^!!raw-loader!',
+        ],
+      }],
       'react/forbid-elements': [Severity.ERROR, {
         forbid: [
           {

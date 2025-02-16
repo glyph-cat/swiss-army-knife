@@ -1,10 +1,7 @@
 .base {
+  font-size: 14pt;
   gap: 10px;
   grid-auto-rows: max-content;
-}
-
-.base p {
-  font-size: 14pt;
 }
 
 .normal {
