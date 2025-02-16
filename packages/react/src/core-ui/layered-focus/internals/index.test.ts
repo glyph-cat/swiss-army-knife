@@ -1,8 +1,10 @@
 import { createRegistrationReducers, IFocusNodeState } from '.'
 
+// TODO: test when `applyFocus = false`
+
 test('Has no other existing child nodes', () => {
 
-  const [register, unregister] = createRegistrationReducers(':r1:')
+  const [register, unregister] = createRegistrationReducers(':r1:', true)
 
   const initialState: IFocusNodeState = {
     id: ':r0:',
@@ -33,7 +35,7 @@ test('Has no other existing child nodes', () => {
 
 test('Has other existing child nodes', () => {
 
-  const [register, unregister] = createRegistrationReducers(':r3:')
+  const [register, unregister] = createRegistrationReducers(':r3:', true)
 
   const initialState: IFocusNodeState = {
     id: ':r0:',
@@ -72,7 +74,7 @@ test('Has other existing child nodes', () => {
 
 test('Regain focus', () => {
 
-  const [register, unregister] = createRegistrationReducers(':r2:')
+  const [register, unregister] = createRegistrationReducers(':r2:', true)
 
   const initialState: IFocusNodeState = {
     id: ':r0:',
