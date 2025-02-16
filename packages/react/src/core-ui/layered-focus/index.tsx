@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { IDisposable, isNull, RefObject, TypedFunction } from '@glyph-cat/swiss-army-knife'
+import { IDisposable, isString, RefObject, TypedFunction } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import {
@@ -201,9 +201,10 @@ function getFocusedStateFromContext(
   enforceContextPresence: boolean,
 ): boolean {
   if (!context && !enforceContextPresence) { return true } // Early exit
-  if (isNull(context.focusedChild) && context.parentNode) {
+  if (isString(context.focusedChild)) { return false } // Early exit
+  if (context.parentNode) {
     return Object.is(context.parentNode.focusedChild, context.id) || context.ignoreSiblings
-  } else {
-    return true
+    // Early exit
   }
+  return true
 }

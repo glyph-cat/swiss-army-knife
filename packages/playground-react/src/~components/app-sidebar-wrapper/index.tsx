@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c, Casing, isString } from '@glyph-cat/swiss-army-knife'
 import { useActionState } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import Link from 'next/link'
@@ -7,6 +7,7 @@ import { JSX, MouseEvent, ReactNode, useCallback, useEffect } from 'react'
 import { PerformanceDebugger } from '~components/debugging/performance'
 import { AppRoute } from '~constants'
 import { Button, FocusLayer, View } from '~core-ui'
+import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import { CustomDebugger } from '~services/debugging'
@@ -33,9 +34,20 @@ export function AppSideBarWrapper({
     useStrictMode: shouldUseStrictMode,
   } = useSimpleStateValue(CustomDebugger.state)
 
-  const showCreateSandboxPopup = useCallback(() => {
-    // TODO
-  }, [])
+  const router = useRouter()
+
+  const showCreateSandboxPopup = useCallback(async () => {
+    const newSandboxName = window.prompt('New sandbox name:')
+    if (isString(newSandboxName)) {
+      await APICreateSandbox({ name: newSandboxName })
+      // Apparently NextJS will complain that the file could not be found
+      // if we simply refresh the list to visit the link.
+      const restartPromise = CustomDebugger.restartServer()
+      await APIOpenSandboxInEditor({ sandboxName: newSandboxName })
+      router.push(`${AppRoute.SANDBOX}/${newSandboxName}`)
+      await restartPromise
+    }
+  }, [router])
 
   return (
     <View
@@ -110,7 +122,7 @@ function SidebarContents(): JSX.Element {
     <ul className={styles.ul}>
       {sandboxes.map((sandboxName) => {
         const path = `${AppRoute.SANDBOX}/${sandboxName}`
-        const onOpenInCode = async (e: MouseEvent) => {
+        const onOpenInEditor = async (e: MouseEvent) => {
           await APIOpenSandboxInEditor({ sandboxName })
           e.preventDefault()
         }
@@ -130,12 +142,14 @@ function SidebarContents(): JSX.Element {
                     grade: 200,
                   })}
                 />
-                <code>{sandboxName.replace(leadingUnderscorePattern, '')}</code>
+                <code>
+                  {new Casing(sandboxName.replace(leadingUnderscorePattern, '')).toTitleCase()}
+                </code>
               </View>
             </Link>
             <Button
               // eslint-disable-next-line react/jsx-no-bind
-              onClick={onOpenInCode}
+              onClick={onOpenInEditor}
             >
               <MaterialSymbol name='edit_document' size={16} />
             </Button>

@@ -1,0 +1,54 @@
+.container {
+  --primaryColor: #2b80ff;
+  --spacingXS: 5px;
+  --spacingM: 10px;
+  --spacingL: 20px;
+  --actionBarColor: #80808020;
+  --actionBarHeight: 48px;
+}
+
+.actionBar {
+  background-color: var(--actionBarColor);
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+  height: var(--actionBarHeight);
+}
+
+.actionBar > button {
+  background-color: transparent;
+  border-radius: 0px;
+  border: dashed 1px transparent;
+  display: grid;
+  gap: var(--spacingXS);
+  grid-template-columns: auto 1fr;
+  outline: none;
+  padding: 0;
+  padding-inline-start: var(--spacingM);
+  padding-inline-end: var(--spacingL);
+  place-items: center;
+  text-transform: uppercase;
+}
+
+.actionBar > button:focus {
+  border-color: var(--primaryColor);
+}
+
+.actionBar > button:enabled {
+  cursor: pointer;
+}
+
+.actionBar > button:enabled:hover {
+  background-color: #80808020;
+}
+
+.actionBar > button:enabled:active {
+  background-color: #00000020;
+}
+
+.actionBar > button:disabled {
+  cursor: not-allowed;
+}
+
+.container pre {
+  font-size: 10pt;
+}

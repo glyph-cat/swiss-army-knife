@@ -10,7 +10,7 @@ import {
 } from '~services/api/utils/response-handlers'
 import { APIOpenSandboxInEditorParams } from './abstractions'
 
-export default async function APIOpenSandboxInCodeHandler(
+export default async function APIOpenSandboxInEditorHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {

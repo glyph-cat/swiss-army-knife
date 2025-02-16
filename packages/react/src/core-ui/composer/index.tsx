@@ -422,7 +422,13 @@ export class CoreUIComposer implements IDisposable {
       layeredFocusManager: { useLayeredFocusState },
     } = this.configs
     const [isFocused] = useLayeredFocusState()
-    return useDerivedDisabledState(disabled || (isFocused ? null : true))
+    // Focusability takes precedence, if not focused, then element should be disabled,
+    // even if the props specifies `disabled=false`.
+    // Semantically speaking, we can only enforce `disabled=false` to ignore
+    // the <DisabledContext> but not the Layered Focus State.
+    // If we want to enforce `disabled=false` by ignoring layer focus,
+    // then the button should be placed in a different <FocusLayer>.
+    return useDerivedDisabledState(isFocused ? disabled : true)
   }
 
   // #endregion Internal methods

@@ -45,7 +45,7 @@
 }
 
 .ul > li {
-  align-items: center;
+  /* align-items: center; */
   border-inline-start: solid 4px transparent;
   display: grid;
   grid-auto-flow: column;
@@ -68,6 +68,8 @@
 }
 
 .ul a {
+  align-items: center;
+  display: grid;
   text-decoration: none;
 }
 
@@ -81,6 +83,7 @@
 
 .ul > li button {
   --size: 24px;
+  align-self: center;
   background-color: transparent;
   border: none;
   border-radius: 3px;

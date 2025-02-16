@@ -1,8 +1,15 @@
-.normal {
+.base {
+  gap: 10px;
   grid-auto-rows: max-content;
 }
 
+.base p {
+  font-size: 14pt;
+}
+
+.normal {
+}
+
 .fullHeight {
-  grid-auto-rows: max-content;
   height: 100vh;
 }

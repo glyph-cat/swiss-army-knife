@@ -1,4 +1,5 @@
 export const INTERNAL_APP_IDENTIFIER = 'glyph-cat-playground-react'
+import { c } from '@glyph-cat/swiss-army-knife'
 import sandboxStyles from './sandboxStyles.module.css'
 
 export const VALID_SANDBOX_NAME_PATTERN = /^[a-z0-9_-]+$/i
@@ -27,8 +28,8 @@ export const APIRoute = {
 } as const
 
 export const SandboxStyle = {
-  NORMAL: sandboxStyles.normal,
-  FULL_HEIGHT: sandboxStyles.fullHeight,
+  NORMAL: c(sandboxStyles.base, sandboxStyles.normal),
+  FULL_HEIGHT: c(sandboxStyles.base, sandboxStyles.fullHeight),
 } as const
 
 // #region Other exports

@@ -33,7 +33,7 @@ export class DisabledContext {
   readonly useDerivedDisabledState = (disabled: boolean): boolean => {
     const { useDisabledContext } = this
     const ascendantDisabled = useDisabledContext()
-    return disabled || ascendantDisabled
+    return disabled ?? ascendantDisabled
   }
 
 }

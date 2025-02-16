@@ -16,3 +16,9 @@ export class InvalidSandboxNameError extends CustomAPIError {
   static readonly code = CustomErrorCode.INVALID_SANDBOX_NAME
   constructor(sandboxName: string) { super(sandboxName) }
 }
+
+export class ConflictingSandboxNameError extends CustomAPIError {
+  static readonly http = HttpStatus.INTERNAL_ERROR
+  static readonly code = CustomErrorCode.CONFLICTING_SANDBOX_NAME
+  constructor(sandboxName: string) { super(sandboxName) }
+}

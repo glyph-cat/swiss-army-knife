@@ -1,8 +1,8 @@
 import { Encoding, HttpMethod } from '@glyph-cat/swiss-army-knife'
-import { writeFileSync } from 'fs'
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { VALID_SANDBOX_NAME_PATTERN } from '~constants'
-import { InvalidSandboxNameError } from '~services/api/errors'
+import { ConflictingSandboxNameError, InvalidSandboxNameError } from '~services/api/errors'
 import { validateHeaders } from '~services/api/utils/header-validation'
 import {
   emptyResponse,
@@ -20,6 +20,11 @@ export default async function APICreateSandboxHandler(
     if (!VALID_SANDBOX_NAME_PATTERN.test(name)) {
       throw new InvalidSandboxNameError(name)
     }
+
+    if (existsSync(`./src/~sandboxes/${name}`)) {
+      throw new ConflictingSandboxNameError(name)
+    }
+    mkdirSync(`./src/~sandboxes/${name}`)
     writeFileSync(`./src/~sandboxes/${name}/index.tsx`, [
       'import { c } from \'@glyph-cat/swiss-army-knife\'',
       'import { JSX } from \'react\'',
@@ -27,10 +32,12 @@ export default async function APICreateSandboxHandler(
       'import { View } from \'~core-ui\'',
       'import styles from \'./index.module.css\'',
       '',
+      'import { SandboxStarter } from \'~components/sandbox-starter\'',
+      '',
       'export default function (): JSX.Element {',
       '  return (',
       '    <View className={c(SandboxStyle.NORMAL, styles.container)}>',
-      '      { /* ... */ }',
+      '      <SandboxStarter />',
       '    </View>',
       '  )',
       '}',
