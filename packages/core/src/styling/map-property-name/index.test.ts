@@ -7,4 +7,5 @@ test(mapPropertyNameFromJSToCSS.name, () => {
   expect(mapPropertyNameFromJSToCSS('WebkitAnimation')).toBe('-webkit-animation')
   expect(mapPropertyNameFromJSToCSS('msTransition')).toBe('-ms-transition')
   expect(mapPropertyNameFromJSToCSS('OAnimation')).toBe('-o-animation')
+  expect(mapPropertyNameFromJSToCSS('--customVariable')).toBe('--customVariable')
 })
