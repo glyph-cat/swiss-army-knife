@@ -129,6 +129,9 @@ export class PortalFactory implements IDisposable {
  * @public
  */
 export interface DOMPortalProps extends PortalProps {
+  /**
+   * @defaultValue `document.body`
+   */
   container?: Element | DocumentFragment
   portalKey?: Key
 }
@@ -147,8 +150,8 @@ export interface DOMPortalProps extends PortalProps {
  */
 export function DOMPortal({
   children,
-  portalKey,
   container,
+  portalKey,
 }: DOMPortalProps): JSX.Element {
-  return createPortal(children, container, portalKey)
+  return createPortal(children, container ?? document.body, portalKey)
 }
