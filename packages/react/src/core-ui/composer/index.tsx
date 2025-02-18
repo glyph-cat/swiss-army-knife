@@ -19,11 +19,9 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
-import { DisabledContext } from '../disabled-context'
-import { InputFocusTracker } from '../input-focus'
-import { LayeredFocusManager } from '../layered-focus'
 import {
   ButtonProps,
+  CoreUIComposerConfigs,
   CreateFocusableViewOptions,
   FieldSetProps,
   FocusableViewProps,
@@ -51,24 +49,6 @@ enum CoreComponentType {
   BUTTON,
   SELECT,
   FIELDSET,
-}
-
-/**
- * @public
- */
-export interface CoreUIComposerConfigs {
-  disabledContext: DisabledContext
-  inputFocusTracker: InputFocusTracker
-  layeredFocusManager: LayeredFocusManager
-  /**
-   * Any RGB, HSL, or hex string. Opacity values will be ignored.
-   */
-  tint?: string
-  /**
-   * Any number between `0` to `1`.
-   * @defaultValue `0.35`
-   */
-  textSelectionOpacity?: number
 }
 
 /**

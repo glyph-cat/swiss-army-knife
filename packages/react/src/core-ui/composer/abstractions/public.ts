@@ -1,4 +1,7 @@
 import { ForwardRefExoticComponent, JSX, RefAttributes } from 'react'
+import { DisabledContext } from '../../disabled-context'
+import { InputFocusTracker } from '../../input-focus'
+import { LayeredFocusManager } from '../../layered-focus'
 
 /**
  * @public
@@ -127,3 +130,21 @@ export interface IFieldSet extends HTMLSelectElement { (props: FieldSetProps): J
  * @public
  */
 export type IFieldSetComponent = ICoreUIComponent<FieldSetProps, HTMLFieldSetElement>
+
+/**
+ * @public
+ */
+export interface CoreUIComposerConfigs {
+  disabledContext: DisabledContext
+  inputFocusTracker: InputFocusTracker
+  layeredFocusManager: LayeredFocusManager
+  /**
+   * Any RGB, HSL, or hex string. Opacity values will be ignored.
+   */
+  tint?: string
+  /**
+   * Any number between `0` to `1`.
+   * @defaultValue `0.35`
+   */
+  textSelectionOpacity?: number
+}

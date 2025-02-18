@@ -21,6 +21,7 @@ const NODE_RESOLVE_EXTENSIONS_WEB = [
   ...NODE_RESOLVE_EXTENSIONS_BASE,
 ]
 
+// KIV/TOFIX: This config is being ignored
 const NODE_RESOLVE_EXTENSIONS_RN = [
   '.native.tsx',
   '.native.jsx',
