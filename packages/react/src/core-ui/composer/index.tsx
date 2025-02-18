@@ -219,8 +219,8 @@ export class CoreUIComposer implements IDisposable {
             {children}
           </div>
           <FocusObserver
-            allowRefocus={allowRefocus}
             elementRef={divRef}
+            allowRefocus={allowRefocus}
           />
         </FocusLayer>
       )

@@ -69,8 +69,8 @@ export class LayeredFocusManager implements IDisposable {
 
     const state = useSimpleStateValue(this.M$rootState)
 
-    const setFocus = useCallback((id: string, applyFocus: boolean) => {
-      const [registerChild, unregisterChild] = createRegistrationReducers(id, applyFocus)
+    const setFocus = useCallback((id: string, $ignoreSiblings: boolean) => {
+      const [registerChild, unregisterChild] = createRegistrationReducers(id, $ignoreSiblings)
       this.M$rootState.set(registerChild)
       return () => { this.M$rootState.set(unregisterChild) }
     }, [])
@@ -102,7 +102,7 @@ export class LayeredFocusManager implements IDisposable {
     const { setFocus: parentSetFocus } = parentContext
     useEffect(() => {
       if (!effective) { return } // Early exit
-      return parentSetFocus(layerId, !ignoreSiblings)
+      return parentSetFocus(layerId, ignoreSiblings)
     }, [effective, ignoreSiblings, layerId, parentSetFocus])
 
     const [state, setState] = useState<IFocusNodeState>({
@@ -112,8 +112,8 @@ export class LayeredFocusManager implements IDisposable {
       childNodes: {},
     })
 
-    const nextSetFocus = useCallback((id: string, applyFocus: boolean) => {
-      const [registerChildNode, unregisterChildNode] = createRegistrationReducers(id, applyFocus)
+    const nextSetFocus = useCallback((id: string, $ignoreSiblings: boolean) => {
+      const [registerChildNode, unregisterChildNode] = createRegistrationReducers(id, $ignoreSiblings)
       setState(registerChildNode)
       return () => { setState(unregisterChildNode) }
     }, [])
@@ -161,8 +161,8 @@ export class LayeredFocusManager implements IDisposable {
    * @internal
    */
   readonly FocusObserver = ({
-    allowRefocus,
     elementRef,
+    allowRefocus,
   }: FocusObserverProps): JSX.Element => {
 
     // NOTE: context is always expected to have a value in this scenario
@@ -186,7 +186,7 @@ export class LayeredFocusManager implements IDisposable {
     const parentSetFocus = parentNode.setFocus
     useLayoutEffect(() => {
       if (!allowRefocus || ignoreSiblings) { return } // Early exit
-      const onMouseDown = () => { parentSetFocus(id, true) }
+      const onMouseDown = () => { parentSetFocus(id, ignoreSiblings) }
       const target = elementRef.current
       target.addEventListener('mousedown', onMouseDown)
       return () => { target.removeEventListener('mousedown', onMouseDown) }
@@ -199,8 +199,8 @@ export class LayeredFocusManager implements IDisposable {
 }
 
 interface FocusObserverProps {
-  allowRefocus: boolean
   elementRef: RefObject<HTMLElement>
+  allowRefocus: boolean
 }
 
 function getFocusedStateFromContext(
