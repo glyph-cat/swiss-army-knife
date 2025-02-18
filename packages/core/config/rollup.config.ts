@@ -4,18 +4,12 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import autoprefixer from 'autoprefixer'
 import { execSync } from 'child_process'
-import CleanCSS from 'clean-css'
-import { readFileSync } from 'fs'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import { version } from '../package.json'
-import { ENCODING_UTF_8 } from '../scripts/constants'
 import { BuildType } from '../src/constants/public'
-
-const input = readFileSync('./src/styling/templates/index.module.css', ENCODING_UTF_8)
-const templateStylesCSS = new CleanCSS({}).minify(input)
 
 const NODE_RESOLVE_EXTENSIONS_BASE = ['.tsx', '.jsx', '.ts', '.js']
 
@@ -112,7 +106,6 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     'process.env.BUILD_TYPE': JSON.stringify(buildEnv),
     'process.env.IS_INTERNAL_DEBUG_ENV': JSON.stringify('false'),
     'process.env.PACKAGE_VERSION': JSON.stringify(version),
-    'process.env.CSS_CONTENT.TemplateStyles': JSON.stringify(templateStylesCSS.styles),
   }
   if (mode) {
     replaceValues['process.env.NODE_ENV'] = JSON.stringify(mode)

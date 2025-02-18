@@ -16,15 +16,16 @@
   "readme": "README.md",
   "scripts": {
     "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "afe": "tsx ../../scripts/base/auto-forward-exports",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "lint:path": "eslint",
-    "css-enums": "yarn tsx ./scripts/run/css-enums",
     "rollup": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
     "types": "yarn tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
-    "build": "sh ./scripts/run/build.sh"
+    "build": "sh ./scripts/run/build.sh",
+    "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
     "common utilities",

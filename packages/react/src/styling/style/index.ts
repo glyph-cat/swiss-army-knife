@@ -1,11 +1,10 @@
-import { addStyles, createRef, PrecedenceLevel } from '@glyph-cat/swiss-army-knife'
+import { addStyles, createRef } from '@glyph-cat/swiss-army-knife'
 import { JSX, useEffect, useInsertionEffect, useState } from 'react'
+import { StyleProps } from './abstractions'
 
-export interface StyleProps {
-  children?: string | Array<string>
-  precedence?: PrecedenceLevel
-}
-
+/**
+ * @public
+ */
 export function Style({
   children,
   precedence,
@@ -23,3 +22,5 @@ export function Style({
   }, [children, styleElement])
   return null
 }
+
+export * from './abstractions/public'

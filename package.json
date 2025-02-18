@@ -7,10 +7,9 @@
   "readme": "README.md",
   "scripts": {
     "patch-install": "sh ./scripts/run/post-install.sh",
-    "afe": "yarn tsx ./scripts/run/auto-forward-exports",
+    "afe": "sh ./scripts/run/auto-forward-exports.sh",
     "lint": "sh ./scripts/run/lint.sh",
     "build": "sh ./scripts/run/build.sh",
-    "post-process-docs": "yarn tsx ./scripts/run/post-process-docs",
     "test": "sh ./scripts/run/test.sh",
     "sync": "yarn tsx ./scripts/run/sync",
     "preversion": "ECHO 'Please run `bump-version` instead.' && exit 1;",
