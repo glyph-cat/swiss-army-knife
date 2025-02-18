@@ -44,6 +44,7 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.26.3",
     "@glyph-cat/cleanup-manager": "^1.0.0",
     "@glyph-cat/eslint-config": "^1.0.1-alpha.12",
     "@glyph-cat/react-test-utils": "^0.6.0",

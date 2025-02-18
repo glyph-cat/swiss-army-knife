@@ -9,17 +9,22 @@ import typescript from 'rollup-plugin-typescript2'
 import { version } from '../package.json'
 import { BuildType } from '../src/constants/public'
 
-const NODE_RESOLVE_EXTENSIONS_BASE = ['.tsx', '.jsx', '.ts', '.js']
-
-const NODE_RESOLVE_EXTENSIONS_WEB = [
-  // NOTE: This is to accommodate 3rd party libraries in rare cases.
-  // For this project, always use '.ts' for web implementation.
-  '.web.tsx',
-  '.web.jsx',
-  '.web.ts',
-  '.web.js',
-  ...NODE_RESOLVE_EXTENSIONS_BASE,
+const NODE_RESOLVE_EXTENSIONS_BASE = [
+  '.tsx',
+  '.jsx',
+  '.ts',
+  '.js',
 ]
+
+// const NODE_RESOLVE_EXTENSIONS_WEB = [
+//   // NOTE: This is to accommodate 3rd party libraries in rare cases.
+//   // For this project, always use '.ts' for web implementation.
+//   '.web.tsx',
+//   '.web.jsx',
+//   '.web.ts',
+//   '.web.js',
+//   ...NODE_RESOLVE_EXTENSIONS_BASE,
+// ]
 
 // KIV/TOFIX: This config is being ignored
 const NODE_RESOLVE_EXTENSIONS_RN = [
@@ -43,16 +48,18 @@ const EXTERNAL_LIBS = [
 ].sort()
 
 interface IPluginConfig {
-  overrides?: Record<string, unknown>
   mode?: 'development' | 'production'
   buildEnv?: BuildType
 }
 
 function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
-  const { overrides = {}, mode, buildEnv } = config
-  const basePlugins = {
-    nodeResolve: nodeResolve(),
-    // babel: babel({
+  const { mode, buildEnv } = config
+
+  const pluginStack: Array<RollupPlugin> = [
+    nodeResolve({
+      extensions: NODE_RESOLVE_EXTENSIONS_BASE,
+    }),
+    // babel({
     //   presets: [
     //     // '@babel/preset-env',
     //     '@babel/preset-react',
@@ -69,7 +76,7 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
     //   exclude: '**/node_modules/**',
     //   babelHelpers: 'bundled',
     // }),
-    typescript: typescript({
+    typescript({
       tsconfigOverride: {
         compilerOptions: {
           declaration: false,
@@ -79,23 +86,8 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
         },
       },
     }),
-  }
+  ]
 
-  // Override plugins
-  for (const overrideKey in overrides) {
-    basePlugins[overrideKey] = overrides[overrideKey]
-  }
-
-  // Convert plugins object to array
-  const pluginStack: Array<RollupPlugin> = []
-  for (const basePluginKey in basePlugins) {
-    // Allows plugins to be excluded by replacing them with falsy values
-    if (basePlugins[basePluginKey]) {
-      pluginStack.push(basePlugins[basePluginKey])
-    }
-  }
-
-  // Replace values
   const replaceValues = {
     'process.env.BUILD_HASH': JSON.stringify(
       execSync('git rev-parse HEAD').toString().trim()
@@ -112,7 +104,6 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
     values: replaceValues,
   }))
 
-  // Minification and cleanup
   // if (mode === 'production') { }
   pluginStack.push(terser({
     mangle: {
@@ -137,11 +128,6 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildEnv: BuildType.CJS,
-      overrides: {
-        nodeResolve: nodeResolve({
-          extensions: NODE_RESOLVE_EXTENSIONS_WEB,
-        }),
-      },
     }),
   },
   {
@@ -155,11 +141,6 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildEnv: BuildType.ES,
-      overrides: {
-        nodeResolve: nodeResolve({
-          extensions: NODE_RESOLVE_EXTENSIONS_WEB,
-        }),
-      },
     }),
   },
   {
@@ -174,11 +155,6 @@ const config: Array<RollupOptions> = [
     plugins: getPlugins({
       buildEnv: BuildType.MJS,
       mode: 'production',
-      overrides: {
-        nodeResolve: nodeResolve({
-          extensions: NODE_RESOLVE_EXTENSIONS_WEB,
-        }),
-      },
     }),
   },
   {
@@ -192,11 +168,13 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildEnv: BuildType.RN,
-      overrides: {
-        nodeResolve: nodeResolve({
+    }).map((plugin) => {
+      if (plugin.name === 'node-resolve') {
+        return nodeResolve({
           extensions: NODE_RESOLVE_EXTENSIONS_RN,
-        }),
-      },
+        })
+      }
+      return plugin
     }),
   },
 ]

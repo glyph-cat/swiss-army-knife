@@ -1,27 +1,32 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import babel from '@rollup/plugin-babel'
+// import autoprefixer from 'autoprefixer'
+// import postcss from 'rollup-plugin-postcss'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
-import autoprefixer from 'autoprefixer'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
 import { version } from '../package.json'
 import { BuildType } from '../src/constants/public'
 
-const NODE_RESOLVE_EXTENSIONS_BASE = ['.tsx', '.jsx', '.ts', '.js']
-
-const NODE_RESOLVE_EXTENSIONS_WEB = [
-  // NOTE: This is to accommodate 3rd party libraries in rare cases.
-  // For this project, always use '.ts' for web implementation.
-  '.web.tsx',
-  '.web.jsx',
-  '.web.ts',
-  '.web.js',
-  ...NODE_RESOLVE_EXTENSIONS_BASE,
+const NODE_RESOLVE_EXTENSIONS_BASE = [
+  '.tsx',
+  '.jsx',
+  '.ts',
+  '.js',
 ]
+
+// const NODE_RESOLVE_EXTENSIONS_WEB = [
+//   // NOTE: This is to accommodate 3rd party libraries in rare cases.
+//   // For this project, always use '.ts' for web implementation.
+//   '.web.tsx',
+//   '.web.jsx',
+//   '.web.ts',
+//   '.web.js',
+//   ...NODE_RESOLVE_EXTENSIONS_BASE,
+// ]
 
 const NODE_RESOLVE_EXTENSIONS_RN = [
   '.native.tsx',
@@ -41,16 +46,18 @@ const EXTERNAL_LIBS = [
 ].sort()
 
 interface IPluginConfig {
-  overrides?: Record<string, unknown>
   mode?: 'development' | 'production'
   buildEnv: BuildType
 }
 
 function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
-  const { overrides = {}, mode, buildEnv } = config
-  const basePlugins = {
-    nodeResolve: nodeResolve(),
-    // babel: babel({
+  const { mode, buildEnv } = config
+
+  const pluginStack: Array<RollupPlugin> = [
+    nodeResolve({
+      extensions: NODE_RESOLVE_EXTENSIONS_BASE,
+    }),
+    // babel({
     //   presets: [
     //     // '@babel/preset-env',
     //   ],
@@ -66,13 +73,13 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     //   exclude: '**/node_modules/**',
     //   babelHelpers: 'bundled',
     // }),
-    postcss: postcss({
-      plugins: [autoprefixer()],
-      sourceMap: false,
-      extract: false,
-      minimize: true,
-    }),
-    typescript: typescript({
+    // postcss({
+    //   plugins: [autoprefixer()],
+    //   sourceMap: false,
+    //   extract: false,
+    //   minimize: true,
+    // }),
+    typescript({
       tsconfigOverride: {
         compilerOptions: {
           declaration: false,
@@ -82,23 +89,8 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
         },
       },
     }),
-  }
+  ]
 
-  // Override plugins
-  for (const overrideKey in overrides) {
-    basePlugins[overrideKey] = overrides[overrideKey]
-  }
-
-  // Convert plugins object to array
-  const pluginStack: Array<RollupPlugin> = []
-  for (const basePluginKey in basePlugins) {
-    // Allows plugins to be excluded by replacing them with falsy values
-    if (basePlugins[basePluginKey]) {
-      pluginStack.push(basePlugins[basePluginKey])
-    }
-  }
-
-  // Replace values
   const replaceValues = {
     'process.env.BUILD_HASH': JSON.stringify(
       execSync('git rev-parse HEAD').toString().trim()
@@ -115,7 +107,6 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     values: replaceValues,
   }))
 
-  // Minification and cleanup
   // if (mode === 'production') { }
   pluginStack.push(terser({
     mangle: {
@@ -140,11 +131,6 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildEnv: BuildType.CJS,
-      overrides: {
-        nodeResolve: nodeResolve({
-          extensions: NODE_RESOLVE_EXTENSIONS_WEB,
-        }),
-      },
     }),
   },
   {
@@ -158,11 +144,6 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildEnv: BuildType.ES,
-      overrides: {
-        nodeResolve: nodeResolve({
-          extensions: NODE_RESOLVE_EXTENSIONS_WEB,
-        }),
-      },
     }),
   },
   {
@@ -177,11 +158,6 @@ const config: Array<RollupOptions> = [
     plugins: getPlugins({
       buildEnv: BuildType.MJS,
       mode: 'production',
-      overrides: {
-        nodeResolve: nodeResolve({
-          extensions: NODE_RESOLVE_EXTENSIONS_WEB,
-        }),
-      },
     }),
   },
   {
@@ -195,11 +171,13 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildEnv: BuildType.RN,
-      overrides: {
-        nodeResolve: nodeResolve({
+    }).map((plugin) => {
+      if (plugin.name === 'node-resolve') {
+        return nodeResolve({
           extensions: NODE_RESOLVE_EXTENSIONS_RN,
-        }),
-      },
+        })
+      }
+      return plugin
     }),
   },
 ]
