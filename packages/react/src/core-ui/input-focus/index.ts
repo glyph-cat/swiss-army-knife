@@ -46,6 +46,16 @@ export class InputFocusTracker implements IDisposable {
     return useSimpleStateValue(this.M$IsAnyInputInFocusState)
   }
 
+  registerFocus(componentId: string): void {
+    this.M$inputFocusTracker[componentId] = true
+    this.M$refreshState()
+  }
+
+  registerBlur(componentId: string): void {
+    delete this.M$inputFocusTracker[componentId]
+    this.M$refreshState()
+  }
+
   dispose(): void {
     this.M$IsAnyInputInFocusState.dispose()
   }
@@ -55,22 +65,6 @@ export class InputFocusTracker implements IDisposable {
    */
   private M$refreshState(): void {
     this.M$IsAnyInputInFocusState.set(Object.keys(this.M$inputFocusTracker).length > 0)
-  }
-
-  /**
-   * @internal
-   */
-  private M$registerFocus(componentId: string): void {
-    this.M$inputFocusTracker[componentId] = true
-    this.M$refreshState()
-  }
-
-  /**
-   * @internal
-   */
-  private M$registerBlur(componentId: string): void {
-    delete this.M$inputFocusTracker[componentId]
-    this.M$refreshState()
   }
 
   /**
@@ -88,12 +82,12 @@ export class InputFocusTracker implements IDisposable {
     useImperativeHandle(ref, () => elementRef.current)
 
     const onBlur = useCallback(() => {
-      this.M$registerFocus(componentId)
+      this.registerFocus(componentId)
     }, [componentId])
 
     useLayoutEffect(() => {
       const onFocus = () => {
-        this.M$registerBlur(componentId)
+        this.registerBlur(componentId)
       }
       const target = elementRef.current
       target.addEventListener('focus', onFocus)
