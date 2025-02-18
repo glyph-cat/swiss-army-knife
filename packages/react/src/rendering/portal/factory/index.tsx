@@ -1,8 +1,7 @@
 import { devWarn, IDisposable } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { Children, ElementType, Fragment, JSX, Key, ReactNode, useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { Children, ElementType, Fragment, JSX, ReactNode, useEffect, useState } from 'react'
 import { IPortalFactoryState, PortalType } from './abstractions'
 
 /**
@@ -123,35 +122,4 @@ export class PortalFactory implements IDisposable {
     this.M$state.dispose()
   }
 
-}
-
-/**
- * @public
- */
-export interface DOMPortalProps extends PortalProps {
-  /**
-   * @defaultValue `document.body`
-   */
-  container?: Element | DocumentFragment
-  portalKey?: Key
-}
-
-/**
- * @example
- * import { DOMPortal as Portal } from '@glyph-cat/swiss-army-knife-react'
- * function Example(): JSX.Element {
- *   return (
- *     <Portal>
- *       <h1>Hello, world!</h1>
- *     </Portal>
- *   )
- * }
- * @public
- */
-export function DOMPortal({
-  children,
-  container,
-  portalKey,
-}: DOMPortalProps): JSX.Element {
-  return createPortal(children, container ?? document.body, portalKey)
 }
