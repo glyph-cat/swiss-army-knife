@@ -8,8 +8,11 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
-import { version } from '../package.json'
+import rootPackageJson from '../../../package.json'
+import packageJson from '../package.json'
 import { BuildType } from '../src/constants/public'
+
+const { version } = packageJson
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.tsx',
@@ -41,8 +44,8 @@ const INPUT_FILE = 'src/index.ts'
 const EXTERNAL_LIBS = [
   'node_modules',
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
-  ...Object.keys(require('../package.json').dependencies ?? {}),
-  ...Object.keys(require('../package.json').devDependencies ?? {}),
+  ...getDependencies(packageJson),
+  ...getDependencies(rootPackageJson),
 ].sort()
 
 interface IPluginConfig {
@@ -183,3 +186,17 @@ const config: Array<RollupOptions> = [
 ]
 
 export default config
+
+interface IPackageLike {
+  dependencies?: Record<string, string>
+  devDependencies?: Record<string, string>
+  peerDependencies?: Record<string, string>
+}
+
+function getDependencies(pkg: IPackageLike): Array<string> {
+  return [...new Set([
+    ...Object.keys(pkg.dependencies ?? {}),
+    ...Object.keys(pkg.devDependencies ?? {}),
+    ...Object.keys(pkg.peerDependencies ?? {}),
+  ])].sort()
+}
