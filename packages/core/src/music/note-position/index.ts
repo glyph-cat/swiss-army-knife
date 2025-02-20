@@ -1,4 +1,4 @@
-import { NotePositionTuple } from '../index.scripted'
+import { NotePositionTuple } from '../abstractions'
 
 // this should contain methods that help to convert note position to milliseconds and vice versa, while taking into consideration variable tempo and variable time signature
 

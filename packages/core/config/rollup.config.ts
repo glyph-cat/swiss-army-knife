@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 // import babel from '@rollup/plugin-babel'
 // import autoprefixer from 'autoprefixer'
 // import postcss from 'rollup-plugin-postcss'
