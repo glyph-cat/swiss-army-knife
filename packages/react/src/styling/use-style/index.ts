@@ -1,16 +1,6 @@
 import { mapPropertyNameFromJSToCSS, serializePixelValue } from '@glyph-cat/swiss-army-knife'
 import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
-
-/**
- * @public
- */
-export type PseudoClasses =
-  | ':hover'
-  | ':active'
-  | ':focus'
-  | ':focus-within'
-  | '::placeholder'
-  | ':placeholder-shown'
+import { PseudoClasses } from './abstractions'
 
 /**
  * ## Pros
@@ -99,3 +89,7 @@ export function getClassNamesAndStyleContent<Key extends string>(
   }
   return [classNames, styleContent]
 }
+
+// #region Miscellaneous exports
+export * from './abstractions/public'
+// #endregion Miscellaneous exports

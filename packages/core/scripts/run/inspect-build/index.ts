@@ -1,3 +1,3 @@
-import { inspectBuild } from '../../../../../tools/inspect-build'
+import { inspectBuild } from '../../../../../scripts/tools/inspect-build'
 
 inspectBuild('.')

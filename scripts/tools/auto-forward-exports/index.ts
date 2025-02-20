@@ -4,7 +4,7 @@
 
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { ENCODING_UTF_8 } from '../constants'
+import { ENCODING_UTF_8 } from '../../constants'
 
 export function autoForwardExports(path: string): void {
 
