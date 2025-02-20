@@ -58,6 +58,8 @@ function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
 
   const pluginStack: Array<RollupPlugin> = [
     nodeResolve({
+      // KIV: using @rollup/plugin-node-resolve v14 or above will cause
+      // '.native.(t|j)sx?' files to be ignored
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),
     // babel({
