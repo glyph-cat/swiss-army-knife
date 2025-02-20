@@ -16,7 +16,7 @@
   "readme": "README.md",
   "scripts": {
     "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
-    "afe": "tsx ../../scripts/base/auto-forward-exports",
+    "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "lint:path": "eslint",
