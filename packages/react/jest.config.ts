@@ -14,7 +14,7 @@ const config: Config.InitialOptions = {
   fakeTimers: {
     enableGlobally: true,
   },
-  verbose: true,
+  // verbose: true,
 }
 
 export default config

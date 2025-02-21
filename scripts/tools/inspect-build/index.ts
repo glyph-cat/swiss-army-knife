@@ -2,8 +2,8 @@ import chalk from 'chalk'
 import { readFileSync } from 'fs'
 import { ENCODING_UTF_8 } from '../../constants'
 
-const REACT_DOM_PATTERN = /('|")react-dom('|")/
-const REACT_NATIVE_PATTERN = /('|")react-native('|")/
+const REACT_DOM_PATTERN = /(import.+from|require\()('|")react-dom('|")/
+const REACT_NATIVE_PATTERN = /(import.+from|require\()('|")react-native('|")/
 
 export function inspectBuild(path: string): void {
 
