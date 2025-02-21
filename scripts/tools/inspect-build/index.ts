@@ -2,23 +2,23 @@ import chalk from 'chalk'
 import { readFileSync } from 'fs'
 import { ENCODING_UTF_8 } from '../../constants'
 
-const REACT_DOM_PATTERN = /(import.+from|require\()('|")react-dom('|")/
-const REACT_NATIVE_PATTERN = /(import.+from|require\()('|")react-native('|")/
+const REACT_DOM_PATTERN = /(from\s?|require\()('|")react-dom('|")/
+const REACT_NATIVE_PATTERN = /(from\s?|require\()('|")react-native('|")/
 
 export function inspectBuild(path: string): void {
 
   const errorStack: Array<string> = []
 
   const typeDefinitions = readFileSync(`${path}/lib/types/index.d.ts`, ENCODING_UTF_8)
-  if (/M$/.test(typeDefinitions)) {
-    errorStack.push(`Unattended internal identifiers were detected`)
+  if (/M\$/.test(typeDefinitions)) {
+    errorStack.push(`Unattended internal identifiers ('M$...') were found`)
   }
 
   const cjsBundle = readFileSync(`${path}/lib/cjs/index.js`, ENCODING_UTF_8)
-  performGenericCheckOnWebBundle('MJS', cjsBundle, errorStack)
+  performGenericCheckOnWebBundle('CJS', cjsBundle, errorStack)
 
   const esBundle = readFileSync(`${path}/lib/es/index.js`, ENCODING_UTF_8)
-  performGenericCheckOnWebBundle('MJS', esBundle, errorStack)
+  performGenericCheckOnWebBundle('ES', esBundle, errorStack)
 
   const mjsBundle = readFileSync(`${path}/lib/es/index.mjs`, ENCODING_UTF_8)
   performGenericCheckOnWebBundle('MJS', mjsBundle, errorStack)
@@ -39,7 +39,7 @@ export function inspectBuild(path: string): void {
 
   if (errorStack.length > 0) {
     const bullet = ' - '
-    console.log(chalk.red(`${bullet}${errorStack.join(bullet)}`))
+    console.log(chalk.red(`${bullet}${errorStack.join(`\n${bullet}`)}`))
     process.exit(1)
   }
 
