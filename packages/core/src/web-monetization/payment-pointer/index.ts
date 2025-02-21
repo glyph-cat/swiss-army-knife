@@ -35,7 +35,7 @@ export class PaymentPointerProtector {
    */
   private M$onMetaMutated = (mutationStack: Array<MutationRecord>): void => {
     // This makes the element seem like a read-only tag because attribute values
-    // are reverted the moment a new value is commited to it
+    // are reverted the moment a new value is committed to it
     for (const mutation of mutationStack) {
       if (mutation.target[ATTR_NAME] !== META_NAME) {
         mutation.target[ATTR_NAME] = META_NAME
