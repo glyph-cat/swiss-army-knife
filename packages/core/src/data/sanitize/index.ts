@@ -1,4 +1,5 @@
-import { isObject, isString } from '../type-check'
+import { trim } from '../../string/trim'
+import { isObject } from '../type-check'
 
 /**
  * @public
@@ -8,8 +9,9 @@ export namespace Sanitize {
   /**
    * Parses a value into boolean.
    * @param value - The value to be parsed.
-   * @returns `true` if value is one of: `true`, `1`, `'true'`, `'1'`, `'yes'`,
-   * `'y'`. String values are not case-sensitive.
+   * @returns `true` if value is one of: `true`, `'true'`, `'t'`, `'yes'`, `'y'`, `1`, `'1'`.
+   * Otherwise, returns `false`. The values are not case-sensitive.
+   * If incorrect types are provided (Eg: an object `{}`) then it returns `false` as well.
    * @example
    * Boolean(1) // true
    * Sanitize.toBoolean(1) // true
@@ -22,14 +24,7 @@ export namespace Sanitize {
    * @public
    */
   export function toBoolean(value: unknown): boolean {
-    if (value === true) {
-      return true
-    } else if (value === 1) {
-      return true
-    } else if (isString(value)) {
-      return ['true', '1', 'yes', 'y'].includes(trim(value).toLowerCase())
-    }
-    return false
+    return /^(t(rue)?|y(es)?|1)$/i.test(value as string)
   }
 
   /**
@@ -45,18 +40,6 @@ export namespace Sanitize {
    */
   export function toString(value: unknown): string {
     return isObject(value) ? JSON.stringify(value) : trim(String(value))
-  }
-
-  /**
-   * Removes any leading and trailing whitespaces, tabs, or empty lines from a string.
-   * @param value - The string to be trimmed.
-   * @returns The trimmed string.
-   * @example
-   * Sanitize.toString('  \t foo bar\n\n') // 'foo bar'
-   * @public
-   */
-  export function trim(value: string): string {
-    return value.replace(/(^(\s|\n|\t)+|(\s|\n|\t)+$)/g, '')
   }
 
 }

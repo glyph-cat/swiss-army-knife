@@ -34,10 +34,3 @@ test(Sanitize.toString.name, () => {
   expect(Sanitize.toString(' foo bar ')).toBe('foo bar')
   expect(Sanitize.toString({ firstName: 'John' })).toBe('{"firstName":"John"}')
 })
-
-test(Sanitize.trim.name, () => {
-  expect(Sanitize.toString('  foo \t\n bar  ')).toBe('foo \t\n bar')
-  expect(Sanitize.toString('\n\nfoo \t\n bar\n\n')).toBe('foo \t\n bar')
-  expect(Sanitize.toString('\t\tfoo \t\n bar\t\t')).toBe('foo \t\n bar')
-  expect(Sanitize.toString('\n \t foo \t\n bar\t \n')).toBe('foo \t\n bar')
-})
