@@ -1,4 +1,4 @@
 set -e
 
-yarn --cwd ./packages/core build
-yarn --cwd ./packages/react build
+yarn --cwd ./packages/core all
+yarn --cwd ./packages/react all
