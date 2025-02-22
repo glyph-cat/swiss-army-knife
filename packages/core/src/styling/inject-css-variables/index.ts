@@ -15,10 +15,10 @@ export function injectCSSVariables(
 ): CleanupFunction {
   for (const key in values) {
     const value = values[key]
-    // NOTE: By using `serializePixelValue` we make a smart guess on whether
+    // NOTE: `serializePixelValue` will make a smart guess on whether
     // the variables need to have 'px' appended to them as suffix.
     serializePixelValue(key, value)
-    target.style.setProperty(`--${key}`, String(serializePixelValue(key, value)))
+    target.style.setProperty(`--${key}`, serializePixelValue(key, value))
   }
   return () => {
     for (const key in values) {

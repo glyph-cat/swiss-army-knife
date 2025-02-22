@@ -1,11 +1,12 @@
 import { Properties } from 'csstype'
+import { LenientString } from '../../types'
 
 /**
  * @public
  */
-export type CSSProperties = Properties
+export type CSSProperties = Properties<LenientString<number>>
 
 /**
  * @public
  */
-export type ExtendedCSSProperties = Properties & Record<string, Properties[keyof Properties]>
+export type ExtendedCSSProperties = CSSProperties & Record<string, CSSProperties[keyof CSSProperties]>

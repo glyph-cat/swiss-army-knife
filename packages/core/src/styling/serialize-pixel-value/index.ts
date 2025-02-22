@@ -9,15 +9,19 @@ const keywordsPattern = /(gap|height|margin|padding|radius|size|spacing|width)/i
  * @example
  * serializePixelValue('fontSize', 14)     // '14px'
  * serializePixelValue('fontSize', '14pt') // '14pt'
- * serializePixelValue('opacity', 1)       // 1
+ * serializePixelValue('opacity', 1)       // '1'
  * @public
  */
 export function serializePixelValue(
   attributeKey: string,
   attributeValue: string | number
-): string | number {
-  if (isNumber(attributeValue) && keywordsPattern.test(attributeKey)) {
-    return `${attributeValue}px`
+): string {
+  if (isNumber(attributeValue)) {
+    if (keywordsPattern.test(attributeKey)) {
+      return `${attributeValue}px`
+    } else {
+      return String(attributeValue)
+    }
   } else {
     return attributeValue
   }
