@@ -43,7 +43,7 @@ export function inspectBuild(path: string): void {
     process.exit(1)
   }
 
-  console.log(chalk.green('✓ Build inspection complete - no anomalies detected'))
+  console.log(chalk.green('✓ Build inspection complete'))
 
 }
 

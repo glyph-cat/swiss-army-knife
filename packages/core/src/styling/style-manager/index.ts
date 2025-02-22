@@ -16,9 +16,9 @@ export class StyleManager extends StyleMap implements IDisposable {
   private readonly M$cache = new Map<string, string>()
 
   /**
-   * @private
+   * @internal
    */
-  readonly M$removeStyles: CleanupFunction
+  private readonly M$removeStyles: CleanupFunction
 
   readonly element: HTMLStyleElement
 
