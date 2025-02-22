@@ -23,7 +23,7 @@
     "rollup": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
     "types": "yarn tsc --declaration",
-    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "api": "sh ./scripts/run/api.sh",
     "build": "sh ./scripts/run/build.sh",
     "all": "sh ./scripts/run/all.sh"
   },
