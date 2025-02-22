@@ -1,7 +1,7 @@
 {
   "name": "playground-react",
   "displayName": "Playground",
-  "version": "0.0.0-experimental.62",
+  "version": "0.0.0-experimental.63",
   "description": "Web playground for GlyphCat's Swiss Army Knife.",
   "author": "glyph-cat",
   "license": "MIT",
