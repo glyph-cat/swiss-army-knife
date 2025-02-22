@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { createContext, createElement, JSX, ReactNode, useContext } from 'react'
 
 /**
