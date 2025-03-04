@@ -81,12 +81,12 @@ export class InputFocusTracker implements IDisposable {
     useImperativeHandle(ref, () => elementRef.current)
 
     const onBlur = useCallback(() => {
-      this.registerFocus(componentId)
+      this.registerBlur(componentId)
     }, [componentId])
 
     useLayoutEffect(() => {
       const onFocus = () => {
-        this.registerBlur(componentId)
+        this.registerFocus(componentId)
       }
       const target = elementRef.current
       target.addEventListener('focus', onFocus)

@@ -1,6 +1,3 @@
-import { hasProperty } from '../../data'
-import { TruthRecord } from '../../data/indexing'
-
 /**
  * @public
  */
@@ -18,7 +15,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
   /**
    * @internal
    */
-  private M$history: TruthRecord = {}
+  private M$history = new Set<string>()
 
   constructor(
     /**
@@ -42,7 +39,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
     while (this.has(hash)) {
       hash = this.generator(++collisionCount, ...customArgs)
     }
-    this.M$history[hash] = true
+    this.track(hash)
     return hash
   }
 
@@ -52,14 +49,14 @@ export class BaseHashFactory<GeneratorArg = unknown> {
    * method.
    */
   untrack(hash: string): void {
-    delete this.M$history[hash]
+    this.M$history.delete(hash)
   }
 
   /**
    * The list of hashes generated so far.
    */
   get history(): Array<string> {
-    return Object.keys(this.M$history)
+    return [...this.M$history.values()]
   }
 
   /**
@@ -68,7 +65,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
    * {@link BaseHashFactory.prototype.create | `.create`} method.
    */
   reset(): void {
-    this.M$history = {}
+    this.M$history.clear()
   }
 
   /**
@@ -79,7 +76,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
    */
   track(...hashes: Array<string>): void {
     for (const hash of hashes) {
-      this.M$history[hash] = true
+      this.M$history.add(hash)
     }
   }
 
@@ -89,7 +86,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
    * @returns `true` if the hash has already been generated, otherwise `false`.
    */
   has(hash: string): boolean {
-    return hasProperty(this.M$history, hash)
+    return this.M$history.has(hash)
   }
 
 }

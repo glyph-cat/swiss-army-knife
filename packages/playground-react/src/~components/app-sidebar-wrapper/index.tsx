@@ -74,21 +74,28 @@ export function AppSideBarWrapper({
                   }}
                   onClick={CustomDebugger.toggleStrictMode}
                 >
-                  Strict Mode: {shouldUseStrictMode ? 'ON' : 'OFF'}
+                  {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
                 </Button>
                 <Button
                   className={styles.buttonBase}
                   onClick={CustomDebugger.restartServer}
                   style={{ height: BUTTON_HEIGHT }}
                 >
-                  Restart server
+                  {'Restart server'}
+                </Button>
+                <Button
+                  className={styles.buttonBase}
+                  onClick={CustomDebugger.softReload}
+                  style={{ height: BUTTON_HEIGHT }}
+                >
+                  {'Soft Reload'}
                 </Button>
                 <Button
                   className={styles.buttonBase}
                   onClick={showCreateSandboxPopup}
                   style={{ height: BUTTON_HEIGHT }}
                 >
-                  Create sandbox
+                  {'Create sandbox'}
                 </Button>
               </View>
             </View>

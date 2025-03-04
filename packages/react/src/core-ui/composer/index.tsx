@@ -184,6 +184,7 @@ export class CoreUIComposer implements IDisposable {
       effective: $effective,
       ...otherProps
     }, ref): JSX.Element => {
+      // TODO: Should intercept props `onFocus` and `onBlur`; `addEventListener` for focus and blur; imperative ref `.focus` and `.blur` ... first of all, find of if it is possible for divs to be focused (semantically speaking / based on the web standard)
       const allowRefocus = $allowRefocus ?? options?.allowRefocus
       const ignoreSiblings = $ignoreSiblings ?? options.ignoreSiblings
       const effective = $effective ?? options.effective
