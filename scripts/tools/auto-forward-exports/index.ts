@@ -4,7 +4,7 @@
 
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { ENCODING_UTF_8 } from '../../constants'
+import { Encoding } from '../../../packages/core/src'
 
 export function autoForwardExports(path: string): void {
 
@@ -18,7 +18,7 @@ export function autoForwardExports(path: string): void {
     const ignorePattern = /\.(draft|old|scripted)\.?/
     if (!indexPattern.test(filePath)) { return }
     if (ignorePattern.test(filePath)) { return }
-    const fileContents = readFileSync(filePath, ENCODING_UTF_8).trim()
+    const fileContents = readFileSync(filePath, Encoding.UTF_8).trim()
     if (!/^export \* from '\.\/index\.scripted'$/.test(fileContents)) { return }
     // #endregion Filtering  
 
@@ -42,7 +42,10 @@ export function autoForwardExports(path: string): void {
       const item = items[i]
       const connector = i >= items.length - 1 ? '└' : '├'
       const subPath = `${directoryPath}/${item}`
-      const hasIndexFile = checkIndexFile(subPath)
+      const itemIsDirectory = statSync(subPath).isDirectory()
+      const hasIndexFile = itemIsDirectory
+        ? checkIndexFile(subPath)
+        : true // self is the '.ts' file already
       if (!hasIndexFile) { directoriesWithMissingIndexFiles.push(subPath) }
       const indicator = hasIndexFile ? chalk.green('✓') : chalk.red('×')
       const isAbstractionsOrConstants = item === 'abstractions' || item === 'constants'
@@ -53,7 +56,7 @@ export function autoForwardExports(path: string): void {
       if (isAbstractionsOrConstants) {
         codeLineStack.push(`export * from './${item}/public'`)
       } else {
-        codeLineStack.push(`export * from './${item}'`)
+        codeLineStack.push(`export * from './${itemIsDirectory ? item : item.replace(/\.(j|t)sx?$/, '')}'`)
       }
     }
     codeLineStack.push(
@@ -62,7 +65,7 @@ export function autoForwardExports(path: string): void {
     writeFileSync(
       `${directoryPath}/index.scripted.ts`,
       codeLineStack.join('\n') + '\n',
-      ENCODING_UTF_8,
+      Encoding.UTF_8,
     )
     // #endregion Writing scripted output
 

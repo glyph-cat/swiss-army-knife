@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { execSync } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
-import { ENCODING_UTF_8 } from '../../constants'
+import { Encoding } from '../../../packages/core/src'
 
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
@@ -19,7 +19,7 @@ function run(version: string): void {
   }
 
   const gitStatusOutput = execSync('git status --porcelain', {
-    encoding: ENCODING_UTF_8,
+    encoding: Encoding.UTF_8,
   }).trim()
 
   if (gitStatusOutput) {
@@ -65,9 +65,9 @@ function run(version: string): void {
 run(process.argv[2])
 
 function readJson(path: string): Record<string, unknown> {
-  return JSON.parse(readFileSync(path, ENCODING_UTF_8))
+  return JSON.parse(readFileSync(path, Encoding.UTF_8))
 }
 
 function writeJson(path: string, object: Record<string, unknown>): void {
-  writeFileSync(path, JSON.stringify(object, null, 2), ENCODING_UTF_8)
+  writeFileSync(path, JSON.stringify(object, null, 2), Encoding.UTF_8)
 }

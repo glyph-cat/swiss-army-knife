@@ -1,5 +1,11 @@
 import { vh, vw } from '@glyph-cat/swiss-army-knife'
-import { CheckApplePlatformProvider, useIsApplePlatform } from '@glyph-cat/swiss-army-knife-react'
+import {
+  CheckApplePlatformProvider,
+  ClientOnly,
+  MaterialSymbolsOnlineLoader,
+  MaterialSymbolsProvider,
+  useIsApplePlatform,
+} from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -9,7 +15,6 @@ import { SandboxErrorBoundary } from '~components/sandbox-error-boundary'
 import { ENV, FixedKeyChordKey } from '~constants'
 import { FocusRoot, useKeyChordActivationListener, useKeyDownListener, View } from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
-import { MaterialSymbolsLoader, MaterialSymbolsProvider } from '~unstable/material-symbols'
 import '../styles/globals.css'
 
 const SHORTCUT_KEYS_TO_IGNORE: Readonly<Array<string>> = [
@@ -32,13 +37,15 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <MaterialSymbolsLoader variants={['rounded']} />
+      <MaterialSymbolsOnlineLoader variants={['rounded']} />
       <MaterialSymbolsProvider variant='rounded' fill={1}>
         <FocusRoot>
           <AppSideBarWrapper>
-            <SandboxErrorBoundary>
-              <Component {...pageProps} />
-            </SandboxErrorBoundary>
+            <ClientOnly>
+              <SandboxErrorBoundary>
+                <Component {...pageProps} />
+              </SandboxErrorBoundary>
+            </ClientOnly>
           </AppSideBarWrapper>
           <CheckApplePlatformProvider>
             <KeyListeners />

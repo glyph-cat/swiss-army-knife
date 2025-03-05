@@ -1,5 +1,5 @@
 import { c, Casing, isString } from '@glyph-cat/swiss-army-knife'
-import { useActionState } from '@glyph-cat/swiss-army-knife-react'
+import { MaterialSymbol, useActionState } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,7 +11,6 @@ import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import { CustomDebugger } from '~services/debugging'
-import { MaterialSymbol } from '~unstable/material-symbols'
 import styles from './index.module.css'
 
 const BUTTON_HEIGHT = 28 // px

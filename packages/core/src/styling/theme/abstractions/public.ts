@@ -3,27 +3,38 @@ import { StringRecord } from '../../../types'
 /**
  * @public
  */
-export interface ITheme {
-  readonly id: string,
-  readonly colorScheme: ColorScheme
-  readonly palette: Readonly<IThemePalette>
-  readonly spacing: Readonly<ISpacingDefinition>
+export type StringColorValue = string
+
+/**
+ * @public
+ */
+export type CSSVariableRecord = StringRecord<StringColorValue | number>
+
+/**
+ * @public
+ */
+export enum ColorScheme {
+  dark = 'dark',
+  light = 'light',
 }
 
 /**
  * @public
  */
-export interface ISpacingDefinition {
-  None: number
-  XXXS: number
-  XXS: number
-  XS: number
-  S: number
-  M: number
-  L: number
-  XL: number
-  XXL: number
-  XXXL: number
+export enum LenientColorScheme {
+  dark = ColorScheme.dark,
+  light = ColorScheme.light,
+  auto = 'auto',
+}
+
+/**
+ * @public
+ */
+export interface ITheme {
+  readonly id: string,
+  readonly colorScheme: ColorScheme
+  readonly palette: Readonly<IThemePalette>
+  readonly spacing: Readonly<ISpacingDefinition>
 }
 
 /**
@@ -41,11 +52,6 @@ export interface IBaseThemePalette {
   errorColor: StringColorValue
   dangerColor: StringColorValue
 }
-
-/**
- * @public
- */
-export type StringColorValue = string
 
 /**
  * @public
@@ -74,21 +80,23 @@ export interface IThemePalette extends IBaseThemePalette {
 /**
  * @public
  */
-export enum ColorScheme {
-  dark = 'dark',
-  light = 'light',
+export interface ISpacingDefinition {
+  None: number
+  XXXS: number
+  XXS: number
+  XS: number
+  S: number
+  M: number
+  L: number
+  XL: number
+  XXL: number
+  XXXL: number
 }
 
 /**
  * @public
  */
-export enum LenientColorScheme {
-  dark = ColorScheme.dark,
-  light = ColorScheme.light,
-  auto = 'auto',
+export interface IComponentParameters {
+  inputElementBorderRadius: number
+  inputElementBorderSize: number
 }
-
-/**
- * @public
- */
-export type CSSVariableRecord = StringRecord<string | number>

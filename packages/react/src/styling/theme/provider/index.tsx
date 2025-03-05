@@ -38,30 +38,53 @@ export function ThemeProvider({
 
   const spacingStyles = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
-    for (const token in theme.spacing) {
-      const property = `--spacing${token}`
-      styleObject[property] = `${theme.spacing[token]}px`
+    for (const key in theme.spacing) {
+      const value = theme.spacing[key]
+      const property = `--spacing${key}`
+      styleObject[property] = `${value}px`
     }
     return styleObject
   }, [theme.spacing])
 
   const paletteStyles = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
-    for (const token in theme.palette) {
-      const property = `--${new Casing(token).toCamelCase()}`
-      styleObject[property] = theme.palette[token]
+    for (const key in theme.palette) {
+      const value = theme.palette[key]
+      const property = `--${new Casing(key).toCamelCase()}`
+      styleObject[property] = value
     }
     return styleObject
   }, [theme.palette])
+
+  const componentParameters = useMemo(() => {
+    const styleObject: ExtendedCSSProperties = {}
+    for (const key in theme.componentParameters) {
+      const value = theme.componentParameters[key]
+      const property = `--${new Casing(key).toCamelCase()}`
+      styleObject[property] = value
+    }
+    return styleObject
+  }, [theme.componentParameters])
+
+  const customValues = useMemo(() => {
+    const styleObject: ExtendedCSSProperties = {}
+    for (const key in theme.customValues) {
+      const property = `--${new Casing(key).toCamelCase()}`
+      styleObject[property] = theme.customValues[key]
+    }
+    return styleObject
+  }, [theme.customValues])
 
   useInsertionEffect(() => {
     const styleManager = new StyleManager(new StyleMap([[`.${className}`, {
       ...spacingStyles,
       ...paletteStyles,
+      ...componentParameters,
+      ...customValues,
       colorScheme: theme.colorScheme,
     }]]), -1 as PrecedenceLevel)
     return () => { styleManager.dispose() }
-  }, [className, paletteStyles, spacingStyles, theme.colorScheme])
+  }, [className, componentParameters, customValues, paletteStyles, spacingStyles, theme.colorScheme])
 
   useInsertionEffect(() => {
     if (isNested) { return } // Early exit

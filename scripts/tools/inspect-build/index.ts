@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { readFileSync } from 'fs'
-import { ENCODING_UTF_8 } from '../../constants'
+import { Encoding } from '../../../packages/core/src'
 
 const REACT_DOM_PATTERN = /(from\s?|require\()('|")react-dom('|")/
 const REACT_NATIVE_PATTERN = /(from\s?|require\()('|")react-native('|")/
@@ -9,21 +9,21 @@ export function inspectBuild(path: string): void {
 
   const errorStack: Array<string> = []
 
-  const typeDefinitions = readFileSync(`${path}/lib/types/index.d.ts`, ENCODING_UTF_8)
+  const typeDefinitions = readFileSync(`${path}/lib/types/index.d.ts`, Encoding.UTF_8)
   if (/M\$/.test(typeDefinitions)) {
     errorStack.push(`Unattended internal identifiers ('M$...') were found`)
   }
 
-  const cjsBundle = readFileSync(`${path}/lib/cjs/index.js`, ENCODING_UTF_8)
+  const cjsBundle = readFileSync(`${path}/lib/cjs/index.js`, Encoding.UTF_8)
   performGenericCheckOnWebBundle('CJS', cjsBundle, errorStack)
 
-  const esBundle = readFileSync(`${path}/lib/es/index.js`, ENCODING_UTF_8)
+  const esBundle = readFileSync(`${path}/lib/es/index.js`, Encoding.UTF_8)
   performGenericCheckOnWebBundle('ES', esBundle, errorStack)
 
-  const mjsBundle = readFileSync(`${path}/lib/es/index.mjs`, ENCODING_UTF_8)
+  const mjsBundle = readFileSync(`${path}/lib/es/index.mjs`, Encoding.UTF_8)
   performGenericCheckOnWebBundle('MJS', mjsBundle, errorStack)
 
-  const rnBundle = readFileSync(`${path}/lib/native/index.js`, ENCODING_UTF_8)
+  const rnBundle = readFileSync(`${path}/lib/native/index.js`, Encoding.UTF_8)
   if (!REACT_NATIVE_PATTERN.test(rnBundle)) {
     errorStack.push('React Native counterparts (Eg: index.native.ts) were not bundled into the final code')
   } else {

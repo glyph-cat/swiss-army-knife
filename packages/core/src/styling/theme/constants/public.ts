@@ -37,4 +37,6 @@ export const ThemeToken = {
   warnColor: 'var(--warnColor)',
   errorColor: 'var(--errorColor)',
   dangerColor: 'var(--dangerColor)',
+  inputElementBorderRadius: 'var(--inputElementBorderRadius)',
+  inputElementBorderSize: 'var(--inputElementBorderSize)',
 } as const

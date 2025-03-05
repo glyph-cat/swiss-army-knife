@@ -3,6 +3,7 @@ import {
   ColorScheme,
   CSSVariableRecord,
   IBaseThemePalette,
+  IComponentParameters,
   ISpacingDefinition,
   ITheme,
   IThemePalette,
@@ -18,9 +19,31 @@ export class Theme<
 
   // #region Defaults
 
-  // TODO: default light palette
+  static DEFAULT_LIGHT_BASE_PALETTE: Readonly<IBaseThemePalette> = {
+    tint: '#2b80ff',
+    appBg: '#eeeeee',
+    appText: '#4b4b4b',
+    separator: '#808080',
+    neutralColor: '#6680aa',
+    infoColor: '#00cccc',
+    successColor: '#008000',
+    warnColor: '#ee6600',
+    errorColor: '#ff3333',
+    dangerColor: '#ff4a4a',
+  }
 
-  // TODO: default dark palette
+  static DEFAULT_DARK_BASE_PALETTE: Readonly<IBaseThemePalette> = {
+    tint: '#2b80ff',
+    appBg: '#111111',
+    appText: '#b5b5b5',
+    separator: '#808080',
+    neutralColor: '#4b6680',
+    infoColor: '#00cccc',
+    successColor: '#00aa00',
+    warnColor: '#ff8000',
+    errorColor: '#ff4b4b',
+    dangerColor: '#ff6666',
+  }
 
   static readonly DEFAULT_SPACING: Readonly<ISpacingDefinition> = {
     None: 0,
@@ -35,21 +58,38 @@ export class Theme<
     XXXL: 60,
   }
 
+  static readonly DEFAULT_COMPONENT_PARAMETERS: Readonly<IComponentParameters> = {
+    inputElementBorderRadius: 5,
+    inputElementBorderSize: 2,
+  }
+  // TODO: Shadow
+
   // #endregion Defaults
 
   readonly palette: Readonly<IThemePalette>
   readonly spacing: Readonly<ISpacingDefinition>
+  readonly componentParameters: Readonly<IComponentParameters>
 
   constructor(
     public readonly id: string,
     public readonly colorScheme: ColorScheme,
-    basePalette: BaseThemePalette,
+    basePalette?: Partial<BaseThemePalette>,
     spacing?: Partial<ISpacingDefinition>,
-    customValues?: Readonly<CustomValues>,
+    componentParameters?: Partial<IComponentParameters>, // TODO
+    public readonly customValues = {} as Readonly<CustomValues>,
   ) {
 
-    const { tint, appBg, appText, separator } = basePalette
     const isLightColorScheme = colorScheme === ColorScheme.light
+
+    const mergedBasePalette: IBaseThemePalette = {
+      ...(isLightColorScheme
+        ? Theme.DEFAULT_LIGHT_BASE_PALETTE
+        : Theme.DEFAULT_DARK_BASE_PALETTE
+      ),
+      ...basePalette,
+    }
+
+    const { tint, appBg, appText, separator } = basePalette
 
     const tintSrc = Color.fromString(tint)
     const tintLighter = adjustLightness(tintSrc, 1.1).toString()
@@ -71,7 +111,7 @@ export class Theme<
     const separator4 = adjustLightness(separatorSrc, isLightColorScheme ? 1.3 : 0.7).toString()
 
     this.palette = {
-      ...basePalette,
+      ...mergedBasePalette,
       tintLighter,
       tintDarker,
       tint20: `${tint}20`,
@@ -91,12 +131,16 @@ export class Theme<
       separator2,
       separator3,
       separator4,
-      ...customValues,
     }
 
     this.spacing = {
       ...Theme.DEFAULT_SPACING,
       ...spacing,
+    }
+
+    this.componentParameters = {
+      ...componentParameters,
+      ...Theme.DEFAULT_COMPONENT_PARAMETERS,
     }
 
   }

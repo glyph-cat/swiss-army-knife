@@ -1,11 +1,16 @@
 import { c, Empty } from '@glyph-cat/swiss-army-knife'
-import { DoNotRender } from '@glyph-cat/swiss-army-knife-react'
+import { DoNotRender, MaterialSymbol, MaterialSymbolName } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, MouseEvent, ReactNode, useCallback, useContext, useState } from 'react'
 import { Code } from '~components/sandbox-extensions'
 import { SandboxStyle } from '~constants'
-import { Button, FocusLayer, GlobalDisabledContext, GlobalLayeredFocusManager, View } from '~core-ui'
-import { MaterialSymbol, MaterialSymbolName } from '~unstable/material-symbols'
+import {
+  Button,
+  FocusLayer,
+  GlobalDisabledContext,
+  GlobalLayeredFocusManager,
+  View,
+} from '~core-ui'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
