@@ -14,7 +14,7 @@ export default async function APIGetAllSandboxesHandler(
 ): Promise<void> {
   try {
     validateHeaders(req, [HttpMethod.GET])
-    const sandboxesPath = './src/~sandboxes'
+    const sandboxesPath = './src/pages/sandbox'
     const sandboxes = readdirSync(sandboxesPath).filter((item) => {
       return statSync(`${sandboxesPath}/${item}`).isDirectory()
     })

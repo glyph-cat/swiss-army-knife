@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Fragment, JSX, StrictMode } from 'react'
 import { AppSideBarWrapper } from '~components/app-sidebar-wrapper'
+import { SandboxErrorBoundary } from '~components/sandbox-error-boundary'
 import { ENV, FixedKeyChordKey } from '~constants'
 import { FocusRoot, useKeyChordActivationListener, useKeyDownListener, View } from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
@@ -35,7 +36,9 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
       <MaterialSymbolsProvider variant='rounded' fill={1}>
         <FocusRoot>
           <AppSideBarWrapper>
-            <Component {...pageProps} />
+            <SandboxErrorBoundary>
+              <Component {...pageProps} />
+            </SandboxErrorBoundary>
           </AppSideBarWrapper>
           <CheckApplePlatformProvider>
             <KeyListeners />

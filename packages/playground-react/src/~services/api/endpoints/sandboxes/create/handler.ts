@@ -21,11 +21,11 @@ export default async function APICreateSandboxHandler(
       throw new InvalidSandboxNameError(name)
     }
 
-    if (existsSync(`./src/~sandboxes/${name}`)) {
+    if (existsSync(`./src/pages/sandbox/${name}`)) {
       throw new ConflictingSandboxNameError(name)
     }
-    mkdirSync(`./src/~sandboxes/${name}`)
-    writeFileSync(`./src/~sandboxes/${name}/index.tsx`, [
+    mkdirSync(`./src/pages/sandbox/${name}`)
+    writeFileSync(`./src/pages/sandbox/${name}/index.tsx`, [
       'import { c } from \'@glyph-cat/swiss-army-knife\'',
       'import { JSX } from \'react\'',
       'import { SandboxStyle } from \'~constants\'',
@@ -43,7 +43,7 @@ export default async function APICreateSandboxHandler(
       '}',
       '',
     ].join('\n'), Encoding.UTF_8)
-    writeFileSync(`./src/~sandboxes/${name}/index.module.css`, [
+    writeFileSync(`./src/pages/sandbox/${name}/index.module.css`, [
       '.container {',
       '}',
       '',
