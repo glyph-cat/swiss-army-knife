@@ -1,4 +1,4 @@
-import { injectCSSVariables } from '@glyph-cat/swiss-army-knife'
+import { CSSVariableRecord, injectCSSVariables } from '@glyph-cat/swiss-army-knife'
 import { useInsertionEffect, useLayoutEffect } from 'react'
 
 /**
@@ -10,7 +10,7 @@ import { useInsertionEffect, useLayoutEffect } from 'react'
  * @public
  */
 export function useCSSVariableInjection(
-  values: Record<string, number | string>,
+  values: CSSVariableRecord,
   target: HTMLElement
 ): void {
   useInsertionEffect(() => {
@@ -27,7 +27,7 @@ export function useCSSVariableInjection(
  * @public
  */
 export function useLayoutCSSVariableInjection(
-  values: Record<string, number | string>,
+  values: CSSVariableRecord,
   target: HTMLElement
 ): void {
   useLayoutEffect(() => {

@@ -103,11 +103,12 @@ export namespace ColorUtil {
         ? maxMinRGBDiff / (maxRGB + minRGB)
         : maxMinRGBDiff / (2 - maxRGB - minRGB)
     )
+    const normalizedMaxMinRGBDiff = maxMinRGBDiff === 0 ? 1 : maxMinRGBDiff
     const hue = r === maxRGB
-      ? (g - b) / maxMinRGBDiff
+      ? (g - b) / normalizedMaxMinRGBDiff
       : g === maxRGB
-        ? 2 + (b - r) / maxMinRGBDiff
-        : 4 + (r - g) / maxMinRGBDiff
+        ? 2 + (b - r) / normalizedMaxMinRGBDiff
+        : 4 + (r - g) / normalizedMaxMinRGBDiff
     return [
       Math.round((hue < 0 ? hue + Color.MAX_HUE_VALUE : hue) * 60),
       Math.round(saturation * Color.MAX_SATURATION_VALUE),

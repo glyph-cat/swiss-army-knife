@@ -60,12 +60,26 @@ export function isNumber(value: unknown): value is number {
 
 /**
  * Determine if a value is an object.
+ *
+ * NOTE: JavaScript also treats `null` as an object.
  * @param value - The value to check.
  * @returns A boolean indicating whether the value is an object.
  * @public
  */
 export function isObject(value: unknown): value is PlainRecord {
   return typeof value === 'object'
+}
+
+/**
+ * Determine if a value is an object and not `null`.
+ *
+ * NOTE: JavaScript also treats `null` as an object.
+ * @param value - The value to check.
+ * @returns A boolean indicating whether the value is an object.
+ * @public
+ */
+export function isObjectNotNull(value: unknown): value is PlainRecord {
+  return typeof value === 'object' && !isNull(value)
 }
 
 /**

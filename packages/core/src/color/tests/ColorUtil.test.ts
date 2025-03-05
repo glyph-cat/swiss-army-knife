@@ -32,8 +32,16 @@ test(ColorUtil.fromHSLToRGB.name, (): void => {
   expect(ColorUtil.fromHSLToRGB(216, 100, 58)).toStrictEqual([41, 126, 255])
 })
 
-test(ColorUtil.fromRGBToHSL.name, (): void => {
-  expect(ColorUtil.fromRGBToHSL(43, 128, 255)).toStrictEqual([216, 100, 58])
+describe(ColorUtil.fromRGBToHSL.name, (): void => {
+
+  test('Happy path', () => {
+    expect(ColorUtil.fromRGBToHSL(43, 128, 255)).toStrictEqual([216, 100, 58])
+  })
+
+  test('When maxRGB === minRGB, hue should not evaluate to NaN', () => {
+    expect(ColorUtil.fromRGBToHSL(17, 17, 17)).toStrictEqual([0, 0, 7])
+  })
+
 })
 
 // NOTE: `getLuminance` is not tested because it is a straightforward formula
