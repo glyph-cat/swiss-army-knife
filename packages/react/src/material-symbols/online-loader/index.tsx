@@ -2,10 +2,16 @@ import { JSX } from 'react'
 import { Style } from '../../styling'
 import { MaterialSymbolOptions, MaterialSymbolVariant } from '../abstractions'
 
+/**
+ * @public
+ */
 export interface MaterialSymbolsOnlineLoaderProps {
   variants: Array<MaterialSymbolVariant>
 }
 
+/**
+ * @public
+ */
 export function MaterialSymbolsOnlineLoader({
   variants,
 }: MaterialSymbolsOnlineLoaderProps): JSX.Element {
