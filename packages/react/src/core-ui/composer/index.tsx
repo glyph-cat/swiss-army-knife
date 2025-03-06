@@ -1,9 +1,6 @@
 import {
   c,
-  Color,
-  ColorFormat,
   devWarn,
-  ExtendedCSSProperties,
   IDisposable,
   IS_DEBUG_ENV,
   isBoolean,
@@ -22,7 +19,6 @@ import {
 import {
   ButtonProps,
   CoreUIComposerConfigs,
-  CreateFocusableViewOptions,
   FieldSetProps,
   FocusableViewProps,
   IButtonComponent,
@@ -66,16 +62,6 @@ export class CoreUIComposer implements IDisposable {
    */
   private readonly M$sharedClassName: string
 
-  /**
-   * @internal
-   */
-  private readonly M$tint: Color
-
-  /**
-   * @internal
-   */
-  private readonly M$textSelectionColor: Color
-
   constructor(
     public readonly key: string,
     /**
@@ -85,20 +71,8 @@ export class CoreUIComposer implements IDisposable {
   ) {
     warnIfKeyIsInvalid(this.key)
     this.M$sharedClassName = withCoreUIPrefix(this.key)
-    const { tint, textSelectionOpacity } = configs
-    const initialStyles: Array<[string, ExtendedCSSProperties]> = []
-    if (tint) {
-      this.M$tint = Color.fromString(tint)
-      this.M$textSelectionColor = Color.fromRGBObject({
-        ...this.M$tint.toJSON(),
-        alpha: textSelectionOpacity ?? 0.35,
-      })
-      initialStyles.push([`.${this.M$sharedClassName}::selection`, {
-        backgroundColor: this.M$textSelectionColor.toString(ColorFormat.FFFFFFFF),
-      }])
-    }
     if (typeof window !== 'undefined') {
-      this.M$styleManager = new StyleManager(initialStyles, -1 as PrecedenceLevel)
+      this.M$styleManager = new StyleManager([], -1 as PrecedenceLevel)
       // NOTE `-1` is an internal value for `PrecedenceLevel.INTERNAL`
     }
   }
@@ -107,18 +81,13 @@ export class CoreUIComposer implements IDisposable {
    * Creates a drop-in replacement for the `<div>` element where
    * the display is set to `'grid'` and position is set to `'relative'`.
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createViewComponent(
-    key: string,
-    overrideStyles?: ExtendedCSSProperties,
-  ): IViewComponent {
+  createViewComponent(key: string): IViewComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.VIEW, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
       display: 'grid',
       position: 'relative',
-      ...overrideStyles,
     })
     const View = forwardRef<HTMLDivElement, ViewProps>(({
       children,
@@ -136,12 +105,6 @@ export class CoreUIComposer implements IDisposable {
     return View
   }
 
-  static readonly DEFAULT_CREATE_FOCUSABLE_VIEW_OPTIONS: Readonly<Required<CreateFocusableViewOptions>> = {
-    allowRefocus: true,
-    effective: true,
-    ignoreSiblings: false,
-  }
-
   /**
    * Creates a drop-in replacement for the `<div>` element.
    * This is similar to {@link IView} except it can track focus using the {@link LayeredFocusManager}.
@@ -151,20 +114,14 @@ export class CoreUIComposer implements IDisposable {
    * - {@link LayeredFocusManager} and {@link InputFocusTracker} do not interfere with each other.
    *
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createFocusableViewComponent(
-    key: string,
-    options: CreateFocusableViewOptions = CoreUIComposer.DEFAULT_CREATE_FOCUSABLE_VIEW_OPTIONS,
-    overrideStyles?: ExtendedCSSProperties,
-  ): IFocusableViewComponent {
+  createFocusableViewComponent(key: string): IFocusableViewComponent {
 
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.FOCUSABLE_VIEW, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
       display: 'grid',
       position: 'relative',
-      ...overrideStyles,
     })
 
     const {
@@ -179,15 +136,12 @@ export class CoreUIComposer implements IDisposable {
     const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
       children,
       className,
-      allowRefocus: $allowRefocus,
-      ignoreSiblings: $ignoreSiblings,
-      effective: $effective,
+      allowRefocus,
+      ignoreSiblings,
+      effective,
       ...otherProps
     }, ref): JSX.Element => {
       // TODO: Should intercept props `onFocus` and `onBlur`; `addEventListener` for focus and blur; imperative ref `.focus` and `.blur` ... first of all, find of if it is possible for divs to be focused (semantically speaking / based on the web standard)
-      const allowRefocus = $allowRefocus ?? options?.allowRefocus
-      const ignoreSiblings = $ignoreSiblings ?? options.ignoreSiblings
-      const effective = $effective ?? options.effective
       const divRef = useRef<HTMLDivElement>(null)
       useImperativeHandle(ref, () => divRef.current)
       return (
@@ -221,19 +175,15 @@ export class CoreUIComposer implements IDisposable {
    * - Component can be disabled as a group with other components that share
    *   the same {@link DisabledContext}.
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createInputComponent(
-    key: string,
-    overrideStyles?: ExtendedCSSProperties,
-  ): IInputComponent {
+  createInputComponent(key: string): IInputComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.INPUT, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
+      display: 'grid',
       fontFamily: 'inherit',
       margin: 0,
       padding: 0,
-      ...overrideStyles,
     })
     const {
       configs: { inputFocusTracker: { useSharedFocusableRefHandler } },
@@ -266,19 +216,15 @@ export class CoreUIComposer implements IDisposable {
    * - Component can be disabled as a group with other components that share
    *   the same {@link DisabledContext}.
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createTextAreaComponent(
-    key: string,
-    overrideStyles?: ExtendedCSSProperties,
-  ): ITextAreaComponent {
+  createTextAreaComponent(key: string): ITextAreaComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.TEXTAREA, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
+      display: 'grid',
       fontFamily: 'inherit',
       margin: 0,
       padding: 0,
-      ...overrideStyles,
     })
     const {
       configs: { inputFocusTracker: { useSharedFocusableRefHandler } },
@@ -310,21 +256,19 @@ export class CoreUIComposer implements IDisposable {
    * that share the same {@link DisabledContext}.
    *
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createButtonComponent(
-    key: string,
-    overrideStyles?: ExtendedCSSProperties,
-  ): IButtonComponent {
+  createButtonComponent(key: string): IButtonComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.BUTTON, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
+      appearance: 'none',
+      border: 'none',
       display: 'grid',
       margin: 0,
+      outline: 'none',
       padding: 0,
       placeItems: 'center',
       position: 'relative',
-      ...overrideStyles,
     })
     const { useDerivedDisabledState } = this
     const Button = forwardRef(({
@@ -353,17 +297,12 @@ export class CoreUIComposer implements IDisposable {
    * - Component can be disabled as a group with other components that share
    *   the same {@link DisabledContext}.
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createSelectComponent(
-    key: string,
-    overrideStyles?: ExtendedCSSProperties,
-  ): ISelectComponent {
+  createSelectComponent(key: string): ISelectComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.SELECT, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
       fontFamily: 'inherit',
-      ...overrideStyles,
     })
     const {
       configs: { inputFocusTracker: { useSharedFocusableRefHandler } },
@@ -392,17 +331,12 @@ export class CoreUIComposer implements IDisposable {
    * This component can be disabled as a group with other components that share
    * the same {@link DisabledContext}.
    * @param key - This value should be a unique and stable across server-client renders.
-   * @param overrideStyles - Additional styles to apply.
    */
-  createFieldSetComponent(
-    key: string,
-    overrideStyles?: ExtendedCSSProperties,
-  ): IFieldSetComponent {
+  createFieldSetComponent(key: string): IFieldSetComponent {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.FIELDSET, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
       fontFamily: 'inherit',
-      ...overrideStyles,
     })
     const { useDerivedDisabledState } = this
     const FieldSet = forwardRef(({
@@ -465,7 +399,7 @@ function withCoreUIPrefix(value: string): string {
 
 function warnIfKeyIsInvalid(key: string): void {
   if (IS_DEBUG_ENV) {
-    if (!/^[a-z0-9_-]$/.test(key)) {
+    if (!/^[a-z0-9_-]+$/i.test(key)) {
       devWarn(`Keys should only contain alphanumeric characters, dashes, and/or underscores but received "${key}"`)
     }
   }

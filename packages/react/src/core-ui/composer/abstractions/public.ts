@@ -26,7 +26,7 @@ export type IViewComponent = ICoreUIComponent<ViewProps, HTMLDivElement>
 /**
  * @public
  */
-export interface CreateFocusableViewOptions {
+export type FocusableViewProps = JSX.IntrinsicElements['div'] & {
   /**
    * @defaultValue `true`
    */
@@ -40,11 +40,6 @@ export interface CreateFocusableViewOptions {
    */
   ignoreSiblings?: boolean
 }
-
-/**
- * @public
- */
-export type FocusableViewProps = JSX.IntrinsicElements['div'] & CreateFocusableViewOptions
 
 /**
  * @public
@@ -138,13 +133,4 @@ export interface CoreUIComposerConfigs {
   disabledContext: DisabledContext
   inputFocusTracker: InputFocusTracker
   layeredFocusManager: LayeredFocusManager
-  /**
-   * Any RGB, HSL, or hex string. Opacity values will be ignored.
-   */
-  tint?: string
-  /**
-   * Any number between `0` to `1`.
-   * @defaultValue `0.35`
-   */
-  textSelectionOpacity?: number
 }

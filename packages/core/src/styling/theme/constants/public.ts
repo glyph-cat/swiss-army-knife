@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export const ThemeToken = {
   spacingNone: 'var(--spacingNone)',
   spacingXXXS: 'var(--spacingXXXS)',

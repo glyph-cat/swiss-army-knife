@@ -5,7 +5,9 @@ import { Encoding } from '../../../packages/core/src'
 const REACT_DOM_PATTERN = /(from\s?|require\()('|")react-dom('|")/
 const REACT_NATIVE_PATTERN = /(from\s?|require\()('|")react-native('|")/
 
-export function inspectBuild(path: string): void {
+// TODO: Disallow imports from react libraries in core package
+
+export function inspectBuild(path: string, allowReactPackage?: boolean): void {
 
   const errorStack: Array<string> = []
 

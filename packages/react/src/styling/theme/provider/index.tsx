@@ -32,8 +32,7 @@ export function ThemeProvider({
   theme,
 }: ThemeProviderProps): JSX.Element {
 
-  const themeContext = useContext(ThemeContext)
-  const isNested = isObjectNotNull(themeContext)
+  const isNested = isObjectNotNull(useContext(ThemeContext))
   const className = useId().replace(/[^0-9a-z_-]/g, '')
 
   const spacingStyles = useMemo(() => {
@@ -76,15 +75,20 @@ export function ThemeProvider({
   }, [theme.customValues])
 
   useInsertionEffect(() => {
-    const styleManager = new StyleManager(new StyleMap([[`.${className}`, {
-      ...spacingStyles,
-      ...paletteStyles,
-      ...componentParameters,
-      ...customValues,
-      colorScheme: theme.colorScheme,
-    }]]), -1 as PrecedenceLevel)
+    const styleManager = new StyleManager(new StyleMap([
+      [`.${className}`, {
+        ...spacingStyles,
+        ...paletteStyles,
+        ...componentParameters,
+        ...customValues,
+        colorScheme: theme.colorScheme,
+      }],
+      [`.${className}::selection`, {
+        backgroundColor: theme.palette.tint40,
+      }],
+    ]), -1 as PrecedenceLevel)
     return () => { styleManager.dispose() }
-  }, [className, componentParameters, customValues, paletteStyles, spacingStyles, theme.colorScheme])
+  }, [className, componentParameters, customValues, paletteStyles, spacingStyles, theme.colorScheme, theme.palette.tint40])
 
   useInsertionEffect(() => {
     if (isNested) { return } // Early exit

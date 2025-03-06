@@ -91,26 +91,26 @@ export class Theme<
       ...basePalette,
     }
 
-    const { tint, appBgColor: appBg, appTextColor: appText, separatorColor: separator } = basePalette
+    const { tint, appBgColor, appTextColor, separatorColor } = basePalette
 
     const tintSrc = Color.fromString(tint)
     const tintLighter = adjustLightness(tintSrc, 1.1).toString()
     const tintDarker = adjustLightness(tintSrc, 0.9).toString()
 
-    const appBgSrc = Color.fromString(appBg)
-    const appBg2 = adjustLightness(appBgSrc, isLightColorScheme ? 0.9 : 1.1).toString()
-    const appBg3 = adjustLightness(appBgSrc, isLightColorScheme ? 0.8 : 1.2).toString()
-    const appBg4 = adjustLightness(appBgSrc, isLightColorScheme ? 0.7 : 1.3).toString()
+    const appBgColorSrc = Color.fromString(appBgColor)
+    const appBgColor2 = adjustLightness(appBgColorSrc, isLightColorScheme ? 0.9 : 1.1).toString()
+    const appBgColor3 = adjustLightness(appBgColorSrc, isLightColorScheme ? 0.8 : 1.2).toString()
+    const appBgColor4 = adjustLightness(appBgColorSrc, isLightColorScheme ? 0.7 : 1.3).toString()
 
-    const appTextSrc = Color.fromString(appText)
-    const appText2 = adjustLightness(appTextSrc, isLightColorScheme ? 1.1 : 0.9).toString()
-    const appText3 = adjustLightness(appTextSrc, isLightColorScheme ? 1.2 : 0.8).toString()
-    const appText4 = adjustLightness(appTextSrc, isLightColorScheme ? 1.3 : 0.7).toString()
+    const appTextColorSrc = Color.fromString(appTextColor)
+    const appTextColor2 = adjustLightness(appTextColorSrc, isLightColorScheme ? 1.1 : 0.9).toString()
+    const appTextColor3 = adjustLightness(appTextColorSrc, isLightColorScheme ? 1.2 : 0.8).toString()
+    const appTextColor4 = adjustLightness(appTextColorSrc, isLightColorScheme ? 1.3 : 0.7).toString()
 
-    const separatorSrc = Color.fromString(separator)
-    const separator2 = adjustLightness(separatorSrc, isLightColorScheme ? 1.1 : 0.9).toString()
-    const separator3 = adjustLightness(separatorSrc, isLightColorScheme ? 1.2 : 0.8).toString()
-    const separator4 = adjustLightness(separatorSrc, isLightColorScheme ? 1.3 : 0.7).toString()
+    const separatorColorSrc = Color.fromString(separatorColor)
+    const separatorColor2 = adjustLightness(separatorColorSrc, isLightColorScheme ? 1.1 : 0.9).toString()
+    const separatorColor3 = adjustLightness(separatorColorSrc, isLightColorScheme ? 1.2 : 0.8).toString()
+    const separatorColor4 = adjustLightness(separatorColorSrc, isLightColorScheme ? 1.3 : 0.7).toString()
 
     this.palette = {
       ...mergedBasePalette,
@@ -124,15 +124,15 @@ export class Theme<
       tintedTextColor: tint,
       tintedTextColorLighter: tintLighter,
       tintedTextColorDarker: tintDarker,
-      appBgColor2: appBg2,
-      appBgColor3: appBg3,
-      appBgColor4: appBg4,
-      appTextColor2: appText2,
-      appTextColor3: appText3,
-      appTextColor4: appText4,
-      separatorColor2: separator2,
-      separatorColor3: separator3,
-      separatorColor4: separator4,
+      appBgColor2: appBgColor2,
+      appBgColor3: appBgColor3,
+      appBgColor4: appBgColor4,
+      appTextColor2: appTextColor2,
+      appTextColor3: appTextColor3,
+      appTextColor4: appTextColor4,
+      separatorColor2: separatorColor2,
+      separatorColor3: separatorColor3,
+      separatorColor4: separatorColor4,
     }
 
     this.spacing = {
