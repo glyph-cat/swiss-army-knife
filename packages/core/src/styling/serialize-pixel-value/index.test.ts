@@ -1,13 +1,9 @@
 import { serializePixelValue } from '.'
 
-test('Non-pixel numeric value', () => {
-  expect(serializePixelValue('opacity', 1)).toBe('1')
+test('String type', () => {
+  expect(serializePixelValue('42')).toBe('42')
 })
 
-test('Pixel numeric value', () => {
-  expect(serializePixelValue('font-size', 14)).toBe('14px')
-})
-
-test('String value', () => {
-  expect(serializePixelValue('font-size', '14pt')).toBe('14pt')
+test('Number type', () => {
+  expect(serializePixelValue(42)).toBe('42px')
 })

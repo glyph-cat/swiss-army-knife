@@ -21,9 +21,9 @@ export class Theme<
 
   static DEFAULT_LIGHT_BASE_PALETTE: Readonly<IBaseThemePalette> = {
     tint: '#2b80ff',
-    appBg: '#eeeeee',
-    appText: '#4b4b4b',
-    separator: '#808080',
+    appBgColor: '#eeeeee',
+    appTextColor: '#4b4b4b',
+    separatorColor: '#808080',
     neutralColor: '#6680aa',
     infoColor: '#00cccc',
     successColor: '#008000',
@@ -34,9 +34,9 @@ export class Theme<
 
   static DEFAULT_DARK_BASE_PALETTE: Readonly<IBaseThemePalette> = {
     tint: '#2b80ff',
-    appBg: '#111111',
-    appText: '#b5b5b5',
-    separator: '#808080',
+    appBgColor: '#111111',
+    appTextColor: '#b5b5b5',
+    separatorColor: '#808080',
     neutralColor: '#4b6680',
     infoColor: '#00cccc',
     successColor: '#00aa00',
@@ -62,7 +62,8 @@ export class Theme<
     inputElementBorderRadius: 5,
     inputElementBorderSize: 2,
   }
-  // TODO: Shadow
+
+  // TODO: include shadow styles as well
 
   // #endregion Defaults
 
@@ -73,6 +74,7 @@ export class Theme<
   constructor(
     public readonly id: string,
     public readonly colorScheme: ColorScheme,
+    // TODO: Refactor params below with config object
     basePalette?: Partial<BaseThemePalette>,
     spacing?: Partial<ISpacingDefinition>,
     componentParameters?: Partial<IComponentParameters>, // TODO
@@ -89,7 +91,7 @@ export class Theme<
       ...basePalette,
     }
 
-    const { tint, appBg, appText, separator } = basePalette
+    const { tint, appBgColor: appBg, appTextColor: appText, separatorColor: separator } = basePalette
 
     const tintSrc = Color.fromString(tint)
     const tintLighter = adjustLightness(tintSrc, 1.1).toString()
@@ -122,15 +124,15 @@ export class Theme<
       tintedTextColor: tint,
       tintedTextColorLighter: tintLighter,
       tintedTextColorDarker: tintDarker,
-      appBg2,
-      appBg3,
-      appBg4,
-      appText2,
-      appText3,
-      appText4,
-      separator2,
-      separator3,
-      separator4,
+      appBgColor2: appBg2,
+      appBgColor3: appBg3,
+      appBgColor4: appBg4,
+      appTextColor2: appText2,
+      appTextColor3: appText3,
+      appTextColor4: appText4,
+      separatorColor2: separator2,
+      separatorColor3: separator3,
+      separatorColor4: separator4,
     }
 
     this.spacing = {
@@ -139,8 +141,8 @@ export class Theme<
     }
 
     this.componentParameters = {
-      ...componentParameters,
       ...Theme.DEFAULT_COMPONENT_PARAMETERS,
+      ...componentParameters,
     }
 
   }

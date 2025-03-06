@@ -42,9 +42,9 @@ export interface ITheme {
  */
 export interface IBaseThemePalette {
   tint: StringColorValue
-  appBg: StringColorValue
-  appText: StringColorValue
-  separator: StringColorValue
+  appBgColor: StringColorValue
+  appTextColor: StringColorValue
+  separatorColor: StringColorValue
   neutralColor: StringColorValue
   infoColor: StringColorValue
   successColor: StringColorValue
@@ -66,15 +66,15 @@ export interface IThemePalette extends IBaseThemePalette {
   tintedTextColor: StringColorValue
   tintedTextColorLighter: StringColorValue
   tintedTextColorDarker: StringColorValue
-  appBg2: StringColorValue
-  appBg3: StringColorValue
-  appBg4: StringColorValue
-  appText2: StringColorValue
-  appText3: StringColorValue
-  appText4: StringColorValue
-  separator2: StringColorValue
-  separator3: StringColorValue
-  separator4: StringColorValue
+  appBgColor2: StringColorValue
+  appBgColor3: StringColorValue
+  appBgColor4: StringColorValue
+  appTextColor2: StringColorValue
+  appTextColor3: StringColorValue
+  appTextColor4: StringColorValue
+  separatorColor2: StringColorValue
+  separatorColor3: StringColorValue
+  separatorColor4: StringColorValue
 }
 
 /**

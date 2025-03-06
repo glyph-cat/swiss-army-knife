@@ -1,28 +1,14 @@
 import { isNumber } from '../../data'
 
-const keywordsPattern = /(gap|height|margin|padding|radius|size|spacing|width)/i
-
 /**
  * Converts number to pixel string, and leaves string values untouched.
  * @param value - The value to serialize.
  * @returns The serialized value.
  * @example
- * serializePixelValue('fontSize', 14)     // '14px'
- * serializePixelValue('fontSize', '14pt') // '14pt'
- * serializePixelValue('opacity', 1)       // '1'
+ * serializePixelValue('42') // '42'
+ * serializePixelValue(42)   // '42px'
  * @public
  */
-export function serializePixelValue(
-  attributeKey: string,
-  attributeValue: string | number
-): string {
-  if (isNumber(attributeValue)) {
-    if (keywordsPattern.test(attributeKey)) {
-      return `${attributeValue}px`
-    } else {
-      return String(attributeValue)
-    }
-  } else {
-    return attributeValue
-  }
+export function serializePixelValue(value: number | string): string {
+  return isNumber(value) ? `${value}px` : value
 }

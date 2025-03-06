@@ -3,7 +3,7 @@ import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
 import { ExtendedCSSProperties } from '../abstractions'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
-import { serializePixelValue } from '../serialize-pixel-value'
+import { normalizeCSSValue } from '../normalize-css-value'
 import { StyleMap } from '../style-map'
 import { selectorsToIgnore, tryValidateCSSSelector } from './validator'
 
@@ -30,7 +30,7 @@ export function convertStyleObjectPropertyKeys(
   for (const rawPropertyKey in styles) {
     const propertyValue = styles[rawPropertyKey]
     const propertyKey = mapPropertyNameFromJSToCSS(rawPropertyKey)
-    compiledStyles[propertyKey] = serializePixelValue(propertyKey, propertyValue)
+    compiledStyles[propertyKey] = normalizeCSSValue(propertyKey, propertyValue)
   }
   return compiledStyles
 }
@@ -52,7 +52,7 @@ export function compileStyleObjectToString(styles: ExtendedCSSProperties): strin
   for (const rawPropertyKey in styles) {
     const propertyValue = styles[rawPropertyKey]
     const propertyKey = mapPropertyNameFromJSToCSS(rawPropertyKey)
-    compiledStyles.push(`${propertyKey}:${serializePixelValue(propertyKey, propertyValue)}`)
+    compiledStyles.push(`${propertyKey}:${normalizeCSSValue(propertyKey, propertyValue)}`)
   }
   return compiledStyles.join(';')
 }

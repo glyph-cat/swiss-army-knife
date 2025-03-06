@@ -1,6 +1,6 @@
 import { CleanupFunction } from '../../types'
 import { ExtendedCSSProperties } from '../abstractions'
-import { serializePixelValue } from '../serialize-pixel-value'
+import { normalizeCSSValue } from '../normalize-css-value'
 
 /**
  * Injects CSS variables into a HTML element.
@@ -17,8 +17,7 @@ export function injectCSSVariables(
     const value = values[key]
     // NOTE: `serializePixelValue` will make a smart guess on whether
     // the variables need to have 'px' appended to them as suffix.
-    serializePixelValue(key, value)
-    target.style.setProperty(`--${key}`, serializePixelValue(key, value))
+    target.style.setProperty(`--${key}`, normalizeCSSValue(key, value))
   }
   return () => {
     for (const key in values) {
