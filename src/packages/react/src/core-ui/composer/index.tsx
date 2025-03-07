@@ -138,9 +138,9 @@ export class CoreUIComposer implements IDisposable {
     const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
       children,
       className,
-      allowRefocus,
+      allowRefocus = true,
       ignoreSiblings,
-      effective,
+      effective = true,
       ...otherProps
     }, ref): JSX.Element => {
       // TODO: Should intercept props `onFocus` and `onBlur`; `addEventListener` for focus and blur; imperative ref `.focus` and `.blur` ... first of all, find of if it is possible for divs to be focused (semantically speaking / based on the web standard)
