@@ -17,17 +17,14 @@
     "moduleResolution": "Bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    // Unstable and causes fragmented chunks of code to appear out of nowhere
-    // "paths": {
-    //   "@glyph-cat/swiss-army-knife": [
-    //     "./~proxy/core/src" // <- this works, but doesn't trigger HMR
-    //     // "../../core/src", // <- Unexpected token, need "appropriate loaders"
-    //   ],
-    //   "@glyph-cat/swiss-army-knife-react": [
-    //     "./~proxy/react/src" // <- this works, but doesn't trigger HMR
-    //     // "../../react/src", // <- Unexpected token, need "appropriate loaders"
-    //   ],
-    // },
+    "paths": {
+      "@glyph-cat/swiss-army-knife": [
+        "./packages/core/src"
+      ],
+      "@glyph-cat/swiss-army-knife-react": [
+        "./packages/react/src"
+      ],
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,

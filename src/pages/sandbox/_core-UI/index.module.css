@@ -1,0 +1,11 @@
+.container {
+  grid-auto-rows: max-content;
+}
+
+/* .input:focus {
+  outline: solid 1px #ff0000;
+}
+
+.checkbox:checked {
+  background-color: #ff0000;
+} */
