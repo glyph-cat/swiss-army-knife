@@ -56,7 +56,7 @@ async function main(): Promise<void> {
     ` * Last updated: ${now.toDateString()} ${now.toTimeString()}`,
     ' * @public',
     ' */',
-    `export type MaterialSymbolName = LenientString<`,
+    'export type MaterialSymbolName = LenientString<',
     bullet + quotedIconNameStack.join(`\n${bullet}`),
     '>',
     '', // (Empty line)

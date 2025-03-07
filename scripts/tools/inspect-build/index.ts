@@ -13,7 +13,7 @@ export function inspectBuild(path: string, allowReactPackage?: boolean): void {
 
   const typeDefinitions = readFileSync(`${path}/lib/types/index.d.ts`, Encoding.UTF_8)
   if (/M\$/.test(typeDefinitions)) {
-    errorStack.push(`Unattended internal identifiers ('M$...') were found`)
+    errorStack.push('Unattended internal identifiers (\'M$...\') were found')
   }
 
   const cjsBundle = readFileSync(`${path}/lib/cjs/index.js`, Encoding.UTF_8)

@@ -81,7 +81,7 @@ async function runFetchMaterialIconNames() {
 
 }
 
-// Disabled for good
+// Disabled for good ;)
 // runFetchMaterialIconNames()
 
 /**
