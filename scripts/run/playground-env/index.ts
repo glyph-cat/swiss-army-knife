@@ -1,7 +1,9 @@
-import { DO_NOT_MODIFY_WARNING, Encoding } from '@glyph-cat/swiss-army-knife'
 import { execSync } from 'child_process'
 import { writeFileSync } from 'fs'
-import { description, displayName, name, version } from '../../../package.json'
+import { description, name, version } from '../../../package.json'
+import { DO_NOT_MODIFY_WARNING, Encoding } from '../../../src/packages/core/src'
+
+const displayName = '_' // todo
 
 function main(): void {
 

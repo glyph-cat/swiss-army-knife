@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/forbid-elements */
 import {
   c,
   devWarn,

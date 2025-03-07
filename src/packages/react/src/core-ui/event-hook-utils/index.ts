@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { DependencyList, useEffect } from 'react'

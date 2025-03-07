@@ -7,11 +7,10 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
-import rootPackageJson from '../../../package.json'
-import packageJson from '../package.json'
+import rootPackageJson from '../../../../package.json'
 import { BuildType } from '../src/constants/public'
 
-const { version } = packageJson
+const { version } = rootPackageJson
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.tsx',
@@ -43,7 +42,6 @@ const INPUT_FILE = 'src/index.ts'
 const EXTERNAL_LIBS = [
   'node_modules',
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
-  ...getDependencies(packageJson),
   ...getDependencies(rootPackageJson),
 ].sort()
 

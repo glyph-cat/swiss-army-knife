@@ -1,6 +1,6 @@
-import { DO_NOT_MODIFY_WARNING, Encoding } from '@glyph-cat/swiss-army-knife'
 import { writeFileSync } from 'fs'
-import * as AllCustomAPIErrors from '~services/api/errors/list'
+import { DO_NOT_MODIFY_WARNING, Encoding } from '../../../src/packages/core/src'
+import * as AllCustomAPIErrors from '../../../src/~services/api/errors/list'
 
 const keyValuePairs: Array<string> = []
 

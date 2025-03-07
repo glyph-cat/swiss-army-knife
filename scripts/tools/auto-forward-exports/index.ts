@@ -4,7 +4,7 @@
 
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { Encoding } from '../../../packages/core/src'
+import { Encoding } from '../../../src/packages/core/src'
 
 export function autoForwardExports(path: string): void {
 

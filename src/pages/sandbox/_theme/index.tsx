@@ -1,24 +1,25 @@
 import { c, ColorScheme, ColorUtil, Theme } from '@glyph-cat/swiss-army-knife'
-import { ThemeProvider, useTheme } from '@glyph-cat/swiss-army-knife-react'
+import { ThemeProvider, useThemeContext } from '@glyph-cat/swiss-army-knife-react'
 import { JSX } from 'react'
 import { SandboxStyle } from '~constants'
 import { View } from '~core-ui'
 import styles from './index.module.css'
 
-const theme = new Theme('x', ColorScheme.dark, {
-  tint: '#2b80ff',
-  appBg: '#111111',
-  appText: '#b5b5b5',
-  separator: '#808080',
-  neutralColor: '#4b6680',
-  infoColor: '#00cccc',
-  successColor: '#00aa00',
-  warnColor: '#ff8000',
-  errorColor: '#ff3333',
-  dangerColor: '#ff4a4a',
-}, {
-  XXL: 100,
-})
+const theme = new Theme('x', ColorScheme.dark)
+// {
+//   tint: '#2b80ff',
+//   appBgColor: '#111111',
+//   appTextColor: '#b5b5b5',
+//   separatorColor: '#808080',
+//   neutralColor: '#4b6680',
+//   infoColor: '#00cccc',
+//   successColor: '#00aa00',
+//   warnColor: '#ff8000',
+//   errorColor: '#ff3333',
+//   dangerColor: '#ff4a4a',
+// }, {
+//   XXL: 100,
+// }
 
 export default function (): JSX.Element {
   return (
@@ -36,7 +37,7 @@ const x = ColorUtil.createContrastingValue({
 })
 
 function Contents(): JSX.Element {
-  const { palette, spacing } = useTheme()
+  const { palette, spacing } = useThemeContext()
   return (
     <View>
       <ul className={styles.ul}>

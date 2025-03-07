@@ -1,6 +1,6 @@
 import fs from 'fs'
 import puppeteer, { Page } from 'puppeteer'
-import { DO_NOT_MODIFY_WARNING, Encoding, removeDuplicates } from '../../../packages/core/src'
+import { DO_NOT_MODIFY_WARNING, Encoding, removeDuplicates } from '../../../src/packages/core/src'
 
 async function main(): Promise<void> {
 

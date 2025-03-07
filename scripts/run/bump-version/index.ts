@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { execSync } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
-import { Encoding } from '../../../packages/core/src'
+import { Encoding } from '../../../src/packages/core/src'
 
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
