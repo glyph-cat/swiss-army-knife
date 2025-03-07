@@ -2,7 +2,7 @@ import fs from 'fs'
 import puppeteer, { Page } from 'puppeteer'
 import { DO_NOT_MODIFY_WARNING, Encoding, removeDuplicates } from '../../../src/packages/core/src'
 
-async function main(): Promise<void> {
+async function run(): Promise<void> {
 
   console.info('Initializing...')
   const browser = await puppeteer.launch({ slowMo: 500, headless: false })
@@ -69,7 +69,7 @@ async function main(): Promise<void> {
 
 }
 
-main()
+run()
 
 /**
  * @see https://stackoverflow.com/a/67829516/5810737

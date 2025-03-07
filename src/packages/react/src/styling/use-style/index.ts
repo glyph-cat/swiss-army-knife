@@ -1,4 +1,4 @@
-import { mapPropertyNameFromJSToCSS, serializePixelValue } from '@glyph-cat/swiss-army-knife'
+import { mapPropertyNameFromJSToCSS, normalizeCSSValue } from '@glyph-cat/swiss-army-knife'
 import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
 import { PseudoClasses } from './abstractions'
 
@@ -67,7 +67,7 @@ export function getClassNamesAndStyleContent<Key extends string>(
         for (const pseudoAttributeName in attributeOrPseudoValue) {
           const pseudoAttributeValue = attributeOrPseudoValue[pseudoAttributeName]
           const parsedAttributeName = mapPropertyNameFromJSToCSS(String(pseudoAttributeName))
-          const parsedAttributeValue = serializePixelValue(
+          const parsedAttributeValue = normalizeCSSValue(
             parsedAttributeName,
             pseudoAttributeValue as unknown as string | number
           )
@@ -76,7 +76,7 @@ export function getClassNamesAndStyleContent<Key extends string>(
         queuedPseudoStyleContent += `.${prefixedClassName}${attributeOrPseudoName as string}{${pseudoAttributes.join(';')}}`
       } else {
         const parsedAttributeName = mapPropertyNameFromJSToCSS(String(attributeOrPseudoName))
-        const parsedAttributeValue = serializePixelValue(
+        const parsedAttributeValue = normalizeCSSValue(
           parsedAttributeName,
           attributeOrPseudoValue as string | number
         )

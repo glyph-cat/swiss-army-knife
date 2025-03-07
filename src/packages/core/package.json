@@ -16,10 +16,12 @@
   "readme": "README.md",
   "scripts": {
     "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "lint": "eslint .",
     "rollup": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
-    "types": "yarn tsc --declaration",
-    "api": "sh ./scripts/run/api.sh",
+    "types": "tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "all": "sh ./scripts/run/all.sh"
   },

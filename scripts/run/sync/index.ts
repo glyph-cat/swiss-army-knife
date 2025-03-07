@@ -1,6 +1,6 @@
 import { copyFileSync } from 'fs'
 
-function run(): void {
+function main(): void {
 
   const packages = [
     'core',
@@ -8,10 +8,10 @@ function run(): void {
   ]
 
   for (const packageName of packages) {
-    copyFileSync('./LICENSE', `./packages/${packageName}/LICENSE`)
-    copyFileSync('./README.md', `./packages/${packageName}/README.md`)
+    copyFileSync('./LICENSE', `./src/packages/${packageName}/LICENSE`)
+    copyFileSync('./README.md', `./src/packages/${packageName}/README.md`)
   }
 
 }
 
-run()
+main()

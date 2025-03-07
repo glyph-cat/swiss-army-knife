@@ -1,7 +1,7 @@
 set -e
 
 ECHO "Building core package..."
-yarn --cwd ./packages/core build
+yarn --cwd ./src/packages/core build
 
 ECHO "Building react package..."
-yarn --cwd ./packages/react build
+yarn --cwd ./src/packages/react build

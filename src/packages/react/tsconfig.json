@@ -19,7 +19,7 @@
     "moduleResolution": "Node",
     "paths": {
       "@glyph-cat/swiss-army-knife": [
-        "../core/src"
+        "../core/src",
       ],
     },
     "outDir": "./temp/tsc/js",

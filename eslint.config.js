@@ -11,7 +11,7 @@ module.exports = [
   ...reactRecommended,
   {
     rules: {
-      'no-console': Severity.OFF,
+      'no-console': Severity.OFF, // temp
       '@typescript-eslint/no-namespace': Severity.OFF,
       '@typescript-eslint/no-require-imports': Severity.OFF,
       'no-restricted-imports': [Severity.ERROR, {
