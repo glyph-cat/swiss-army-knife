@@ -24,6 +24,9 @@
       "@glyph-cat/swiss-army-knife-react": [
         "./packages/react/src"
       ],
+      "@glyph-cat/swiss-army-knife-unstable": [
+        "./packages/unstable/src"
+      ],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

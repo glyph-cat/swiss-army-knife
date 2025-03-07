@@ -13,6 +13,10 @@
       "path": "../src/packages/react"
     },
     {
+      "name": "unstable",
+      "path": "../src/packages/unstable"
+    },
+    {
       "name": "sandboxes (web)",
       "path": "../src/pages/sandbox"
     },

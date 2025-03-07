@@ -1,0 +1,7 @@
+{
+  "name": "@glyph-cat/swiss-army-knife-unstable",
+  "private": true,
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports"
+  }
+}

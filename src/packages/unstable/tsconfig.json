@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationDir": "./temp/tsc/types",
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "importHelpers": false,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "paths": {
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
+      "@glyph-cat/swiss-army-knife-react": [
+        "../react/src",
+      ],
+    },
+    "outDir": "./temp/tsc/js",
+    "skipLibCheck": true,
+    "strict": false,
+    "stripInternal": true,
+    "target": "ES2019"
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "./src/**/*.draft*",
+    "./src/**/*.old*",
+    // NOTE: tests are not excluded so that they can benefit from having the
+    // same config that are being used in the source code.
+    // "./src/**/*.test*",
+  ],
+  "include": [
+    "src",
+    "../../custom.d.ts",
+  ]
+}
