@@ -6,7 +6,14 @@ import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { Encoding } from '../../../src/packages/core/src'
 
-export function autoForwardExports(path: string): void {
+function main(): void {
+  autoForwardExports('./src/packages/core')
+  autoForwardExports('./src/packages/react')
+}
+
+main()
+
+function autoForwardExports(path: string): void {
 
   const now = new Date()
   const directoriesWithMissingIndexFiles: Array<string> = []

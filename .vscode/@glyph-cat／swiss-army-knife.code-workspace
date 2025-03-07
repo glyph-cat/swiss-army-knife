@@ -6,24 +6,16 @@
     },
     {
       "name": "core",
-      "path": "../packages/core"
+      "path": "../src/packages/core"
     },
     {
       "name": "react",
-      "path": "../packages/react"
+      "path": "../src/packages/react"
     },
     {
-      "name": "Playground (Core)",
-      "path": "../packages/playground-core"
+      "name": "Sandboxes",
+      "path": "../src/pages/sandbox"
     },
-    {
-      "name": "Playground (React)",
-      "path": "../packages/playground-react"
-    },
-    {
-      "name": "Playground (React Native)",
-      "path": "../packages/playground-react-native"
-    }
   ],
   "settings": {
     "files.associations": {
