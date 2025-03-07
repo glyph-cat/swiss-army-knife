@@ -6,18 +6,14 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-    "patch-install": "sh ./scripts/run/post-install.sh",
     "start": "yarn tsx ./scripts/run/playground-env && next dev",
     "serve": "yarn tsx ./scripts/run/playground-env && next start",
-    "afe": "sh ./scripts/run/auto-forward-exports.sh",
+    "afe": "yarn tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "build": "sh ./scripts/run/build.sh",
     "test": "sh ./scripts/run/test.sh",
-    "sync": "yarn tsx ./scripts/run/sync",
     "preversion": "ECHO 'Please run `bump-version` instead.' && exit 1;",
     "bump-version": "yarn tsx ./scripts/run/bump-version",
-    "prepack": "ECHO 'Please run `pack-packages` instead.' && exit 1;",
-    "pack-packages": "sh ./scripts/run/pack-packages.sh",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
