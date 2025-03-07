@@ -23,6 +23,7 @@
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
+    "prepack": "tsx ./scripts/run/sync-package",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [

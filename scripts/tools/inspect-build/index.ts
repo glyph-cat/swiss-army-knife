@@ -7,25 +7,25 @@ const REACT_NATIVE_PATTERN = /(from\s?|require\()('|")react-native('|")/
 
 // TODO: Disallow imports from react libraries in core package
 
-export function inspectBuild(path: string, allowReactPackage?: boolean): void {
+export function inspectBuild(allowReactPackage?: boolean): void {
 
   const errorStack: Array<string> = []
 
-  const typeDefinitions = readFileSync(`${path}/lib/types/index.d.ts`, Encoding.UTF_8)
+  const typeDefinitions = readFileSync('./lib/types/index.d.ts', Encoding.UTF_8)
   if (/M\$/.test(typeDefinitions)) {
     errorStack.push('Unattended internal identifiers (\'M$...\') were found')
   }
 
-  const cjsBundle = readFileSync(`${path}/lib/cjs/index.js`, Encoding.UTF_8)
+  const cjsBundle = readFileSync('./lib/cjs/index.js', Encoding.UTF_8)
   performGenericCheckOnWebBundle('CJS', cjsBundle, errorStack)
 
-  const esBundle = readFileSync(`${path}/lib/es/index.js`, Encoding.UTF_8)
+  const esBundle = readFileSync('./lib/es/index.js', Encoding.UTF_8)
   performGenericCheckOnWebBundle('ES', esBundle, errorStack)
 
-  const mjsBundle = readFileSync(`${path}/lib/es/index.mjs`, Encoding.UTF_8)
+  const mjsBundle = readFileSync('./lib/es/index.mjs', Encoding.UTF_8)
   performGenericCheckOnWebBundle('MJS', mjsBundle, errorStack)
 
-  const rnBundle = readFileSync(`${path}/lib/native/index.js`, Encoding.UTF_8)
+  const rnBundle = readFileSync('./lib/native/index.js', Encoding.UTF_8)
   if (!REACT_NATIVE_PATTERN.test(rnBundle)) {
     errorStack.push('React Native counterparts (Eg: index.native.ts) were not bundled into the final code')
   } else {
