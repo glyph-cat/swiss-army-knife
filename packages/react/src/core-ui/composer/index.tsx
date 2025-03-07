@@ -180,9 +180,12 @@ export class CoreUIComposer implements IDisposable {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.INPUT, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
+      backgroundColor: 'transparent',
+      border: 'none',
       display: 'grid',
       fontFamily: 'inherit',
       margin: 0,
+      outline: 'none',
       padding: 0,
     })
     const {
@@ -221,9 +224,12 @@ export class CoreUIComposer implements IDisposable {
     warnIfKeyIsInvalid(key)
     const baseClassName = this.M$getPrefixedClassName(CoreComponentType.TEXTAREA, key)
     this.M$styleManager?.set(`.${baseClassName}`, {
+      backgroundColor: 'transparent',
+      border: 'none',
       display: 'grid',
       fontFamily: 'inherit',
       margin: 0,
+      outline: 'none',
       padding: 0,
     })
     const {
@@ -263,6 +269,7 @@ export class CoreUIComposer implements IDisposable {
     this.M$styleManager?.set(`.${baseClassName}`, {
       appearance: 'none',
       border: 'none',
+      backgroundColor: 'transparent',
       display: 'grid',
       margin: 0,
       outline: 'none',

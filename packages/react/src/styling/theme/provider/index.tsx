@@ -33,7 +33,9 @@ export function ThemeProvider({
 }: ThemeProviderProps): JSX.Element {
 
   const isNested = isObjectNotNull(useContext(ThemeContext))
-  const className = useId().replace(/[^0-9a-z_-]/g, '')
+  const className = `t_${useId().replace(/[^0-9a-z_-]/g, '')}`
+  // ^ There is a possibility useId can start with a number,
+  //   which is invalid for CSS class names.
 
   const spacingStyles = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
