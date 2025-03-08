@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "test": "jest -c ./jest.config.ts",
     "rollup": "rollup -c ./config/rollup.config.js",
-    "tsc": "tsc --declaration",
+    "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "all": "sh ./scripts/run/all.sh"

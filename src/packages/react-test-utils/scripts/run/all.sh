@@ -1,6 +1,6 @@
 set -e
 
-yarn clean
+yarn afe
 yarn lint
 yarn build
 yarn test

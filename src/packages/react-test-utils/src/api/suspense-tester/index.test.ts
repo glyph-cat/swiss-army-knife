@@ -1,8 +1,8 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
 import { act, JSX } from 'react'
 import { SuspenseTester } from '.'
-import { MockStateManager } from '../../test-utils/mock-state-manager'
-import { useSuspenseWaiter } from '../../test-utils/suspense-waiter'
+import { MockStateManager } from '../../internal-test-utils/mock-state-manager'
+import { useSuspenseWaiter } from '../../internal-test-utils/suspense-waiter'
 
 const cleanupManager = new CleanupManager()
 afterEach(() => { cleanupManager.run() })

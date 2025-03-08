@@ -7,6 +7,7 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
+import { getDependencies } from '../../../../scripts/tools/get-dependencies'
 import { BuildType } from '../src/constants/public'
 
 const { version } = rootPackageJson
@@ -48,10 +49,10 @@ const EXTERNAL_LIBS = [
 
 interface IPluginConfig {
   mode?: 'development' | 'production'
-  buildEnv?: BuildType
+  buildEnv: BuildType
 }
 
-function getPlugins(config: IPluginConfig = {}): Array<RollupPlugin> {
+function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { mode, buildEnv } = config
 
   const pluginStack: Array<RollupPlugin> = [
@@ -181,17 +182,3 @@ const config: Array<RollupOptions> = [
 ]
 
 export default config
-
-interface IPackageLike {
-  dependencies?: Record<string, string>
-  devDependencies?: Record<string, string>
-  peerDependencies?: Record<string, string>
-}
-
-function getDependencies(pkg: IPackageLike): Array<string> {
-  return [...new Set([
-    ...Object.keys(pkg.dependencies ?? {}),
-    ...Object.keys(pkg.devDependencies ?? {}),
-    ...Object.keys(pkg.peerDependencies ?? {}),
-  ])].sort()
-}

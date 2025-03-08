@@ -1,5 +1,6 @@
 set -e
 
+yarn clean
 yarn rollup
-yarn tsc
+yarn types
 yarn api

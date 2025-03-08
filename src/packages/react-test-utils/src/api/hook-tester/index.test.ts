@@ -2,7 +2,7 @@ import { CleanupManager } from '@glyph-cat/cleanup-manager'
 import { useRef, useState } from 'react'
 import { HookTester } from '.'
 import { ActionNotExistError, ValueNotExistError } from '../../errors'
-import { TestUtils } from '../../test-utils'
+import { TestUtils } from '../../internal-test-utils'
 
 const cleanupManager = new CleanupManager()
 afterEach(() => { cleanupManager.run() })

@@ -3,6 +3,12 @@ import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
+import rootPackageJson from '../../../../package.json'
+import { getDependencies } from '../../../../scripts/tools/get-dependencies'
+
+const EXTERNAL_LIBS = [
+  ...getDependencies(rootPackageJson),
+].sort()
 
 const config: Array<RollupOptions> = [
   {
@@ -13,6 +19,7 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
+    external: EXTERNAL_LIBS,
     plugins: [
       nodeResolve({
         extensions: ['.ts', '.js'],
@@ -42,7 +49,7 @@ const config: Array<RollupOptions> = [
       terser({
         mangle: {
           properties: {
-            regex: /^__/,
+            regex: /^M/,
           },
         },
       }),

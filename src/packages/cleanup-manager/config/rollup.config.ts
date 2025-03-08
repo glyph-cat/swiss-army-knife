@@ -4,23 +4,25 @@ import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
+import rootPackageJson from '../../../../package.json'
+import { getDependencies } from '../../../../scripts/tools/get-dependencies'
 import pkg from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
+const EXTERNAL_LIBS = [
+  ...getDependencies(rootPackageJson),
+].sort()
+
 const UMD_NAME = 'CleanupManager'
 
-interface IPluginConfig {
-  overrides?: Record<string, unknown>
-}
+function getPlugins(): Array<RollupPlugin> {
 
-function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
-  const { overrides = {} } = config
-  const basePlugins = {
-    nodeResolve: nodeResolve({
+  const pluginStack: Array<RollupPlugin> = [
+    nodeResolve({
       extensions: ['.ts'],
     }),
-    typescript: typescript({
+    typescript({
       tsconfigOverride: {
         compilerOptions: {
           declaration: false,
@@ -32,22 +34,8 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
         ],
       },
     }),
-    // commonjs: commonjs(),
-  }
-
-  // Override plugins
-  for (const overrideKey in overrides) {
-    basePlugins[overrideKey] = overrides[overrideKey]
-  }
-
-  // Convert plugins object to array
-  const pluginStack: Array<RollupPlugin> = []
-  for (const i in basePlugins) {
-    // Allows plugins to be excluded by replacing them with falsy values
-    if (basePlugins[i]) {
-      pluginStack.push(basePlugins[i])
-    }
-  }
+    // commonjs(),
+  ]
 
   // Replace values
   const replaceValues = {
@@ -61,6 +49,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     preventAssignment: true,
     values: replaceValues,
   }))
+
   pluginStack.push(terser({
     mangle: {
       properties: {
@@ -82,7 +71,8 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
-    plugins: getPlugins({}),
+    external: EXTERNAL_LIBS,
+    plugins: getPlugins(),
   },
   {
     // EcmaScript (Minified)
@@ -93,7 +83,8 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: true,
     },
-    plugins: getPlugins({}),
+    external: EXTERNAL_LIBS,
+    plugins: getPlugins(),
   },
   {
     // UMD (Minified)
@@ -105,7 +96,8 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: true,
     },
-    plugins: getPlugins({}),
+    external: EXTERNAL_LIBS,
+    plugins: getPlugins(),
   },
 ]
 

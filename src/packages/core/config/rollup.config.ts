@@ -8,6 +8,7 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
+import { getDependencies } from '../../../../scripts/tools/get-dependencies'
 import { BuildType } from '../src/constants/public'
 
 const { version } = rootPackageJson
@@ -40,8 +41,7 @@ const NODE_RESOLVE_EXTENSIONS_RN = [
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  'node_modules',
-  'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
+  'node_modules', // TODO: Find out why node_modules is required here, that used to not be the case
   ...getDependencies(rootPackageJson),
 ].sort()
 
@@ -185,17 +185,3 @@ const config: Array<RollupOptions> = [
 ]
 
 export default config
-
-interface IPackageLike {
-  dependencies?: Record<string, string>
-  devDependencies?: Record<string, string>
-  peerDependencies?: Record<string, string>
-}
-
-function getDependencies(pkg: IPackageLike): Array<string> {
-  return [...new Set([
-    ...Object.keys(pkg.dependencies ?? {}),
-    ...Object.keys(pkg.devDependencies ?? {}),
-    ...Object.keys(pkg.peerDependencies ?? {}),
-  ])].sort()
-}

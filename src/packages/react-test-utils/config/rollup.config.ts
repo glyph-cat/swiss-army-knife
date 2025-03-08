@@ -3,27 +3,27 @@ import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
+import rootPackageJson from '../../../../package.json'
+import { getDependencies } from '../../../../scripts/tools/get-dependencies'
 import { version } from '../package.json'
 import { BuildType } from '../src/constants/public'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  '@testing-library/react',
-  'react',
+  ...getDependencies(rootPackageJson),
 ]
 
 interface IPluginConfig {
-  overrides?: Record<string, unknown>
   buildEnv: BuildType
 }
 
 function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
 
-  const { overrides = {}, buildEnv } = config
+  const { buildEnv } = config
 
-  const basePlugins = {
-    typescript: typescript({
+  const pluginStack: Array<RollupPlugin> = [
+    typescript({
       tsconfigOverride: {
         compilerOptions: {
           declaration: false,
@@ -35,21 +35,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
         ],
       },
     }),
-  }
-
-  // Override plugins
-  for (const overrideKey in overrides) {
-    basePlugins[overrideKey] = overrides[overrideKey]
-  }
-
-  // Convert plugins object to array
-  const pluginStack: Array<RollupPlugin> = []
-  for (const i in basePlugins) {
-    // Allows plugins to be excluded by replacing them with falsey values
-    if (basePlugins[i]) {
-      pluginStack.push(basePlugins[i])
-    }
-  }
+  ]
 
   // Replace values
   const replaceValues = {
