@@ -39,12 +39,8 @@ export function AppSideBarWrapper({
     const newSandboxName = window.prompt('New sandbox name:')
     if (isString(newSandboxName)) {
       await APICreateSandbox({ name: newSandboxName })
-      // Apparently NextJS will complain that the file could not be found
-      // if we simply refresh the list to visit the link.
-      const restartPromise = CustomDebugger.restartServer()
       await APIOpenSandboxInEditor({ sandboxName: newSandboxName })
       router.push(`${AppRoute.SANDBOX}/${newSandboxName}`)
-      await restartPromise
     }
   }, [router])
 
@@ -74,13 +70,6 @@ export function AppSideBarWrapper({
                   onClick={CustomDebugger.toggleStrictMode}
                 >
                   {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
-                </Button>
-                <Button
-                  className={styles.buttonBase}
-                  onClick={CustomDebugger.restartServer}
-                  style={{ height: BUTTON_HEIGHT }}
-                >
-                  {'Restart server'}
                 </Button>
                 <Button
                   className={styles.buttonBase}

@@ -22,9 +22,6 @@ export const APIRoute = {
     getAll: `${AppRoute.API}/sandboxes/get-all`,
     openInEditor: `${AppRoute.API}/sandboxes/open-in-editor`,
   },
-  utils: {
-    restartServer: `${AppRoute.API}/utils/restart-server`,
-  },
 } as const
 
 export const SandboxStyle = {

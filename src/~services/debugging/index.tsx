@@ -1,6 +1,5 @@
 import { delay, TimestampId } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
-import { APIUtilsRestartServer } from '~services/api/endpoints/utils/restart-server'
 import { createStorageKey } from '~utils/create-storage-key'
 
 const SOFT_RELOAD_KEY = createStorageKey('soft-reload')
@@ -55,14 +54,6 @@ export class CustomDebugger {
       ...previousState,
       showPerformanceDebugger: !previousState.showPerformanceDebugger,
     }))
-  }
-
-  static async restartServer(): Promise<void> {
-    CustomDebugger.state.set((previousState) => ({
-      ...previousState,
-      isRestartingServer: true,
-    }))
-    await APIUtilsRestartServer()
   }
 
 }

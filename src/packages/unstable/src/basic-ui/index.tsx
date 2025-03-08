@@ -97,6 +97,9 @@ export class BasicUIComposer {
     }).set(`.${_.input}:enabled:hover`, {
       backgroundImage: `linear-gradient(${ThemeToken.tint40},${ThemeToken.tint40})`,
       borderColor: ThemeToken.tint,
+    }).set(`.${_.input}:checked:enabled:hover`, {
+      backgroundImage: `linear-gradient(${ThemeToken.tintLighter},${ThemeToken.tintLighter})`,
+      borderColor: ThemeToken.tintLighter,
     }).set(`.${_.input}:enabled:active`, {
       backgroundImage: 'linear-gradient(#00000060, #00000060)',
     }).set(`.${_.input}:enabled:checked`, {
