@@ -1,0 +1,38 @@
+{
+  "name": "@glyph-cat/cli-parameter-parser",
+  "version": "1.1.0",
+  "description": "A simple parameter parser for NodeJS CLI applications.",
+  "main": "lib/cjs/index.js",
+  "types": "lib/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "lint": "eslint .",
+    "test": "jest -c jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "yarn tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "yarn bundle && yarn types && yarn api",
+    "all": "yarn lint && yarn build && yarn test && yarn pack"
+  },
+  "keywords": [
+    "CLI",
+    "Command line",
+    "Parameter",
+    "Arguments",
+    "Parser"
+  ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "homepage": "https://github.com/glyph-cat/cli-parameter-parser#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/cli-parameter-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/cli-parameter-parser/issues"
+  }
+}

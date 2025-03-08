@@ -10,16 +10,15 @@
   ],
   "types": "lib/types/index.d.ts",
   "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:path": "eslint",
     "debug": "scope=\"debug\" jest -c ./jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
     "types": "yarn tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "test": "jest -c ./jest.config.ts",
-    "all": "yarn lint && yarn build && yarn test && yarn pack"
+    "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
     "Testing"

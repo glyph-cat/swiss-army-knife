@@ -1,0 +1,43 @@
+{
+  "name": "@glyph-cat/react-test-utils",
+  "version": "0.6.0",
+  "description": "Helper functions for writing tests for React with Jest and @testing-library/react.",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/types/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf ./lib ./temp ./yarn-error.log && mkdir temp lib",
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "lint": "eslint .",
+    "test": "jest -c ./jest.config.ts",
+    "rollup": "rollup -c ./config/rollup.config.js",
+    "tsc": "tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh",
+    "all": "sh ./scripts/run/all.sh"
+  },
+  "keywords": [
+    "React",
+    "Test",
+    "Jest",
+    "React Test Renderer"
+  ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/react-test-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/react-test-utils/issues"
+  },
+  "homepage": "https://github.com/glyph-cat/react-test-utils#readme",
+  "dependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.1.0"
+  }
+}

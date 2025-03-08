@@ -6,15 +6,11 @@
     },
     {
       "name": "core",
-      "path": "../src/packages/core"
+      "path": "../src/packages/core",
     },
     {
       "name": "react",
       "path": "../src/packages/react"
-    },
-    {
-      "name": "cleanup manager",
-      "path": "../src/packages/cleanup-manager"
     },
     {
       "name": "unstable",
@@ -23,6 +19,18 @@
     {
       "name": "sandboxes (web)",
       "path": "../src/pages/sandbox"
+    },
+    {
+      "name": "cleanup manager",
+      "path": "../src/packages/cleanup-manager"
+    },
+    {
+      "name": "cli parameter parser",
+      "path": "../src/packages/cli-parameter-parser"
+    },
+    {
+      "name": "react test utils",
+      "path": "../src/packages/react-test-utils"
     },
   ],
   "settings": {

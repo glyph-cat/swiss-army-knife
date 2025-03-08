@@ -4,7 +4,7 @@
 
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { Encoding } from '../../../src/packages/core/src'
+import { Encoding } from '../../../src/packages/core/src/encoding/constants'
 
 export function autoForwardExports(path: string): void {
 
@@ -38,9 +38,13 @@ export function autoForwardExports(path: string): void {
       '// in the project root directory.',
       '',
     ]
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i]
-      const connector = i >= items.length - 1 ? '└' : '├'
+    for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+      const item = items[itemIndex]
+      const connector = itemIndex >= items.length - 1 ? '└' : '├'
+      if (/internal/i.test(item)) {
+        console.log(chalk.gray(` ${connector} ${chalk.yellow(`# ${item} (skipped)`)}`))
+        continue
+      }
       const subPath = `${directoryPath}/${item}`
       const itemIsDirectory = statSync(subPath).isDirectory()
       const hasIndexFile = itemIsDirectory

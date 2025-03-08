@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationDir": "./temp/tsc/types",
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "importHelpers": false,
+    "isolatedModules": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "./temp/tsc/js",
+    "paths": {
+      "@glyph-cat/cleanup-manager": [
+        "../cleanup-manager/src",
+      ],
+    },
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "jsx": "react-jsx",
+    "stripInternal": true,
+    "target": "ESNext"
+  },
+  "exclude": [
+    "node_modules",
+    "./src/**/*.draft*",
+    "./src/**/*.old*",
+  ],
+  "include": [
+    "src",
+  ]
+}

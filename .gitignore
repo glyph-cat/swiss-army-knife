@@ -105,8 +105,8 @@ lib
 
 # Automatically generated
 *.scripted*
-/src/packages/**/LICENSE
-/src/packages/**/README.md
+# /src/packages/**/LICENSE
+# /src/packages/**/README.md
 
 # Playground
 src/pages/sandbox/_*/

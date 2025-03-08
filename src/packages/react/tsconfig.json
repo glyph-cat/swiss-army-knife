@@ -18,11 +18,14 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "paths": {
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],
-      "@glyph-cat/swiss-army-knife": [
-        "../core/src",
+      "@glyph-cat/react-test-utils": [
+        "../react-test-utils/src",
       ],
     },
     "outDir": "./temp/tsc/js",
