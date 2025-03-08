@@ -24,9 +24,6 @@
       "@glyph-cat/swiss-army-knife-react": [
         "./packages/react/src"
       ],
-      "@glyph-cat/swiss-army-knife-unstable": [
-        "./packages/unstable/src"
-      ],
       "@glyph-cat/cleanup-manager": [
         "./packages/cleanup-manager/src",
       ],

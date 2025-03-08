@@ -14,7 +14,7 @@
     },
     {
       "name": "unstable",
-      "path": "../src/packages/unstable"
+      "path": "../src/~unstable"
     },
     {
       "name": "sandboxes (web)",
