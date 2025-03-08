@@ -73,13 +73,7 @@
       },
       "tsdoc-unnecessary-backslash": {
         "logLevel": "none"
-      },
-      // "": {
-      //   "logLevel": "none"
-      // },
-      // "": {
-      //   "logLevel": "none"
-      // }
+      }
     }
   }
 }
