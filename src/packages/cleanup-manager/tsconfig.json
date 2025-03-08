@@ -1,45 +1,29 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "checkJs": true,
     "declaration": true,
     "declarationDir": "./temp/tsc/types",
     "downlevelIteration": true,
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "./temp/tsc/js",
-    "paths": {
-      "@glyph-cat/cleanup-manager": [
-        "../cleanup-manager/src",
-      ],
-    },
     "skipLibCheck": true,
+    "sourceMap": true,
     "strict": false,
     "stripInternal": true,
-    "target": "ES2019"
+    "target": "ES2020",
   },
   "exclude": [
     "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
-    // NOTE: tests are not excluded so that they can benefit from having the
-    // same config that are being used in the source code.
-    // "./src/**/*.test*",
   ],
   "include": [
-    "src",
-    "../../custom.d.ts",
-  ]
+    "./src",
+    "./custom.d.ts"
+  ],
 }

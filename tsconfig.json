@@ -18,6 +18,9 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@glyph-cat/cleanup-manager": [
+        "../cleanup-manager/src",
+      ],
       "@glyph-cat/swiss-army-knife": [
         "./packages/core/src"
       ],

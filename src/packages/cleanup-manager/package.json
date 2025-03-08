@@ -1,0 +1,38 @@
+{
+  "name": "@glyph-cat/cleanup-manager",
+  "version": "1.0.0",
+  "description": "Cleanup manager for testing.",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "unpkg": "lib/umd/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/types/index.d.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:path": "eslint",
+    "debug": "scope=\"debug\" jest -c ./jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "yarn tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh",
+    "test": "jest -c ./jest.config.ts",
+    "all": "yarn lint && yarn build && yarn test && yarn pack"
+  },
+  "keywords": [
+    "Testing"
+  ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "homepage": "https://glyph-cat.github.io/cleanup-manager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/cleanup-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/cleanup-manager/issues"
+  }
+}

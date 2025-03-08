@@ -18,6 +18,9 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "paths": {
+      "@glyph-cat/cleanup-manager": [
+        "../cleanup-manager/src",
+      ],
       "@glyph-cat/swiss-army-knife": [
         "../core/src",
       ],

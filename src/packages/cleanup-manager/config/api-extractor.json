@@ -1,11 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/core/src/index.d.ts",
+  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/index.d.ts",
   "apiReport": {
     "enabled": false
   },
   "docModel": {
-    "enabled": false
+    "enabled": false,
+    "apiJsonFilePath": "<projectFolder>/temp/docs/json/generated.api.json"
   },
   "dtsRollup": {
     "enabled": true,
@@ -15,6 +16,7 @@
     "publicTrimmedFilePath": "<projectFolder>/lib/types/index.d.ts",
     "omitTrimmingComments": true
   },
+  "enumMemberOrder": "preserve",
   "tsdocMetadata": {
     "enabled": false
   },
@@ -27,28 +29,22 @@
     "extractorMessageReporting": {
       "default": {
         "logLevel": "warning"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "none"
       }
     },
     "tsdocMessageReporting": {
       "default": {
         "logLevel": "warning"
       },
+      // "tsdoc-at-sign-in-word": {
+      //   "logLevel": "none"
+      // },
+      // "tsdoc-escape-greater-than": {
+      //   "logLevel": "none"
+      // },
       "tsdoc-escape-right-brace": {
-        "logLevel": "none"
-      },
-      "tsdoc-escape-greater-than": {
-        "logLevel": "none"
-      },
-      "tsdoc-html-tag-missing-equals": {
-        "logLevel": "none"
-      },
-      "tsdoc-html-tag-missing-greater-than": {
-        "logLevel": "none"
-      },
-      "tsdoc-html-tag-missing-string": {
-        "logLevel": "none"
-      },
-      "tsdoc-malformed-html-name": {
         "logLevel": "none"
       },
       "tsdoc-malformed-inline-tag": {
@@ -56,19 +52,7 @@
       },
       "tsdoc-param-tag-with-invalid-type": {
         "logLevel": "none"
-      },
-      "tsdoc-undefined-tag": {
-        "logLevel": "none"
-      },
-      "tsdoc-unnecessary-backslash": {
-        "logLevel": "none"
-      },
-      // "": {
-      //   "logLevel": "none"
-      // },
-      // "": {
-      //   "logLevel": "none"
-      // }
+      }
     }
   }
 }
