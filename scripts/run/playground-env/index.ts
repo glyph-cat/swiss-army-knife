@@ -5,7 +5,7 @@ import { DO_NOT_MODIFY_WARNING, Encoding } from '../../../src/packages/core/src'
 
 const displayName = '_' // todo
 
-function main(): void {
+function run(): void {
 
   const hash = (() => {
     try {
@@ -32,4 +32,4 @@ function main(): void {
 
 }
 
-main()
+run()
