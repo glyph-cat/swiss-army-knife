@@ -6,7 +6,7 @@
     },
     {
       "name": "core",
-      "path": "../src/packages/core",
+      "path": "../src/packages/core"
     },
     {
       "name": "react",
@@ -31,7 +31,7 @@
     {
       "name": "react test utils",
       "path": "../src/packages/react-test-utils"
-    },
+    }
   ],
   "settings": {
     "files.associations": {

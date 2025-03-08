@@ -1,0 +1,1 @@
+Simple cleanup manager for testing purposes.

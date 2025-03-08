@@ -1,7 +1,7 @@
 {
   "name": "@glyph-cat/cleanup-manager",
   "version": "1.0.0",
-  "description": "Cleanup manager for testing.",
+  "description": "Simple cleanup manager for testing purposes.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "unpkg": "lib/umd/index.js",

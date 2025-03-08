@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import * as debugLib from '../src'
 import * as cjsLib from '../lib/cjs/index.js'
 

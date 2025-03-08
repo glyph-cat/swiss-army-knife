@@ -14,8 +14,8 @@
     "bundle": "rollup -c ./config/rollup.config.js",
     "types": "yarn tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
-    "build": "yarn bundle && yarn types && yarn api",
-    "all": "yarn lint && yarn build && yarn test && yarn pack"
+    "build": "sh scripts/run/build.sh",
+    "all": "sh scripts/run/all.sh"
   },
   "keywords": [
     "CLI",

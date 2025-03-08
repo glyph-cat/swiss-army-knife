@@ -15,7 +15,7 @@ export function autoForwardExports(path: string): void {
 
     // #region Filtering
     const indexPattern = /\/index\.ts$/
-    const ignorePattern = /\.(draft|old|scripted)\.?/
+    const ignorePattern = /\.(draft|old|scripted|secret)\.?/
     if (!indexPattern.test(filePath)) { return }
     if (ignorePattern.test(filePath)) { return }
     const fileContents = readFileSync(filePath, Encoding.UTF_8).trim()
