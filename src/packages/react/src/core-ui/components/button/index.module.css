@@ -1,0 +1,11 @@
+.button {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  display: grid;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  place-items: center;
+  position: relative;
+}

@@ -1,5 +1,10 @@
 import { c, Empty } from '@glyph-cat/swiss-army-knife'
-import { DoNotRender, MaterialSymbol, MaterialSymbolName } from '@glyph-cat/swiss-army-knife-react'
+import {
+  DisabledContext,
+  DoNotRender,
+  MaterialSymbol,
+  MaterialSymbolName,
+} from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, MouseEvent, ReactNode, useCallback, useContext, useState } from 'react'
 import { Code } from '~components/sandbox-extensions'
@@ -7,7 +12,6 @@ import { SandboxStyle } from '~constants'
 import {
   Button,
   FocusLayer,
-  GlobalDisabledContext,
   GlobalLayeredFocusManager,
   View,
 } from '~core-ui'
@@ -26,7 +30,6 @@ export default function (): JSX.Element {
         <pre>
           <code>
             {JSON.stringify(useSimpleStateValue(
-              // @ts-expect-error because we want to spy on the root state
               GlobalLayeredFocusManager.M$rootState
             ), null, 2)}
           </code>
@@ -45,7 +48,7 @@ export default function (): JSX.Element {
             onClick={Empty.FUNCTION}
             disabled={false}
           />
-          <GlobalDisabledContext.Provider disabled={true}>
+          <DisabledContext disabled={true}>
             <ActionBarButton
               icon='pending'
               label={'Custom 1'}
@@ -57,7 +60,7 @@ export default function (): JSX.Element {
               onClick={Empty.FUNCTION}
               disabled={false}
             />
-          </GlobalDisabledContext.Provider>
+          </DisabledContext>
         </ActionBar>
         <ol>
           <li>
@@ -140,7 +143,6 @@ export function ActionBarButton({
 
 function ContextVisualizer(): JSX.Element {
   const context = useContext(
-    // @ts-expect-error because we want to spy on the context
     GlobalLayeredFocusManager.M$context
   )
   return (

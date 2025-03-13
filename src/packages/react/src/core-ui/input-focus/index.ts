@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { IDisposable, RefObject, TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { Ref, useCallback, useId, useImperativeHandle, useLayoutEffect, useRef } from 'react'
+import { useCoreUIContext } from '../context'
 
 /**
  * @public
@@ -33,17 +33,10 @@ export class InputFocusTracker implements IDisposable {
   /**
    * @internal
    */
-  private readonly M$IsAnyInputInFocusState = new SimpleStateManager<boolean>(false)
+  readonly M$IsAnyInputInFocusState = new SimpleStateManager<boolean>(false)
 
   get isAnyInputInFocusState(): boolean {
     return this.M$IsAnyInputInFocusState.get()
-  }
-
-  /**
-   * @returns `true` if there are any <Input> components that are in focus.
-   */
-  readonly useCheckInputFocus = (): boolean => {
-    return useSimpleStateValue(this.M$IsAnyInputInFocusState)
   }
 
   registerFocus(componentId: string): void {
@@ -67,56 +60,62 @@ export class InputFocusTracker implements IDisposable {
     this.M$IsAnyInputInFocusState.set(Object.keys(this.M$inputFocusTracker).length > 0)
   }
 
-  /**
-   * @internal
-   */
-  readonly useSharedFocusableRefHandler = <Props extends IAutoFocusableProps, T extends IFocusableElementWithEventListener>(
-    props: Props,
-    ref: Ref<T>
-  ): RefObject<T> => {
+}
 
-    const { autoFocus } = props
+/**
+ * @returns `true` if there are any <Input> components that are in focus.
+ */
+export function useCheckInputFocus(): boolean {
+  const { inputFocusTracker } = useCoreUIContext()
+  return useSimpleStateValue(inputFocusTracker.M$IsAnyInputInFocusState)
+}
 
-    const componentId = useId()
-    const elementRef = useRef<T>(null)
-    useImperativeHandle(ref, () => elementRef.current)
+/**
+ * @public
+ */
+export function useCommonFocusableRefHandler<Props extends IAutoFocusableProps, T extends IFocusableElementWithEventListener>({
+  autoFocus,
+}: Props, ref: Ref<T>): RefObject<T> {
 
-    const onBlur = useCallback(() => {
-      this.registerBlur(componentId)
-    }, [componentId])
+  const { inputFocusTracker } = useCoreUIContext()
+  const componentId = useId()
+  const elementRef = useRef<T>(null)
+  useImperativeHandle(ref, () => elementRef.current)
 
-    useLayoutEffect(() => {
-      const onFocus = () => {
-        this.registerFocus(componentId)
+  const onBlur = useCallback(() => {
+    inputFocusTracker.registerBlur(componentId)
+  }, [componentId, inputFocusTracker])
+
+  useLayoutEffect(() => {
+    const onFocus = () => {
+      inputFocusTracker.registerFocus(componentId)
+    }
+    const target = elementRef.current
+    target.addEventListener('focus', onFocus)
+    target.addEventListener('blur', onBlur)
+    return () => {
+      target.removeEventListener('focus', onFocus)
+      target.removeEventListener('blur', onBlur)
+    }
+  }, [componentId, inputFocusTracker, onBlur])
+
+  const isInitialRender = useRef(true)
+  useLayoutEffect(() => {
+    // Else passing autofocus directly to the <input> element will not cause
+    // focus listener above to be triggered
+    if (autoFocus) {
+      if (isInitialRender.current) {
+        elementRef.current?.focus()
+        isInitialRender.current = false
       }
-      const target = elementRef.current
-      target.addEventListener('focus', onFocus)
-      target.addEventListener('blur', onBlur)
-      return () => {
-        target.removeEventListener('focus', onFocus)
-        target.removeEventListener('blur', onBlur)
-      }
-    }, [componentId, onBlur])
+    }
+  }, [autoFocus])
 
-    const isInitialRender = useRef(true)
-    useLayoutEffect(() => {
-      // Else passing autofocus directly to the <input> element will not cause
-      // focus listener above to be triggered
-      if (autoFocus) {
-        if (isInitialRender.current) {
-          elementRef.current?.focus()
-          isInitialRender.current = false
-        }
-      }
-    }, [autoFocus])
+  useLayoutEffect(() => {
+    // Else onBlur will not be triggered when component unmounts
+    return () => { onBlur() }
+  }, [onBlur])
 
-    useLayoutEffect(() => {
-      // Else onBlur will not be triggered when component unmounts
-      return () => { onBlur() }
-    }, [onBlur])
-
-    return elementRef
-
-  }
+  return elementRef
 
 }

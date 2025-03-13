@@ -1,7 +1,7 @@
-import { vh, vw } from '@glyph-cat/swiss-army-knife'
 import {
   CheckApplePlatformProvider,
   ClientOnly,
+  CoreUIProvider,
   MaterialSymbolsOnlineLoader,
   MaterialSymbolsProvider,
   useIsApplePlatform,
@@ -13,7 +13,14 @@ import { Fragment, JSX, StrictMode } from 'react'
 import { AppSideBarWrapper } from '~components/app-sidebar-wrapper'
 import { SandboxErrorBoundary } from '~components/sandbox-error-boundary'
 import { ENV, FixedKeyChordKey } from '~constants'
-import { FocusRoot, useKeyChordActivationListener, useKeyDownListener, View } from '~core-ui'
+import {
+  FocusRoot,
+  GlobalInputFocusTracker,
+  GlobalKeyChordManager,
+  GlobalLayeredFocusManager,
+  useKeyChordActivationListener,
+  useKeyDownListener,
+} from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
 import '../styles/globals.css'
 
@@ -39,18 +46,24 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
       </Head>
       <MaterialSymbolsOnlineLoader variants={['rounded']} />
       <MaterialSymbolsProvider variant='rounded' fill={1}>
-        <FocusRoot>
-          <AppSideBarWrapper>
-            <ClientOnly>
-              <SandboxErrorBoundary>
-                <Component {...pageProps} />
-              </SandboxErrorBoundary>
-            </ClientOnly>
-          </AppSideBarWrapper>
-          <CheckApplePlatformProvider>
-            <KeyListeners />
-          </CheckApplePlatformProvider>
-        </FocusRoot>
+        <CoreUIProvider
+          inputFocusTracker={GlobalInputFocusTracker}
+          keyChordManager={GlobalKeyChordManager}
+          layeredFocusManager={GlobalLayeredFocusManager}
+        >
+          <FocusRoot>
+            <AppSideBarWrapper>
+              <ClientOnly>
+                <SandboxErrorBoundary>
+                  <Component {...pageProps} />
+                </SandboxErrorBoundary>
+              </ClientOnly>
+            </AppSideBarWrapper>
+            <CheckApplePlatformProvider>
+              <KeyListeners />
+            </CheckApplePlatformProvider>
+          </FocusRoot>
+        </CoreUIProvider>
       </MaterialSymbolsProvider>
     </StrictModeWrapper>
   )

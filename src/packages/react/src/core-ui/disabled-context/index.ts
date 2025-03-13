@@ -1,39 +1,37 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+import { Nullable } from '@glyph-cat/swiss-army-knife'
 import { createContext, createElement, JSX, ReactNode, useContext } from 'react'
+
+const BaseContext = createContext<Nullable<boolean>>(null)
 
 /**
  * @public
  */
 export interface DisabledContextProviderProps {
   children?: ReactNode
-  disabled: boolean
+  disabled: Nullable<boolean>
 }
 
 /**
  * @public
  */
-export class DisabledContext {
+export function DisabledContext({
+  children,
+  disabled,
+}: DisabledContextProviderProps): JSX.Element {
+  return createElement(BaseContext.Provider, { value: disabled }, children)
+}
 
-  /**
-   * @internal
-   */
-  private readonly M$Context = createContext<boolean>(null)
+/**
+ * @public
+ */
+export function useDisabledContext(): boolean {
+  return useContext(BaseContext)
+}
 
-  readonly Provider = ({
-    children,
-    disabled,
-  }: DisabledContextProviderProps): JSX.Element => {
-    return createElement(this.M$Context.Provider, { value: disabled }, children)
-  }
-
-  readonly useDisabledContext = (): boolean => {
-    return useContext(this.M$Context)
-  }
-
-  readonly useDerivedDisabledState = (disabled: boolean): boolean => {
-    const { useDisabledContext } = this
-    const ascendantDisabled = useDisabledContext()
-    return disabled ?? ascendantDisabled
-  }
-
+/**
+ * @public
+ */
+export function useDerivedDisabledState(disabled: boolean): boolean {
+  const ascendantDisabled = useDisabledContext()
+  return disabled ?? ascendantDisabled
 }

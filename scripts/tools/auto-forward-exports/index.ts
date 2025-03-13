@@ -6,12 +6,12 @@ import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { Encoding } from '../../../src/packages/core/src/encoding/constants'
 
-export function autoForwardExports(): void {
+export function autoForwardExports(entryPath: string): void {
 
   const now = new Date()
   const directoriesWithMissingIndexFiles: Array<string> = []
 
-  crawl('./src', (filePath: string) => {
+  crawl(entryPath, (filePath: string) => {
 
     // #region Filtering
     const indexPattern = /\/index\.ts$/

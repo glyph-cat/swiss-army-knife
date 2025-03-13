@@ -48,6 +48,7 @@ export function convertStyleObjectPropertyKeys(
  * @public
  */
 export function compileStyleObjectToString(styles: ExtendedCSSProperties): string {
+  // TODO: Find a way to integrate autoprefixer here
   const compiledStyles: Array<string> = []
   for (const rawPropertyKey in styles) {
     const propertyValue = styles[rawPropertyKey]

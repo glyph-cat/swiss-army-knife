@@ -1,0 +1,9 @@
+.input {
+  background-color: transparent;
+  border: none;
+  display: grid;
+  font-family: inherit;
+  margin: 0;
+  outline: none;
+  padding: 0;
+}

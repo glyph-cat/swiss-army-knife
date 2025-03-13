@@ -7,6 +7,8 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
+    "afe": "sh ./scripts/run/auto-forward-exports.sh",
+    "afe-playground": "tsx ./scripts/run/auto-forward-exports-playground",
     "start": "tsx ./scripts/run/playground-env && next dev",
     "serve": "tsx ./scripts/run/playground-env && next start",
     "lint": "eslint .",
@@ -63,7 +65,7 @@
     "@types/sinonjs__fake-timers": "^8.1.5",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.21",
     "axios": "^1.8.1",
     "babel-jest": "^29.7.0",
     "chalk": "^5.4.1",

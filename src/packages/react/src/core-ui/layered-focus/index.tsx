@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { IDisposable, isString, RefObject, TypedFunction } from '@glyph-cat/swiss-army-knife'
+import { IDisposable, TypedFunction } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import {
@@ -11,19 +10,22 @@ import {
   useContext,
   useEffect,
   useId,
-  useLayoutEffect,
   useMemo,
   useState,
 } from 'react'
-import { createRegistrationReducers, IFocusNode, IFocusNodeState } from './internals'
-
-const DATA_FOCUSED = 'data-focused'
+import { useCoreUIContext } from '../context'
+import { getFocusedStateFromContext } from './internals/observer'
+import {
+  createRegistrationReducers,
+  IFocusNode,
+  IFocusNodeState,
+} from './internals/registration-reducers'
 
 /**
  * @public
  */
 export interface FocusRootProps {
-  children: ReactNode
+  children?: ReactNode
 }
 
 /**
@@ -49,7 +51,7 @@ export class LayeredFocusManager implements IDisposable {
   /**
    * @internal
    */
-  private readonly M$rootState = new SimpleStateManager<IFocusNodeState>({
+  readonly M$rootState = new SimpleStateManager<IFocusNodeState>({
     id: null,
     ignoreSiblings: false,
     focusedChild: null,
@@ -59,159 +61,118 @@ export class LayeredFocusManager implements IDisposable {
   /**
    * @internal
    */
-  private readonly M$context = createContext<IFocusNode>(null)
+  readonly M$context = createContext<IFocusNode>(null)
 
   constructor() {
     this.dispose = this.dispose.bind(this)
-  }
-
-  readonly FocusRoot = ({ children }: FocusRootProps): JSX.Element => {
-
-    const state = useSimpleStateValue(this.M$rootState)
-
-    const setFocus = useCallback((id: string, $ignoreSiblings: boolean) => {
-      const [registerChild, unregisterChild] = createRegistrationReducers(id, $ignoreSiblings)
-      this.M$rootState.set(registerChild)
-      return () => { this.M$rootState.set(unregisterChild) }
-    }, [])
-
-    const nextContext = useMemo<IFocusNode>(() => ({
-      ...state,
-      parentNode: undefined,
-      setFocus,
-    }), [setFocus, state])
-
-    return (
-      <this.M$context.Provider value={nextContext}>
-        {children}
-      </this.M$context.Provider>
-    )
-
-  }
-
-  readonly FocusLayer = ({
-    children,
-    ignoreSiblings,
-    effective = true,
-  }: FocusLayerProps): JSX.Element => {
-
-    const layerId = useId()
-
-    // NOTE: context is always expected to have a value in this scenario
-    const parentContext = useContext(this.M$context)
-    const { setFocus: parentSetFocus } = parentContext
-    useEffect(() => {
-      if (!effective) { return } // Early exit
-      return parentSetFocus(layerId, ignoreSiblings)
-    }, [effective, ignoreSiblings, layerId, parentSetFocus])
-
-    const [state, setState] = useState<IFocusNodeState>({
-      id: layerId,
-      ignoreSiblings,
-      focusedChild: null,
-      childNodes: {},
-    })
-
-    const nextSetFocus = useCallback((id: string, $ignoreSiblings: boolean) => {
-      const [registerChildNode, unregisterChildNode] = createRegistrationReducers(id, $ignoreSiblings)
-      setState(registerChildNode)
-      return () => { setState(unregisterChildNode) }
-    }, [])
-
-    const nextContext = useMemo<IFocusNode>(() => ({
-      ...state,
-      parentNode: parentContext,
-      setFocus: nextSetFocus,
-    }), [parentContext, nextSetFocus, state])
-
-    return (
-      <this.M$context.Provider value={nextContext}>
-        {children}
-      </this.M$context.Provider>
-    )
-
-  }
-
-  readonly useLayeredFocusState = (): [isFocused: boolean, layerId: string] => {
-    // NOTE: context is sometimes expected to NOT have a value in this scenario
-    const context = useContext(this.M$context)
-    const isFocused = getFocusedStateFromContext(context, false)
-    return [isFocused, context?.id ?? null]
-  }
-
-  readonly useLayeredFocusEffect = (
-    callback: TypedFunction,
-    dependencies?: DependencyList,
-  ): void => {
-    const { useLayeredFocusState } = this
-    const [isFocused] = useLayeredFocusState()
-    useEffect(() => {
-      if (isFocused) {
-        return callback()
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isFocused, ...dependencies])
   }
 
   dispose(): void {
     this.M$rootState.dispose()
   }
 
-  /**
-   * @internal
-   */
-  readonly FocusObserver = ({
-    elementRef,
-    allowRefocus,
-  }: FocusObserverProps): JSX.Element => {
+}
 
-    // NOTE: context is always expected to have a value in this scenario
-    const context = useContext(this.M$context)
-    const isFocused = getFocusedStateFromContext(context, true)
-    const { id, parentNode, ignoreSiblings } = context
+/**
+ * @public
+ */
+export function FocusRoot({ children }: FocusRootProps): JSX.Element {
 
-    useLayoutEffect(() => {
-      if (isFocused) {
-        const element = elementRef.current
-        element.setAttribute(DATA_FOCUSED, String(isFocused))
-        return () => { element.removeAttribute(DATA_FOCUSED) }
-      }
-    }, [elementRef, isFocused])
+  const { layeredFocusManager } = useCoreUIContext()
 
-    // NOTE: Every <FocusLayer> will have a parent node.
-    // In the most basic scenario, the parent will be the <FocusRoot>.
-    // The only time when parent node is undefined is when trying to access
-    // the <FocusRoot> directly, which is not how the <FocusObserver> is
-    // meant to be used —— it should always be nested in a <FocusLayer>.
-    const parentSetFocus = parentNode.setFocus
-    useLayoutEffect(() => {
-      if (!allowRefocus || ignoreSiblings) { return } // Early exit
-      const onMouseDown = () => { parentSetFocus(id, ignoreSiblings) }
-      const target = elementRef.current
-      target.addEventListener('mousedown', onMouseDown)
-      return () => { target.removeEventListener('mousedown', onMouseDown) }
-    }, [allowRefocus, elementRef, id, ignoreSiblings, parentSetFocus])
+  const state = useSimpleStateValue(layeredFocusManager.M$rootState)
 
-    return null
+  const setFocus = useCallback((id: string, $ignoreSiblings: boolean) => {
+    const [registerChild, unregisterChild] = createRegistrationReducers(id, $ignoreSiblings)
+    layeredFocusManager.M$rootState.set(registerChild)
+    return () => { layeredFocusManager.M$rootState.set(unregisterChild) }
+  }, [layeredFocusManager.M$rootState])
 
-  }
+  const nextContext = useMemo<IFocusNode>(() => ({
+    ...state,
+    parentNode: undefined,
+    setFocus,
+  }), [setFocus, state])
+
+  return (
+    <layeredFocusManager.M$context.Provider value={nextContext}>
+      {children}
+    </layeredFocusManager.M$context.Provider>
+  )
 
 }
 
-interface FocusObserverProps {
-  elementRef: RefObject<HTMLElement>
-  allowRefocus: boolean
+/**
+ * @public
+ */
+export function FocusLayer({
+  children,
+  ignoreSiblings,
+  effective = true,
+}: FocusLayerProps): JSX.Element {
+
+  const { layeredFocusManager } = useCoreUIContext()
+
+  const layerId = useId()
+
+  // NOTE: context is always expected to have a value in this scenario
+  const parentContext = useContext(layeredFocusManager.M$context)
+  const { setFocus: parentSetFocus } = parentContext
+  useEffect(() => {
+    if (!effective) { return } // Early exit
+    return parentSetFocus(layerId, ignoreSiblings)
+  }, [effective, ignoreSiblings, layerId, parentSetFocus])
+
+  const [state, setState] = useState<IFocusNodeState>({
+    id: layerId,
+    ignoreSiblings,
+    focusedChild: null,
+    childNodes: {},
+  })
+
+  const nextSetFocus = useCallback((id: string, $ignoreSiblings: boolean) => {
+    const [registerChildNode, unregisterChildNode] = createRegistrationReducers(id, $ignoreSiblings)
+    setState(registerChildNode)
+    return () => { setState(unregisterChildNode) }
+  }, [])
+
+  const nextContext = useMemo<IFocusNode>(() => ({
+    ...state,
+    parentNode: parentContext,
+    setFocus: nextSetFocus,
+  }), [parentContext, nextSetFocus, state])
+
+  return (
+    <layeredFocusManager.M$context.Provider value={nextContext}>
+      {children}
+    </layeredFocusManager.M$context.Provider>
+  )
+
 }
 
-function getFocusedStateFromContext(
-  context: IFocusNode,
-  enforceContextPresence: boolean,
-): boolean {
-  if (!context && !enforceContextPresence) { return true } // Early exit
-  if (isString(context.focusedChild)) { return false } // Early exit
-  if (context.parentNode) {
-    return Object.is(context.parentNode.focusedChild, context.id) || context.ignoreSiblings
-    // Early exit
-  }
-  return true
+/**
+ * @public
+ */
+export function useLayeredFocusState(): [isFocused: boolean, layerId: string] {
+  const { layeredFocusManager } = useCoreUIContext()
+  // NOTE: context is sometimes expected to NOT have a value in this scenario
+  const context = useContext(layeredFocusManager.M$context)
+  const isFocused = getFocusedStateFromContext(context, false)
+  return [isFocused, context?.id ?? null]
+}
+
+/**
+ * @public
+ */
+export function useLayeredFocusEffect(
+  callback: TypedFunction,
+  dependencies?: DependencyList,
+): void {
+  const [isFocused] = useLayeredFocusState()
+  useEffect(() => {
+    if (isFocused) {
+      return callback()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused, ...dependencies])
 }
