@@ -6,8 +6,11 @@ const config: Config.InitialOptions = {
     '@glyph-cat/react-test-utils':'<rootDir>/../react-test-utils/src',
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },
+  setupFiles: [
+    '<rootDir>/jest.pre-env-setup.ts',
+  ],
   setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts',
+    '<rootDir>/jest.post-env-setup.ts',
   ],
   testPathIgnorePatterns: [
     '.draft',

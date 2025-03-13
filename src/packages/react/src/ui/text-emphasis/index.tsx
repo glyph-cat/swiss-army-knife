@@ -64,7 +64,7 @@ export interface TextEmphasisComponentProps {
  */
 export function TextEmphasis({
   children,
-  patterns,
+  patterns, // TOFIX: not working with regex
   component: EmphasisComponent,
   caseSensitive,
 }: TextEmphasisProps): JSX.Element {
