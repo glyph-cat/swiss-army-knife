@@ -63,6 +63,10 @@ export function autoForwardExports(entryPath: string): void {
         codeLineStack.push(`export * from './${itemIsDirectory ? item : item.replace(/\.(j|t)sx?$/, '')}'`)
       }
     }
+    if (items.length <= 0) {
+      console.log(chalk.yellow(' └ ? Found no files to export'))
+      codeLineStack.push('export {} // Found no files to export')
+    }
     codeLineStack.push(
       `\n// Generated on: ${now.toDateString()} ${now.toTimeString().match(/\d{2}:\d{2}:\d{2} [a-z]+\+\d{4}/i)[0]}.`,
     )
