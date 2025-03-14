@@ -45,12 +45,13 @@
   border-color: var(--tint);
 }
 
-.input:checked:enabled:hover {
+.input:enabled:checked:hover {
   background-image: linear-gradient(var(--tintLighter), var(--tintLighter));
   border-color: var(--tintLighter);
 }
 
-.input:enabled:active {
+.input:enabled:active,
+.input:enabled:checked:active {
   background-image: linear-gradient(#00000060, #00000060);
 }
 
