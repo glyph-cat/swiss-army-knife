@@ -1,6 +1,6 @@
 import { useSimpleStateValue } from 'cotton-box-react'
 import { DependencyList, useEffect } from 'react'
-import { useIsApplePlatform } from '../../platform-checking'
+import { useIsApplePlatform } from '../../../platform-checking'
 import { useCoreUIContext } from '../context'
 import { useCheckInputFocus } from '../input-focus'
 import { useLayeredFocusState } from '../layered-focus'
@@ -8,6 +8,9 @@ import { useLayeredFocusState } from '../layered-focus'
 const EVENT_KEYDOWN = 'keydown'
 const EVENT_KEYUP = 'keyup'
 
+/**
+ * @public
+ */
 export function useKeyChordActivationListener(
   callback: (e: KeyboardEvent) => void,
   dependencies: DependencyList,
@@ -45,6 +48,9 @@ export function useKeyChordActivationListener(
   }, [enabled, ignoreLayerFocus, isAnyInputFocused, isAppleOS, isFocused, keyChordManager, ...dependencies])
 }
 
+/**
+ * @public
+ */
 export function useKeyDownListener(
   onKeyDown: (e: KeyboardEvent) => void,
   dependencies: DependencyList,
@@ -64,6 +70,9 @@ export function useKeyDownListener(
   }, [enabled, ignoreLayerFocus, isAnyInputFocused, isFocused, isOccupiedByKeyChord, ...dependencies])
 }
 
+/**
+ * @public
+ */
 export function useKeyUpListener(
   onKeyUp: (e: KeyboardEvent) => void,
   dependencies: DependencyList,

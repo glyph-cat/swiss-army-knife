@@ -6,12 +6,12 @@ import styles from './index.module.css'
 /**
  * @public
  */
-export type ButtonProps = JSX.IntrinsicElements['button']
+export type ButtonBaseProps = JSX.IntrinsicElements['button']
 
 /**
  * @public
  */
-export interface Button extends HTMLButtonElement { (props: ButtonProps): JSX.Element }
+export interface ButtonBase extends HTMLButtonElement { (props: ButtonBaseProps): JSX.Element }
 
 /**
  * A drop-in replacement for the `<button>` element where
@@ -23,11 +23,11 @@ export interface Button extends HTMLButtonElement { (props: ButtonProps): JSX.El
  *
  * @public
  */
-export const Button = forwardRef(({
+export const ButtonBase = forwardRef(({
   className,
   disabled: $disabled,
   ...props
-}: ButtonProps, ref: Ref<HTMLButtonElement>) => {
+}: ButtonBaseProps, ref: Ref<HTMLButtonElement>) => {
   const disabled = useInternalDerivedDisabledState($disabled)
   return createElement('button', {
     ...props,

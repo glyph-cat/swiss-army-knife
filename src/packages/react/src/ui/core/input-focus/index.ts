@@ -64,6 +64,7 @@ export class InputFocusTracker implements IDisposable {
 
 /**
  * @returns `true` if there are any <Input> components that are in focus.
+ * @public
  */
 export function useCheckInputFocus(): boolean {
   const { inputFocusTracker } = useCoreUIContext()

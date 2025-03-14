@@ -8,7 +8,7 @@ export const GlobalInputFocusTracker = new InputFocusTracker()
 export const GlobalKeyChordManager = new KeyChordManager()
 
 export {
-  Button, FocusableView, FocusLayer, FocusRoot, Input, Select, TextArea, useCheckInputFocus, useKeyChordActivationListener,
+  ButtonBase as Button, FocusableView, FocusLayer, FocusRoot, Input, Select, TextArea, useCheckInputFocus, useKeyChordActivationListener,
   useKeyDownListener, useKeyUpListener, useLayeredFocusState, View
 } from '@glyph-cat/swiss-army-knife-react'
 
