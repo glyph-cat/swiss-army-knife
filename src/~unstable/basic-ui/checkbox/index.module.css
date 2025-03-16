@@ -8,6 +8,10 @@
   justify-self: start;
 }
 
+.container::selection {
+  background-color: var(--checkboxColor40);
+}
+
 .container:has(.input:disabled) {
   cursor: not-allowed;
 }
@@ -40,33 +44,43 @@
   outline: none;
 }
 
-.input:enabled:hover {
-  background-image: linear-gradient(var(--tint40), var(--tint40));
-  border-color: var(--tint);
-}
-
-.input:enabled:checked:hover {
-  background-image: linear-gradient(var(--tintLighter), var(--tintLighter));
-  border-color: var(--tintLighter);
-}
-
-.input:enabled:active,
-.input:enabled:checked:active {
-  background-image: linear-gradient(#00000060, #00000060);
-}
-
-.input:enabled:checked {
-  background-color: var(--tint);
-  border-color: var(--tint);
-}
-
 .input:disabled {
   --disabledColor: #80808040;
   border-color: var(--disabledColor);
 }
 
-.input:disabled:checked {
+.input:disabled:checked,
+.input:disabled:indeterminate {
   background-color: var(--disabledColor);
+}
+
+.input:enabled:checked,
+.input:enabled:indeterminate {
+  background-color: var(--checkboxColor);
+  border-color: var(--checkboxColor);
+}
+
+.input:enabled:hover {
+  background-image: linear-gradient(
+    var(--checkboxColor40),
+    var(--checkboxColor40)
+  );
+  border-color: var(--checkboxColor);
+}
+
+.input:enabled:checked:hover,
+.input:enabled:indeterminate:hover {
+  background-image: linear-gradient(
+    var(--checkboxColorFilledHover),
+    var(--checkboxColorFilledHover)
+  );
+  border-color: var(--checkboxColorFilledHover);
+}
+
+.input:enabled:active,
+.input:enabled:checked:active,
+.input:enabled:indeterminate:active {
+  background-image: linear-gradient(#00000060, #00000060);
 }
 
 .checkmark {
@@ -75,12 +89,14 @@
   place-self: center;
   pointer-events: none;
   position: absolute;
+  user-select: none;
 }
 
 .input:disabled + .checkmark {
   color: #808080;
 }
 
-.input:checked + .checkmark {
+.input:checked + .checkmark,
+.input:indeterminate + .checkmark {
   display: grid;
 }

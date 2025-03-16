@@ -4,7 +4,6 @@ import { useSimpleStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { JSX, MouseEvent, ReactNode, useCallback, useEffect } from 'react'
-import { PerformanceDebugger } from '~components/debugging/performance'
 import { AppRoute } from '~constants'
 import { Button, FocusLayer, View } from '~core-ui'
 import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
@@ -18,7 +17,7 @@ const BUTTON_HEIGHT = 28 // px
 const STRICT_MODE_ON_COLOR = '#c40'
 const STRICT_MODE_OFF_COLOR = '#06f'
 
-// TODO: Search input for sandboxes
+// TODO: Have a search input for sandboxes
 
 export interface AppSideBarWrapperProps {
   children: ReactNode
@@ -56,36 +55,33 @@ export function AppSideBarWrapper({
         <FocusLayer ignoreSiblings>
           <View className={styles.sidebarContainerBase} />
           <View className={c(styles.sidebarContainerBase, styles.sidebarContainer)}>
-            <View style={{ gridTemplateColumns: 'auto 1fr' }}>
-              <PerformanceDebugger />
-              <View className={styles.buttonsContainer}>
-                <Button
-                  className={styles.buttonBase}
-                  style={{
-                    backgroundColor: shouldUseStrictMode
-                      ? STRICT_MODE_ON_COLOR
-                      : STRICT_MODE_OFF_COLOR,
-                    height: BUTTON_HEIGHT,
-                  }}
-                  onClick={CustomDebugger.toggleStrictMode}
-                >
-                  {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
-                </Button>
-                <Button
-                  className={styles.buttonBase}
-                  onClick={CustomDebugger.softReload}
-                  style={{ height: BUTTON_HEIGHT }}
-                >
-                  {'Soft Reload'}
-                </Button>
-                <Button
-                  className={styles.buttonBase}
-                  onClick={showCreateSandboxPopup}
-                  style={{ height: BUTTON_HEIGHT }}
-                >
-                  {'Create sandbox'}
-                </Button>
-              </View>
+            <View className={styles.buttonsContainer}>
+              <Button
+                className={styles.buttonBase}
+                style={{
+                  backgroundColor: shouldUseStrictMode
+                    ? STRICT_MODE_ON_COLOR
+                    : STRICT_MODE_OFF_COLOR,
+                  height: BUTTON_HEIGHT,
+                }}
+                onClick={CustomDebugger.toggleStrictMode}
+              >
+                {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
+              </Button>
+              <Button
+                className={styles.buttonBase}
+                onClick={CustomDebugger.softReload}
+                style={{ height: BUTTON_HEIGHT }}
+              >
+                {'Soft Reload'}
+              </Button>
+              <Button
+                className={styles.buttonBase}
+                onClick={showCreateSandboxPopup}
+                style={{ height: BUTTON_HEIGHT }}
+              >
+                {'Create sandbox'}
+              </Button>
             </View>
             <SidebarContents />
           </View>

@@ -20,7 +20,7 @@ export class Theme<
   // #region Defaults
 
   static DEFAULT_LIGHT_BASE_PALETTE: Readonly<IBaseThemePalette> = {
-    tint: '#2b80ff',
+    primaryColor: '#2b80ff',
     appBgColor: '#eeeeee',
     appTextColor: '#4b4b4b',
     separatorColor: '#808080',
@@ -33,7 +33,7 @@ export class Theme<
   }
 
   static DEFAULT_DARK_BASE_PALETTE: Readonly<IBaseThemePalette> = {
-    tint: '#2b80ff',
+    primaryColor: '#2b80ff',
     appBgColor: '#111111',
     appTextColor: '#b5b5b5',
     separatorColor: '#808080',
@@ -91,11 +91,11 @@ export class Theme<
       ...basePalette,
     }
 
-    const { tint, appBgColor, appTextColor, separatorColor } = mergedBasePalette
+    const { primaryColor, appBgColor, appTextColor, separatorColor } = mergedBasePalette
 
-    const tintSrc = Color.fromString(tint)
-    const tintLighter = adjustLightness(tintSrc, 1.1).toString()
-    const tintDarker = adjustLightness(tintSrc, 0.9).toString()
+    const primaryColorSrc = Color.fromString(primaryColor)
+    const primaryColorLighter = adjustLightness(primaryColorSrc, 1.1).toString()
+    const primaryColorDarker = adjustLightness(primaryColorSrc, 0.9).toString()
 
     const appBgColorSrc = Color.fromString(appBgColor)
     const appTextColorSrc = Color.fromString(appTextColor)
@@ -103,16 +103,16 @@ export class Theme<
 
     this.palette = {
       ...mergedBasePalette,
-      tintLighter,
-      tintDarker,
-      tint20: `${tint}20`,
-      tint40: `${tint}40`,
-      tint60: `${tint}60`,
-      tint80: `${tint}80`,
-      // TODO: Check contrast and increase legibility of tinted text colors
-      tintedTextColor: tint,
-      tintedTextColorLighter: tintLighter,
-      tintedTextColorDarker: tintDarker,
+      primaryColorLighter,
+      primaryColorDarker,
+      primaryColor20: `${primaryColor}20`,
+      primaryColor40: `${primaryColor}40`,
+      primaryColor60: `${primaryColor}60`,
+      primaryColor80: `${primaryColor}80`,
+      // TODO: Check contrast and increase legibility of primary text colors
+      primaryTextColor: primaryColor,
+      primaryTextColorLighter: primaryColorLighter,
+      primaryTextColorDarker: primaryColorDarker,
       appBgColor2: adjustLightness(appBgColorSrc, isLightColorScheme ? 0.9 : 1.1).toString(),
       appBgColor3: adjustLightness(appBgColorSrc, isLightColorScheme ? 0.8 : 1.2).toString(),
       appBgColor4: adjustLightness(appBgColorSrc, isLightColorScheme ? 0.7 : 1.3).toString(),

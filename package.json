@@ -79,7 +79,6 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0-canary-d46b04a2-20250117",
-    "gamestats.js": "^1.0.7",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",

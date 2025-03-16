@@ -41,7 +41,7 @@ export interface ITheme {
  * @public
  */
 export interface IBaseThemePalette {
-  tint: StringColorValue
+  primaryColor: StringColorValue
   appBgColor: StringColorValue
   appTextColor: StringColorValue
   separatorColor: StringColorValue
@@ -57,15 +57,15 @@ export interface IBaseThemePalette {
  * @public
  */
 export interface IThemePalette extends IBaseThemePalette {
-  tintLighter: StringColorValue
-  tintDarker: StringColorValue
-  tint20: StringColorValue
-  tint40: StringColorValue
-  tint60: StringColorValue
-  tint80: StringColorValue
-  tintedTextColor: StringColorValue
-  tintedTextColorLighter: StringColorValue
-  tintedTextColorDarker: StringColorValue
+  primaryColorLighter: StringColorValue
+  primaryColorDarker: StringColorValue
+  primaryColor20: StringColorValue
+  primaryColor40: StringColorValue
+  primaryColor60: StringColorValue
+  primaryColor80: StringColorValue
+  primaryTextColor: StringColorValue
+  primaryTextColorLighter: StringColorValue
+  primaryTextColorDarker: StringColorValue
   appBgColor2: StringColorValue
   appBgColor3: StringColorValue
   appBgColor4: StringColorValue

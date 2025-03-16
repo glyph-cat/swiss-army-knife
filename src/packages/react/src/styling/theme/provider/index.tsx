@@ -86,11 +86,11 @@ export function ThemeProvider({
         colorScheme: theme.colorScheme,
       }],
       [`.${className}::selection`, {
-        backgroundColor: theme.palette.tint40,
+        backgroundColor: theme.palette.primaryColor40,
       }],
     ]), -1 as PrecedenceLevel)
     return () => { styleManager.dispose() }
-  }, [className, componentParameters, customValues, paletteStyles, spacingStyles, theme.colorScheme, theme.palette.tint40])
+  }, [className, componentParameters, customValues, paletteStyles, spacingStyles, theme.colorScheme, theme.palette.primaryColor40])
 
   useInsertionEffect(() => {
     if (isNested) { return } // Early exit

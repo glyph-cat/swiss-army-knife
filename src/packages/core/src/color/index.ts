@@ -109,8 +109,10 @@ export namespace ColorUtil {
       : g === maxRGB
         ? 2 + (b - r) / normalizedMaxMinRGBDiff
         : 4 + (r - g) / normalizedMaxMinRGBDiff
+    // KIV: '#ff2b80' - Expected hue value to be equal to or between 0 and 360 but got: `21576`
+    // Seems to be resolved with `% 360`
     return [
-      Math.round((hue < 0 ? hue + Color.MAX_HUE_VALUE : hue) * 60),
+      Math.round(((hue < 0 ? hue + Color.MAX_HUE_VALUE : hue) * 60) % 360),
       Math.round(saturation * Color.MAX_SATURATION_VALUE),
       Math.round(lightness * Color.MAX_LIGHTNESS_VALUE),
     ]
