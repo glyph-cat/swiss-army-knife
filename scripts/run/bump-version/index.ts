@@ -29,7 +29,7 @@ function run(version: string): void {
 
   const PROPERTY_KEY_VERSION = 'version'
   const PACKAGE_JSON = 'package.json'
-  const PACKAGES_PATH = './packages'
+  const PACKAGES_PATH = './src/packages'
 
   const rootPackageJsonPath = `./${PACKAGE_JSON}`
   const rootPackageJson = readJson(rootPackageJsonPath)
@@ -46,16 +46,10 @@ function run(version: string): void {
   reactPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(reactPackageJsonPath, reactPackageJson)
 
-  const reactPlaygroundPackageJsonPath = `${PACKAGES_PATH}/playground-react/${PACKAGE_JSON}`
-  const reactPlaygroundPackageJson = readJson(reactPlaygroundPackageJsonPath)
-  reactPlaygroundPackageJson[PROPERTY_KEY_VERSION] = version
-  writeJson(reactPlaygroundPackageJsonPath, reactPlaygroundPackageJson)
-
   execSync(`git add ${[
     rootPackageJsonPath,
     corePackageJsonPath,
     reactPackageJsonPath,
-    reactPlaygroundPackageJsonPath,
   ].join(' ')}`)
   execSync(`git commit -m 'v${version}'`)
   execSync(`git tag 'v${version}'`)
