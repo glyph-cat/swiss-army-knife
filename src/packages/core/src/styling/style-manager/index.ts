@@ -1,4 +1,4 @@
-import { createRef } from '../../data'
+import { createRef, Empty } from '../../data'
 import { CleanupFunction, IDisposable } from '../../types'
 import { ExtendedCSSProperties } from '../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
@@ -18,7 +18,7 @@ export class StyleManager extends StyleMap implements IDisposable {
   /**
    * @internal
    */
-  private readonly M$removeStyles: CleanupFunction
+  private readonly M$removeStyles: CleanupFunction = Empty.FUNCTION
 
   readonly element: HTMLStyleElement
 
@@ -32,7 +32,9 @@ export class StyleManager extends StyleMap implements IDisposable {
     // Update: This problem is tricky and niche, there seems to be a post on S.O.
     // https://stackoverflow.com/questions/77689581/how-to-avoid-inherited-methods-in-call-by-super-constructor-keyword?noredirect=1&lq=1
     const styleElementRef = createRef<HTMLStyleElement>(null)
-    this.M$removeStyles = addStyles(this.M$getCompiledStyles(), precedenceLevel, styleElementRef)
+    if (typeof window !== 'undefined') {
+      this.M$removeStyles = addStyles(this.M$getCompiledStyles(), precedenceLevel, styleElementRef)
+    }
     this.element = styleElementRef.current
     for (const [key, value] of initialStyles) {
       this.set(key, value)

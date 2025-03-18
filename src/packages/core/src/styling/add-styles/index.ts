@@ -1,9 +1,5 @@
 import { RefObject } from '../../data/ref'
 import { CleanupFunction } from '../../types'
-import {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  compileStyles,
-} from '../compile-styles'
 import { querySelectorLast } from '../query-selector-last'
 import {
   DATA_PRECEDENCE_LEVEL,
@@ -15,7 +11,7 @@ import {
 /**
  * Appends styles to [`document.head`](https://developer.mozilla.org/docs/Web/HTML/Element/head)
  * using the [`<style>`](https://developer.mozilla.org/docs/Web/HTML/Element/style) element.
- * @param styles - Styles written as plain CSS string. Consider using {@link compileStyles} to generate the string from a JavaScript object for better readability and code maintainability.
+ * @param styles - Styles written as plain CSS string. Consider using `StyleMap.toString` to generate the string from a JavaScript object for better readability and code maintainability.
  * @param precedenceLevel - Precedence level of the stylesheet.
  * @returns A callback function that when called, removes the appended styles.
  * @public

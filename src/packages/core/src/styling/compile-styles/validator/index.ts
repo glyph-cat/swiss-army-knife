@@ -26,8 +26,9 @@ export function tryValidateCSSSelector(value: string): boolean {
 
 /**
  * Whitelist CSS selectors and web components so that warnings are not shown
- * for them when using with {@link compileStyles}. Optionally, pass a single `'*'`
- * to turn off this checking feature.
+ * for them when using with `compileStyle` or `StyleMap.toString`.
+ * These warnings will only be shown in development environment.
+ * Optionally, pass a single `'*'` to turn off this checking feature.
  * @public
  */
 export function ignoreWhenCompilingStyles(

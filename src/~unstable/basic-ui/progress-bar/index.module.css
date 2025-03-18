@@ -1,0 +1,13 @@
+.container {
+  border: solid var(--inputElementBorderSize) var(--tint);
+  border-radius: var(--containerBorderRadius);
+  overflow: hidden;
+  height: var(--size);
+  background-color: #00000040;
+  padding: var(--inputElementBorderSize);
+}
+
+.fill {
+  background-color: var(--tint);
+  border-radius: var(--fillBorderRadius);
+}

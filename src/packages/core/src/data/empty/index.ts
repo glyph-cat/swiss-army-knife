@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * @public
  */
@@ -6,7 +8,7 @@ export namespace Empty {
   /**
    * @public
    */
-  export const ARRAY: Readonly<Array<unknown>> = []
+  export const ARRAY: Readonly<Array<any>> = []
 
   /**
    * @public
@@ -16,7 +18,7 @@ export namespace Empty {
   /**
    * @public
    */
-  export const OBJECT: Readonly<Record<PropertyKey, unknown>> = {}
+  export const OBJECT: Readonly<Record<PropertyKey, any>> = {}
 
   /**
    * @public

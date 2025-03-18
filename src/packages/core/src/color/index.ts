@@ -516,7 +516,7 @@ export class Color {
    * @param value - A hex/rgb/hsl formatted string (not case-sensitive).
    * @returns A {@link Color} instance with the given values.
    * @example
-   * Color.fromString('#ff0000)
+   * Color.fromString('#ff0000')
    * Color.fromString('rgb(255, 0, 0)')
    * Color.fromString('hsl(0, 100%, 50%)')
    */

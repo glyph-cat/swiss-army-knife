@@ -31,7 +31,6 @@ export enum LenientColorScheme {
  * @public
  */
 export interface ITheme {
-  readonly id: string,
   readonly colorScheme: ColorScheme
   readonly palette: Readonly<IThemePalette>
   readonly spacing: Readonly<ISpacingDefinition>
@@ -91,6 +90,18 @@ export interface ISpacingDefinition {
   XL: number
   XXL: number
   XXXL: number
+}
+
+/**
+ * @public
+ */
+export interface IDurationDefinition {
+  VERY_SHORT: number
+  SHORT: number
+  MEDIUM: number
+  LONG: number
+  VERY_LONG: number
+  EXTRA_LONG: number
 }
 
 /**

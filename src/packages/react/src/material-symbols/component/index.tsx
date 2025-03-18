@@ -1,6 +1,7 @@
 import { c, CSSProperties, isNumber } from '@glyph-cat/swiss-army-knife'
 import { createElement, JSX, useContext } from 'react'
 import { MaterialSymbolOptions } from '../abstractions'
+import { MATERIAL_SYMBOL_BASE_CLASSNAME } from '../constants'
 import { MaterialSymbolName } from '../names'
 import { MaterialSymbolOptionsContext } from '../provider/internal'
 
@@ -52,6 +53,7 @@ export function MaterialSymbol({
   return createElement(renderAs || ctx.renderAs, {
     className: c(
       `material-symbols-${effectiveVariant}`,
+      MATERIAL_SYMBOL_BASE_CLASSNAME,
       className,
     ),
     style: {

@@ -1,6 +1,6 @@
 import { c, Casing, isString } from '@glyph-cat/swiss-army-knife'
-import { MaterialSymbol, useActionState } from '@glyph-cat/swiss-army-knife-react'
-import { useSimpleStateValue } from 'cotton-box-react'
+import { ClientOnly, MaterialSymbol, useActionState } from '@glyph-cat/swiss-army-knife-react'
+import { useStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { JSX, MouseEvent, ReactNode, useCallback, useEffect } from 'react'
@@ -30,7 +30,7 @@ export function AppSideBarWrapper({
   const {
     showPerformanceDebugger: shouldShowPerformanceDebugger,
     useStrictMode: shouldUseStrictMode,
-  } = useSimpleStateValue(CustomDebugger.state)
+  } = useStateValue(CustomDebugger.state)
 
   const router = useRouter()
 
@@ -56,18 +56,20 @@ export function AppSideBarWrapper({
           <View className={styles.sidebarContainerBase} />
           <View className={c(styles.sidebarContainerBase, styles.sidebarContainer)}>
             <View className={styles.buttonsContainer}>
-              <Button
-                className={styles.buttonBase}
-                style={{
-                  backgroundColor: shouldUseStrictMode
-                    ? STRICT_MODE_ON_COLOR
-                    : STRICT_MODE_OFF_COLOR,
-                  height: BUTTON_HEIGHT,
-                }}
-                onClick={CustomDebugger.toggleStrictMode}
-              >
-                {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
-              </Button>
+              <ClientOnly>
+                <Button
+                  className={styles.buttonBase}
+                  style={{
+                    backgroundColor: shouldUseStrictMode
+                      ? STRICT_MODE_ON_COLOR
+                      : STRICT_MODE_OFF_COLOR,
+                    height: BUTTON_HEIGHT,
+                  }}
+                  onClick={CustomDebugger.toggleStrictMode}
+                >
+                  {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
+                </Button>
+              </ClientOnly>
               <Button
                 className={styles.buttonBase}
                 onClick={CustomDebugger.softReload}

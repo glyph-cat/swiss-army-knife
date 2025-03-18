@@ -7,8 +7,10 @@
   "javascript.preferences.quoteStyle": "single",
   "typescript.preferences.quoteStyle": "single",
   "search.exclude": {
-    "**/node_modules": true,
-    "**/*.code-search": true,
-    "lib/": true,
-  }
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/*.code-search": true,
+      "**/lib": true,
+      "src/packages": true,
+    }
 }

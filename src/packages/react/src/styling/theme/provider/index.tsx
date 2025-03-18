@@ -10,17 +10,18 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import {
   Children,
+  createElement,
   JSX,
   ReactElement,
   useCallback,
   useContext,
-  useId,
   useInsertionEffect,
   useLayoutEffect,
   useMemo,
   useRef
 } from 'react'
 import { GenericHTMLProps } from '../../../abstractions/public'
+import { useClassName } from '../../../hooks/class-name'
 import { ThemeProviderProps } from '../abstractions'
 import { ThemeContext } from '../constants'
 
@@ -33,9 +34,7 @@ export function ThemeProvider({
 }: ThemeProviderProps): JSX.Element {
 
   const isNested = isObjectNotNull(useContext(ThemeContext))
-  const className = `t_${useId().replace(/[^0-9a-z_-]/g, '')}`
-  // ^ There is a possibility useId can start with a number,
-  //   which is invalid for CSS class names.
+  const className = useClassName()
 
   const spacingStyles = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
@@ -56,6 +55,16 @@ export function ThemeProvider({
     }
     return styleObject
   }, [theme.palette])
+
+  const durationStyles = useMemo(() => {
+    const styleObject: ExtendedCSSProperties = {}
+    for (const key in theme.duration) {
+      const value = theme.duration[key]
+      const property = `--duration${new Casing(key).toPascalCase()}`
+      styleObject[property] = `${value}ms`
+    }
+    return styleObject
+  }, [theme.duration])
 
   const componentParameters = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
@@ -81,16 +90,29 @@ export function ThemeProvider({
       [`.${className}`, {
         ...spacingStyles,
         ...paletteStyles,
+        ...durationStyles,
         ...componentParameters,
         ...customValues,
+        backgroundColor: theme.palette.appBgColor,
+        color: theme.palette.appTextColor,
         colorScheme: theme.colorScheme,
+      }],
+      [`.${className} a, .${className} .a`, {
+        color: theme.palette.primaryTextColor,
+        cursor: 'pointer',
+      }],
+      [`.${className} a:hover, .${className} .a:hover`, {
+        color: theme.palette.primaryTextColorLighter,
+      }],
+      [`.${className} a:active, .${className} .a:active`, {
+        color: theme.palette.primaryTextColorDarker,
       }],
       [`.${className}::selection`, {
         backgroundColor: theme.palette.primaryColor40,
       }],
-    ]), -1 as PrecedenceLevel)
+    ]), PrecedenceLevel.INTERNAL)
     return () => { styleManager.dispose() }
-  }, [className, componentParameters, customValues, paletteStyles, spacingStyles, theme.colorScheme, theme.palette.primaryColor40])
+  }, [className, componentParameters, customValues, durationStyles, paletteStyles, spacingStyles, theme])
 
   useInsertionEffect(() => {
     if (isNested) { return } // Early exit
@@ -120,14 +142,14 @@ export function ThemeProvider({
     const { ref: refProp } = loneChild
     if (isFunction(refProp)) {
       refProp(node)
-    } else {
+    } else if (refProp) {
       refProp.current = node
     }
     containerRef.current = node
     return () => {
       if (isFunction(refProp)) {
         refProp(null)
-      } else {
+      } else if (refProp) {
         refProp.current = null
       }
       containerRef.current = null
@@ -135,14 +157,16 @@ export function ThemeProvider({
   }, [loneChild])
 
   if (isNested) {
+    // `createElement` is used below to suppress the following error:
+    // A props object containing a "key" prop is being spread into JSX
     const { type: Component, props, key } = loneChild
     return (
       <ThemeContext.Provider value={theme}>
-        <Component
-          ref={assignRef}
-          {...(isNullOrUndefined(key) ? {} : { key })}
-          {...props}
-        />
+        {createElement(Component, {
+          ref: assignRef,
+          ...(isNullOrUndefined(key) ? {} : { key }),
+          ...props,
+        })}
       </ThemeContext.Provider>
     )
   } else {

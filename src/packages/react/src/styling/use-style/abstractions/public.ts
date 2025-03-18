@@ -1,5 +1,6 @@
 /**
  * @public
+ * @deprecated Please other styling APIs such as `addStyles`, `StyleMap` or `StyleManager` instead.
  */
 export type PseudoClasses =
   | ':hover'

@@ -6,7 +6,7 @@ import {
   MaterialSymbolsProvider,
   useIsApplePlatform,
 } from '@glyph-cat/swiss-army-knife-react'
-import { useSimpleStateValue } from 'cotton-box-react'
+import { useStateValue } from 'cotton-box-react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Fragment, JSX, StrictMode } from 'react'
@@ -22,6 +22,7 @@ import {
   useKeyDownListener,
 } from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
+import { CustomThemeProvider } from '~services/theme'
 import '../styles/globals.css'
 
 const SHORTCUT_KEYS_TO_IGNORE: Readonly<Array<string>> = [
@@ -32,8 +33,8 @@ const SHORTCUT_KEYS_TO_IGNORE: Readonly<Array<string>> = [
 
 function App({ Component, pageProps }: AppProps): JSX.Element {
 
-  const softReloadKey = useSimpleStateValue(CustomDebugger.state, (s) => s.softReloadKey)
-  const shouldUseStrictMode = useSimpleStateValue(CustomDebugger.state, (s) => s.useStrictMode)
+  const softReloadKey = useStateValue(CustomDebugger.state, (s) => s.softReloadKey)
+  const shouldUseStrictMode = useStateValue(CustomDebugger.state, (s) => s.useStrictMode)
   const StrictModeWrapper = shouldUseStrictMode ? StrictMode : Fragment
 
   return (
@@ -46,24 +47,26 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
       </Head>
       <MaterialSymbolsOnlineLoader variants={['rounded']} />
       <MaterialSymbolsProvider variant='rounded' fill={1}>
-        <CoreUIProvider
-          inputFocusTracker={GlobalInputFocusTracker}
-          keyChordManager={GlobalKeyChordManager}
-          layeredFocusManager={GlobalLayeredFocusManager}
-        >
-          <FocusRoot>
-            <AppSideBarWrapper>
-              <ClientOnly>
-                <SandboxErrorBoundary>
-                  <Component {...pageProps} />
-                </SandboxErrorBoundary>
-              </ClientOnly>
-            </AppSideBarWrapper>
-            <CheckApplePlatformProvider>
-              <KeyListeners />
-            </CheckApplePlatformProvider>
-          </FocusRoot>
-        </CoreUIProvider>
+        <CustomThemeProvider>
+          <CoreUIProvider
+            inputFocusTracker={GlobalInputFocusTracker}
+            keyChordManager={GlobalKeyChordManager}
+            layeredFocusManager={GlobalLayeredFocusManager}
+          >
+            <FocusRoot>
+              <AppSideBarWrapper>
+                <ClientOnly>
+                  <SandboxErrorBoundary>
+                    <Component {...pageProps} />
+                  </SandboxErrorBoundary>
+                </ClientOnly>
+              </AppSideBarWrapper>
+              <CheckApplePlatformProvider>
+                <KeyListeners />
+              </CheckApplePlatformProvider>
+            </FocusRoot>
+          </CoreUIProvider>
+        </CustomThemeProvider>
       </MaterialSymbolsProvider>
     </StrictModeWrapper>
   )

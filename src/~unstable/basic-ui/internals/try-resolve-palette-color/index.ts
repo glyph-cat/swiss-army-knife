@@ -5,15 +5,20 @@ export function tryResolvePaletteColor(
   color: LenientString<BasicUIColor>,
   palette: IThemePalette,
 ): string {
-  switch (color) {
-    case 'primary':
-    case 'info':
-    case 'success':
-    case 'warn':
-    case 'error':
-    case 'danger':
-      return palette[`${color}Color`]
-    default:
-      return color
+  if (color) {
+    // TODO: try regex matching and see if it performs faster
+    switch (color) {
+      case 'primary':
+      case 'info':
+      case 'success':
+      case 'warn':
+      case 'error':
+      case 'danger':
+        return palette[`${color}Color`]
+      default:
+        return color
+    }
+  } else {
+    return palette.primaryColor
   }
 }

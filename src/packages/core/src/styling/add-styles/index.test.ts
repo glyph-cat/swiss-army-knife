@@ -2,7 +2,7 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
 import { addStyles } from '.'
 import { createRef } from '../../data/ref'
-import { compileStyles } from '../compile-styles'
+import { StyleMap } from '../style-map'
 import {
   DATA_PRECEDENCE_LEVEL,
   PrecedenceLevel,
@@ -20,9 +20,9 @@ afterEach(() => { document.head.innerHTML = '' })
 let mockCounter = 0
 
 function createMockStyles(): string {
-  return compileStyles(new Map([
+  return new StyleMap([
     [`mockStyle${++mockCounter}`, { color: '#ffffff' }],
-  ]))
+  ]).compile()
 }
 
 const DATA_TEST_MARKER = 'data-test-marker'

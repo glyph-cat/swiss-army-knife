@@ -4,18 +4,23 @@ import {
   CSSVariableRecord,
   IBaseThemePalette,
   IComponentParameters,
+  IDurationDefinition,
   ISpacingDefinition,
   ITheme,
   IThemePalette,
 } from '../abstractions'
 
+export interface ThemeOptions {
+  basePalette?: Partial<IBaseThemePalette>,
+  spacing?: Partial<ISpacingDefinition>,
+  duration?: Partial<IDurationDefinition>,
+  componentParameters?: Partial<IComponentParameters>,
+}
+
 /**
  * @public
  */
-export class Theme<
-  BaseThemePalette extends IBaseThemePalette = IBaseThemePalette,
-  CustomValues extends CSSVariableRecord = CSSVariableRecord,
-> implements ITheme {
+export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> implements ITheme {
 
   // #region Defaults
 
@@ -58,6 +63,15 @@ export class Theme<
     XXXL: 60,
   }
 
+  static readonly DEFAULT_DURATION: Readonly<IDurationDefinition> = {
+    VERY_SHORT: 50,
+    SHORT: 100,
+    MEDIUM: 200,
+    LONG: 300,
+    VERY_LONG: 500,
+    EXTRA_LONG: 750,
+  }
+
   static readonly DEFAULT_COMPONENT_PARAMETERS: Readonly<IComponentParameters> = {
     inputElementBorderRadius: 5,
     inputElementBorderSize: 2,
@@ -69,15 +83,12 @@ export class Theme<
 
   readonly palette: Readonly<IThemePalette>
   readonly spacing: Readonly<ISpacingDefinition>
+  readonly duration: Readonly<IDurationDefinition>
   readonly componentParameters: Readonly<IComponentParameters>
 
   constructor(
-    public readonly id: string,
     public readonly colorScheme: ColorScheme,
-    // TODO: Refactor params below with config object
-    basePalette?: Partial<BaseThemePalette>,
-    spacing?: Partial<ISpacingDefinition>,
-    componentParameters?: Partial<IComponentParameters>, // TODO
+    options?: ThemeOptions,
     public readonly customValues = {} as Readonly<CustomValues>,
   ) {
 
@@ -88,7 +99,7 @@ export class Theme<
         ? Theme.DEFAULT_LIGHT_BASE_PALETTE
         : Theme.DEFAULT_DARK_BASE_PALETTE
       ),
-      ...basePalette,
+      ...options?.basePalette,
     }
 
     const { primaryColor, appBgColor, appTextColor, separatorColor } = mergedBasePalette
@@ -126,12 +137,17 @@ export class Theme<
 
     this.spacing = {
       ...Theme.DEFAULT_SPACING,
-      ...spacing,
+      ...options?.spacing,
+    }
+
+    this.duration = {
+      ...Theme.DEFAULT_DURATION,
+      ...options?.duration,
     }
 
     this.componentParameters = {
       ...Theme.DEFAULT_COMPONENT_PARAMETERS,
-      ...componentParameters,
+      ...options?.componentParameters,
     }
 
   }

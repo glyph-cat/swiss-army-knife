@@ -1,7 +1,8 @@
-import { delay, TimestampId } from '@glyph-cat/swiss-army-knife'
-import { SimpleStateManager } from 'cotton-box'
+import { delay, strictMerge, TimestampId } from '@glyph-cat/swiss-army-knife'
+import { StateManager } from 'cotton-box'
 import { createStorageKey } from '~utils/create-storage-key'
 
+const STORAGE_KEY = createStorageKey('custom-debugger')
 const SOFT_RELOAD_KEY = createStorageKey('soft-reload')
 
 export interface IDebugState {
@@ -13,11 +14,28 @@ export interface IDebugState {
 
 export class CustomDebugger {
 
-  static readonly state = new SimpleStateManager<IDebugState>({
+  static readonly state = new StateManager<IDebugState>({
     useStrictMode: true,
     softReloadKey: '_',
     showPerformanceDebugger: true,
     isRestartingServer: false,
+  }, {
+    lifecycle: typeof window === 'undefined' ? {} : {
+      init({ commit, commitNoop, defaultState }) {
+        const rawState = localStorage.getItem(STORAGE_KEY)
+        if (rawState) {
+          const parsedState = JSON.parse(rawState)
+          return commit(strictMerge(defaultState, parsedState)) // Early exit
+        }
+        commitNoop()
+      },
+      didSet({ state }) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+      },
+      didReset() {
+        localStorage.removeItem(STORAGE_KEY)
+      },
+    },
   })
 
   static toggleStrictMode(): void {

@@ -1,4 +1,4 @@
-import { ITheme } from '@glyph-cat/swiss-army-knife'
+import { CSSVariableRecord, Theme } from '@glyph-cat/swiss-army-knife'
 import { useContext } from 'react'
 import { ThemeContext } from '../constants'
 
@@ -14,6 +14,8 @@ import { ThemeContext } from '../constants'
  * unaffected.
  * @public
  */
-export function useThemeContext(): ITheme {
-  return useContext(ThemeContext)
+export function useThemeContext<
+  CustomValues extends CSSVariableRecord = CSSVariableRecord,
+>(): Theme<CustomValues> {
+  return useContext(ThemeContext) as Theme<CustomValues>
 }

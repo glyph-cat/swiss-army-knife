@@ -58,8 +58,20 @@ export function useActionState<State, Payload>(
   const stateRef = useRef<typeof state>(null)
   stateRef.current = state
 
+  // KIV
+  // There seems to be a problem when using `useTransition()` and some descendant
+  // component throws an error. It would sometimes cause React to throw:
+  // Error: Rendered more hooks than during the previous render.
+  // const [isPending, startTransition] = useTransition()
+  //                                                   ^
   const [isPending, startTransition] = useTransition()
+  // const [isPending, setIsPending] = useState(false)
   const dispatch = useCallback(async (payload: Payload) => {
+    // setIsPending(true)
+    // await startTransition(async () => {
+    //   setState(await actionRef.current(stateRef.current, payload))
+    //   setIsPending(false)
+    // })
     startTransition(async () => {
       setState(await actionRef.current(stateRef.current, payload))
     })

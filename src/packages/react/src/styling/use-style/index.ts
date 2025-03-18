@@ -17,6 +17,7 @@ import { PseudoClasses } from './abstractions'
  *    be rendered in an array).
  *  - Changing values in code will cause the whole page to reload.
  * @public
+ * @deprecated Please other styling APIs such as `addStyles`, `StyleMap` or `StyleManager` instead.
  */
 export function useStyles<Key extends string>(
   styles: Record<Key, CSSProperties | Record<PseudoClasses, CSSProperties>>

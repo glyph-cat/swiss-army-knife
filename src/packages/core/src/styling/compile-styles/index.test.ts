@@ -1,7 +1,7 @@
 import {
+  compileCSSVariables,
   compileStyle,
   compileStyleObjectToString,
-  compileStyles,
   convertStyleObjectPropertyKeys,
 } from '.'
 
@@ -36,19 +36,14 @@ test(compileStyle.name, () => {
   expect(output).toBe('.foo{background-color:#ffffff;font-weight:bold;text-transform:uppercase}')
 })
 
-test(compileStyles.name, () => {
+describe(compileCSSVariables.name, () => {
 
-  const output = compileStyles(new Map([
-    ['.foo', {
-      backgroundColor: '#ffffff',
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-    }],
-    ['.bar', {
-      animationDuration: '0.3s',
-      color: '#ff0000',
-    }],
-  ]))
-  expect(output).toBe('.foo{background-color:#ffffff;font-weight:bold;text-transform:uppercase}.bar{animation-duration:0.3s;color:#ff0000}')
+  test('Without identifier', () => {
+    compileCSSVariables({ size: 36, duration: '300ms', color: '#00ff00' })
+  })
+
+  test('With identifier', () => {
+    compileCSSVariables({ size: 36, duration: '300ms', color: '#00ff00' }, 'foo')
+  })
 
 })

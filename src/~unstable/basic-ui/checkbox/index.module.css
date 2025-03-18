@@ -1,11 +1,8 @@
 .container {
-  align-items: center;
   cursor: pointer;
   display: grid;
   gap: var(--spacingM);
-  grid-auto-flow: column;
-  grid-template-columns: max-content;
-  justify-self: start;
+  place-items: center;
 }
 
 .container::selection {
@@ -16,19 +13,30 @@
   cursor: not-allowed;
 }
 
-.containerSizeS {
+.flowRow {
+  grid-auto-flow: row;
+  grid-auto-rows: max-content;
+}
+
+.flowColumn {
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+}
+
+.sizeS {
   --size: 22px;
 }
 
-.containerSizeM {
+.sizeM {
   --size: 28px;
 }
 
-.containerSizeL {
+.sizeL {
   --size: 32px;
 }
 
 .checkbox {
+  border-radius: var(--inputElementBorderRadius);
   height: var(--size);
   overflow: hidden;
   width: var(--size);
@@ -89,7 +97,6 @@
   place-self: center;
   pointer-events: none;
   position: absolute;
-  user-select: none;
 }
 
 .input:disabled + .checkmark {

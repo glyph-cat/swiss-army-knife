@@ -1,0 +1,1 @@
+export const MATERIAL_SYMBOL_BASE_CLASSNAME = 'mtSym'

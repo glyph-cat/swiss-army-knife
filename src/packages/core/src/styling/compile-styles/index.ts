@@ -1,10 +1,10 @@
 import { IS_DEBUG_ENV } from '../../constants'
 import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
-import { ExtendedCSSProperties } from '../abstractions'
+import { CustomCSSVariablesRecord, ExtendedCSSProperties } from '../abstractions'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { normalizeCSSValue } from '../normalize-css-value'
-import { StyleMap } from '../style-map'
+import { tryFormatAsClassName } from '../try-format-as-class-name'
 import { selectorsToIgnore, tryValidateCSSSelector } from './validator'
 
 /**
@@ -73,7 +73,7 @@ const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null
 export function compileStyle(key: string, styles: ExtendedCSSProperties): string {
   if (IS_DEBUG_ENV) {
     if (!selectorsToIgnore.current.has('*')) {
-      const selectors = key.split(/\s*[\s>+~]\s*/g)
+      const selectors = key.split(/\s*[\s>+~,]\s*/g)
       for (const $selector of selectors) {
         const selector = $selector.replace(/:.+$/, '')
         if (checkedSelectors.has(selector)) { continue }
@@ -88,25 +88,26 @@ export function compileStyle(key: string, styles: ExtendedCSSProperties): string
 }
 
 /**
- * Uses {@link compileStyle} to compile a complete CSS syntax string from a
- * [`Map`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map)
- * where each key-value pair is the CSS class/selector and the style object.
+ * Transforms an object containing values that are assumed to be CSS variables,
+ * into a one-line string.
+ * @param values - An object containing the custom values.
+ * @param identifier - Can be a CSS class name or ID or selectors such as `':root'`. The leading dot can be omitted when it is a CSS class name.
  * @example
- * compileStyles(new Map([
- *   ['.foo', {
- *     backgroundColor: '#ffffff',
- *   }],
- *   ['.bar', {
- *     backgroundColor: '#ff0000',
- *   }],
- * ]))
- * // Output: '.foo{background-color:#ffffff}.bar{background-color:#ff0000}'
+ * // Without identifier
+ * compileCSSVariables({ size: 36, duration: '300ms', color: '#00ff00' })
+ * // --size:36px;--duration:300ms;--color:#00ff00
+*
+ * // Without identifier:
+ * compileCSSVariables({ size: 36, duration: '300ms', color: '#00ff00' }, 'foo')
+ * // .foo{--size:36px;--duration:300ms;--color:#00ff00}
  * @public
  */
-export function compileStyles(styles: StyleMap): string {
-  const compiledStyles: Array<string> = []
-  styles.forEach((value, key) => {
-    compiledStyles.push(compileStyle(key, value))
-  })
-  return compiledStyles.join('')
+export function compileCSSVariables(values: CustomCSSVariablesRecord, identifier?: string): string {
+  const styles: Array<string> = []
+  for (const key in values) {
+    const value = values[key]
+    styles.push(`--${key}:${normalizeCSSValue(key, value)}`)
+  }
+  const concatenatedValues = styles.join(';')
+  return identifier ? `${tryFormatAsClassName(identifier)}{${concatenatedValues}}` : concatenatedValues
 }
