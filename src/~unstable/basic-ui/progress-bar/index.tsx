@@ -1,10 +1,9 @@
 import {
   getPercentage,
-  injectCSSVariables,
+  injectInlineCSSVariables,
   isNumber,
   LenientString,
   percent,
-  PrecedenceLevel,
 } from '@glyph-cat/swiss-army-knife'
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import { JSX, useEffect, useRef } from 'react'
@@ -86,12 +85,12 @@ export const ProgressBar = ({
 
   const containerRef = useRef<View>(null)
   useEffect(() => {
-    return injectCSSVariables({
+    return injectInlineCSSVariables({
       tint: color,
       containerBorderRadius: containerBorderRadius,
       size: effectiveSize,
       fillBorderRadius: `${fillBorderRadius} 0 0 ${fillBorderRadius}`,
-    }, containerRef.current, PrecedenceLevel.INTERNAL)
+    }, containerRef.current)
   }, [color, containerBorderRadius, effectiveSize, fillBorderRadius])
 
   return (

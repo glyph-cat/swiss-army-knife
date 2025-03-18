@@ -3,10 +3,9 @@ import {
   Color,
   ColorFormat,
   ColorUtil,
-  injectCSSVariables,
+  injectInlineCSSVariables,
   isUndefinedOrNull,
   LenientString,
-  PrecedenceLevel,
 } from '@glyph-cat/swiss-army-knife'
 import {
   Input,
@@ -127,7 +126,7 @@ export const Checkbox = forwardRef(({
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
     const colorSource = Color.fromString(color)
-    return injectCSSVariables({
+    return injectInlineCSSVariables({
       checkboxColor: color,
       checkboxColor40: Color.fromRGBObject({
         red: colorSource.red,
@@ -140,7 +139,7 @@ export const Checkbox = forwardRef(({
         saturation: colorSource.saturation,
         lightness: colorSource.lightness * 1.2,
       }).toString(ColorFormat.FFFFFFFF),
-    }, containerRef.current, PrecedenceLevel.INTERNAL)
+    }, containerRef.current)
   }, [color])
 
   return (
