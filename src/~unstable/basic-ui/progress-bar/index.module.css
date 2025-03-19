@@ -19,3 +19,14 @@
   background-color: var(--tint);
   border-radius: var(--fillBorderRadius);
 }
+
+.container[aria-busy="true"] > .fill {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+      135deg,
+      #80808080 0px,
+      #80808080 10px,
+      #80808040 10px,
+      #80808040 20px
+    );
+}

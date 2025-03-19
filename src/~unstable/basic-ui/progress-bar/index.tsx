@@ -92,7 +92,7 @@ export const ProgressBar = ({
   const color = tryResolvePaletteColor($color, palette)
 
   const indeterminate = !isNumber(value)
-  const p = indeterminate ? 0 : percent(100 * getPercentage(value, minValue, maxValue))
+  const p = indeterminate ? percent(100) : percent(100 * getPercentage(value, minValue, maxValue))
 
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
 
