@@ -1,9 +1,17 @@
+.layoutH {
+  height: var(--size);
+}
+
+.layoutV {
+  grid-template-rows: 1fr auto;
+  width: var(--size);
+}
+
 .container {
+  background-color: #00000040;
   border: solid var(--inputElementBorderSize) var(--tint);
   border-radius: var(--containerBorderRadius);
   overflow: hidden;
-  height: var(--size);
-  background-color: #00000040;
   padding: var(--inputElementBorderSize);
 }
 

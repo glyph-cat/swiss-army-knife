@@ -38,13 +38,13 @@ const sizeStyle: Record<BasicUISize, string> = {
   's': styles.sizeS,
   'm': styles.sizeM,
   'l': styles.sizeL,
-}
+} as const
 
 const presetIconSize: Record<BasicUISize, number> = {
   's': 20,
   'm': 24,
   'l': 26,
-}
+} as const
 
 const INDETERMINATE = 'indeterminate'
 

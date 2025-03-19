@@ -1,4 +1,5 @@
 import {
+  c,
   getPercentage,
   injectInlineCSSVariables,
   isNumber,
@@ -7,15 +8,25 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import { JSX, useEffect, useRef } from 'react'
-import { BasicUIColor, BasicUISize } from '../abstractions'
+import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
 import { tryResolvePaletteColor } from '../internals/try-resolve-palette-color'
 import styles from './index.module.css'
 
 const sizePresets: Record<BasicUISize, number> = {
   's': 12,
-  'm': 16,
-  'l': 24,
-}
+  'm': 20,
+  'l': 32,
+} as const
+
+const layoutPresets: Record<BasicUILayout, string> = {
+  'horizontal': styles.layoutH,
+  'vertical': styles.layoutV,
+} as const
+
+const degreePresets: Record<BasicUILayout, number> = {
+  'horizontal': 90,
+  'vertical': 0,
+} as const
 
 /**
  * @public
@@ -45,6 +56,14 @@ export interface ProgressBarProps {
    */
   size?: BasicUISize | number
   /**
+   * @defaultValue `'horizontal'`
+   */
+  layout?: BasicUILayout
+  /**
+   * @defaultValue `false`
+   */
+  reverse?: boolean
+  /**
    * @defaultValue `'50%'`
    */
   borderRadius?: number | string
@@ -63,6 +82,8 @@ export const ProgressBar = ({
   maxValue = 100,
   color: $color,
   size,
+  layout = 'horizontal',
+  reverse,
   borderRadius: $$borderRadius,
 }: ProgressBarProps): JSX.Element => {
 
@@ -71,8 +92,8 @@ export const ProgressBar = ({
   const color = tryResolvePaletteColor($color, palette)
 
   const indeterminate = !isNumber(value)
+  const p = indeterminate ? 0 : percent(100 * getPercentage(value, minValue, maxValue))
 
-  // TODO: what about rtl and vertical layouts
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
 
   const $borderRadius = $$borderRadius ?? componentParameters.inputElementBorderRadius
@@ -89,14 +110,17 @@ export const ProgressBar = ({
       tint: color,
       containerBorderRadius: containerBorderRadius,
       size: effectiveSize,
-      fillBorderRadius: `${fillBorderRadius} 0 0 ${fillBorderRadius}`,
+      fillBorderRadius,
     }, containerRef.current)
   }, [color, containerBorderRadius, effectiveSize, fillBorderRadius])
 
   return (
     <View
       ref={containerRef}
-      className={styles.container}
+      className={c(
+        styles.container,
+        layoutPresets[layout] ?? layoutPresets.horizontal,
+      )}
       role='progressbar'
       aria-valuemin={minValue}
       aria-valuemax={maxValue}
@@ -108,9 +132,10 @@ export const ProgressBar = ({
     >
       <View
         className={styles.fill}
-        style={{ width: percent(100 * getPercentage(value, minValue, maxValue)) }}
+        style={{
+          maskImage: `linear-gradient(${(degreePresets[layout] ?? degreePresets.horizontal) + (reverse ? 180 : 0)}deg, black ${p}, transparent ${p})`,
+        }}
       />
     </View>
   )
 }
-
