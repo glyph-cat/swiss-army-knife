@@ -21,12 +21,55 @@
 }
 
 .container[aria-busy="true"] > .fill {
+  animation: 1s infinite linear;
   background-color: transparent;
+  background-position: 0% 0%;
+}
+
+.layoutH[aria-busy="true"] > .fill {
+  animation-name: busyH;
+  background-size: calc(var(--size) - 4 * var(--inputElementBorderSize)) 100%;
   background-image: repeating-linear-gradient(
-      135deg,
-      #80808080 0px,
-      #80808080 10px,
-      #80808040 10px,
-      #80808040 20px
-    );
+    135deg,
+    #80808080 calc(100% / 4 * 0),
+    #80808080 calc(100% / 4 * 1),
+    #80808040 calc(100% / 4 * 1),
+    #80808040 calc(100% / 4 * 2),
+    #80808080 calc(100% / 4 * 2),
+    #80808080 calc(100% / 4 * 2)
+  );
+}
+
+.layoutV[aria-busy="true"] > .fill {
+  animation-name: busyV;
+  background-size: 100% calc(var(--size) - 4 * var(--inputElementBorderSize));
+  background-image: repeating-linear-gradient(
+    135deg,
+    #80808080 calc(100% / 4 * 0),
+    #80808080 calc(100% / 4 * 1),
+    #80808040 calc(100% / 4 * 1),
+    #80808040 calc(100% / 4 * 2),
+    #80808080 calc(100% / 4 * 2),
+    #80808080 calc(100% / 4 * 2)
+  );
+}
+
+/* 10.25 is a magic constant, it creates an illusion where the gradient pattern doesn't jump, but we don't know why */
+
+@keyframes busyH {
+  0% {
+    background-position-x: 0%;
+  }
+  100% {
+    background-position-x: 10.25%;
+  }
+}
+
+@keyframes busyV {
+  0% {
+    background-position-y: 0%;
+  }
+  100% {
+    background-position-y: 10.25%;
+  }
 }

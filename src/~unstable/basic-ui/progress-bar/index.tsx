@@ -5,6 +5,7 @@ import {
   isNumber,
   LenientString,
   percent,
+  serializePixelValue,
 } from '@glyph-cat/swiss-army-knife'
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import { JSX, useEffect, useRef } from 'react'
@@ -100,9 +101,7 @@ export const ProgressBar = ({
   const containerBorderRadius = isNumber($borderRadius)
     ? $borderRadius
     : effectiveSize * Number($borderRadius.replace('%', '')) / 100
-  const fillBorderRadius = isNumber($borderRadius)
-    ? `calc(${containerBorderRadius}px - ${2 * componentParameters.inputElementBorderRadius}px)`
-    : `${containerBorderRadius}px`
+  const fillBorderRadius = `calc(${serializePixelValue(containerBorderRadius)} - ${2 * componentParameters.inputElementBorderSize}px)`
 
   const containerRef = useRef<View>(null)
   useEffect(() => {
@@ -113,6 +112,8 @@ export const ProgressBar = ({
       fillBorderRadius,
     }, containerRef.current)
   }, [color, containerBorderRadius, effectiveSize, fillBorderRadius])
+
+  // TODO: Add `1` or `-1` direction multiplier on `background-position-...`
 
   return (
     <View
