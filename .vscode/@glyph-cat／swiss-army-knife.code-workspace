@@ -21,6 +21,10 @@
       "path": "../src/pages/sandbox"
     },
     {
+      "name": "equality",
+      "path": "../src/packages/equality"
+    },
+    {
       "name": "cleanup manager",
       "path": "../src/packages/cleanup-manager"
     },

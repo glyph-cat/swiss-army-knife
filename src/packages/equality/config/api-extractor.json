@@ -1,0 +1,58 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/index.d.ts",
+  "apiReport": {
+    "enabled": false
+  },
+  "docModel": {
+    "enabled": false,
+    "apiJsonFilePath": "<projectFolder>/temp/docs/json/generated.api.json"
+  },
+  "dtsRollup": {
+    "enabled": true,
+    // `untrimmedFilePath` defaults to 'dist' folder, must use empty string to
+    // disable it
+    "untrimmedFilePath": "",
+    "publicTrimmedFilePath": "<projectFolder>/lib/types/index.d.ts",
+    "omitTrimmingComments": true
+  },
+  "enumMemberOrder": "preserve",
+  "tsdocMetadata": {
+    "enabled": false
+  },
+  "messages": {
+    "compilerMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      }
+    },
+    "extractorMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "none"
+      }
+    },
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      },
+      // "tsdoc-at-sign-in-word": {
+      //   "logLevel": "none"
+      // },
+      // "tsdoc-escape-greater-than": {
+      //   "logLevel": "none"
+      // },
+      "tsdoc-escape-right-brace": {
+        "logLevel": "none"
+      },
+      "tsdoc-malformed-inline-tag": {
+        "logLevel": "none"
+      },
+      "tsdoc-param-tag-with-invalid-type": {
+        "logLevel": "none"
+      }
+    }
+  }
+}

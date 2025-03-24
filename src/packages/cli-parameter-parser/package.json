@@ -27,12 +27,12 @@
   "author": "glyph-cat",
   "readme": "README.md",
   "license": "MIT",
-  "homepage": "https://github.com/glyph-cat/cli-parameter-parser#readme",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glyph-cat/cli-parameter-parser.git"
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
   },
   "bugs": {
-    "url": "https://github.com/glyph-cat/cli-parameter-parser/issues"
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   }
 }

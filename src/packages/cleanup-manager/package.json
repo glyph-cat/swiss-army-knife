@@ -26,12 +26,12 @@
   "author": "glyph-cat",
   "readme": "README.md",
   "license": "MIT",
-  "homepage": "https://glyph-cat.github.io/cleanup-manager",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glyph-cat/cleanup-manager.git"
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
   },
   "bugs": {
-    "url": "https://github.com/glyph-cat/cleanup-manager/issues"
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   }
 }

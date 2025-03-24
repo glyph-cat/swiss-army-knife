@@ -13,7 +13,7 @@
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "test": "jest -c ./jest.config.ts",
-    "rollup": "rollup -c ./config/rollup.config.js",
+    "bundle": "rollup -c ./config/rollup.config.js",
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
@@ -30,12 +30,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glyph-cat/react-test-utils.git"
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
   },
   "bugs": {
-    "url": "https://github.com/glyph-cat/react-test-utils/issues"
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
-  "homepage": "https://github.com/glyph-cat/react-test-utils#readme",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0"

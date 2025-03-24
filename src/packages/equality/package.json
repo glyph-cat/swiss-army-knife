@@ -1,36 +1,31 @@
 {
-  "name": "@glyph-cat/swiss-army-knife",
-  "version": "0.0.0-experimental.67",
+  "name": "@glyph-cat/equality",
+  "version": "1.0.0",
+  "description": "Common equality-checking presets for general purpose.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
-  "react-native": "lib/native/index.js",
   "unpkg": "lib/umd/index.js",
-  "types": "lib/types/index.d.ts",
   "files": [
-    "assets",
     "lib"
   ],
-  "description": "GlyphCat's set of common utilities.",
-  "author": "glyph-cat",
-  "license": "MIT",
-  "readme": "README.md",
+  "types": "lib/types/index.d.ts",
   "scripts": {
-    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
-    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "clean": "rm -rf ./lib ./temp/tsc",
     "lint": "eslint .",
+    "debug": "scope=\"debug\" jest -c ./jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
-    "test": "jest -c jest.config.ts",
-    "types": "tsc --declaration",
+    "types": "yarn tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
-    "prepack": "tsx ./scripts/run/sync-package",
+    "test": "jest -c ./jest.config.ts",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
-    "common utilities",
-    "javascript",
-    "typescript"
+    "Equality"
   ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
   "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
   "repository": {
     "type": "git",
@@ -38,8 +33,5 @@
   },
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
-  },
-  "peerDependencies": {
-    "cotton-box": "*"
   }
 }

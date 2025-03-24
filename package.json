@@ -7,6 +7,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
+    "setup": "yarn tsx ./scripts/run/setup",
     "afe": "sh ./scripts/run/auto-forward-exports.sh",
     "afe-playground": "tsx ./scripts/run/auto-forward-exports-playground",
     "start": "tsx ./scripts/run/playground-env && next dev",

@@ -1,7 +1,7 @@
 set -e
 
 yarn clean
-yarn rollup
+yarn bundle
 yarn types
 yarn api
 

@@ -18,7 +18,7 @@
     "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
-    "rollup": "rollup -c ./config/rollup.config.js",
+    "bundle": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
