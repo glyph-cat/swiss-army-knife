@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
-  "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/react-test-utils#readme",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0"

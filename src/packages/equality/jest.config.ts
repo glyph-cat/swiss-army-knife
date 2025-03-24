@@ -5,11 +5,7 @@ const config: Config.InitialOptions = {
     '.draft',
     '.old',
   ],
-  testTimeout: 1000,
-  fakeTimers: {
-    enableGlobally: true,
-  },
-  testRegex: '.test.(tsx|ts)',
+  testRegex: '.test.ts',
   // verbose: true,
 }
 

@@ -27,7 +27,7 @@
   "author": "glyph-cat",
   "readme": "README.md",
   "license": "MIT",
-  "homepage": "https://github.com/glyph-cat/swiss-army-knife#readme",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/cli-parameter-parser#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/glyph-cat/swiss-army-knife.git"
