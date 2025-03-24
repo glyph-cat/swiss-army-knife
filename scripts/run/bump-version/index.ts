@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { execSync } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
+import path from 'path'
 import { Encoding } from '../../../src/packages/core/src'
 
 // What this script does:
@@ -29,19 +30,19 @@ function run(version: string): void {
 
   const PROPERTY_KEY_VERSION = 'version'
   const PACKAGE_JSON = 'package.json'
-  const PACKAGES_PATH = './src/packages'
+  const PACKAGES_PATH = path.join('.', 'src', 'packages')
 
-  const rootPackageJsonPath = `./${PACKAGE_JSON}`
+  const rootPackageJsonPath = path.join('.', PACKAGE_JSON)
   const rootPackageJson = readJson(rootPackageJsonPath)
   rootPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(rootPackageJsonPath, rootPackageJson)
 
-  const corePackageJsonPath = `${PACKAGES_PATH}/core/${PACKAGE_JSON}`
+  const corePackageJsonPath = path.join(PACKAGES_PATH, 'core', PACKAGE_JSON)
   const corePackageJson = readJson(corePackageJsonPath)
   corePackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(corePackageJsonPath, corePackageJson)
 
-  const reactPackageJsonPath = `${PACKAGES_PATH}/react/${PACKAGE_JSON}`
+  const reactPackageJsonPath = path.join(PACKAGES_PATH, 'react', PACKAGE_JSON)
   const reactPackageJson = readJson(reactPackageJsonPath)
   reactPackageJson[PROPERTY_KEY_VERSION] = version
   writeJson(reactPackageJsonPath, reactPackageJson)
