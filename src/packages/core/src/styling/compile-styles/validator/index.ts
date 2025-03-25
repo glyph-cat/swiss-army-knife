@@ -43,3 +43,5 @@ export function ignoreWhenCompilingStyles(
     }
   }
 }
+
+__assignDisplayName(ignoreWhenCompilingStyles)

@@ -140,3 +140,5 @@ export const ProgressBar = ({
     </View>
   )
 }
+
+__assignDisplayName(ProgressBar)

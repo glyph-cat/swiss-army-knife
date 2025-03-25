@@ -26,3 +26,5 @@ export function ClientOnly(
   useEffect(() => { setMountedStatus(true) }, [])
   return (selfIsMounted ? children : null) as JSX.Element
 }
+
+__assignDisplayName(ClientOnly)

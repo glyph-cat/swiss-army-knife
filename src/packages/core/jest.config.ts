@@ -4,8 +4,11 @@ const config: Config.InitialOptions = {
   moduleNameMapper: {
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },
+  setupFiles: [
+    '<rootDir>/jest.pre-env-setup.ts',
+  ],
   setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts',
+    '<rootDir>/jest.post-env-setup.ts',
   ],
   testPathIgnorePatterns: [
     '.draft',

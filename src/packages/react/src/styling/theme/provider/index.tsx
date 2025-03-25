@@ -132,7 +132,7 @@ export function ThemeProvider({
     if (!isNested) { return null }
     const children = Children.toArray($children) as Array<ReactElement<GenericHTMLProps>>
     if (children.length !== 1) {
-      throw new Error(`The <ThemeProvider> expects to have only one children when it is not the outermost provider, but received ${children.length}`)
+      throw new Error(`The <${ThemeProvider.name}> expects to have only one children when it is not the outermost provider, but received ${children.length}`)
     }
     const [{ type, props: { ref: refProp, ...props }, key }] = children
     return { type, props, key, ref: refProp }
@@ -178,3 +178,5 @@ export function ThemeProvider({
   }
 
 }
+
+__assignDisplayName(ThemeProvider)

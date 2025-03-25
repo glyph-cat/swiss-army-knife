@@ -5,7 +5,7 @@ import { CustomCSSVariablesRecord, ExtendedCSSProperties } from '../abstractions
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { normalizeCSSValue } from '../normalize-css-value'
 import { tryFormatAsClassName } from '../try-format-as-class-name'
-import { selectorsToIgnore, tryValidateCSSSelector } from './validator'
+import { ignoreWhenCompilingStyles, selectorsToIgnore, tryValidateCSSSelector } from './validator'
 
 /**
  * Converts property keys of an object with CSS property keys from their JS form
@@ -78,7 +78,7 @@ export function compileStyle(key: string, styles: ExtendedCSSProperties): string
         const selector = $selector.replace(/:.+$/, '')
         if (checkedSelectors.has(selector)) { continue }
         if (!tryValidateCSSSelector(selector)) {
-          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ignoreWhenCompilingStyles(['${selector}'])`)
+          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${ignoreWhenCompilingStyles.name}(['${selector}'])`)
         }
         checkedSelectors.add(selector)
       }

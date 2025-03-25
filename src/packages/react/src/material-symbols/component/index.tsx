@@ -70,6 +70,8 @@ export function MaterialSymbol({
   }, name)
 }
 
+__assignDisplayName(MaterialSymbol)
+
 function createFontVariationSettings(
   fill: MaterialSymbolOptions['fill'],
   weight: MaterialSymbolOptions['weight'],

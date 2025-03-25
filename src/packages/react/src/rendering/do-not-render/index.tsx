@@ -15,3 +15,5 @@ export interface DoNotRenderProps {
 export function DoNotRender(props: DoNotRenderProps): JSX.Element {
   return null // So that it is compatible with React <18
 }
+
+__assignDisplayName(DoNotRender)

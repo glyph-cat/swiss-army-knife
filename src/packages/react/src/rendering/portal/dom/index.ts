@@ -32,3 +32,5 @@ export function DOMPortal({
 }: DOMPortalProps): JSX.Element {
   return createPortal(children, container ?? document.body, portalKey)
 }
+
+__assignDisplayName(DOMPortal)

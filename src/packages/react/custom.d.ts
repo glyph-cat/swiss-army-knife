@@ -9,9 +9,8 @@ declare global {
 
   }
 
+  function __assignDisplayName(item: unknown): void
+
 }
 
-declare module '*.module.css' {
-  const content: { [className: string]: string }
-  export default content
-}
+export = __assignDisplayName
