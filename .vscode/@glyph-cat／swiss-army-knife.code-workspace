@@ -13,14 +13,6 @@
       "path": "../src/packages/react"
     },
     {
-      "name": "unstable",
-      "path": "../src/~unstable"
-    },
-    {
-      "name": "sandboxes (web)",
-      "path": "../src/pages/sandbox"
-    },
-    {
       "name": "equality",
       "path": "../src/packages/equality"
     },
@@ -29,12 +21,20 @@
       "path": "../src/packages/cleanup-manager"
     },
     {
+      "name": "react test utils",
+      "path": "../src/packages/react-test-utils"
+    },
+    {
       "name": "cli parameter parser",
       "path": "../src/packages/cli-parameter-parser"
     },
     {
-      "name": "react test utils",
-      "path": "../src/packages/react-test-utils"
+      "name": "unstable",
+      "path": "../src/~unstable"
+    },
+    {
+      "name": "sandboxes (web)",
+      "path": "../src/pages/sandbox"
     }
   ],
   "settings": {
