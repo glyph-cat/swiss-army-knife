@@ -12,6 +12,9 @@
     "moduleResolution": "Node",
     "outDir": "./temp/tsc/js",
     "paths": {
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],
