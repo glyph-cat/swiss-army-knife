@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isObject } from '../internals'
+import { isObjectNotNull } from '../../../core/src/data/type-check'
 
 /**
  * Compares each item in the object using [\`Object.is\`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is).
@@ -9,7 +9,7 @@ import { isObject } from '../internals'
  */
 export function shallowCompareObject(a: any, b: any): boolean {
 
-  if (isObject(a) && isObject(b)) {
+  if (isObjectNotNull(a) && isObjectNotNull(b)) {
 
     const aKeys = Object.keys(a)
     const bKeys = Object.keys(b)
