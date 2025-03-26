@@ -1,5 +1,4 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { hasProperty } from '@glyph-cat/swiss-army-knife'
 import { render, RenderResult } from '@testing-library/react'
 import {
   act,
@@ -11,6 +10,7 @@ import {
   Component as ReactComponent,
   StrictMode,
 } from 'react'
+import { hasProperty } from '../../../../core/src/data/object/property'
 import { ICapturedError } from '../../abstractions'
 import { ActionNotExistError, ValueNotExistError } from '../../errors'
 import { ErrorBoundary } from '../../internals'

@@ -5,6 +5,7 @@ import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
 import { getDependencies } from '../../../../scripts/tools/get-dependencies'
+import { assignDisplayName } from '../../../../tools/custom-rollup-plugins'
 import { version } from '../package.json'
 import { BuildType } from '../src/constants/public'
 
@@ -23,6 +24,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { buildEnv } = config
 
   const pluginStack: Array<RollupPlugin> = [
+    assignDisplayName(false),
     typescript({
       tsconfigOverride: {
         compilerOptions: {

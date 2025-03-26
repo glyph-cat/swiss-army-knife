@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace TestUtils {
 
   export function delay(timeout: number): Promise<void> {
