@@ -59,10 +59,10 @@ function run(version: string): void {
 
 run(process.argv[2])
 
-function readJson(path: string): Record<string, unknown> {
-  return JSON.parse(readFileSync(path, Encoding.UTF_8))
+function readJson(fromPath: string): Record<string, unknown> {
+  return JSON.parse(readFileSync(fromPath, Encoding.UTF_8))
 }
 
-function writeJson(path: string, object: Record<string, unknown>): void {
-  writeFileSync(path, JSON.stringify(object, null, 2), Encoding.UTF_8)
+function writeJson(toPath: string, object: Record<string, unknown>): void {
+  writeFileSync(toPath, JSON.stringify(object, null, 2), Encoding.UTF_8)
 }
