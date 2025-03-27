@@ -8,8 +8,8 @@ import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import postcss from 'rollup-plugin-postcss'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
-import { getDependencies } from '../../../../scripts/tools/get-dependencies'
 import { assignDisplayName } from '../../../../tools/custom-rollup-plugins'
+import { getDependencies } from '../../../../tools/get-dependencies'
 import { BuildType } from '../src/constants/public'
 
 const { version } = rootPackageJson

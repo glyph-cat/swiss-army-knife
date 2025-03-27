@@ -5,7 +5,7 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
-import { getDependencies } from '../../../../scripts/tools/get-dependencies'
+import { getDependencies } from '../../../../tools/get-dependencies'
 import pkg from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'

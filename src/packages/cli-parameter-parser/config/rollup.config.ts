@@ -4,7 +4,7 @@ import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
-import { getDependencies } from '../../../../scripts/tools/get-dependencies'
+import { getDependencies } from '../../../../tools/get-dependencies'
 
 const EXTERNAL_LIBS = [
   ...getDependencies(rootPackageJson),
