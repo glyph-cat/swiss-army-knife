@@ -6,7 +6,7 @@ import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from 
 const BASE_CLASSNAME = createCoreUIComponentClassName('select')
 
 if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[BASE_CLASSNAME, {
+  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
     fontFamily: 'inherit'
   }]]).compile(), PrecedenceLevel.INTERNAL)
 }

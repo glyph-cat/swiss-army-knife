@@ -1,3 +1,5 @@
+import autoprefixer from 'autoprefixer'
+import postcss from 'postcss'
 import { IS_DEBUG_ENV } from '../../constants'
 import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
@@ -35,6 +37,23 @@ export function convertStyleObjectPropertyKeys(
   return compiledStyles
 }
 
+const autoprefixerInstance = autoprefixer({
+  grid: 'autoplace',
+  overrideBrowserslist: process.env.NODE_ENV === 'production'
+    ? [
+      '>0.5%',
+      'not dead',
+      'not op_mini all'
+    ]
+    : [
+      'last 3 chrome version',
+      'last 3 firefox version',
+      'last 5 safari version'
+    ],
+})
+
+const postcssInstance = postcss([autoprefixerInstance])
+
 /**
  * Similar to {@link convertStyleObjectPropertyKeys}, but this takes it a step
  * further by compiling the styles into a CSS syntax string.
@@ -48,14 +67,13 @@ export function convertStyleObjectPropertyKeys(
  * @public
  */
 export function compileStyleObjectToString(styles: ExtendedCSSProperties): string {
-  // TODO: Find a way to integrate autoprefixer here
   const compiledStyles: Array<string> = []
   for (const rawPropertyKey in styles) {
     const propertyValue = styles[rawPropertyKey]
     const propertyKey = mapPropertyNameFromJSToCSS(rawPropertyKey)
     compiledStyles.push(`${propertyKey}:${normalizeCSSValue(propertyKey, propertyValue)}`)
   }
-  return compiledStyles.join(';')
+  return postcssInstance.process(compiledStyles.join(';')).css
 }
 
 const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null

@@ -1,4 +1,5 @@
 import { JSX, ReactNode, useEffect, useState } from 'react'
+import { __assignDisplayName } from '../../_internals'
 
 /**
  * @public

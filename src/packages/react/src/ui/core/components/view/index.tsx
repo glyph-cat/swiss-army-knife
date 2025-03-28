@@ -13,7 +13,7 @@ import { createCoreUIComponentClassName } from '../internals'
 const BASE_CLASSNAME = createCoreUIComponentClassName('view')
 
 if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[BASE_CLASSNAME, {
+  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
     display: 'grid',
     position: 'relative',
   }]]).compile(), PrecedenceLevel.INTERNAL)

@@ -9,8 +9,6 @@ declare global {
 
   }
 
-  function __assignDisplayName(item: unknown): void
-
 }
 
-export = __assignDisplayName
+export { }

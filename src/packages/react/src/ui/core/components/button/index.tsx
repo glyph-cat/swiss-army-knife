@@ -5,7 +5,7 @@ import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from 
 const BASE_CLASSNAME = createCoreUIComponentClassName('button')
 
 if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[BASE_CLASSNAME, {
+  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
     appearance: 'none',
     border: 'none',
     backgroundColor: 'transparent',

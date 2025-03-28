@@ -6,7 +6,7 @@ import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from 
 const BASE_CLASSNAME = createCoreUIComponentClassName('input')
 
 if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[BASE_CLASSNAME, {
+  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
     backgroundColor: 'transparent',
     border: 'none',
     display: 'grid',

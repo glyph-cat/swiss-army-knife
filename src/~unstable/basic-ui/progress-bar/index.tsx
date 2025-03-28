@@ -8,6 +8,7 @@ import {
   serializePixelValue,
 } from '@glyph-cat/swiss-army-knife'
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
+import { __assignDisplayName } from 'packages/react/src/_internals'
 import { JSX, useEffect, useRef } from 'react'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
 import { tryResolvePaletteColor } from '../internals/try-resolve-palette-color'

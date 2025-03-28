@@ -2,10 +2,10 @@ import { addStyles, c, isBoolean, PrecedenceLevel, StyleMap } from '@glyph-cat/s
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from '../internals'
 
-const BASE_CLASSNAME = createCoreUIComponentClassName('select')
+const BASE_CLASSNAME = createCoreUIComponentClassName('fieldset')
 
 if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[BASE_CLASSNAME, {
+  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
     fontFamily: 'inherit'
   }]]).compile(), PrecedenceLevel.INTERNAL)
 }

@@ -1,5 +1,3 @@
-import '~utils/assign-display-name'
-
 import {
   CheckApplePlatformProvider,
   ClientOnly,

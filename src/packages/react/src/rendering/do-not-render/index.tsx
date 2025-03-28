@@ -1,4 +1,5 @@
 import { JSX } from 'react'
+import { __assignDisplayName } from '../../_internals'
 
 /**
  * @public

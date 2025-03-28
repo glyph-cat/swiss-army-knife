@@ -1,5 +1,6 @@
 import { JSX, Key } from 'react'
 import { createPortal } from 'react-dom'
+import { __assignDisplayName } from '../../../_internals'
 import { PortalProps } from '../factory'
 
 /**
