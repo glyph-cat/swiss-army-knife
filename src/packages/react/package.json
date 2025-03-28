@@ -40,5 +40,9 @@
   },
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  },
+  "peerDependencies": {
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.68",
+    "cotton-box-react": "*"
   }
 }

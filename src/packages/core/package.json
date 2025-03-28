@@ -39,6 +39,10 @@
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3"
+  },
   "peerDependencies": {
     "cotton-box": "*"
   }
