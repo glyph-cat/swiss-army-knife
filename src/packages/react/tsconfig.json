@@ -47,6 +47,5 @@
   "include": [
     "src",
     "custom.d.ts",
-    "custom-css.d.ts",
   ]
 }

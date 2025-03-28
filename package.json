@@ -98,7 +98,6 @@
     "react-dom": "^19.0.0",
     "react-native": "^0.78.0",
     "rollup": "^4.34.9",
-    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "shell-quote": "^1.8.2",
     "ts-node": "^10.9.2",

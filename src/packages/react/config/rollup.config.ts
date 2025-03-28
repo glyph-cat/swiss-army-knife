@@ -2,10 +2,8 @@
 import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
-import autoprefixer from 'autoprefixer'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import postcss from 'rollup-plugin-postcss'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
 import { assignDisplayName } from '../../../../tools/custom-rollup-plugins'
@@ -81,12 +79,6 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     //   exclude: '**/node_modules/**',
     //   babelHelpers: 'bundled',
     // }),
-    postcss({
-      plugins: [autoprefixer()],
-      sourceMap: false,
-      extract: false,
-      minimize: true,
-    }),
     typescript({
       tsconfigOverride: {
         compilerOptions: {
