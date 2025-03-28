@@ -1,7 +1,7 @@
 {
   "name": "@glyph-cat/swiss-army-knife-monorepo",
   "private": true,
-  "version": "0.0.0-experimental.68",
+  "version": "0.0.0-experimental.69",
   "description": "GlyphCat's set of common utilities.",
   "author": "glyph-cat",
   "license": "MIT",
