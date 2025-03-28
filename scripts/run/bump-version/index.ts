@@ -29,6 +29,9 @@ function run(version: string): void {
   }
 
   const PROPERTY_KEY_VERSION = 'version'
+  const PROPERTY_KEY_PEER_DEPENDENCIES = 'peerDependencies'
+  const PROPERTY_KEY_NAME = 'name'
+
   const PACKAGE_JSON = 'package.json'
   const PACKAGES_PATH = path.join('.', 'src', 'packages')
 
@@ -45,6 +48,7 @@ function run(version: string): void {
   const reactPackageJsonPath = path.join(PACKAGES_PATH, 'react', PACKAGE_JSON)
   const reactPackageJson = readJson(reactPackageJsonPath)
   reactPackageJson[PROPERTY_KEY_VERSION] = version
+  reactPackageJson[PROPERTY_KEY_PEER_DEPENDENCIES][corePackageJson[PROPERTY_KEY_NAME] as string] = version
   writeJson(reactPackageJsonPath, reactPackageJson)
 
   execSync(`git add ${[
