@@ -96,7 +96,7 @@ export function compileStyle(key: string, styles: ExtendedCSSProperties): string
         const selector = $selector.replace(/:.+$/, '')
         if (checkedSelectors.has(selector)) { continue }
         if (!tryValidateCSSSelector(selector)) {
-          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${ignoreWhenCompilingStyles.name}(['${selector}'])`)
+          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${ignoreWhenCompilingStyles['displayName']}(['${selector}'])`)
         }
         checkedSelectors.add(selector)
       }
