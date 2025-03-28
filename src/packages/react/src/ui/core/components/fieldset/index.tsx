@@ -1,7 +1,14 @@
-import { c, isBoolean } from '@glyph-cat/swiss-army-knife'
+import { addStyles, c, isBoolean, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
 import { createElement, forwardRef, JSX, Ref } from 'react'
-import { useInternalDerivedDisabledState } from '../internals'
-import styles from './index.module.css'
+import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from '../internals'
+
+const BASE_CLASSNAME = createCoreUIComponentClassName('select')
+
+if (typeof window !== 'undefined') {
+  addStyles(new StyleMap([[BASE_CLASSNAME, {
+    fontFamily: 'inherit'
+  }]]).compile(), PrecedenceLevel.INTERNAL)
+}
 
 /**
  * @public
@@ -29,7 +36,7 @@ export const FieldSet = forwardRef(({
   return createElement('fieldset', {
     ...props,
     ref,
-    className: c(styles.fieldset, className),
+    className: c(BASE_CLASSNAME, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   }, children)
 })

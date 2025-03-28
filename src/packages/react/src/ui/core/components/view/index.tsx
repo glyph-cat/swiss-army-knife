@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { addStyles, c, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
 import {
   createElement,
   forwardRef,
@@ -8,9 +8,16 @@ import {
 } from 'react'
 import { FocusLayer } from '../../layered-focus'
 import { FocusObserver } from '../../layered-focus/internals/observer'
-import styles from './index.module.css'
+import { createCoreUIComponentClassName } from '../internals'
 
-// KIV: we have no control over stylesheet precedence with CSS modules
+const BASE_CLASSNAME = createCoreUIComponentClassName('view')
+
+if (typeof window !== 'undefined') {
+  addStyles(new StyleMap([[BASE_CLASSNAME, {
+    display: 'grid',
+    position: 'relative',
+  }]]).compile(), PrecedenceLevel.INTERNAL)
+}
 
 /**
  * @public
@@ -37,7 +44,7 @@ export const View = forwardRef<HTMLDivElement, ViewProps>(({
   // eslint-disable-next-line react/forbid-elements
   return createElement('div', {
     ref: divRef,
-    className: c(styles.view, className),
+    className: c(BASE_CLASSNAME, className),
     ...otherProps,
   }, children)
 })
@@ -90,7 +97,7 @@ export const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
     <FocusLayer ignoreSiblings={ignoreSiblings} effective={effective}>
       <div // eslint-disable-line react/forbid-elements
         ref={divRef}
-        className={c(styles.view, className)}
+        className={c(BASE_CLASSNAME, className)}
         {...otherProps}
       >
         {children}

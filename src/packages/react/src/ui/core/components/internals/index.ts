@@ -12,3 +12,7 @@ export function useInternalDerivedDisabledState(disabled: boolean): Nullable<boo
   // then the button should be placed in a different <FocusLayer>.
   return useDerivedDisabledState(isFocused ? disabled : true)
 }
+
+export function createCoreUIComponentClassName(name: string): string {
+  return `gc-core-ui-${name}`
+}

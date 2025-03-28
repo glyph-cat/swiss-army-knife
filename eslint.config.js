@@ -28,10 +28,10 @@ module.exports = [
       '@typescript-eslint/no-empty-object-type': Severity.WARN, // temp
       ...BuildRule.ReactHooks.ExhaustiveDeps(Severity.WARN, [
         ...EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
-        'useLayeredFocusEffect',
-        'useKeyChordActivationListener',
-        'useKeyDownListener',
-        'useKeyUpListener',
+        // 'useLayeredFocusEffect',
+        // 'useKeyChordActivationListener',
+        // 'useKeyDownListener',
+        // 'useKeyUpListener',
       ]),
       'import/no-unresolved': [Severity.ERROR, {
         ignore: [

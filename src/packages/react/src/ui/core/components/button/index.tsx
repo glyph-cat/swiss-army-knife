@@ -1,7 +1,22 @@
-import { c, isBoolean } from '@glyph-cat/swiss-army-knife'
+import { addStyles, c, isBoolean, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
 import { createElement, forwardRef, JSX, Ref } from 'react'
-import { useInternalDerivedDisabledState } from '../internals'
-import styles from './index.module.css'
+import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from '../internals'
+
+const BASE_CLASSNAME = createCoreUIComponentClassName('button')
+
+if (typeof window !== 'undefined') {
+  addStyles(new StyleMap([[BASE_CLASSNAME, {
+    appearance: 'none',
+    border: 'none',
+    backgroundColor: 'transparent',
+    display: 'grid',
+    margin: 0,
+    outline: 'none',
+    padding: 0,
+    placeItems: 'center',
+    position: 'relative',
+  }]]).compile(), PrecedenceLevel.INTERNAL)
+}
 
 /**
  * @public
@@ -32,7 +47,7 @@ export const ButtonBase = forwardRef(({
   return createElement('button', {
     ...props,
     ref,
-    className: c(styles.button, className),
+    className: c(BASE_CLASSNAME, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   })
 })
