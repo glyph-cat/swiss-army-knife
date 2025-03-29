@@ -1,4 +1,3 @@
-import { CleanupFunction } from '../../types'
 import { addStyles } from '../add-styles'
 import { StyleMap } from '../style-map'
 
@@ -8,13 +7,11 @@ import { StyleMap } from '../style-map'
 export const TemplateStyles = {
   hidden: 'hidden',
   a: 'a',
+  // TODO: code
 } as const
 
-/**
- * @public
- */
-export function loadTemplateStyles(): CleanupFunction {
-  return addStyles(new StyleMap([
+if (typeof window !== 'undefined') {
+  addStyles(new StyleMap([
     [`.${TemplateStyles.hidden}`, {
       left: 0,
       opacity: 0,

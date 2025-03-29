@@ -50,7 +50,7 @@ export function MaterialIcon({
   variant = MATERIAL_ICON_DEFAULTS.variant,
   htmlProps = {},
 }: MaterialIconProps): JSX.Element {
-  const { className, style, ...remaingHtmlProps } = htmlProps
+  const { className, style, ...remainingHtmlProps } = htmlProps
   return (
     <span
       className={c(
@@ -62,7 +62,7 @@ export function MaterialIcon({
         fontSize: size,
         ...style,
       }}
-      {...remaingHtmlProps}
+      {...remainingHtmlProps}
     >
       {name}
     </span>

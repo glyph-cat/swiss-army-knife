@@ -1,4 +1,4 @@
-import { addStyles, c, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/swiss-army-knife'
 import {
   createElement,
   forwardRef,
@@ -8,16 +8,7 @@ import {
 } from 'react'
 import { FocusLayer } from '../../layered-focus'
 import { FocusObserver } from '../../layered-focus/internals/observer'
-import { createCoreUIComponentClassName } from '../internals'
-
-const BASE_CLASSNAME = createCoreUIComponentClassName('view')
-
-if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
-    display: 'grid',
-    position: 'relative',
-  }]]).compile(), PrecedenceLevel.INTERNAL)
-}
+import { VIEW_STYLES } from '../_internals'
 
 /**
  * @public
@@ -44,7 +35,7 @@ export const View = forwardRef<HTMLDivElement, ViewProps>(({
   // eslint-disable-next-line react/forbid-elements
   return createElement('div', {
     ref: divRef,
-    className: c(BASE_CLASSNAME, className),
+    className: c(VIEW_STYLES, className),
     ...otherProps,
   }, children)
 })
@@ -97,7 +88,7 @@ export const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
     <FocusLayer ignoreSiblings={ignoreSiblings} effective={effective}>
       <div // eslint-disable-line react/forbid-elements
         ref={divRef}
-        className={c(BASE_CLASSNAME, className)}
+        className={c(VIEW_STYLES, className)}
         {...otherProps}
       >
         {children}

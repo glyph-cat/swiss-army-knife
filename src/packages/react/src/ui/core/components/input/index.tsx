@@ -1,21 +1,7 @@
-import { addStyles, c, isBoolean, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
+import { c, isBoolean } from '@glyph-cat/swiss-army-knife'
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { useCommonFocusableRefHandler } from '../../input-focus'
-import { createCoreUIComponentClassName, useInternalDerivedDisabledState } from '../internals'
-
-const BASE_CLASSNAME = createCoreUIComponentClassName('input')
-
-if (typeof window !== 'undefined') {
-  addStyles(new StyleMap([[`.${BASE_CLASSNAME}`, {
-    backgroundColor: 'transparent',
-    border: 'none',
-    display: 'grid',
-    fontFamily: 'inherit',
-    margin: 0,
-    outline: 'none',
-    padding: 0,
-  }]]).compile(), PrecedenceLevel.INTERNAL)
-}
+import { INPUT_STYLES, useInternalDerivedDisabledState } from '../_internals'
 
 /**
  * @public
@@ -49,7 +35,7 @@ export const Input = forwardRef(({
   return createElement('input', {
     ...props,
     ref: inputRef,
-    className: c(BASE_CLASSNAME, className),
+    className: c(INPUT_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   })
 })
@@ -86,7 +72,7 @@ export const TextArea = forwardRef(({
   return createElement('textarea', {
     ...props,
     ref: textAreaRef,
-    className: c(BASE_CLASSNAME, className),
+    className: c(INPUT_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   })
 })

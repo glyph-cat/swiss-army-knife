@@ -1,4 +1,4 @@
-import { PrecedenceLevel } from '@glyph-cat/swiss-army-knife'
+import { compileStyle, PrecedenceLevel } from '@glyph-cat/swiss-army-knife'
 import { JSX } from 'react'
 import { Style } from '../../styling'
 import { MaterialSymbolOptions, MaterialSymbolVariant } from '../abstractions'
@@ -22,7 +22,7 @@ export function MaterialSymbolsOnlineLoader({
       {variants.map((variant) => {
         return `@import url(${getFontStyleSheetURL(variant)});`
       }).join('\n')}
-      {`.${MATERIAL_SYMBOL_BASE_CLASSNAME}{user-select:none}`}
+      {compileStyle(`.${MATERIAL_SYMBOL_BASE_CLASSNAME}`, { userSelect: 'none' })}
     </Style>
   )
 }
