@@ -24,6 +24,7 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
+import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
 import {
   BASIC_UI_FLOW_COLUMN,
@@ -31,7 +32,6 @@ import {
   BASIC_UI_POSITION_END,
   BASIC_UI_POSITION_START,
 } from '../constants'
-import { tryResolvePaletteColor } from '../internals/try-resolve-palette-color'
 import styles from './index.module.css'
 
 const sizeStyle: Record<BasicUISize, string> = {

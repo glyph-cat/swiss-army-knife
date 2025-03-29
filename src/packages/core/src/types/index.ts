@@ -77,6 +77,16 @@ export type NumericValues4 = [number, number, number, number]
 export type Awaitable<T> = T | Promise<T>
 
 /**
+ * @public
+ */
+export type Voidable<T> = T | void
+
+/**
+ * @public
+ */
+export type PossiblyUndefined<T> = T | undefined
+
+/**
  * @author Gerrit0
  * @see https://stackoverflow.com/a/49889856/5810737
  * @example

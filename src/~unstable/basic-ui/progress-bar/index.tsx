@@ -10,9 +10,14 @@ import {
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import { __assignDisplayName } from 'packages/react/src/_internals'
 import { JSX, useEffect, useRef } from 'react'
+import { KEY_SIZE, KEY_TINT } from '../_internals/constants'
+import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
-import { tryResolvePaletteColor } from '../internals/try-resolve-palette-color'
-import styles from './index.module.css'
+import {
+  KEY_CONTAINER_BORDER_RADIUS,
+  KEY_FILL_BORDER_RADIUS,
+  styles,
+} from './styles'
 
 const sizePresets: Record<BasicUISize, number> = {
   's': 12,
@@ -94,7 +99,7 @@ export const ProgressBar = ({
   const color = tryResolvePaletteColor($color, palette)
 
   const indeterminate = !isNumber(value)
-  const p = indeterminate ? percent(100) : percent(100 * getPercentage(value, minValue, maxValue))
+  const p = percent(indeterminate ? 100 : 100 * getPercentage(value, minValue, maxValue))
 
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
 
@@ -107,10 +112,10 @@ export const ProgressBar = ({
   const containerRef = useRef<View>(null)
   useEffect(() => {
     return injectInlineCSSVariables({
-      tint: color,
-      containerBorderRadius: containerBorderRadius,
-      size: effectiveSize,
-      fillBorderRadius,
+      [KEY_TINT]: color,
+      [KEY_CONTAINER_BORDER_RADIUS]: containerBorderRadius,
+      [KEY_SIZE]: effectiveSize,
+      [KEY_FILL_BORDER_RADIUS]: fillBorderRadius,
     }, containerRef.current)
   }, [color, containerBorderRadius, effectiveSize, fillBorderRadius])
 

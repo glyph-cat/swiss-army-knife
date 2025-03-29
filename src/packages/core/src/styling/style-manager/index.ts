@@ -1,5 +1,6 @@
-import { createRef, Empty } from '../../data'
-import { CleanupFunction, IDisposable } from '../../types'
+import { clientOnly } from '../../client-only'
+import { createRef } from '../../data'
+import { CleanupFunction, IDisposable, PossiblyUndefined } from '../../types'
 import { ExtendedCSSProperties } from '../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileStyle } from '../compile-styles'
@@ -18,7 +19,7 @@ export class StyleManager extends StyleMap implements IDisposable {
   /**
    * @internal
    */
-  private readonly M$removeStyles: CleanupFunction = Empty.FUNCTION
+  private readonly M$removeStyles: PossiblyUndefined<CleanupFunction>
 
   readonly element: HTMLStyleElement
 
@@ -32,9 +33,11 @@ export class StyleManager extends StyleMap implements IDisposable {
     // Update: This problem is tricky and niche, there seems to be a post on S.O.
     // https://stackoverflow.com/questions/77689581/how-to-avoid-inherited-methods-in-call-by-super-constructor-keyword?noredirect=1&lq=1
     const styleElementRef = createRef<HTMLStyleElement>(null)
-    if (typeof window !== 'undefined') {
-      this.M$removeStyles = addStyles(this.M$getCompiledStyles(), precedenceLevel, styleElementRef)
-    }
+    this.M$removeStyles = clientOnly(() => addStyles(
+      this.M$getCompiledStyles(),
+      precedenceLevel,
+      styleElementRef,
+    ))
     this.element = styleElementRef.current
     for (const [key, value] of initialStyles) {
       this.set(key, value)
@@ -64,7 +67,7 @@ export class StyleManager extends StyleMap implements IDisposable {
   dispose(): void {
     this.clear()
     this.M$cache.clear()
-    this.M$removeStyles()
+    this.M$removeStyles?.()
   }
 
   /**

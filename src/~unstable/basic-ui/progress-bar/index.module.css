@@ -1,26 +1,30 @@
-.layoutH {
+/* .layoutH {
   height: var(--size);
 }
 
 .layoutV {
   grid-template-rows: 1fr auto;
   width: var(--size);
-}
+} */
 
-.container {
+/* .container {
   background-color: #00000040;
   border: solid var(--inputElementBorderSize) var(--tint);
   border-radius: var(--containerBorderRadius);
   overflow: hidden;
   padding: var(--inputElementBorderSize);
-}
+} */
 
-.fill {
+/* .fill {
   background-color: var(--tint);
   border-radius: var(--fillBorderRadius);
 }
 
 .container[aria-busy="true"] > .fill {
+  background-color: #80808020;
+} */
+
+/* .container[aria-busy="true"] > .fill {
   animation: 1s infinite linear;
   background-color: transparent;
   background-position: 0% 0%;
@@ -52,7 +56,7 @@
     #80808080 calc(100% / 4 * 2),
     #80808080 calc(100% / 4 * 2)
   );
-}
+} */
 
 /* 10.25 is a magic constant, it creates an illusion where the gradient pattern doesn't jump, but we don't know why */
 

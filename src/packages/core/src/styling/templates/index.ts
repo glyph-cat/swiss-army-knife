@@ -1,4 +1,5 @@
-import { addStyles } from '../add-styles'
+import { clientOnly } from '../../client-only'
+import { addStyles, PrecedenceLevel } from '../add-styles'
 import { StyleMap } from '../style-map'
 
 /**
@@ -10,7 +11,7 @@ export const TemplateStyles = {
   // TODO: code
 } as const
 
-if (typeof window !== 'undefined') {
+clientOnly(() => {
   addStyles(new StyleMap([
     [`.${TemplateStyles.hidden}`, {
       left: 0,
@@ -20,5 +21,5 @@ if (typeof window !== 'undefined') {
       top: 0,
       zIndex: -9999,
     }],
-  ]).compile())
-}
+  ]).compile(), PrecedenceLevel.INTERNAL)
+})

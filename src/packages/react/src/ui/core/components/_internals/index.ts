@@ -1,4 +1,5 @@
 import { addStyles, Nullable, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
+import { clientOnly } from '../../../../../../core/src/client-only'
 import { useDerivedDisabledState } from '../../disabled-context'
 import { useLayeredFocusState } from '../../layered-focus'
 
@@ -21,7 +22,7 @@ export const INPUT_STYLES = createClassName('input')
 export const SELECT_STYLES = createClassName('select')
 export const FIELDSET_STYLES = createClassName('fieldset')
 
-if (typeof window !== 'undefined') {
+clientOnly(() => {
   addStyles(new StyleMap([
     [`.${VIEW_STYLES}`, {
       display: 'grid',
@@ -54,4 +55,4 @@ if (typeof window !== 'undefined') {
       fontFamily: 'inherit'
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
-}
+})
