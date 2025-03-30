@@ -10,9 +10,9 @@ import {
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import { __assignDisplayName } from 'packages/react/src/_internals'
 import { JSX, useEffect, useRef } from 'react'
-import { KEY_SIZE, KEY_TINT } from '../_internals/constants'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
+import { KEY_SIZE, KEY_TINT } from '../constants'
 import {
   KEY_CONTAINER_BORDER_RADIUS,
   KEY_FILL_BORDER_RADIUS,

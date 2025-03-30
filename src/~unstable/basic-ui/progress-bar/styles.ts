@@ -1,9 +1,15 @@
-import { addStyles, clientOnly, PrecedenceLevel, StyleMap, ThemeToken } from '@glyph-cat/swiss-army-knife'
-import { TOKEN_SIZE, TOKEN_TINT } from '../_internals/constants'
+import {
+  addStyles,
+  clientOnly,
+  PrecedenceLevel,
+  StyleMap,
+  ThemeToken,
+} from '@glyph-cat/swiss-army-knife'
 import { createTokens } from '../_internals/create-tokens'
 import { prefixBasicUIClassNames } from '../_internals/prefixing'
+import { TOKEN_SIZE, TOKEN_TINT } from '../constants'
 
-export const styles = prefixBasicUIClassNames({
+export const styles = prefixBasicUIClassNames('meter', {
   layoutH: 'layoutH',
   layoutV: 'layoutV',
   container: 'container',

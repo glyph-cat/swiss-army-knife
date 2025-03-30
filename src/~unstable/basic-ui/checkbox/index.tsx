@@ -31,19 +31,17 @@ import {
   BASIC_UI_FLOW_ROW,
   BASIC_UI_POSITION_END,
   BASIC_UI_POSITION_START,
+  KEY_SIZE,
+  KEY_TINT,
+  KEY_TINT_40,
+  KEY_TINT_HOVER,
 } from '../constants'
-import styles from './index.module.css'
+import { styles } from './styles'
 
-const sizeStyle: Record<BasicUISize, string> = {
-  's': styles.sizeS,
-  'm': styles.sizeM,
-  'l': styles.sizeL,
-} as const
-
-const presetIconSize: Record<BasicUISize, number> = {
-  's': 20,
-  'm': 24,
-  'l': 26,
+const sizePresets: Record<BasicUISize, [boxSize: number, iconSize: number]> = {
+  's': [22, 20],
+  'm': [28, 24],
+  'l': [32, 26],
 } as const
 
 const INDETERMINATE = 'indeterminate'
@@ -107,9 +105,9 @@ export const Checkbox = forwardRef(({
 }: CheckboxProps, forwardedRef: ForwardedRef<Checkbox>): JSX.Element => {
 
   const { palette } = useThemeContext()
-
   const color = tryResolvePaletteColor($color, palette)
 
+  const [boxSize, iconSize] = sizePresets[size] ?? sizePresets.m
   const disabled = $disabled ?? loading
 
   // TODO: Loading indicator
@@ -127,56 +125,54 @@ export const Checkbox = forwardRef(({
   useEffect(() => {
     const colorSource = Color.fromString(color)
     return injectInlineCSSVariables({
-      checkboxColor: color,
-      checkboxColor40: Color.fromRGBObject({
+      [KEY_SIZE]: boxSize,
+      [KEY_TINT]: color,
+      [KEY_TINT_40]: Color.fromRGBObject({
         red: colorSource.red,
         blue: colorSource.blue,
         green: colorSource.green,
         alpha: 0.4,
       }).toString(ColorFormat.FFFFFFFF),
-      checkboxColorFilledHover: Color.fromHSLObject({
+      [KEY_TINT_HOVER]: Color.fromHSLObject({
+        // NOTE: Used to be called `checkboxColorFilledHover`
         hue: colorSource.hue,
         saturation: colorSource.saturation,
         lightness: colorSource.lightness * 1.2,
       }).toString(ColorFormat.FFFFFFFF),
     }, containerRef.current)
-  }, [color])
+  }, [color, boxSize])
 
   return (
-    <>
-      {/* <Style precedence={PrecedenceLevel.INTERNAL}>{injectedValues}</Style> */}
-      <label
-        ref={containerRef}
-        className={c(
-          styles.container,
-          flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
-          sizeStyle[size] ?? sizeStyle.m,
-        )}
-      >
-        {(position === BASIC_UI_POSITION_START && children) && <View>{children}</View>}
-        <View className={styles.checkbox}>
-          <Input
-            ref={inputRef}
-            className={styles.input}
-            type='checkbox'
-            {...(isUndefinedOrNull(checked) ? {} : { checked: checked === true })}
-            onChange={useCallback((e) => { onChange?.(e.target.checked, e) }, [onChange])}
-            disabled={disabled}
+    <label
+      ref={containerRef}
+      className={c(
+        styles.container,
+        flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
+      )}
+    >
+      {(position === BASIC_UI_POSITION_START && children) && <View>{children}</View>}
+      <View className={styles.checkbox}>
+        <Input
+          ref={inputRef}
+          className={styles.input}
+          type='checkbox'
+          {...(isUndefinedOrNull(checked) ? {} : { checked: checked === true })}
+          onChange={useCallback((e) => { onChange?.(e.target.checked, e) }, [onChange])}
+          disabled={disabled}
+        />
+        <View className={styles.checkmark}>
+          <MaterialSymbol
+            name={checked === INDETERMINATE ? 'remove' : 'check'}
+            // These props should not be affected by any provider:
+            renderAs='span'
+            size={iconSize}
+            color={resolveContrastingValue(palette.primaryColor)}
+            {...(size === 's' ? { grade: 200 } : {})}
           />
-          <View className={styles.checkmark}>
-            <MaterialSymbol
-              name={checked === INDETERMINATE ? 'remove' : 'check'}
-              // These props should not be affected by any provider:
-              renderAs='span'
-              size={presetIconSize[size] ?? presetIconSize.m}
-              color={resolveContrastingValue(palette.primaryColor)}
-              {...(size === 's' ? { grade: 200 } : {})}
-            />
-          </View>
         </View>
-        {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
-      </label>
-    </>
+      </View>
+      {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
+    </label>
   )
 })
 

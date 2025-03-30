@@ -6,14 +6,13 @@
   "typescript.format.semicolons": "remove",
   "javascript.preferences.quoteStyle": "single",
   "typescript.preferences.quoteStyle": "single",
-  // TODO: Exclude 'packages', none of the solutions below seem to work (ノ_＜)
-  // "search.exclude": {
-  //   "**/node_modules": true,
-  //   "**/bower_components": true,
-  //   "**/*.code-search": true,
-  //   "**/lib": true,
-  //   "src/packages": true,
-  // },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/lib": true,
+    "src/packages": true,
+  },
   // "typescript.preferences.autoImportFileExcludePatterns": [
   //   // Reference: https://stackoverflow.com/a/76711526/5810737
   //   "./src/packages",

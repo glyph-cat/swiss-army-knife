@@ -45,7 +45,7 @@
     "typescript.format.semicolons": "remove",
     "javascript.preferences.quoteStyle": "single",
     "typescript.preferences.quoteStyle": "single",
-    // // "search.useParentIgnoreFiles": true,
+    "search.useParentIgnoreFiles": true,
     // "typescript.preferences.autoImportFileExcludePatterns": [
     //   // Reference: https://stackoverflow.com/a/76711526/5810737
     //   "packages",

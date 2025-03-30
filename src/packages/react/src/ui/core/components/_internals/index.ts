@@ -14,7 +14,7 @@ export function useInternalDerivedDisabledState(disabled: boolean): Nullable<boo
   return useDerivedDisabledState(isFocused ? disabled : true)
 }
 
-const createClassName = (name: string): string => `gc-core-ui-${name}`
+const createClassName = (name: string): string => `gc-core-${name}`
 
 export const VIEW_STYLES = createClassName('view')
 export const BUTTON_STYLES = createClassName('button')
