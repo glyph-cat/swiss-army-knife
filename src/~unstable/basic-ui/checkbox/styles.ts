@@ -15,6 +15,7 @@ export const styles = prefixBasicUIClassNames('checkbox', {
   checkbox: 'checkbox',
   input: 'input',
   checkmark: 'checkmark',
+  busy: 'busy',
 })
 
 const disabledColor = '#80808040'
@@ -111,6 +112,11 @@ clientOnly(() => {
       `.${styles.input}:indeterminate + .${styles.checkmark}`,
     ].join(','), {
       display: 'grid',
+    }],
+    [`.${styles.busy}`, {
+      opacity: 0.5,
+      placeSelf: 'center',
+      position: 'absolute',
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })

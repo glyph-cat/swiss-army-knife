@@ -36,12 +36,13 @@ import {
   KEY_TINT_40,
   KEY_TINT_HOVER,
 } from '../constants'
+import { Spinner } from '../spinner'
 import { styles } from './styles'
 
-const sizePresets: Record<BasicUISize, [boxSize: number, iconSize: number]> = {
-  's': [22, 20],
-  'm': [28, 24],
-  'l': [32, 26],
+const sizePresets: Record<BasicUISize, [boxSize: number, iconSize: number, spinnerSize: number]> = {
+  's': [22, 20, 14],
+  'm': [28, 24, 18],
+  'l': [32, 26, 22],
 } as const
 
 const INDETERMINATE = 'indeterminate'
@@ -65,7 +66,7 @@ export interface CheckboxProps {
   /**
    * @defaultValue `false`
    */
-  loading?: boolean
+  busy?: boolean
   /**
    * @defaultValue `'m'`
    */
@@ -97,7 +98,7 @@ export const Checkbox = forwardRef(({
   checked,
   onChange,
   disabled: $disabled,
-  loading,
+  busy,
   size,
   color: $color,
   flow = BASIC_UI_FLOW_COLUMN,
@@ -107,10 +108,9 @@ export const Checkbox = forwardRef(({
   const { palette } = useThemeContext()
   const color = tryResolvePaletteColor($color, palette)
 
-  const [boxSize, iconSize] = sizePresets[size] ?? sizePresets.m
-  const disabled = $disabled ?? loading
+  const [boxSize, iconSize, spinnerSize] = sizePresets[size] ?? sizePresets.m
+  const disabled = $disabled ?? busy
 
-  // TODO: Loading indicator
   const inputRef = useRef<Input>(null)
   useImperativeHandle(forwardedRef, () => inputRef.current, [])
   useEffect(() => {
@@ -160,16 +160,21 @@ export const Checkbox = forwardRef(({
           onChange={useCallback((e) => { onChange?.(e.target.checked, e) }, [onChange])}
           disabled={disabled}
         />
-        <View className={styles.checkmark}>
-          <MaterialSymbol
-            name={checked === INDETERMINATE ? 'remove' : 'check'}
-            // These props should not be affected by any provider:
-            renderAs='span'
-            size={iconSize}
-            color={resolveContrastingValue(palette.primaryColor)}
-            {...(size === 's' ? { grade: 200 } : {})}
-          />
-        </View>
+        {busy
+          ? <View className={styles.busy}>
+            <Spinner size={spinnerSize} thickness={3} color='#808080' />
+          </View>
+          : <View className={styles.checkmark}>
+            <MaterialSymbol
+              name={checked === INDETERMINATE ? 'remove' : 'check'}
+              // These props should not be affected by any provider:
+              renderAs='span'
+              size={iconSize}
+              color={resolveContrastingValue(palette.primaryColor)}
+              {...(size === 's' ? { grade: 200 } : {})}
+            />
+          </View>
+        }
       </View>
       {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
     </label>
