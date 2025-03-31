@@ -4,7 +4,8 @@
   }
   100% {
     background-position-x: calc(
-      var(--size) - 4 * var(--inputElementBorderSize)
+      var(--directionMultiplier) *
+        (var(--size) - 4 * var(--inputElementBorderSize))
     );
   }
 }
@@ -15,7 +16,8 @@
   }
   100% {
     background-position-y: calc(
-      var(--size) - 4 * var(--inputElementBorderSize)
+      var(--directionMultiplier) *
+        (var(--size) - 4 * var(--inputElementBorderSize))
     );
   }
 }

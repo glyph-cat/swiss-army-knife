@@ -30,6 +30,12 @@ const [
 ] = createTokens('repeatingLinearGradient')
 
 export const [
+  KEY_DIRECTION_MULTIPLIER,
+  __DIRECTION_MULTIPLIER,
+  TOKEN_DIRECTION_MULTIPLIER,
+] = createTokens('directionMultiplier')
+
+export const [
   KEY_CONTAINER_BORDER_RADIUS,
   __CONTAINER_BORDER_RADIUS,
   TOKEN_CONTAINER_BORDER_RADIUS,

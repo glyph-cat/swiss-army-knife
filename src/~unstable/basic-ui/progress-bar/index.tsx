@@ -15,6 +15,7 @@ import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
 import { KEY_SIZE, KEY_TINT } from '../constants'
 import {
   KEY_CONTAINER_BORDER_RADIUS,
+  KEY_DIRECTION_MULTIPLIER,
   KEY_FILL_BORDER_RADIUS,
   styles,
 } from './styles'
@@ -113,10 +114,9 @@ export const ProgressBar = ({
       [KEY_CONTAINER_BORDER_RADIUS]: containerBorderRadius,
       [KEY_SIZE]: effectiveSize,
       [KEY_FILL_BORDER_RADIUS]: fillBorderRadius,
+      [KEY_DIRECTION_MULTIPLIER]: reverse ? -1 : 1,
     }, containerRef.current)
-  }, [color, containerBorderRadius, effectiveSize, fillBorderRadius])
-
-  // TODO: Add `1` or `-1` direction multiplier on `background-position-...`
+  }, [color, containerBorderRadius, effectiveSize, fillBorderRadius, reverse])
 
   return (
     <View
@@ -133,9 +133,7 @@ export const ProgressBar = ({
     >
       <View
         className={styles.fill}
-        style={{
-          maskImage: `linear-gradient(${maskAngle + (reverse ? 180 : 0)}deg, black ${p}, transparent ${p})`,
-        }}
+        style={{ maskImage: `linear-gradient(${maskAngle + (reverse ? 180 : 0)}deg, black ${p}, transparent ${p})` }}
       />
     </View>
   )
