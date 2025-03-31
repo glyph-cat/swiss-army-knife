@@ -39,6 +39,7 @@ export function MaterialSymbol({
 
   const ctx = useContext(MaterialSymbolOptionsContext)
   const effectiveVariant = variant || ctx.variant
+  const effectiveSize = size ?? ctx?.size
 
   // NOTE: Optical size has to be based on final/effective size since 'auto'
   // is not a valid value, so it has to be calculated on a per-component basis.
@@ -60,7 +61,10 @@ export function MaterialSymbol({
     style: {
       ...style,
       color: color || ctx?.color,
-      fontSize: size ?? ctx?.size,
+      fontSize: effectiveSize,
+      // Width and overflow is set in case font cannot load in time
+      overflow: 'hidden',
+      width: effectiveSize,
       ...createFontVariationSettingsProp(
         overwriteFill ?? ctx.fill,
         overwriteWeight ?? ctx.weight,

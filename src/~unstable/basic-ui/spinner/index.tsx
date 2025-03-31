@@ -1,30 +1,63 @@
-import { JSX } from 'react'
+import {
+  Color,
+  ColorFormat,
+  getPercentage,
+  injectInlineCSSVariables,
+  isNumber,
+  LenientString,
+  px,
+} from '@glyph-cat/swiss-army-knife'
+import { useThemeContext } from '@glyph-cat/swiss-army-knife-react'
+import { __assignDisplayName } from 'packages/react/src/_internals'
+import { JSX, useEffect, useRef } from 'react'
+import { View } from '~core-ui'
+import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
-import styles from './index.module.css'
+import { KEY_SIZE, KEY_TINT, KEY_TINT_40 } from '../constants'
+import { KEY_PROGRESS_BY_ANGLE, KEY_THICKNESS, styles } from './styles'
+
+const sizePresets: Record<BasicUISize, number> = {
+  's': 32,
+  'm': 48,
+  'l': 64,
+} as const
 
 /**
  * @public
  */
-export type SpinnerProps = Omit<JSX.IntrinsicElements['progress'], 'color' | 'value'> & {
+export interface SpinnerProps {
   /**
-   * Any value from `0.0` to `1.0`.
-   * You can use {@link getPercentage} to calculate the value.
-   * @defaultValue `0.0`
+   * The current progress value.
+   * This must be a value equal to or between `minValue` and `maxValue`.
+   * Omit this parameter to indicate an indeterminate state.
+   * @defaultValue `0`
    */
   value?: number
   /**
-   * @defaultValue `false`
+   * @defaultValue `0`
    */
-  indeterminate?: boolean
+  minValue?: number
+  /**
+   * @defaultValue `100`
+   */
+  maxValue?: number
   /**
    * @defaultValue `'primary'`
    */
-  color?: BasicUIColor
+  color?: LenientString<BasicUIColor>
   /**
    * @defaultValue `'m'`
    */
   size?: BasicUISize | number
-  thickness?: number // TODO: default value
+  /**
+   * @defaultValue `6`
+   */
+  thickness?: number
+  /**
+   * Display the tip with a clean line instead of a rounded cap.
+   * @defaultValue `false`
+   */
+  precise?: boolean
 }
 
 /**
@@ -35,19 +68,58 @@ export interface Spinner extends HTMLProgressElement {
 }
 
 export function Spinner({
-  value = 0,
-  indeterminate,
+  value,
+  minValue = 0,
+  maxValue = 100,
   color: $color,
   size,
-  thickness,
+  thickness = 6,
+  precise = false,
 }: SpinnerProps): JSX.Element {
-  // Do not use ARIA properties, use hidden <progress> element and forward ref to it
+
+  const { palette } = useThemeContext()
+
+  const tint = Color.fromString(tryResolvePaletteColor($color, palette)).toString(ColorFormat.FFFFFF, {
+    suppressAlphaInShortFormats: true,
+  })
+  const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
+  const indeterminate = !isNumber(value)
+  const progressByAngle = 360 * getPercentage(value, minValue, maxValue)
+
+  const containerRef = useRef<View>(null)
+  useEffect(() => {
+    return injectInlineCSSVariables({
+      [KEY_TINT]: tint,
+      [KEY_TINT_40]: `${tint}40`,
+      [KEY_SIZE]: effectiveSize,
+      [KEY_THICKNESS]: px(thickness),
+      ...(indeterminate ? {} : { [KEY_PROGRESS_BY_ANGLE]: `${progressByAngle}deg` })
+    }, containerRef.current)
+  }, [effectiveSize, indeterminate, progressByAngle, thickness, tint])
+
   return (
-    <>
-      <progress
-        className={styles.progress}
-      // ...
-      />
-    </>
+    <View
+      ref={containerRef}
+      className={styles.container}
+      role='progressbar'
+      aria-valuemin={minValue}
+      aria-valuemax={maxValue}
+      {...indeterminate ? {
+        'aria-busy': true,
+      } : {
+        'aria-valuenow': value,
+      }}
+    >
+      {!precise && (
+        <>
+          <View role='presentation' className={styles.cap} />
+          <View role='presentation' className={styles.trailingCapContainer}>
+            <View className={styles.cap} />
+          </View>
+        </>
+      )}
+    </View>
   )
 }
+
+__assignDisplayName(Spinner)
