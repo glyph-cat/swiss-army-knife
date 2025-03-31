@@ -12,24 +12,18 @@ import { __assignDisplayName } from 'packages/react/src/_internals'
 import { JSX, useEffect, useRef } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
-import { KEY_SIZE, KEY_TINT } from '../constants'
 import {
+  createMeterBasedLayoutPresets,
   KEY_CONTAINER_BORDER_RADIUS,
   KEY_DIRECTION_MULTIPLIER,
   KEY_FILL_BORDER_RADIUS,
-  styles,
-} from './styles'
+  KEY_SIZE,
+  KEY_TINT,
+  meterBasedSizePresets as sizePresets,
+} from '../constants'
+import { styles } from './styles'
 
-const sizePresets: Record<BasicUISize, number> = {
-  's': 12,
-  'm': 20,
-  'l': 32,
-} as const
-
-const layoutPresets: Record<BasicUILayout, [className: string, maskAngle: number]> = {
-  'horizontal': [styles.layoutH, 90],
-  'vertical': [styles.layoutV, 0],
-} as const
+const layoutPresets = createMeterBasedLayoutPresets(styles.layoutH, styles.layoutV)
 
 /**
  * @public
@@ -39,7 +33,7 @@ export interface ProgressBarProps {
    * The current progress value.
    * This must be a value equal to or between `minValue` and `maxValue`.
    * Omit this parameter to indicate an indeterminate state.
-   * @defaultValue `0`
+   * @defaultValue `undefined`
    */
   value?: number
   /**

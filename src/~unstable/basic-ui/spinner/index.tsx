@@ -30,7 +30,7 @@ export interface SpinnerProps {
    * The current progress value.
    * This must be a value equal to or between `minValue` and `maxValue`.
    * Omit this parameter to indicate an indeterminate state.
-   * @defaultValue `0`
+   * @defaultValue `undefined`
    */
   value?: number
   /**
@@ -112,8 +112,8 @@ export function Spinner({
     >
       {!precise && (
         <>
-          <View role='presentation' className={styles.cap} />
-          <View role='presentation' className={styles.trailingCapContainer}>
+          <View className={styles.cap} />
+          <View className={styles.trailingCapContainer}>
             <View className={styles.cap} />
           </View>
         </>

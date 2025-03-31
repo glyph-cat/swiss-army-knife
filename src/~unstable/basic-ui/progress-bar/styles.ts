@@ -7,7 +7,12 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import { createTokens } from '../_internals/create-tokens'
 import { prefixBasicUIClassNames } from '../_internals/prefixing'
-import { TOKEN_SIZE, TOKEN_TINT } from '../constants'
+import {
+  TOKEN_CONTAINER_BORDER_RADIUS,
+  TOKEN_FILL_BORDER_RADIUS,
+  TOKEN_SIZE,
+  TOKEN_TINT,
+} from '../constants'
 import animation from './index.module.css'
 
 export const styles = prefixBasicUIClassNames('meter', {
@@ -28,24 +33,6 @@ const [
   __REPEATING_LINEAR_GRADIENT,
   TOKEN_REPEATING_LINEAR_GRADIENT,
 ] = createTokens('repeatingLinearGradient')
-
-export const [
-  KEY_DIRECTION_MULTIPLIER,
-  __DIRECTION_MULTIPLIER,
-  TOKEN_DIRECTION_MULTIPLIER,
-] = createTokens('directionMultiplier')
-
-export const [
-  KEY_CONTAINER_BORDER_RADIUS,
-  __CONTAINER_BORDER_RADIUS,
-  TOKEN_CONTAINER_BORDER_RADIUS,
-] = createTokens('containerBorderRadius')
-
-export const [
-  KEY_FILL_BORDER_RADIUS,
-  __FILL_BORDER_RADIUS,
-  TOKEN_FILL_BORDER_RADIUS,
-] = createTokens('fillBorderRadius')
 
 clientOnly(() => {
   addStyles(new StyleMap([
