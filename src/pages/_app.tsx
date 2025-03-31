@@ -4,6 +4,7 @@ import {
   CoreUIProvider,
   MaterialSymbolsOnlineLoader,
   MaterialSymbolsProvider,
+  PortalCanvas,
   useIsApplePlatform,
 } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
@@ -18,6 +19,7 @@ import {
   GlobalInputFocusTracker,
   GlobalKeyChordManager,
   GlobalLayeredFocusManager,
+  GlobalPortalManager,
   useKeyChordActivationListener,
   useKeyDownListener,
 } from '~core-ui'
@@ -52,6 +54,7 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
             inputFocusTracker={GlobalInputFocusTracker}
             keyChordManager={GlobalKeyChordManager}
             layeredFocusManager={GlobalLayeredFocusManager}
+            portalManager={GlobalPortalManager}
           >
             <FocusRoot>
               <AppSideBarWrapper>
@@ -64,6 +67,7 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
               <CheckApplePlatformProvider>
                 <KeyListeners />
               </CheckApplePlatformProvider>
+              <PortalCanvas />
             </FocusRoot>
           </CoreUIProvider>
         </CustomThemeProvider>

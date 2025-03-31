@@ -119,3 +119,13 @@ export type AwaitedReturnType<T extends TypedFunction> = Awaited<ReturnType<T>>
 export interface IDisposable {
   dispose(): void
 }
+
+/**
+ * @public
+ */
+export interface RectangularBoundary {
+  height: number
+  left: number
+  top: number
+  width: number
+}

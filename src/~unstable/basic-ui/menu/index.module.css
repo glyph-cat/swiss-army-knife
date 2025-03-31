@@ -1,0 +1,51 @@
+.ul {
+  background-color: var(--bodyBackground);
+  border: solid 1px #80808080;
+  border-radius: var(--spacingS);
+  box-shadow: 0px 5px 10px 0px #00000040;
+  display: grid;
+  list-style: none;
+  margin: 0;
+  min-width: 200px;
+  overflow: hidden;
+  padding: var(--spacingS);
+}
+
+.ul > li[data-type="item"] {
+  align-items: center;
+  border-radius: var(--spacingS);
+  display: grid;
+  font-size: 10pt;
+  height: 32px;
+  padding-inline: var(--spacingM);
+}
+
+.ul > li[data-type="item"]:not([data-enabled="true"]) {
+  cursor: not-allowed;
+}
+
+.ul > li[data-type="item"]:not([data-enabled="true"]):hover {
+  background-color: #00000040;
+}
+
+.ul > li[data-type="item"]:not([data-enabled="true"]) > div {
+  opacity: 0.5;
+}
+
+.ul > li[data-type="item"][data-enabled="true"] {
+  cursor: pointer;
+}
+
+.ul > li[data-type="item"][data-enabled="true"]:hover {
+  background-color: var(--primaryColor40);
+}
+
+.ul > li[data-type="item"][data-enabled="true"]:active {
+  background-color: #00000080;
+}
+
+.ul > li[data-type="separator"] {
+  margin-block: var(--spacingS);
+  background-color: #80808040;
+  height: 1px;
+}

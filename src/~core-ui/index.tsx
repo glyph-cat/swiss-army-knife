@@ -1,9 +1,14 @@
 import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
-import { InputFocusTracker, LayeredFocusManager } from '@glyph-cat/swiss-army-knife-react'
+import {
+  InputFocusTracker,
+  LayeredFocusManager,
+  PortalManager,
+} from '@glyph-cat/swiss-army-knife-react'
 
 export const GlobalLayeredFocusManager = new LayeredFocusManager()
 export const GlobalInputFocusTracker = new InputFocusTracker()
 export const GlobalKeyChordManager = new KeyChordManager()
+export const GlobalPortalManager = new PortalManager()
 
 export {
   ButtonBase as Button, FocusableView, FocusLayer, FocusRoot, Input, Select, TextArea, useCheckInputFocus, useKeyChordActivationListener,

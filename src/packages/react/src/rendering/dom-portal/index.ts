@@ -1,12 +1,12 @@
-import { JSX, Key } from 'react'
+import { JSX, Key, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { __assignDisplayName } from '../../../_internals'
-import { PortalProps } from '../factory'
+import { __assignDisplayName } from '../../_internals'
 
 /**
  * @public
  */
-export interface DOMPortalProps extends PortalProps {
+export interface DOMPortalProps  {
+  children: ReactNode
   /**
    * @defaultValue `document.body`
    */

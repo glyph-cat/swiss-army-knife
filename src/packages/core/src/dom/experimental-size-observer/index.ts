@@ -1,15 +1,5 @@
 import { isJSONequal } from '../../data'
-import { CleanupFunction } from '../../types'
-
-/**
- * @public
- */
-export interface RectangularBoundary {
-  height: number
-  left: number
-  top: number
-  width: number
-}
+import { CleanupFunction, RectangularBoundary } from '../../types'
 
 /**
  * @public
