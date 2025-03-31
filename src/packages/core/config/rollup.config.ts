@@ -103,7 +103,6 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     values: replaceValues,
   }))
 
-  // if (mode === 'production') { }
   pluginStack.push(terser({
     mangle: {
       properties: {

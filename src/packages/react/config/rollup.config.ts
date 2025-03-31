@@ -96,7 +96,6 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
       execSync('git rev-parse HEAD').toString().trim()
     ),
     'process.env.BUILD_TYPE': JSON.stringify(buildEnv),
-    'process.env.IS_INTERNAL_DEBUG_ENV': JSON.stringify('false'),
     'process.env.PACKAGE_VERSION': JSON.stringify(version),
   }
   if (mode) {
@@ -107,7 +106,6 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     values: replaceValues,
   }))
 
-  // if (mode === 'production') { }
   pluginStack.push(terser({
     mangle: {
       properties: {

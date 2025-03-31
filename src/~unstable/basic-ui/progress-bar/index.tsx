@@ -25,14 +25,9 @@ const sizePresets: Record<BasicUISize, number> = {
   'l': 32,
 } as const
 
-const layoutPresets: Record<BasicUILayout, string> = {
-  'horizontal': styles.layoutH,
-  'vertical': styles.layoutV,
-} as const
-
-const degreePresets: Record<BasicUILayout, number> = {
-  'horizontal': 90,
-  'vertical': 0,
+const layoutPresets: Record<BasicUILayout, [className: string, maskAngle: number]> = {
+  'horizontal': [styles.layoutH, 90],
+  'vertical': [styles.layoutV, 0],
 } as const
 
 /**
@@ -98,6 +93,8 @@ export const ProgressBar = ({
 
   const color = tryResolvePaletteColor($color, palette)
 
+  const [layoutBasedClassName, maskAngle] = layoutPresets[layout] ?? layoutPresets.horizontal
+
   const indeterminate = !isNumber(value)
   const p = percent(indeterminate ? 100 : 100 * getPercentage(value, minValue, maxValue))
 
@@ -124,10 +121,7 @@ export const ProgressBar = ({
   return (
     <View
       ref={containerRef}
-      className={c(
-        styles.container,
-        layoutPresets[layout] ?? layoutPresets.horizontal,
-      )}
+      className={c(styles.container, layoutBasedClassName)}
       role='progressbar'
       aria-valuemin={minValue}
       aria-valuemax={maxValue}
@@ -140,7 +134,7 @@ export const ProgressBar = ({
       <View
         className={styles.fill}
         style={{
-          maskImage: `linear-gradient(${(degreePresets[layout] ?? degreePresets.horizontal) + (reverse ? 180 : 0)}deg, black ${p}, transparent ${p})`,
+          maskImage: `linear-gradient(${maskAngle + (reverse ? 180 : 0)}deg, black ${p}, transparent ${p})`,
         }}
       />
     </View>

@@ -1,6 +1,6 @@
 import { serializePixelValue } from '../serialize-pixel-value'
 
-const keywordsPattern = /(gap|height|margin|padding|radius|size|spacing|width)/i
+const keywordsPattern = /(gap|height|margin|padding|position|radius|size|spacing|width)/i
 
 /**
  * Normalizes CSS values into strings. If it is a size-type property such as width,

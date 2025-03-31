@@ -6,6 +6,10 @@ test('Non-pixel numeric value', () => {
 
 test('Pixel numeric value', () => {
   expect(normalizeCSSValue('font-size', 14)).toBe('14px')
+  // #region Patch for 'position'
+  expect(normalizeCSSValue('background-position', 10)).toBe('10px')
+  expect(normalizeCSSValue('position', 'grid')).toBe('grid')
+  // #endregion Patch for 'position'
 })
 
 test('String value', () => {

@@ -19,7 +19,7 @@ describe('Different types', () => {
 
 })
 
-test('Differrent length', () => {
+test('Different length', () => {
   const prevState = ['foo', 42]
   const nextState = ['foo', 'bar', 42]
   const isEqual = shallowCompareArray(prevState, nextState)

@@ -8,6 +8,7 @@ import {
 import { createTokens } from '../_internals/create-tokens'
 import { prefixBasicUIClassNames } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT } from '../constants'
+import animation from './index.module.css'
 
 export const styles = prefixBasicUIClassNames('meter', {
   layoutH: 'layoutH',
@@ -15,6 +16,18 @@ export const styles = prefixBasicUIClassNames('meter', {
   container: 'container',
   fill: 'fill',
 })
+
+const [
+  KEY_BACKGROUND_SIZE,
+  __BACKGROUND_SIZE,
+  TOKEN_BACKGROUND_SIZE,
+] = createTokens('backgroundSize')
+
+const [
+  KEY_REPEATING_LINEAR_GRADIENT,
+  __REPEATING_LINEAR_GRADIENT,
+  TOKEN_REPEATING_LINEAR_GRADIENT,
+] = createTokens('repeatingLinearGradient')
 
 export const [
   KEY_CONTAINER_BORDER_RADIUS,
@@ -48,8 +61,32 @@ clientOnly(() => {
       backgroundColor: TOKEN_TINT,
       borderRadius: TOKEN_FILL_BORDER_RADIUS,
     }],
+    [`.${styles.container}[aria-busy="true"]`, {
+      [__BACKGROUND_SIZE]: `calc(${TOKEN_SIZE} - 4 * ${ThemeToken.inputElementBorderSize})`,
+      [__REPEATING_LINEAR_GRADIENT]: `repeating-linear-gradient(${[
+        '135deg',
+        '#80808040 calc(100% / 4 * 0)',
+        '#80808040 calc(100% / 4 * 1)',
+        '#80808020 calc(100% / 4 * 1)',
+        '#80808020 calc(100% / 4 * 2)',
+        '#80808040 calc(100% / 4 * 2)',
+        '#80808040 calc(100% / 4 * 2)',
+      ].join(',')})`,
+    }],
     [`.${styles.container}[aria-busy="true"] > .${styles.fill}`, {
-      backgroundColor: '#80808020',
+      animation: '0.3s infinite linear',
+      backgroundColor: 'transparent',
+      backgroundPosition: '0% 0%',
+    }],
+    [`.${styles.layoutV}[aria-busy="true"] > .${styles.fill}`, {
+      animationName: animation.busyV,
+      backgroundSize: `100% ${TOKEN_BACKGROUND_SIZE}`,
+      backgroundImage: TOKEN_REPEATING_LINEAR_GRADIENT,
+    }],
+    [`.${styles.layoutH}[aria-busy="true"] > .${styles.fill}`, {
+      animationName: animation.busyH,
+      backgroundSize: `${TOKEN_BACKGROUND_SIZE} 100%`,
+      backgroundImage: TOKEN_REPEATING_LINEAR_GRADIENT,
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })
