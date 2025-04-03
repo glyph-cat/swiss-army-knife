@@ -1,5 +1,6 @@
 import {
   c,
+  clamp,
   getPercentage,
   injectInlineCSSVariables,
   isNumber,
@@ -13,17 +14,24 @@ import { JSX, useEffect, useRef } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
 import {
-  createMeterBasedLayoutPresets,
   KEY_CONTAINER_BORDER_RADIUS,
   KEY_DIRECTION_MULTIPLIER,
   KEY_FILL_BORDER_RADIUS,
   KEY_SIZE,
   KEY_TINT,
-  meterBasedSizePresets as sizePresets,
 } from '../constants'
 import { styles } from './styles'
 
-const layoutPresets = createMeterBasedLayoutPresets(styles.layoutH, styles.layoutV)
+const sizePresets: Readonly<Record<BasicUISize, number>> = {
+  's': 12,
+  'm': 20,
+  'l': 32,
+}
+
+const layoutPresets: Readonly<Record<BasicUILayout, [className: string, maskAngle: number]>> = {
+  'horizontal': [styles.layoutH, 90],
+  'vertical': [styles.layoutV, 0],
+}
 
 /**
  * @public
@@ -64,13 +72,10 @@ export interface ProgressBarProps {
    * @defaultValue `'50%'`
    */
   borderRadius?: number | string
-}
-
-/**
- * @public
- */
-export interface ProgressBar extends HTMLProgressElement {
-  (props: ProgressBarProps): JSX.Element
+  /**
+   * @defaultValue `'progressbar'`
+   */
+  role?: 'progressbar' | 'meter'
 }
 
 export const ProgressBar = ({
@@ -82,6 +87,7 @@ export const ProgressBar = ({
   layout = 'horizontal',
   reverse,
   borderRadius: $$borderRadius,
+  role,
 }: ProgressBarProps): JSX.Element => {
 
   const { palette, componentParameters } = useThemeContext()
@@ -91,7 +97,10 @@ export const ProgressBar = ({
   const [layoutBasedClassName, maskAngle] = layoutPresets[layout] ?? layoutPresets.horizontal
 
   const indeterminate = !isNumber(value)
-  const p = percent(indeterminate ? 100 : 100 * getPercentage(value, minValue, maxValue))
+  const p = percent(indeterminate
+    ? 100
+    : 100 * getPercentage(clamp(value, minValue, maxValue), minValue, maxValue)
+  )
 
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
 
@@ -116,7 +125,7 @@ export const ProgressBar = ({
     <View
       ref={containerRef}
       className={c(styles.container, layoutBasedClassName)}
-      role='progressbar'
+      role={role}
       aria-valuemin={minValue}
       aria-valuemax={maxValue}
       {...indeterminate ? {

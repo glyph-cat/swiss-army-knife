@@ -26,6 +26,7 @@ import {
 } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
+import { ProgressRing } from '../progress-ring'
 import {
   BASIC_UI_FLOW_COLUMN,
   BASIC_UI_FLOW_ROW,
@@ -36,7 +37,6 @@ import {
   KEY_TINT_40,
   KEY_TINT_HOVER,
 } from '../constants'
-import { Spinner } from '../spinner'
 import { styles } from './styles'
 
 const sizePresets: Record<BasicUISize, [boxSize: number, iconSize: number, spinnerSize: number]> = {
@@ -50,15 +50,15 @@ const INDETERMINATE = 'indeterminate'
 /**
  * @public
  */
-export type CheckedValue = boolean | 'indeterminate'
+export type CheckboxValue = boolean | 'indeterminate'
 
 /**
  * @public
  */
 export interface CheckboxProps {
   children?: ReactNode
-  checked?: CheckedValue
-  onChange?(newChecked: boolean, event: ChangeEvent<HTMLInputElement>): void
+  value?: CheckboxValue
+  onChange?(newValue: boolean, event: ChangeEvent<HTMLInputElement>): void
   /**
    * @defaultValue `false`
    */
@@ -95,7 +95,7 @@ export type Checkbox = Input
  */
 export const Checkbox = forwardRef(({
   children,
-  checked,
+  value,
   onChange,
   disabled: $disabled,
   busy,
@@ -115,11 +115,11 @@ export const Checkbox = forwardRef(({
   useImperativeHandle(forwardedRef, () => inputRef.current, [])
   useEffect(() => {
     const target = inputRef.current
-    const enforceIndeterminateState = () => { target.indeterminate = checked === INDETERMINATE }
+    const enforceIndeterminateState = () => { target.indeterminate = value === INDETERMINATE }
     enforceIndeterminateState()
     target.addEventListener('change', enforceIndeterminateState)
     return () => { target.removeEventListener('change', enforceIndeterminateState) }
-  }, [checked])
+  }, [value])
 
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
@@ -156,17 +156,17 @@ export const Checkbox = forwardRef(({
           ref={inputRef}
           className={styles.input}
           type='checkbox'
-          {...(isUndefinedOrNull(checked) ? {} : { checked: checked === true })}
+          {...(isUndefinedOrNull(value) ? {} : { checked: value === true })}
           onChange={useCallback((e) => { onChange?.(e.target.checked, e) }, [onChange])}
           disabled={disabled}
         />
         {busy
           ? <View className={styles.busy}>
-            <Spinner size={spinnerSize} thickness={3} color='#808080' />
+            <ProgressRing size={spinnerSize} thickness={3} color='#808080' />
           </View>
           : <View className={styles.checkmark}>
             <MaterialSymbol
-              name={checked === INDETERMINATE ? 'remove' : 'check'}
+              name={value === INDETERMINATE ? 'remove' : 'check'}
               // These props should not be affected by any provider:
               renderAs='span'
               size={iconSize}

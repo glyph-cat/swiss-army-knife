@@ -24,7 +24,7 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
 
   // #region Defaults
 
-  static DEFAULT_LIGHT_BASE_PALETTE: Readonly<IBaseThemePalette> = {
+  static readonly DEFAULT_LIGHT_BASE_PALETTE: Readonly<IBaseThemePalette> = {
     primaryColor: '#2b80ff',
     appBgColor: '#eeeeee',
     appTextColor: '#4b4b4b',
@@ -37,7 +37,7 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
     dangerColor: '#ff4a4a',
   }
 
-  static DEFAULT_DARK_BASE_PALETTE: Readonly<IBaseThemePalette> = {
+  static readonly DEFAULT_DARK_BASE_PALETTE: Readonly<IBaseThemePalette> = {
     primaryColor: '#2b80ff',
     appBgColor: '#111111',
     appTextColor: '#b5b5b5',

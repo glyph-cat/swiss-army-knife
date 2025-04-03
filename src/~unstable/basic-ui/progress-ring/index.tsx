@@ -1,4 +1,5 @@
 import {
+  c,
   Color,
   ColorFormat,
   getPercentage,
@@ -7,25 +8,25 @@ import {
   LenientString,
   px,
 } from '@glyph-cat/swiss-army-knife'
-import { useThemeContext } from '@glyph-cat/swiss-army-knife-react'
+import { useThemeContext, ViewProps } from '@glyph-cat/swiss-army-knife-react'
 import { __assignDisplayName } from 'packages/react/src/_internals'
-import { JSX, useEffect, useRef } from 'react'
+import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { View } from '~core-ui'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
 import { KEY_SIZE, KEY_TINT, KEY_TINT_40 } from '../constants'
-import { KEY_PROGRESS_BY_ANGLE, KEY_THICKNESS, styles } from './styles'
+import { KEY_ANGLE, KEY_THICKNESS, styles } from './styles'
 
-const sizePresets: Record<BasicUISize, number> = {
+const sizePresets: Readonly<Record<BasicUISize, number>> = {
   's': 32,
   'm': 48,
   'l': 64,
-} as const
+}
 
 /**
  * @public
  */
-export interface SpinnerProps {
+export interface ProgressRingProps extends ViewProps {
   /**
    * The current progress value.
    * This must be a value equal to or between `minValue` and `maxValue`.
@@ -54,28 +55,37 @@ export interface SpinnerProps {
    */
   thickness?: number
   /**
-   * Display the tip with a clean line instead of a rounded cap.
+   * @defaultValue `'progressbar'`
+   */
+  role?: 'progressbar' | 'meter'
+  /**
    * @defaultValue `false`
    */
-  precise?: boolean
+  allowOvershoot?: boolean
 }
 
 /**
  * @public
  */
-export interface Spinner extends HTMLProgressElement {
-  (props: SpinnerProps): JSX.Element
+export interface ProgressRing extends View {
+  (props: ProgressRingProps): JSX.Element
 }
 
-export function Spinner({
+/**
+ * @public
+ */
+export const ProgressRing = forwardRef(({
   value,
   minValue = 0,
   maxValue = 100,
   color: $color,
   size,
   thickness = 6,
-  precise = false,
-}: SpinnerProps): JSX.Element {
+  role = 'progressbar',
+  allowOvershoot = false,
+  className,
+  ...props
+}: ProgressRingProps, forwardedRef: ForwardedRef<View>): JSX.Element => {
 
   const { palette } = useThemeContext()
 
@@ -84,7 +94,11 @@ export function Spinner({
   })
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
   const indeterminate = !isNumber(value)
-  const progressByAngle = 360 * getPercentage(value, minValue, maxValue)
+  let clampedValue = Math.max(minValue, value)
+  if (!allowOvershoot) { clampedValue = Math.min(value, maxValue) }
+  const angle = indeterminate ? 0 : 360 * getPercentage(clampedValue, minValue, maxValue)
+  // const angle = indeterminate ? 0 : (360 * getPercentage(clampedValue, minValue, maxValue)) % 360
+  // KIV: Do we need % 360? (and assign background color to the ring when > 360)
 
   const containerRef = useRef<View>(null)
   useEffect(() => {
@@ -93,15 +107,17 @@ export function Spinner({
       [KEY_TINT_40]: `${tint}40`,
       [KEY_SIZE]: effectiveSize,
       [KEY_THICKNESS]: px(thickness),
-      ...(indeterminate ? {} : { [KEY_PROGRESS_BY_ANGLE]: `${progressByAngle}deg` })
+      ...(indeterminate ? {} : { [KEY_ANGLE]: `${angle}deg` })
     }, containerRef.current)
-  }, [effectiveSize, indeterminate, progressByAngle, thickness, tint])
+  }, [angle, effectiveSize, indeterminate, thickness, tint])
+
+  useImperativeHandle(forwardedRef, () => containerRef.current, [])
 
   return (
     <View
       ref={containerRef}
-      className={styles.container}
-      role='progressbar'
+      className={c(styles.container, className)}
+      role={role}
       aria-valuemin={minValue}
       aria-valuemax={maxValue}
       {...indeterminate ? {
@@ -109,17 +125,17 @@ export function Spinner({
       } : {
         'aria-valuenow': value,
       }}
+      {...props}
     >
-      {!precise && (
-        <>
-          <View className={styles.cap} />
-          <View className={styles.trailingCapContainer}>
-            <View className={styles.cap} />
-          </View>
-        </>
-      )}
+      <View className={styles.cap} />
+      <View className={styles.trailingCapContainer}>
+        <View className={c(
+          styles.cap,
+          allowOvershoot ? styles.capWithShadow : null,
+        )} />
+      </View>
     </View>
   )
-}
+})
 
-__assignDisplayName(Spinner)
+__assignDisplayName(ProgressRing)

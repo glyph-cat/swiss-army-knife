@@ -12,6 +12,7 @@ import animation from './index.module.css'
 export const styles = prefixBasicUIClassNames('spinner', {
   container: 'container',
   cap: 'cap',
+  capWithShadow: 'capWithShadow',
   trailingCapContainer: 'trailingCapContainer',
 })
 
@@ -28,16 +29,16 @@ const [
 ] = createTokens('maskSize')
 
 export const [
-  KEY_PROGRESS_BY_ANGLE,
-  __PROGRESS_BY_ANGLE,
-  TOKEN_PROGRESS_BY_ANGLE,
-] = createTokens('progressByAngle')
+  KEY_ANGLE,
+  __ANGLE,
+  TOKEN_ANGLE,
+] = createTokens('angle')
 
 clientOnly(() => {
   addStyles(new StyleMap([
     [`.${styles.container}`, {
       [__MASK_SIZE]: `calc((${TOKEN_SIZE} / 2) - ${TOKEN_THICKNESS})`,
-      backgroundImage: `conic-gradient(${TOKEN_TINT} ${TOKEN_PROGRESS_BY_ANGLE}, ${TOKEN_TINT_40} ${TOKEN_PROGRESS_BY_ANGLE})`,
+      backgroundImage: `conic-gradient(${TOKEN_TINT} ${TOKEN_ANGLE}, ${TOKEN_TINT_40} ${TOKEN_ANGLE})`,
       borderRadius: TOKEN_SIZE,
       height: TOKEN_SIZE,
       maskImage: `radial-gradient(circle, transparent ${TOKEN_MASK_SIZE}, black ${TOKEN_MASK_SIZE})`,
@@ -59,11 +60,16 @@ clientOnly(() => {
     }],
     [`.${styles.trailingCapContainer}`, {
       height: TOKEN_SIZE,
-      transform: `rotateZ(${TOKEN_PROGRESS_BY_ANGLE})`,
+      transform: `rotateZ(${TOKEN_ANGLE})`,
       width: TOKEN_SIZE,
     }],
     [`.${styles.container}[aria-busy="true"] > .${styles.trailingCapContainer}`, {
       display: 'none',
+    }],
+    [`.${styles.capWithShadow}`, {
+      // KIV
+      // boxShadow: '2px 0px 2px 0px #00000080',
+      boxShadow: `calc(${TOKEN_THICKNESS} / 7) 0px calc(${TOKEN_THICKNESS} / 7) 0px #00000080`,
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })

@@ -116,6 +116,7 @@ clientOnly(() => {
     [`.${styles.busy}`, {
       opacity: 0.5,
       placeSelf: 'center',
+      pointerEvents: 'none',
       position: 'absolute',
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)

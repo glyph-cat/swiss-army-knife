@@ -26,8 +26,10 @@ export interface MenuProps {
   children: ReactNode
 }
 
+// TODO: disable user select when click and drag
+// TODO: compact and non-compact
+// TODO: leading and trailing icons
 // TODO: scrolling when there are too many items
-
 // TODO: Add focus tracking for menu with input focus to prevent keyboard shortcuts from interfering
 
 export function Menu({ children }: MenuProps): JSX.Element {
