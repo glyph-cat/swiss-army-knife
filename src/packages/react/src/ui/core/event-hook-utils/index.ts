@@ -3,7 +3,7 @@ import { DependencyList, useEffect } from 'react'
 import { useIsApplePlatform } from '../../../platform-checking'
 import { useCoreUIContext } from '../context'
 import { useCheckInputFocus } from '../input-focus'
-import { useCoreNavigationFocusState } from '../navigation'
+import { useCoreNavigationFocusState } from '../navigation/hooks'
 
 const EVENT_KEYDOWN = 'keydown'
 const EVENT_KEYUP = 'keyup'

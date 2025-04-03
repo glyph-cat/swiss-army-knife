@@ -1,5 +1,5 @@
-import { ReactElementArray } from '@glyph-cat/swiss-army-knife-react'
 import { Children, JSX, ReactElement, ReactNode, useCallback, useState } from 'react'
+import { ReactElementArray } from '../../../../types'
 import { CoreNavigationId } from '../abstractions'
 import { CoreNavigationStackContext, CoreNavigationStackItemContext } from '../constants'
 

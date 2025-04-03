@@ -1,4 +1,3 @@
-import { ReactElementArray } from '@glyph-cat/swiss-army-knife-react'
 import {
   Children,
   ForwardedRef,
@@ -9,6 +8,7 @@ import {
   useImperativeHandle,
   useState,
 } from 'react'
+import { ReactElementArray } from '../../../../types'
 import { CoreNavigationId } from '../abstractions'
 import {
   CoreNavigationBranchContext,
