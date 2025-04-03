@@ -1,4 +1,4 @@
-import { __assignDisplayName } from '../../../_internals'
+import { __setDisplayName } from '../../../_internals'
 import { IS_DEBUG_ENV } from '../../../constants'
 import { isString } from '../../../data'
 import { createRef } from '../../../data/ref'
@@ -45,4 +45,4 @@ export function ignoreWhenCompilingStyles(
   }
 }
 
-__assignDisplayName(ignoreWhenCompilingStyles)
+__setDisplayName(ignoreWhenCompilingStyles)

@@ -1,4 +1,11 @@
 import { Children, JSX, ReactElement, ReactNode, useCallback, useState } from 'react'
+import {
+  __getDisplayName,
+  __getTypeMarker,
+  __setDisplayName,
+  __setTypeMarker,
+  TypeMarker,
+} from '../../../../_internals'
 import { ReactElementArray } from '../../../../types'
 import { CoreNavigationId } from '../abstractions'
 import { CoreNavigationStackContext, CoreNavigationStackItemContext } from '../constants'
@@ -39,6 +46,9 @@ export function CoreNavigationStack({
         currentIndex,
         arr,
       ) => {
+        if (__getTypeMarker(child.type) !== TypeMarker.CoreNavStackItem) {
+          throw new Error(`${__getDisplayName(CoreNavigationStack)} only allows children of type ${CoreNavigationStackItem.name}`)
+        }
         const isLastItem = currentIndex === (arr.length - 1)
         acc.push(
           <CoreNavigationStackItemContext.Provider
@@ -54,6 +64,8 @@ export function CoreNavigationStack({
     </CoreNavigationStackContext.Provider>
   )
 }
+
+__setDisplayName(CoreNavigationStack)
 
 /**
  * @public
@@ -71,3 +83,6 @@ export function CoreNavigationStackItem({
 }: CoreNavigationStackItemProps): JSX.Element {
   return <>{children}</>
 }
+
+__setDisplayName(CoreNavigationStackItem)
+__setTypeMarker(CoreNavigationStackItem, TypeMarker.CoreNavStackItem)

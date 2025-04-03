@@ -6,7 +6,7 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
-import { assignDisplayName } from '../../../../tools/custom-rollup-plugins'
+import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
 import { BuildType } from '../src/constants/public'
 
@@ -56,7 +56,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { mode, buildEnv } = config
 
   const pluginStack: Array<RollupPlugin> = [
-    assignDisplayName(mode !== 'production'),
+    setDisplayName(mode !== 'production'),
     nodeResolve({
       // KIV: using @rollup/plugin-node-resolve v14 or above will cause
       // '.native.(t|j)sx?' files to be ignored

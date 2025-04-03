@@ -4,7 +4,7 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
-import { assignDisplayName } from '../../../../tools/custom-rollup-plugins'
+import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
 import { version } from '../package.json'
 import { BuildType } from '../src/constants/public'
@@ -24,7 +24,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { buildEnv } = config
 
   const pluginStack: Array<RollupPlugin> = [
-    assignDisplayName(false),
+    setDisplayName(false),
     typescript({
       tsconfigOverride: {
         compilerOptions: {

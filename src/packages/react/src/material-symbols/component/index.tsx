@@ -1,6 +1,6 @@
 import { c, CSSProperties, isNumber } from '@glyph-cat/swiss-army-knife'
 import { createElement, JSX, useContext } from 'react'
-import { __assignDisplayName } from '../../_internals'
+import { __setDisplayName } from '../../_internals'
 import { MaterialSymbolOptions } from '../abstractions'
 import { MATERIAL_SYMBOL_BASE_CLASSNAME } from '../constants'
 import { MaterialSymbolName } from '../names'
@@ -75,7 +75,7 @@ export function MaterialSymbol({
   }, name)
 }
 
-__assignDisplayName(MaterialSymbol)
+__setDisplayName(MaterialSymbol)
 
 function createFontVariationSettings(
   fill: MaterialSymbolOptions['fill'],

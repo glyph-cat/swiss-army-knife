@@ -1,5 +1,5 @@
 import { JSX } from 'react'
-import { __assignDisplayName } from '../../_internals'
+import { __setDisplayName } from '../../_internals'
 
 /**
  * @public
@@ -17,4 +17,4 @@ export function DoNotRender(props: DoNotRenderProps): JSX.Element {
   return null // So that it is compatible with React <18
 }
 
-__assignDisplayName(DoNotRender)
+__setDisplayName(DoNotRender)

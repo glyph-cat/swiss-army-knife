@@ -19,9 +19,9 @@ import {
   View,
 } from '@glyph-cat/swiss-army-knife-react'
 import { Property } from 'csstype'
+import { __setTypeMarker, __getTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {
   Children,
-  ComponentType,
   createContext,
   JSX,
   ReactElement,
@@ -33,24 +33,6 @@ import {
   useRef,
   useState,
 } from 'react'
-
-// #region Type Marker
-
-const TypeMarker = '$$popoverType'
-
-export enum PopoverComponentType {
-  TRIGGER,
-  CONTENT,
-}
-
-export function registerAs(
-  component: ComponentType,
-  type: PopoverComponentType,
-): void {
-  component[TypeMarker] = type
-}
-
-// #endregion Type Marker
 
 // #region Popover
 
@@ -67,7 +49,10 @@ export function Popover({ children: $children }: PopoverProps): JSX.Element {
     triggerElement,
     ...children
   ] = Children.toArray($children) as Array<ReactElement>
-  if (triggerElement.type[TypeMarker] !== PopoverComponentType.TRIGGER) {
+  if (
+    __getTypeMarker(triggerElement.type) !== TypeMarker.PopoverTrigger &&
+    __getTypeMarker(triggerElement.type) !== TypeMarker.MenuTrigger // special case
+  ) {
     throw new Error('The first children of <Popover> must be a <PopoverTrigger>')
   }
   return (
@@ -121,7 +106,7 @@ export function PopoverTrigger({
   )
 }
 
-registerAs(PopoverTrigger, PopoverComponentType.TRIGGER)
+__setTypeMarker(PopoverTrigger, TypeMarker.PopoverTrigger)
 
 // #endregion Popover Trigger
 

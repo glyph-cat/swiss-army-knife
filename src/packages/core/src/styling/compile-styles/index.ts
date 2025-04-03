@@ -1,5 +1,6 @@
 import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
+import { __getDisplayName } from '../../_internals'
 import { IS_DEBUG_ENV } from '../../constants'
 import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
@@ -96,7 +97,7 @@ export function compileStyle(key: string, styles: ExtendedCSSProperties): string
         const selector = $selector.replace(/:.+$/, '')
         if (checkedSelectors.has(selector)) { continue }
         if (!tryValidateCSSSelector(selector)) {
-          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${ignoreWhenCompilingStyles['displayName']}(['${selector}'])`)
+          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${__getDisplayName(ignoreWhenCompilingStyles)}(['${selector}'])`)
         }
         checkedSelectors.add(selector)
       }

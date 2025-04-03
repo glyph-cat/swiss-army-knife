@@ -1,5 +1,6 @@
 import { c } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
+import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {
   Children,
   ForwardedRef,
@@ -11,16 +12,11 @@ import {
 } from 'react'
 import {
   Popover,
-  PopoverComponentType,
   PopoverContent,
   PopoverContentProps,
   PopoverTrigger,
-  registerAs,
 } from '../popover'
 import styles from './index.module.css'
-
-const MenuComponentType = '$$MenuComponentType'
-const MenuComponentTypeTrigger = 'Trigger'
 
 export interface MenuProps {
   children: ReactNode
@@ -34,7 +30,7 @@ export interface MenuProps {
 
 export function Menu({ children }: MenuProps): JSX.Element {
   const [triggerElement] = Children.toArray(children) as Array<ReactElement>
-  if (triggerElement.type[MenuComponentType] !== MenuComponentTypeTrigger) {
+  if (__getTypeMarker(triggerElement.type) !== TypeMarker.MenuTrigger) {
     throw new Error('The first children of <Menu> must be a <MenuTrigger>')
   }
   return <Popover>{children}</Popover>
@@ -50,8 +46,7 @@ export function MenuTrigger({
   return <PopoverTrigger>{children}</PopoverTrigger>
 }
 
-MenuTrigger[MenuComponentType] = MenuComponentTypeTrigger
-registerAs(MenuTrigger, PopoverComponentType.TRIGGER)
+__setTypeMarker(MenuTrigger, TypeMarker.MenuTrigger)
 
 // #region MenuPopover
 

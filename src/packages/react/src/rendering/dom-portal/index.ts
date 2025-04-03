@@ -1,6 +1,6 @@
 import { JSX, Key, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { __assignDisplayName } from '../../_internals'
+import { __setDisplayName } from '../../_internals'
 
 /**
  * @public
@@ -34,4 +34,4 @@ export function DOMPortal({
   return createPortal(children, container ?? document.body, portalKey)
 }
 
-__assignDisplayName(DOMPortal)
+__setDisplayName(DOMPortal)

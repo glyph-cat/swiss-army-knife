@@ -20,7 +20,7 @@ import {
   useMemo,
   useRef
 } from 'react'
-import { __assignDisplayName } from '../../../_internals'
+import { __setDisplayName } from '../../../_internals'
 import { GenericHTMLProps } from '../../../abstractions/public'
 import { useClassName } from '../../../hooks/class-name'
 import { ThemeProviderProps } from '../abstractions'
@@ -180,4 +180,4 @@ export function ThemeProvider({
 
 }
 
-__assignDisplayName(ThemeProvider)
+__setDisplayName(ThemeProvider)

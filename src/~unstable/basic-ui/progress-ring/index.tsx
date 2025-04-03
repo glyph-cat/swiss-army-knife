@@ -9,7 +9,7 @@ import {
   px,
 } from '@glyph-cat/swiss-army-knife'
 import { useThemeContext, View, ViewProps } from '@glyph-cat/swiss-army-knife-react'
-import { __assignDisplayName } from 'packages/react/src/_internals'
+import { __setDisplayName } from 'packages/react/src/_internals'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
@@ -137,4 +137,4 @@ export const ProgressRing = forwardRef(({
   )
 })
 
-__assignDisplayName(ProgressRing)
+__setDisplayName(ProgressRing)

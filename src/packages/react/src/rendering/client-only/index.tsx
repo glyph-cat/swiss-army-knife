@@ -1,5 +1,5 @@
 import { JSX, ReactNode, useEffect, useState } from 'react'
-import { __assignDisplayName } from '../../_internals'
+import { __setDisplayName } from '../../_internals'
 
 /**
  * @public
@@ -28,4 +28,4 @@ export function ClientOnly(
   return (selfIsMounted ? children : null) as JSX.Element
 }
 
-__assignDisplayName(ClientOnly)
+__setDisplayName(ClientOnly)

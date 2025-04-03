@@ -9,7 +9,7 @@ import {
   serializePixelValue,
 } from '@glyph-cat/swiss-army-knife'
 import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
-import { __assignDisplayName } from 'packages/react/src/_internals'
+import { __setDisplayName } from 'packages/react/src/_internals'
 import { JSX, useEffect, useRef } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
@@ -142,4 +142,4 @@ export const ProgressBar = ({
   )
 }
 
-__assignDisplayName(ProgressBar)
+__setDisplayName(ProgressBar)

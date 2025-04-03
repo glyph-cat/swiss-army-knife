@@ -8,6 +8,13 @@ import {
   useImperativeHandle,
   useState,
 } from 'react'
+import {
+  __getDisplayName,
+  __getTypeMarker,
+  __setDisplayName,
+  __setTypeMarker,
+  TypeMarker,
+} from '../../../../_internals'
 import { ReactElementArray } from '../../../../types'
 import { CoreNavigationId } from '../abstractions'
 import {
@@ -42,6 +49,9 @@ export const CoreNavigationBranch = forwardRef(({
   return (
     <CoreNavigationBranchContext.Provider value={{ setFocus: setFocusedItemId }}>
       {children.reduce((acc, child) => {
+        if (__getTypeMarker(child.type) !== TypeMarker.CoreNavBranchItem) {
+          throw new Error(`${__getDisplayName(CoreNavigationBranch)} only allows children of type ${CoreNavigationBranchItem.name}`)
+        }
         acc.push(
           <CoreNavigationBranchItemContext
             key={child.key}
@@ -55,6 +65,9 @@ export const CoreNavigationBranch = forwardRef(({
     </CoreNavigationBranchContext.Provider>
   )
 })
+
+
+__setDisplayName(CoreNavigationBranch)
 
 /**
  * @public
@@ -72,3 +85,6 @@ export function CoreNavigationBranchItem({
 }: CoreNavigationBranchItemProps): JSX.Element {
   return <>{children}</>
 }
+
+__setDisplayName(CoreNavigationBranchItem)
+__setTypeMarker(CoreNavigationBranchItem, TypeMarker.CoreNavBranchItem)
