@@ -5,6 +5,6 @@ export function View(): JSX.Element {
   throw new UnsupportedPlatformError()
 }
 
-export function FocusableView(): JSX.Element {
-  throw new UnsupportedPlatformError()
-}
+// export function FocusableView(): JSX.Element {
+//   throw new UnsupportedPlatformError()
+// }

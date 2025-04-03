@@ -6,8 +6,6 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
-import { FocusLayer } from '../../layered-focus'
-import { FocusObserver } from '../../layered-focus/internals/observer'
 import { VIEW_STYLES } from '../_internals'
 
 /**
@@ -58,45 +56,45 @@ export interface FocusableViewProps extends ViewProps {
   ignoreSiblings?: boolean
 }
 
-/**
- * @public
- */
-export interface IFocusableView extends View { (props: FocusableViewProps): JSX.Element }
+// /**
+//  * @public
+//  */
+// export interface IFocusableView extends View { (props: FocusableViewProps): JSX.Element }
 
-/**
- * A drop-in replacement for the `<div>` element.
- * This is similar to {@link View} except it can track focus using the {@link LayeredFocusManager}.
- *
- * Notes:
- * - Input components track focus using {@link InputFocusTracker} instead.
- * - {@link LayeredFocusManager} and {@link InputFocusTracker} do not interfere with each other.
- *
- * @public
- */
-export const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
-  children,
-  className,
-  allowRefocus = true,
-  ignoreSiblings,
-  effective = true,
-  ...otherProps
-}, ref): JSX.Element => {
-  // TODO: Should intercept props `onFocus` and `onBlur`; `addEventListener` for focus and blur; imperative ref `.focus` and `.blur` ... first of all, find of if it is possible for divs to be focused (semantically speaking / based on the web standard)
-  const divRef = useRef<HTMLDivElement>(null)
-  useImperativeHandle(ref, () => divRef.current)
-  return (
-    <FocusLayer ignoreSiblings={ignoreSiblings} effective={effective}>
-      <div // eslint-disable-line react/forbid-elements
-        ref={divRef}
-        className={c(VIEW_STYLES, className)}
-        {...otherProps}
-      >
-        {children}
-      </div>
-      <FocusObserver
-        elementRef={divRef}
-        allowRefocus={allowRefocus}
-      />
-    </FocusLayer>
-  )
-})
+// /**
+//  * A drop-in replacement for the `<div>` element.
+//  * This is similar to {@link View} except it can track focus using the {@link LayeredFocusManager}.
+//  *
+//  * Notes:
+//  * - Input components track focus using {@link InputFocusTracker} instead.
+//  * - {@link LayeredFocusManager} and {@link InputFocusTracker} do not interfere with each other.
+//  *
+//  * @public
+//  */
+// export const FocusableView = forwardRef<HTMLDivElement, FocusableViewProps>(({
+//   children,
+//   className,
+//   allowRefocus = true,
+//   ignoreSiblings,
+//   effective = true,
+//   ...otherProps
+// }, ref): JSX.Element => {
+//   // TODO: Should intercept props `onFocus` and `onBlur`; `addEventListener` for focus and blur; imperative ref `.focus` and `.blur` ... first of all, find of if it is possible for divs to be focused (semantically speaking / based on the web standard)
+//   const divRef = useRef<HTMLDivElement>(null)
+//   useImperativeHandle(ref, () => divRef.current)
+//   return (
+//     <FocusLayer ignoreSiblings={ignoreSiblings} effective={effective}>
+//       <div // eslint-disable-line react/forbid-elements
+//         ref={divRef}
+//         className={c(VIEW_STYLES, className)}
+//         {...otherProps}
+//       >
+//         {children}
+//       </div>
+//       <FocusObserver
+//         elementRef={divRef}
+//         allowRefocus={allowRefocus}
+//       />
+//     </FocusLayer>
+//   )
+// })

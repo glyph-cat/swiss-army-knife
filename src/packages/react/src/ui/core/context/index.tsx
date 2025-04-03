@@ -1,7 +1,6 @@
 import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
 import { createContext, JSX, ReactNode, useContext, useMemo } from 'react'
 import type { InputFocusTracker } from '../input-focus'
-import type { LayeredFocusManager } from '../layered-focus'
 import type { PortalManager } from '../portal-factory'
 
 /**
@@ -10,7 +9,6 @@ import type { PortalManager } from '../portal-factory'
 export interface ICoreUIContext {
   inputFocusTracker: InputFocusTracker
   keyChordManager: KeyChordManager
-  layeredFocusManager: LayeredFocusManager
   portalManager: PortalManager
 }
 
@@ -34,7 +32,6 @@ export function CoreUIProvider({
   children,
   inputFocusTracker,
   keyChordManager,
-  layeredFocusManager,
   portalManager,
 }: CoreUIProviderProps): JSX.Element {
   const parentContext = useContext(CoreUIContext)
@@ -42,9 +39,8 @@ export function CoreUIProvider({
     ...parentContext,
     inputFocusTracker,
     keyChordManager,
-    layeredFocusManager,
     portalManager,
-  }), [inputFocusTracker, keyChordManager, layeredFocusManager, parentContext, portalManager])
+  }), [inputFocusTracker, keyChordManager, parentContext, portalManager])
   return (
     <CoreUIContext.Provider value={contextValue}>
       {children}

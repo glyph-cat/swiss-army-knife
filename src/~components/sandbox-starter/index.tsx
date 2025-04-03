@@ -1,6 +1,6 @@
+import { View } from '@glyph-cat/swiss-army-knife-react'
 import { useRouter } from 'next/router'
 import { JSX, useCallback } from 'react'
-import { View } from '~core-ui'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import styles from './index.module.css'
 

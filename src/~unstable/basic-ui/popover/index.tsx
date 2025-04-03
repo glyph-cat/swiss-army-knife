@@ -13,8 +13,8 @@ import {
   GenericHTMLProps,
   Portal,
   useClickAwayListener,
+  useCoreNavigationFocusState,
   useKeyDownListener,
-  useLayeredFocusState,
   usePointerLeaveListener,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
@@ -135,7 +135,7 @@ function PopoverContentController({
   children,
 }: PopoverContentControllerProps): JSX.Element {
   const [triggerElement] = useContext(TriggerElementContext)
-  const [isFocused] = useLayeredFocusState()
+  const isFocused = useCoreNavigationFocusState()
   return (!isNull(triggerElement) && isFocused) && <>{children}</>
 }
 

@@ -6,6 +6,8 @@ import {
   MaterialSymbolsProvider,
   PortalCanvas,
   useIsApplePlatform,
+  useKeyChordActivationListener,
+  useKeyDownListener,
 } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
 import type { AppProps } from 'next/app'
@@ -15,13 +17,9 @@ import { AppSideBarWrapper } from '~components/app-sidebar-wrapper'
 import { SandboxErrorBoundary } from '~components/sandbox-error-boundary'
 import { ENV, FixedKeyChordKey } from '~constants'
 import {
-  FocusRoot,
   GlobalInputFocusTracker,
   GlobalKeyChordManager,
-  GlobalLayeredFocusManager,
   GlobalPortalManager,
-  useKeyChordActivationListener,
-  useKeyDownListener,
 } from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
 import { CustomThemeProvider } from '~services/theme'
@@ -53,22 +51,19 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
           <CoreUIProvider
             inputFocusTracker={GlobalInputFocusTracker}
             keyChordManager={GlobalKeyChordManager}
-            layeredFocusManager={GlobalLayeredFocusManager}
             portalManager={GlobalPortalManager}
           >
-            <FocusRoot>
-              <AppSideBarWrapper>
-                <ClientOnly>
-                  <SandboxErrorBoundary>
-                    <Component {...pageProps} />
-                  </SandboxErrorBoundary>
-                </ClientOnly>
-              </AppSideBarWrapper>
-              <CheckApplePlatformProvider>
-                <KeyListeners />
-              </CheckApplePlatformProvider>
-              <PortalCanvas />
-            </FocusRoot>
+            <AppSideBarWrapper>
+              <ClientOnly>
+                <SandboxErrorBoundary>
+                  <Component {...pageProps} />
+                </SandboxErrorBoundary>
+              </ClientOnly>
+            </AppSideBarWrapper>
+            <CheckApplePlatformProvider>
+              <KeyListeners />
+            </CheckApplePlatformProvider>
+            <PortalCanvas />
           </CoreUIProvider>
         </CustomThemeProvider>
       </MaterialSymbolsProvider>
@@ -92,6 +87,6 @@ function KeyListeners(): JSX.Element {
     } else if (e.key === FixedKeyChordKey.SOFT_RELOAD) {
       CustomDebugger.softReload()
     }
-  }, [], true, true)
+  }, [], true)
   return null
 }

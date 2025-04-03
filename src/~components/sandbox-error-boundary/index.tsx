@@ -1,5 +1,5 @@
+import { View } from '@glyph-cat/swiss-army-knife-react'
 import { Component, ErrorInfo, ReactNode } from 'react'
-import { View } from '~core-ui'
 import styles from './index.module.css'
 
 export interface SandboxErrorBoundaryProps {

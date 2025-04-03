@@ -1,11 +1,16 @@
 import { c, Casing, isString } from '@glyph-cat/swiss-army-knife'
-import { ClientOnly, MaterialSymbol, useActionState } from '@glyph-cat/swiss-army-knife-react'
+import {
+  ButtonBase as Button,
+  ClientOnly,
+  MaterialSymbol,
+  useActionState,
+  View,
+} from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { JSX, MouseEvent, ReactNode, useCallback, useEffect } from 'react'
 import { AppRoute } from '~constants'
-import { Button, FocusLayer, View } from '~core-ui'
 import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
@@ -52,7 +57,7 @@ export function AppSideBarWrapper({
       } : {}}
     >
       {shouldShowPerformanceDebugger && (
-        <FocusLayer ignoreSiblings>
+        <>
           <View className={styles.sidebarContainerBase} />
           <View className={c(styles.sidebarContainerBase, styles.sidebarContainer)}>
             <View className={styles.buttonsContainer}>
@@ -87,13 +92,11 @@ export function AppSideBarWrapper({
             </View>
             <SidebarContents />
           </View>
-        </FocusLayer>
+        </>
       )}
-      <FocusLayer>
-        <View className={styles.contentContainer}>
-          {children}
-        </View>
-      </FocusLayer>
+      <View className={styles.contentContainer}>
+        {children}
+      </View>
     </View>
   )
 }

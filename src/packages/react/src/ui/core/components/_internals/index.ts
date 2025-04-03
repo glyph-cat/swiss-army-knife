@@ -1,10 +1,10 @@
 import { addStyles, Nullable, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
 import { clientOnly } from '../../../../../../core/src/client-only'
 import { useDerivedDisabledState } from '../../disabled-context'
-import { useLayeredFocusState } from '../../layered-focus'
+import { useCoreNavigationFocusState } from '../../navigation/hooks'
 
 export function useInternalDerivedDisabledState(disabled: boolean): Nullable<boolean> {
-  const [isFocused] = useLayeredFocusState()
+  const isFocused = useCoreNavigationFocusState()
   // Focusability takes precedence, if not focused, then element should be disabled,
   // even if the props specifies `disabled=false`.
   // Semantically speaking, we can only enforce `disabled=false` to ignore

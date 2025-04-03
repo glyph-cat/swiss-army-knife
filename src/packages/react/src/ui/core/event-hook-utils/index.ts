@@ -3,7 +3,7 @@ import { DependencyList, useEffect } from 'react'
 import { useIsApplePlatform } from '../../../platform-checking'
 import { useCoreUIContext } from '../context'
 import { useCheckInputFocus } from '../input-focus'
-import { useLayeredFocusState } from '../layered-focus'
+import { useCoreNavigationFocusState } from '../navigation'
 
 const EVENT_KEYDOWN = 'keydown'
 const EVENT_KEYUP = 'keyup'
@@ -15,15 +15,14 @@ export function useKeyChordActivationListener(
   callback: (e: KeyboardEvent) => void,
   dependencies: DependencyList,
   enabled = true,
-  ignoreLayerFocus = false,
 ): void {
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
   const isAppleOS = useIsApplePlatform()
-  const [isFocused] = useLayeredFocusState()
+  const isFocused = useCoreNavigationFocusState()
   useEffect(() => {
     if (!enabled || isAnyInputFocused) { return } // Early exit
-    if (!isFocused && !ignoreLayerFocus) { return } // Early exit
+    if (!isFocused) { return } // Early exit
     let chordTimestamp: number
     let releaseKeyChord: ReturnType<typeof keyChordManager.occupyKeyChord> = null
     const onKeyDown = (e: KeyboardEvent) => {
@@ -45,7 +44,7 @@ export function useKeyChordActivationListener(
       window.removeEventListener(EVENT_KEYDOWN, onKeyDown)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled, ignoreLayerFocus, isAnyInputFocused, isAppleOS, isFocused, keyChordManager, ...dependencies])
+  }, [enabled, isAnyInputFocused, isAppleOS, isFocused, keyChordManager, ...dependencies])
 }
 
 /**
@@ -60,7 +59,7 @@ export function useKeyDownListener(
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
-  const [isFocused] = useLayeredFocusState()
+  const isFocused = useCoreNavigationFocusState()
   useEffect(() => {
     if (!enabled || isAnyInputFocused || isOccupiedByKeyChord) { return } // Early exit
     if (!isFocused && !ignoreLayerFocus) { return } // Early exit
@@ -82,7 +81,7 @@ export function useKeyUpListener(
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
-  const [isFocused] = useLayeredFocusState()
+  const isFocused = useCoreNavigationFocusState()
   useEffect(() => {
     if (!enabled || isAnyInputFocused || isOccupiedByKeyChord) { return } // Early exit
     if (!isFocused && !ignoreLayerFocus) { return } // Early exit

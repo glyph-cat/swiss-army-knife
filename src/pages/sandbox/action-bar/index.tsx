@@ -1,20 +1,16 @@
 import { c, Empty } from '@glyph-cat/swiss-army-knife'
 import {
+  ButtonBase as Button,
   DisabledContext,
   DoNotRender,
   MaterialSymbol,
   MaterialSymbolName,
+  View,
 } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, MouseEvent, ReactNode, useCallback, useContext, useState } from 'react'
 import { Code } from '~components/sandbox-extensions'
 import { SandboxStyle } from '~constants'
-import {
-  Button,
-  FocusLayer,
-  GlobalLayeredFocusManager,
-  View,
-} from '~core-ui'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
@@ -26,7 +22,7 @@ export default function (): JSX.Element {
   return (
     <View className={c(SandboxStyle.NORMAL, styles.container)}>
 
-      <DoNotRender>
+      {/* <DoNotRender>
         <pre>
           <code>
             {JSON.stringify(useSimpleStateValue(
@@ -34,7 +30,7 @@ export default function (): JSX.Element {
             ), null, 2)}
           </code>
         </pre>
-      </DoNotRender>
+      </DoNotRender> */}
       <View style={{ border: 'solid 1px #80808080' }}>
         <ActionBar>
           <ActionBarButton
@@ -77,8 +73,8 @@ export default function (): JSX.Element {
             The {'"Custom 2"'} button, however, has a <Code>{'disabled={false}'}</Code> prop so it will remain enabled even when wrapped in <Code>{'<DisabledContext disabled={true}>'}</Code>. Nonetheless, if the layer loses focus, it will still be disabled.
           </li>
         </ol>
-        <ContextVisualizer />
-        {showCreatePopup && <FocusLayer>
+        {/* <ContextVisualizer /> */}
+        {/* {showCreatePopup && <FocusLayer>
           <View style={{
             border: 'solid 1px #80808080',
             margin: 20,
@@ -90,7 +86,7 @@ export default function (): JSX.Element {
             </Button>
             <ContextVisualizer />
           </View>
-        </FocusLayer>}
+        </FocusLayer>} */}
       </View>
     </View>
   )
@@ -141,24 +137,24 @@ export function ActionBarButton({
 
 // #endregion Action Bar
 
-function ContextVisualizer(): JSX.Element {
-  const context = useContext(
-    GlobalLayeredFocusManager.M$context
-  )
-  return (
-    <DoNotRender>
-      <View>
-        <pre>
-          <code>
-            {JSON.stringify(context, null, 2)}
-            {/* <br />
-          {'-'.repeat(30)}
-          {JSON.stringify({
-            'isNull(context.focusedChild)': isNull(context.focusedChild),
-          }, null, 2)} */}
-          </code>
-        </pre>
-      </View>
-    </DoNotRender>
-  )
-}
+// function ContextVisualizer(): JSX.Element {
+//   const context = useContext(
+//     GlobalLayeredFocusManager.M$context
+//   )
+//   return (
+//     <DoNotRender>
+//       <View>
+//         <pre>
+//           <code>
+//             {JSON.stringify(context, null, 2)}
+//             {/* <br />
+//           {'-'.repeat(30)}
+//           {JSON.stringify({
+//             'isNull(context.focusedChild)': isNull(context.focusedChild),
+//           }, null, 2)} */}
+//           </code>
+//         </pre>
+//       </View>
+//     </DoNotRender>
+//   )
+// }
