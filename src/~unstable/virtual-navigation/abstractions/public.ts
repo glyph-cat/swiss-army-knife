@@ -3,26 +3,26 @@ import { CleanupFunction } from '@glyph-cat/swiss-army-knife'
 /**
  * @public
  */
-export type VirtualNavigationId = string
+export type CoreNavigationId = string
 
 /**
  * @public
  */
-export interface IVirtualNavigationBranchContext {
-  setFocus(id: VirtualNavigationId): void
+export interface ICoreNavigationBranchContext {
+  setFocus(id: CoreNavigationId): void
 }
 
 /**
  * @public
  */
-export interface IVirtualNavigationStackContext {
+export interface ICoreNavigationStackContext {
   insert(): CleanupFunction
 }
 
 /**
  * @public
  */
-export interface IVirtualNavigation {
-  branch?: IVirtualNavigationBranchContext
-  stack?: IVirtualNavigationStackContext
+export interface ICoreNavigation {
+  branch?: ICoreNavigationBranchContext
+  stack?: ICoreNavigationStackContext
 }

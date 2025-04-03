@@ -1,24 +1,24 @@
 import { ReactElementArray } from '@glyph-cat/swiss-army-knife-react'
 import { Children, JSX, ReactElement, ReactNode, useCallback, useState } from 'react'
-import { VirtualNavigationId } from '../abstractions'
-import { VirtualNavigationStackContext, VirtualNavigationStackItemContext } from '../constants'
+import { CoreNavigationId } from '../abstractions'
+import { CoreNavigationStackContext, CoreNavigationStackItemContext } from '../constants'
 
 /**
  * @public
  */
-export interface VirtualNavigationStackProps {
-  children?: ReactElementArray<VirtualNavigationStackItemProps>
+export interface CoreNavigationStackProps {
+  children?: ReactElementArray<CoreNavigationStackItemProps>
 }
 
 /**
  * @public
  */
-export function VirtualNavigationStack({
+export function CoreNavigationStack({
   children: children,
-}: VirtualNavigationStackProps): JSX.Element {
+}: CoreNavigationStackProps): JSX.Element {
 
   const [dynamicItems, setDynamicItems] = useState([])
-  const remove = useCallback((id: VirtualNavigationId) => {
+  const remove = useCallback((id: CoreNavigationId) => {
     setDynamicItems(s => {
       const nextDynamicItems = [...s]
       nextDynamicItems.splice(nextDynamicItems.indexOf(id))
@@ -26,14 +26,14 @@ export function VirtualNavigationStack({
     })
   }, [])
   const insert = useCallback(() => {
-    const newId: VirtualNavigationId = null
+    const newId: CoreNavigationId = null
     setDynamicItems(s => [...s, null])
     return () => { remove(newId) }
   }, [remove])
 
   return (
-    <VirtualNavigationStackContext.Provider value={{ insert }}>
-      {(Children.toArray(children) as Array<ReactElement<VirtualNavigationStackItemProps>>).reduce((
+    <CoreNavigationStackContext.Provider value={{ insert }}>
+      {(Children.toArray(children) as Array<ReactElement<CoreNavigationStackItemProps>>).reduce((
         acc,
         child,
         currentIndex,
@@ -41,24 +41,24 @@ export function VirtualNavigationStack({
       ) => {
         const isLastItem = currentIndex === (arr.length - 1)
         acc.push(
-          <VirtualNavigationStackItemContext.Provider
+          <CoreNavigationStackItemContext.Provider
             key={child.key}
             value={{ isFocused: isLastItem }}
           >
             {child}
-          </VirtualNavigationStackItemContext.Provider>
+          </CoreNavigationStackItemContext.Provider>
         )
         return acc
       }, [])}
       {dynamicItems}
-    </VirtualNavigationStackContext.Provider>
+    </CoreNavigationStackContext.Provider>
   )
 }
 
 /**
  * @public
  */
-export interface VirtualNavigationStackItemProps {
+export interface CoreNavigationStackItemProps {
   children?: ReactNode
   key: string
 }
@@ -66,8 +66,8 @@ export interface VirtualNavigationStackItemProps {
 /**
  * @public
  */
-export function VirtualNavigationStackItem({
+export function CoreNavigationStackItem({
   children,
-}: VirtualNavigationStackItemProps): JSX.Element {
+}: CoreNavigationStackItemProps): JSX.Element {
   return <>{children}</>
 }

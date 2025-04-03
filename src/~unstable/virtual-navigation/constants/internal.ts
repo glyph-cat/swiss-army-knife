@@ -1,12 +1,12 @@
 import { createContext } from 'react'
 import {
-  IVirtualNavigationBranchContext,
-  IVirtualNavigationBranchItemContext,
-  IVirtualNavigationStackContext,
-  IVirtualNavigationStackItemContext,
+  ICoreNavigationBranchContext,
+  ICoreNavigationBranchItemContext,
+  ICoreNavigationStackContext,
+  ICoreNavigationStackItemContext,
 } from '../abstractions'
 
-export const VirtualNavigationBranchContext = createContext<IVirtualNavigationBranchContext>(null)
-export const VirtualNavigationBranchItemContext = createContext<IVirtualNavigationBranchItemContext>(null)
-export const VirtualNavigationStackContext = createContext<IVirtualNavigationStackContext>(null)
-export const VirtualNavigationStackItemContext = createContext<IVirtualNavigationStackItemContext>(null)
+export const CoreNavigationBranchContext = createContext<ICoreNavigationBranchContext>(null)
+export const CoreNavigationBranchItemContext = createContext<ICoreNavigationBranchItemContext>(null)
+export const CoreNavigationStackContext = createContext<ICoreNavigationStackContext>(null)
+export const CoreNavigationStackItemContext = createContext<ICoreNavigationStackItemContext>(null)

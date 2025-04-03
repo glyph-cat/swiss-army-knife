@@ -1,11 +1,11 @@
 import { isNull } from '@glyph-cat/swiss-army-knife'
 import { useContext } from 'react'
-import { IVirtualNavigation } from '../abstractions'
+import { ICoreNavigation } from '../abstractions'
 import {
-  VirtualNavigationBranchContext,
-  VirtualNavigationBranchItemContext,
-  VirtualNavigationStackContext,
-  VirtualNavigationStackItemContext,
+  CoreNavigationBranchContext,
+  CoreNavigationBranchItemContext,
+  CoreNavigationStackContext,
+  CoreNavigationStackItemContext,
 } from '../constants'
 
 // TODO: This should eventually replace the LayeredFocus API
@@ -13,9 +13,9 @@ import {
 /**
  * @public
  */
-export function useVirtualNavigation(): IVirtualNavigation {
-  const branch = useContext(VirtualNavigationBranchContext)
-  const stack = useContext(VirtualNavigationStackContext)
+export function useCoreNavigation(): ICoreNavigation {
+  const branch = useContext(CoreNavigationBranchContext)
+  const stack = useContext(CoreNavigationStackContext)
   return { branch, stack }
 }
 
@@ -23,9 +23,9 @@ export function useVirtualNavigation(): IVirtualNavigation {
  * @returns `true` if the current component has navigation focus.
  * @public
  */
-export function useVirtualNavigationFocusState(): boolean {
-  const branchItemContext = useContext(VirtualNavigationBranchItemContext)
-  const stackItemContext = useContext(VirtualNavigationStackItemContext)
+export function useCoreNavigationFocusState(): boolean {
+  const branchItemContext = useContext(CoreNavigationBranchItemContext)
+  const stackItemContext = useContext(CoreNavigationStackItemContext)
   if (isNull(stackItemContext)) {
     if (isNull(branchItemContext)) {
       // Do not restrict focus if is in neither context.

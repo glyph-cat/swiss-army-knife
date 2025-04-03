@@ -1,7 +1,7 @@
-export interface IVirtualNavigationBranchItemContext {
+export interface ICoreNavigationBranchItemContext {
   isFocused: boolean
 }
 
-export interface IVirtualNavigationStackItemContext {
+export interface ICoreNavigationStackItemContext {
   isFocused: boolean
 }

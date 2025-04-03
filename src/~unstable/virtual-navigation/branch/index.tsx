@@ -9,57 +9,57 @@ import {
   useImperativeHandle,
   useState,
 } from 'react'
-import { VirtualNavigationId } from '../abstractions'
+import { CoreNavigationId } from '../abstractions'
 import {
-  VirtualNavigationBranchContext,
-  VirtualNavigationBranchItemContext,
+  CoreNavigationBranchContext,
+  CoreNavigationBranchItemContext,
 } from '../constants'
 
 /**
  * @public
  */
-export interface VirtualNavigationBranchProps {
-  children?: ReactElementArray<VirtualNavigationBranchItemProps>
-  initialFocusedItem?: VirtualNavigationId
+export interface CoreNavigationBranchProps {
+  children?: ReactElementArray<CoreNavigationBranchItemProps>
+  initialFocusedItem?: CoreNavigationId
 }
 
 /**
  * @public
  */
-export interface VirtualNavigationBranch {
-  setFocus(id: VirtualNavigationId): void
+export interface CoreNavigationBranch {
+  setFocus(id: CoreNavigationId): void
 }
 
 /**
  * @public
  */
-export const VirtualNavigationBranch = forwardRef(({
+export const CoreNavigationBranch = forwardRef(({
   children: $children,
-}: VirtualNavigationBranchProps, forwardedRef: ForwardedRef<VirtualNavigationBranch>): JSX.Element => {
-  const children = Children.toArray($children) as Array<ReactElement<VirtualNavigationBranchItemProps>>
-  const [focusedItemId, setFocusedItemId] = useState<VirtualNavigationId>(children?.[0]?.key ?? null)
+}: CoreNavigationBranchProps, forwardedRef: ForwardedRef<CoreNavigationBranch>): JSX.Element => {
+  const children = Children.toArray($children) as Array<ReactElement<CoreNavigationBranchItemProps>>
+  const [focusedItemId, setFocusedItemId] = useState<CoreNavigationId>(children?.[0]?.key ?? null)
   useImperativeHandle(forwardedRef, () => ({ setFocus: setFocusedItemId }), [])
   return (
-    <VirtualNavigationBranchContext.Provider value={{ setFocus: setFocusedItemId }}>
+    <CoreNavigationBranchContext.Provider value={{ setFocus: setFocusedItemId }}>
       {children.reduce((acc, child) => {
         acc.push(
-          <VirtualNavigationBranchItemContext
+          <CoreNavigationBranchItemContext
             key={child.key}
             value={{ isFocused: focusedItemId === child.key }}
           >
             {child}
-          </VirtualNavigationBranchItemContext>
+          </CoreNavigationBranchItemContext>
         )
         return acc
       }, [])}
-    </VirtualNavigationBranchContext.Provider>
+    </CoreNavigationBranchContext.Provider>
   )
 })
 
 /**
  * @public
  */
-export interface VirtualNavigationBranchItemProps {
+export interface CoreNavigationBranchItemProps {
   children?: ReactNode
   key: string
 }
@@ -67,8 +67,8 @@ export interface VirtualNavigationBranchItemProps {
 /**
  * @public
  */
-export function VirtualNavigationBranchItem({
+export function CoreNavigationBranchItem({
   children,
-}: VirtualNavigationBranchItemProps): JSX.Element {
+}: CoreNavigationBranchItemProps): JSX.Element {
   return <>{children}</>
 }
