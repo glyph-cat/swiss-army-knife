@@ -24,7 +24,7 @@ export default function (): JSX.Element {
       <View style={{ border: 'solid 1px #80808080' }}>
         <CoreNavigationStack>
 
-          <CoreNavigationStackItem key='main'>
+          <CoreNavigationStackItem id='main'>
             <ActionBar>
               <ActionBarButton
                 icon='add'
@@ -66,19 +66,19 @@ export default function (): JSX.Element {
                 The {'"Custom 2"'} button, however, has a <Code>{'disabled={false}'}</Code> prop so it will remain enabled even when wrapped in <Code>{'<DisabledContext disabled={true}>'}</Code>. Nonetheless, if the layer loses focus, it will still be disabled.
               </li>
             </ol>
+            {showCreatePopup && <CoreNavigationStackItem id='popup'>
+              <View style={{
+                border: 'solid 1px #80808080',
+                margin: 20,
+                padding: 20,
+              }}>
+                MockPopup
+                <Button onClick={hideCreatePopup}>
+                  {'Dismiss popup'}
+                </Button>
+              </View>
+            </CoreNavigationStackItem>}
           </CoreNavigationStackItem>
-          {showCreatePopup && <CoreNavigationStackItem key='popup'>
-            <View style={{
-              border: 'solid 1px #80808080',
-              margin: 20,
-              padding: 20,
-            }}>
-              MockPopup
-              <Button onClick={hideCreatePopup}>
-                {'Dismiss popup'}
-              </Button>
-            </View>
-          </CoreNavigationStackItem>}
         </CoreNavigationStack>
 
       </View>

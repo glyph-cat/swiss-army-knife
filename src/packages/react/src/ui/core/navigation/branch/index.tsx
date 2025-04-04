@@ -82,21 +82,21 @@ export const CoreNavigationBranch = forwardRef(({
 
   const children = Children.toArray($children) as Array<ReactElement<CoreNavigationBranchItemProps>>
 
-  const [focusedItemId, setFocusedItemId] = useState(focusedItem ?? children?.[0]?.key)
+  const [focusedItemId, setFocusedItemId] = useState(focusedItem ?? children?.[0]?.props.id)
 
   const focusNext = useCallback(() => {
     setFocusedItemId(($focusedItemId) => {
-      const currentIndex = children.findIndex((child) => child.key === $focusedItemId)
+      const currentIndex = children.findIndex((child) => child.props.id === $focusedItemId)
       const targetIndex = Math.min(currentIndex + 1, children.length - 1)
-      return children[targetIndex].key
+      return children[targetIndex].props.id
     })
   }, [children])
 
   const focusPrev = useCallback(() => {
     setFocusedItemId(($focusedItemId) => {
-      const currentIndex = children.findIndex((child) => child.key === $focusedItemId)
+      const currentIndex = children.findIndex((child) => child.props.id === $focusedItemId)
       const targetIndex = Math.min(currentIndex - 1, children.length - 1)
-      return children[targetIndex].key
+      return children[targetIndex].props.id
     })
   }, [children])
 
@@ -122,7 +122,7 @@ export const CoreNavigationBranch = forwardRef(({
           <CoreNavigationBranchItemContext
             key={child.key}
             value={{
-              isFocused: focusedItem === child.key,
+              isFocused: focusedItem === child.props.id,
               isFirstItem: currentIndex === 0,
               isLastItem: currentIndex === (arr.length - 1),
             }}
@@ -142,8 +142,8 @@ __setDisplayName(CoreNavigationBranch)
  * @public
  */
 export interface CoreNavigationBranchItemProps {
+  id: string
   children?: ReactNode
-  key: string
 }
 
 /**
