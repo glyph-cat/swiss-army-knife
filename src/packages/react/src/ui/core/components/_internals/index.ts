@@ -1,10 +1,10 @@
 import { addStyles, Nullable, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
 import { clientOnly } from '../../../../../../core/src/client-only'
 import { useDerivedDisabledState } from '../../disabled-context'
-import { useCoreNavigationFocusState } from '../../navigation/hooks'
+import { useCoreNavigationStack } from '../../navigation/stack'
 
 export function useInternalDerivedDisabledState(disabled: boolean): Nullable<boolean> {
-  const isFocused = useCoreNavigationFocusState()
+  const { isFocused } = useCoreNavigationStack()
   // Focusability takes precedence, if not focused, then element should be disabled,
   // even if the props specifies `disabled=false`.
   // Semantically speaking, we can only enforce `disabled=false` to ignore

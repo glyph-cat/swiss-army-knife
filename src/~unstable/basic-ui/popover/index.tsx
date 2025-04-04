@@ -13,13 +13,14 @@ import {
   GenericHTMLProps,
   Portal,
   useClickAwayListener,
-  useCoreNavigationFocusState,
+  useCoreNavigationBranch,
+  useCoreNavigationStack,
   useKeyDownListener,
   usePointerLeaveListener,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
 import { Property } from 'csstype'
-import { __setTypeMarker, __getTypeMarker, TypeMarker } from 'packages/react/src/_internals'
+import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {
   Children,
   createContext,
@@ -120,7 +121,9 @@ function PopoverContentController({
   children,
 }: PopoverContentControllerProps): JSX.Element {
   const [triggerElement] = useContext(TriggerElementContext)
-  const isFocused = useCoreNavigationFocusState()
+  const navStack = useCoreNavigationStack()
+  const navBranch = useCoreNavigationBranch()
+  const isFocused = navStack.isFocused && navBranch.isFocused
   return (!isNull(triggerElement) && isFocused) && <>{children}</>
 }
 

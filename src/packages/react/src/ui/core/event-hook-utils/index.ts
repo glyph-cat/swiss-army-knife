@@ -3,7 +3,8 @@ import { DependencyList, useEffect } from 'react'
 import { useIsApplePlatform } from '../../../platform-checking'
 import { useCoreUIContext } from '../context'
 import { useCheckInputFocus } from '../input-focus'
-import { useCoreNavigationFocusState } from '../navigation/hooks'
+import { useCoreNavigationBranch } from '../navigation/branch'
+import { useCoreNavigationStack } from '../navigation/stack'
 
 const EVENT_KEYDOWN = 'keydown'
 const EVENT_KEYUP = 'keyup'
@@ -19,7 +20,9 @@ export function useKeyChordActivationListener(
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
   const isAppleOS = useIsApplePlatform()
-  const isFocused = useCoreNavigationFocusState()
+  const navStack = useCoreNavigationStack()
+  const navBranch = useCoreNavigationBranch()
+  const isFocused = navStack.isFocused && navBranch.isFocused
   useEffect(() => {
     if (!enabled || isAnyInputFocused) { return } // Early exit
     if (!isFocused) { return } // Early exit
@@ -59,7 +62,9 @@ export function useKeyDownListener(
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
-  const isFocused = useCoreNavigationFocusState()
+  const navStack = useCoreNavigationStack()
+  const navBranch = useCoreNavigationBranch()
+  const isFocused = navStack.isFocused && navBranch.isFocused
   useEffect(() => {
     if (!enabled || isAnyInputFocused || isOccupiedByKeyChord) { return } // Early exit
     if (!isFocused && !ignoreLayerFocus) { return } // Early exit
@@ -81,7 +86,9 @@ export function useKeyUpListener(
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
-  const isFocused = useCoreNavigationFocusState()
+  const navStack = useCoreNavigationStack()
+  const navBranch = useCoreNavigationBranch()
+  const isFocused = navStack.isFocused && navBranch.isFocused
   useEffect(() => {
     if (!enabled || isAnyInputFocused || isOccupiedByKeyChord) { return } // Early exit
     if (!isFocused && !ignoreLayerFocus) { return } // Early exit
