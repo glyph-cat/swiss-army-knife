@@ -12,9 +12,7 @@ export function setDisplayName(enabled: boolean): Plugin {
           // const nameVariableName = `$name${counter++}`
           const itemName = str.replace(/^__setDisplayName\(/, '').replace(/\)$/, '')
           return [
-            // `const ${nameVariableName} = '${itemName}'`,
-            `${itemName}.displayName = ${itemName}`,
-            // `${itemName}.name = ${nameVariableName}`,
+            `${itemName}.displayName = '${itemName}'`,
           ].join(';') + ';'
         })
       } else {

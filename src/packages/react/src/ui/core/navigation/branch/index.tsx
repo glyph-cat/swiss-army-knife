@@ -84,6 +84,11 @@ export const CoreNavigationBranch = forwardRef(({
 
   const [focusedItemId, setFocusedItemId] = useState(focusedItem ?? children?.[0]?.props.id)
 
+  // getDerivedStateFromProps
+  if (focusedItemId !== focusedItem) {
+    setFocusedItemId(focusedItem)
+  }
+
   const focusNext = useCallback(() => {
     setFocusedItemId(($focusedItemId) => {
       const currentIndex = children.findIndex((child) => child.props.id === $focusedItemId)

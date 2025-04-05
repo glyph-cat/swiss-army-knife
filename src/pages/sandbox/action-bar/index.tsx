@@ -1,11 +1,14 @@
 import { c, Empty } from '@glyph-cat/swiss-army-knife'
 import {
   ButtonBase as Button,
+  CoreNavigationBranch,
+  CoreNavigationBranchItem,
   CoreNavigationStack,
   CoreNavigationStackItem,
   DisabledContext,
   MaterialSymbol,
   MaterialSymbolName,
+  useCoreNavigationBranch,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
 import { JSX, MouseEvent, ReactNode, useCallback, useState } from 'react'
@@ -18,6 +21,9 @@ export default function (): JSX.Element {
   const [showCreatePopup, setCreatePopupVisibility] = useState(false)
   const onCreate = useCallback(() => { setCreatePopupVisibility(true) }, [])
   const hideCreatePopup = useCallback(() => { setCreatePopupVisibility(false) }, [])
+  const [showEditPopup, setEditPopupVisibility] = useState(false)
+  const onEdit = useCallback(() => { setEditPopupVisibility(true) }, [])
+  const hideEditPopup = useCallback(() => { setEditPopupVisibility(false) }, [])
 
   return (
     <View className={c(SandboxStyle.NORMAL, styles.container)}>
@@ -34,7 +40,7 @@ export default function (): JSX.Element {
               <ActionBarButton
                 icon='edit'
                 label={'Edit'}
-                onClick={Empty.FUNCTION}
+                onClick={onEdit}
                 disabled={false}
               />
               <DisabledContext disabled={true}>
@@ -56,29 +62,46 @@ export default function (): JSX.Element {
                 The {'"Create"'} button is the most common scenario, with no additional props.
               </li>
               <li>
-                The {'"Edit"'} button has <Code>{'disabled={false}'}</Code>, but will still remain disabled if the layer loses focus.
+                The {'"Edit"'} button has <Code>{'disabled={false}'}</Code>, but will still become disabled if the layer loses focus.
               </li>
               <li>
                 The {'"Custom 1"'} button does not have additional props either, but is wrapped with
                 <Code>{'<DisabledContext disabled={true}>'}</Code> so it will always remain disabled.
               </li>
               <li>
-                The {'"Custom 2"'} button, however, has a <Code>{'disabled={false}'}</Code> prop so it will remain enabled even when wrapped in <Code>{'<DisabledContext disabled={true}>'}</Code>. Nonetheless, if the layer loses focus, it will still be disabled.
+                The {'"Custom 2"'} button is also wrapped in <Code>{'<DisabledContext disabled={true}>'}</Code>. However, it has a <Code>{'disabled={false}'}</Code> prop so it will remain enabled. Nonetheless, if the layer loses focus, it will still be disabled.
               </li>
             </ol>
-            {showCreatePopup && <CoreNavigationStackItem id='popup'>
+            <Tabs />
+            {showEditPopup && <CoreNavigationStackItem id='edit'>
               <View style={{
                 border: 'solid 1px #80808080',
                 margin: 20,
                 padding: 20,
               }}>
-                MockPopup
-                <Button onClick={hideCreatePopup}>
+                <h2>Edit</h2>
+                <p>This mock popup is an <em>indirect</em> children of <Code>{'<CoreNavigationStackItem>'}</Code>.</p>
+                <Button onClick={hideEditPopup}>
                   {'Dismiss popup'}
                 </Button>
               </View>
             </CoreNavigationStackItem>}
           </CoreNavigationStackItem>
+
+          {showCreatePopup && <CoreNavigationStackItem id='create'>
+            <View style={{
+              border: 'solid 1px #80808080',
+              margin: 20,
+              padding: 20,
+            }}>
+              <h2>Create</h2>
+              <p>This mock popup is a direct children of <Code>{'<CoreNavigationStackItem>'}</Code>.</p>
+              <Button onClick={hideCreatePopup}>
+                {'Dismiss popup'}
+              </Button>
+            </View>
+          </CoreNavigationStackItem>}
+
         </CoreNavigationStack>
 
       </View>
@@ -130,3 +153,50 @@ export function ActionBarButton({
 }
 
 // #endregion Action Bar
+
+// #region Tabs
+
+function Tabs(): JSX.Element {
+  const [tabId, setTabId] = useState('tab-01')
+  return (
+    <View>
+      <View>
+        <Button onClick={useCallback(() => { setTabId('tab-01') }, [])}>Tab-01</Button>
+        <Button onClick={useCallback(() => { setTabId('tab-02') }, [])}>Tab-02</Button>
+        <Button onClick={useCallback(() => { setTabId('tab-03') }, [])}>Tab-03</Button>
+      </View>
+      <View>
+        <CoreNavigationBranch focusedItem={tabId}>
+          <CoreNavigationBranchItem id='tab-01'>
+            <Tab>{'Tab 01'}</Tab>
+          </CoreNavigationBranchItem>
+          <CoreNavigationBranchItem id='tab-02'>
+            <Tab>{'Tab 02'}</Tab>
+          </CoreNavigationBranchItem>
+          <CoreNavigationBranchItem id='tab-03'>
+            <Tab>{'Tab 03'}</Tab>
+          </CoreNavigationBranchItem>
+        </CoreNavigationBranch>
+      </View>
+    </View>
+  )
+}
+
+interface TabProps {
+  children: ReactNode
+}
+
+function Tab({
+  children,
+}: TabProps): JSX.Element {
+  const { isFocused } = useCoreNavigationBranch()
+  return (
+    <View>
+      {children}
+      {' - '}
+      {isFocused ? 'Focused' : 'Not focused'}
+    </View>
+  )
+}
+
+// #endregion Tabs
