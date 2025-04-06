@@ -15,6 +15,8 @@ import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import { CustomDebugger } from '~services/debugging'
+import { ThemeState } from '~services/theme'
+import { ThemeId } from '~services/theme/abstractions'
 import styles from './index.module.css'
 
 const BUTTON_HEIGHT = 28 // px
@@ -89,6 +91,9 @@ export function AppSideBarWrapper({
               >
                 {'Create sandbox'}
               </Button>
+              <ClientOnly>
+                <ThemeSelector />
+              </ClientOnly>
             </View>
             <SidebarContents />
           </View>
@@ -155,4 +160,51 @@ function SidebarContents(): JSX.Element {
       })}
     </ul>
   )
+}
+
+function ThemeSelector(): JSX.Element {
+
+  const themeState = useStateValue(ThemeState)
+
+  const setAutoTheme = useCallback(() => {
+    ThemeState.set({
+      id: ThemeId.DEFAULT_LIGHT,
+      auto: true,
+    })
+  }, [])
+
+  const setLightTheme = useCallback(() => {
+    ThemeState.set({
+      id: ThemeId.DEFAULT_LIGHT,
+      auto: false,
+    })
+  }, [])
+
+  const setDarkTheme = useCallback(() => {
+    ThemeState.set({
+      id: ThemeId.DEFAULT_DARK,
+      auto: false,
+    })
+  }, [])
+
+  return (
+    <View style={{
+      height: BUTTON_HEIGHT,
+      gridAutoColumns: '1fr',
+      gridAutoFlow: 'column',
+    }}>
+      <Button className={styles.buttonBase} onClick={setAutoTheme}>
+        {decorateSelection('Auto', themeState.auto)}
+      </Button>
+      <Button className={styles.buttonBase} onClick={setLightTheme}>
+        {decorateSelection('Light', !themeState.auto && themeState.id === ThemeId.DEFAULT_LIGHT)}
+      </Button>
+      <Button className={styles.buttonBase} onClick={setDarkTheme}>
+        {decorateSelection('Dark', !themeState.auto && themeState.id === ThemeId.DEFAULT_DARK)}
+      </Button>
+    </View>
+  )
+}
+function decorateSelection(text: string, selected: boolean): string {
+  return selected ? `[ ${text} ]` : text
 }

@@ -9,12 +9,12 @@ import { prefixBasicUIClassNames } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40 } from '../constants'
 import animation from './index.module.css'
 
-export const styles = prefixBasicUIClassNames('spinner', {
-  container: 'container',
-  cap: 'cap',
-  capWithShadow: 'capWithShadow',
-  trailingCapContainer: 'trailingCapContainer',
-})
+export const styles = prefixBasicUIClassNames('spinner', [
+  'container',
+  'cap',
+  'capWithShadow',
+  'trailingCapContainer',
+])
 
 export const [
   KEY_THICKNESS,

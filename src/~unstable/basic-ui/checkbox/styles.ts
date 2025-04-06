@@ -8,15 +8,15 @@ import {
 import { prefixBasicUIClassNames } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_HOVER } from '../constants'
 
-export const styles = prefixBasicUIClassNames('checkbox', {
-  container: 'container',
-  flowRow: 'flowRow',
-  flowColumn: 'flowColumn',
-  checkbox: 'checkbox',
-  input: 'input',
-  checkmark: 'checkmark',
-  busy: 'busy',
-})
+export const styles = prefixBasicUIClassNames('checkbox', [
+  'container',
+  'flowRow',
+  'flowColumn',
+  'checkbox',
+  'input',
+  'checkmark',
+  'busy',
+])
 
 const disabledColor = '#80808040'
 

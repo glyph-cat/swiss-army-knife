@@ -15,12 +15,12 @@ import {
 } from '../constants'
 import animation from './index.module.css'
 
-export const styles = prefixBasicUIClassNames('meter', {
-  layoutH: 'layoutH',
-  layoutV: 'layoutV',
-  container: 'container',
-  fill: 'fill',
-})
+export const styles = prefixBasicUIClassNames('meter', [
+  'layoutH',
+  'layoutV',
+  'container',
+  'fill',
+])
 
 const [
   KEY_BACKGROUND_SIZE,
@@ -60,6 +60,7 @@ clientOnly(() => {
         '135deg',
         '#80808040 calc(100% / 4 * 0)',
         '#80808040 calc(100% / 4 * 1)',
+        // TODO: Change #80808020' to #80808000 for light theme
         '#80808020 calc(100% / 4 * 1)',
         '#80808020 calc(100% / 4 * 2)',
         '#80808040 calc(100% / 4 * 2)',

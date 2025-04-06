@@ -101,9 +101,15 @@ export const ProgressRing = forwardRef(({
 
   const containerRef = useRef<View>(null)
   useEffect(() => {
+    const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
       [KEY_TINT]: tint,
-      [KEY_TINT_40]: `${tint}40`,
+      [KEY_TINT_40]: Color.fromRGBObject({
+        red: tintSource.red,
+        blue: tintSource.blue,
+        green: tintSource.green,
+        alpha: 0.4,
+      }).toString(ColorFormat.FFFFFFFF),
       [KEY_SIZE]: effectiveSize,
       [KEY_THICKNESS]: px(thickness),
       ...(indeterminate ? {} : { [KEY_ANGLE]: `${angle}deg` })

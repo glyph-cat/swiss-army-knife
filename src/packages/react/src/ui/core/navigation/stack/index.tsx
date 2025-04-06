@@ -182,6 +182,13 @@ function CoreNavigationStackDynamicItem({
   const { __addDynamicChildren } = useContext(CoreNavigationStackContext)
   const { id: referrerId } = useContext(CoreNavigationStackItemContext)
   useEffect(() => {
+    // KIV: This should've caused problems in Strict Mode, but apparently is not.
+    // 1. Add id to `{}`
+    // 2. Set same id on `{ [id]: ... }`
+    // 3. Remove id from `{ [id]: ... }`
+    // 4. Remove id from `{}`
+    // If problems do occur, we can try to use an array and push values to circumvent this
+    // since we're using a context after all.
     return __addDynamicChildren(referrerId, createElement(CoreNavigationStackItem, {
       id,
       __isBridgedDynamicItem: true,

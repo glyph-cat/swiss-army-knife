@@ -26,7 +26,6 @@ import {
 } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
-import { ProgressRing } from '../progress-ring'
 import {
   BASIC_UI_FLOW_COLUMN,
   BASIC_UI_FLOW_ROW,
@@ -37,6 +36,7 @@ import {
   KEY_TINT_40,
   KEY_TINT_HOVER,
 } from '../constants'
+import { ProgressRing } from '../progress-ring'
 import { styles } from './styles'
 
 const sizePresets: Record<BasicUISize, [boxSize: number, iconSize: number, spinnerSize: number]> = {
@@ -106,7 +106,7 @@ export const Checkbox = forwardRef(({
 }: CheckboxProps, forwardedRef: ForwardedRef<Checkbox>): JSX.Element => {
 
   const { palette } = useThemeContext()
-  const color = tryResolvePaletteColor($color, palette)
+  const tint = tryResolvePaletteColor($color, palette)
 
   const [boxSize, iconSize, spinnerSize] = sizePresets[size] ?? sizePresets.m
   const disabled = $disabled ?? busy
@@ -123,24 +123,24 @@ export const Checkbox = forwardRef(({
 
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
-    const colorSource = Color.fromString(color)
+    const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
       [KEY_SIZE]: boxSize,
-      [KEY_TINT]: color,
+      [KEY_TINT]: tint,
       [KEY_TINT_40]: Color.fromRGBObject({
-        red: colorSource.red,
-        blue: colorSource.blue,
-        green: colorSource.green,
+        red: tintSource.red,
+        blue: tintSource.blue,
+        green: tintSource.green,
         alpha: 0.4,
       }).toString(ColorFormat.FFFFFFFF),
       [KEY_TINT_HOVER]: Color.fromHSLObject({
         // NOTE: Used to be called `checkboxColorFilledHover`
-        hue: colorSource.hue,
-        saturation: colorSource.saturation,
-        lightness: colorSource.lightness * 1.2,
+        hue: tintSource.hue,
+        saturation: tintSource.saturation,
+        lightness: tintSource.lightness * 1.2,
       }).toString(ColorFormat.FFFFFFFF),
     }, containerRef.current)
-  }, [color, boxSize])
+  }, [tint, boxSize])
 
   return (
     <label
