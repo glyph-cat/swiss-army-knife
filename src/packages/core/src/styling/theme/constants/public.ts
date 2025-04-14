@@ -1,3 +1,5 @@
+import { InternalValues } from '../abstractions'
+
 /**
  * @public
  */
@@ -42,4 +44,23 @@ export const ThemeToken = {
   dangerColor: 'var(--dangerColor)',
   inputElementBorderRadius: 'var(--inputElementBorderRadius)',
   inputElementBorderSize: 'var(--inputElementBorderSize)',
+  interactionAnimationDuration: 'var(--interactionAnimationDuration)',
+  interactiveEnabledCursor: 'var(--interactiveEnabledCursor)',
+  interactiveDisabledCursor: 'var(--interactiveDisabledCursor)',
+} as const
+
+/**
+ * 📌 Reminder: internal
+ * @internal
+ */
+export const InternalToken: Readonly<InternalValues> = {
+  busyShadeA: 'var(--busyShadeA)',
+  busyShadeB: 'var(--busyShadeB)',
+  inputBorderColor: 'var(--inputBorderColor)',
+  progressBg: 'var(--progressBg)',
+  switchBackground: 'var(--switchBackground)',
+  switchBorderColor: 'var(--switchBorderColor)',
+  switchDisabledBackground: 'var(--switchDisabledBackground)',
+  switchThumbStretchSize: 'var(--switchThumbStretchSize)',
+  thumbColor: 'var(--thumbColor)',
 } as const

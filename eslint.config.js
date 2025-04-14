@@ -42,15 +42,15 @@ module.exports = [
         forbid: [
           {
             element: 'div',
-            message: 'Use <View> from \'~core-ui\' instead whenever possible',
+            message: 'Use <View> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
           },
           {
             element: 'input',
-            message: 'Use <Input> from \'~core-ui\' instead whenever possible',
+            message: 'Use <Input> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
           },
           {
             element: 'textarea',
-            message: 'Use <TextArea> from \'~core-ui\' instead whenever possible',
+            message: 'Use <TextArea> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
           },
         ],
       }],

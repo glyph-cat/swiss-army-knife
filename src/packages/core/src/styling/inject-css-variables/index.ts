@@ -5,6 +5,8 @@ import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileCSSVariables } from '../compile-styles'
 import { normalizeCSSValue } from '../normalize-css-value'
 
+const leadingCSSVariableDashPattern = /^--/
+
 /**
  * Injects CSS variables into a HTML element using inline style.
  * @param values - The values to be injected.
@@ -16,15 +18,18 @@ export function injectInlineCSSVariables(
   values: CustomCSSVariablesRecord,
   target: HTMLElement
 ): CleanupFunction {
+  const normalizedKeys: Array<string> = []
   for (const key in values) {
     const value = values[key]
+    const normalizedKey = leadingCSSVariableDashPattern.test(key) ? key : `--${key}`
+    normalizedKeys.push(normalizedKey)
     // NOTE: `serializePixelValue` will make a smart guess on whether
     // the variables need to have 'px' appended to them as suffix.
-    target.style.setProperty(`--${key}`, normalizeCSSValue(key, value))
+    target.style.setProperty(normalizedKey, normalizeCSSValue(key, value))
   }
   return () => {
-    for (const key in values) {
-      target.style.removeProperty(`--${key}`)
+    for (const normalizedKey of normalizedKeys) {
+      target.style.removeProperty(normalizedKey)
     }
   }
 }

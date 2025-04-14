@@ -1,21 +1,62 @@
-import { c, Color, ColorFormat, injectInlineCSSVariables, isNumber, LenientString } from '@glyph-cat/swiss-army-knife'
+import {
+  Color,
+  ColorFormat,
+  injectInlineCSSVariables,
+  isNumber,
+  LenientString,
+} from '@glyph-cat/swiss-army-knife'
 import { ButtonBase, useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
-import { ChangeEvent, forwardRef, JSX, ReactNode, useEffect, useRef } from 'react'
+import {
+  FormEvent,
+  forwardRef,
+  JSX,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
-import { BasicUIColor, BasicUISize } from '../abstractions'
-import { KEY_SIZE, KEY_TINT, KEY_TINT_40 } from '../constants'
+import { BasicUIColor, BasicUIPosition, BasicUISize } from '../abstractions'
+import {
+  __SIZE,
+  __TINT,
+  __TINT_40,
+  __TINT_STRONGER,
+  BASIC_UI_POSITION_END,
+  BASIC_UI_POSITION_START,
+} from '../constants'
+import { ProgressRing, ProgressRingProps } from '../progress-ring'
 import { styles } from './styles'
 
 const sizePresets: Readonly<Record<BasicUISize, number>> = {
-  's': 22,
-  'm': 28,
-  'l': 36,
+  's': 24,
+  'm': 30,
+  'l': 34,
 }
 
+const progressRingPresets: Readonly<Record<BasicUISize, Partial<Omit<ProgressRingProps, 'ref'>>>> = {
+  's': {
+    size: 12,
+    thickness: 3,
+  },
+  'm': {
+    size: 16,
+    thickness: 3.4,
+  },
+  'l': {
+    size: 20,
+    thickness: 4,
+  },
+}
+
+/**
+ * @public
+ */
 export interface SwitchProps {
   children?: ReactNode
   value?: boolean
-  onChange?(newValue: boolean, event: ChangeEvent<HTMLButtonElement>): void
+  onChange?(newValue: boolean, event: FormEvent<HTMLButtonElement>): void
   /**
    * @defaultValue `false`
    */
@@ -32,8 +73,26 @@ export interface SwitchProps {
    * @defaultValue `'primary'`
    */
   color?: LenientString<BasicUIColor>
+  // TODO: change for checkbox also
+  /**
+   * Position of the switch.
+   * @defaultValue `'start'`
+   */
+  position?: BasicUIPosition
+  /**
+   * @defaultValue `{}`
+   */
+  ProgressRingProps?: Partial<Omit<ProgressRingProps, 'ref'>>
 }
 
+/**
+ * @public
+ */
+export type Switch = ButtonBase
+
+/**
+ * @public
+ */
 export const Switch = forwardRef(({
   children,
   value,
@@ -42,42 +101,67 @@ export const Switch = forwardRef(({
   busy,
   size,
   color: $color,
-  // ...props
+  position = BASIC_UI_POSITION_END,
+  ProgressRingProps: progressRingProps = {},
 }: SwitchProps, forwardedRef): JSX.Element => {
 
-  const { palette, componentParameters } = useThemeContext()
-
+  const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette)
 
+  const disabled = $disabled ?? busy
+
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
+  const effectiveProgressRingPresets = progressRingPresets[size] ?? progressRingPresets.m
+
+  const buttonRef = useRef<ButtonBase>(null)
+  useImperativeHandle(forwardedRef, () => buttonRef.current, [])
 
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
-      [KEY_TINT]: tint,
-      [KEY_TINT_40]: Color.fromRGBObject({
+      [__TINT]: tint,
+      [__TINT_40]: Color.fromRGBObject({
         red: tintSource.red,
         blue: tintSource.blue,
         green: tintSource.green,
         alpha: 0.4,
       }).toString(ColorFormat.FFFFFFFF),
-      [KEY_SIZE]: effectiveSize,
+      [__TINT_STRONGER]: Color.fromHSLObject({
+        hue: tintSource.hue,
+        saturation: tintSource.saturation,
+        lightness: tintSource.lightness * 1.2,
+      }).toString(ColorFormat.FFFFFFFF),
+      [__SIZE]: effectiveSize,
     }, containerRef.current)
   }, [tint, effectiveSize])
 
-  // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/switch_role
-
   return (
     <label ref={containerRef} className={styles.container}>
+      {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
       <ButtonBase
         className={styles.button}
+        ref={buttonRef}
         type='button'
         role='switch'
         aria-checked={value}
+        onClick={useCallback((e) => { onChange?.(!value, e) }, [onChange, value])}
+        disabled={disabled}
       >
-        <View className={styles.thumb} />
+        <View
+          className={styles.thumb}
+          style={busy ? { backgroundColor: 'transparent' } : {}}
+        >
+          {busy && (
+            <ProgressRing
+              color='#808080'
+              {...effectiveProgressRingPresets}
+              {...progressRingProps}
+            />
+          )}
+        </View>
       </ButtonBase>
+      {(position === BASIC_UI_POSITION_START && children) && <View>{children}</View>}
     </label>
   )
 })

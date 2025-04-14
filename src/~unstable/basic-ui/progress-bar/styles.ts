@@ -1,6 +1,7 @@
 import {
   addStyles,
   clientOnly,
+  InternalToken,
   PrecedenceLevel,
   StyleMap,
   ThemeToken,
@@ -22,17 +23,11 @@ export const styles = prefixBasicUIClassNames('meter', [
   'fill',
 ])
 
-const [
-  KEY_BACKGROUND_SIZE,
-  __BACKGROUND_SIZE,
-  TOKEN_BACKGROUND_SIZE,
-] = createTokens('backgroundSize')
+const DIVISION_FACTOR = 4
 
-const [
-  KEY_REPEATING_LINEAR_GRADIENT,
-  __REPEATING_LINEAR_GRADIENT,
-  TOKEN_REPEATING_LINEAR_GRADIENT,
-] = createTokens('repeatingLinearGradient')
+const [__BACKGROUND_SIZE, TOKEN_BACKGROUND_SIZE] = createTokens('backgroundSize')
+
+const [__REPEATING_LINEAR_GRADIENT, TOKEN_REPEATING_LINEAR_GRADIENT] = createTokens('repeatingLinearGradient')
 
 clientOnly(() => {
   addStyles(new StyleMap([
@@ -44,7 +39,7 @@ clientOnly(() => {
       width: TOKEN_SIZE,
     }],
     [`.${styles.container}`, {
-      backgroundColor: '#00000040',
+      backgroundColor: InternalToken.progressBg,
       border: `solid ${ThemeToken.inputElementBorderSize} ${TOKEN_TINT}`,
       borderRadius: TOKEN_CONTAINER_BORDER_RADIUS,
       overflow: 'hidden',
@@ -58,13 +53,12 @@ clientOnly(() => {
       [__BACKGROUND_SIZE]: `calc(${TOKEN_SIZE} - 4 * ${ThemeToken.inputElementBorderSize})`,
       [__REPEATING_LINEAR_GRADIENT]: `repeating-linear-gradient(${[
         '135deg',
-        '#80808040 calc(100% / 4 * 0)',
-        '#80808040 calc(100% / 4 * 1)',
-        // TODO: Change #80808020' to #80808000 for light theme
-        '#80808020 calc(100% / 4 * 1)',
-        '#80808020 calc(100% / 4 * 2)',
-        '#80808040 calc(100% / 4 * 2)',
-        '#80808040 calc(100% / 4 * 2)',
+        `${InternalToken.busyShadeA} calc(100% / ${DIVISION_FACTOR} * 0)`,
+        `${InternalToken.busyShadeA} calc(100% / ${DIVISION_FACTOR} * 1)`,
+        `${InternalToken.busyShadeB} calc(100% / ${DIVISION_FACTOR} * 1)`,
+        `${InternalToken.busyShadeB} calc(100% / ${DIVISION_FACTOR} * 2)`,
+        `${InternalToken.busyShadeA} calc(100% / ${DIVISION_FACTOR} * 2)`,
+        `${InternalToken.busyShadeA} calc(100% / ${DIVISION_FACTOR} * 2)`,
       ].join(',')})`,
     }],
     [`.${styles.container}[aria-busy="true"] > .${styles.fill}`, {

@@ -70,6 +70,7 @@ export function AppSideBarWrapper({
                     backgroundColor: shouldUseStrictMode
                       ? STRICT_MODE_ON_COLOR
                       : STRICT_MODE_OFF_COLOR,
+                    color: '#ffffff',
                     height: BUTTON_HEIGHT,
                   }}
                   onClick={CustomDebugger.toggleStrictMode}

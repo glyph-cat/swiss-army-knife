@@ -16,23 +16,9 @@ export const styles = prefixBasicUIClassNames('spinner', [
   'trailingCapContainer',
 ])
 
-export const [
-  KEY_THICKNESS,
-  __THICKNESS,
-  TOKEN_THICKNESS,
-] = createTokens('thickness')
-
-const [
-  KEY_MASK_SIZE,
-  __MASK_SIZE,
-  TOKEN_MASK_SIZE,
-] = createTokens('maskSize')
-
-export const [
-  KEY_ANGLE,
-  __ANGLE,
-  TOKEN_ANGLE,
-] = createTokens('angle')
+const [__MASK_SIZE, TOKEN_MASK_SIZE] = createTokens('maskSize')
+export const [__THICKNESS, TOKEN_THICKNESS] = createTokens('thickness')
+export const [__ANGLE, TOKEN_ANGLE] = createTokens('angle')
 
 clientOnly(() => {
   addStyles(new StyleMap([

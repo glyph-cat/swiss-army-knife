@@ -27,14 +27,14 @@ import {
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
 import {
+  __SIZE,
+  __TINT,
+  __TINT_40,
+  __TINT_STRONGER,
   BASIC_UI_FLOW_COLUMN,
   BASIC_UI_FLOW_ROW,
   BASIC_UI_POSITION_END,
   BASIC_UI_POSITION_START,
-  KEY_SIZE,
-  KEY_TINT,
-  KEY_TINT_40,
-  KEY_TINT_HOVER,
 } from '../constants'
 import { ProgressRing } from '../progress-ring'
 import { styles } from './styles'
@@ -76,11 +76,11 @@ export interface CheckboxProps {
    */
   color?: LenientString<BasicUIColor>
   /**
-   * @defaultValue `BasicUIFlow.INLINE`
+   * @defaultValue `'column'`
    */
   flow?: BasicUIFlow
   /**
-   * @defaultValue `BasicUIPosition.END`
+   * @defaultValue `'end'`
    */
   position?: BasicUIPosition
 }
@@ -125,16 +125,15 @@ export const Checkbox = forwardRef(({
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
-      [KEY_SIZE]: boxSize,
-      [KEY_TINT]: tint,
-      [KEY_TINT_40]: Color.fromRGBObject({
+      [__SIZE]: boxSize,
+      [__TINT]: tint,
+      [__TINT_40]: Color.fromRGBObject({
         red: tintSource.red,
         blue: tintSource.blue,
         green: tintSource.green,
         alpha: 0.4,
       }).toString(ColorFormat.FFFFFFFF),
-      [KEY_TINT_HOVER]: Color.fromHSLObject({
-        // NOTE: Used to be called `checkboxColorFilledHover`
+      [__TINT_STRONGER]: Color.fromHSLObject({
         hue: tintSource.hue,
         saturation: tintSource.saturation,
         lightness: tintSource.lightness * 1.2,

@@ -27,9 +27,9 @@ export default async function APICreateSandboxHandler(
     mkdirSync(`./src/pages/sandbox/${name}`)
     writeFileSync(`./src/pages/sandbox/${name}/index.tsx`, [
       'import { c } from \'@glyph-cat/swiss-army-knife\'',
+      'import { View } from \'@glyph-cat/swiss-army-knife-react\'',
       'import { JSX } from \'react\'',
       'import { SandboxStyle } from \'~constants\'',
-      'import { View } from \'~core-ui\'',
       'import styles from \'./index.module.css\'',
       '',
       'import { SandboxStarter } from \'~components/sandbox-starter\'',

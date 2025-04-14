@@ -5,6 +5,7 @@ import {
   IBaseThemePalette,
   IComponentParameters,
   IDurationDefinition,
+  InternalValues,
   ISpacingDefinition,
   ITheme,
   IThemePalette,
@@ -75,6 +76,9 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
   static readonly DEFAULT_COMPONENT_PARAMETERS: Readonly<IComponentParameters> = {
     inputElementBorderRadius: 5,
     inputElementBorderSize: 2,
+    interactionAnimationDuration: '150ms',
+    interactiveEnabledCursor: 'pointer',
+    interactiveDisabledCursor: 'not-allowed',
   }
 
   // TODO: include shadow styles as well
@@ -85,6 +89,11 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
   readonly spacing: Readonly<ISpacingDefinition>
   readonly duration: Readonly<IDurationDefinition>
   readonly componentParameters: Readonly<IComponentParameters>
+
+  /**
+   * @internal
+   */
+  readonly internalValues = {} as Readonly<InternalValues>
 
   constructor(
     public readonly colorScheme: ColorScheme,
@@ -148,6 +157,19 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
     this.componentParameters = {
       ...Theme.DEFAULT_COMPONENT_PARAMETERS,
       ...options?.componentParameters,
+    }
+
+    const inputBorderColor = '#808080'
+    this.internalValues = {
+      busyShadeA: '#80808040',
+      busyShadeB: `#808080${colorScheme === ColorScheme.light ? '00' : '20'}`,
+      inputBorderColor,
+      progressBg: `#000000${colorScheme === ColorScheme.light ? '10' : '40'}`,
+      switchBackground: colorScheme === ColorScheme.light ? '#4b4b4b40' : '#00000000',
+      switchBorderColor: colorScheme === ColorScheme.light ? '#80808040' : inputBorderColor,
+      switchDisabledBackground: colorScheme === ColorScheme.light ? '#80808020' : '#00000000',
+      switchThumbStretchSize: '5px',
+      thumbColor: colorScheme === ColorScheme.light ? '#ffffff' : '#eeeeee',
     }
 
   }

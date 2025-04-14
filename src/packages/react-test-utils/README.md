@@ -1,4 +1,4 @@
-Helper functions for writing tests for [React](https://reactjs.org) with [Jest](https://reactjs.org) and [react-test-renderer](https://www.npmjs.com/package/react-test-renderer).
+Helper functions for writing tests for [React](https://reactjs.org) with [Jest](https://reactjs.org) and [@testing-library/react](https://www.npmjs.com/package/@testing-library/react).
 
 <br/>
 

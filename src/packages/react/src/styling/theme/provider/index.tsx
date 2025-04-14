@@ -86,6 +86,15 @@ export function ThemeProvider({
     return styleObject
   }, [theme.customValues])
 
+  const internalValues = useMemo(() => {
+    const styleObject: ExtendedCSSProperties = {}
+    for (const key in theme.internalValues) {
+      const property = `--${new Casing(key).toCamelCase()}`
+      styleObject[property] = theme.internalValues[key]
+    }
+    return styleObject
+  }, [theme.internalValues])
+
   useInsertionEffect(() => {
     const styleManager = new StyleManager(new StyleMap([
       [`.${className}`, {
@@ -94,6 +103,7 @@ export function ThemeProvider({
         ...durationStyles,
         ...componentParameters,
         ...customValues,
+        ...internalValues,
         backgroundColor: theme.palette.appBgColor,
         color: theme.palette.appTextColor,
         colorScheme: theme.colorScheme,
@@ -113,7 +123,7 @@ export function ThemeProvider({
       }],
     ]), PrecedenceLevel.INTERNAL)
     return () => { styleManager.dispose() }
-  }, [className, componentParameters, customValues, durationStyles, paletteStyles, spacingStyles, theme])
+  }, [className, componentParameters, customValues, durationStyles, internalValues, paletteStyles, spacingStyles, theme.colorScheme, theme.palette.appBgColor, theme.palette.appTextColor, theme.palette.primaryColor40, theme.palette.primaryTextColor, theme.palette.primaryTextColorDarker, theme.palette.primaryTextColorLighter])
 
   useInsertionEffect(() => {
     if (isNested) { return } // Early exit

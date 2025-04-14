@@ -1,3 +1,4 @@
+import { Property } from 'csstype'
 import { StringRecord } from '../../../types'
 
 /**
@@ -110,4 +111,7 @@ export interface IDurationDefinition {
 export interface IComponentParameters {
   inputElementBorderRadius: number
   inputElementBorderSize: number
+  interactionAnimationDuration: string
+  interactiveEnabledCursor: Property.Cursor
+  interactiveDisabledCursor: Property.Cursor
 }

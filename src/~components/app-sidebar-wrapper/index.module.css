@@ -17,7 +17,7 @@
 .buttonBase {
   appearance: none;
   border: none;
-  color: #ffffff;
+  /* color: #ffffff; */
   cursor: pointer;
   display: grid;
   font-weight: bold;

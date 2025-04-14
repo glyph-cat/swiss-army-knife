@@ -14,11 +14,11 @@ import { JSX, useEffect, useRef } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
 import {
-  KEY_CONTAINER_BORDER_RADIUS,
-  KEY_DIRECTION_MULTIPLIER,
-  KEY_FILL_BORDER_RADIUS,
-  KEY_SIZE,
-  KEY_TINT,
+  __CONTAINER_BORDER_RADIUS,
+  __DIRECTION_MULTIPLIER,
+  __FILL_BORDER_RADIUS,
+  __SIZE,
+  __TINT,
 } from '../constants'
 import { styles } from './styles'
 
@@ -113,11 +113,11 @@ export const ProgressBar = ({
   const containerRef = useRef<View>(null)
   useEffect(() => {
     return injectInlineCSSVariables({
-      [KEY_TINT]: color,
-      [KEY_CONTAINER_BORDER_RADIUS]: containerBorderRadius,
-      [KEY_SIZE]: effectiveSize,
-      [KEY_FILL_BORDER_RADIUS]: fillBorderRadius,
-      [KEY_DIRECTION_MULTIPLIER]: reverse ? -1 : 1,
+      [__TINT]: color,
+      [__CONTAINER_BORDER_RADIUS]: containerBorderRadius,
+      [__SIZE]: effectiveSize,
+      [__FILL_BORDER_RADIUS]: fillBorderRadius,
+      [__DIRECTION_MULTIPLIER]: reverse ? -1 : 1,
     }, containerRef.current)
   }, [color, containerBorderRadius, effectiveSize, fillBorderRadius, reverse])
 

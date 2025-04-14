@@ -1,4 +1,4 @@
-import { addStyles, Nullable, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
+import { addStyles, Nullable, PrecedenceLevel, StyleMap, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { clientOnly } from '../../../../../../core/src/client-only'
 import { useDerivedDisabledState } from '../../disabled-context'
 import { useCoreNavigationStack } from '../../navigation/stack'
@@ -38,6 +38,12 @@ clientOnly(() => {
       padding: 0,
       placeItems: 'center',
       position: 'relative',
+    }],
+    [`.${BUTTON_STYLES}:enabled`, {
+      cursor: ThemeToken.interactiveEnabledCursor,
+    }],
+    [`.${BUTTON_STYLES}:disabled`, {
+      cursor: ThemeToken.interactiveDisabledCursor,
     }],
     [`.${INPUT_STYLES}`, {
       backgroundColor: 'transparent',

@@ -13,8 +13,8 @@ import { __setDisplayName } from 'packages/react/src/_internals'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
-import { KEY_SIZE, KEY_TINT, KEY_TINT_40 } from '../constants'
-import { KEY_ANGLE, KEY_THICKNESS, styles } from './styles'
+import { __SIZE, __TINT, __TINT_40 } from '../constants'
+import { __ANGLE, __THICKNESS, styles } from './styles'
 
 const sizePresets: Readonly<Record<BasicUISize, number>> = {
   's': 32,
@@ -103,16 +103,16 @@ export const ProgressRing = forwardRef(({
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
-      [KEY_TINT]: tint,
-      [KEY_TINT_40]: Color.fromRGBObject({
+      [__TINT]: tint,
+      [__TINT_40]: Color.fromRGBObject({
         red: tintSource.red,
         blue: tintSource.blue,
         green: tintSource.green,
         alpha: 0.4,
       }).toString(ColorFormat.FFFFFFFF),
-      [KEY_SIZE]: effectiveSize,
-      [KEY_THICKNESS]: px(thickness),
-      ...(indeterminate ? {} : { [KEY_ANGLE]: `${angle}deg` })
+      [__SIZE]: effectiveSize,
+      [__THICKNESS]: px(thickness),
+      ...(indeterminate ? {} : { [__ANGLE]: `${angle}deg` })
     }, containerRef.current)
   }, [angle, effectiveSize, indeterminate, thickness, tint])
 
