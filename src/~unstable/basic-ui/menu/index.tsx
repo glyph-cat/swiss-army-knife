@@ -22,6 +22,7 @@ export interface MenuProps {
   children: ReactNode
 }
 
+// TODO: type to jump to closest result
 // TODO: disable user select when click and drag
 // TODO: compact and non-compact
 // TODO: leading and trailing icons

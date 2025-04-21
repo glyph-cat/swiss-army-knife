@@ -24,6 +24,7 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
+import { useDataMounted } from '../_internals/data-mounted'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
 import {
@@ -80,7 +81,8 @@ export interface CheckboxProps {
    */
   flow?: BasicUIFlow
   /**
-   * @defaultValue `'end'`
+   * Position of the checkbox relative to its children if any.
+   * @defaultValue `'start'`
    */
   position?: BasicUIPosition
 }
@@ -102,7 +104,7 @@ export const Checkbox = forwardRef(({
   size,
   color: $color,
   flow = BASIC_UI_FLOW_COLUMN,
-  position = BASIC_UI_POSITION_END,
+  position = BASIC_UI_POSITION_START,
 }: CheckboxProps, forwardedRef: ForwardedRef<Checkbox>): JSX.Element => {
 
   const { palette } = useThemeContext()
@@ -120,6 +122,8 @@ export const Checkbox = forwardRef(({
     target.addEventListener('change', enforceIndeterminateState)
     return () => { target.removeEventListener('change', enforceIndeterminateState) }
   }, [value])
+
+  useDataMounted(inputRef) // TODO
 
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
@@ -149,7 +153,7 @@ export const Checkbox = forwardRef(({
         flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
       )}
     >
-      {(position === BASIC_UI_POSITION_START && children) && <View>{children}</View>}
+      {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
       <View className={styles.checkbox}>
         <Input
           ref={inputRef}
@@ -175,7 +179,7 @@ export const Checkbox = forwardRef(({
           </View>
         }
       </View>
-      {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
+      {(position === BASIC_UI_POSITION_START && children) && <View>{children}</View>}
     </label>
   )
 })

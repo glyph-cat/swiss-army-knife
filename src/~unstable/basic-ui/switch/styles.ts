@@ -6,6 +6,7 @@ import {
   StyleMap,
   ThemeToken,
 } from '@glyph-cat/swiss-army-knife'
+import { mounted } from '../_internals/data-mounted'
 import { createTokens } from '../_internals/create-tokens'
 import { prefixBasicUIClassNames } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_STRONGER } from '../constants'
@@ -45,11 +46,13 @@ clientOnly(() => {
       height: TOKEN_SIZE,
       justifyItems: 'start',
       paddingInline: ThemeToken.inputElementBorderSize,
+      width: `calc(${TOKEN_SIZE} + ${TOKEN_THUMB_SIZE})`,
+    }],
+    [`.${mounted(styles.button)}`, {
       transition: [
         `background-color ${ThemeToken.interactionAnimationDuration}`,
         `border-color ${ThemeToken.interactionAnimationDuration}`,
       ].join(','),
-      width: `calc(${TOKEN_SIZE} + ${TOKEN_THUMB_SIZE})`,
     }],
     [`.${styles.button}:enabled:hover`, {
       backgroundColor: TOKEN_TINT_40,
@@ -81,17 +84,19 @@ clientOnly(() => {
       marginInlineStart: 0,
       placeItems: 'center',
       width: TOKEN_THUMB_SIZE,
+    }],
+    [`.${mounted(styles.button)} > .${styles.thumb}`, {
       transition: [
         `margin-inline-start ${ThemeToken.interactionAnimationDuration}`,
-        `transform ${ThemeToken.interactionAnimationDuration}`,
+        // `transform ${ThemeToken.interactionAnimationDuration}`,
         `width ${ThemeToken.interactionAnimationDuration}`
-      ].join(',')
+      ].join(','),
     }],
     [`.${styles.button}:enabled:active .${styles.thumb}`, {
       width: `calc(${TOKEN_THUMB_SIZE} + ${InternalToken.switchThumbStretchSize})`,
     }],
     [`.${styles.button}[aria-checked="true"]:enabled:active .${styles.thumb}`, {
-      transform: `translateX(calc(-1 * ${InternalToken.switchThumbStretchSize}))`,
+      // transform: `translateX(calc(-1 * ${InternalToken.switchThumbStretchSize}))`,
       width: `calc(${TOKEN_THUMB_SIZE} + ${InternalToken.switchThumbStretchSize})`,
     }],
     [`.${styles.button}:disabled .${styles.thumb}`, {

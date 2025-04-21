@@ -16,6 +16,7 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
+import { useDataMounted } from '../_internals/data-mounted'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIPosition, BasicUISize } from '../abstractions'
 import {
@@ -73,9 +74,8 @@ export interface SwitchProps {
    * @defaultValue `'primary'`
    */
   color?: LenientString<BasicUIColor>
-  // TODO: change for checkbox also
   /**
-   * Position of the switch.
+   * Position of the switch relative to its children if any.
    * @defaultValue `'start'`
    */
   position?: BasicUIPosition
@@ -115,6 +115,7 @@ export const Switch = forwardRef(({
 
   const buttonRef = useRef<ButtonBase>(null)
   useImperativeHandle(forwardedRef, () => buttonRef.current, [])
+  useDataMounted(buttonRef)
 
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
