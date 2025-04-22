@@ -202,9 +202,11 @@ export function PopoverContent({
   useEffect(() => {
     if (!triggerElement) { return }
     const onActivation = (e: Event) => {
+      // If `shouldTrigger` is not provided or if it evaluates to `true`:
       if (!shouldTrigger || shouldTrigger(e)) {
         setMenuVisibility(true)
         setAnchorBounds(getElementBound(triggerElement))
+        e.preventDefault()
       }
     }
     triggerElement.addEventListener(triggerEvent, onActivation)

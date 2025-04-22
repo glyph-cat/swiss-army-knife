@@ -5,15 +5,19 @@ import {
   StyleMap,
 } from '@glyph-cat/swiss-army-knife'
 import { createTokens } from '../_internals/create-tokens'
-import { prefixBasicUIClassNames } from '../_internals/prefixing'
+import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40 } from '../constants'
-import animation from './index.module.css'
 
-export const styles = prefixBasicUIClassNames('spinner', [
+export const styles = prefixBasicUIIdentifiers('spinner', [
   'container',
   'cap',
   'capWithShadow',
   'trailingCapContainer',
+])
+
+export const animations = prefixBasicUIIdentifiers('spinner', [
+  'spinClockwise',
+  'spinAntiClockwise',
 ])
 
 const [__MASK_SIZE, TOKEN_MASK_SIZE] = createTokens('maskSize')
@@ -32,7 +36,7 @@ clientOnly(() => {
     }],
     [`.${styles.container}[aria-busy="true"]`, {
       animation: '1.5s infinite linear',
-      animationName: animation.spinClockwise,
+      animationName: animations.spinClockwise,
       backgroundImage: `conic-gradient(transparent, ${TOKEN_TINT})`,
     }],
     [`.${styles.cap}`, {
@@ -57,5 +61,8 @@ clientOnly(() => {
       // boxShadow: '2px 0px 2px 0px #00000080',
       boxShadow: `calc(${TOKEN_THICKNESS} / 7) 0px calc(${TOKEN_THICKNESS} / 7) 0px #00000080`,
     }],
-  ]).compile(), PrecedenceLevel.INTERNAL)
+  ]).compile() + [
+    `@keyframes ${animations.spinClockwise}{0%{transform:rotateZ(0deg)}100%{transform:rotateZ(360deg)}}`,
+    `@keyframes ${animations.spinAntiClockwise}{0%{transform:rotateZ(0deg)}100%{transform:rotateZ(-360deg)}}`,
+  ].join(''), PrecedenceLevel.INTERNAL)
 })

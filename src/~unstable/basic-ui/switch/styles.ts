@@ -6,15 +6,18 @@ import {
   StyleMap,
   ThemeToken,
 } from '@glyph-cat/swiss-army-knife'
-import { mounted } from '../_internals/data-mounted'
 import { createTokens } from '../_internals/create-tokens'
-import { prefixBasicUIClassNames } from '../_internals/prefixing'
+import { mounted } from '../_internals/data-mounted'
+import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_STRONGER } from '../constants'
 
-export const styles = prefixBasicUIClassNames('switch', [
+export const styles = prefixBasicUIIdentifiers('switch', [
   'container',
   'button',
-  'thumb',
+  'buttonContainer',
+  'thumbBase',
+  'thumbUnchecked',
+  'thumbChecked',
 ])
 
 const [__THUMB_SIZE, TOKEN_THUMB_SIZE] = createTokens('thumbSize')
@@ -44,8 +47,6 @@ clientOnly(() => {
       border: `solid ${ThemeToken.inputElementBorderSize} ${InternalToken.switchBorderColor}`,
       borderRadius: TOKEN_SIZE,
       height: TOKEN_SIZE,
-      justifyItems: 'start',
-      paddingInline: ThemeToken.inputElementBorderSize,
       width: `calc(${TOKEN_SIZE} + ${TOKEN_THUMB_SIZE})`,
     }],
     [`.${mounted(styles.button)}`, {
@@ -53,6 +54,13 @@ clientOnly(() => {
         `background-color ${ThemeToken.interactionAnimationDuration}`,
         `border-color ${ThemeToken.interactionAnimationDuration}`,
       ].join(','),
+    }],
+    [`.${styles.buttonContainer}`, {
+      height: `calc(${TOKEN_SIZE} - 2 * ${ThemeToken.inputElementBorderSize})`,
+      justifyItems: 'start',
+      marginInline: ThemeToken.inputElementBorderSize,
+      placeItems: 'center',
+      width: `calc(${TOKEN_SIZE} + ${TOKEN_THUMB_SIZE} - 4 * ${ThemeToken.inputElementBorderSize})`,
     }],
     [`.${styles.button}:enabled:hover`, {
       backgroundColor: TOKEN_TINT_40,
@@ -66,10 +74,6 @@ clientOnly(() => {
       backgroundColor: TOKEN_TINT,
       borderColor: TOKEN_TINT_STRONGER,
     }],
-    [`.${styles.button}[aria-checked="true"] > .${styles.thumb}`, {
-      backgroundColor: '#ffffff',
-      marginInlineStart: TOKEN_THUMB_SIZE,
-    }],
     [`.${styles.button}:disabled`, {
       backgroundColor: InternalToken.switchDisabledBackground,
       borderColor: disabledColor,
@@ -77,33 +81,51 @@ clientOnly(() => {
     [`.${styles.button}:disabled[aria-checked="true"]`, {
       backgroundColor: disabledColor,
     }],
-    [`.${styles.thumb}`, {
+    [`.${styles.thumbBase}`, {
       backgroundColor: InternalToken.thumbColor,
       borderRadius: TOKEN_SIZE,
       height: TOKEN_THUMB_SIZE,
-      marginInlineStart: 0,
       placeItems: 'center',
+      position: 'absolute',
       width: TOKEN_THUMB_SIZE,
     }],
-    [`.${mounted(styles.button)} > .${styles.thumb}`, {
+    [`.${mounted(styles.button)} > .${styles.buttonContainer} > .${styles.thumbBase}`, {
       transition: [
         `margin-inline-start ${ThemeToken.interactionAnimationDuration}`,
-        // `transform ${ThemeToken.interactionAnimationDuration}`,
-        `width ${ThemeToken.interactionAnimationDuration}`
+        `margin-inline-end ${ThemeToken.interactionAnimationDuration}`,
+        // TODO: More accurate "equal power cross fade"
+        // we need to do this based on whether the thumb is checked or not
+        // it cannot be defined once and for all, separation required, example:
+        // - thumb checked (ease out) x thumb unchecked (ease in)
+        // - thumb unchecked (ease out) x thumb checked (ease in)
+        `opacity ${ThemeToken.interactionAnimationDuration} cubic-bezier(0.65, 0, 0.35, 1)`,
+        `width ${ThemeToken.interactionAnimationDuration}`,
       ].join(','),
     }],
-    [`.${styles.button}:enabled:active .${styles.thumb}`, {
+    [`.${styles.thumbUnchecked}`, {
+      marginInlineStart: 0,
+      justifySelf: 'start',
+      opacity: 1,
+    }],
+    [`.${styles.thumbChecked}`, {
+      backgroundColor: '#ffffff',
+      justifySelf: 'end',
+      marginInlineEnd: TOKEN_THUMB_SIZE,
+      opacity: 0,
+    }],
+    [`.${styles.button}[aria-checked="true"] > .${styles.buttonContainer} > .${styles.thumbUnchecked}`, {
+      opacity: 0,
+      marginInlineStart: TOKEN_THUMB_SIZE,
+    }],
+    [`.${styles.button}[aria-checked="true"] > .${styles.buttonContainer} > .${styles.thumbChecked}`, {
+      marginInlineEnd: 0,
+      opacity: 1,
+    }],
+    [`.${styles.button}:enabled:active .${styles.thumbBase}`, {
       width: `calc(${TOKEN_THUMB_SIZE} + ${InternalToken.switchThumbStretchSize})`,
     }],
-    [`.${styles.button}[aria-checked="true"]:enabled:active .${styles.thumb}`, {
-      // transform: `translateX(calc(-1 * ${InternalToken.switchThumbStretchSize}))`,
-      width: `calc(${TOKEN_THUMB_SIZE} + ${InternalToken.switchThumbStretchSize})`,
-    }],
-    [`.${styles.button}:disabled .${styles.thumb}`, {
-      // backgroundColor: '#808080a0',
-      // backgroundColor: '#ffffff',
-      opacity: 0.5,
+    [`.${styles.button}:disabled > .${styles.buttonContainer} > .${styles.thumbBase}`, {
+      opacity: 0.25,
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })
-

@@ -6,10 +6,11 @@ import {
   StyleMap,
   ThemeToken,
 } from '@glyph-cat/swiss-army-knife'
-import { prefixBasicUIClassNames } from '../_internals/prefixing'
+import { mounted } from '../_internals/data-mounted'
+import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_STRONGER } from '../constants'
 
-export const styles = prefixBasicUIClassNames('checkbox', [
+export const styles = prefixBasicUIIdentifiers('checkbox', [
   'container',
   'flowRow',
   'flowColumn',
@@ -58,13 +59,14 @@ clientOnly(() => {
       cursor: 'inherit',
       height: TOKEN_SIZE,
       outline: 'none',
+      width: TOKEN_SIZE,
+    }],
+    [`.${mounted(styles.input)}`, {
       transition: [
-        // TOFIX
         `background-color ${ThemeToken.interactionAnimationDuration}`,
         `background-image ${ThemeToken.interactionAnimationDuration}`,
         `border-color ${ThemeToken.interactionAnimationDuration}`,
       ].join(','),
-      width: TOKEN_SIZE,
     }],
     [`.${styles.input}:disabled`, {
       borderColor: disabledColor,

@@ -8,4 +8,5 @@ export interface InternalValues {
   switchDisabledBackground: string
   switchThumbStretchSize: string
   thumbColor: string
+  buttonDisabledColor: string
 }

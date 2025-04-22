@@ -1,4 +1,10 @@
-import { getDistance2D, reflectValueOnLine } from '.'
+import {
+  getDistance2D,
+  getDistance2DByCoordinates,
+  getDistance3D,
+  getDistance3DByCoordinate,
+  reflectValueOnLine,
+} from '.'
 
 test(getDistance2D.name, () => {
   //     ____________________________
@@ -13,6 +19,16 @@ test(getDistance2D.name, () => {
   // = 260.7757657452088
   expect(getDistance2D(-12, -60, 90, 180)).toBe(260.7757657452088)
 })
+
+test(getDistance2DByCoordinates.name, () => {
+  const a = { x: -12, y: -60 }
+  const b = { x: 90, y: 180 }
+  expect(getDistance2DByCoordinates(a, b)).toBe(260.7757657452088)
+})
+
+// TODO: getDistance3D
+
+// TODO: getDistance3DByCoordinate
 
 describe(reflectValueOnLine.name, () => {
 

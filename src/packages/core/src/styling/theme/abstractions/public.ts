@@ -69,6 +69,7 @@ export interface IThemePalette extends IBaseThemePalette {
   appBgColor2: StringColorValue
   appBgColor3: StringColorValue
   appBgColor4: StringColorValue
+  appTextColorStrong: StringColorValue
   appTextColor2: StringColorValue
   appTextColor3: StringColorValue
   appTextColor4: StringColorValue

@@ -1,4 +1,4 @@
-export function prefixBasicUIClassNames<S extends string>(
+export function prefixBasicUIIdentifiers<S extends string>(
   subPrefix: string,
   classNames: Array<S>,
 ): Readonly<Record<S, string>> {

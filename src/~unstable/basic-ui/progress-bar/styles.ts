@@ -7,20 +7,24 @@ import {
   ThemeToken,
 } from '@glyph-cat/swiss-army-knife'
 import { createTokens } from '../_internals/create-tokens'
-import { prefixBasicUIClassNames } from '../_internals/prefixing'
+import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import {
   TOKEN_CONTAINER_BORDER_RADIUS,
   TOKEN_FILL_BORDER_RADIUS,
   TOKEN_SIZE,
   TOKEN_TINT,
 } from '../constants'
-import animation from './index.module.css'
 
-export const styles = prefixBasicUIClassNames('meter', [
+export const styles = prefixBasicUIIdentifiers('meter', [
   'layoutH',
   'layoutV',
   'container',
   'fill',
+])
+
+export const animations = prefixBasicUIIdentifiers('meter', [
+  'busyH',
+  'busyV',
 ])
 
 const DIVISION_FACTOR = 4
@@ -67,14 +71,17 @@ clientOnly(() => {
       backgroundPosition: '0% 0%',
     }],
     [`.${styles.layoutV}[aria-busy="true"] > .${styles.fill}`, {
-      animationName: animation.busyV,
+      animationName: animations.busyV,
       backgroundSize: `100% ${TOKEN_BACKGROUND_SIZE}`,
       backgroundImage: TOKEN_REPEATING_LINEAR_GRADIENT,
     }],
     [`.${styles.layoutH}[aria-busy="true"] > .${styles.fill}`, {
-      animationName: animation.busyH,
+      animationName: animations.busyH,
       backgroundSize: `${TOKEN_BACKGROUND_SIZE} 100%`,
       backgroundImage: TOKEN_REPEATING_LINEAR_GRADIENT,
     }],
-  ]).compile(), PrecedenceLevel.INTERNAL)
+  ]).compile() + [
+    `@keyframes ${animations.busyH}{0%{background-position-x:0%}100%{background-position-x:calc(var(--directionMultiplier)*(var(--size) - 4*var(--inputElementBorderSize)))}}`,
+    `@keyframes ${animations.busyV}{0%{background-position-y:0%}100%{background-position-y:calc(var(--directionMultiplier)*(var(--size) - 4*var(--inputElementBorderSize)))}}`,
+  ].join('\n'), PrecedenceLevel.INTERNAL)
 })

@@ -1,4 +1,5 @@
 import {
+  c,
   Color,
   ColorFormat,
   injectInlineCSSVariables,
@@ -137,6 +138,12 @@ export const Switch = forwardRef(({
     }, containerRef.current)
   }, [tint, effectiveSize])
 
+  const progressRingElement = busy && <ProgressRing
+    color='#808080'
+    {...effectiveProgressRingPresets}
+    {...progressRingProps}
+  />
+
   return (
     <label ref={containerRef} className={styles.container}>
       {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
@@ -149,17 +156,13 @@ export const Switch = forwardRef(({
         onClick={useCallback((e) => { onChange?.(!value, e) }, [onChange, value])}
         disabled={disabled}
       >
-        <View
-          className={styles.thumb}
-          style={busy ? { backgroundColor: 'transparent' } : {}}
-        >
-          {busy && (
-            <ProgressRing
-              color='#808080'
-              {...effectiveProgressRingPresets}
-              {...progressRingProps}
-            />
-          )}
+        <View className={styles.buttonContainer}>
+          <View className={c(styles.thumbBase, styles.thumbUnchecked)}>
+            {progressRingElement}
+          </View>
+          <View className={c(styles.thumbBase, styles.thumbChecked)}>
+            {progressRingElement}
+          </View>
         </View>
       </ButtonBase>
       {(position === BASIC_UI_POSITION_START && children) && <View>{children}</View>}

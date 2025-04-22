@@ -139,6 +139,7 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
       appTextColor2: adjustLightness(appTextColorSrc, isLightColorScheme ? 1.1 : 0.9).toString(),
       appTextColor3: adjustLightness(appTextColorSrc, isLightColorScheme ? 1.2 : 0.8).toString(),
       appTextColor4: adjustLightness(appTextColorSrc, isLightColorScheme ? 1.3 : 0.7).toString(),
+      appTextColorStrong: isLightColorScheme ? '#000000' : '#ffffff',
       separatorColor2: adjustLightness(separatorColorSrc, isLightColorScheme ? 1.1 : 0.9).toString(),
       separatorColor3: adjustLightness(separatorColorSrc, isLightColorScheme ? 1.2 : 0.8).toString(),
       separatorColor4: adjustLightness(separatorColorSrc, isLightColorScheme ? 1.3 : 0.7).toString(),
@@ -162,14 +163,15 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
     const inputBorderColor = '#808080'
     this.internalValues = {
       busyShadeA: '#80808040',
-      busyShadeB: `#808080${colorScheme === ColorScheme.light ? '00' : '20'}`,
+      busyShadeB: `#808080${isLightColorScheme ? '00' : '20'}`,
       inputBorderColor,
-      progressBg: `#000000${colorScheme === ColorScheme.light ? '10' : '40'}`,
-      switchBackground: colorScheme === ColorScheme.light ? '#4b4b4b40' : '#00000000',
-      switchBorderColor: colorScheme === ColorScheme.light ? '#80808040' : inputBorderColor,
-      switchDisabledBackground: colorScheme === ColorScheme.light ? '#80808020' : '#00000000',
+      progressBg: `#000000${isLightColorScheme ? '10' : '40'}`,
+      switchBackground: isLightColorScheme ? '#4b4b4b40' : '#00000000',
+      switchBorderColor: isLightColorScheme ? '#80808040' : inputBorderColor,
+      switchDisabledBackground: isLightColorScheme ? '#80808020' : '#00000000',
       switchThumbStretchSize: '5px',
-      thumbColor: colorScheme === ColorScheme.light ? '#ffffff' : '#eeeeee',
+      thumbColor: isLightColorScheme ? '#ffffff' : '#eeeeee',
+      buttonDisabledColor: isLightColorScheme ? '#b5b5b5' : '#4b4b4b',
     }
 
   }

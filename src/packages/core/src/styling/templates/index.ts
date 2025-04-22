@@ -7,6 +7,7 @@ import { StyleMap } from '../style-map'
  */
 export const TemplateStyles = {
   hidden: 'hidden',
+  noScroll: 'noScroll',
   a: 'a',
   // TODO: code
 } as const
@@ -20,6 +21,9 @@ clientOnly(() => {
       position: 'fixed',
       top: 0,
       zIndex: -9999,
+    }],
+    [`.${TemplateStyles.noScroll}`, {
+      overflow: 'hidden',
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })

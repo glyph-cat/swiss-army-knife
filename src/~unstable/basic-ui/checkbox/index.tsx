@@ -123,7 +123,7 @@ export const Checkbox = forwardRef(({
     return () => { target.removeEventListener('change', enforceIndeterminateState) }
   }, [value])
 
-  useDataMounted(inputRef) // TODO
+  useDataMounted(inputRef)
 
   const containerRef = useRef<HTMLLabelElement>(null)
   useEffect(() => {
