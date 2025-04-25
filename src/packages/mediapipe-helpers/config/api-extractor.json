@@ -1,6 +1,17 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/index.d.ts",
+  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/mediapipe-helpers/src/index.d.ts",
+  "compiler": {
+    "overrideTsconfig": {
+      "compilerOptions": {
+        "paths": {
+          "@glyph-cat/swiss-army-knife": [
+            "./temp/types/core/src"
+          ]
+        }
+      }
+    }
+  },
   "apiReport": {
     "enabled": false
   },

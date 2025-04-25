@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "afe": "tsx ./scripts/run/auto-forward-exports",
+    "clean": "rm -rf ./lib ./temp/tsc",
     "lint": "eslint .",
     "test": "jest -c jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",

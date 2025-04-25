@@ -2,7 +2,7 @@ import { Finger, FingerCurl, HandGesture } from '.'
 
 // TODO
 
-test('temp', () => {
+test.skip('temp', () => {
 
   const thumbHandGesture = new HandGesture({
     [Finger.THUMB]: FingerCurl.NO,

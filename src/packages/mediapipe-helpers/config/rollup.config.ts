@@ -11,10 +11,12 @@ import pkg from '../package.json'
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
+  'node_modules',
+  '@glyph-cat/swiss-army-knife',
   ...getDependencies(rootPackageJson),
 ].sort()
 
-const UMD_NAME = 'MediapipeHelpers'
+// const UMD_NAME = 'MediapipeHelpers'
 
 function getPlugins(): Array<RollupPlugin> {
 
@@ -86,19 +88,22 @@ const config: Array<RollupOptions> = [
     external: EXTERNAL_LIBS,
     plugins: getPlugins(),
   },
-  {
-    // UMD (Minified)
-    input: INPUT_FILE,
-    output: {
-      file: 'lib/umd/index.min.js',
-      format: 'umd',
-      name: UMD_NAME,
-      exports: 'named',
-      sourcemap: true,
-    },
-    external: EXTERNAL_LIBS,
-    plugins: getPlugins(),
-  },
+  // {
+  //   // UMD (Minified)
+  //   input: INPUT_FILE,
+  //   output: {
+  //     file: 'lib/umd/index.min.js',
+  //     format: 'umd',
+  //     name: UMD_NAME,
+  //     exports: 'named',
+  //     sourcemap: true,
+  //     globals: {
+  //       '@glyph-cat/swiss-army-knife': 'GCSwissArmyKnife',
+  //     },
+  //   },
+  //   external: EXTERNAL_LIBS,
+  //   plugins: getPlugins(),
+  // },
 ]
 
 export default config
