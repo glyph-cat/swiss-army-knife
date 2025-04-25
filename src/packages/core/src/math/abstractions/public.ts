@@ -1,6 +1,14 @@
 /**
  * @public
  */
+export interface Dimension2D {
+  height: number
+  width: number
+}
+
+/**
+ * @public
+ */
 export interface Value2D {
   x: number
   y: number

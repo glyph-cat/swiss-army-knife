@@ -18,8 +18,8 @@ export function autoForwardExports(entryPath: string): void {
     const ignorePattern = /\.(draft|old|scripted|secret)\.?/
     if (!indexPattern.test(filePath)) { return }
     if (ignorePattern.test(filePath)) { return }
-    const fileContents = readFileSync(filePath, Encoding.UTF_8).trim()
-    if (!/^export \* from '\.\/index\.scripted'$/.test(fileContents)) { return }
+    const fileContents = readFileSync(filePath, Encoding.UTF_8)
+    if (!/export \* from '\.\/index\.scripted'/.test(fileContents)) { return }
     // #endregion Filtering
 
     // #region Get directory contents

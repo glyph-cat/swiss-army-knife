@@ -7,6 +7,7 @@ function main(): void {
 
   linkNodeModules(cwd, 'core')
   linkNodeModules(cwd, 'react')
+  linkNodeModules(cwd, 'mediapipe-helpers')
   linkNodeModules(cwd, 'cleanup-manager')
   linkNodeModules(cwd, 'cli-parameter-parser')
   linkNodeModules(cwd, 'react-test-utils')
@@ -15,7 +16,7 @@ function main(): void {
 
 main()
 
-type PackageName = 'core' | 'react' | 'cleanup-manager' | 'cli-parameter-parser' | 'react-test-utils'
+type PackageName = 'core' | 'react' | 'mediapipe-helpers' | 'cleanup-manager' | 'cli-parameter-parser' | 'react-test-utils'
 
 function linkNodeModules(cwd: string, packageName: PackageName): void {
   const node_modules = 'node_modules'

@@ -33,12 +33,26 @@
     "prefix": "// Early exit",
     "body": "// Early exit"
   },
-  "@Internal": {
+  "@defaultValue": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "@defaultValue",
+    "body": "@defaultValue",
+  },
+  "@defaultValue comment block": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "/**",
+    "body": [
+      "/**",
+      "* @defaultValue",
+      "*/",
+    ],
+  },
+  "@internal": {
     "scope": "typescript,typescriptreact",
     "prefix": "@internal",
     "body": "@internal",
   },
-  "@Internal comment block": {
+  "@internal comment block": {
     "scope": "typescript,typescriptreact",
     "prefix": "/**",
     "body": [

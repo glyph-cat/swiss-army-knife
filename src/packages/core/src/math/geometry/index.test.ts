@@ -3,7 +3,7 @@ import {
   getDistance2DByCoordinates,
   getDistance3D,
   getDistance3DByCoordinate,
-  reflectValueOnLine,
+  reflect1D,
 } from '.'
 
 test(getDistance2D.name, () => {
@@ -26,22 +26,26 @@ test(getDistance2DByCoordinates.name, () => {
   expect(getDistance2DByCoordinates(a, b)).toBe(260.7757657452088)
 })
 
-// TODO: getDistance3D
+test(getDistance3D.name, () => {
+  throw new Error('TODO')
+})
 
-// TODO: getDistance3DByCoordinate
+test(getDistance3DByCoordinate.name, () => {
+  throw new Error('TODO')
+})
 
-describe(reflectValueOnLine.name, () => {
+describe(reflect1D.name, () => {
 
   test('Positive only', () => {
-    expect(reflectValueOnLine(5, 10)).toBe(15)
+    expect(reflect1D(5, 10)).toBe(15)
   })
 
   test('Negative only', () => {
-    expect(reflectValueOnLine(-15, -10)).toBe(-5)
+    expect(reflect1D(-15, -10)).toBe(-5)
   })
 
   test('Negative <-> positive', () => {
-    expect(reflectValueOnLine(-20, 10)).toBe(40)
+    expect(reflect1D(-20, 10)).toBe(40)
   })
 
 })
