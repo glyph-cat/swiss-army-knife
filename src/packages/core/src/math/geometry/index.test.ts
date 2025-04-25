@@ -27,11 +27,14 @@ test(getDistance2DByCoordinates.name, () => {
 })
 
 test(getDistance3D.name, () => {
-  throw new Error('TODO')
+  expect(getDistance3D(0, 0, 0, 4, 3, 0)).toBe(5)
 })
 
 test(getDistance3DByCoordinate.name, () => {
-  throw new Error('TODO')
+  expect(getDistance3DByCoordinate(
+    { x: 0, y: 0, z: 0 },
+    { x: 4, y: 3, z: 0 },
+  )).toBe(5)
 })
 
 describe(reflect1D.name, () => {
