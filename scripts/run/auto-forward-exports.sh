@@ -7,7 +7,7 @@ ECHO "Forwarding exports for react package..."
 yarn --cwd ./src/packages/react afe
 
 ECHO "Forwarding exports for mediapipe helpers..."
-yarn --cwd ./src/packages/mediapipe-helpers afe
+yarn --cwd ./src/packages/ml-helpers afe
 
 ECHO "Forwarding exports for playground..."
 yarn afe-playground

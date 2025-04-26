@@ -29,8 +29,8 @@
       "path": "../src/packages/cli-parameter-parser"
     },
     {
-      "name": "mediapipe helpers",
-      "path": "../src/packages/mediapipe-helpers"
+      "name": "ml helpers",
+      "path": "../src/packages/ml-helpers"
     },
     {
       "name": "unstable",

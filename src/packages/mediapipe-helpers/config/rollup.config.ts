@@ -16,7 +16,7 @@ const EXTERNAL_LIBS = [
   ...getDependencies(rootPackageJson),
 ].sort()
 
-// const UMD_NAME = 'MediapipeHelpers'
+// const UMD_NAME = 'MLHelpers'
 
 function getPlugins(): Array<RollupPlugin> {
 

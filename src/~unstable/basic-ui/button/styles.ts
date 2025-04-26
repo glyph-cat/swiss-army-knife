@@ -38,7 +38,10 @@ clientOnly(() => {
     [`.${styles.button}:enabled:hover`, {
       backgroundImage: 'linear-gradient(#ffffff20,#ffffff20)',
     }],
-    [`.${styles.button}:enabled:active`, {
+    [[
+      `.${styles.button}:enabled:active`,
+      `.${styles.button}:enabled[aria-pressed="true"]`,
+    ].join(','), {
       backgroundImage: 'linear-gradient(#00000040,#00000040)',
     }],
     [`.${styles.button}:disabled`, {
