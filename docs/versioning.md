@@ -9,3 +9,4 @@
 | `@glyph-cat/cleanup-manager`        | `cleanup-manager-v#.#.#`      |
 | `@glyph-cat/react-test-utils`       | `react-test-utils-v#.#.#`     |
 | `@glyph-cat/cli-parameter-parser`   | `cli-parameter-parser-v#.#.#` |
+| `@glyph-cat/ml-helpers`             | `ml-helpers-v#.#.#`           |
