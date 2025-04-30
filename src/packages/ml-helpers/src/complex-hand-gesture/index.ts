@@ -10,7 +10,7 @@ import { NormalizedLandmark } from '@mediapipe/hands'
 import { HandPoseLandmark } from '../analyzers'
 
 /**
- * @internal
+ * @public
  */
 export enum Finger {
   THUMB = 'T',
@@ -22,7 +22,7 @@ export enum Finger {
 fullyEnumerate(Finger)
 
 /**
- * @internal
+ * @public
  */
 export enum FingerCurl {
   STRAIGHT = 1,
@@ -30,6 +30,9 @@ export enum FingerCurl {
   FULL,
 }
 
+/**
+ * @public
+ */
 export type FingerCurlExpression = {
   is: FingerCurl
   isOneOf?: never
@@ -58,7 +61,7 @@ interface CompactFingerCurlExpression {
 }
 
 /**
- * @internal
+ * @public
  */
 export class ComplexHandGesture {
 

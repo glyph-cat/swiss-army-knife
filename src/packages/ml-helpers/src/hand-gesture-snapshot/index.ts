@@ -1,5 +1,4 @@
 import {
-  fullyEnumerate,
   getAngleFromPointsIn3D,
   isInRange,
   NumericDataSet,
@@ -7,23 +6,14 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import { NormalizedLandmark } from '@mediapipe/hands'
 import { HandPoseLandmark } from '../analyzers'
-
-/**
- * @internal
- */
-export enum Finger {
-  THUMB = 'T',
-  INDEX = 'I',
-  MIDDLE = 'M',
-  RING = 'R',
-  PINKY = 'P',
-}
-fullyEnumerate(Finger)
+import { Finger } from '../complex-hand-gesture'
 
 interface ProcessedDataPoint {
   mean: number
   stdDev: number
 }
+
+// KIV: Still experimental
 
 /**
  * @internal
