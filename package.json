@@ -78,8 +78,6 @@
     "babel-jest": "^29.7.0",
     "chalk": "^5.4.1",
     "clean-css": "^5.3.3",
-    "cotton-box": "^0.6.0",
-    "cotton-box-react": "^0.6.0",
     "eslint": "^9.21.0",
     "eslint-import-resolver-typescript": "^3.8.3",
     "eslint-plugin-functional": "^9.0.1",
@@ -110,5 +108,9 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "ua-parser-js": "^2.0.2"
+  },
+  "dependencies": {
+    "cotton-box": "^0.8.0",
+    "cotton-box-react": "^0.8.0"
   }
 }

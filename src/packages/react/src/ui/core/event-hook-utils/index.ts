@@ -57,7 +57,7 @@ export function useKeyDownListener(
   onKeyDown: (e: KeyboardEvent) => void,
   dependencies: DependencyList,
   enabled = true,
-  ignoreLayerFocus = false,
+  ignoreLayerFocus = false, // TODO: rename `ignoreNavigationFocus`?
 ): void {
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()
@@ -81,7 +81,7 @@ export function useKeyUpListener(
   onKeyUp: (e: KeyboardEvent) => void,
   dependencies: DependencyList,
   enabled = true,
-  ignoreLayerFocus = false,
+  ignoreLayerFocus = false, // TODO: rename `ignoreNavigationFocus`?
 ): void {
   const { keyChordManager } = useCoreUIContext()
   const isAnyInputFocused = useCheckInputFocus()

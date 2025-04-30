@@ -1,5 +1,5 @@
-import { DEFAULT_WINDOW_DIMENSIONS } from './constants'
 import { ScreenDimensionSpec, WindowDimensionSpec } from './abstractions'
+import { DEFAULT_WINDOW_DIMENSIONS } from './constants'
 
 /**
  * @public

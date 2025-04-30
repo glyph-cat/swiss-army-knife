@@ -62,7 +62,7 @@ export function getDistance3D(
  * @returns The distance between the two points.
  * @public
  */
-export function getDistance3DByCoordinate(a: Value3D, b: Value3D): number {
+export function getDistance3DByCoordinates(a: Value3D, b: Value3D): number {
   return getDistance3D(a.x, a.y, a.z, b.x, b.y, b.z)
 }
 

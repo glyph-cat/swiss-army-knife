@@ -1,4 +1,4 @@
-import { SimpleStateManager } from 'cotton-box'
+import { SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
 import { isFunction } from '../../data'
 import { waitForHTMLMediaElementToPlay } from '../../dom'
 import { Dimension2D } from '../../math'
@@ -29,7 +29,22 @@ function exactDeviceIDConstraint(deviceId: string): MediaStreamConstraints {
 export class VideoCamera {
 
   private mediaStream: MediaStream
-  readonly state = new SimpleStateManager(VideoCamera.State.CREATED)
+
+  readonly state = new SimpleFiniteStateManager(VideoCamera.State.CREATED, [
+    [VideoCamera.State.CREATED, VideoCamera.State.STARTING],
+    [VideoCamera.State.CREATED, VideoCamera.State.DISPOSED],
+    [VideoCamera.State.STARTING, VideoCamera.State.STARTED],
+    [VideoCamera.State.STARTING, VideoCamera.State.DENIED],
+    [VideoCamera.State.DENIED, VideoCamera.State.DISPOSED],
+    [VideoCamera.State.STARTED, VideoCamera.State.STOPPED],
+    [VideoCamera.State.STOPPED, VideoCamera.State.STARTED],
+    [VideoCamera.State.STOPPED, VideoCamera.State.DISPOSED],
+  ], {
+    serializeState(state) {
+      return VideoCamera.State[state] ?? String(state)
+    },
+  })
+
   readonly videoElement: HTMLVideoElement
   readonly videoDimensions = new SimpleStateManager<Dimension2D>({
     height: 0,
@@ -53,14 +68,7 @@ export class VideoCamera {
    * user preference.
    */
   async start(preferredMediaDeviceId?: string): Promise<void> {
-    if (![
-      // These are the only valid states to start
-      VideoCamera.State.CREATED,
-      VideoCamera.State.STOPPED,
-    ].includes(this.state.get())) { return } // Early exit
-    this.state.set((s) => s === VideoCamera.State.STOPPED
-      ? VideoCamera.State.RESTARTING
-      : VideoCamera.State.STARTING)
+    this.state.set(VideoCamera.State.STARTING)
     try {
       const constraints = preferredMediaDeviceId
         ? exactDeviceIDConstraint(preferredMediaDeviceId)
@@ -83,10 +91,8 @@ export class VideoCamera {
 
   async stop(): Promise<void> {
     if (this.state.get() === VideoCamera.State.STARTING) {
-      await this.state.wait(VideoCamera.State.STARTED)
+      await this.state.wait((s) => s > VideoCamera.State.STARTING)
     }
-    // Do not block or throw error, if there is nothing to stop, this function
-    // should be able to run silently without causing problems.
     if (isFunction(this.mediaStream?.getTracks)) {
       // https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/stop
       const tracks = this.mediaStream.getTracks()
@@ -104,7 +110,6 @@ export class VideoCamera {
   // }
 
   async dispose(): Promise<void> {
-    await this.stop()
     this.videoElement?.remove()
     this.state.set(VideoCamera.State.DISPOSED)
     this.state.dispose()
@@ -125,7 +130,6 @@ export namespace VideoCamera {
     STARTING,
     DENIED,
     STARTED,
-    RESTARTING,
     STOPPED,
     DISPOSED,
   }
