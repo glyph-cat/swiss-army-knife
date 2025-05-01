@@ -41,6 +41,18 @@ export function AppSideBarWrapper({
 
   const router = useRouter()
 
+  const onTriggerSoftReload = useCallback((e: MouseEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      const n = 20
+      console.info(`Stress test soft reloading ${n} times`)
+      for (let i = 0; i < n; i++) {
+        CustomDebugger.softReload()
+      }
+    } else {
+      CustomDebugger.softReload()
+    }
+  }, [])
+
   const showCreateSandboxPopup = useCallback(async () => {
     const newSandboxName = window.prompt('New sandbox name:')
     if (isString(newSandboxName)) {
@@ -80,7 +92,7 @@ export function AppSideBarWrapper({
               </ClientOnly>
               <Button
                 className={styles.buttonBase}
-                onClick={CustomDebugger.softReload}
+                onClick={onTriggerSoftReload}
                 style={{ height: BUTTON_HEIGHT }}
               >
                 {'Soft Reload'}

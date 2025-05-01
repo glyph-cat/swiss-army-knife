@@ -1,7 +1,6 @@
 import { LazyValue, reflect1D } from '@glyph-cat/swiss-army-knife'
 import {
   GestureRecognizer,
-  GestureRecognizerOptions,
   GestureRecognizerResult,
   NormalizedLandmark,
 } from '@mediapipe/tasks-vision'
@@ -31,24 +30,30 @@ export interface OnePersonHandGestureAnalyzerResult {
  */
 export class OnePersonHandGestureAnalyzer extends BaseVisionAnalyzer<GestureRecognizer, OnePersonHandGestureAnalyzerResult> {
 
-  constructor(
-    private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer,
-    options?: GestureRecognizerOptions['cannedGesturesClassifierOptions'],
-  ) {
-    super(bodyPoseAnalyzer.videoElement, {}, new LazyValue(async () => {
-      return GestureRecognizer.createFromOptions(
-        await BaseVisionAnalyzer.getVision(),
-        {
-          baseOptions: {
-            modelAssetPath: '/mediapipe/models/gesture_recognizer.task',
-            delegate: 'GPU',
-          },
-          numHands: 2,
-          runningMode: 'VIDEO',
-          cannedGesturesClassifierOptions: { ...options },
-        }
-      )
-    }), 'recognizeForVideo')
+  /**
+   * @internal
+   */
+  private static M$taskRunnerGetter = new LazyValue(async () => {
+    return GestureRecognizer.createFromOptions(
+      await BaseVisionAnalyzer.getVision(),
+      {
+        baseOptions: {
+          modelAssetPath: '/mediapipe/models/gesture_recognizer.task',
+          delegate: 'GPU',
+        },
+        numHands: 2,
+        runningMode: 'VIDEO',
+      }
+    )
+  })
+
+  constructor(private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer) {
+    super(
+      bodyPoseAnalyzer.videoElement,
+      {},
+      OnePersonHandGestureAnalyzer.M$taskRunnerGetter,
+      'recognizeForVideo',
+    )
   }
 
   protected getProcessedResult(rawResult: GestureRecognizerResult): OnePersonHandGestureAnalyzerResult {

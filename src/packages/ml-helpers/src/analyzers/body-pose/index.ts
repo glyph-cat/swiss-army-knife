@@ -12,25 +12,30 @@ export type OnePersonBodyPoseAnalyzerResult = Array<NormalizedLandmark>
  */
 export class OnePersonBodyPoseAnalyzer extends BaseLandmarkAnalyzer<PoseLandmarker, OnePersonBodyPoseAnalyzerResult> {
 
+  /**
+   * @internal
+   */
+  private static M$taskRunnerGetter = new LazyValue(async () => {
+    return PoseLandmarker.createFromOptions(
+      await BaseLandmarkAnalyzer.getVision(),
+      {
+        baseOptions: {
+          modelAssetPath: '/mediapipe/models/pose_landmarker_lite.task',
+          delegate: 'GPU',
+        },
+        numPoses: 1,
+        runningMode: 'VIDEO',
+      }
+    )
+  })
+
   constructor(videoElement: HTMLVideoElement) {
     super(videoElement, new Array(Object.keys(BodyPoseLandmark).length / 2).fill({
       x: 0,
       y: 0,
       z: 0,
       visibility: 0,
-    }), new LazyValue(async () => {
-      return PoseLandmarker.createFromOptions(
-        await BaseLandmarkAnalyzer.getVision(),
-        {
-          baseOptions: {
-            modelAssetPath: '/mediapipe/models/pose_landmarker_lite.task',
-            delegate: 'GPU',
-          },
-          numPoses: 1,
-          runningMode: 'VIDEO',
-        }
-      )
-    }))
+    }), OnePersonBodyPoseAnalyzer.M$taskRunnerGetter)
   }
 
   protected getProcessedResult(rawResult: PoseLandmarkerResult): OnePersonBodyPoseAnalyzerResult {

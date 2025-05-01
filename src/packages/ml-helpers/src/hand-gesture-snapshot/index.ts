@@ -8,12 +8,12 @@ import { NormalizedLandmark } from '@mediapipe/hands'
 import { HandPoseLandmark } from '../analyzers'
 import { Finger } from '../complex-hand-gesture'
 
+// KIV: Still experimental
+
 interface ProcessedDataPoint {
   mean: number
   stdDev: number
 }
-
-// KIV: Still experimental
 
 /**
  * @internal

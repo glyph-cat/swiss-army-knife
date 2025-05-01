@@ -22,20 +22,25 @@ export interface OnePersonHandPoseAnalyzerResult {
  */
 export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmarker, OnePersonHandPoseAnalyzerResult> {
 
+  /**
+   * @internal
+   */
+  private static M$taskRunnerGetter = new LazyValue(async () => {
+    return HandLandmarker.createFromOptions(
+      await BaseLandmarkAnalyzer.getVision(),
+      {
+        baseOptions: {
+          modelAssetPath: '/mediapipe/models/hand_landmarker.task',
+          delegate: 'GPU',
+        },
+        numHands: 2,
+        runningMode: 'VIDEO',
+      }
+    )
+  })
+
   constructor(private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer) {
-    super(bodyPoseAnalyzer.videoElement, {}, new LazyValue(async () => {
-      return HandLandmarker.createFromOptions(
-        await BaseLandmarkAnalyzer.getVision(),
-        {
-          baseOptions: {
-            modelAssetPath: '/mediapipe/models/hand_landmarker.task',
-            delegate: 'GPU',
-          },
-          numHands: 2,
-          runningMode: 'VIDEO',
-        }
-      )
-    }))
+    super(bodyPoseAnalyzer.videoElement, {}, OnePersonHandPoseAnalyzer.M$taskRunnerGetter)
   }
 
   protected getProcessedResult(rawResult: HandLandmarkerResult): OnePersonHandPoseAnalyzerResult {

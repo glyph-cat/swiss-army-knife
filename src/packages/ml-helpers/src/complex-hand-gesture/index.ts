@@ -55,7 +55,7 @@ export type FingerCurlExpression = {
   isNotOneOf: Array<FingerCurl>
 }
 
-interface CompactFingerCurlExpression {
+interface SimplifiedFingerCurlExpression {
   curlStates: Set<FingerCurl>
   is: boolean
 }
@@ -65,7 +65,7 @@ interface CompactFingerCurlExpression {
  */
 export class ComplexHandGesture {
 
-  static getFingerCurlRawAngles(
+  static getFingerCurlAngles(
     hand: Array<NormalizedLandmark>,
     finger: Finger
   ): Array<number> {
@@ -80,39 +80,28 @@ export class ComplexHandGesture {
     return angles
   }
 
-  static getFingerCurlData(
-    hand: Array<NormalizedLandmark>,
-    finger: Finger
-  ): NumericDataSet {
-    return new NumericDataSet(this.getFingerCurlRawAngles(hand, finger))
-  }
-
   static determineFingerCurl(
     hand: Array<NormalizedLandmark>,
     finger: Finger
   ): FingerCurl {
-    const data = this.getFingerCurlData(hand, finger)
+    const data = new NumericDataSet(this.getFingerCurlAngles(hand, finger))
     if (finger !== Finger.THUMB && data.mean >= DEFAULT_STRAIGHT_THRESHOLD) {
       return FingerCurl.STRAIGHT
     } else if (data.mean >= THUMB_STRAIGHT_THRESHOLD) {
       return FingerCurl.STRAIGHT
     }
-    // TOFIX: for full curl, compare all 3 angles in the array
-    if (finger !== Finger.THUMB && data.mean < DEFAULT_FULL_CURL_THRESHOLD) {
-      return FingerCurl.FULL
-    } else if (data.mean >= THUMB_FULL_CURL_THRESHOLD) {
-      return FingerCurl.FULL
-    }
-    return FingerCurl.HALF
+    return diffDoesNotExceedDelta(data.values, FULL_CURL_ANGLE_LOOKUP[finger], 10)
+      ? FingerCurl.FULL
+      : FingerCurl.HALF
   }
 
   /**
    * @internal
    */
-  private readonly M$compactFingerCurlExpression: PartialRecord<Finger, Readonly<CompactFingerCurlExpression>>
+  private readonly M$compactFingerCurlExpression: PartialRecord<Finger, Readonly<SimplifiedFingerCurlExpression>>
 
   constructor(fingerCurlStates: PartialRecord<Finger, FingerCurlExpression>) {
-    const compactFingerCurlExpression: PartialRecord<Finger, Readonly<CompactFingerCurlExpression>> = {}
+    const compactFingerCurlExpression: PartialRecord<Finger, Readonly<SimplifiedFingerCurlExpression>> = {}
     for (const curlState in fingerCurlStates) {
       const curlDefinition = fingerCurlStates[curlState as Finger]
       if (hasProperty(curlDefinition, 'is')) {
@@ -140,7 +129,7 @@ export class ComplexHandGesture {
     this.M$compactFingerCurlExpression = compactFingerCurlExpression
   }
 
-  isFulfilledBy(hand: Array<NormalizedLandmark>): boolean {
+  isMatchedBy(hand: Array<NormalizedLandmark>): boolean {
     for (const curlState in this.M$compactFingerCurlExpression) {
       if (!hasProperty(this.M$compactFingerCurlExpression, curlState)) { continue }
       const fingerCurlResult = ComplexHandGesture.determineFingerCurl(hand, curlState as Finger)
@@ -163,15 +152,29 @@ export class ComplexHandGesture {
 const DEFAULT_STRAIGHT_THRESHOLD = degToRad(170)
 const THUMB_STRAIGHT_THRESHOLD = degToRad(150)
 
-/**
- * @deprecated
- */
-const DEFAULT_FULL_CURL_THRESHOLD = degToRad(100)
+// TODO: We can further refine this based on pitch/roll/yaw of the hand
+// the lookup table below is just for front-facing gestures
+const FULL_CURL_ANGLE_LOOKUP: Record<Finger, [number, number, number]> = {
+  [Finger.THUMB]: [degToRad(150), degToRad(160), degToRad(140)],
+  [Finger.INDEX]: [degToRad(155), degToRad(40), degToRad(175)],
+  [Finger.MIDDLE]: [degToRad(155), degToRad(40), degToRad(130)],
+  [Finger.RING]: [degToRad(145), degToRad(40), degToRad(125)],
+  [Finger.PINKY]: [degToRad(150), degToRad(35), degToRad(145)],
+}
 
-/**
- * @deprecated
- */
-const THUMB_FULL_CURL_THRESHOLD = degToRad(150)
+// TODO: better name
+function diffDoesNotExceedDelta(
+  a: Array<number> | ReadonlyArray<number>,
+  b: Array<number> | ReadonlyArray<number>,
+  delta: number
+): boolean {
+  for (let i = 0; i < a.length; i++) {
+    if (Math.abs(a[i] - b[i]) > delta) {
+      return false
+    }
+  }
+  return true
+}
 
 const FingerConnections = {
   [Finger.THUMB]: [
