@@ -12,9 +12,9 @@ export function useGameStats(enabled: boolean = true): void {
     document.body.append(stats.dom)
     const run = () => {
       stats.begin()
-      requestAnimationFrame(run)
+      lastAnimationFrame = requestAnimationFrame(run)
     }
-    requestAnimationFrame(run)
+    lastAnimationFrame = requestAnimationFrame(run)
     return () => {
       cancelAnimationFrame(lastAnimationFrame)
       stats.end()

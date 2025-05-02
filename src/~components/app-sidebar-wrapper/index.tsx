@@ -43,11 +43,7 @@ export function AppSideBarWrapper({
 
   const onTriggerSoftReload = useCallback((e: MouseEvent) => {
     if (e.ctrlKey || e.metaKey) {
-      const n = 20
-      console.info(`Stress test soft reloading ${n} times`)
-      for (let i = 0; i < n; i++) {
-        CustomDebugger.softReload()
-      }
+      CustomDebugger.testForMemoryLeak()
     } else {
       CustomDebugger.softReload()
     }

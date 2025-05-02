@@ -1,0 +1,13 @@
+.container {
+  --size: 300px;
+  background-color: #000000;
+  border: solid 1px #80808080;
+  height: var(--size);
+  width: var(--size);
+  overflow: scroll;
+}
+
+.canvas {
+  height: var(--size);
+  width: var(--size);
+}

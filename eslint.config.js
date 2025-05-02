@@ -54,6 +54,16 @@ module.exports = [
           },
         ],
       }],
+      'react/no-unknown-property': [Severity.ERROR, {
+        ignore: [
+          'angle',
+          'decay',
+          'intensity',
+          'penumbra',
+          'position',
+          'rotation',
+        ],
+      }],
     },
   },
   {

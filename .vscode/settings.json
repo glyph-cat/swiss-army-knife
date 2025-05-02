@@ -11,7 +11,9 @@
     "**/bower_components": true,
     "**/*.code-search": true,
     "**/lib": true,
+    // TODO: Find a way to include '.draft'
     "src/packages": true,
+    "src/pages/sandbox/_*/": false,
   },
   // "typescript.preferences.autoImportFileExcludePatterns": [
   //   // Reference: https://stackoverflow.com/a/76711526/5810737
