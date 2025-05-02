@@ -49,8 +49,10 @@ export const GesturePreset = {
 
 export const HandGestureSample = {
   ClosedFist: {
-    FrontFacing: {
+    FaceFront: {
+      /** @deprecated */
       ThumbSide: ClosedFistFrontFacingThumbSide,
+      /** @deprecated */
       ThumbFront: ClosedFistFrontFacingThumbFront,
     },
   },

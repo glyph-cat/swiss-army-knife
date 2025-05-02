@@ -1,5 +1,19 @@
-import { enumerate, fullyEnumerate, MutableEnumeration } from '.'
+import { createEnumToStringConverter, enumerate, fullyEnumerate, MutableEnumeration } from '.'
 import { tryOnly } from '../../function/try-only'
+
+test(createEnumToStringConverter.name, () => {
+
+  enum TestEnum {
+    FOO,
+    BAR,
+  }
+
+  const TestEnumToString = createEnumToStringConverter(TestEnum)
+
+  expect(TestEnumToString(TestEnum.FOO)).toBe('FOO')
+  expect(TestEnumToString('abc')).toBe('abc')
+
+})
 
 describe(fullyEnumerate.name, () => {
 

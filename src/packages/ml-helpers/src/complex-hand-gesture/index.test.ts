@@ -3,11 +3,11 @@ import { GesturePreset, HandGestureSample } from './test-data'
 test('Proof of concept', () => {
 
   expect(GesturePreset.ClosedFist.isMatchedBy(
-    HandGestureSample.ClosedFist.FrontFacing.ThumbFront
+    HandGestureSample.ClosedFist.FaceFront.ThumbFront
   )).toBe(true)
 
   expect(GesturePreset.ClosedFist.isMatchedBy(
-    HandGestureSample.ClosedFist.FrontFacing.ThumbSide
+    HandGestureSample.ClosedFist.FaceFront.ThumbSide
   )).toBe(true)
 
 })

@@ -1,5 +1,5 @@
 import { SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
-import { isFunction } from '../../data'
+import { createEnumToStringConverter, isFunction } from '../../data'
 import { waitForHTMLMediaElementToPlay } from '../../dom'
 import { Dimension2D } from '../../math'
 import { TemplateStyles } from '../../styling'
@@ -40,9 +40,7 @@ export class VideoCamera {
     [VideoCamera.State.STOPPED, VideoCamera.State.STARTED],
     [VideoCamera.State.STOPPED, VideoCamera.State.DISPOSED],
   ], {
-    serializeState(state) {
-      return VideoCamera.State[state] ?? String(state)
-    },
+    serializeState: createEnumToStringConverter(VideoCamera.State),
   })
 
   readonly videoElement: HTMLVideoElement
@@ -56,7 +54,7 @@ export class VideoCamera {
     this.stop = this.stop.bind(this)
     this.dispose = this.dispose.bind(this)
     this.videoElement = document.createElement('video')
-    this.videoElement.autoplay = true // KIV: find out why we need this for live video input
+    this.videoElement.autoplay = true
     this.videoElement.className = TemplateStyles.hidden
     this.videoElement.controls = false
     this.videoElement.muted = true

@@ -1,4 +1,10 @@
-import { Awaitable, LazyValue, NotImplementedError, StringRecord } from '@glyph-cat/swiss-army-knife'
+import {
+  Awaitable,
+  createEnumToStringConverter,
+  LazyValue,
+  NotImplementedError,
+  StringRecord,
+} from '@glyph-cat/swiss-army-knife'
 import { FilesetResolver } from '@mediapipe/tasks-vision'
 import { SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
 import { VisionLandmarker, WasmFileset } from '../../abstractions'
@@ -25,22 +31,16 @@ export class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, Result> {
   protected taskRunner: TaskRunner
   protected lastRequestedAnimationFrame: number
   readonly result: SimpleStateManager<Result>
-  readonly state = new SimpleFiniteStateManager(
-    VisionAnalyzerState.CREATED,
-    [
-      [VisionAnalyzerState.CREATED, VisionAnalyzerState.INITIALIZING],
-      [VisionAnalyzerState.CREATED, VisionAnalyzerState.DISPOSED],
-      [VisionAnalyzerState.INITIALIZING, VisionAnalyzerState.STANDBY],
-      [VisionAnalyzerState.ACTIVE, VisionAnalyzerState.STANDBY],
-      [VisionAnalyzerState.STANDBY, VisionAnalyzerState.ACTIVE],
-      [VisionAnalyzerState.STANDBY, VisionAnalyzerState.DISPOSED],
-    ],
-    {
-      serializeState(state) {
-        return VisionAnalyzerState[state] ?? String(state)
-      },
-    }
-  )
+  readonly state = new SimpleFiniteStateManager(VisionAnalyzerState.CREATED, [
+    [VisionAnalyzerState.CREATED, VisionAnalyzerState.INITIALIZING],
+    [VisionAnalyzerState.CREATED, VisionAnalyzerState.DISPOSED],
+    [VisionAnalyzerState.INITIALIZING, VisionAnalyzerState.STANDBY],
+    [VisionAnalyzerState.ACTIVE, VisionAnalyzerState.STANDBY],
+    [VisionAnalyzerState.STANDBY, VisionAnalyzerState.ACTIVE],
+    [VisionAnalyzerState.STANDBY, VisionAnalyzerState.DISPOSED],
+  ], {
+    serializeState: createEnumToStringConverter(VisionAnalyzerState),
+  })
 
   constructor(
     readonly videoElement: HTMLVideoElement,

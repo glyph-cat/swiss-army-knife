@@ -57,6 +57,21 @@ export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyK
   return enumeration as Enumeration<K, V>
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/**
+ * Creates a function that converts a value back to its enum key.
+ * If the value does not belong to the enum, it will be converted into a string as-is.
+ * @param enumObject - The enum
+ * @returns A function that converts a value back to its enum key.
+ * @public
+ */
+export function createEnumToStringConverter<T>(enumObject: any): ((value: T) => string) {
+  return (value) => String(enumObject[value] ?? value)
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
+/* eslint-enable @typescript-eslint/explicit-module-boundary-types */
+
 /**
  * Creates an enumeration from an object that is similar to TypeScript's `enum`,
  * but with additional flexibility of mutating the values.
