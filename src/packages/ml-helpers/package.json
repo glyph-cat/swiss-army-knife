@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/ml-helpers",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Helper functions to use in conjunction with machine learning outputs such as mediapipe.",
   "main": "lib/cjs/index.js",
   "types": "lib/types/index.d.ts",
