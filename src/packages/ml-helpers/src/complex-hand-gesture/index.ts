@@ -75,7 +75,7 @@ export class ComplexHandGesture {
       const pointA = hand[fingerConnection[i]]
       const midPoint = hand[fingerConnection[i + 1]]
       const pointB = hand[fingerConnection[i + 2]]
-      angles.push(getAngleFromPointsIn3D(midPoint, pointA, pointB))
+      angles.push(getAngleFromPointsIn3D(pointA, midPoint, pointB, midPoint))
     }
     return angles
   }
@@ -175,6 +175,9 @@ function diffDoesNotExceedDelta(
   }
   return true
 }
+
+// TOFIX: may be we should not consider angle at DIP
+// Only consider angles at PIP and MCP, if both fulfill then consider full curl, if only one then half curl
 
 const FingerConnections = {
   [Finger.THUMB]: [

@@ -34,7 +34,7 @@ export class HandGestureSnapshot {
       const pointA = hand[connectionA]
       const midPoint = hand[connectionMidpoint]
       const pointB = hand[connectionB]
-      angles[jointConnectionKey] = getAngleFromPointsIn3D(midPoint, pointA, pointB)
+      angles[jointConnectionKey] = getAngleFromPointsIn3D(pointA, midPoint, pointB, midPoint)
     }
     return angles
   }
