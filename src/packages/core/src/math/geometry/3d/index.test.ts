@@ -17,9 +17,17 @@ test(getDistance3DByCoordinates.name, () => {
 })
 
 test(getAngleFromPointsIn3D.name, () => {
-  throw new Error('TODO')
+  expect(getAngleFromPointsIn3D(
+    { x: 4, y: 4, z: 0 },
+    { x: 0, y: 0, z: 0 },
+    { x: -4, y: 4, z: 0 },
+    { x: 0, y: 0, z: 0 },
+  )).toBe(1.5707963267948966)
 })
 
 test(getAngleOfVectorsIn3D.name, () => {
-  throw new Error('TODO')
+  expect(getAngleOfVectorsIn3D(
+    { x: -4, y: -4, z: 0 },
+    { x: 4, y: -4, z: 0 },
+  )).toBe(1.5707963267948966)
 })

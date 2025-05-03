@@ -1,4 +1,4 @@
-import { View } from '@glyph-cat/swiss-army-knife-react'
+import { ClientOnly, View } from '@glyph-cat/swiss-army-knife-react'
 import { Component, ErrorInfo, ReactNode } from 'react'
 import styles from './index.module.css'
 
@@ -35,7 +35,11 @@ export class SandboxErrorBoundary extends Component<SandboxErrorBoundaryProps, S
         </View>
       )
     } else {
-      return this.props.children
+      return (
+        <ClientOnly>
+          {this.props.children}
+        </ClientOnly>
+      )
     }
   }
 

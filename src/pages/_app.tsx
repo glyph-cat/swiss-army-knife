@@ -1,6 +1,5 @@
 import {
   CheckApplePlatformProvider,
-  ClientOnly,
   CoreUIProvider,
   MaterialSymbolsOnlineLoader,
   MaterialSymbolsProvider,
@@ -13,7 +12,7 @@ import { useStateValue } from 'cotton-box-react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Fragment, JSX, StrictMode } from 'react'
-import { AppSideBarWrapper } from '~components/app-sidebar-wrapper'
+import { AppSideBar, AppSideBarContainer } from '~components/app-sidebar-wrapper'
 import { SandboxErrorBoundary } from '~components/sandbox-error-boundary'
 import { ENV, FixedKeyChordKey } from '~constants'
 import {
@@ -53,13 +52,12 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
             keyChordManager={GlobalKeyChordManager}
             portalManager={GlobalPortalManager}
           >
-            <AppSideBarWrapper>
-              <ClientOnly>
-                <SandboxErrorBoundary>
-                  <Component {...pageProps} />
-                </SandboxErrorBoundary>
-              </ClientOnly>
-            </AppSideBarWrapper>
+            <AppSideBar />
+            <AppSideBarContainer>
+              <SandboxErrorBoundary>
+                <Component {...pageProps} />
+              </SandboxErrorBoundary>
+            </AppSideBarContainer>
             <CheckApplePlatformProvider>
               <KeyListeners />
             </CheckApplePlatformProvider>

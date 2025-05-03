@@ -1,4 +1,4 @@
-import { c, Casing, isString } from '@glyph-cat/swiss-army-knife'
+import { Casing, isString } from '@glyph-cat/swiss-army-knife'
 import {
   ButtonBase as Button,
   ClientOnly,
@@ -21,18 +21,36 @@ import styles from './index.module.css'
 
 const BUTTON_HEIGHT = 28 // px
 
+const SIDEBAR_WIDTH = 240 // px
+
 const STRICT_MODE_ON_COLOR = '#c40'
 const STRICT_MODE_OFF_COLOR = '#06f'
 
 // TODO: Have a search input for sandboxes
 
-export interface AppSideBarWrapperProps {
-  children: ReactNode
+export interface AppSideBarContainerProps {
+  children?: ReactNode
 }
 
-export function AppSideBarWrapper({
+export function AppSideBarContainer({
   children,
-}: AppSideBarWrapperProps): JSX.Element {
+}: AppSideBarContainerProps): JSX.Element {
+  const shouldShowPerformanceDebugger = useStateValue(
+    CustomDebugger.state,
+    (s) => s.showPerformanceDebugger,
+  )
+  return (
+    <View style={shouldShowPerformanceDebugger ? {
+      left: SIDEBAR_WIDTH,
+      padding: 10,
+      width: `calc(100vw - ${SIDEBAR_WIDTH}px)`,
+    } : {}}>
+      {children}
+    </View>
+  )
+}
+
+export function AppSideBar(): JSX.Element {
 
   const {
     showPerformanceDebugger: shouldShowPerformanceDebugger,
@@ -58,61 +76,49 @@ export function AppSideBarWrapper({
     }
   }, [router])
 
-  return (
+  return shouldShowPerformanceDebugger && (
     <View
-      className={styles.container}
-      style={shouldShowPerformanceDebugger ? {
-        gridAutoFlow: 'column',
-        gridTemplateColumns: 'auto 1fr',
-      } : {}}
+      className={styles.sidebarContainer}
+      style={{ width: SIDEBAR_WIDTH }}
     >
-      {shouldShowPerformanceDebugger && (
-        <>
-          <View className={styles.sidebarContainerBase} />
-          <View className={c(styles.sidebarContainerBase, styles.sidebarContainer)}>
-            <View className={styles.buttonsContainer}>
-              <ClientOnly>
-                <Button
-                  className={styles.buttonBase}
-                  style={{
-                    backgroundColor: shouldUseStrictMode
-                      ? STRICT_MODE_ON_COLOR
-                      : STRICT_MODE_OFF_COLOR,
-                    color: '#ffffff',
-                    height: BUTTON_HEIGHT,
-                  }}
-                  onClick={CustomDebugger.toggleStrictMode}
-                >
-                  {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
-                </Button>
-              </ClientOnly>
-              <Button
-                className={styles.buttonBase}
-                onClick={onTriggerSoftReload}
-                style={{ height: BUTTON_HEIGHT }}
-              >
-                {'Soft Reload'}
-              </Button>
-              <Button
-                className={styles.buttonBase}
-                onClick={showCreateSandboxPopup}
-                style={{ height: BUTTON_HEIGHT }}
-              >
-                {'Create sandbox'}
-              </Button>
-              <ClientOnly>
-                <ThemeSelector />
-              </ClientOnly>
-            </View>
-            <SidebarContents />
-          </View>
-        </>
-      )}
-      <View className={styles.contentContainer}>
-        {children}
+      <View className={styles.buttonsContainer}>
+        <ClientOnly>
+          <Button
+            className={styles.buttonBase}
+            style={{
+              backgroundColor: shouldUseStrictMode
+                ? STRICT_MODE_ON_COLOR
+                : STRICT_MODE_OFF_COLOR,
+              color: '#ffffff',
+              height: BUTTON_HEIGHT,
+            }}
+            onClick={CustomDebugger.toggleStrictMode}
+          >
+            {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
+          </Button>
+        </ClientOnly>
+        <Button
+          className={styles.buttonBase}
+          onClick={onTriggerSoftReload}
+          style={{ height: BUTTON_HEIGHT }}
+        >
+          {'Soft Reload'}
+        </Button>
+        <Button
+          className={styles.buttonBase}
+          onClick={showCreateSandboxPopup}
+          style={{ height: BUTTON_HEIGHT }}
+        >
+          {'Create sandbox'}
+        </Button>
+        <ClientOnly>
+          <ThemeSelector />
+        </ClientOnly>
       </View>
+      <SidebarContents />
     </View>
   )
+
 }
 
 const leadingUnderscorePattern = /^_/
