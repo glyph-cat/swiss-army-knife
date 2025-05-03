@@ -30,6 +30,7 @@ export function getNthValue<T>(
   object: T,
   targetPosition: number,
 ): T[keyof T] {
+  if (!object) { return undefined }
   return object[getNthKey(object, targetPosition)]
 }
 
