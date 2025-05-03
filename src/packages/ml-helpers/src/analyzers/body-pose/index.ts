@@ -54,6 +54,9 @@ export class OnePersonBodyPoseAnalyzer extends BaseLandmarkAnalyzer<PoseLandmark
 
 }
 
+/**
+ * @public
+ */
 export enum BodyPoseLandmark {
   NOSE,
   LEFT_EYE_INNER,

@@ -1,6 +1,9 @@
 import { getDistance2DByCoordinates, Value3D } from '@glyph-cat/swiss-army-knife'
 import type { OnePersonHandPoseAnalyzerResult } from '.'
 
+/**
+ * @public
+ */
 export function getHandedness(
   currentWrist: Value3D,
   leftWrist: Value3D,

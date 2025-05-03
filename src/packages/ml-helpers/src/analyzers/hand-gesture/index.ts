@@ -90,6 +90,9 @@ export class OnePersonHandGestureAnalyzer extends BaseVisionAnalyzer<GestureReco
 
 }
 
+/**
+ * @public
+ */
 export enum HandGesture {
   NONE = 'None',
   CLOSED_FIST = 'Closed_Fist',
