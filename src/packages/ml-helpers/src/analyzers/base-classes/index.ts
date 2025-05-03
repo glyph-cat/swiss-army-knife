@@ -81,8 +81,8 @@ export class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, Result> {
   }
 
   async dispose(): Promise<void> {
-    // NOTE: `landmarker.close()` is not called and is meant to be kept until
-    // the app closes. Calling `landmarker.close()` on a class lifecycle basis
+    // NOTE: `taskRunner.close()` is not called and is meant to be kept until
+    // the app closes. Calling `taskRunner.close()` on a class lifecycle basis
     // causes a lot of issues:
     // - it seems like there is memory leakage even when `.close()` is called
     // - even if there is no memory leakage, having to fetch and close repeatedly

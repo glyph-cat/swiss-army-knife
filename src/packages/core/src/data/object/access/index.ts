@@ -5,10 +5,11 @@
  * @returns The key of the object at the nth position.
  * @public
  */
-export function getNthKey<T extends Record<PropertyKey, unknown>>(
+export function getNthKey<T>(
   object: T,
   targetPosition: number,
 ): keyof T {
+  if (!object) { return undefined }
   let position = 1
   for (const key in object) {
     if (position === targetPosition) {
@@ -25,7 +26,7 @@ export function getNthKey<T extends Record<PropertyKey, unknown>>(
  * @returns The value of the object at the nth position.
  * @public
  */
-export function getNthValue<T extends Record<PropertyKey, unknown>>(
+export function getNthValue<T>(
   object: T,
   targetPosition: number,
 ): T[keyof T] {
@@ -38,7 +39,7 @@ export function getNthValue<T extends Record<PropertyKey, unknown>>(
  * @returns The key of the object at the 1st position.
  * @public
  */
-export function getFirstKey<T extends Record<PropertyKey, unknown>>(object: T): keyof T {
+export function getFirstKey<T>(object: T): keyof T {
   return getNthKey(object, 1)
 }
 
@@ -48,6 +49,6 @@ export function getFirstKey<T extends Record<PropertyKey, unknown>>(object: T): 
  * @returns The value of the object at the 1st position.
  * @public
  */
-export function getFirstValue<T extends Record<PropertyKey, unknown>>(object: T): T[keyof T] {
+export function getFirstValue<T>(object: T): T[keyof T] {
   return getNthValue(object, 1)
 }

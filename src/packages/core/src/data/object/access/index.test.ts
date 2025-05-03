@@ -18,6 +18,10 @@ describe(getNthKey.name, () => {
     expect(getNthKey({}, 5)).toBe(undefined)
   })
 
+  test('Undefined object', () => {
+    expect(getNthKey(undefined, 5)).toBe(undefined)
+  })
+
 })
 
 describe(getNthValue.name, () => {
@@ -38,6 +42,10 @@ describe(getNthValue.name, () => {
     expect(getNthValue({}, 5)).toBe(undefined)
   })
 
+  test('Undefined object', () => {
+    expect(getNthValue(undefined, 5)).toBe(undefined)
+  })
+
 })
 
 describe(getFirstKey.name, () => {
@@ -50,6 +58,10 @@ describe(getFirstKey.name, () => {
     expect(getFirstKey({})).toBe(undefined)
   })
 
+  test('Undefined object', () => {
+    expect(getFirstKey(undefined)).toBe(undefined)
+  })
+
 })
 
 describe(getFirstValue.name, () => {
@@ -60,6 +72,10 @@ describe(getFirstValue.name, () => {
 
   test('Empty object', () => {
     expect(getFirstValue({})).toBe(undefined)
+  })
+
+  test('Undefined object', () => {
+    expect(getFirstValue(undefined)).toBe(undefined)
   })
 
 })

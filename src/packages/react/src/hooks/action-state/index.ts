@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useRef, useState, useTransition } from 'react'
+import { Dispatch, SetStateAction, startTransition, useCallback, useRef, useState, useTransition } from 'react'
 
 /**
  * @public
@@ -64,17 +64,17 @@ export function useActionState<State, Payload>(
   // Error: Rendered more hooks than during the previous render.
   // const [isPending, startTransition] = useTransition()
   //                                                   ^
-  const [isPending, startTransition] = useTransition()
-  // const [isPending, setIsPending] = useState(false)
+  // const [isPending, startTransition] = useTransition()
+  const [isPending, setIsPending] = useState(false)
   const dispatch = useCallback(async (payload: Payload) => {
-    // setIsPending(true)
-    // await startTransition(async () => {
-    //   setState(await actionRef.current(stateRef.current, payload))
-    //   setIsPending(false)
-    // })
-    startTransition(async () => {
+    setIsPending(true)
+    await startTransition(async () => {
       setState(await actionRef.current(stateRef.current, payload))
+      setIsPending(false)
     })
+    // startTransition(async () => {
+    //   setState(await actionRef.current(stateRef.current, payload))
+    // })
   }, [])
 
   return [state, dispatch, isPending, setState]

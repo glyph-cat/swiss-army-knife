@@ -16,6 +16,7 @@ export class SandboxErrorBoundary extends Component<SandboxErrorBoundaryProps, S
   state: Readonly<SandboxErrorBoundaryState> = {}
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    console.log({ error, errorInfo })
     this.setState({ error, errorInfo })
   }
 
