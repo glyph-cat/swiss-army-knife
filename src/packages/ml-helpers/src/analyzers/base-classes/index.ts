@@ -90,6 +90,7 @@ export class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, Result> {
     // - This is caught from within React's StrictMode + rapidly repeated soft reloads
     // - This can be a problem when the user intentionally stops and resumes
     //   the session multiple times
+    await this.state.wait((s) => s !== VisionAnalyzerState.INITIALIZING)
     this.result.dispose()
     this.state.set(VisionAnalyzerState.DISPOSED)
     this.state.dispose()
