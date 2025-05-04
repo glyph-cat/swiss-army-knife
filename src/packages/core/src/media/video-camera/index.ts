@@ -40,6 +40,7 @@ export class VideoCamera {
     [VideoCamera.State.STOPPED, VideoCamera.State.STARTED],
     [VideoCamera.State.STOPPED, VideoCamera.State.DISPOSED],
   ], {
+    name: 'VideoCamera',
     serializeState: createEnumToStringConverter(VideoCamera.State),
   })
 

@@ -35,7 +35,7 @@ export class OnePersonBodyPoseAnalyzer extends BaseLandmarkAnalyzer<PoseLandmark
       y: 0,
       z: 0,
       visibility: 0,
-    }), OnePersonBodyPoseAnalyzer.M$taskRunnerGetter)
+    }), OnePersonBodyPoseAnalyzer.M$taskRunnerGetter, 'OnePersonBodyPoseAnalyzer')
   }
 
   protected getProcessedResult(rawResult: PoseLandmarkerResult): OnePersonBodyPoseAnalyzerResult {

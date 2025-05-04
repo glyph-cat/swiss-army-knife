@@ -3805,15 +3805,15 @@ cosmiconfig@^9.0.0:
     js-yaml "^4.1.0"
     parse-json "^5.2.0"
 
-cotton-box-react@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.8.0.tgz#55b85b412c94fe3b934cfff6a87f0d4534949fc2"
-  integrity sha512-qnNZbcep/n3JP8VflpF7SI4GTKiym3YayDSjFwDLb6IJOxOcSDmva5H3InzaXxOnggHb7ZtpVWIWDr6+6Qx8/w==
+cotton-box-react@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.9.0.tgz#2babc53a66e49e2f3da809cb16a992df34e5ba8a"
+  integrity sha512-dGTzkZ20WMkVWyYFgySS/R/XrnjHv8+0wVvtp/Y0xsAJWEYeV+z6lEo0F9z/oy9+jRbNVtjNW6JMW8faQlgJaw==
 
-cotton-box@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/cotton-box/-/cotton-box-0.8.0.tgz#bd6c4438787f58683e4e085070cbd918ef043a5e"
-  integrity sha512-k9ecDOqLt5TAd/RClgJ7lPVvRXQw664y7VmbTCu4KPh5Y3iQ1FtRVQ+yDHTWtPlwDaTlzHQ3e14olHPg9x2ONA==
+cotton-box@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/cotton-box/-/cotton-box-0.9.0.tgz#a6e062af9af07f610ccbb93b03264bca10525174"
+  integrity sha512-jX+Y4p0ElGotOXVSWfXVtnC6nMtanFLiAykHK9mEqoqVdD1XZHewK2zUsN3FM6NdsaJj+5miGmlvii7bnKpp9g==
 
 create-jest@^29.7.0:
   version "29.7.0"

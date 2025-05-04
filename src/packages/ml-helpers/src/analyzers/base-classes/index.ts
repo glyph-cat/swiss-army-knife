@@ -31,30 +31,37 @@ export class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, Result> {
   protected taskRunner: TaskRunner
   protected lastRequestedAnimationFrame: number
   readonly result: SimpleStateManager<Result>
-  readonly state = new SimpleFiniteStateManager(VisionAnalyzerState.CREATED, [
-    [VisionAnalyzerState.CREATED, VisionAnalyzerState.INITIALIZING],
-    [VisionAnalyzerState.CREATED, VisionAnalyzerState.DISPOSED],
-    [VisionAnalyzerState.INITIALIZING, VisionAnalyzerState.STANDBY],
-    [VisionAnalyzerState.ACTIVE, VisionAnalyzerState.STANDBY],
-    [VisionAnalyzerState.STANDBY, VisionAnalyzerState.ACTIVE],
-    [VisionAnalyzerState.STANDBY, VisionAnalyzerState.DISPOSED],
-  ], {
-    serializeState: createEnumToStringConverter(VisionAnalyzerState),
-  })
+  readonly state: SimpleFiniteStateManager<VisionAnalyzerState>
 
   constructor(
     readonly videoElement: HTMLVideoElement,
     initialResult: Result,
     taskRunnerGetter: LazyValue<Awaitable<TaskRunner>>,
     readonly detectionMethodName: 'detectForVideo' | 'recognizeForVideo',
+    displayName: string,
   ) {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.getProcessedResult = this.getProcessedResult.bind(this)
     this.dispose = this.dispose.bind(this)
-    this.result = new SimpleStateManager<Result>(initialResult)
+
     // NOTE: `initialResult` was originally an extendable/inheritable property
     // https://stackoverflow.com/a/43595944/5810737
+    this.result = new SimpleStateManager<Result>(initialResult)
+
+    this.state = new SimpleFiniteStateManager(VisionAnalyzerState.CREATED, [
+      [VisionAnalyzerState.CREATED, VisionAnalyzerState.INITIALIZING],
+      [VisionAnalyzerState.CREATED, VisionAnalyzerState.DISPOSED],
+      [VisionAnalyzerState.INITIALIZING, VisionAnalyzerState.STANDBY],
+      [VisionAnalyzerState.ACTIVE, VisionAnalyzerState.STANDBY],
+      [VisionAnalyzerState.STANDBY, VisionAnalyzerState.ACTIVE],
+      [VisionAnalyzerState.STANDBY, VisionAnalyzerState.DISPOSED],
+    ], {
+      // TODO: change `detectionMethodName` in constructor to visionAnalyzerName, then from there decide whether to call 'detectForVideo' or 'recognizeForVideo'; so that we can use the visionAnalyzerName for the state as well.
+      name: 'VisionAnalyzer',
+      serializeState: createEnumToStringConverter(VisionAnalyzerState),
+    })
+
     const asyncCb = async () => {
       this.state.set(VisionAnalyzerState.INITIALIZING)
       this.taskRunner = await taskRunnerGetter.value
@@ -122,8 +129,15 @@ export class BaseLandmarkAnalyzer<Landmarker extends VisionLandmarker, Result> e
     videoElement: HTMLVideoElement,
     initialResult: Result,
     taskRunnerGetter: LazyValue<Awaitable<Landmarker>>,
+    displayName: string,
   ) {
-    super(videoElement, initialResult, taskRunnerGetter, 'detectForVideo')
+    super(
+      videoElement,
+      initialResult,
+      taskRunnerGetter,
+      'detectForVideo',
+      displayName,
+    )
   }
 
 }

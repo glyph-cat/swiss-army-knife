@@ -40,7 +40,12 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
   })
 
   constructor(private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer) {
-    super(bodyPoseAnalyzer.videoElement, {}, OnePersonHandPoseAnalyzer.M$taskRunnerGetter)
+    super(
+      bodyPoseAnalyzer.videoElement,
+      {},
+      OnePersonHandPoseAnalyzer.M$taskRunnerGetter,
+      'OnePersonHandPoseAnalyzer',
+    )
   }
 
   protected getProcessedResult(rawResult: HandLandmarkerResult): OnePersonHandPoseAnalyzerResult {

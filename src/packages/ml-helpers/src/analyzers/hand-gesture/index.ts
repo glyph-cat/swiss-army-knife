@@ -53,6 +53,7 @@ export class OnePersonHandGestureAnalyzer extends BaseVisionAnalyzer<GestureReco
       {},
       OnePersonHandGestureAnalyzer.M$taskRunnerGetter,
       'recognizeForVideo',
+      'OnePersonHandGestureAnalyzer',
     )
   }
 
