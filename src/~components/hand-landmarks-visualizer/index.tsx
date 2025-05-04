@@ -2,9 +2,10 @@ import { HAND_CONNECTIONS, HandPoseLandmark } from '@glyph-cat/ml-helpers'
 import { createEnumToStringConverter } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
 import { NormalizedLandmark } from '@mediapipe/tasks-vision'
-import { Line, OrbitControls } from '@react-three/drei'
-import { Canvas, } from '@react-three/fiber'
+import { GizmoHelper, GizmoViewport, Grid, Line, OrbitControls } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
 import { JSX, useLayoutEffect, useRef } from 'react'
+import { DoubleSide } from 'three'
 import { OrbitControls as OrbitControlsRefHandle } from 'three-stdlib'
 import styles from './index.module.css'
 
@@ -83,7 +84,24 @@ export function HandLandmarksVisualizer({
           enableDamping={false}
           enablePan={true}
           enableZoom={false}
+          makeDefault
         />
+
+        <Grid
+          infiniteGrid
+          sectionColor='#3c3c3c'
+          side={DoubleSide}
+        />
+
+        <GizmoHelper
+          alignment='bottom-right'
+          margin={[50, 50]}
+        >
+          <GizmoViewport
+            axisColors={['#9d4b4b', '#2f7f4f', '#3b5b9d']}
+            labelColor='#ffffff'
+          />
+        </GizmoHelper>
 
         {!!offsettedLandmarks && <mesh>
           {HAND_CONNECTIONS.map((connection, index) => {

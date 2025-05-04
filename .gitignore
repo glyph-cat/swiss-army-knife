@@ -117,3 +117,5 @@ src/pages/sandbox/_*/
 *.old*
 *.secret*
 temp/
+
+certificates
