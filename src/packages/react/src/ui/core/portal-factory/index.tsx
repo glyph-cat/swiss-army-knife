@@ -102,6 +102,9 @@ export function Portal({ children }: PortalProps): JSX.Element {
   return null
 }
 
+/**
+ * @public
+ */
 export function PortalCanvas(): JSX.Element {
   const { portalManager } = useCoreUIContext()
   const portalState = useSimpleStateValue(portalManager.M$state)
