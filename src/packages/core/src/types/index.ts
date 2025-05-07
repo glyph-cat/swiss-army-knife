@@ -42,6 +42,11 @@ export type StringRecord<T = unknown> = Record<string, T>
 export type PartialRecord<Key extends PropertyKey, Value> = Partial<Record<Key, Value>>
 
 /**
+ * @public
+ */
+export type ReadonlyOrWritableArray<T> = Array<T> | ReadonlyArray<T>
+
+/**
  * A representation of a generic JavaScript function with type inference.
  * @example
  * let getSum: TypedFunction<[a: number, b: number], number>

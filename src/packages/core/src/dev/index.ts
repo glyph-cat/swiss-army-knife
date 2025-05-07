@@ -1,5 +1,6 @@
 import { IS_DEBUG_ENV } from '../constants'
 import { isString } from '../data/type-check'
+import { ReadonlyOrWritableArray } from '../types'
 
 /**
  * @public
@@ -70,7 +71,7 @@ export function displayStringArray(array: unknown[]): string {
  * console.log(output) // ['foo', 42, true, Symbol(meow)]
  * @public
  */
-export function displayMixedArray(array: Array<unknown>): string {
+export function displayMixedArray(array: ReadonlyOrWritableArray<unknown>): string {
   const strStack = []
   for (const item of array) {
     strStack.push(isString(item) ? `'${item}'` : String(item))
@@ -85,7 +86,7 @@ export function displayMixedArray(array: Array<unknown>): string {
  * @example ['user', 'address', 'street', '1'] -> user.address.street[1]
  * @public
  */
-export function displayObjectPath(pathStack: Array<string>): string {
+export function displayObjectPath(pathStack: ReadonlyOrWritableArray<string>): string {
   let str = ''
   for (const path of pathStack) {
     // Dots will be used as long as it starts with letters

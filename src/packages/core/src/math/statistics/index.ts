@@ -47,7 +47,7 @@ export class NumericDataSet {
   private M$stddev: number
 
   constructor(
-    readonly values: Readonly<Array<number>>,
+    readonly values: ReadonlyArray<number>,
     readonly options?: Readonly<NumericDataSetOptions>
   ) { }
 

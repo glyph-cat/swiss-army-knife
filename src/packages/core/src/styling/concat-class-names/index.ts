@@ -1,8 +1,10 @@
+import { ReadonlyOrWritableArray } from '../../types'
+
 /**
  * Concatenates CSS class names into a string. Falsy values will be ignored.
  * @public
  */
-export function concatClassNames(...classNames: Array<string>): string {
+export function concatClassNames(...classNames: ReadonlyOrWritableArray<string>): string {
   return classNames.filter((className) => !!className)
     .join(' ')
     .trim()
