@@ -37,32 +37,32 @@ export function ThemeProvider({
   const isNested = isObjectNotNull(useContext(ThemeContext))
   const className = useClassName()
 
-  const spacingStyles = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
-    for (const key in theme.spacing) {
-      const value = theme.spacing[key]
-      const property = `--spacing${key}`
-      styleObject[property] = `${value}px`
-    }
-    return styleObject
-  }, [theme.spacing])
-
   const paletteStyles = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
     for (const key in theme.palette) {
       const value = theme.palette[key]
-      const property = `--${new Casing(key).toCamelCase()}`
-      styleObject[property] = value
+      const token = `--${new Casing(key).toCamelCase()}`
+      styleObject[token] = value
     }
     return styleObject
   }, [theme.palette])
+
+  const spacingStyles = useMemo(() => {
+    const styleObject: ExtendedCSSProperties = {}
+    for (const key in theme.spacing) {
+      const value = theme.spacing[key]
+      const token = `--spacing${key}`
+      styleObject[token] = `${value}px`
+    }
+    return styleObject
+  }, [theme.spacing])
 
   const durationStyles = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
     for (const key in theme.duration) {
       const value = theme.duration[key]
-      const property = `--duration${new Casing(key).toPascalCase()}`
-      styleObject[property] = `${value}ms`
+      const token = `--duration${new Casing(key).toPascalCase()}`
+      styleObject[token] = `${value}ms`
     }
     return styleObject
   }, [theme.duration])
@@ -71,8 +71,8 @@ export function ThemeProvider({
     const styleObject: ExtendedCSSProperties = {}
     for (const key in theme.componentParameters) {
       const value = theme.componentParameters[key]
-      const property = `--${new Casing(key).toCamelCase()}`
-      styleObject[property] = value
+      const token = `--${new Casing(key).toCamelCase()}`
+      styleObject[token] = value
     }
     return styleObject
   }, [theme.componentParameters])
@@ -80,8 +80,8 @@ export function ThemeProvider({
   const customValues = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
     for (const key in theme.customValues) {
-      const property = `--${new Casing(key).toCamelCase()}`
-      styleObject[property] = theme.customValues[key]
+      const token = `--${new Casing(key).toCamelCase()}`
+      styleObject[token] = theme.customValues[key]
     }
     return styleObject
   }, [theme.customValues])
@@ -89,8 +89,8 @@ export function ThemeProvider({
   const internalValues = useMemo(() => {
     const styleObject: ExtendedCSSProperties = {}
     for (const key in theme.internalValues) {
-      const property = `--${new Casing(key).toCamelCase()}`
-      styleObject[property] = theme.internalValues[key]
+      const token = `--${new Casing(key).toCamelCase()}`
+      styleObject[token] = theme.internalValues[key]
     }
     return styleObject
   }, [theme.internalValues])
@@ -119,6 +119,7 @@ export function ThemeProvider({
         color: theme.palette.primaryTextColorDarker,
       }],
       [`.${className}::selection`, {
+        // Ref: https://www.w3schools.com/howto/howto_css_text_selection.asp
         backgroundColor: theme.palette.primaryColor40,
       }],
     ]), PrecedenceLevel.INTERNAL)
