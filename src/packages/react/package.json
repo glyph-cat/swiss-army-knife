@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/swiss-army-knife-react",
-  "version": "0.0.0-experimental.72",
+  "version": "0.0.0-experimental.73",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "react-native": "lib/native/index.js",
@@ -41,7 +41,7 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "peerDependencies": {
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.72",
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.73",
     "cotton-box-react": "*"
   }
 }
