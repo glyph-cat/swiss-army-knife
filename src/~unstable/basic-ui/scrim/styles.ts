@@ -4,7 +4,7 @@ import {
   PrecedenceLevel,
   StyleMap,
 } from '@glyph-cat/swiss-army-knife'
-import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
+import { prefixBasicUIIdentifiers } from 'packages/react/src/ui/basic/_internals/prefixing'
 
 export const styles = prefixBasicUIIdentifiers('scrim', [
   'container',

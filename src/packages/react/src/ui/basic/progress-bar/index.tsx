@@ -8,9 +8,10 @@ import {
   percent,
   serializePixelValue,
 } from '@glyph-cat/swiss-army-knife'
-import { useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
-import { __setDisplayName } from 'packages/react/src/_internals'
 import { JSX, useEffect, useRef } from 'react'
+import { __setDisplayName } from '../../../_internals'
+import { useThemeContext } from '../../../styling'
+import { View } from '../../core'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUILayout, BasicUISize } from '../abstractions'
 import {
@@ -78,6 +79,9 @@ export interface ProgressBarProps {
   role?: 'progressbar' | 'meter'
 }
 
+/**
+ * @public
+ */
 export const ProgressBar = ({
   value,
   minValue = 0,

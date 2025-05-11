@@ -8,9 +8,10 @@ import {
   LenientString,
   px,
 } from '@glyph-cat/swiss-army-knife'
-import { useThemeContext, View, ViewProps } from '@glyph-cat/swiss-army-knife-react'
-import { __setDisplayName } from 'packages/react/src/_internals'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
+import { __setDisplayName } from '../../../_internals'
+import { useThemeContext } from '../../../styling'
+import { View, ViewProps } from '../../core'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
 import { __SIZE, __TINT, __TINT_40 } from '../constants'

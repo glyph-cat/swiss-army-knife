@@ -8,12 +8,6 @@ import {
   LenientString,
 } from '@glyph-cat/swiss-army-knife'
 import {
-  Input,
-  MaterialSymbol,
-  useThemeContext,
-  View,
-} from '@glyph-cat/swiss-army-knife-react'
-import {
   ChangeEvent,
   ForwardedRef,
   forwardRef,
@@ -24,6 +18,10 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
+import { __setDisplayName } from '../../../_internals'
+import { MaterialSymbol } from '../../../material-symbols'
+import { useThemeContext } from '../../../styling'
+import { Input, View } from '../../core'
 import { useDataMounted } from '../_internals/data-mounted'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
@@ -183,6 +181,8 @@ export const Checkbox = forwardRef(({
     </label>
   )
 })
+
+__setDisplayName(Checkbox)
 
 const resolveContrastingValue = ColorUtil.createContrastingValue({
   light: '#000000',

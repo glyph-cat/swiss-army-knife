@@ -1,6 +1,8 @@
 import { c, injectInlineCSSVariables, LenientString } from '@glyph-cat/swiss-army-knife'
-import { ButtonBase, ButtonBaseProps, useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
+import { __setDisplayName } from '../../../_internals'
+import { useThemeContext } from '../../../styling'
+import { ButtonBase, ButtonBaseProps, View } from '../../core'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
 import { __SIZE, __TINT } from '../constants'
@@ -90,3 +92,5 @@ export const BasicButton = forwardRef(({
     </ButtonBase>
   )
 })
+
+__setDisplayName(BasicButton)

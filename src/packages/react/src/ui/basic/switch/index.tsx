@@ -6,7 +6,6 @@ import {
   isNumber,
   LenientString,
 } from '@glyph-cat/swiss-army-knife'
-import { ButtonBase, useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
 import {
   FormEvent,
   forwardRef,
@@ -17,6 +16,9 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react'
+import { __setDisplayName } from '../../../_internals'
+import { useThemeContext } from '../../../styling'
+import { ButtonBase, View } from '../../core'
 import { useDataMounted } from '../_internals/data-mounted'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIPosition, BasicUISize } from '../abstractions'
@@ -169,3 +171,5 @@ export const Switch = forwardRef(({
     </label>
   )
 })
+
+__setDisplayName(Switch)

@@ -1,5 +1,5 @@
 import { c, TemplateStyles } from '@glyph-cat/swiss-army-knife'
-import { MaterialSymbol, View } from '@glyph-cat/swiss-army-knife-react'
+import { BasicUISize, MaterialSymbol, View } from '@glyph-cat/swiss-army-knife-react'
 import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {
   Children,
@@ -11,7 +11,6 @@ import {
   ReactNode,
   useInsertionEffect,
 } from 'react'
-import { BasicUISize } from '../abstractions'
 import {
   Popover,
   PopoverContent,
