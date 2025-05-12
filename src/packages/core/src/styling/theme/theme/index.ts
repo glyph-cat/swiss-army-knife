@@ -11,6 +11,9 @@ import {
   IThemePalette,
 } from '../abstractions'
 
+/**
+ * @public
+ */
 export interface ThemeOptions {
   basePalette?: Partial<IBaseThemePalette>,
   spacing?: Partial<ISpacingDefinition>,

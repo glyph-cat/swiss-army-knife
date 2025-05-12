@@ -17,6 +17,7 @@ export function delay(time: number): Promise<void> {
  * The delay cannot be cancelled once executed.
  * @param count - The number of frames to delay by.
  * @returns A promise that resolves to `undefined`.
+ * @public
  */
 export function delayByFrame(count: number): Promise<void> {
   if (count <= 0) { return Promise.resolve() } // Early exit
