@@ -121,7 +121,7 @@ export const CoreNavigationBranch = forwardRef(({
     }), [children.length, focusNext, focusPrev, focusedItemId])}>
       {children.reduce((acc, child, currentIndex, arr) => {
         if (__getTypeMarker(child.type) !== TypeMarker.CoreNavBranchItem) {
-          throw new Error(`${__getDisplayName(CoreNavigationBranch)} only allows children of type ${CoreNavigationBranchItem.name}`)
+          throw new Error(`${__getDisplayName(CoreNavigationBranch)} only allows children of type ${__getDisplayName(CoreNavigationBranchItem)}`)
         }
         acc.push(
           <CoreNavigationBranchItemContext

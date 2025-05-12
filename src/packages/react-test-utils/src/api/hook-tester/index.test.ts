@@ -40,12 +40,16 @@ test('Synchronous execution', (): void => {
   expect(tester.get('value')).toBe(3)
 
   // Non-existent action
-  // @ts-expect-error Ignored on purpose to test the error
-  expect(() => { tester.action('abc') }).toThrow(ActionNotExistError)
+  expect(() => {
+    // @ts-expect-error Ignored on purpose to test the error
+    tester.action('abc')
+  }).toThrow(new ActionNotExistError('abc', ['increaseCounter']))
 
   // Non-existent value
-  // @ts-expect-error Ignored on purpose to test the error
-  expect(() => { tester.get('abc') }).toThrow(ValueNotExistError)
+  expect(() => {
+    // @ts-expect-error Ignored on purpose to test the error
+    tester.get('abc')
+  }).toThrow(new ValueNotExistError('abc', ['value']))
 
 })
 
@@ -101,11 +105,13 @@ test('Asynchronous execution', async (): Promise<void> => {
   await expect(async () => {
     // @ts-expect-error Ignored on purpose to test the error
     await tester.actionAsync('abc')
-  }).rejects.toThrow(ActionNotExistError)
+  }).rejects.toThrow(new ActionNotExistError('abc', ['increaseCounter']))
 
   // Non-existent value
-  // @ts-expect-error Ignored on purpose to test the error
-  expect(() => { tester.get('abc') }).toThrow(ValueNotExistError)
+  expect(() => {
+    // @ts-expect-error Ignored on purpose to test the error
+    tester.get('abc')
+  }).toThrow(new ValueNotExistError('abc', ['value']))
 
 })
 
@@ -116,5 +122,24 @@ test('Hook returned value', () => {
   }, cleanupManager)
 
   expect(tester.hookReturnedValue).toStrictEqual({ current: 42 })
+
+})
+
+test('Value getter causes error', () => {
+
+  const tester = new HookTester({
+    useHook: () => useRef(42),
+    values: {
+      value1() {
+        throw new Error('lorem-ipsum')
+      },
+      value2() {
+        return 'OK'
+      },
+    },
+  }, cleanupManager)
+
+  expect(tester.get('value2')).toBe('OK')
+  expect(() => { tester.get('value1') }).toThrow(new Error('lorem-ipsum'))
 
 })

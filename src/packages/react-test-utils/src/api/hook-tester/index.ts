@@ -10,6 +10,7 @@ import {
   useEffect,
 } from 'react'
 import { hasProperty } from '../../../../core/src/data/object/property'
+import { PartialRecord } from '../../../../core/src/types'
 import { ICapturedError } from '../../abstractions'
 import { ActionNotExistError, ValueNotExistError } from '../../errors'
 import { ErrorBoundary } from '../../internals'
@@ -78,12 +79,18 @@ export class HookTester<
   /**
    * @internal
    */
-  private M$dispatchableActions: Partial<Record<keyof Actions, (() => void | Promise<void>)>> = {}
+  private M$dispatchableActions: PartialRecord<keyof Actions, (() => void | Promise<void>)> = {}
 
   /**
    * @internal
    */
-  private M$retrievableValues: Partial<Record<keyof Values, ReturnType<Values[keyof Values]>>> = {}
+  private M$retrievableValues: PartialRecord<keyof Values, {
+    value: ReturnType<Values[keyof Values]>
+    error?: never
+  } | {
+    value?: never
+    error: unknown
+  }> = {}
 
   /**
    * @internal
@@ -166,8 +173,16 @@ export class HookTester<
     this.M$retrievableValues = {}
     for (const valueKey in this.M$values) {
       const valueMapper = this.M$values[valueKey]
-      const mappedValue = valueMapper(hookData) as ReturnType<Values[keyof Values]>
-      this.M$retrievableValues[valueKey] = mappedValue
+      try {
+        const mappedValue = valueMapper(hookData) as ReturnType<Values[keyof Values]>
+        this.M$retrievableValues[valueKey] = { value: mappedValue }
+      } catch (error) {
+        // Error should not be thrown while rendering component, it should be stored
+        // then thrown only when attempting to get the value. Otherwise, value will
+        // not be added to `M$retrievableValues` causing `ValueNotExistError` to be
+        // reported instead.
+        this.M$retrievableValues[valueKey] = { error: error }
+      }
     }
 
     return null!
@@ -181,7 +196,7 @@ export class HookTester<
         if (hasProperty(this.M$dispatchableActions, actionKey)) {
           this.M$dispatchableActions[actionKey]()
         } else {
-          throw new ActionNotExistError(actionKey)
+          throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
         }
       }
     })
@@ -195,7 +210,7 @@ export class HookTester<
         if (hasProperty(this.M$dispatchableActions, actionKey)) {
           await this.M$dispatchableActions[actionKey]()
         } else {
-          throw new ActionNotExistError(actionKey)
+          throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
         }
       }
     })
@@ -204,9 +219,16 @@ export class HookTester<
 
   get(valueKey: keyof Values): ReturnType<Values[keyof Values]> {
     if (hasProperty(this.M$retrievableValues, valueKey)) {
-      return this.M$retrievableValues[valueKey]!
+      const retrievedValue = this.M$retrievableValues[valueKey]
+      if (retrievedValue.error) {
+        // KIV: [low priority] Probably not necessary
+        // console.info(`Encountered an error while attempting to get value '${String(valueKey)}'`)
+        throw retrievedValue.error
+      } else {
+        return retrievedValue.value
+      }
     } else {
-      throw new ValueNotExistError(valueKey)
+      throw new ValueNotExistError(valueKey, Object.keys(this.M$retrievableValues))
     }
   }
 

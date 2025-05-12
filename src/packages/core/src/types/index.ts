@@ -24,6 +24,11 @@ export type PlainRecord<T = unknown> = Record<PropertyKey, T>
 export type StrictRecord<T = unknown> = Record<StrictPropertyKey, T>
 
 /**
+ * @public
+ */
+export type PartialStringRecord<T = unknown> = Partial<StringRecord<T>>
+
+/**
  * Representation of a JavaScript object where the key can only be a number.
  * @public
  */

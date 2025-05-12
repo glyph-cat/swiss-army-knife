@@ -107,7 +107,7 @@ export function CoreNavigationStack({
         return acc
       }, []).reduce((acc, child, currentIndex, arr) => {
         if (__getTypeMarker(child.type) !== TypeMarker.CoreNavStackItem) {
-          throw new Error(`${__getDisplayName(CoreNavigationStack)} only allows children of type ${CoreNavigationStackItem.name}`)
+          throw new Error(`${__getDisplayName(CoreNavigationStack)} only allows children of type ${__getDisplayName(CoreNavigationStackItem)}`)
         }
         const currentItemId = child.props.id
         const isLastItem = currentIndex === (arr.length - 1)
