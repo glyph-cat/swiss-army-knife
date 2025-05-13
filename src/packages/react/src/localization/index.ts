@@ -1,4 +1,9 @@
-import { IDictionary, LocalizationContext } from '@glyph-cat/swiss-army-knife'
+import {
+  IDictionary,
+  ILocalizationContextState,
+  Language,
+  LocalizationContext,
+} from '@glyph-cat/swiss-army-knife'
 import { useSimpleStateValue } from 'cotton-box-react'
 
 /**
@@ -11,7 +16,10 @@ export function useLocalization<Dictionary extends IDictionary>(
   localizationContext: LocalizationContext<Dictionary>,
   active: boolean = true,
 ): LocalizationContext<Dictionary> {
-  useSimpleStateValue(localizationContext.language, null, active)
+  useSimpleStateValue(localizationContext.state, languageSelector, active)
   return localizationContext
 }
 
+function languageSelector(state: ILocalizationContextState<IDictionary>): Language<IDictionary> {
+  return state.language
+}
