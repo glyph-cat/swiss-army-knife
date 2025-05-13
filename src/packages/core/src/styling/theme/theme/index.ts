@@ -21,6 +21,9 @@ export interface ThemeOptions {
   componentParameters?: Partial<IComponentParameters>,
 }
 
+const DEFAULT_PRIMARY_COLOR = '#2b80ff'
+const DEFAULT_PRIMARY_COLOR_SOURCE = Color.fromHex(DEFAULT_PRIMARY_COLOR)
+
 /**
  * @public
  */
@@ -29,11 +32,16 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
   // #region Defaults
 
   static readonly DEFAULT_LIGHT_BASE_PALETTE: Readonly<IBaseThemePalette> = {
-    primaryColor: '#2b80ff',
+    primaryColor: DEFAULT_PRIMARY_COLOR,
     appBgColor: '#eeeeee',
     appTextColor: '#4b4b4b',
     separatorColor: '#808080',
-    neutralColor: '#6680aa',
+    // neutralColor: '#6680aa',
+    neutralColor: Color.fromHSL({
+      hue: DEFAULT_PRIMARY_COLOR_SOURCE.hue,
+      saturation: DEFAULT_PRIMARY_COLOR_SOURCE.saturation * 0.15,
+      lightness: Math.min(DEFAULT_PRIMARY_COLOR_SOURCE.lightness * 1.2, 100),
+    }).toString(),
     infoColor: '#00cccc',
     successColor: '#008000',
     warnColor: '#ee6600',
@@ -42,11 +50,16 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
   }
 
   static readonly DEFAULT_DARK_BASE_PALETTE: Readonly<IBaseThemePalette> = {
-    primaryColor: '#2b80ff',
+    primaryColor: DEFAULT_PRIMARY_COLOR,
     appBgColor: '#111111',
     appTextColor: '#b5b5b5',
     separatorColor: '#808080',
-    neutralColor: '#4b6680',
+    // neutralColor: '#2d475f',
+    neutralColor: Color.fromHSL({
+      hue: DEFAULT_PRIMARY_COLOR_SOURCE.hue,
+      saturation: DEFAULT_PRIMARY_COLOR_SOURCE.saturation * 0.15,
+      lightness: DEFAULT_PRIMARY_COLOR_SOURCE.lightness * 0.4,
+    }).toString(),
     infoColor: '#00cccc',
     successColor: '#00aa00',
     warnColor: '#ff8000',

@@ -5,6 +5,7 @@ export const [__TINT, TOKEN_TINT] = createTokens('tint')
 export const [__TINT_40, TOKEN_TINT_40] = createTokens('tint40')
 export const [__TINT_STRONGER, TOKEN_TINT_STRONGER] = createTokens('tintStronger')
 export const [__SIZE, TOKEN_SIZE] = createTokens('size')
+export const [__FG_COLOR, TOKEN_FG_COLOR] = createTokens('fgColor')
 
 // #region Bar-styled components
 

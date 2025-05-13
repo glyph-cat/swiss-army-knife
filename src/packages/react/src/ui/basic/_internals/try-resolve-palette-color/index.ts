@@ -4,9 +4,10 @@ import { BasicUIColor } from '../../abstractions'
 export function tryResolvePaletteColor(
   color: LenientString<BasicUIColor>,
   palette: IThemePalette,
+  fallbackValue?: IThemePalette[keyof IThemePalette],
 ): string {
   if (color) {
-    // TODO: try regex matching and see if it performs faster
+    // TODO: [low priority] try regex matching and see if it performs faster
     switch (color) {
       case 'primary':
       case 'info':
@@ -14,11 +15,13 @@ export function tryResolvePaletteColor(
       case 'warn':
       case 'error':
       case 'danger':
+        // return ThemeToken.neutralColor
         return palette[`${color}Color`]
       default:
         return color
     }
   } else {
-    return palette.primaryColor
+    // return fallbackValue ?? ThemeToken.primaryColor
+    return fallbackValue ?? palette.primaryColor
   }
 }

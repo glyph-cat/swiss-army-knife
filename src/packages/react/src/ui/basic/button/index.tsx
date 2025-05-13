@@ -1,13 +1,23 @@
-import { c, injectInlineCSSVariables, LenientString } from '@glyph-cat/swiss-army-knife'
+import {
+  c,
+  ColorUtil,
+  injectInlineCSSVariables,
+  LenientString,
+} from '@glyph-cat/swiss-army-knife'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
 import { ButtonBase, ButtonBaseProps, View } from '../../core'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
-import { __SIZE, __TINT } from '../constants'
+import { __FG_COLOR, __SIZE, __TINT } from '../constants'
 import { ProgressRing } from '../progress-ring'
 import { styles } from './styles'
+
+const getContrastingColor = ColorUtil.createContrastingValue({
+  light: '#000000',
+  dark: '#ffffff',
+})
 
 const sizePresets: Record<BasicUISize, [height: number]> = {
   's': [32],
@@ -37,7 +47,7 @@ export interface BasicButtonProps extends ButtonBaseProps {
    */
   size?: BasicUISize
   /**
-   * @defaultValue `'primary'`
+   * @defaultValue `'neutral'`
    */
   color?: LenientString<BasicUIColor>
 }
@@ -57,7 +67,7 @@ export const BasicButton = forwardRef(({
 }: BasicButtonProps, forwardedRef: ForwardedRef<HTMLButtonElement>): JSX.Element => {
 
   const { palette } = useThemeContext()
-  const tint = tryResolvePaletteColor($color, palette)
+  const tint = tryResolvePaletteColor($color, palette, palette.neutralColor)
 
   const [size] = sizePresets[$size] ?? sizePresets.m
   const disabled = $disabled ?? busy
@@ -69,6 +79,7 @@ export const BasicButton = forwardRef(({
     return injectInlineCSSVariables({
       [__SIZE]: size,
       [__TINT]: tint,
+      [__FG_COLOR]: getContrastingColor(tint),
     }, buttonRef.current)
   }, [size, tint])
 

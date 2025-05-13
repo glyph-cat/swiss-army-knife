@@ -38,6 +38,7 @@ clientOnly(() => {
       padding: 0,
       placeItems: 'center',
       position: 'relative',
+      userSelect: 'none',
     }],
     [`.${BUTTON_STYLES}:enabled`, {
       cursor: ThemeToken.interactiveEnabledCursor,

@@ -7,7 +7,7 @@ import {
   ThemeToken,
 } from '@glyph-cat/swiss-army-knife'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
-import { TOKEN_SIZE, TOKEN_TINT } from '../constants'
+import { TOKEN_FG_COLOR, TOKEN_SIZE, TOKEN_TINT } from '../constants'
 
 export const styles = prefixBasicUIIdentifiers('basic-button', [
   'button',
@@ -33,7 +33,7 @@ clientOnly(() => {
       width: TOKEN_SIZE,
     }],
     [`.${styles.button}:enabled`, {
-      color: '#ffffff',
+      color: TOKEN_FG_COLOR,
     }],
     [`.${styles.button}:enabled:hover`, {
       backgroundImage: 'linear-gradient(#ffffff20,#ffffff20)',
