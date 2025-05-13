@@ -15,8 +15,8 @@ yarn --cwd ./src/packages/cli-parameter-parser afe
 ECHO "Forwarding exports for 'ml-helpers'..."
 yarn --cwd ./src/packages/ml-helpers afe
 
-ECHO "Forwarding exports for 'project-helpers'..."
-yarn --cwd ./src/packages/project-helpers afe
+ECHO "*Skipped* forwarding exports for 'project-helpers'..."
+# yarn --cwd ./src/packages/project-helpers afe
 
 ECHO "Forwarding exports for playground..."
 yarn afe-playground

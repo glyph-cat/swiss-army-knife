@@ -1438,11 +1438,6 @@
     "@eslint/core" "^0.12.0"
     levn "^0.4.1"
 
-"@glyph-cat/equality@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@glyph-cat/equality/-/equality-1.0.0.tgz#fa11ec89e1f754632b199ba10aea507014ffcc1d"
-  integrity sha512-2hXu/U7MGyqKrHke5v1feNY80J9qCJSRE1bfe6leG83u3Yy41Ji0Q+LOtUhQHuadjSwdSR2F6SrAMu+eASEbLw==
-
 "@glyph-cat/eslint-config@^1.0.1-alpha.13":
   version "1.0.1-alpha.13"
   resolved "https://registry.yarnpkg.com/@glyph-cat/eslint-config/-/eslint-config-1.0.1-alpha.13.tgz#64775dd503a9e3e5cdebdac1ab562d6eee5ed63c"
