@@ -36,6 +36,7 @@
     "node_modules",
     "**/*.draft*",
     "**/*.old*",
+    "**/*.scripted*",
     "**/*.test*",
   ],
   "include": [

@@ -3,22 +3,27 @@ import { symlinkSync } from 'fs'
 
 function main(): void {
 
+  const PACKAGE_NAMES = [
+    'core',
+    'react',
+    'ml-helpers',
+    'cleanup-manager',
+    'cli-parameter-parser',
+    'react-test-utils',
+    'project-helpers',
+  ] as const
+
   const cwd = process.cwd()
 
-  linkNodeModules(cwd, 'core')
-  linkNodeModules(cwd, 'react')
-  linkNodeModules(cwd, 'ml-helpers')
-  linkNodeModules(cwd, 'cleanup-manager')
-  linkNodeModules(cwd, 'cli-parameter-parser')
-  linkNodeModules(cwd, 'react-test-utils')
+  for (const packageName of PACKAGE_NAMES) {
+    linkNodeModules(cwd, packageName)
+  }
 
 }
 
 main()
 
-type PackageName = 'core' | 'react' | 'ml-helpers' | 'cleanup-manager' | 'cli-parameter-parser' | 'react-test-utils'
-
-function linkNodeModules(cwd: string, packageName: PackageName): void {
+function linkNodeModules(cwd: string, packageName: string): void {
   const node_modules = 'node_modules'
   try {
     symlinkSync(`${cwd}/${node_modules}`, `${cwd}/src/packages/${packageName}/node_modules`)

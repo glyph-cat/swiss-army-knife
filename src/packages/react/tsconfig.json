@@ -16,6 +16,7 @@
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
+    "outDir": "./temp/tsc/js",
     "paths": {
       "@glyph-cat/swiss-army-knife": [
         "../core/src",
@@ -27,7 +28,6 @@
         "../react-test-utils/src",
       ],
     },
-    "outDir": "./temp/tsc/js",
     "skipLibCheck": true,
     "strict": false,
     "stripInternal": true,

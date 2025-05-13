@@ -29,6 +29,10 @@
       "path": "../src/packages/cli-parameter-parser"
     },
     {
+      "name": "project helpers",
+      "path": "../src/packages/project-helpers"
+    },
+    {
       "name": "ml helpers",
       "path": "../src/packages/ml-helpers"
     },

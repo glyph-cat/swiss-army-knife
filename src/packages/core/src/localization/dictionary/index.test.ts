@@ -135,6 +135,13 @@ test(`${LocalizationDictionary.resolveLanguage.name} (static)`, () => {
   expect(LocalizationDictionary.resolveLanguage(['??'], new Set(['en', 'zh']))).toBe('en')
   expect(LocalizationDictionary.resolveLanguage(['??'], new Set(['zh', 'en']))).toBe('zh')
 
-  // TODO: [high priority] Test with multiple client languages
+  expect(LocalizationDictionary.resolveLanguage(['aa', 'bb', 'cc', 'zh', 'en'], new Set([
+    'en',
+    'en_US',
+    'en-US',
+    'zh',
+    '??_US',
+    '??',
+  ]))).toBe('zh')
 
 })

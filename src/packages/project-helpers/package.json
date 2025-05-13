@@ -1,0 +1,32 @@
+{
+  "name": "@glyph-cat/project-helpers",
+  "version": "1.0.0",
+  "description": "Utilities for project workflows.",
+  "main": "lib/cjs/index.js",
+  "types": "lib/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "lint": "eslint .",
+    "test": "ECHO 'No tests to run for now' # jest -c jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "yarn tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh scripts/run/build.sh",
+    "all": "sh scripts/run/all.sh"
+  },
+  "keywords": [],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/project-helpers#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  }
+}
