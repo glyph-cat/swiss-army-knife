@@ -1,0 +1,57 @@
+.container {
+  gap: var(--spacingM);
+  grid-template-rows: auto 1fr;
+  height: calc(100vh - (2 * var(--spacingM)));
+}
+
+.buttonsContainer {
+  gap: var(--spacingM);
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+  grid-template-columns: auto 1fr auto;
+}
+
+.contentContainer {
+  gap: var(--spacingM);
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+}
+
+.textAreaBase {
+  display: grid;
+  font-size: 16pt;
+  padding: var(--spacingM);
+  resize: none;
+}
+
+.textAreaBase::placeholder {
+  font-style: italic;
+}
+
+.inputTextArea {
+  background-color: #c0808020;
+  color: #c08080;
+}
+
+.inputTextArea::placeholder {
+  color: #a0808080;
+}
+
+.textAreaOverlay {
+  color: #80808060;
+  position: absolute;
+  height: 100%;
+  pointer-events: none;
+  width: 100%;
+  z-index: -1;
+}
+
+.outputTextArea {
+  background-color: #60a0c020;
+  color: #60a0c0;
+  cursor: not-allowed;
+}
+
+.outputTextArea::placeholder {
+  color: #60a0c080;
+}

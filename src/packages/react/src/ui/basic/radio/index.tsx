@@ -1,4 +1,5 @@
 import {
+  c,
   Color,
   ColorFormat,
   injectInlineCSSVariables,
@@ -20,14 +21,23 @@ import { useThemeContext } from '../../../styling'
 import { Input, View } from '../../core'
 import { useInternalDerivedDisabledState } from '../../core/components/_internals'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
-import { BasicUIColor, BasicUISize } from '../abstractions'
-import { __SIZE, __TINT, __TINT_40, __TINT_STRONGER } from '../constants'
+import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
+import {
+  __SIZE,
+  __TINT,
+  __TINT_40,
+  __TINT_STRONGER,
+  BASIC_UI_FLOW_ROW,
+  BASIC_UI_POSITION_END,
+  BASIC_UI_POSITION_START,
+} from '../constants'
 import { styles } from './styles'
 
 interface IRadioGroupContext<Value> {
   value: Value
   disabled: boolean
   onChange(newValue: Value, event: ChangeEvent<HTMLInputElement>): void
+  position: BasicUIPosition
 }
 
 const RadioGroupContext = createContext<IRadioGroupContext<unknown>>(null)
@@ -39,7 +49,7 @@ const sizePresets: Record<BasicUISize, number> = {
 } as const
 
 /**
- * @internal
+ * @public
  */
 export interface RadioGroupProps<Value> {
   children?: ReactNode
@@ -54,10 +64,19 @@ export interface RadioGroupProps<Value> {
    * @defaultValue `'primary'`
    */
   color?: LenientString<BasicUIColor>
+  /**
+   * @defaultValue `'row'`
+   */
+  flow?: BasicUIFlow
+  /**
+   * Position of the checkbox relative to its children if any.
+   * @defaultValue `'start'`
+   */
+  position?: BasicUIPosition
 }
 
 /**
- * @internal
+ * @public
  */
 export function RadioGroup<Value>({
   children,
@@ -66,13 +85,16 @@ export function RadioGroup<Value>({
   disabled: $disabled,
   size,
   color: $color,
+  flow = BASIC_UI_FLOW_ROW,
+  position = BASIC_UI_POSITION_START,
 }: RadioGroupProps<Value>): JSX.Element {
   const disabled = useInternalDerivedDisabledState($disabled)
   const contextValue = useMemo<IRadioGroupContext<Value>>(() => ({
     value,
     disabled,
     onChange,
-  }), [disabled, onChange, value])
+    position,
+  }), [disabled, onChange, position, value])
 
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette)
@@ -100,7 +122,13 @@ export function RadioGroup<Value>({
   }, [effectiveSize, tint])
 
   return (
-    <View ref={containerRef} className={styles.container}>
+    <View
+      ref={containerRef}
+      className={c(
+        styles.container,
+        flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
+      )}
+    >
       <RadioGroupContext value={contextValue}>
         {children}
       </RadioGroupContext>
@@ -111,7 +139,7 @@ export function RadioGroup<Value>({
 __setDisplayName(RadioGroup)
 
 /**
- * @internal
+ * @public
  */
 export interface RadioItemProps<Value> {
   value: Value
@@ -120,7 +148,7 @@ export interface RadioItemProps<Value> {
 }
 
 /**
- * @internal
+ * @public
  */
 export function RadioItem<Value>({
   value,
@@ -131,20 +159,22 @@ export function RadioItem<Value>({
     value: currentValue,
     disabled: isParentDisabled,
     onChange,
+    position,
   } = useContext(RadioGroupContext)
   return (
     <label className={styles.label}>
+      {position === BASIC_UI_POSITION_END && <View>{children}</View>}
       <Input
         className={styles.input}
         // NOTE: `value` is omitted, in this custom component, the proper way is
         // to use the first parameter of `onChange`, not `event.target.value`.
-        // Hence using `value={String(value)}` would make no sense.
+        // Hence adding `value={String(value)}` would make no sense.
         checked={Object.is(value, currentValue)}
         disabled={disabled || isParentDisabled}
         onChange={useCallback((e) => { onChange(value, e) }, [onChange, value])}
         type='radio'
       />
-      <View>{children}</View>
+      {position === BASIC_UI_POSITION_START && <View>{children}</View>}
     </label>
   )
 }

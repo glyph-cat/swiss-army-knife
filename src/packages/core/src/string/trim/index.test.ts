@@ -6,6 +6,7 @@ test(trim.name, () => {
 
 test(multilineTrim.name, () => {
   expect(multilineTrim([
+    ' ',
     ' hello\t\t',
     '',
     '\t world',
@@ -19,5 +20,6 @@ test(multilineTrim.name, () => {
     '',
     '',
     'foo bar',
+    ' ',
   ].join('\n'))
 })

@@ -23,5 +23,5 @@ export function multilineTrim(value: string): string {
   for (const line of lines) {
     newValueStack.push(trim(line))
   }
-  return newValueStack.join('\n')
+  return trim(newValueStack.join('\n'))
 }

@@ -12,6 +12,8 @@ import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40 } from '../constants'
 
 export const styles = prefixBasicUIIdentifiers('radio', [
   'container',
+  'flowRow',
+  'flowColumn',
   'label',
   'input',
 ])
@@ -22,6 +24,14 @@ clientOnly(() => {
       gridAutoRows: 'max-content',
       gap: ThemeToken.spacingS,
     }],
+    [`.${styles.flowRow}`, {
+      gridAutoFlow: 'row',
+      gridAutoRows: 'max-content',
+    }],
+    [`.${styles.flowColumn}`, {
+      gridAutoColumns: 'max-content',
+      gridAutoFlow: 'column',
+    }],
     [`.${styles.label}`, {
       alignItems: 'center',
       cursor: ThemeToken.interactiveEnabledCursor,
@@ -30,8 +40,9 @@ clientOnly(() => {
       gap: ThemeToken.spacingM,
       justifySelf: 'start',
     }],
-    [`.${styles.label} ~ :has(.${styles.input}:disabled)`, {
+    [`.${styles.label}:has(.${styles.input}:disabled)`, {
       cursor: ThemeToken.interactiveDisabledCursor,
+      opacity: 0.5,
     }],
     [`.${styles.input}`, {
       appearance: 'none',
