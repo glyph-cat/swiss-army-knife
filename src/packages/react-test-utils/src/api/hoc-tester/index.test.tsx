@@ -153,3 +153,22 @@ test('Asynchronous execution', async (): Promise<void> => {
   expect(() => { tester.get('abc') }).toThrow(ValueNotExistError)
 
 })
+
+test('Value getter causes error', () => {
+
+  const tester = new HOCTester({
+    factory: (Component) => withCounter(Component),
+    values: {
+      value1() {
+        throw new Error('lorem-ipsum')
+      },
+      value2() {
+        return 'OK'
+      },
+    },
+  }, cleanupManager)
+
+  expect(tester.get('value2')).toBe('OK')
+  expect(() => { tester.get('value1') }).toThrow(new Error('lorem-ipsum'))
+
+})

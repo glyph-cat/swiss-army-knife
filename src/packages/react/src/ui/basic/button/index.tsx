@@ -1,23 +1,14 @@
-import {
-  c,
-  ColorUtil,
-  injectInlineCSSVariables,
-  LenientString,
-} from '@glyph-cat/swiss-army-knife'
+import { c, injectInlineCSSVariables, LenientString } from '@glyph-cat/swiss-army-knife'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
 import { ButtonBase, ButtonBaseProps, View } from '../../core'
+import { resolveContrastingValue } from '../_internals/resolve-contrasting-color'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUISize } from '../abstractions'
 import { __FG_COLOR, __SIZE, __TINT } from '../constants'
 import { ProgressRing } from '../progress-ring'
 import { styles } from './styles'
-
-const getContrastingColor = ColorUtil.createContrastingValue({
-  light: '#000000',
-  dark: '#ffffff',
-})
 
 const sizePresets: Record<BasicUISize, [height: number]> = {
   's': [32],
@@ -79,7 +70,7 @@ export const BasicButton = forwardRef(({
     return injectInlineCSSVariables({
       [__SIZE]: size,
       [__TINT]: tint,
-      [__FG_COLOR]: getContrastingColor(tint),
+      [__FG_COLOR]: resolveContrastingValue(tint),
     }, buttonRef.current)
   }, [size, tint])
 

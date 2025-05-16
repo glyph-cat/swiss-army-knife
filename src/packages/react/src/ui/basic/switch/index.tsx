@@ -104,7 +104,7 @@ export const Switch = forwardRef(({
   busy,
   size,
   color: $color,
-  position = BASIC_UI_POSITION_END,
+  position = BASIC_UI_POSITION_START,
   ProgressRingProps: progressRingProps = {},
 }: SwitchProps, forwardedRef): JSX.Element => {
 

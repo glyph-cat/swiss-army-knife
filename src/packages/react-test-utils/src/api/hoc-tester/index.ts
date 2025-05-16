@@ -53,7 +53,13 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
   /**
    * @internal
    */
-  private M$retrievableValues: Partial<Record<keyof Values, ReturnType<Values[keyof Values]>>> = {}
+  private M$retrievableValues: Partial<Record<keyof Values, {
+    value: ReturnType<Values[keyof Values]>
+    error?: never
+  } | {
+    value?: never
+    error: unknown
+  }>> = {}
 
   /**
    * @internal
@@ -119,8 +125,16 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
         tester.M$retrievableValues = {}
         for (const valueKey in tester.M$values) {
           const valueMapper = tester.M$values[valueKey]
-          const mappedValue = valueMapper(this.props) as ReturnType<Values[keyof Values]>
-          tester.M$retrievableValues[valueKey] = mappedValue
+          try {
+            const mappedValue = valueMapper(this.props) as ReturnType<Values[keyof Values]>
+            tester.M$retrievableValues[valueKey] = { value: mappedValue }
+          } catch (error) {
+            // Error should not be thrown while rendering component, it should be stored
+            // then thrown only when attempting to get the value. Otherwise, value will
+            // not be added to `M$retrievableValues` causing `ValueNotExistError` to be
+            // reported instead.
+            tester.M$retrievableValues[valueKey] = { error: error }
+          }
         }
 
         return null!
@@ -167,7 +181,12 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
 
   get(valueKey: keyof Values): ReturnType<Values[keyof Values]> {
     if (hasProperty(this.M$retrievableValues, valueKey)) {
-      return this.M$retrievableValues[valueKey]!
+      const retrievedValue = this.M$retrievableValues[valueKey]
+      if (hasProperty(retrievedValue, 'error')) {
+        throw retrievedValue.error
+      } else {
+        return retrievedValue.value
+      }
     } else {
       throw new ValueNotExistError(valueKey, Object.keys(this.M$retrievableValues))
     }

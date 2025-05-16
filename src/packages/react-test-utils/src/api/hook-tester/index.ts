@@ -220,9 +220,7 @@ export class HookTester<
   get(valueKey: keyof Values): ReturnType<Values[keyof Values]> {
     if (hasProperty(this.M$retrievableValues, valueKey)) {
       const retrievedValue = this.M$retrievableValues[valueKey]
-      if (retrievedValue.error) {
-        // KIV: [low priority] Probably not necessary
-        // console.info(`Encountered an error while attempting to get value '${String(valueKey)}'`)
+      if (hasProperty(retrievedValue, 'error')) {
         throw retrievedValue.error
       } else {
         return retrievedValue.value

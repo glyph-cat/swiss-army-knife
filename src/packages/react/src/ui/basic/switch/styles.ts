@@ -9,7 +9,7 @@ import {
 import { createTokens } from '../_internals/create-tokens'
 import { mounted } from '../_internals/data-mounted'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
-import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_STRONGER } from '../constants'
+import { COLOR_WHITE, TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_STRONGER } from '../constants'
 
 export const styles = prefixBasicUIIdentifiers('switch', [
   'container',
@@ -108,7 +108,7 @@ clientOnly(() => {
       opacity: 1,
     }],
     [`.${styles.thumbChecked}`, {
-      backgroundColor: '#ffffff',
+      backgroundColor: COLOR_WHITE,
       justifySelf: 'end',
       marginInlineEnd: TOKEN_THUMB_SIZE,
       opacity: 0,

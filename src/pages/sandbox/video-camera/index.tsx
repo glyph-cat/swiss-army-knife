@@ -1,10 +1,9 @@
 import { c, VideoCamera } from '@glyph-cat/swiss-army-knife'
-import { View } from '@glyph-cat/swiss-army-knife-react'
+import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, useCallback, useEffect, useState } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
 import { SandboxStyle } from '~constants'
-import { BasicButton, ProgressRing } from '~unstable/basic-ui'
 import styles from './index.module.css'
 
 // To test and make sure it doesn't break:

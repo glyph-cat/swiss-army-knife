@@ -8,7 +8,13 @@ import {
 } from '@glyph-cat/swiss-army-knife'
 import { mounted } from '../_internals/data-mounted'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
-import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40, TOKEN_TINT_STRONGER } from '../constants'
+import {
+  COLOR_WHITE,
+  TOKEN_SIZE,
+  TOKEN_TINT,
+  TOKEN_TINT_40,
+  TOKEN_TINT_STRONGER,
+} from '../constants'
 
 export const styles = prefixBasicUIIdentifiers('checkbox', [
   'container',
@@ -20,7 +26,7 @@ export const styles = prefixBasicUIIdentifiers('checkbox', [
   'busy',
 ])
 
-const disabledColor = '#80808040'
+const disabledColor = '#80808040' // TODO
 
 clientOnly(() => {
   addStyles(new StyleMap([
@@ -109,7 +115,7 @@ clientOnly(() => {
       backgroundImage: 'linear-gradient(#00000060, #00000060)',
     }],
     [`.${styles.checkmark}`, {
-      color: '#ffffff',
+      color: COLOR_WHITE,
       display: 'none',
       placeSelf: 'center',
       pointerEvents: 'none',

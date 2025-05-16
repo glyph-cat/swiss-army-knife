@@ -35,8 +35,11 @@
 
 .ul {
   font-size: 12pt;
+  height: calc(100vh - (4 * 28px));
   list-style: none;
   margin: 0;
+  overflow: hidden;
+  overflow-y: scroll;
   padding: 0;
 }
 

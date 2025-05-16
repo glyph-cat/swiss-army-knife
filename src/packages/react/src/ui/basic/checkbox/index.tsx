@@ -2,7 +2,6 @@ import {
   c,
   Color,
   ColorFormat,
-  ColorUtil,
   injectInlineCSSVariables,
   isUndefinedOrNull,
   LenientString,
@@ -23,6 +22,7 @@ import { MaterialSymbol } from '../../../material-symbols'
 import { useThemeContext } from '../../../styling'
 import { Input, View } from '../../core'
 import { useDataMounted } from '../_internals/data-mounted'
+import { resolveContrastingValue } from '../_internals/resolve-contrasting-color'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
 import {
@@ -183,8 +183,3 @@ export const Checkbox = forwardRef(({
 })
 
 __setDisplayName(Checkbox)
-
-const resolveContrastingValue = ColorUtil.createContrastingValue({
-  light: '#000000',
-  dark: '#ffffff',
-})
