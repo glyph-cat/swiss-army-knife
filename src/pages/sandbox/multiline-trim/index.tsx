@@ -8,8 +8,8 @@ export default function (): JSX.Element {
 
   const [text, setText] = useState(Empty.STRING)
   const deferredText = useDeferredValue(text)
-  const sanitizedText = multilineTrim(deferredText)
   const textOverlay = addOverlayCharacters(deferredText)
+  const sanitizedText = multilineTrim(deferredText)
   const sanitizedTextOverlay = addOverlayCharacters(sanitizedText)
 
   return (
