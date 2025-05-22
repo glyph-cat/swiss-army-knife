@@ -120,11 +120,12 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
 
   /**
    * Get a localized value, based on the current language, given the localization key.
-   * If the localized value does not exist for current language, tries to get
-   * the localized value from other languages instead of throwing an error.
+   * If the localized value does not exist for current language, will fallback to
+   * the localized value of the default language, then from other available languages
+   * if it still fails.
    *
    * @throws {@link LocalizationKeyNotFoundError}
-   * If and only if the localization key cannot be found in the entire dictionary.
+   * only when the localization key does not exist in the entire dictionary.
    *
    * @param key - The localization key.
    * @returns The localized value.
