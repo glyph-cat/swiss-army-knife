@@ -12,15 +12,15 @@ import { LanguageNotFoundError, LocalizationKeyNotFoundError } from '../errors'
 /**
  * @public
  */
-export interface ILocalizationContextState<Dictionary extends IDictionaryData> {
-  language: Language<Dictionary>
+export interface ILocalizationContextState<DictionaryData extends IDictionaryData> {
+  language: Language<DictionaryData>
   auto: boolean
 }
 
 /**
  * @public
  */
-export class LocalizationContext<Dictionary extends IDictionaryData> implements IDisposable {
+export class LocalizationContext<DictionaryData extends IDictionaryData> implements IDisposable {
 
   /**
    * A slightly altered list of language where the current language is excluded
@@ -28,30 +28,30 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
    * This is meant to be used in the fallback section of {@link localize} only.
    * @internal
    */
-  M$fallbackLanguageList: Array<Language<Dictionary>>
+  M$fallbackLanguageList: Array<Language<DictionaryData>>
 
   /**
    * @internal
    */
-  private readonly M$state: StateManager<ILocalizationContextState<Dictionary>>
-  get state(): ReadOnlyStateManager<ILocalizationContextState<Dictionary>> {
+  private readonly M$state: StateManager<ILocalizationContextState<DictionaryData>>
+  get state(): ReadOnlyStateManager<ILocalizationContextState<DictionaryData>> {
     return this.M$state
   }
 
   /**
    * An alias for `.state.get().language`.
    */
-  get currentLanguage(): Language<Dictionary> {
+  get currentLanguage(): Language<DictionaryData> {
     return this.M$state.get().language
   }
 
   constructor(
-    readonly dictionary: LocalizationDictionary<Dictionary>,
-    readonly defaultLanguage: Language<Dictionary>,
+    readonly dictionary: LocalizationDictionary<DictionaryData>,
+    readonly defaultLanguage: Language<DictionaryData>,
     readonly defaultAuto: boolean = false,
-    stageManagerOptions?: StateManagerOptions<ILocalizationContextState<Dictionary>>
+    stageManagerOptions?: StateManagerOptions<ILocalizationContextState<DictionaryData>>
   ) {
-    this.M$state = new StateManager<ILocalizationContextState<Dictionary>>({
+    this.M$state = new StateManager<ILocalizationContextState<DictionaryData>>({
       language: defaultAuto
         ? dictionary.resolveLanguage(defaultLanguage)
         : defaultLanguage,
@@ -80,7 +80,7 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
    *
    * @param language - The target language.
    */
-  setLanguage(language: Language<Dictionary>): void {
+  setLanguage(language: Language<DictionaryData>): void {
     if (this.dictionary.languages.has(language)) {
       this.M$state.set({ language, auto: false })
       this.M$buildFallbackLanguageList()
@@ -95,7 +95,7 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
    * @param language - The target language.
    * @returns `true` if the attempt was successful, otherwise `false`.
    */
-  trySetLanguage(language: LenientString<Language<Dictionary>>): boolean {
+  trySetLanguage(language: LenientString<Language<DictionaryData>>): boolean {
     if (this.dictionary.languages.has(language)) {
       this.M$state.set({ language, auto: false })
       this.M$buildFallbackLanguageList()
@@ -109,7 +109,7 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
    * Sets the closest matching language in the dictionary based on the list of
    * user-preferred languages.
    */
-  autoSetLanguage(...clientLanguages: Array<string>): Language<Dictionary> {
+  autoSetLanguage(...clientLanguages: Array<string>): Language<DictionaryData> {
     const resolvedLanguage = this.dictionary.resolveLanguage(...clientLanguages)
     this.M$state.set({
       auto: true,
@@ -131,8 +131,8 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
    * @param key - The localization key.
    * @returns The localized value.
    */
-  localize(key: LocalizationKey<Dictionary>): LocalizedValue<Dictionary> {
-    const valueRef = createRef<LocalizedValue<Dictionary>>(null)
+  localize(key: LocalizationKey<DictionaryData>): LocalizedValue<DictionaryData> {
+    const valueRef = createRef<LocalizedValue<DictionaryData>>(null)
     if (this.dictionary.tryLocalize(this.currentLanguage, key, valueRef)) {
       return valueRef.current
     } else {

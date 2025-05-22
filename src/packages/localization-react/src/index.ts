@@ -12,10 +12,10 @@ import { useSimpleStateValue } from 'cotton-box-react'
  * trigger component update. Defaults to `true`.
  * @public
  */
-export function useLocalizationContext<Dictionary extends IDictionaryData>(
-  localizationContext: LocalizationContext<Dictionary>,
+export function useLocalizationContext<DictionaryData extends IDictionaryData>(
+  localizationContext: LocalizationContext<DictionaryData>,
   active: boolean = true,
-): LocalizationContext<Dictionary> {
+): LocalizationContext<DictionaryData> {
   useSimpleStateValue(localizationContext.state, languageSelector, active)
   return localizationContext
 }

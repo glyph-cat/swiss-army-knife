@@ -8,14 +8,14 @@ export type IDictionaryData = PartialStringRecord<PartialStringRecord>
 /**
  * @public
  */
-export type Language<Dictionary extends IDictionaryData> = keyof Dictionary
+export type Language<DictionaryData extends IDictionaryData> = keyof DictionaryData
 
 /**
  * @public
  */
-export type LocalizationKey<Dictionary extends IDictionaryData> = { [Key in keyof Dictionary]: Dictionary[Key] extends object ? keyof Dictionary[Key] : never }[keyof Dictionary]
+export type LocalizationKey<DictionaryData extends IDictionaryData> = { [Key in keyof DictionaryData]: DictionaryData[Key] extends object ? keyof DictionaryData[Key] : never }[keyof DictionaryData]
 
 /**
  * @public
  */
-export type LocalizedValue<Dictionary extends IDictionaryData> = Dictionary[Language<Dictionary>][LocalizationKey<Dictionary>]
+export type LocalizedValue<DictionaryData extends IDictionaryData> = DictionaryData[Language<DictionaryData>][LocalizationKey<DictionaryData>]

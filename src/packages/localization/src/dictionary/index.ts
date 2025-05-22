@@ -12,10 +12,10 @@ export class LocalizationDictionary<DictionaryData extends IDictionaryData> {
    * closest matching language from a list of available languages. If there are
    * no matches, the first item in `availableLanguages` is returned.
    */
-  static resolveLanguage<Dictionary extends IDictionaryData>(
-    clientLanguages: Array<LenientString<Language<Dictionary>>>,
-    availableLanguages: Set<Language<Dictionary>> | ReadonlySet<Language<Dictionary>>,
-  ): Language<Dictionary> {
+  static resolveLanguage<DictionaryData extends IDictionaryData>(
+    clientLanguages: Array<LenientString<Language<DictionaryData>>>,
+    availableLanguages: Set<Language<DictionaryData>> | ReadonlySet<Language<DictionaryData>>,
+  ): Language<DictionaryData> {
     const availableLanguagesAsArray = new LazyValue(() => [...availableLanguages])
     for (const clientLanguage of clientLanguages) {
       if (availableLanguages.has(clientLanguage)) {
