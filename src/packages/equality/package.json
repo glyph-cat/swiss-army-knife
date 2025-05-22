@@ -1,7 +1,7 @@
 {
   "name": "@glyph-cat/equality",
   "version": "1.0.0",
-  "description": "Common equality-checking presets for general purpose.",
+  "description": "General purpose equality-checking presets.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "unpkg": "lib/umd/index.js",
@@ -10,6 +10,7 @@
   ],
   "types": "lib/types/index.d.ts",
   "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
     "clean": "rm -rf ./lib ./temp/tsc",
     "lint": "eslint .",
     "debug": "scope=\"debug\" jest -c ./jest.config.ts",

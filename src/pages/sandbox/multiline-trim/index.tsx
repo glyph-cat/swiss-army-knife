@@ -1,7 +1,7 @@
-import { c, Empty, multilineTrim } from '@glyph-cat/swiss-army-knife'
+import { c, delay, Empty, multilineTrim, RefObject } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, TextArea, View } from '@glyph-cat/swiss-army-knife-react'
 import ClipboardJS from 'clipboard'
-import { JSX, useCallback, useDeferredValue, useState } from 'react'
+import { JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
@@ -11,6 +11,15 @@ export default function (): JSX.Element {
   const textOverlay = addOverlayCharacters(deferredText)
   const sanitizedText = multilineTrim(deferredText)
   const sanitizedTextOverlay = addOverlayCharacters(sanitizedText)
+
+  const [copied, setCopiedState] = useState(false)
+
+  const inputMainRef = useRef<HTMLTextAreaElement>(null)
+  const inputOverlayRef = useRef<HTMLTextAreaElement>(null)
+  const outputMainRef = useRef<HTMLTextAreaElement>(null)
+  const outputOverlayRef = useRef<HTMLTextAreaElement>(null)
+  useSyncedScrolling(inputMainRef, [inputOverlayRef, outputMainRef])
+  useSyncedScrolling(outputMainRef, [outputOverlayRef, inputMainRef])
 
   return (
     <View className={styles.container}>
@@ -25,24 +34,29 @@ export default function (): JSX.Element {
         </BasicButton>
         <View />
         <BasicButton
-          color='primary'
+          color={copied ? 'success' : 'primary'}
           disabled={text.length <= 0}
-          onClick={useCallback(() => {
+          onClick={useCallback(async () => {
             ClipboardJS.copy(sanitizedText)
+            setCopiedState(true)
+            await delay(3000)
+            setCopiedState(false)
           }, [sanitizedText])}
         >
-          {'Copy'}
+          {copied ? 'Copied' : 'Copy'}
         </BasicButton>
       </View>
       <View className={styles.contentContainer}>
         <View>
           <TextArea
+            ref={inputMainRef}
             className={c(styles.textAreaBase, styles.inputTextArea, 'code')}
             value={text}
             onChange={useCallback((e) => { setText(e.target.value) }, [])}
             placeholder={'Enter some text here...'}
           />
           <TextArea
+            ref={inputOverlayRef}
             className={c(styles.textAreaBase, styles.textAreaOverlay, 'code')}
             value={textOverlay}
             readOnly
@@ -50,12 +64,14 @@ export default function (): JSX.Element {
         </View>
         <View>
           <TextArea
+            ref={outputMainRef}
             className={c(styles.textAreaBase, styles.outputTextArea, 'code')}
             value={sanitizedText}
             placeholder={'The output will appear here...'}
             readOnly
           />
           <TextArea
+            ref={outputOverlayRef}
             className={c(styles.textAreaBase, styles.textAreaOverlay, 'code')}
             value={sanitizedTextOverlay}
             readOnly
@@ -69,6 +85,26 @@ export default function (): JSX.Element {
 function addOverlayCharacters(value: string): string {
   return value
     .replace(/\n/g, '↵\n')
-    .replace(/\t/g, '•••••')
+    .replace(/\t/g, '→'.repeat(4))
     .replace(/ /g, '•')
+}
+
+function useSyncedScrolling<E extends HTMLElement>(
+  sourceElementRef: RefObject<E>,
+  listenerElementsRef: Array<RefObject<E>>,
+): void {
+  useEffect(() => {
+    const target = sourceElementRef.current
+    const onRefresh = (e: WheelEvent) => {
+      for (const listenerElement of listenerElementsRef) {
+        listenerElement.current.scroll({ top: (e.target as E).scrollTop })
+      }
+    }
+    target.addEventListener('scroll', onRefresh)
+    target.addEventListener('keyup', onRefresh) // for copy-pasting
+    return () => {
+      target.removeEventListener('scroll', onRefresh)
+      target.removeEventListener('keyup', onRefresh)
+    }
+  }, [sourceElementRef, listenerElementsRef])
 }

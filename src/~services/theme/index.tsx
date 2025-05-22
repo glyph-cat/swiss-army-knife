@@ -9,6 +9,21 @@ import { THEME_DICTIONARY } from './constants'
 
 const STORAGE_KEY = createStorageKey('theme')
 
+export const ThemeStateValue = {
+  AUTO: {
+    id: ThemeId.DEFAULT_LIGHT,
+    auto: true,
+  },
+  LIGHT: {
+    id: ThemeId.DEFAULT_LIGHT,
+    auto: false,
+  },
+  DARK: {
+    id: ThemeId.DEFAULT_DARK,
+    auto: false,
+  },
+} as const
+
 export const ThemeState = new StateManager<IThemeState>({
   id: ThemeId.DEFAULT_DARK,
   auto: false,
@@ -32,6 +47,18 @@ export const ThemeState = new StateManager<IThemeState>({
     },
   },
 })
+
+export function setAutoTheme(): void {
+  ThemeState.set(ThemeStateValue.AUTO)
+}
+
+export function setLightTheme(): void {
+  ThemeState.set(ThemeStateValue.LIGHT)
+}
+
+export function setDarkTheme(): void {
+  ThemeState.set(ThemeStateValue.DARK)
+}
 
 export interface CustomThemeWrapperProps {
   children?: ReactNode

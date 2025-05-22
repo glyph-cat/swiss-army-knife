@@ -17,6 +17,14 @@
       "path": "../src/packages/equality"
     },
     {
+      "name": "localization",
+      "path": "../src/packages/localization"
+    },
+    {
+      "name": "localization-react",
+      "path": "../src/packages/localization-react"
+    },
+    {
       "name": "cleanup manager",
       "path": "../src/packages/cleanup-manager"
     },

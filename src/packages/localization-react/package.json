@@ -1,0 +1,37 @@
+{
+  "name": "@glyph-cat/localization-react",
+  "version": "1.0.0",
+  "description": "React bindings for @glyph-cat/localization",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/types/index.d.ts",
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "clean": "rm -rf ./lib ./temp ./yarn-error.log && mkdir temp lib",
+    "lint": "eslint .",
+    "test": "jest -c ./jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh",
+    "all": "sh ./scripts/run/all.sh"
+  },
+  "keywords": [
+    "Localization",
+    "React"
+  ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  },
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/localization-react#readme"
+}

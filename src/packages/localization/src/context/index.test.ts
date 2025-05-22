@@ -4,7 +4,35 @@ import {
   LocalizationDictionary,
   LocalizationKeyNotFoundError,
 } from '..'
-import { createRef } from '../../data'
+
+// TODO: May be need to add more languages to have a more accurate test.
+
+const NEW_localizationDictionary = new LocalizationDictionary({
+  en: {
+    HELLO: 'Hello',
+    WORLD: 'World',
+    GOOD_MORNING: 'Good morning.',
+    SOMETIMES_IM_A_BEAR: 'Sometimes, I\'m a bear, and at other times… I am a be-ar.',
+  },
+  ja: {
+    HELLO: 'ハロ',
+    WORLD: '世界',
+    GOOD_MORNING: 'おはようございまする。',
+    SOMETIMES_IM_A_BEAR: 'ある時はクマ、そしてまたある時は…ク-マ。'
+  },
+  my: {
+    HELLO: 'Hello',
+    WORLD: 'Dunia',
+    GOOD_MORNING: 'Selamat pagi.',
+    SOMETIMES_IM_A_BEAR: 'Kadang-kadang aku ialah beruang, dan kadang-kadang aku ialah ber-uang.',
+  },
+  zh: {
+    HELLO: '哈咯',
+    WORLD: '世界',
+    GOOD_MORNING: '早安。',
+    SOMETIMES_IM_A_BEAR: '有时候我只是熊，然后有时候我…还是熊。',
+  },
+})
 
 test('Initialization', () => {
 
@@ -41,6 +69,7 @@ describe(LocalizationContext.prototype.setLanguage.name, () => {
       language: 'zh',
       auto: false,
     })
+    // TODO: check _fallbackLanguageList
   })
 
   test('Invalid language', () => {
@@ -72,6 +101,7 @@ describe(LocalizationContext.prototype.trySetLanguage.name, () => {
       language: 'zh',
       auto: false,
     })
+    // TODO: check _fallbackLanguageList
   })
 
   test('Invalid language', () => {
@@ -87,6 +117,7 @@ describe(LocalizationContext.prototype.trySetLanguage.name, () => {
       language: 'en',
       auto: false,
     })
+    // TODO: check _fallbackLanguageList
   })
 
 })
@@ -108,28 +139,6 @@ describe(LocalizationContext.prototype.localize.name, () => {
       // @ts-expect-error: Done on purpose to test the error.
       localizationContext.localize('?????')
     }).toThrow(new LocalizationKeyNotFoundError('?????', 'en'))
-  })
-
-})
-
-describe(LocalizationContext.prototype.tryLocalize.name, () => {
-
-  const localizationDictionary = new LocalizationDictionary({
-    'en': { HELLO: 'Hello' },
-    'zh': { HELLO: '哈咯' },
-  })
-  const localizationContext = new LocalizationContext(localizationDictionary, 'en')
-
-  test('Valid key', () => {
-    const valueRef = createRef<string>(null)
-    expect(localizationContext.tryLocalize('HELLO', valueRef)).toBe(true)
-    expect(valueRef.current).toBe('Hello')
-  })
-
-  test('Invalid key', () => {
-    const valueRef = createRef<string>(null)
-    expect(localizationContext.tryLocalize('?????', valueRef)).toBe(false)
-    expect(valueRef.current).toBeNull()
   })
 
 })
@@ -162,5 +171,7 @@ test(LocalizationContext.prototype.autoSetLanguage.name, () => {
     language: 'en',
     auto: false,
   })
+
+  // TODO: check _fallbackLanguageList
 
 })

@@ -2,7 +2,6 @@ import {
   addStyles,
   clientOnly,
   Empty,
-  InternalToken,
   PrecedenceLevel,
   StyleMap,
   ThemeToken,
@@ -23,6 +22,9 @@ clientOnly(() => {
     [`.${styles.container}`, {
       gridAutoRows: 'max-content',
       gap: ThemeToken.spacingS,
+    }],
+    [`.${styles.container}::selection`, {
+      backgroundColor: TOKEN_TINT_40,
     }],
     [`.${styles.flowRow}`, {
       gridAutoFlow: 'row',

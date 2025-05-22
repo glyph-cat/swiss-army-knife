@@ -48,8 +48,10 @@ const sizePresets: Record<BasicUISize, number> = {
   'l': 32,
 } as const
 
+// TODO: replace all '@internal' with '@public' when API is ready
+
 /**
- * @public
+ * @internal
  */
 export interface RadioGroupProps<Value> {
   children?: ReactNode
@@ -73,10 +75,12 @@ export interface RadioGroupProps<Value> {
    * @defaultValue `'start'`
    */
   position?: BasicUIPosition
+  // TODO: itemFlow
+  // TODO: itemPosition
 }
 
 /**
- * @public
+ * @internal
  */
 export function RadioGroup<Value>({
   children,
@@ -139,7 +143,7 @@ export function RadioGroup<Value>({
 __setDisplayName(RadioGroup)
 
 /**
- * @public
+ * @internal
  */
 export interface RadioItemProps<Value> {
   value: Value
@@ -148,7 +152,7 @@ export interface RadioItemProps<Value> {
 }
 
 /**
- * @public
+ * @internal
  */
 export function RadioItem<Value>({
   value,

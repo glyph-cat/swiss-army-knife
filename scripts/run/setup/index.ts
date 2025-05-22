@@ -6,11 +6,14 @@ function main(): void {
   const PACKAGE_NAMES = [
     'core',
     'react',
-    'ml-helpers',
+    'equality',
+    'localization',
+    'localization-react',
     'cleanup-manager',
-    'cli-parameter-parser',
     'react-test-utils',
-    'project-helpers',
+    'cli-parameter-parser',
+    // 'project-helpers',
+    'ml-helpers',
   ] as const
 
   const cwd = process.cwd()

@@ -24,14 +24,23 @@
       "@glyph-cat/swiss-army-knife-react": [
         "./packages/react/src"
       ],
-      "@glyph-cat/ml-helpers": [
-        "./packages/ml-helpers/src"
+      "@glyph-cat/equality": [
+        "./packages/equality/src"
+      ],
+      "@glyph-cat/localization": [
+        "./packages/localization/src"
+      ],
+      "@glyph-cat/localization-react": [
+        "./packages/localization-react/src"
       ],
       "@glyph-cat/cleanup-manager": [
         "./packages/cleanup-manager/src",
       ],
       "@glyph-cat/react-test-utils": [
         "./packages/react-test-utils/src",
+      ],
+      "@glyph-cat/ml-helpers": [
+        "./packages/ml-helpers/src"
       ],
     },
     "resolveJsonModule": true,

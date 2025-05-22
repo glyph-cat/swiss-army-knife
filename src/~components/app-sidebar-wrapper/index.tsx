@@ -15,7 +15,7 @@ import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import { CustomDebugger } from '~services/debugging'
-import { ThemeState } from '~services/theme'
+import { setAutoTheme, setDarkTheme, setLightTheme, ThemeState } from '~services/theme'
 import { ThemeId } from '~services/theme/abstractions'
 import styles from './index.module.css'
 
@@ -180,27 +180,6 @@ function SidebarContents(): JSX.Element {
 function ThemeSelector(): JSX.Element {
 
   const themeState = useStateValue(ThemeState)
-
-  const setAutoTheme = useCallback(() => {
-    ThemeState.set({
-      id: ThemeId.DEFAULT_LIGHT,
-      auto: true,
-    })
-  }, [])
-
-  const setLightTheme = useCallback(() => {
-    ThemeState.set({
-      id: ThemeId.DEFAULT_LIGHT,
-      auto: false,
-    })
-  }, [])
-
-  const setDarkTheme = useCallback(() => {
-    ThemeState.set({
-      id: ThemeId.DEFAULT_DARK,
-      auto: false,
-    })
-  }, [])
 
   return (
     <View style={{

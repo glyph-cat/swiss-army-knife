@@ -25,3 +25,5 @@ export function multilineTrim(value: string): string {
   }
   return trim(newValueStack.join('\n'))
 }
+
+// TODO: Consider adding an option or variant that also removes invisible characters such as the zero width non joiner?

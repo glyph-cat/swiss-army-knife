@@ -1,5 +1,9 @@
-import { LanguageNotFoundError, LocalizationDictionary, LocalizationKeyNotFoundError } from '..'
-import { createRef } from '../../data'
+import { createRef } from '@glyph-cat/swiss-army-knife'
+import {
+  LanguageNotFoundError,
+  LocalizationDictionary,
+  LocalizationKeyNotFoundError,
+} from '..'
 
 const SOURCE_DICTIONARY = {
   'en': { HELLO: 'Hello' },
@@ -9,9 +13,9 @@ const SOURCE_DICTIONARY = {
 const localizationDictionary = new LocalizationDictionary(SOURCE_DICTIONARY)
 
 test('Initialization', () => {
-  expect(Object.is(localizationDictionary.dictionary, SOURCE_DICTIONARY)).toBe(true)
-  expect(localizationDictionary.dictionary).toStrictEqual(SOURCE_DICTIONARY)
-  expect([...localizationDictionary.languages.values()]).toStrictEqual(['en', 'zh'])
+  expect(Object.is(localizationDictionary.data, SOURCE_DICTIONARY)).toBe(true)
+  expect(localizationDictionary.data).toStrictEqual(SOURCE_DICTIONARY)
+  expect([...localizationDictionary.languages]).toStrictEqual(['en', 'zh'])
 })
 
 test(LocalizationDictionary.prototype.localize.name, () => {
