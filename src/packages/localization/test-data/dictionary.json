@@ -1,0 +1,24 @@
+{
+  "en": {
+    "HELLO": "Hello",
+    "WORLD": "World",
+    "GOOD_MORNING": "Good morning."
+  },
+  "ja": {
+    "HELLO": "ハロ",
+    "WORLD": "世界",
+    "GOOD_MORNING": "おはようございまする。",
+    "SOMETIMES_IM_A_BEAR": "ある時はクマ、そしてまたある時は…ク-マ。"
+  },
+  "my": {
+    "HELLO": "Hello",
+    "WORLD": "Dunia",
+    "GOOD_MORNING": "Selamat pagi.",
+    "SOMETIMES_IM_A_BEAR": "Kadang-kadang aku ialah beruang, dan kadang-kadang aku ialah ber-uang."
+  },
+  "zh": {
+    "HELLO": "哈咯",
+    "WORLD": "世界",
+    "GOOD_MORNING": "早安。"
+  }
+}

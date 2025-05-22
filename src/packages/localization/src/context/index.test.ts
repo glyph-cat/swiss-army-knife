@@ -1,49 +1,26 @@
+import { JSONclone } from '@glyph-cat/swiss-army-knife'
 import {
   LanguageNotFoundError,
   LocalizationContext,
   LocalizationDictionary,
   LocalizationKeyNotFoundError,
 } from '..'
+import SAMPLE_DICTIONARY_DATA from '../../test-data/dictionary.json'
 
-// TODO: May be need to add more languages to have a more accurate test.
+function createLocalizationDictionary() {
+  return new LocalizationDictionary(JSONclone(SAMPLE_DICTIONARY_DATA))
+}
 
-const NEW_localizationDictionary = new LocalizationDictionary({
-  en: {
-    HELLO: 'Hello',
-    WORLD: 'World',
-    GOOD_MORNING: 'Good morning.',
-    SOMETIMES_IM_A_BEAR: 'Sometimes, I\'m a bear, and at other times… I am a be-ar.',
-  },
-  ja: {
-    HELLO: 'ハロ',
-    WORLD: '世界',
-    GOOD_MORNING: 'おはようございまする。',
-    SOMETIMES_IM_A_BEAR: 'ある時はクマ、そしてまたある時は…ク-マ。'
-  },
-  my: {
-    HELLO: 'Hello',
-    WORLD: 'Dunia',
-    GOOD_MORNING: 'Selamat pagi.',
-    SOMETIMES_IM_A_BEAR: 'Kadang-kadang aku ialah beruang, dan kadang-kadang aku ialah ber-uang.',
-  },
-  zh: {
-    HELLO: '哈咯',
-    WORLD: '世界',
-    GOOD_MORNING: '早安。',
-    SOMETIMES_IM_A_BEAR: '有时候我只是熊，然后有时候我…还是熊。',
-  },
+let localizationContext: LocalizationContext<typeof SAMPLE_DICTIONARY_DATA> = null
+afterEach(() => {
+  localizationContext.dispose()
+  localizationContext = null
 })
 
 test('Initialization', () => {
-
-  const localizationDictionary = new LocalizationDictionary({
-    'en': { HELLO: 'Hello' },
-    'zh': { HELLO: '哈咯' },
-  })
-
-  const localizationContext = new LocalizationContext(localizationDictionary, 'en')
-
-  expect(Object.is(localizationContext.dictionary, localizationDictionary)).toBe(true)
+  const sourceDictionary = createLocalizationDictionary()
+  localizationContext = new LocalizationContext(sourceDictionary, 'en')
+  expect(Object.is(localizationContext.dictionary, sourceDictionary)).toBe(true)
   expect(localizationContext.defaultLanguage).toBe('en')
   expect(localizationContext.defaultAuto).toBe(false)
   expect(localizationContext.currentLanguage).toBe('en')
@@ -51,17 +28,19 @@ test('Initialization', () => {
     language: 'en',
     auto: false,
   })
-
 })
 
 describe(LocalizationContext.prototype.setLanguage.name, () => {
 
   test('Valid language', () => {
-    const localizationDictionary = new LocalizationDictionary({
-      'en': { HELLO: 'Hello' },
-      'zh': { HELLO: '哈咯' },
-    })
-    const localizationContext = new LocalizationContext(localizationDictionary, 'en')
+    const sourceDictionary = createLocalizationDictionary()
+    localizationContext = new LocalizationContext(sourceDictionary, 'en')
+    expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+      // 'en' <-- this is the current language
+      'ja',
+      'my',
+      'zh',
+    ])
     localizationContext.setLanguage('zh')
     expect(localizationContext.defaultAuto).toBe(false)
     expect(localizationContext.currentLanguage).toBe('zh')
@@ -69,15 +48,17 @@ describe(LocalizationContext.prototype.setLanguage.name, () => {
       language: 'zh',
       auto: false,
     })
-    // TODO: check _fallbackLanguageList
+    expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+      // 'zh', <-- this is the current language
+      'en',
+      'ja',
+      'my',
+    ])
   })
 
   test('Invalid language', () => {
-    const localizationDictionary = new LocalizationDictionary({
-      'en': { HELLO: 'Hello' },
-      'zh': { HELLO: '哈咯' },
-    })
-    const localizationContext = new LocalizationContext(localizationDictionary, 'en')
+    const sourceDictionary = createLocalizationDictionary()
+    localizationContext = new LocalizationContext(sourceDictionary, 'en')
     expect(() => {
       // @ts-expect-error: Done on purpose to test the error.
       localizationContext.setLanguage('??')
@@ -89,11 +70,8 @@ describe(LocalizationContext.prototype.setLanguage.name, () => {
 describe(LocalizationContext.prototype.trySetLanguage.name, () => {
 
   test('Valid language', () => {
-    const localizationDictionary = new LocalizationDictionary({
-      'en': { HELLO: 'Hello' },
-      'zh': { HELLO: '哈咯' },
-    })
-    const localizationContext = new LocalizationContext(localizationDictionary, 'en')
+    const sourceDictionary = createLocalizationDictionary()
+    localizationContext = new LocalizationContext(sourceDictionary, 'en')
     expect(localizationContext.trySetLanguage('zh')).toBe(true)
     expect(localizationContext.defaultAuto).toBe(false)
     expect(localizationContext.currentLanguage).toBe('zh')
@@ -101,15 +79,17 @@ describe(LocalizationContext.prototype.trySetLanguage.name, () => {
       language: 'zh',
       auto: false,
     })
-    // TODO: check _fallbackLanguageList
+    expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+      // 'zh', <-- this is the current language
+      'en',
+      'ja',
+      'my',
+    ])
   })
 
   test('Invalid language', () => {
-    const localizationDictionary = new LocalizationDictionary({
-      'en': { HELLO: 'Hello' },
-      'zh': { HELLO: '哈咯' },
-    })
-    const localizationContext = new LocalizationContext(localizationDictionary, 'en')
+    const sourceDictionary = createLocalizationDictionary()
+    localizationContext = new LocalizationContext(sourceDictionary, 'en')
     expect(localizationContext.trySetLanguage('??')).toBe(false)
     expect(localizationContext.defaultAuto).toBe(false)
     expect(localizationContext.currentLanguage).toBe('en')
@@ -117,39 +97,51 @@ describe(LocalizationContext.prototype.trySetLanguage.name, () => {
       language: 'en',
       auto: false,
     })
-    // TODO: check _fallbackLanguageList
+    expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+      // 'en', <-- this is the current language
+      'ja',
+      'my',
+      'zh',
+    ])
   })
 
 })
 
 describe(LocalizationContext.prototype.localize.name, () => {
 
-  const localizationDictionary = new LocalizationDictionary({
-    'en': { HELLO: 'Hello' },
-    'zh': { HELLO: '哈咯' },
-  })
-  const localizationContext = new LocalizationContext(localizationDictionary, 'en')
-
   test('Valid key', () => {
+    const sourceDictionary = createLocalizationDictionary()
+    localizationContext = new LocalizationContext(sourceDictionary, 'en')
     expect(localizationContext.localize('HELLO')).toBe('Hello')
   })
 
-  test('Invalid key', () => {
-    expect(() => {
-      // @ts-expect-error: Done on purpose to test the error.
-      localizationContext.localize('?????')
-    }).toThrow(new LocalizationKeyNotFoundError('?????', 'en'))
+  describe('Invalid key', () => {
+
+    describe('Key exists in other languages', () => {
+      const sourceDictionary = createLocalizationDictionary()
+      localizationContext = new LocalizationContext(sourceDictionary, 'en')
+      expect(localizationContext.localize('SOMETIMES_IM_A_BEAR')).toBe(
+        'ある時はクマ、そしてまたある時は…ク-マ。'
+      )
+    })
+
+    describe('Key does not exist at all', () => {
+      const sourceDictionary = createLocalizationDictionary()
+      localizationContext = new LocalizationContext(sourceDictionary, 'en')
+      expect(() => {
+        // @ts-expect-error: Done on purpose to test the error.
+        localizationContext.localize('?????')
+      }).toThrow(new LocalizationKeyNotFoundError('?????'))
+    })
+
   })
 
 })
 
 test(LocalizationContext.prototype.autoSetLanguage.name, () => {
 
-  const localizationDictionary = new LocalizationDictionary({
-    'en': { HELLO: 'Hello' },
-    'zh': { HELLO: '哈咯' },
-  })
-  const localizationContext = new LocalizationContext(localizationDictionary, 'en', true)
+  const sourceDictionary = createLocalizationDictionary()
+  localizationContext = new LocalizationContext(sourceDictionary, 'en', true)
 
   expect(localizationContext.autoSetLanguage('zh-Hans')).toBe('zh')
   expect(localizationContext.currentLanguage).toBe('zh')
@@ -157,6 +149,12 @@ test(LocalizationContext.prototype.autoSetLanguage.name, () => {
     language: 'zh',
     auto: true,
   })
+  expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+    // 'zh', <-- this is the current language
+    'en',
+    'ja',
+    'my',
+  ])
 
   localizationContext.setLanguage('zh')
   expect(localizationContext.currentLanguage).toBe('zh')
@@ -164,14 +162,25 @@ test(LocalizationContext.prototype.autoSetLanguage.name, () => {
     language: 'zh',
     auto: false,
   })
+  expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+    // 'zh', <-- this is the current language
+    'en',
+    'ja',
+    'my',
+  ])
 
   localizationContext.autoSetLanguage('zh-Hans')
+  // ^ so that we can test `setLanguage` again
   localizationContext.setLanguage('en')
   expect(localizationContext.state.get()).toStrictEqual({
     language: 'en',
     auto: false,
   })
-
-  // TODO: check _fallbackLanguageList
+  expect(localizationContext.M$fallbackLanguageList).toStrictEqual([
+    // 'en', <-- this is the current language
+    'ja',
+    'my',
+    'zh',
+  ])
 
 })

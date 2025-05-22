@@ -115,6 +115,7 @@ export class LocalizationContext<Dictionary extends IDictionaryData> implements 
       auto: true,
       language: resolvedLanguage,
     })
+    this.M$buildFallbackLanguageList()
     return resolvedLanguage
   }
 

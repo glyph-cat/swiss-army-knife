@@ -101,7 +101,7 @@ export class LocalizationDictionary<DictionaryData extends IDictionaryData> {
   ): boolean {
     if (hasProperty(this.data, language)) {
       if (hasProperty(this.data[language], key)) {
-        valueRef.current = this.data[language][key]
+        valueRef.current = this.data[language][key] as LocalizedValue<DictionaryData>
         return true
       }
     }

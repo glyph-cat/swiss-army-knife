@@ -17,7 +17,7 @@ export class LocalizationKeyNotFoundError extends Error {
   constructor(key: string, language?: string) {
     super(
       `Localization key "${key}" could not be found in the dictionary` +
-        language ? ` for language "${language}"` : ''
+      (language ? ` for language "${language}"` : '')
     )
   }
 

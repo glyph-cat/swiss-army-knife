@@ -13,7 +13,7 @@ export type Language<Dictionary extends IDictionaryData> = keyof Dictionary
 /**
  * @public
  */
-export type LocalizationKey<Dictionary extends IDictionaryData> = keyof Dictionary[Language<Dictionary>]
+export type LocalizationKey<Dictionary extends IDictionaryData> = { [Key in keyof Dictionary]: Dictionary[Key] extends object ? keyof Dictionary[Key] : never }[keyof Dictionary]
 
 /**
  * @public
