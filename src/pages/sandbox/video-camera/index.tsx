@@ -4,6 +4,7 @@ import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, useCallback, useEffect, useState } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
 import { SandboxStyle } from '~constants'
+import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
 
 // To test and make sure it doesn't break:
@@ -40,6 +41,8 @@ interface ContentProps {
 
 function Content({ videoCamera }: ContentProps): JSX.Element {
 
+  const { localize } = useLocalization()
+
   const videoCameraState = useSimpleStateValue(videoCamera.state)
 
   const startCamera = useCallback(() => {
@@ -71,13 +74,13 @@ function Content({ videoCamera }: ContentProps): JSX.Element {
       </View>
       <View className={styles.buttonContainer}>
         <BasicButton onClick={startCamera}>
-          {'Start'}
+          {localize('START')}
         </BasicButton>
         <BasicButton onClick={stopCamera}>
-          {'Stop'}
+          {localize('STOP')}
         </BasicButton>
         <BasicButton onClick={disposeCamera}>
-          {'Dispose'}
+          {localize('DISPOSE')}
         </BasicButton>
       </View>
     </View>

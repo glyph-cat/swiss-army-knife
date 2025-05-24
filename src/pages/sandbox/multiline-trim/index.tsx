@@ -2,9 +2,12 @@ import { c, delay, Empty, multilineTrim, RefObject } from '@glyph-cat/swiss-army
 import { BasicButton, TextArea, View } from '@glyph-cat/swiss-army-knife-react'
 import ClipboardJS from 'clipboard'
 import { JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'
+import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
+
+  const { localize } = useLocalization()
 
   const [text, setText] = useState(Empty.STRING)
   const deferredText = useDeferredValue(text)
@@ -30,7 +33,7 @@ export default function (): JSX.Element {
             setText(Empty.STRING)
           }, [])}
         >
-          {'Clear all'}
+          {localize('CLEAR_ALL')}
         </BasicButton>
         <View />
         <BasicButton
@@ -43,7 +46,7 @@ export default function (): JSX.Element {
             setCopiedState(false)
           }, [sanitizedText])}
         >
-          {copied ? 'Copied' : 'Copy'}
+          {localize(copied ? 'COPIED' : 'COPY')}
         </BasicButton>
       </View>
       <View className={styles.contentContainer}>
@@ -53,7 +56,7 @@ export default function (): JSX.Element {
             className={c(styles.textAreaBase, styles.inputTextArea, 'code')}
             value={text}
             onChange={useCallback((e) => { setText(e.target.value) }, [])}
-            placeholder={'Enter some text here...'}
+            placeholder={localize('ENTER_SOME_TEXT_HERE')}
           />
           <TextArea
             ref={inputOverlayRef}
@@ -67,7 +70,7 @@ export default function (): JSX.Element {
             ref={outputMainRef}
             className={c(styles.textAreaBase, styles.outputTextArea, 'code')}
             value={sanitizedText}
-            placeholder={'The output will appear here...'}
+            placeholder={localize('THE_OUTPUT_WILL_APPEAR_HERE')}
             readOnly
           />
           <TextArea

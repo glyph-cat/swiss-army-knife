@@ -1,5 +1,6 @@
 import {
   CheckApplePlatformProvider,
+  ClientOnly,
   CoreUIProvider,
   MaterialSymbolsOnlineLoader,
   MaterialSymbolsProvider,
@@ -52,7 +53,9 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
             keyChordManager={GlobalKeyChordManager}
             portalManager={GlobalPortalManager}
           >
-            <AppSideBar />
+            <ClientOnly>
+              <AppSideBar />
+            </ClientOnly>
             <AppSideBarContainer>
               <SandboxErrorBoundary>
                 <Component {...pageProps} />

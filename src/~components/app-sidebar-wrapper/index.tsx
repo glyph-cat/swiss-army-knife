@@ -1,11 +1,5 @@
 import { Casing, isString } from '@glyph-cat/swiss-army-knife'
-import {
-  ButtonBase as Button,
-  ClientOnly,
-  MaterialSymbol,
-  useActionState,
-  View,
-} from '@glyph-cat/swiss-army-knife-react'
+import { ButtonBase, MaterialSymbol, useActionState, View } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -15,6 +9,7 @@ import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import { CustomDebugger } from '~services/debugging'
+import { useLocalization } from '~services/localization'
 import { setAutoTheme, setDarkTheme, setLightTheme, ThemeState } from '~services/theme'
 import { ThemeId } from '~services/theme/abstractions'
 import styles from './index.module.css'
@@ -52,6 +47,8 @@ export function AppSideBarContainer({
 
 export function AppSideBar(): JSX.Element {
 
+  const { localize } = useLocalization()
+
   const {
     showPerformanceDebugger: shouldShowPerformanceDebugger,
     useStrictMode: shouldUseStrictMode,
@@ -82,38 +79,35 @@ export function AppSideBar(): JSX.Element {
       style={{ width: SIDEBAR_WIDTH }}
     >
       <View className={styles.buttonsContainer}>
-        <ClientOnly>
-          <Button
-            className={styles.buttonBase}
-            style={{
-              backgroundColor: shouldUseStrictMode
-                ? STRICT_MODE_ON_COLOR
-                : STRICT_MODE_OFF_COLOR,
-              color: '#ffffff',
-              height: BUTTON_HEIGHT,
-            }}
-            onClick={CustomDebugger.toggleStrictMode}
-          >
-            {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
-          </Button>
-        </ClientOnly>
-        <Button
+        <ButtonBase
+          className={styles.buttonBase}
+          style={{
+            backgroundColor: shouldUseStrictMode
+              ? STRICT_MODE_ON_COLOR
+              : STRICT_MODE_OFF_COLOR,
+            color: '#ffffff',
+            height: BUTTON_HEIGHT,
+            textTransform: 'uppercase',
+          }}
+          onClick={CustomDebugger.toggleStrictMode}
+        >
+          {`Strict Mode: ${localize(shouldUseStrictMode ? 'ON' : 'OFF')}`}
+        </ButtonBase>
+        <ButtonBase
           className={styles.buttonBase}
           onClick={onTriggerSoftReload}
           style={{ height: BUTTON_HEIGHT }}
         >
-          {'Soft Reload'}
-        </Button>
-        <Button
+          {localize('SOFT_RELOAD')}
+        </ButtonBase>
+        <ButtonBase
           className={styles.buttonBase}
           onClick={showCreateSandboxPopup}
           style={{ height: BUTTON_HEIGHT }}
         >
-          {'Create sandbox'}
-        </Button>
-        <ClientOnly>
-          <ThemeSelector />
-        </ClientOnly>
+          {localize('CREATE_NEW_SANDBOX')}
+        </ButtonBase>
+        <ThemeSelector />
       </View>
       <SidebarContents />
     </View>
@@ -164,12 +158,12 @@ function SidebarContents(): JSX.Element {
                 </code>
               </View>
             </Link>
-            <Button
+            <ButtonBase
               // eslint-disable-next-line react/jsx-no-bind
               onClick={onOpenInEditor}
             >
               <MaterialSymbol name='edit_document' size={16} />
-            </Button>
+            </ButtonBase>
           </li>
         )
       })}
@@ -180,6 +174,7 @@ function SidebarContents(): JSX.Element {
 function ThemeSelector(): JSX.Element {
 
   const themeState = useStateValue(ThemeState)
+  const { localize } = useLocalization()
 
   return (
     <View style={{
@@ -187,15 +182,24 @@ function ThemeSelector(): JSX.Element {
       gridAutoColumns: '1fr',
       gridAutoFlow: 'column',
     }}>
-      <Button className={styles.buttonBase} onClick={setAutoTheme}>
-        {decorateSelection('Auto', themeState.auto)}
-      </Button>
-      <Button className={styles.buttonBase} onClick={setLightTheme}>
-        {decorateSelection('Light', !themeState.auto && themeState.id === ThemeId.DEFAULT_LIGHT)}
-      </Button>
-      <Button className={styles.buttonBase} onClick={setDarkTheme}>
-        {decorateSelection('Dark', !themeState.auto && themeState.id === ThemeId.DEFAULT_DARK)}
-      </Button>
+      <ButtonBase className={styles.buttonBase} onClick={setAutoTheme}>
+        {decorateSelection(
+          localize('AUTOMATIC'),
+          themeState.auto
+        )}
+      </ButtonBase>
+      <ButtonBase className={styles.buttonBase} onClick={setLightTheme}>
+        {decorateSelection(
+          localize('THEME_LIGHT'),
+          !themeState.auto && themeState.id === ThemeId.DEFAULT_LIGHT
+        )}
+      </ButtonBase>
+      <ButtonBase className={styles.buttonBase} onClick={setDarkTheme}>
+        {decorateSelection(
+          localize('THEME_DARK'),
+          !themeState.auto && themeState.id === ThemeId.DEFAULT_DARK
+        )}
+      </ButtonBase>
     </View>
   )
 }

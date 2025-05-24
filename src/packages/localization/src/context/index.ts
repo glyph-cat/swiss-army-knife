@@ -17,6 +17,9 @@ export interface ILocalizationContextState<DictionaryData extends IDictionaryDat
   auto: boolean
 }
 
+// TODO: May be exclude state lifecycle management
+// Also exclude set by auto language, but still provide resolve method
+
 /**
  * @public
  */
@@ -48,14 +51,15 @@ export class LocalizationContext<DictionaryData extends IDictionaryData> impleme
   constructor(
     readonly dictionary: LocalizationDictionary<DictionaryData>,
     readonly defaultLanguage: Language<DictionaryData>,
-    readonly defaultAuto: boolean = false,
+    readonly clientLanguages?: Array<string>,
     stageManagerOptions?: StateManagerOptions<ILocalizationContextState<DictionaryData>>
   ) {
-    this.M$state = new StateManager<ILocalizationContextState<DictionaryData>>({
-      language: defaultAuto
-        ? dictionary.resolveLanguage(defaultLanguage)
-        : defaultLanguage,
-      auto: defaultAuto,
+    this.M$state = new StateManager<ILocalizationContextState<DictionaryData>>(clientLanguages ? {
+      language: dictionary.resolveLanguage(...clientLanguages),
+      auto: true,
+    } : {
+      language: defaultLanguage,
+      auto: false,
     }, stageManagerOptions)
     this.M$buildFallbackLanguageList()
     this.setLanguage = this.setLanguage.bind(this)

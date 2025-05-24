@@ -1438,6 +1438,11 @@
     "@eslint/core" "^0.12.0"
     levn "^0.4.1"
 
+"@glyph-cat/equality@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@glyph-cat/equality/-/equality-1.0.0.tgz#fa11ec89e1f754632b199ba10aea507014ffcc1d"
+  integrity sha512-2hXu/U7MGyqKrHke5v1feNY80J9qCJSRE1bfe6leG83u3Yy41Ji0Q+LOtUhQHuadjSwdSR2F6SrAMu+eASEbLw==
+
 "@glyph-cat/eslint-config@^1.0.1-alpha.13":
   version "1.0.1-alpha.13"
   resolved "https://registry.yarnpkg.com/@glyph-cat/eslint-config/-/eslint-config-1.0.1-alpha.13.tgz#64775dd503a9e3e5cdebdac1ab562d6eee5ed63c"
@@ -3880,15 +3885,17 @@ cosmiconfig@^9.0.0:
     js-yaml "^4.1.0"
     parse-json "^5.2.0"
 
-cotton-box-react@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.11.0.tgz#79f2f869ff68c1a11cf4e3b419f9602b50c9a3b9"
-  integrity sha512-a2iUzaKp+jk89HbUz7J02Tz69IiGLyHcoPNULrNvFoRQXDEbVueEyROqxGGD9EoE4WU+IwaxbVv5INaguDYzig==
+cotton-box-react@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/cotton-box-react/-/cotton-box-react-0.13.0.tgz#cd2765c519921279dfd4933f360c5d26c51b47a4"
+  integrity sha512-40W6IYkBAsP/v7y4CfhC+TRwwsW4H3LaDcCbv9O1A4hHmxIrHEKBnfj4mg2hLv0lg/VtCE0b1qL1xK/kPEFpuQ==
+  dependencies:
+    "@glyph-cat/equality" "^1.0.0"
 
-cotton-box@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/cotton-box/-/cotton-box-0.11.0.tgz#a1181f8b0f1b6c72eb49580972183e22f3d5f54d"
-  integrity sha512-AsUvZ1p5G8Hr+xCqxnCXKHeFS8j1GxZTYeGCvjMj8B6ofjT/VdUngg3yf1acXRKvJyed5Nw8PD88jQkeWaUCFw==
+cotton-box@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/cotton-box/-/cotton-box-0.13.0.tgz#ddc88824332d480aa3994b836d48b8da068f0e88"
+  integrity sha512-R+RLGQZg5lYkfxoHzV7xSrkMNkVwqj6vFS4AG+YXwAiXI8szwv9Q+jSkhqCMyDA72p5QHvweURy6/gC3faPgFQ==
 
 create-jest@^29.7.0:
   version "29.7.0"

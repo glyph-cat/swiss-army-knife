@@ -18,4 +18,5 @@ export type LocalizationKey<DictionaryData extends IDictionaryData> = { [Key in 
 /**
  * @public
  */
-export type LocalizedValue<DictionaryData extends IDictionaryData> = DictionaryData[Language<DictionaryData>][LocalizationKey<DictionaryData>]
+export type LocalizedValue<DictionaryData extends IDictionaryData> = DictionaryData[Language<DictionaryData>][keyof DictionaryData[Language<DictionaryData>]]
+// NOTE: We cannot use `LocalizationKey` here, because when dictionary has incomplete localization values across different languages, trying to localize keys that are present in all languages would result in unknown type instead.

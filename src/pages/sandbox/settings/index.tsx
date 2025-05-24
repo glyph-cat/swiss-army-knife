@@ -3,7 +3,7 @@ import { RadioGroup, RadioItem, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue, useStateValue } from 'cotton-box-react'
 import { JSX, useCallback } from 'react'
 import { SandboxStyle } from '~constants'
-import { GlobalLocalizationContext } from '~services/localization'
+import { GlobalLocalizationContext, useLocalization } from '~services/localization'
 import { ThemeState, ThemeStateValue } from '~services/theme'
 import { ThemeId } from '~services/theme/abstractions'
 import styles from './index.module.css'
@@ -29,6 +29,8 @@ export default function (): JSX.Element {
     return null
   })
 
+  const { localize } = useLocalization()
+
   const language = useSimpleStateValue(
     GlobalLocalizationContext.state,
     (s) => s.auto ? null : s.language,
@@ -43,9 +45,9 @@ export default function (): JSX.Element {
           ThemeState.set(ThemeStateValue[key])
         }, [])}
       >
-        <RadioItem value='AUTO'>{'Automatic'}</RadioItem>
-        <RadioItem value='LIGHT'>{'Light'}</RadioItem>
-        <RadioItem value='DARK'>{'Dark'}</RadioItem>
+        <RadioItem value='AUTO'>{localize('AUTOMATIC')}</RadioItem>
+        <RadioItem value='LIGHT'>{localize('THEME_LIGHT')}</RadioItem>
+        <RadioItem value='DARK'>{localize('THEME_DARK')}</RadioItem>
       </RadioGroup>
 
       <RadioGroup
@@ -54,6 +56,7 @@ export default function (): JSX.Element {
       >
         <RadioItem value={null}>{'Automatic'}</RadioItem>
         <RadioItem value={'en'}>{'English'}</RadioItem>
+        <RadioItem value={'zh'}>{'中文'}</RadioItem>
       </RadioGroup>
 
     </View >

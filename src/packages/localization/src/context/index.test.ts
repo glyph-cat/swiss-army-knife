@@ -22,7 +22,6 @@ test('Initialization', () => {
   localizationContext = new LocalizationContext(sourceDictionary, 'en')
   expect(Object.is(localizationContext.dictionary, sourceDictionary)).toBe(true)
   expect(localizationContext.defaultLanguage).toBe('en')
-  expect(localizationContext.defaultAuto).toBe(false)
   expect(localizationContext.currentLanguage).toBe('en')
   expect(localizationContext.state.get()).toStrictEqual({
     language: 'en',
@@ -42,7 +41,6 @@ describe(LocalizationContext.prototype.setLanguage.name, () => {
       'zh',
     ])
     localizationContext.setLanguage('zh')
-    expect(localizationContext.defaultAuto).toBe(false)
     expect(localizationContext.currentLanguage).toBe('zh')
     expect(localizationContext.state.get()).toStrictEqual({
       language: 'zh',
@@ -73,7 +71,6 @@ describe(LocalizationContext.prototype.trySetLanguage.name, () => {
     const sourceDictionary = createLocalizationDictionary()
     localizationContext = new LocalizationContext(sourceDictionary, 'en')
     expect(localizationContext.trySetLanguage('zh')).toBe(true)
-    expect(localizationContext.defaultAuto).toBe(false)
     expect(localizationContext.currentLanguage).toBe('zh')
     expect(localizationContext.state.get()).toStrictEqual({
       language: 'zh',
@@ -91,7 +88,6 @@ describe(LocalizationContext.prototype.trySetLanguage.name, () => {
     const sourceDictionary = createLocalizationDictionary()
     localizationContext = new LocalizationContext(sourceDictionary, 'en')
     expect(localizationContext.trySetLanguage('??')).toBe(false)
-    expect(localizationContext.defaultAuto).toBe(false)
     expect(localizationContext.currentLanguage).toBe('en')
     expect(localizationContext.state.get()).toStrictEqual({
       language: 'en',
@@ -141,7 +137,7 @@ describe(LocalizationContext.prototype.localize.name, () => {
 test(LocalizationContext.prototype.autoSetLanguage.name, () => {
 
   const sourceDictionary = createLocalizationDictionary()
-  localizationContext = new LocalizationContext(sourceDictionary, 'en', true)
+  localizationContext = new LocalizationContext(sourceDictionary, 'en', [/* todo */])
 
   expect(localizationContext.autoSetLanguage('zh-Hans')).toBe('zh')
   expect(localizationContext.currentLanguage).toBe('zh')
