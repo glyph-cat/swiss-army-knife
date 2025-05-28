@@ -35,4 +35,4 @@ export const COLOR_BLACK = '#000000'
 export const COLOR_WHITE = '#ffffff'
 export const COLOR_NEUTRAL_GREY = '#808080'
 
-export const CHECKBOX_OR_RADIO_ACTIVE_COLOR = `'${COLOR_BLACK}60'`
+export const CHECKBOX_OR_RADIO_ACTIVE_COLOR = `${COLOR_BLACK}60`
