@@ -1,4 +1,4 @@
-import { CleanupFunction, isNotEmptyObject } from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction, objectIsNotEmpty } from '@glyph-cat/swiss-army-knife'
 import {
   Children,
   createContext,
@@ -101,7 +101,7 @@ export function CoreNavigationStack({
       {children.reduce<Array<ReactElement<CoreNavigationStackItemProps>>>((acc, child) => {
         const currentItemId = child.props.id
         acc.push(child)
-        if (isNotEmptyObject(dynamicChildren[currentItemId])) {
+        if (objectIsNotEmpty(dynamicChildren[currentItemId])) {
           acc.push(...Object.values(dynamicChildren[currentItemId]))
         }
         return acc

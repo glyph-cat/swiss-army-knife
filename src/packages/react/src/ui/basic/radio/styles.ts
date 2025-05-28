@@ -7,20 +7,27 @@ import {
   ThemeToken,
 } from '@glyph-cat/swiss-army-knife'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
-import { TOKEN_SIZE, TOKEN_TINT, TOKEN_TINT_40 } from '../constants'
+import {
+  CHECKBOX_OR_RADIO_ACTIVE_COLOR,
+  TOKEN_SIZE,
+  TOKEN_TINT,
+  TOKEN_TINT_40,
+} from '../constants'
 
 export const styles = prefixBasicUIIdentifiers('radio', [
   'container',
   'flowRow',
   'flowColumn',
+  'labelFlowRow',
+  'labelFlowColumn',
   'label',
   'input',
 ])
 
 clientOnly(() => {
+  const PLAIN_BORDER_COLOR = '#808080'
   addStyles(new StyleMap([
     [`.${styles.container}`, {
-      gridAutoRows: 'max-content',
       gap: ThemeToken.spacingS,
     }],
     [`.${styles.container}::selection`, {
@@ -28,19 +35,28 @@ clientOnly(() => {
     }],
     [`.${styles.flowRow}`, {
       gridAutoFlow: 'row',
-      gridAutoRows: 'max-content',
+      // kiv: this is kept to preserve equal width
+      // gridAutoRows: 'max-content',
     }],
     [`.${styles.flowColumn}`, {
-      gridAutoColumns: 'max-content',
+      // kiv: this is kept to preserve equal width
+      // gridAutoColumns: 'max-content',
       gridAutoFlow: 'column',
     }],
     [`.${styles.label}`, {
-      alignItems: 'center',
       cursor: ThemeToken.interactiveEnabledCursor,
       display: 'grid',
-      gridTemplateColumns: 'auto 1fr',
       gap: ThemeToken.spacingM,
-      justifySelf: 'start',
+    }],
+    [`.${styles.labelFlowRow}`, {
+      gridAutoFlow: 'row',
+      gridAutoRows: 'max-content',
+      justifyItems: 'center',
+    }],
+    [`.${styles.labelFlowColumn}`, {
+      alignItems: 'center',
+      gridAutoColumns: 'max-content',
+      gridAutoFlow: 'column',
     }],
     [`.${styles.label}:has(.${styles.input}:disabled)`, {
       cursor: ThemeToken.interactiveDisabledCursor,
@@ -48,7 +64,7 @@ clientOnly(() => {
     }],
     [`.${styles.input}`, {
       appearance: 'none',
-      border: `solid ${ThemeToken.inputElementBorderSize} #808080`, // todo: color?
+      border: `solid ${ThemeToken.inputElementBorderSize} ${PLAIN_BORDER_COLOR}`,
       borderRadius: TOKEN_SIZE,
       cursor: 'inherit',
       display: 'grid',
@@ -72,18 +88,13 @@ clientOnly(() => {
       borderColor: TOKEN_TINT,
     }],
     [`.${styles.input}:enabled:active`, {
-      backgroundImage: 'linear-gradient(#00000060, #00000060)', // todo
+      backgroundImage: `linear-gradient(${CHECKBOX_OR_RADIO_ACTIVE_COLOR}, ${CHECKBOX_OR_RADIO_ACTIVE_COLOR})`,
     }],
     [`.${styles.input}:enabled:checked`, {
       borderColor: TOKEN_TINT,
     }],
-    [`.${styles.input}:disabled`, {
-      '--disabledColor': '#80808040', // todo
-      borderColor: 'var(--disabledColor)', // todo
-      opacity: 0.5,
-    }],
-    [`.${styles.input}:disabled`, {
-      backgroundColor: 'var(--disabledColor)',
+    [`.${styles.input}:disabled:checked:before`, {
+      backgroundColor: PLAIN_BORDER_COLOR,
     }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })

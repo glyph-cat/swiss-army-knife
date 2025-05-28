@@ -79,7 +79,7 @@ export interface CheckboxProps {
    */
   flow?: BasicUIFlow
   /**
-   * Position of the checkbox relative to its children if any.
+   * Position of the checkbox relative to its children, if any.
    * @defaultValue `'start'`
    */
   position?: BasicUIPosition

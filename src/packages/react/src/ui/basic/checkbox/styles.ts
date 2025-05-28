@@ -9,6 +9,7 @@ import {
 import { mounted } from '../_internals/data-mounted'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import {
+  CHECKBOX_OR_RADIO_ACTIVE_COLOR,
   COLOR_WHITE,
   TOKEN_SIZE,
   TOKEN_TINT,
@@ -112,7 +113,7 @@ clientOnly(() => {
       `.${styles.input}:enabled:checked:active`,
       `.${styles.input}:enabled:indeterminate:active`,
     ].join(','), {
-      backgroundImage: 'linear-gradient(#00000060, #00000060)',
+      backgroundImage: `linear-gradient(${CHECKBOX_OR_RADIO_ACTIVE_COLOR}, ${CHECKBOX_OR_RADIO_ACTIVE_COLOR})`,
     }],
     [`.${styles.checkmark}`, {
       color: COLOR_WHITE,

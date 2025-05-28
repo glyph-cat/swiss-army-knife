@@ -22,6 +22,7 @@ import {
   GlobalPortalManager,
 } from '~core-ui'
 import { CustomDebugger } from '~services/debugging'
+import { LocalizationProvider } from '~services/localization'
 import { CustomThemeProvider } from '~services/theme'
 import '../styles/globals.css'
 
@@ -53,18 +54,20 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
             keyChordManager={GlobalKeyChordManager}
             portalManager={GlobalPortalManager}
           >
-            <ClientOnly>
-              <AppSideBar />
-            </ClientOnly>
-            <AppSideBarContainer>
-              <SandboxErrorBoundary>
-                <Component {...pageProps} />
-              </SandboxErrorBoundary>
-            </AppSideBarContainer>
+            <LocalizationProvider>
+              <ClientOnly>
+                <AppSideBar />
+              </ClientOnly>
+              <AppSideBarContainer>
+                <SandboxErrorBoundary>
+                  <Component {...pageProps} />
+                </SandboxErrorBoundary>
+              </AppSideBarContainer>
+              <PortalCanvas />
+            </LocalizationProvider>
             <CheckApplePlatformProvider>
               <KeyListeners />
             </CheckApplePlatformProvider>
-            <PortalCanvas />
           </CoreUIProvider>
         </CustomThemeProvider>
       </MaterialSymbolsProvider>

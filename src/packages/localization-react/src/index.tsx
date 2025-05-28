@@ -1,9 +1,4 @@
-import {
-  IDictionaryData,
-  ILocalizationContextState,
-  Language,
-  LocalizationContext,
-} from '@glyph-cat/localization'
+import { IDictionaryData, LocalizedDictionary } from '@glyph-cat/localization'
 import { useSimpleStateValue } from 'cotton-box-react'
 // import { JSX, memo, ReactNode, useContext } from 'react'
 // import { HydrationMap, HydrationMapContext, useResolveHydrationLocalizationContext } from './internal'
@@ -67,21 +62,21 @@ import { useSimpleStateValue } from 'cotton-box-react'
 //   )
 // }
 
-/**
- * @param localizationContext - The {@link LocalizationContext|`LocalizationContext`} to use
- * @param active - Controls whether the hook should watch for state changes and
- * trigger component update. Defaults to `true`.
- * @public
- */
-export function useLocalizationContext<DictionaryData extends IDictionaryData>(
-  localizationContext: LocalizationContext<DictionaryData>,
-  active: boolean = true,
-): LocalizationContext<DictionaryData> {
-  // const effectiveContext = useResolveHydrationLocalizationContext(localizationContext)
-  useSimpleStateValue(localizationContext.state, languageSelector, active)
-  return localizationContext
-}
+// /**
+//  * @param localizationContext - The {@link LocalizedDictionary|`LocalizationContext`} to use
+//  * @param active - Controls whether the hook should watch for state changes and
+//  * trigger component update. Defaults to `true`.
+//  * @public
+//  */
+// export function useLocalizationContext<DictionaryData extends IDictionaryData>(
+//   localizationContext: LocalizedDictionary<DictionaryData>,
+//   active: boolean = true,
+// ): LocalizedDictionary<DictionaryData> {
+//   // const effectiveContext = useResolveHydrationLocalizationContext(localizationContext)
+//   useSimpleStateValue(localizationContext.languageState, null, active)
+//   return localizationContext
+// }
 
-function languageSelector(state: ILocalizationContextState<IDictionaryData>): Language<IDictionaryData> {
-  return state.language
-}
+// function languageSelector(state: ILocalizationContextState<IDictionaryData>): Language<IDictionaryData> {
+//   return state.language
+// }

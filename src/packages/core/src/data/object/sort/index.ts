@@ -8,7 +8,7 @@ import { StrictPropertyKey } from '../../../types'
  * object remains untouched.
  * @example
  * const oldObj = { foo: 123, bar: 456 }
- * const newObj = sortObject(oldObj, (a, b) => {
+ * const newObj = objectSort(oldObj, (a, b) => {
  *   if (a.key !== b.key) {
  *     // Will compare 'foo' with 'bar'
  *     return a.key < b.key ? -1 : 1
@@ -19,7 +19,7 @@ import { StrictPropertyKey } from '../../../types'
  * })
  * @public
  */
-export function sortObject<O extends Record<StrictPropertyKey, unknown>>(
+export function objectSort<O extends Record<StrictPropertyKey, unknown>>(
   object: O,
   compareFn: (
     a: { key: keyof O, value: O[keyof O] },

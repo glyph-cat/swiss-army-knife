@@ -1,6 +1,6 @@
-import { sortObject } from '.'
+import { objectSort } from '.'
 
-test(sortObject.name, (): void => {
+test(objectSort.name, (): void => {
 
   interface DummyUserSchema {
     name: string
@@ -26,7 +26,7 @@ test(sortObject.name, (): void => {
     },
   }
 
-  const sortedUserCollection = sortObject(userCollection, (a, b) => {
+  const sortedUserCollection = objectSort(userCollection, (a, b) => {
     if (a.value.age !== b.value.age) {
       return a.value.age < b.value.age ? -1 : 1
     } else if (a.value.name !== b.value.name) {

@@ -1,29 +1,12 @@
-import {
-  createRef,
-  IDisposable,
-  LenientString,
-  removeDuplicates,
-} from '@glyph-cat/swiss-army-knife'
-import { ReadOnlyStateManager, StateManager, StateManagerOptions } from 'cotton-box'
+import { createRef, removeDuplicates } from '@glyph-cat/swiss-army-knife'
 import { IDictionaryData, Language, LocalizationKey, LocalizedValue } from '../abstractions'
 import { LocalizationDictionary } from '../dictionary'
-import { LanguageNotFoundError, LocalizationKeyNotFoundError } from '../errors'
+import { LocalizationKeyNotFoundError } from '../errors'
 
 /**
  * @public
  */
-export interface ILocalizationContextState<DictionaryData extends IDictionaryData> {
-  language: Language<DictionaryData>
-  auto: boolean
-}
-
-// TODO: May be exclude state lifecycle management
-// Also exclude set by auto language, but still provide resolve method
-
-/**
- * @public
- */
-export class LocalizationContext<DictionaryData extends IDictionaryData> implements IDisposable {
+export class LocalizedDictionary<DictionaryData extends IDictionaryData> {
 
   /**
    * A slightly altered list of language where the current language is excluded
@@ -33,94 +16,15 @@ export class LocalizationContext<DictionaryData extends IDictionaryData> impleme
    */
   M$fallbackLanguageList: Array<Language<DictionaryData>>
 
-  /**
-   * @internal
-   */
-  private readonly M$state: StateManager<ILocalizationContextState<DictionaryData>>
-  get state(): ReadOnlyStateManager<ILocalizationContextState<DictionaryData>> {
-    return this.M$state
-  }
-
-  /**
-   * An alias for `.state.get().language`.
-   */
-  get currentLanguage(): Language<DictionaryData> {
-    return this.M$state.get().language
-  }
-
   constructor(
     readonly dictionary: LocalizationDictionary<DictionaryData>,
-    readonly defaultLanguage: Language<DictionaryData>,
-    readonly clientLanguages?: Array<string>,
-    stageManagerOptions?: StateManagerOptions<ILocalizationContextState<DictionaryData>>
+    readonly language: Language<DictionaryData>,
   ) {
-    this.M$state = new StateManager<ILocalizationContextState<DictionaryData>>(clientLanguages ? {
-      language: dictionary.resolveLanguage(...clientLanguages),
-      auto: true,
-    } : {
-      language: defaultLanguage,
-      auto: false,
-    }, stageManagerOptions)
-    this.M$buildFallbackLanguageList()
-    this.setLanguage = this.setLanguage.bind(this)
-    this.trySetLanguage = this.trySetLanguage.bind(this)
-    this.autoSetLanguage = this.autoSetLanguage.bind(this)
+    this.M$fallbackLanguageList = removeDuplicates([
+      this.language,
+      ...this.dictionary.languages,
+    ].filter((l) => l !== this.language))
     this.localize = this.localize.bind(this)
-    this.dispose = this.dispose.bind(this)
-  }
-
-  /**
-   * @internal
-   */
-  private M$buildFallbackLanguageList(): void {
-    this.M$fallbackLanguageList = removeDuplicates([this.defaultLanguage, ...this.dictionary.languages].filter((language) => language !== this.currentLanguage))
-  }
-
-  /**
-   * Sets the language.
-   *
-   * @throws {@link LanguageNotFoundError}
-   * if the target language does not exist in the dictionary.
-   *
-   * @param language - The target language.
-   */
-  setLanguage(language: Language<DictionaryData>): void {
-    if (this.dictionary.languages.has(language)) {
-      this.M$state.set({ language, auto: false })
-      this.M$buildFallbackLanguageList()
-    } else {
-      throw new LanguageNotFoundError(String(language))
-    }
-  }
-
-  /**
-   * Tries to set the language, does not throw an error if the target language
-   * does not exist in the dictionary.
-   * @param language - The target language.
-   * @returns `true` if the attempt was successful, otherwise `false`.
-   */
-  trySetLanguage(language: LenientString<Language<DictionaryData>>): boolean {
-    if (this.dictionary.languages.has(language)) {
-      this.M$state.set({ language, auto: false })
-      this.M$buildFallbackLanguageList()
-      return true
-    } else {
-      return false
-    }
-  }
-
-  /**
-   * Sets the closest matching language in the dictionary based on the list of
-   * user-preferred languages.
-   */
-  autoSetLanguage(...clientLanguages: Array<string>): Language<DictionaryData> {
-    const resolvedLanguage = this.dictionary.resolveLanguage(...clientLanguages)
-    this.M$state.set({
-      auto: true,
-      language: resolvedLanguage,
-    })
-    this.M$buildFallbackLanguageList()
-    return resolvedLanguage
   }
 
   /**
@@ -137,7 +41,7 @@ export class LocalizationContext<DictionaryData extends IDictionaryData> impleme
    */
   localize(key: LocalizationKey<DictionaryData>): LocalizedValue<DictionaryData> {
     const valueRef = createRef<LocalizedValue<DictionaryData>>(null)
-    if (this.dictionary.tryLocalize(this.currentLanguage, key, valueRef)) {
+    if (this.dictionary.tryLocalize(this.language, key, valueRef)) {
       return valueRef.current
     } else {
       for (const language of this.M$fallbackLanguageList) {
@@ -147,14 +51,6 @@ export class LocalizationContext<DictionaryData extends IDictionaryData> impleme
       }
     }
     throw new LocalizationKeyNotFoundError(String(key))
-  }
-
-  /**
-   * Disposes the current context. Calling this method is not necessary when
-   * created as a global variable, which should be most of the cases.
-   */
-  dispose(): void {
-    this.M$state.dispose()
   }
 
 }

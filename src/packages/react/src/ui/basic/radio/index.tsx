@@ -27,6 +27,7 @@ import {
   __TINT,
   __TINT_40,
   __TINT_STRONGER,
+  BASIC_UI_FLOW_COLUMN,
   BASIC_UI_FLOW_ROW,
   BASIC_UI_POSITION_END,
   BASIC_UI_POSITION_START,
@@ -37,6 +38,7 @@ interface IRadioGroupContext<Value> {
   value: Value
   disabled: boolean
   onChange(newValue: Value, event: ChangeEvent<HTMLInputElement>): void
+  itemFlow: BasicUIFlow
   position: BasicUIPosition
 }
 
@@ -48,10 +50,8 @@ const sizePresets: Record<BasicUISize, number> = {
   'l': 32,
 } as const
 
-// TODO: replace all '@internal' with '@public' when API is ready
-
 /**
- * @internal
+ * @public
  */
 export interface RadioGroupProps<Value> {
   children?: ReactNode
@@ -71,16 +71,18 @@ export interface RadioGroupProps<Value> {
    */
   flow?: BasicUIFlow
   /**
-   * Position of the checkbox relative to its children if any.
+   * Position of the radio buttons relative to their children, if any.
    * @defaultValue `'start'`
    */
   position?: BasicUIPosition
-  // TODO: itemFlow
-  // TODO: itemPosition
+  /**
+   * @defaultValue `'column'`
+  */
+  itemFlow?: BasicUIFlow
 }
 
 /**
- * @internal
+ * @public
  */
 export function RadioGroup<Value>({
   children,
@@ -91,6 +93,7 @@ export function RadioGroup<Value>({
   color: $color,
   flow = BASIC_UI_FLOW_ROW,
   position = BASIC_UI_POSITION_START,
+  itemFlow = BASIC_UI_FLOW_COLUMN,
 }: RadioGroupProps<Value>): JSX.Element {
   const disabled = useInternalDerivedDisabledState($disabled)
   const contextValue = useMemo<IRadioGroupContext<Value>>(() => ({
@@ -98,7 +101,8 @@ export function RadioGroup<Value>({
     disabled,
     onChange,
     position,
-  }), [disabled, onChange, position, value])
+    itemFlow,
+  }), [value, disabled, onChange, itemFlow, position])
 
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette)
@@ -132,6 +136,11 @@ export function RadioGroup<Value>({
         styles.container,
         flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
       )}
+      style={flow === BASIC_UI_FLOW_ROW ? {
+        justifyItems: position,
+      } : {
+        alignItems: position,
+      }}
     >
       <RadioGroupContext value={contextValue}>
         {children}
@@ -143,7 +152,7 @@ export function RadioGroup<Value>({
 __setDisplayName(RadioGroup)
 
 /**
- * @internal
+ * @public
  */
 export interface RadioItemProps<Value> {
   value: Value
@@ -152,7 +161,7 @@ export interface RadioItemProps<Value> {
 }
 
 /**
- * @internal
+ * @public
  */
 export function RadioItem<Value>({
   value,
@@ -163,10 +172,21 @@ export function RadioItem<Value>({
     value: currentValue,
     disabled: isParentDisabled,
     onChange,
+    itemFlow,
     position,
   } = useContext(RadioGroupContext)
   return (
-    <label className={styles.label}>
+    <label
+      className={c(
+        styles.label,
+        itemFlow === BASIC_UI_FLOW_ROW ? styles.labelFlowRow : styles.labelFlowColumn,
+      )}
+      style={itemFlow === BASIC_UI_FLOW_COLUMN ? {
+        justifyItems: position,
+      } : {
+        alignItems: position,
+      }}
+    >
       {position === BASIC_UI_POSITION_END && <View>{children}</View>}
       <Input
         className={styles.input}
