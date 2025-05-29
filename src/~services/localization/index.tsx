@@ -1,18 +1,16 @@
-import { Language, LocalizationDictionary, LocalizedDictionary } from '@glyph-cat/localization'
-import { devError } from '@glyph-cat/swiss-army-knife'
+import { Language, LocalizedDictionary } from '@glyph-cat/localization'
+import { devError, Nullable } from '@glyph-cat/swiss-army-knife'
 import { StateManager } from 'cotton-box'
 import { useStateValue } from 'cotton-box-react'
 import { createContext, JSX, ReactNode, useContext, useMemo } from 'react'
 import { createStorageKey } from '~utils/app'
-
-import en from './dictionary/en'
-import zh from './dictionary/zh'
+import { GlobalDictionary } from './dictionary'
 
 const STORAGE_KEY = createStorageKey('localization')
 
-export const GlobalDictionary = new LocalizationDictionary({ en, zh })
+export type ILocalizationState = Nullable<Language<typeof GlobalDictionary.data>>
 
-export const LocalizationState = new StateManager<Language<typeof GlobalDictionary.data>>('en',
+export const LocalizationState = new StateManager<ILocalizationState>('en',
   {
     lifecycle: typeof window === 'undefined' ? {} : {
       init({ commit, commitNoop }) {
