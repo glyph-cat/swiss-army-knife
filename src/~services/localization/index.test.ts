@@ -14,6 +14,7 @@ test('Localization keys are tally', () => {
   }
 })
 
+// eslint-disable-next-line jest/expect-expect
 test('Localized values types are tally', () => {
 
   // NOTE: key = localization key, value = array of languages.
@@ -33,7 +34,7 @@ test('Localized values types are tally', () => {
   }, {} as PartialStringRecord<[expectedType: string, languagesWithIncorrectTypes: Array<string>]>)
 
   if (objectIsNotEmpty(incorrectTypes)) {
-    fail('Found localized values with mismatched types between languages:\n' + JSON.stringify(incorrectTypes, null, 2))
+    throw new Error('Found localized values with mismatched types between languages:\n' + JSON.stringify(incorrectTypes, null, 2))
   }
 
 })

@@ -5,10 +5,12 @@ const {
   EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
   recommended: reactRecommended,
 } = require('@glyph-cat/eslint-config/react')
+const { recommended: jestRecommended } = require('@glyph-cat/eslint-config/jest')
 
 module.exports = [
   ...baseRecommended,
   ...reactRecommended,
+  ...jestRecommended,
   {
     rules: {
       'no-console': Severity.OFF, // temp
