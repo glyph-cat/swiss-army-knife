@@ -44,7 +44,7 @@ interface IRadioGroupContext<Value> {
 
 const RadioGroupContext = createContext<IRadioGroupContext<unknown>>(null)
 
-const sizePresets: Record<BasicUISize, number> = {
+export const RADIO_GROUP_SIZE_PRESETS: Record<BasicUISize, number> = {
   's': 22,
   'm': 28,
   'l': 32,
@@ -107,7 +107,7 @@ export function RadioGroup<Value>({
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette)
 
-  const effectiveSize = sizePresets[size] ?? sizePresets.m
+  const effectiveSize = RADIO_GROUP_SIZE_PRESETS[size] ?? RADIO_GROUP_SIZE_PRESETS.m
 
   const containerRef = useRef<View>(null)
   useEffect(() => {

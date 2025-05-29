@@ -38,7 +38,11 @@ import {
 import { ProgressRing } from '../progress-ring'
 import { styles } from './styles'
 
-const sizePresets: Record<BasicUISize, [boxSize: number, iconSize: number, spinnerSize: number]> = {
+export const CHECKBOX_SIZE_PRESETS: Record<BasicUISize, [
+  boxSize: number,
+  iconSize: number,
+  spinnerSize: number,
+]> = {
   's': [22, 20, 14],
   'm': [28, 24, 18],
   'l': [32, 26, 22],
@@ -108,7 +112,7 @@ export const Checkbox = forwardRef(({
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette)
 
-  const [boxSize, iconSize, spinnerSize] = sizePresets[size] ?? sizePresets.m
+  const [boxSize, iconSize, spinnerSize] = CHECKBOX_SIZE_PRESETS[size] ?? CHECKBOX_SIZE_PRESETS.m
   const disabled = $disabled ?? busy
 
   const inputRef = useRef<Input>(null)

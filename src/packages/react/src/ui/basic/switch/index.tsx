@@ -33,7 +33,7 @@ import {
 import { ProgressRing, ProgressRingProps } from '../progress-ring'
 import { styles } from './styles'
 
-const sizePresets: Readonly<Record<BasicUISize, number>> = {
+export const SWITCH_SIZE_PRESETS: Readonly<Record<BasicUISize, number>> = {
   's': 24,
   'm': 30,
   'l': 34,
@@ -113,7 +113,7 @@ export const Switch = forwardRef(({
 
   const disabled = $disabled ?? busy
 
-  const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
+  const effectiveSize = isNumber(size) ? size : (SWITCH_SIZE_PRESETS[size] ?? SWITCH_SIZE_PRESETS.m)
   const effectiveProgressRingPresets = progressRingPresets[size] ?? progressRingPresets.m
 
   const buttonRef = useRef<ButtonBase>(null)
