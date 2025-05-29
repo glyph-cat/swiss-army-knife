@@ -16,7 +16,7 @@ export function objectMap<T, K>(
   const payload: Array<K> = []
   for (const key in object) {
     payload.push(callbackFn(object[key], key, index, object))
+    index += 1
   }
-  index += 1
   return payload
 }

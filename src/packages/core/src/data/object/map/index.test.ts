@@ -21,5 +21,5 @@ test('Reference to original object gets passed down', () => {
   objectMap(sourceObject, (_0, _1, _2, objRef) => {
     objectRef.current = objRef
   })
-  expect(Object.is(sourceObject, objectRef)).toBe(true)
+  expect(Object.is(objectRef.current, sourceObject)).toBe(true)
 })
