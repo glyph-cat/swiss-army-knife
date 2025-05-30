@@ -3,9 +3,11 @@ import { RadioGroup, RadioItem, View } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
 import { JSX, useCallback } from 'react'
 import { SandboxStyle } from '~constants'
-import { LocalizationState, useLocalization } from '~services/localization'
+import { useLocalization } from '~services/localization'
 import { ThemeState, ThemeStateValue } from '~services/theme'
 import { ThemeId } from '~services/theme/abstractions'
+import { UserPreferencesState } from '~services/user-preferences'
+import { IUserPreferences } from '~services/user-preferences/abstractions'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
@@ -39,7 +41,12 @@ export default function (): JSX.Element {
 
       <RadioGroup
         value={language}
-        onChange={LocalizationState.set}
+        onChange={useCallback((newValue: IUserPreferences['language']) => {
+          UserPreferencesState.set((prevState) => ({
+            ...prevState,
+            language: newValue,
+          }))
+        }, [])}
       >
         <RadioItem value={null} disabled>{'Automatic'}</RadioItem>
         <RadioItem value={'en'}>{'English'}</RadioItem>
