@@ -36,17 +36,8 @@ import {
   BASIC_UI_POSITION_START,
 } from '../constants'
 import { ProgressRing } from '../progress-ring'
+import { CHECKBOX_SIZE_PRESETS } from './constants'
 import { styles } from './styles'
-
-export const CHECKBOX_SIZE_PRESETS: Record<BasicUISize, [
-  boxSize: number,
-  iconSize: number,
-  spinnerSize: number,
-]> = {
-  's': [22, 20, 14],
-  'm': [28, 24, 18],
-  'l': [32, 26, 22],
-} as const
 
 const INDETERMINATE = 'indeterminate'
 

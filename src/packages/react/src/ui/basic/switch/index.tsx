@@ -31,13 +31,8 @@ import {
   BASIC_UI_POSITION_START,
 } from '../constants'
 import { ProgressRing, ProgressRingProps } from '../progress-ring'
+import { SWITCH_SIZE_PRESETS } from './constants'
 import { styles } from './styles'
-
-export const SWITCH_SIZE_PRESETS: Readonly<Record<BasicUISize, number>> = {
-  's': 24,
-  'm': 30,
-  'l': 34,
-}
 
 const progressRingPresets: Readonly<Record<BasicUISize, Partial<Omit<ProgressRingProps, 'ref'>>>> = {
   's': {

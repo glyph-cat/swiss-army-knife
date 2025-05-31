@@ -32,6 +32,7 @@ import {
   BASIC_UI_POSITION_END,
   BASIC_UI_POSITION_START,
 } from '../constants'
+import { RADIO_GROUP_SIZE_PRESETS } from './constants'
 import { styles } from './styles'
 
 interface IRadioGroupContext<Value> {
@@ -44,11 +45,7 @@ interface IRadioGroupContext<Value> {
 
 const RadioGroupContext = createContext<IRadioGroupContext<unknown>>(null)
 
-export const RADIO_GROUP_SIZE_PRESETS: Record<BasicUISize, number> = {
-  's': 22,
-  'm': 28,
-  'l': 32,
-} as const
+
 
 /**
  * @public
