@@ -4,7 +4,7 @@
  * @returns `true` if the object is empty (or falsey), otherwise `false`.
  * @public
  */
-export function objectIsEmpty(object: Record<PropertyKey, unknown>): boolean {
+export function objectIsEmpty(object: object): boolean {
   if (!object) { return true } // Early exit
   for (const key in object) {
     return false
@@ -19,7 +19,7 @@ export function objectIsEmpty(object: Record<PropertyKey, unknown>): boolean {
  * Also returns `false` if the object is falsey.
  * @public
  */
-export function objectIsNotEmpty(object: Record<PropertyKey, unknown>): boolean {
+export function objectIsNotEmpty(object: object): boolean {
   if (!object) { return false } // Early exit
   for (const key in object) {
     return true

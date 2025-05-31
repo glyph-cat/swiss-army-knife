@@ -4,7 +4,8 @@
  *
  * This is an equivalent of [Array.prototype.map](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/map) but for objects.
  * @param object - The object to iterate.
- * @param callbackfn - A function that accepts up to four arguments. The map method calls the callbackfn function one time for each key-value pair in the object.
+ * @param callbackfn - A function that accepts up to four arguments.
+ * The map method calls the `callbackFn` function one time for each key-value pair in the object.
  * @returns The mapped results.
  * @public
  */
