@@ -19,7 +19,7 @@ const sizePresets: Record<BasicUISize, [height: number]> = {
 /**
  * @public
  */
-export type BasicButtonTemplate = 'text' | 'icon'
+export type BasicButtonTemplate = 'none' | 'text' | 'icon'
 
 /**
  * @public

@@ -28,3 +28,5 @@ export function LocalizationProvider({
 export function useLocalization(): LocalizedDictionary<typeof GlobalDictionary.data> {
   return useContext(ReactLocalizationContext)
 }
+
+export * from './dictionary'

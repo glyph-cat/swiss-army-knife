@@ -22,6 +22,10 @@ describe(getNthKey.name, () => {
     expect(getNthKey(undefined, 5)).toBe(undefined)
   })
 
+  test('Returned type should be string', () => {
+    expect(getNthKey({ 1: 'a' }, 1)).toBe('1')
+  })
+
 })
 
 describe(getNthValue.name, () => {

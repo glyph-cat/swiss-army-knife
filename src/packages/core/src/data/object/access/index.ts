@@ -8,7 +8,7 @@
 export function getNthKey<T>(
   object: T,
   targetPosition: number,
-): keyof T {
+): keyof T & string {
   if (!object) { return undefined }
   let position = 1
   for (const key in object) {
@@ -40,7 +40,7 @@ export function getNthValue<T>(
  * @returns The key of the object at the 1st position.
  * @public
  */
-export function getFirstKey<T>(object: T): keyof T {
+export function getFirstKey<T>(object: T): keyof T & string {
   return getNthKey(object, 1)
 }
 
