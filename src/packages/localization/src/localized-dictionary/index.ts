@@ -40,7 +40,7 @@ export class LocalizedDictionary<DictionaryData extends IDictionaryData> {
    * @returns The localized value.
    */
   localize(key: LocalizationKey<DictionaryData>): LocalizedValue<DictionaryData> {
-    const valueRef = createRef<LocalizedValue<DictionaryData>>(null)
+    const valueRef = createRef<LocalizedValue<DictionaryData>>(null!)
     if (this.dictionary.tryLocalize(this.language, key, valueRef)) {
       return valueRef.current
     } else {

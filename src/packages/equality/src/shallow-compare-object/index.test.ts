@@ -41,7 +41,7 @@ test('Same property size and names, different values', () => {
 })
 
 test('Same property size and names, same values', () => {
-  const ARR = []
+  const ARR = [] as const
   const prevState = { a: 'foo', b: 42, c: ARR }
   const nextState = { a: 'foo', b: 42, c: ARR }
   const isEqual = shallowCompareObject(prevState, nextState)
@@ -49,7 +49,7 @@ test('Same property size and names, same values', () => {
 })
 
 test('All same, but arrangement different', () => {
-  const ARR = []
+  const ARR = [] as const
   const prevState = { a: 'foo', b: 42, c: ARR }
   const nextState = { a: 'foo', c: ARR, b: 42 }
   const isEqual = shallowCompareObject(prevState, nextState)

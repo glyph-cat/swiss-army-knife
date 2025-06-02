@@ -9,6 +9,6 @@ export type RefObject<T> = { current: T }
  * @returns A new `RefObject`.
  * @public
  */
-export function createRef<T>(value: T): RefObject<T | null> {
+export function createRef<T>(value: T): RefObject<T> {
   return { current: value }
 }

@@ -114,7 +114,7 @@ describe(LocalizedDictionary.prototype.localize.name, () => {
 
   describe('Invalid key', () => {
 
-    describe('Key exists in other languages', () => {
+    test('Key exists in other languages', () => {
       const sourceDictionary = createLocalizationDictionary()
       const localizedDictionary = new LocalizedDictionary(sourceDictionary, 'en')
       expect(localizedDictionary.localize('SOMETIMES_IM_A_BEAR')).toBe(
@@ -122,7 +122,7 @@ describe(LocalizedDictionary.prototype.localize.name, () => {
       )
     })
 
-    describe('Key does not exist at all', () => {
+    test('Key does not exist at all', () => {
       const sourceDictionary = createLocalizationDictionary()
       const localizedDictionary = new LocalizedDictionary(sourceDictionary, 'en')
       expect(() => {

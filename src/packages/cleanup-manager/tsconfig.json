@@ -13,7 +13,7 @@
     "outDir": "./temp/tsc/js",
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "stripInternal": true,
     "target": "ES2020",
   },

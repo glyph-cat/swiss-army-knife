@@ -12,7 +12,7 @@ export class ParameterParser {
 
   constructor(readonly parameters: Readonly<Array<string>>) { }
 
-  getOne(alias: string | null, name: string): string {
+  getOne(alias: string | null, name: string): string | null {
     const pattern = argPatternGenerator(alias, name)
     for (let i = 0; i < this.parameters.length; i++) {
       if (pattern.test(this.parameters[i])) {

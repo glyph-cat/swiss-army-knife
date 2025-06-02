@@ -27,7 +27,7 @@ test('Same property size and names, different values', () => {
 })
 
 test('Same property size and names, same values', () => {
-  const ARR = []
+  const ARR = [] as const
   const prevState = { a: 'foo', b: 42, c: ARR }
   const nextState = { a: 'foo', b: 42, c: ARR }
   const isEqual = stringifyCompare(prevState, nextState)

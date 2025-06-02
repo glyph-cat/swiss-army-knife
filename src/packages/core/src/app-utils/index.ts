@@ -18,7 +18,7 @@ export class AppUtils {
   clearStorage(storage: Storage): void {
     for (let i = 0; i < storage.length; i++) {
       const key = storage.key(i)
-      if (key.startsWith(this.internalAppIdentifier)) {
+      if (key?.startsWith(this.internalAppIdentifier)) {
         storage.removeItem(key)
       }
     }
