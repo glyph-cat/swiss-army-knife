@@ -1,3 +1,5 @@
+import { PossiblyUndefined } from '../../../types'
+
 /**
  * Just as the name suggests, destructure an array the other way round.
  * @param array - The array to spread.
@@ -18,9 +20,9 @@
 export function reverseSpreadArray<T>(
   array: Array<T>,
   itemsToSpread: number
-): [Array<T>, ...Array<T>] {
-  const localArray = [...array]
-  const spreadedItems = []
+): [Array<T>, ...Array<PossiblyUndefined<T>>] {
+  const localArray: Array<T> = [...array]
+  const spreadedItems: Array<PossiblyUndefined<T>> = []
   for (let i = 0; i < itemsToSpread; i++) {
     spreadedItems.push(localArray.pop())
   }

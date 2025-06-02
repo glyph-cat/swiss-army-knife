@@ -2,6 +2,7 @@ import { ReadOnlyStateManager, SimpleFiniteStateManager, SimpleStateManager } fr
 import { createEnumToStringConverter, isFunction } from '../../data'
 import { Dimension2D } from '../../math'
 import { TemplateStyles } from '../../styling'
+import { PossiblyUndefined } from '../../types'
 
 const defaultVideoConstraints: MediaStreamConstraints = {
   video: {
@@ -30,7 +31,7 @@ export class VideoCamera {
   /**
    * @internal
    */
-  private mediaStream: MediaStream
+  private mediaStream: PossiblyUndefined<MediaStream>
 
   readonly videoElement: HTMLVideoElement
 

@@ -8,7 +8,7 @@ import {
 describe(displayObjectPath.name, (): void => {
 
   test('No items', (): void => {
-    const path = []
+    const path = [] as const
     const output = displayObjectPath(path)
     expect(output).toBe('``')
   })

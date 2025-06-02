@@ -1,3 +1,5 @@
+import { PossiblyUndefined } from '../../types'
+
 /**
  * Allows the declaration of a variable lazily. Constructor or functions that
  * initializes the data will not be run until it's value is accessed.
@@ -13,7 +15,7 @@ export class LazyValue<T> {
   /**
    * @internal
    */
-  private M$value: T
+  private M$value: PossiblyUndefined<T>
 
   /**
    * @param factory - The function that returns the initialized data.
@@ -54,7 +56,7 @@ export class LazyValue<T> {
       this.M$value = this.factory()
       this.M$isInitialized = true
     }
-    return this.M$value
+    return this.M$value!
   }
 
 }

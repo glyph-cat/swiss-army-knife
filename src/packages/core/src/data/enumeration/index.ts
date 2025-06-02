@@ -14,9 +14,10 @@ import { hasProperty } from '../object/property'
  * console.log(SomeEnum[SomeEnum.a]) // 'FOO'
  * @public
  */
-export function fullyEnumerate<Enum>(enumObj: Enum): void {
+export function fullyEnumerate<Enum extends object>(enumObj: Enum): void {
   const allKeys = Object.keys(enumObj)
   for (const key of allKeys) {
+    // @ts-expect-error because we are forcefully injecting values
     enumObj[enumObj[key]] = key
   }
 }
@@ -47,14 +48,14 @@ export type Enumeration<K extends StrictPropertyKey, V extends StrictPropertyKey
 export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyKey>(
   entries: Record<K, V>
 ): Enumeration<K, V> {
-  const enumeration = {}
+  const enumeration = {} as Enumeration<K, V>
   for (const key in entries) {
     const value = entries[key]
     enumeration[key as StrictPropertyKey] = value as StrictPropertyKey
     enumeration[value as StrictPropertyKey] = key
   }
   Object.freeze(enumeration)
-  return enumeration as Enumeration<K, V>
+  return enumeration
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

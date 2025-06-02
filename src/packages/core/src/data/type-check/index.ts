@@ -114,6 +114,7 @@ export function isSymbol(value: unknown): value is symbol {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isThenable(executedFn: unknown): executedFn is Promise<any> {
+  // @ts-expect-error because we are forcefully probing at the property.
   return isFunction(executedFn?.['then'])
 }
 
