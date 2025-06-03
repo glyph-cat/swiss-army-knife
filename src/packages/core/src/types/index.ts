@@ -126,6 +126,11 @@ export type AwaitedReturnType<T extends TypedFunction> = Awaited<ReturnType<T>>
 /**
  * @public
  */
+export type Falsable<T> = T | false
+
+/**
+ * @public
+ */
 export interface IDisposable {
   dispose(): void
 }

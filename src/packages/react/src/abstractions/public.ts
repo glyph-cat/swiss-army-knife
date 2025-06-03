@@ -1,11 +1,6 @@
-import { DetailedHTMLProps, HTMLAttributes, JSX } from 'react'
+import { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 /**
  * @public
  */
 export type GenericHTMLProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
-
-/**
- * @public
- */
-export type JSXPayload = JSX.Element | null | false
