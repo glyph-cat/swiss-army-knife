@@ -17,7 +17,7 @@ import { hasProperty } from '../object/property'
 export function fullyEnumerate<Enum extends object>(enumObj: Enum): void {
   const allKeys = Object.keys(enumObj)
   for (const key of allKeys) {
-    // @ts-expect-error because we are forcefully injecting values
+    //// @ts-expect-error because we are forcefully injecting values
     enumObj[enumObj[key]] = key
   }
 }
