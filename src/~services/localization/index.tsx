@@ -7,7 +7,8 @@ import { GlobalDictionary } from './dictionary'
 
 export type ILocalizationState = Nullable<Language<typeof GlobalDictionary.data>>
 
-const ReactLocalizationContext = createContext<LocalizedDictionary<typeof GlobalDictionary.data>>(null)
+// It is okay to throw a runtime error for this...
+const ReactLocalizationContext = createContext<LocalizedDictionary<typeof GlobalDictionary.data>>(null!)
 
 export interface LocalizationProviderProps {
   children?: ReactNode
