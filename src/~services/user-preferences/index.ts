@@ -11,11 +11,11 @@ export const UserPreferencesState = new StateManager<IUserPreferences>({
   lifecycle: typeof window === 'undefined' ? {} : {
     init({ commit, commitNoop, defaultState }) {
       try {
-        const state = strictMerge(
-          defaultState,
-          JSON.parse(localStorage.getItem(STORAGE_KEY)) as IUserPreferences,
-        )
-        commit(state)
+        const retrievedState = localStorage.getItem(STORAGE_KEY)
+        if (retrievedState) {
+          const state = strictMerge(defaultState, JSON.parse(retrievedState) as IUserPreferences)
+          commit(state)
+        }
       } catch (e) {
         devError(e)
         commitNoop()

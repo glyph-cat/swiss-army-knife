@@ -1,8 +1,11 @@
+import { Nullable } from '../../data'
+import { Falsable } from '../../types'
+
 /**
  * Concatenates CSS class names into a string. Falsy values will be ignored.
  * @public
  */
-export function concatClassNames(...classNames: Array<string>): string {
+export function concatClassNames(...classNames: Array<Nullable<Falsable<string>>>): string {
   return classNames.filter((className) => !!className)
     .join(' ')
     .trim()
