@@ -13,6 +13,6 @@ export type Nullable<T> = T | null
  * @returns `null` if undefined, otherwise the original value.
  * @public
  */
-export function Nullable<T>(value: T): Nullable<T> {
+export function Nullable<T>(value?: T): Nullable<T> {
   return isUndefined(value) ? null : value
 }
