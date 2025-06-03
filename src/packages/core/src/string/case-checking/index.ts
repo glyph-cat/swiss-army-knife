@@ -10,7 +10,7 @@ import { isString } from '../../data'
  * isUpperCase('HELLO WORLD') // false
  * @public
  */
-export function isLowerCase(value: string): boolean {
+export function isLowerCase(value: string): value is Lowercase<string> {
   return isString(value) ? value === value.toLowerCase() : true
 }
 
@@ -24,6 +24,6 @@ export function isLowerCase(value: string): boolean {
  * isUpperCase('hello world') // false
  * @public
  */
-export function isUpperCase(value: string): boolean {
+export function isUpperCase(value: string): value is Uppercase<string> {
   return isString(value) ? value === value.toUpperCase() : true
 }
