@@ -112,8 +112,7 @@ export function isSymbol(value: unknown): value is symbol {
  * @returns A boolean indicating whether the value is a promise.
  * @public
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isThenable(executedFn: unknown): executedFn is Promise<any> {
+export function isThenable<T = unknown>(executedFn: unknown): executedFn is Promise<T> {
   //// @ts-expect-error because we are forcefully probing at the property.
   return isFunction(executedFn?.['then'])
 }

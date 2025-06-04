@@ -1,6 +1,6 @@
 import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
-import { PlainRecord, StrictPropertyKey } from '../../../types'
+import { LenientString, PlainRecord, StrictPropertyKey } from '../../../types'
 import { isNullOrUndefined, isNumber } from '../../type-check'
 
 /**
@@ -19,10 +19,10 @@ export type ObjectPathSegments = Array<PropertyKey> | string
  * hasProperty({ foo: 'bar' }, 'whooosh') // false
  * @public
  */
-export function hasProperty(
-  object: unknown,
-  propertyName: PropertyKey
-): boolean {
+export function hasProperty<T, K extends LenientString<keyof T>>(
+  object: T,
+  propertyName: K
+): object is T & Record<K, unknown> {
   if (!object) { return false } // Early exit
   return Object.prototype.hasOwnProperty.call(object, propertyName)
 }
@@ -381,7 +381,7 @@ function recursiveAssign<T>(
     arr[pathSegment] = nextPathSegments.length > 0
       ? recursiveAssign(
         arr[pathSegment],
-        hasProperty(arr, pathSegment),
+        hasProperty(arr, pathSegment as StrictPropertyKey),
         nextPathSegments,
         value,
       )
@@ -393,7 +393,7 @@ function recursiveAssign<T>(
       [pathSegment]: nextPathSegments.length > 0
         ? recursiveAssign(
           object?.[pathSegment],
-          hasProperty(object, pathSegment),
+          hasProperty(object, pathSegment as string),
           nextPathSegments,
           value,
         )
