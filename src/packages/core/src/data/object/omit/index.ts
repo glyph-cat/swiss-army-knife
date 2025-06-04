@@ -18,7 +18,7 @@ export function Omit<SourceObject, Key extends PropertyKey>(
 ): Omit<SourceObject, Key> {
   let payload: Omit<SourceObject, Key> = fromObject
   for (const key of keys) {
-    if (!hasProperty(payload, key)) { continue }
+    if (!hasProperty(payload, key as string)) { continue }
     const { [key as Key]: _toOmit, ...remainingItems } = payload
     payload = remainingItems as Omit<SourceObject, Key>
   }

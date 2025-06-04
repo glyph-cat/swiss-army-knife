@@ -19,7 +19,7 @@ export type ObjectPathSegments = Array<PropertyKey> | string
  * hasProperty({ foo: 'bar' }, 'whooosh') // false
  * @public
  */
-export function hasProperty<T, K extends LenientString<keyof T>>(
+export function hasProperty<T, K extends LenientString<keyof T> | number>(
   object: T,
   propertyName: K
 ): object is T & Record<K, unknown> {
