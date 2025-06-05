@@ -12,7 +12,7 @@ import {
 describe('Static methods', () => {
 
   // #region Setup/teardown
-  let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null
+  let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null!
   beforeEach(() => {
     spiedMethods = [
       jest.spyOn(Color, 'fromHSLObject'),
@@ -25,10 +25,10 @@ describe('Static methods', () => {
     ]
   })
   afterEach(() => {
-    for (const spiedMethod of spiedMethods) {
+    for (const spiedMethod of spiedMethods!) {
       spiedMethod.mockClear()
     }
-    spiedMethods = null
+    spiedMethods = null!
   })
   // #endregion Setup/teardown
 
@@ -596,7 +596,7 @@ describe('Parameter validation', () => {
 describe('Getters (internal values initialization test)', () => {
 
   // #region Setup/teardown
-  let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null
+  let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null!
   const customSpy = (c: Color): Color => {
     spiedMethods.push(
       jest.spyOn(c, 'M$initRGBValues'),
@@ -611,7 +611,7 @@ describe('Getters (internal values initialization test)', () => {
     for (const spiedMethod of spiedMethods) {
       spiedMethod.mockClear()
     }
-    spiedMethods = null
+    spiedMethods = null!
   })
   // #endregion Setup/teardown
 
@@ -713,7 +713,7 @@ describe('Prototype methods', () => {
   describe('Serialization', () => {
 
     // #region Setup/teardown
-    let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null
+    let spiedMethods: Array<ReturnType<typeof jest.spyOn>> = null!
     const customSpy = (c: Color): Color => {
       spiedMethods.push(
         jest.spyOn(c, 'toString'),
@@ -727,7 +727,7 @@ describe('Prototype methods', () => {
       for (const spiedMethod of spiedMethods) {
         spiedMethod.mockClear()
       }
-      spiedMethods = null
+      spiedMethods = null!
     })
     // #endregion Setup/teardown
 

@@ -383,7 +383,7 @@ export class Color {
     lightness?: number
   ): Color {
     if (isNumber(firstArg)) {
-      return Color.fromHSLValues(firstArg, hue, saturation, lightness)
+      return Color.fromHSLValues(firstArg, hue!, saturation!, lightness!)
     } else if (isString(firstArg)) {
       return Color.fromHSLString(firstArg)
     } else if (isObject(firstArg)) {

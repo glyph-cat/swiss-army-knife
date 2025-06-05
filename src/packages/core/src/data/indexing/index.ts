@@ -22,7 +22,7 @@ export function TruthRecord<T extends StrictPropertyKey>(
 ): Readonly<TruthRecord<T>> {
   const obj = {} as TruthRecord<T>
   for (const item of array) {
-    obj[item as StrictPropertyKey] = true
+    obj[item] = true
   }
   return obj
 }

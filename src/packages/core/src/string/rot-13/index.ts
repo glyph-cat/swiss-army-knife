@@ -13,7 +13,7 @@ import { isUndefined } from '../../data/type-check'
 export function rot13(text: string): string {
   let cipheredString = ''
   for (let i = 0; i < text.length; i++) {
-    const cipheredChar = ROT_13_DICTIONARY.value[text[i]]
+    const cipheredChar = ROT_13_DICTIONARY.value[text[i] as keyof typeof ROT_13_DICTIONARY.value]
     cipheredString += isUndefined(cipheredChar) ? text[i] : cipheredChar
   }
   return cipheredString

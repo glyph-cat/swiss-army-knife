@@ -1,6 +1,7 @@
-import { isString } from '../../data'
+import { isString, Nullable } from '../../data'
 import { devError } from '../../dev'
 import { isOutOfRange } from '../../math/range'
+import { PossiblyUndefined } from '../../types'
 import { SerializedColor } from '../abstractions'
 import { MAX_RGB_VALUE } from '../constants'
 
@@ -17,7 +18,8 @@ export function getValuesFromHexString(value: string): ColorSyntaxArray {
   if (!/^#([\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i.test(value)) {
     throw new Error(`Invalid hex code '${value}'`)
   }
-  value = value.match(/[\da-f]+/i)[0]
+  // Matches below are guaranteed because of earlier validations
+  value = value.match(/[\da-f]+/i)![0]
   if (value.length <= 4) {
     // Format: '#RGB' or '#RGBA'
     const [r, g, b, a] = value
@@ -65,7 +67,7 @@ export function getValuesFromRGBString(value: string): ColorSyntaxArray {
     greenRaw,
     blueRaw,
     alphaRaw,
-  ] = value.match(/\d{1,3}\s+\d{1,3}\s+\d{1,3}(\s+(\d+%|[\d.]+))?/i)[0].split(/\s+/g)
+  ] = value.match(/\d{1,3}\s+\d{1,3}\s+\d{1,3}(\s+(\d+%|[\d.]+))?/i)![0].split(/\s+/g)
   return [
     Number(redRaw),
     redRaw,
@@ -90,7 +92,7 @@ export function getValuesFromHSLString(value: string): ColorSyntaxArray {
     saturationRaw,
     lightnessRaw,
     alphaRaw,
-  ] = value.match(/([\d.]+(deg|rad)?|none)\s+[\d.]+%?\s+[\d.]+%?(\s+[\d.]+%?)?/i)[0].split(/\s+/g)
+  ] = value.match(/([\d.]+(deg|rad)?|none)\s+[\d.]+%?\s+[\d.]+%?(\s+[\d.]+%?)?/i)![0].split(/\s+/g)
   const hueStringMatchResult = hueRaw.match(/[\d.]+/)
   return [
     hueStringMatchResult?.[0] ? Number(hueStringMatchResult[0]) : 0,

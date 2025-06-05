@@ -98,7 +98,7 @@ export function deepMemoize<A extends Array<unknown>, R>(
     const currentResult = callback(...currentArgs)
     cacheStack = clampedUnshift(cacheSize, [[currentArgs, currentResult]], cacheStack)
     if (IS_INTERNAL_DEBUG_ENV) {
-      cacheSpy.current = cacheStack
+      cacheSpy!.current = cacheStack
     }
     return currentResult
   }

@@ -2,7 +2,7 @@ import { NumericDataSet } from '.'
 import { TypedFunction } from '../../types'
 import { spyFn } from './test-utils'
 
-let resetSpyFn: TypedFunction = null
+let resetSpyFn: TypedFunction = null!
 
 beforeEach(() => {
   spyFn.current = jest.fn()
@@ -16,7 +16,7 @@ beforeEach(() => {
 
 afterEach(() => {
   spyFn.current = null
-  resetSpyFn = null
+  resetSpyFn = null!
 })
 
 test('Constructor', () => {

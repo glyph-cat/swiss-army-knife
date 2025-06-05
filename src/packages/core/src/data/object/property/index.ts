@@ -1,6 +1,6 @@
 import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
-import { LenientString, PlainRecord, StrictPropertyKey } from '../../../types'
+import { LenientString, PlainRecord, PossiblyUndefined, StrictPropertyKey } from '../../../types'
 import { isNullOrUndefined, isNumber } from '../../type-check'
 
 /**
@@ -22,7 +22,7 @@ export type ObjectPathSegments = Array<PropertyKey> | string
 export function hasProperty<T, K extends LenientString<keyof T> | number>(
   object: T,
   propertyName: K
-): object is T & Record<K, unknown> {
+): object is T & Record<K, unknown> { // TODO; unknown -> T[keyof T] ???
   if (!object) { return false } // Early exit
   return Object.prototype.hasOwnProperty.call(object, propertyName)
 }
@@ -241,11 +241,11 @@ export function hasTheseDeepProperties(
  * @public
  */
 export function deepGet<T = unknown>(
-  object: unknown,
+  object: PossiblyUndefined<unknown>,
   pathSegments: ObjectPathSegments
-): [value: T, exists: boolean] {
+): [value: PossiblyUndefined<T>, exists: boolean] {
   if (!object) { return [undefined, false] } // Early exit
-  let valueRef: unknown = object
+  let valueRef: PossiblyUndefined<unknown> = object
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
@@ -259,7 +259,7 @@ export function deepGet<T = unknown>(
     if (!Object.prototype.hasOwnProperty.call(valueRef, key)) {
       return [undefined, false]
     }
-    valueRef = valueRef[key]
+    valueRef = (valueRef as object)[key as keyof typeof valueRef]
   }
   return [valueRef as T, true]
 }
@@ -309,7 +309,7 @@ export function deepSetMutable(
         // If not number, then could be string or symbol:
         valueRef[pathSegment] = isNumber(pathSegments[i + 1]) ? [] : {}
       }
-      valueRef = valueRef[pathSegment]
+      valueRef = (valueRef as object)[pathSegment as keyof typeof valueRef]
     }
   }
 }

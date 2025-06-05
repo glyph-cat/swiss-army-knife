@@ -24,27 +24,27 @@ export class NumericDataSet {
   /**
    * @internal
    */
-  private M$sum: number
+  private M$sum!: number
 
   /**
    * @internal
    */
-  private M$mean: number
+  private M$mean!: number
 
   /**
    * @internal
    */
-  private M$median: number
+  private M$median!: number
 
   /**
    * @internal
    */
-  private M$variance: number
+  private M$variance!: number
 
   /**
    * @internal
    */
-  private M$stddev: number
+  private M$stddev!: number
 
   constructor(
     readonly values: ReadonlyArray<number>,

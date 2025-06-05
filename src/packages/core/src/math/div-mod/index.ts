@@ -10,15 +10,15 @@
  * divModData.r // is the remainder
  * @public
  */
-export type DivModStruct<T> = [quotient: T, remainder: T] & {
+export type DivModStruct = [quotient: number, remainder: number] & {
   /**
    * Quotient.
    */
-  q: T
+  q: number
   /**
    * Remainder.
    */
-  r: T
+  r: number
 }
 
 /**
@@ -28,9 +28,9 @@ export type DivModStruct<T> = [quotient: T, remainder: T] & {
  * @returns A tuple containing the quotient and remainder.
  * @public
  */
-export function createDivModData<T>(q: T, r: T): DivModStruct<T> {
-  const divModData = [q, r]
-  divModData['q'] = q
-  divModData['r'] = r
-  return divModData as DivModStruct<T>
+export function createDivModData(q: number, r: number): DivModStruct {
+  const payload = [q, r] as DivModStruct
+  payload['q'] = q
+  payload['r'] = r
+  return payload
 }
