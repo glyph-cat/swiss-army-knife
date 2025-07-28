@@ -20,7 +20,7 @@ export class VideoCamera {
 
   static createConstraintWithExactDeviceId(
     deviceId: string,
-    otherOptions: Omit<MediaStreamConstraints, 'video'>
+    otherOptions?: Omit<MediaStreamConstraints, 'video'>
   ): MediaStreamConstraints {
     return {
       ...otherOptions,
