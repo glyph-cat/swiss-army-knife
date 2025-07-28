@@ -1,6 +1,6 @@
 import { delay, strictMerge, TimestampId } from '@glyph-cat/swiss-army-knife'
 import { StateManager } from 'cotton-box'
-import { createStorageKey } from '~utils/create-storage-key'
+import { createStorageKey } from '~utils/app'
 
 const STORAGE_KEY = createStorageKey('custom-debugger')
 const SOFT_RELOAD_KEY = createStorageKey('soft-reload')

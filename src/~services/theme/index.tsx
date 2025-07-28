@@ -3,7 +3,7 @@ import { ThemeProvider, useColorScheme } from '@glyph-cat/swiss-army-knife-react
 import { StateManager } from 'cotton-box'
 import { useStateValue } from 'cotton-box-react'
 import { JSX, ReactNode } from 'react'
-import { createStorageKey } from '~utils/create-storage-key'
+import { createStorageKey } from '~utils/app'
 import { IThemeState, ThemeId } from './abstractions'
 import { THEME_DICTIONARY } from './constants'
 
