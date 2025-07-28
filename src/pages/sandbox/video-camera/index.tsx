@@ -1,4 +1,4 @@
-import { c, VideoCamera } from '@glyph-cat/swiss-army-knife'
+import { c, ThemeToken, tryOnly, VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, useCallback, useEffect, useState } from 'react'
@@ -45,16 +45,22 @@ function Content({ videoCamera }: ContentProps): JSX.Element {
 
   const videoCameraState = useSimpleStateValue(videoCamera.state)
 
-  const startCamera = useCallback(() => {
-    videoCamera.start()
+  const startCamera = useCallback(async () => {
+    await videoCamera.start(VideoCamera.DEFAULT_CONSTRAINTS)
   }, [videoCamera])
 
-  const stopCamera = useCallback(() => {
-    videoCamera.stop()
+  const stopCamera = useCallback(async () => {
+    await videoCamera.stop()
   }, [videoCamera])
 
   const disposeCamera = useCallback(() => {
     videoCamera.dispose()
+  }, [videoCamera])
+
+  const triggerOverconstrainedError = useCallback(async () => {
+    tryOnly(async () => {
+      await videoCamera.start(VideoCamera.createConstraintWithExactDeviceId('abc'))
+    })
   }, [videoCamera])
 
   return (
@@ -72,16 +78,23 @@ function Content({ videoCamera }: ContentProps): JSX.Element {
           <ProgressRing className={styles.progressRing} color='#808080' />
         )}
       </View>
-      <View className={styles.buttonContainer}>
-        <BasicButton onClick={startCamera}>
-          {localize('START')}
-        </BasicButton>
-        <BasicButton onClick={stopCamera}>
-          {localize('STOP')}
-        </BasicButton>
-        <BasicButton onClick={disposeCamera}>
-          {localize('DISPOSE')}
-        </BasicButton>
+      <View style={{ gap: ThemeToken.spacingM }}>
+        <View className={styles.buttonContainer}>
+          <BasicButton onClick={startCamera} color='primary'>
+            {localize('START')}
+          </BasicButton>
+          <BasicButton onClick={stopCamera}>
+            {localize('STOP')}
+          </BasicButton>
+          <BasicButton onClick={disposeCamera}>
+            {localize('DISPOSE')}
+          </BasicButton>
+        </View>
+        <View className={styles.buttonContainer}>
+          <BasicButton onClick={triggerOverconstrainedError} color='error'>
+            {'Trigger OverconstrainedError'}
+          </BasicButton>
+        </View>
       </View>
     </View>
   )

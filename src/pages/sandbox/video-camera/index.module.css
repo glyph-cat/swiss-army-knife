@@ -12,6 +12,7 @@
 .buttonContainer {
   gap: 10px;
   grid-auto-flow: column;
+  justify-items: center;
 }
 
 .cameraDisplayContainer {
