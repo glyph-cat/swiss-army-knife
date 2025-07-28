@@ -33,8 +33,20 @@ clientOnly(() => {
       width: TOKEN_SIZE,
     }],
     [`.${styles.button}:enabled`, {
+      // borderTop: 'solid 0.5px #ffffff40',
+      // boxShadow: '0px 1px 1px 0.5px #00000080',
       color: TOKEN_FG_COLOR,
     }],
+    // [`.${styles.button}:enabled::after`, {
+    //   content: Empty.DOUBLE_QUOTE,
+    //   // backgroundImage: 'linear-gradient(#ffffff08,#00000004,#ffffff04)',
+    //   backgroundImage: 'none',
+    //   borderRadius: 'inherit',
+    //   position: 'absolute',
+    //   height: '100%',
+    //   width: '100%',
+    //   zIndex: 1,
+    // }],
     [`.${styles.button}:enabled:hover`, {
       backgroundImage: 'linear-gradient(#ffffff20,#ffffff20)',
     }],
@@ -43,7 +55,14 @@ clientOnly(() => {
       `.${styles.button}:enabled[aria-pressed="true"]`,
     ].join(','), {
       backgroundImage: 'linear-gradient(#00000040,#00000040)',
+      // borderTopColor: '#ffffff20',
     }],
+    // [[
+    //   `.${styles.button}:enabled:active::after`,
+    //   `.${styles.button}:enabled[aria-pressed="true"]::after`,
+    // ].join(','), {
+    //   backgroundImage: 'linear-gradient(#00000008,#ffffff04)',
+    // }],
     [`.${styles.button}:disabled`, {
       backgroundColor: InternalToken.buttonDisabledColor,
     }],
