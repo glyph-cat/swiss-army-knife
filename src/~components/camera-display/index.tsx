@@ -6,6 +6,7 @@ import {
   OnePersonHandGestureAnalyzer,
   OnePersonHandGestureAnalyzerHandResult,
   OnePersonHandPoseAnalyzer,
+  VisionAnalyzerState,
 } from '@glyph-cat/ml-helpers'
 import { clamp, Dimension2D, getWindowDimensions, VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { useWindowDimensions } from '@glyph-cat/swiss-army-knife-react'
@@ -79,10 +80,14 @@ export function CameraDisplay({
         // will be repainted, either with a new video frame or solid black
         // if no `videoCamera` is provided.
 
-        if (videoCamera && (
-          displayMode === CameraDisplayMode.ALL ||
-          displayMode === CameraDisplayMode.VIDEO_ONLY
-        )) {
+        if (
+          videoCamera &&
+          videoCamera.state.get() === VideoCamera.State.STARTED &&
+          (
+            displayMode === CameraDisplayMode.ALL ||
+            displayMode === CameraDisplayMode.VIDEO_ONLY
+          )
+        ) {
           canvasContext.save()
           canvasContext.scale(-1, 1)
           canvasContext.translate(-canvasDimensions.width, 0)
@@ -102,7 +107,7 @@ export function CameraDisplay({
         ) {
 
           // #region Hand pose
-          if (handGestureAnalyzer) {
+          if (handGestureAnalyzer && handGestureAnalyzer.state.get() === VisionAnalyzerState.ACTIVE) {
             const landmarks = handGestureAnalyzer.result.get()
             canvasContext.save()
             for (const handedness in landmarks) {
@@ -140,7 +145,7 @@ export function CameraDisplay({
           // #endregion Hand pose
 
           // #region Body pose
-          if (bodyPoseAnalyzer) {
+          if (bodyPoseAnalyzer && bodyPoseAnalyzer.state.get() === VisionAnalyzerState.ACTIVE) {
             const landmark = bodyPoseAnalyzer.result.get()
             canvasContext.save()
             drawConnectors(canvasContext, landmark, POSE_CONNECTIONS, {
@@ -167,7 +172,7 @@ export function CameraDisplay({
       cancelAnimationFrame(lastRequestedAnimationFrame)
     }
 
-  }, [bodyPoseAnalyzer, canvasDimensions.height, canvasDimensions.width, displayMode, handPoseAnalyzer, videoCamera])
+  }, [bodyPoseAnalyzer, canvasDimensions.height, canvasDimensions.width, displayMode, handGestureAnalyzer, handPoseAnalyzer, videoCamera])
 
   return (
     <canvas

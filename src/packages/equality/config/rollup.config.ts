@@ -31,7 +31,7 @@ function getPlugins(): Array<RollupPlugin> {
   pluginStack.push(terser({
     mangle: {
       properties: {
-        regex: /^M\$/,
+        regex: /^(M\$|_)/,
       },
     },
   }))

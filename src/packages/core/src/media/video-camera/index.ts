@@ -140,9 +140,11 @@ export class VideoCamera {
   // }
 
   /**
-   * @returns `false` if the instance is already disposed, otherwise `true`.
+   * @returns A promise that resolves to `false` if the instance is already disposed,
+   * otherwise `true`.
    */
-  dispose(): boolean {
+  async dispose(): Promise<boolean> {
+    await this.state.wait((s) => s !== VideoCamera.State.STARTING)
     this.M$stopBase()
     this.videoElement?.remove()
     this.M$videoDimensions.dispose()

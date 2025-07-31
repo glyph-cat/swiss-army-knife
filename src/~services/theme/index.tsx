@@ -60,13 +60,13 @@ export function setDarkTheme(): void {
   ThemeState.set(ThemeStateValue.DARK)
 }
 
-export interface CustomThemeWrapperProps {
+export interface CustomThemeProviderProps {
   children?: ReactNode
 }
 
 export function CustomThemeProvider({
   children,
-}: CustomThemeWrapperProps): JSX.Element {
+}: CustomThemeProviderProps): JSX.Element {
   const { auto, id } = useStateValue(ThemeState)
   const prefersDarkTheme = useColorScheme() === ColorScheme.dark
   const effectiveThemeId = auto ? (prefersDarkTheme ? ThemeId.DEFAULT_DARK : ThemeId.DEFAULT_LIGHT) : id

@@ -1,6 +1,11 @@
-import { LazyValue, reflect1D } from '@glyph-cat/swiss-army-knife'
-import { NormalizedLandmark, PoseLandmarker, PoseLandmarkerResult } from '@mediapipe/tasks-vision'
-import { BaseLandmarkAnalyzer } from '../base-classes'
+import { reflect1D } from '@glyph-cat/swiss-army-knife'
+import {
+  NormalizedLandmark,
+  PoseLandmarker,
+  PoseLandmarkerOptions,
+  PoseLandmarkerResult,
+} from '@mediapipe/tasks-vision'
+import { BaseLandmarkAnalyzer, LandmarkAnalyzerOptions } from '../base-classes'
 
 /**
  * @public
@@ -12,40 +17,52 @@ export type OnePersonBodyPoseAnalyzerResult = Array<NormalizedLandmark>
  */
 export class OnePersonBodyPoseAnalyzer extends BaseLandmarkAnalyzer<PoseLandmarker, OnePersonBodyPoseAnalyzerResult> {
 
-  /**
-   * @internal
-   */
-  private static M$taskRunnerGetter = new LazyValue(async () => {
-    return PoseLandmarker.createFromOptions(
-      await BaseLandmarkAnalyzer.getVision(),
-      {
-        baseOptions: {
-          modelAssetPath: '/mediapipe/models/pose_landmarker_lite.task',
-          delegate: 'GPU',
-        },
-        numPoses: 1,
-        runningMode: 'VIDEO',
-      }
-    )
-  })
+  // {
+  //   baseOptions: {
+  //     modelAssetPath: '/mediapipe/models/pose_landmarker_lite.task',
+  //     delegate: 'GPU',
+  //   },
+  //   runningMode: 'VIDEO',
+  // }
 
-  constructor(videoElement: HTMLVideoElement) {
+  // TODO: implement from base class????
+  private static readonly _cache: Record<string, Promise<PoseLandmarker>> = {}
+
+  constructor(
+    videoElement: HTMLVideoElement,
+    poseLandmarkerOptions: Omit<PoseLandmarkerOptions, 'numPoses'>,
+    private readonly options?: LandmarkAnalyzerOptions,
+  ) {
     super(videoElement, new Array(Object.keys(BodyPoseLandmark).length / 2).fill({
       x: 0,
       y: 0,
       z: 0,
       visibility: 0,
-    }), OnePersonBodyPoseAnalyzer.M$taskRunnerGetter, 'OnePersonBodyPoseAnalyzer')
+    }), async () => {
+      const optionsKey = JSON.stringify(poseLandmarkerOptions)
+      if (!OnePersonBodyPoseAnalyzer._cache[optionsKey]) {
+        OnePersonBodyPoseAnalyzer._cache[optionsKey] = PoseLandmarker.createFromOptions(
+          await BaseLandmarkAnalyzer.getVision(),
+          {
+            ...poseLandmarkerOptions,
+            numPoses: 1,
+          }
+        )
+      }
+      return OnePersonBodyPoseAnalyzer._cache[optionsKey]
+    }, 'OnePersonBodyPoseAnalyzer', options)
   }
 
   protected getProcessedResult(rawResult: PoseLandmarkerResult): OnePersonBodyPoseAnalyzerResult {
     const processedLandmarks: OnePersonBodyPoseAnalyzerResult = []
     if (rawResult.landmarks.length <= 0) { return }
     const landmarks = rawResult.landmarks[0]
+    const flipHorizontally = this.options?.flipHorizontally
     for (const landmark of landmarks) {
       processedLandmarks.push({
         ...landmark,
-        x: reflect1D(landmark.x, 0.5), // These values range between 0 to 1
+        // These values range between 0 to 1
+        x: flipHorizontally ? reflect1D(landmark.x, 0.5) : landmark.x,
         visibility: 1,
       })
     }

@@ -15,6 +15,9 @@ export const TemplateStyles = {
 clientOnly(() => {
   addStyles(new StyleMap([
     [`.${TemplateStyles.hidden}`, {
+      // NOTE: For some reason, if top and left is less than twice the amount of the video size,
+      // then the promise returned by `navigator.mediaDevices.getUserMedia` will never resolve
+      // perhaps this is a security feature, not a bug...
       left: 0,
       opacity: 0,
       pointerEvents: 'none',

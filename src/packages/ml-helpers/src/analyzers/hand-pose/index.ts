@@ -1,6 +1,11 @@
-import { LazyValue, reflect1D } from '@glyph-cat/swiss-army-knife'
-import { HandLandmarker, HandLandmarkerResult, NormalizedLandmark } from '@mediapipe/tasks-vision'
-import { BaseLandmarkAnalyzer } from '../base-classes'
+import { reflect1D } from '@glyph-cat/swiss-army-knife'
+import {
+  HandLandmarker,
+  HandLandmarkerOptions,
+  HandLandmarkerResult,
+  NormalizedLandmark,
+} from '@mediapipe/tasks-vision'
+import { BaseLandmarkAnalyzer, LandmarkAnalyzerOptions } from '../base-classes'
 import { BodyPoseLandmark, OnePersonBodyPoseAnalyzer } from '../body-pose'
 import { getHandedness } from './utils'
 
@@ -22,35 +27,37 @@ export interface OnePersonHandPoseAnalyzerResult {
  */
 export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmarker, OnePersonHandPoseAnalyzerResult> {
 
-  /**
-   * @internal
-   */
-  private static M$taskRunnerGetter = new LazyValue(async () => {
-    return HandLandmarker.createFromOptions(
-      await BaseLandmarkAnalyzer.getVision(),
-      {
-        baseOptions: {
-          modelAssetPath: '/mediapipe/models/hand_landmarker.task',
-          delegate: 'GPU',
-        },
-        numHands: 2,
-        runningMode: 'VIDEO',
-      }
-    )
-  })
+  // baseOptions: {
+  //   modelAssetPath: '/mediapipe/models/hand_landmarker.task',
+  //   delegate: 'GPU',
+  // },
+  // numHands: 2,
+  // runningMode: 'VIDEO',
 
-  constructor(private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer) {
+  constructor(
+    private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer,
+    handLandmarkerOptions: Omit<HandLandmarkerOptions, 'numHands'>,
+    private readonly options?: LandmarkAnalyzerOptions,
+  ) {
     super(
       bodyPoseAnalyzer.videoElement,
       {},
-      OnePersonHandPoseAnalyzer.M$taskRunnerGetter,
+      async () => HandLandmarker.createFromOptions(
+        await BaseLandmarkAnalyzer.getVision(),
+        {
+          ...handLandmarkerOptions,
+          numHands: 2,
+        }
+      ),
       'OnePersonHandPoseAnalyzer',
+      options,
     )
   }
 
   protected getProcessedResult(rawResult: HandLandmarkerResult): OnePersonHandPoseAnalyzerResult {
     const bodyPoseResult = this.bodyPoseAnalyzer.result.get()
     const processedLandmarks: OnePersonHandPoseAnalyzerResult = {}
+    const flipHorizontally = this.options?.flipHorizontally
     for (const landmarks of rawResult.landmarks) {
       const subLandmark: Array<NormalizedLandmark> = []
       let wrist: NormalizedLandmark
@@ -58,7 +65,8 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
         const landmark = landmarks[i]
         const flippedLandmark = {
           ...landmark,
-          x: reflect1D(landmark.x, 0.5),
+          // These values range between 0 to 1
+          x: flipHorizontally ? reflect1D(landmark.x, 0.5) : landmark.x,
           visibility: 1,
         }
         if (i === HandPoseLandmark.WRIST) {
@@ -77,6 +85,69 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
   }
 
 }
+
+
+// /**
+//  * @public
+//  * @deprecated
+//  */
+// export class UNSAFE_OnePersonHandPoseAnalyzer extends UNSAFE_BaseLandmarkAnalyzer<HandLandmarker, OnePersonHandPoseAnalyzerResult> {
+
+//   /**
+//    * @internal
+//    */
+//   private static M$taskRunnerGetter = new LazyValue(async () => {
+//     return HandLandmarker.createFromOptions(
+//       await UNSAFE_BaseLandmarkAnalyzer.getVision(),
+//       {
+//         baseOptions: {
+//           modelAssetPath: '/mediapipe/models/hand_landmarker.task',
+//           delegate: 'GPU',
+//         },
+//         numHands: 2,
+//         runningMode: 'VIDEO',
+//       }
+//     )
+//   })
+
+//   constructor(private readonly bodyPoseAnalyzer: UNSAFE_OnePersonBodyPoseAnalyzer) {
+//     super(
+//       bodyPoseAnalyzer.videoElement,
+//       {},
+//       UNSAFE_OnePersonHandPoseAnalyzer.M$taskRunnerGetter,
+//       'OnePersonHandPoseAnalyzer',
+//     )
+//   }
+
+//   protected getProcessedResult(rawResult: HandLandmarkerResult): OnePersonHandPoseAnalyzerResult {
+//     const bodyPoseResult = this.bodyPoseAnalyzer.result.get()
+//     const processedLandmarks: OnePersonHandPoseAnalyzerResult = {}
+//     for (const landmarks of rawResult.landmarks) {
+//       const subLandmark: Array<NormalizedLandmark> = []
+//       let wrist: NormalizedLandmark
+//       for (let i = 0; i < landmarks.length; i++) {
+//         const landmark = landmarks[i]
+//         const flippedLandmark = {
+//           ...landmark,
+//           x: reflect1D(landmark.x, 0.5),
+//           visibility: 1,
+//         }
+//         if (i === HandPoseLandmark.WRIST) {
+//           wrist = flippedLandmark
+//         }
+//         subLandmark.push(flippedLandmark)
+//       }
+//       const handedness = getHandedness(
+//         wrist,
+//         bodyPoseResult[BodyPoseLandmark.LEFT_WRIST],
+//         bodyPoseResult[BodyPoseLandmark.RIGHT_WRIST],
+//       )
+//       processedLandmarks[handedness] = subLandmark
+//     }
+//     return processedLandmarks
+//   }
+
+// }
 
 /**
  * @public

@@ -51,7 +51,9 @@ export class LoadingCoverFactory implements IDisposable {
     return createElement(this.component, { visible })
   }
 
-  PseudoComponent = ({ visible }: LoadingCoverPseudoComponentProps): JSX.Element => {
+  PseudoComponent = ({
+    visible = true,
+  }: LoadingCoverPseudoComponentProps): JSX.Element => {
     useEffect(() => {
       if (!visible) { return } // Early exit
       return this.show()

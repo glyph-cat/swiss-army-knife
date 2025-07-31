@@ -1,10 +1,11 @@
-import { LazyValue, reflect1D } from '@glyph-cat/swiss-army-knife'
+import { reflect1D } from '@glyph-cat/swiss-army-knife'
 import {
   GestureRecognizer,
+  GestureRecognizerOptions,
   GestureRecognizerResult,
   NormalizedLandmark,
 } from '@mediapipe/tasks-vision'
-import { BaseVisionAnalyzer } from '../base-classes'
+import { BaseVisionAnalyzer, DetectionMethod, LandmarkAnalyzerOptions } from '../base-classes'
 import { BodyPoseLandmark, OnePersonBodyPoseAnalyzer } from '../body-pose'
 import { HandPoseLandmark } from '../hand-pose'
 import { getHandedness } from '../hand-pose/utils'
@@ -30,30 +31,30 @@ export interface OnePersonHandGestureAnalyzerResult {
  */
 export class OnePersonHandGestureAnalyzer extends BaseVisionAnalyzer<GestureRecognizer, OnePersonHandGestureAnalyzerResult> {
 
-  /**
-   * @internal
-   */
-  private static M$taskRunnerGetter = new LazyValue(async () => {
-    return GestureRecognizer.createFromOptions(
-      await BaseVisionAnalyzer.getVision(),
-      {
-        baseOptions: {
-          modelAssetPath: '/mediapipe/models/gesture_recognizer.task',
-          delegate: 'GPU',
-        },
-        numHands: 2,
-        runningMode: 'VIDEO',
-      }
-    )
-  })
+  // baseOptions: {
+  //   modelAssetPath: '/mediapipe/models/gesture_recognizer.task',
+  //   delegate: 'GPU',
+  // },
+  // runningMode: 'VIDEO',
 
-  constructor(private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer) {
+  constructor(
+    private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer,
+    gestureRecognizerOptions: Omit<GestureRecognizerOptions, 'numHands'>,
+    options?: LandmarkAnalyzerOptions,
+  ) {
     super(
       bodyPoseAnalyzer.videoElement,
       {},
-      OnePersonHandGestureAnalyzer.M$taskRunnerGetter,
-      'recognizeForVideo',
+      async () => GestureRecognizer.createFromOptions(
+        await BaseVisionAnalyzer.getVision(),
+        {
+          ...gestureRecognizerOptions,
+          numHands: 2,
+        }
+      ),
+      DetectionMethod.recognizeForVideo,
       'OnePersonHandGestureAnalyzer',
+      options,
     )
   }
 
