@@ -118,8 +118,8 @@
   "dependencies": {
     "@react-three/drei": "^10.0.7",
     "@react-three/fiber": "^9.1.2",
-    "cotton-box": "^0.13.1",
-    "cotton-box-react": "^0.13.1",
+    "cotton-box": "^0.14.0",
+    "cotton-box-react": "^0.14.0",
     "three-stdlib": "^2.36.0"
   }
 }

@@ -1,5 +1,9 @@
+import { Empty } from '../../data'
 import { CleanupFunction } from '../../types'
 import { NavigatorState } from './constants'
+
+const EVENT_ONLINE = 'online'
+const EVENT_OFFLINE = 'offline'
 
 /**
  * @public
@@ -8,15 +12,15 @@ import { NavigatorState } from './constants'
  * unwatchNavigatorState() // stop watching
  */
 export function watchNavigatorState(): CleanupFunction {
-  if (typeof window === 'undefined') { return () => { /* empty */ } } // Early exit
+  if (typeof window === 'undefined') { return Empty.FUNCTION } // Early exit
   NavigatorState.set(navigator.onLine)
   const onOnLine = () => { NavigatorState.set(true) }
   const onOffLine = () => { NavigatorState.set(false) }
-  window.addEventListener('online', onOnLine)
-  window.addEventListener('offline', onOffLine)
+  window.addEventListener(EVENT_ONLINE, onOnLine)
+  window.addEventListener(EVENT_OFFLINE, onOffLine)
   return () => {
-    window.removeEventListener('online', onOnLine)
-    window.removeEventListener('offline', onOffLine)
+    window.removeEventListener(EVENT_ONLINE, onOnLine)
+    window.removeEventListener(EVENT_OFFLINE, onOffLine)
   }
 }
 
