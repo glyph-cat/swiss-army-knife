@@ -37,25 +37,27 @@ export class OnePersonHandGestureAnalyzer extends BaseVisionAnalyzer<GestureReco
   // },
   // runningMode: 'VIDEO',
 
+  // TODO: implement from base class????
+  private static readonly _cache: Record<string, Promise<GestureRecognizer>> = {}
+
   constructor(
     private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer,
     gestureRecognizerOptions: Omit<GestureRecognizerOptions, 'numHands'>,
     options?: LandmarkAnalyzerOptions,
   ) {
-    super(
-      bodyPoseAnalyzer.videoElement,
-      {},
-      async () => GestureRecognizer.createFromOptions(
-        await BaseVisionAnalyzer.getVision(),
-        {
-          ...gestureRecognizerOptions,
-          numHands: 2,
-        }
-      ),
-      DetectionMethod.recognizeForVideo,
-      'OnePersonHandGestureAnalyzer',
-      options,
-    )
+    super(bodyPoseAnalyzer.videoElement, {}, async () => {
+      const optionsKey = JSON.stringify(gestureRecognizerOptions)
+      if (!OnePersonHandGestureAnalyzer._cache[optionsKey]) {
+        OnePersonHandGestureAnalyzer._cache[optionsKey] = GestureRecognizer.createFromOptions(
+          await BaseVisionAnalyzer.getVision(),
+          {
+            ...gestureRecognizerOptions,
+            numHands: 2,
+          }
+        )
+        return OnePersonHandGestureAnalyzer._cache[optionsKey]
+      }
+    }, DetectionMethod.recognizeForVideo, 'OnePersonHandGestureAnalyzer', options)
   }
 
   protected getProcessedResult(rawResult: GestureRecognizerResult): OnePersonHandGestureAnalyzerResult {

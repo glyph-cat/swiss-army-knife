@@ -4,11 +4,12 @@
 
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
+import { DateTime } from 'luxon'
 import { Encoding } from '../../../src/packages/core/src/encoding/constants'
 
 export function autoForwardExports(entryPath: string): void {
 
-  const now = new Date()
+  const now = DateTime.now()
   const directoriesWithMissingIndexFiles: Array<string> = []
 
   crawl(entryPath, (filePath: string) => {
@@ -67,9 +68,9 @@ export function autoForwardExports(entryPath: string): void {
       console.log(chalk.yellow(' └ ? Found no files to export'))
       codeLineStack.push('export {} // Found no files to export')
     }
-    codeLineStack.push(
-      `\n// Generated on: ${now.toDateString()} ${now.toTimeString().match(/\d{2}:\d{2}:\d{2} [a-z]+\+\d{4}/i)[0]}.`,
-    )
+
+    codeLineStack.push(`\n// Generated on: ${now.toSQL()}.`)
+
     writeFileSync(
       `${directoryPath}/index.scripted.ts`,
       codeLineStack.join('\n') + '\n',

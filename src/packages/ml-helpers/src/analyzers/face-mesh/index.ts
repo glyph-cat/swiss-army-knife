@@ -23,29 +23,32 @@ export class OnePersonFaceMeshAnalyzer extends BaseLandmarkAnalyzer<FaceLandmark
   // },
   // runningMode: 'VIDEO',
 
+  // TODO: implement from base class????
+  private static readonly _cache: Record<string, Promise<FaceLandmarker>> = {}
+
   constructor(
     videoElement: HTMLVideoElement,
     faceLandmarkerOptions: Omit<FaceLandmarkerOptions, 'numFaces'>,
     private readonly options: LandmarkAnalyzerOptions,
   ) {
-    super(
-      videoElement,
-      new Array(478).fill({
-        x: 0,
-        y: 0,
-        z: 0,
-        visibility: 0,
-      }),
-      async () => FaceLandmarker.createFromOptions(
-        await BaseLandmarkAnalyzer.getVision(),
-        {
-          ...faceLandmarkerOptions,
-          numFaces: 1,
-        }
-      ),
-      'OnePersonFaceMeshAnalyzer',
-      options,
-    )
+    super(videoElement, new Array(478).fill({
+      x: 0,
+      y: 0,
+      z: 0,
+      visibility: 0,
+    }), async () => {
+      const optionsKey = JSON.stringify(faceLandmarkerOptions)
+      if (!OnePersonFaceMeshAnalyzer._cache[optionsKey]) {
+        OnePersonFaceMeshAnalyzer._cache[optionsKey] = FaceLandmarker.createFromOptions(
+          await BaseLandmarkAnalyzer.getVision(),
+          {
+            ...faceLandmarkerOptions,
+            numFaces: 1,
+          }
+        )
+      }
+      return OnePersonFaceMeshAnalyzer._cache[optionsKey]
+    }, 'OnePersonFaceMeshAnalyzer', options)
   }
 
   protected getProcessedResult(rawResult: FaceLandmarkerResult): OnePersonFaceMeshAnalyzerResult {

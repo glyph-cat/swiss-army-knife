@@ -75,7 +75,10 @@ export interface PortalProps {
  * @public
  */
 export function Portal({ children }: PortalProps): JSX.Element {
-  Children.only(children)
+  const childrenCount = Children.count(children)
+  if (childrenCount > 1) {
+    throw new Error(`Expected <Portal> to have at most one child but got ${childrenCount}`)
+  }
   const { portalManager } = useCoreUIContext()
   const portalId = useConstant(portalManager.requestPortalId)
   useEffect(() => {
