@@ -1,6 +1,6 @@
 import { isBoolean, Nullable } from '@glyph-cat/swiss-army-knife'
 import { ComponentType, createElement, Suspense } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
+import { renderToString } from '../render-to-string'
 
 /**
  * @public
@@ -25,7 +25,7 @@ export class PreloadableComponent<P = {}> {
       return this._isSuccessful // Early exit
     }
     try {
-      renderToStaticMarkup(createElement(Suspense, {}, createElement(this.component)))
+      renderToString(createElement(Suspense, {}, createElement(this.component)))
       this._isSuccessful = true
     } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
       this._isSuccessful = false

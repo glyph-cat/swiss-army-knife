@@ -1,3 +1,4 @@
+import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
@@ -24,6 +25,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { buildEnv } = config
 
   const pluginStack: Array<RollupPlugin> = [
+    commonjs({ sourceMap: false }),
     setDisplayName(false),
     typescript({
       tsconfigOverride: {

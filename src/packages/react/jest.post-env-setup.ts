@@ -23,9 +23,9 @@ const originalMethods: Partial<Record<ConsoleKey, IConsole[ConsoleKey]>> = {}
 beforeEach(() => {
   for (const consoleMethodName of consoleMethodNames) {
     originalMethods[consoleMethodName] = console[consoleMethodName]
-    //// @ts-expect-error This is a wrapper, type-wise, it should be safe.
-    // console[consoleMethodName] = jest.fn(originalMethods[consoleMethodName])
-    console[consoleMethodName] = jest.fn()
+    // @ts-expect-error This is a wrapper, type-wise, it should be safe.
+    console[consoleMethodName] = jest.fn(originalMethods[consoleMethodName])
+    // console[consoleMethodName] = jest.fn()
   }
 })
 
@@ -40,11 +40,20 @@ afterEach(() => {
 window.MessageChannel = jest.fn().mockImplementation(() => {
   return {
     port1: {
+      addEventListener: jest.fn(),
+      close: jest.fn(),
+      dispatchEvent: jest.fn(),
       postMessage: jest.fn(),
+      removeEventListener: jest.fn(),
+      start: jest.fn(),
     },
     port2: {
       addEventListener: jest.fn(),
+      close: jest.fn(),
+      dispatchEvent: jest.fn(),
+      postMessage: jest.fn(),
       removeEventListener: jest.fn(),
+      start: jest.fn(),
     },
   }
 })

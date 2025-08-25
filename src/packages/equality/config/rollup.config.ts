@@ -1,3 +1,4 @@
+import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
@@ -9,32 +10,31 @@ const UMD_NAME = 'Equality'
 
 function getPlugins(): Array<RollupPlugin> {
 
-  const pluginStack: Array<RollupPlugin> = []
-
-  pluginStack.push(nodeResolve({
-    extensions: ['.ts'],
-  }))
-
-  pluginStack.push(typescript({
-    tsconfigOverride: {
-      compilerOptions: {
-        declaration: false,
-        declarationDir: null,
-        outDir: null,
+  const pluginStack: Array<RollupPlugin> = [
+    nodeResolve({
+      extensions: ['.ts'],
+    }),
+    commonjs({ sourceMap: false }),
+    typescript({
+      tsconfigOverride: {
+        compilerOptions: {
+          declaration: false,
+          declarationDir: null,
+          outDir: null,
+        },
+        exclude: [
+          './src/**/*.test*',
+        ],
       },
-      exclude: [
-        './src/**/*.test*',
-      ],
-    },
-  }))
-
-  pluginStack.push(terser({
-    mangle: {
-      properties: {
-        regex: /^(M\$|_)/,
+    }),
+    terser({
+      mangle: {
+        properties: {
+          regex: /^(M\$|_)/,
+        },
       },
-    },
-  }))
+    })
+  ]
 
   return pluginStack
 }

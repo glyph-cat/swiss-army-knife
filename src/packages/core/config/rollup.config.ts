@@ -1,4 +1,5 @@
 // import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
@@ -53,12 +54,13 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   const { mode, buildEnv } = config
 
   const pluginStack: Array<RollupPlugin> = [
-    setDisplayName(mode !== 'production'),
     nodeResolve({
       // KIV: using @rollup/plugin-node-resolve v14 or above will cause
       // '.native.(t|j)sx?' files to be ignored
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),
+    commonjs({ sourceMap: false }),
+    setDisplayName(mode !== 'production'),
     // babel({
     //   presets: [
     //     // '@babel/preset-env',

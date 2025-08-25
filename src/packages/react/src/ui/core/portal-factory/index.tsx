@@ -68,7 +68,7 @@ export class PortalManager implements IDisposable {
  * @public
  */
 export interface PortalProps {
-  children: ReactNode
+  children?: ReactNode
 }
 
 /**
