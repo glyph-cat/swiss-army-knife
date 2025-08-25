@@ -1,6 +1,6 @@
 import { isBoolean, Nullable } from '@glyph-cat/swiss-army-knife'
-import { ComponentType, createElement, Suspense } from 'react'
-import { renderToString } from '../render-to-string'
+import { ComponentType, createElement } from 'react'
+import { renderToString } from 'react-dom/server'
 
 /**
  * @public
@@ -25,7 +25,10 @@ export class PreloadableComponent<P = {}> {
       return this._isSuccessful // Early exit
     }
     try {
-      renderToString(createElement(Suspense, {}, createElement(this.component)))
+      // No error boundaries were necessary as they would serialize into string
+      // and not get thrown or cause annoying pop-ups in the dev environment
+      // as we would get when using `createRoot` to achieve the equivalent.
+      renderToString(createElement(this.component))
       this._isSuccessful = true
     } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
       this._isSuccessful = false

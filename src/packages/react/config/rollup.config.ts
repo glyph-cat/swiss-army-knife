@@ -45,6 +45,7 @@ const EXTERNAL_LIBS = [
   'node_modules',
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
+  'react-dom/server',
   '@glyph-cat/swiss-army-knife',
   ...getDependencies(rootPackageJson),
 ].sort()
