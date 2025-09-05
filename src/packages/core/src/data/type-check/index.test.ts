@@ -8,6 +8,7 @@ import {
   isNumberOrNaN,
   isObject,
   isObjectNotNull,
+  isObjectOrNull,
   isString,
   isSymbol,
   isThenable,
@@ -58,11 +59,21 @@ test(isNumber.name, () => {
 test(isObject.name, () => {
   expect(isObject({})).toBe(true)
   expect(isObject([])).toBe(true)
-  expect(isObject(null)).toBe(true)
+  expect(isObject(null)).toBe(false)
   expect(isObject(function () { /* ... */ })).toBe(false)
   expect(isObject('')).toBe(false)
   expect(isObject(false)).toBe(false)
   expect(isObject(undefined)).toBe(false)
+})
+
+test(isObjectOrNull.name, () => {
+  expect(isObjectOrNull({})).toBe(true)
+  expect(isObjectOrNull([])).toBe(true)
+  expect(isObjectOrNull(null)).toBe(true)
+  expect(isObjectOrNull(function () { /* ... */ })).toBe(false)
+  expect(isObjectOrNull('')).toBe(false)
+  expect(isObjectOrNull(false)).toBe(false)
+  expect(isObjectOrNull(undefined)).toBe(false)
 })
 
 test(isObjectNotNull.name, () => {

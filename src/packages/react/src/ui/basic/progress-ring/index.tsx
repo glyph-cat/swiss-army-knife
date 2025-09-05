@@ -43,7 +43,7 @@ export interface ProgressRingProps extends ViewProps {
    */
   maxValue?: number
   /**
-   * @defaultValue `'primary'`
+   * @defaultValue `'#808080'`
    */
   color?: LenientString<BasicUIColor>
   /**

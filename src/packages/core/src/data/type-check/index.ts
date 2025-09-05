@@ -59,24 +59,36 @@ export function isNumber(value: unknown): value is number {
 }
 
 /**
- * Determine if a value is an object.
+ * Determine if a value is an object (and not `null`, even though `null` is also
+ * treated as an object in JavaScript).
  *
- * NOTE: JavaScript also treats `null` as an object.
  * @param value - The value to check.
- * @returns A boolean indicating whether the value is an object.
+ * @returns A boolean indicating whether the value is an object (and not `null`).
  * @public
  */
 export function isObject(value: unknown): value is PlainRecord {
+  return typeof value === 'object' && !isNull(value)
+}
+
+/**
+ * Determine if a value is an object or `null` (because `null` is also
+ * treated as an object in JavaScript).
+ * @param value - The value to check.
+ * @returns A boolean indicating whether the value is an object or `null`.
+ * @public
+ */
+export function isObjectOrNull(value: unknown): value is PlainRecord | null {
   return typeof value === 'object'
 }
 
 /**
- * Determine if a value is an object and not `null`.
+ * Determine if a value is an object (and not `null`, even though `null` is also
+ * treated as an object in JavaScript).
  *
- * NOTE: JavaScript also treats `null` as an object.
  * @param value - The value to check.
- * @returns A boolean indicating whether the value is an object.
+ * @returns A boolean indicating whether the value is an object (and not `null`).
  * @public
+ * @deprecated Please use {@link isObject | `isObject`} instead.
  */
 export function isObjectNotNull(value: unknown): value is PlainRecord {
   return typeof value === 'object' && !isNull(value)

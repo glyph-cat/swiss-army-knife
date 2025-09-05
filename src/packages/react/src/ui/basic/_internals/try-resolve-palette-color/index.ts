@@ -22,6 +22,6 @@ export function tryResolvePaletteColor(
     }
   } else {
     // return fallbackValue ?? ThemeToken.primaryColor
-    return fallbackValue ?? palette.primaryColor
+    return fallbackValue ?? '#808080'
   }
 }
