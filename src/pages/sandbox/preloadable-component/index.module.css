@@ -5,3 +5,9 @@
 .subContainer {
   gap: var(--spacingM);
 }
+
+.sampleComponentContainer {
+  border: solid 1px var(--separatorColor);
+  height: 200px;
+  place-items: center;
+}

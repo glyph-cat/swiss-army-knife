@@ -30,11 +30,13 @@ export default function (): JSX.Element {
         >
           {'Show component without preloading'}
         </BasicButton>
-        {shouldShowComponentA && (
-          <Suspense fallback={<ProgressRing />}>
-            <SampleComponentA />
-          </Suspense>
-        )}
+        <View className={styles.sampleComponentContainer}>
+          {shouldShowComponentA && (
+            <Suspense fallback={<ProgressRing />}>
+              <SampleComponentA />
+            </Suspense>
+          )}
+        </View>
       </View>
       <View className={styles.subContainer}>
         <BasicButton
@@ -48,11 +50,13 @@ export default function (): JSX.Element {
         >
           {'Show component with preloading enabled'}
         </BasicButton>
-        {shouldShowComponentB && (
-          <Suspense>
-            <SampleComponentB />
-          </Suspense>
-        )}
+        <View className={styles.sampleComponentContainer}>
+          {shouldShowComponentB && (
+            <Suspense fallback={<ProgressRing />}>
+              <SampleComponentB />
+            </Suspense>
+          )}
+        </View>
       </View>
     </View>
   )

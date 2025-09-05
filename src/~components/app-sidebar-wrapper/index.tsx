@@ -35,11 +35,13 @@ export function AppSideBarContainer({
     (s) => s.showPerformanceDebugger,
   )
   return (
-    <View style={shouldShowPerformanceDebugger ? {
-      left: SIDEBAR_WIDTH,
+    <View style={{
+      ...(shouldShowPerformanceDebugger ? {
+        left: SIDEBAR_WIDTH,
+        width: `calc(100vw - ${SIDEBAR_WIDTH}px)`,
+      } : {}),
       padding: 10,
-      width: `calc(100vw - ${SIDEBAR_WIDTH}px)`,
-    } : {}}>
+    }}>
       {children}
     </View>
   )
