@@ -5,7 +5,7 @@
  * @returns `true` if both values are considered equal, otherwise `false`.
  * @public
  */
-export function arrayShallowEqual(a: Array<any> | any, b: Array<any> | any): boolean {
+export function arrayIsShallowEqual(a: Array<any> | any, b: Array<any> | any): boolean {
 
   if (Array.isArray(a) && Array.isArray(b)) {
 
@@ -26,11 +26,3 @@ export function arrayShallowEqual(a: Array<any> | any, b: Array<any> | any): boo
   }
 
 }
-
-/**
- * Compares each element in the array using [`Object.is`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is).
- * @returns `true` if both values are considered equal, otherwise `false`.
- * @public
- * @deprecated Please use {@link arrayShallowEqual|`arrayShallowEqual`} instead.
- */
-export const shallowCompareArray = arrayShallowEqual

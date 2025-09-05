@@ -1,8 +1,13 @@
-import { isJSONequal } from '../../data'
 import { CleanupFunction, RectangularBoundary } from '../../types'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isJSONequal(a: any, b: any): b is typeof a {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
 
 /**
  * @public
+ * @deprecated
  */
 export class ExperimentalSizeObserver {
 

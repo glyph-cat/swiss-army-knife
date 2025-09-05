@@ -3,7 +3,7 @@ import {
   ExtendedCSSProperties,
   isFunction,
   isNullOrUndefined,
-  isObjectNotNull,
+  isObject,
   PrecedenceLevel,
   StyleManager,
   StyleMap,
@@ -34,7 +34,7 @@ export function ThemeProvider({
   theme,
 }: ThemeProviderProps): JSX.Element {
 
-  const isNested = isObjectNotNull(useContext(ThemeContext))
+  const isNested = isObject(useContext(ThemeContext))
   const className = useClassName()
 
   const paletteStyles = useMemo(() => {

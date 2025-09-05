@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isObjectNotNull } from '../../../core/src/data/type-check'
+import { isObject } from '../../../core/src/data/type-check'
 
 /**
  * Compares each item in the object using [`Object.is`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is).
  * @returns `true` if both values are considered equal, otherwise `false`.
  * @public
  */
-export function objectShallowEqual(a: any, b: any): boolean {
+export function objectIsShallowEqual(a: any, b: any): boolean {
 
-  if (isObjectNotNull(a) && isObjectNotNull(b)) {
+  if (isObject(a) && isObject(b)) {
 
     const aKeys = Object.keys(a)
     const bKeys = Object.keys(b)
@@ -41,11 +41,3 @@ export function objectShallowEqual(a: any, b: any): boolean {
   }
 
 }
-
-/**
- * Compares each item in the object using [`Object.is`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is).
- * @returns `true` if both values are considered equal, otherwise `false`.
- * @public
- * @deprecated Please use {@link objectShallowEqual|`objectShallowEqual`} instead.
- */
-export const shallowCompareObject = objectShallowEqual
