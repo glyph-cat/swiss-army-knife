@@ -7,22 +7,17 @@
  */
 export function arrayIsShallowEqual(a: Array<any> | any, b: Array<any> | any): boolean {
 
-  if (Array.isArray(a) && Array.isArray(b)) {
+  // In case non-array type is provided due to lack of TS enforcement in a JS-only setup.
+  if (!Object.is(a?.length, b?.length)) {
+    return false // Early exit
+  }
 
-    if (a.length !== b.length) {
+  for (let i = 0; i < a.length; i++) {
+    if (!Object.is(a[i], b[i])) {
       return false // Early exit
     }
-
-    for (let i = 0; i < a.length; i++) {
-      if (!Object.is(a[i], b[i])) {
-        return false // Early exit
-      }
-    }
-
-    return true
-
-  } else {
-    return Object.is(a, b) // Fallback
   }
+
+  return true
 
 }

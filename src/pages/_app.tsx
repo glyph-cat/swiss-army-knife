@@ -20,7 +20,7 @@ import {
   GlobalInputFocusTracker,
   GlobalKeyChordManager,
   GlobalPortalManager,
-} from '~core-ui'
+} from '~services/core-ui'
 import { CustomDebugger } from '~services/debugging'
 import { LocalizationProvider } from '~services/localization'
 import { CustomThemeProvider } from '~services/theme'

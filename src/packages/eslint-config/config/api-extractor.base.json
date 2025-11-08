@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/bundle-entry-point/base.d.ts",
+  "apiReport": {
+    "enabled": false
+  },
+  "docModel": {
+    "enabled": false
+  },
+  "dtsRollup": {
+    "enabled": true,
+    // `untrimmedFilePath` defaults to 'dist' folder, must use empty string to
+    // disable it
+    "untrimmedFilePath": "",
+    "publicTrimmedFilePath": "<projectFolder>/base/lib/index.d.ts",
+    "omitTrimmingComments": true
+  },
+  "enumMemberOrder": "preserve",
+  "tsdocMetadata": {
+    "enabled": false
+  },
+  "messages": {
+    "compilerMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      }
+    },
+    "extractorMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "none"
+      }
+    },
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "warning"
+      },
+    }
+  }
+}

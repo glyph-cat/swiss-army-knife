@@ -45,6 +45,14 @@
       "path": "../src/packages/ml-helpers"
     },
     {
+      "name": "crayon",
+      "path": "../src/packages/crayon"
+    },
+    {
+      "name": "eslint-config",
+      "path": "../src/packages/eslint-config"
+    },
+    {
       "name": "unstable",
       "path": "../src/~unstable"
     },

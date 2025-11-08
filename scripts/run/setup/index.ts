@@ -14,6 +14,8 @@ function main(): void {
     'cli-parameter-parser',
     // 'project-helpers',
     'ml-helpers',
+    'crayon',
+    'eslint-config',
   ] as const
 
   const cwd = process.cwd()

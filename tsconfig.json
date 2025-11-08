@@ -18,6 +18,9 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@glyph-cat/eslint-config": [
+        "./packages/eslint-config",
+      ],
       "@glyph-cat/swiss-army-knife": [
         "./packages/core/src"
       ],
@@ -55,6 +58,7 @@
     "**/*.scripted*",
   ],
   "include": [
+    "eslint.config.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

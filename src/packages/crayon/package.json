@@ -1,0 +1,38 @@
+{
+  "name": "@glyph-cat/crayon",
+  "version": "1.0.0",
+  "description": "CLI text coloring and decoration utilities.",
+  "main": "lib/cjs/index.js",
+  "types": "lib/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "lint": "eslint .",
+    "test": "jest -c jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "yarn tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh scripts/run/build.sh",
+    "all": "sh scripts/run/all.sh"
+  },
+  "keywords": [
+    "CLI",
+    "Command line",
+    "Terminal",
+    "Color",
+    "Flower box"
+  ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/crayon#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  }
+}

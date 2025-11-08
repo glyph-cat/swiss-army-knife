@@ -1,0 +1,49 @@
+{
+  "name": "@glyph-cat/eslint-config",
+  "version": "1.0.1-alpha.13",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "base",
+    "jest",
+    "react"
+  ],
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "inspect": "yarn eslint-config-inspector",
+    "build": "sh ./scripts/run/build.sh"
+  },
+  "author": "glyph-cat",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/eslint-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/eslint-config/issues"
+  },
+  "dependencies": {
+    "@eslint/compat": "^1.4.0",
+    "@stylistic/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "typescript-eslint": "^8.46.1"
+  },
+  "peerDependencies": {
+    "globals": ">=14"
+  },
+  "peerDependenciesMeta": {
+    "eslint-plugin-jest": {
+      "optional": true
+    },
+    "eslint-plugin-react": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    }
+  }
+}

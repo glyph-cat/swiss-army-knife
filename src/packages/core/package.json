@@ -18,7 +18,7 @@
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "bundle": "rollup -c ./config/rollup.config.js",
-    "test": "jest -c jest.config.ts",
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest -c jest.config.ts",
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.3"
+    "postcss": "^8.5.3",
+    "query-string": "^9.3.1"
   },
   "peerDependencies": {
     "cotton-box": "*"

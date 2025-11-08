@@ -38,9 +38,7 @@ export function getDistance2DByCoordinates(a: Value2D, b: Value2D): number {
  * @public
  */
 export function getAngleOfVectorsIn2D(a: Value2D, b: Value2D): number {
-  let angle = Math.atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y)
-  if (angle < 0) { angle *= -1 }
-  return angle
+  return Math.atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y)
 }
 
 /**

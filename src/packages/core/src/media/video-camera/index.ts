@@ -75,7 +75,7 @@ export class VideoCamera {
 
   readonly videoElement: HTMLVideoElement
 
-  constructor() {
+  constructor(appendVideoElement = false) {
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
     this.dispose = this.dispose.bind(this)
@@ -83,7 +83,9 @@ export class VideoCamera {
     this.videoElement.className = TemplateStyles.hidden
     this.videoElement.controls = false
     this.videoElement.muted = true
-    document.body.append(this.videoElement)
+    if (appendVideoElement) {
+      document.body.append(this.videoElement)
+    }
   }
 
   /**

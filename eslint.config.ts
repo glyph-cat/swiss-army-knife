@@ -1,11 +1,30 @@
-const { Severity } = require('@glyph-cat/eslint-config')
-const { recommended: baseRecommended } = require('@glyph-cat/eslint-config/base')
-const {
+// import { Severity } from '@glyph-cat/eslint-config'
+
+import { Severity } from './src/packages/eslint-config/src'
+import {
+  recommended as baseRecommended,
+} from './src/packages/eslint-config/src/bundle-entry-point/base'
+import {
+  recommended as jestRecommended,
+} from './src/packages/eslint-config/src/bundle-entry-point/jest'
+import {
   BuildRule,
   EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
-  recommended: reactRecommended,
-} = require('@glyph-cat/eslint-config/react')
-const { recommended: jestRecommended } = require('@glyph-cat/eslint-config/jest')
+  recommended as reactRecommended,
+} from './src/packages/eslint-config/src/bundle-entry-point/react'
+
+// const { Severity } = require('./src/packages/eslint-config/src')
+// const {
+//   recommended: baseRecommended,
+// } = require('./src/packages/eslint-config/src/bundle-entry-point/base')
+// const {
+//   BuildRule,
+//   EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
+//   recommended: reactRecommended,
+// } = require('./src/packages/eslint-config/src/bundle-entry-point/react')
+// const {
+//   recommended: jestRecommended,
+// } = require('./src/packages/eslint-config/src/bundle-entry-point/jest')
 
 module.exports = [
   ...baseRecommended,

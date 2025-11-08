@@ -1,0 +1,43 @@
+/**
+ * @public
+ */
+export const ConsoleColors = {
+  bg: {
+    clear: '\u001b[49m',
+    black: '\u001b[40m',
+    red: '\u001b[41m',
+    green: '\u001b[42m',
+    yellow: '\u001b[43m',
+    blue: '\u001b[44m',
+    magenta: '\u001b[45m',
+    cyan: '\u001b[46m',
+    white: '\u001b[47m',
+    gray: '\u001b[100m',
+    redBright: '\u001b[101m',
+    greenBright: '\u001b[102m',
+    yellowBright: '\u001b[103m',
+    blueBright: '\u001b[104m',
+    magentaBright: '\u001b[105m',
+    cyanBright: '\u001b[106m',
+    whiteBright: '\u001b[107m',
+  } as const,
+  fg: {
+    clear: '\u001b[39m',
+    black: '\u001b[30m',
+    red: '\u001b[31m',
+    green: '\u001b[32m',
+    yellow: '\u001b[33m',
+    blue: '\u001b[34m',
+    magenta: '\u001b[35m',
+    cyan: '\u001b[36m',
+    white: '\u001b[37m',
+    gray: '\u001b[90m',
+    redBright: '\u001b[91m',
+    greenBright: '\u001b[92m',
+    yellowBright: '\u001b[93m',
+    blueBright: '\u001b[94m',
+    magentaBright: '\u001b[95m',
+    cyanBright: '\u001b[96m',
+    whiteBright: '\u001b[97m',
+  } as const,
+} as const
