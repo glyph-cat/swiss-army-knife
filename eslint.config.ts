@@ -1,5 +1,4 @@
-// import { Severity } from '@glyph-cat/eslint-config'
-
+import { defineConfig } from 'eslint/config'
 import { Severity } from './src/packages/eslint-config/src'
 import {
   recommended as baseRecommended,
@@ -26,26 +25,15 @@ import {
 //   recommended: jestRecommended,
 // } = require('./src/packages/eslint-config/src/bundle-entry-point/jest')
 
-module.exports = [
-  ...baseRecommended,
-  ...reactRecommended,
-  ...jestRecommended,
+module.exports = defineConfig(
+  baseRecommended,
+  reactRecommended,
+  jestRecommended,
   {
     rules: {
       'no-console': Severity.OFF, // temp
       '@typescript-eslint/no-namespace': Severity.OFF,
       '@typescript-eslint/no-require-imports': Severity.OFF,
-      'no-restricted-imports': [Severity.ERROR, {
-        paths: [
-          {
-            name: 'react',
-            importNames: [
-              'RefObject',
-            ],
-            message: 'Please import from \'@glyph-cat/swiss-army-knife\' instead.',
-          },
-        ],
-      }],
       '@typescript-eslint/no-empty-object-type': Severity.WARN, // temp
       ...BuildRule.ReactHooks.ExhaustiveDeps(Severity.WARN, [
         ...EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
@@ -54,11 +42,6 @@ module.exports = [
         // 'useKeyDownListener',
         // 'useKeyUpListener',
       ]),
-      'import/no-unresolved': [Severity.ERROR, {
-        ignore: [
-          '^!!raw-loader!',
-        ],
-      }],
       'react/forbid-elements': [Severity.ERROR, {
         forbid: [
           {
@@ -92,4 +75,4 @@ module.exports = [
       'public/',
     ],
   },
-]
+)

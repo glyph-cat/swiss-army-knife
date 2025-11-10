@@ -23,14 +23,14 @@ export function objectSort<O extends Record<StrictPropertyKey, unknown>>(
   object: O,
   compareFn: (
     a: { key: keyof O, value: O[keyof O] },
-    b: { key: keyof O, value: O[keyof O] }
-  ) => number
+    b: { key: keyof O, value: O[keyof O] },
+  ) => number,
 ): O {
   const objectKeys: Array<keyof O> = Object.keys(object)
   objectKeys.sort((a, b) => {
     return compareFn(
       { key: a, value: object[a] },
-      { key: b, value: object[b] }
+      { key: b, value: object[b] },
     )
   })
   const newObj = {} as O

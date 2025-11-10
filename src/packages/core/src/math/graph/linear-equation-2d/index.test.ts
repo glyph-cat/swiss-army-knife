@@ -32,11 +32,7 @@ test(LinearEquation2D.fromPointAndGradient.name, () => {
 //   //
 // })
 
-
-
 // =============================================================================
-
-
 
 // describe(createLinearEquationFromPointAndGradient.name, (): void => {
 

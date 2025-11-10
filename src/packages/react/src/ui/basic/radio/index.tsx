@@ -102,7 +102,7 @@ export function RadioGroup<Value>({
   }), [value, disabled, onChange, itemFlow, position])
 
   const { palette } = useThemeContext()
-  const tint = tryResolvePaletteColor($color, palette)
+  const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
   const effectiveSize = RADIO_GROUP_SIZE_PRESETS[size] ?? RADIO_GROUP_SIZE_PRESETS.m
 

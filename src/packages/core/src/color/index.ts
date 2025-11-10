@@ -8,7 +8,7 @@ import {
   isObject,
   isString,
   Nullable,
-  trySerializeJSON
+  trySerializeJSON,
 } from '../data'
 import { devError } from '../dev'
 import { clamp, NumericDataSet } from '../math'
@@ -69,7 +69,7 @@ export namespace ColorUtil {
   export function fromHSLToRGB(
     hue: number,
     saturation: number,
-    lightness: number
+    lightness: number,
   ): NumericValues3 {
     saturation /= 100
     lightness /= 100
@@ -243,7 +243,7 @@ export class Color {
     firstArg: WithAlphaAsOptional<SerializedRGB> | number | string,
     green?: number,
     blue?: number,
-    alpha?: number
+    alpha?: number,
   ): Color {
     if (isNumber(firstArg)) {
       return Color.fromRGBValues(firstArg, green, blue, alpha)
@@ -309,7 +309,6 @@ export class Color {
     const { red, green, blue, alpha } = value
     return Color.fromRGBValues(red, green, blue, alpha)
   }
-
 
   /**
    * Creates a {@link Color} from the given RGB values.
@@ -380,7 +379,7 @@ export class Color {
     firstArg: WithAlphaAsOptional<SerializedHSL> | number | string,
     hue?: number,
     saturation?: number,
-    lightness?: number
+    lightness?: number,
   ): Color {
     if (isNumber(firstArg)) {
       return Color.fromHSLValues(firstArg, hue!, saturation!, lightness!)
@@ -461,7 +460,7 @@ export class Color {
     hue: number,
     saturation: number,
     lightness: number,
-    alpha?: number
+    alpha?: number,
   ): Color {
     showErrorIfInvalid(HUE, ...VALIDATION_RANGES.hue, hue, hue)
     showErrorIfInvalid(SATURATION, ...VALIDATION_RANGES.saturation, saturation, saturation)
@@ -544,7 +543,7 @@ export class Color {
    * Color.fromJSON({ hue: 0, saturation: 100, lightness: 50 })
    */
   static fromJSON(
-    value: WithAlphaAsOptional<SerializedRGB> | WithAlphaAsOptional<SerializedHSL>
+    value: WithAlphaAsOptional<SerializedRGB> | WithAlphaAsOptional<SerializedHSL>,
   ): Color {
     // Using `hasProperty` only because all fields are mandatory here
     // can use static `from...` methods here because the values are not processed
@@ -754,7 +753,7 @@ export class Color {
       return this.M$getRGBString(
         0,
         (this.alpha !== Color.MAX_ALPHA_VALUE && !suppressAlphaInShortFormats) ? 1 : 0,
-        truncateDecimals
+        truncateDecimals,
       ) // Early exit
     }
     if (format === ColorFormat.RGBA) {
@@ -764,7 +763,7 @@ export class Color {
       return this.M$getHSLString(
         0,
         (this.alpha !== Color.MAX_ALPHA_VALUE && !suppressAlphaInShortFormats) ? 1 : 0,
-        truncateDecimals
+        truncateDecimals,
       ) // Early exit
     }
     if (format === ColorFormat.HSLA) {
@@ -839,7 +838,7 @@ export class Color {
   private M$getRGBString = (
     showA: 0 | 1,
     showAlpha: 0 | 1,
-    decimalPoints: number
+    decimalPoints: number,
   ): string => {
     const outputStack: Array<number | string> = [
       this.red,
@@ -858,7 +857,7 @@ export class Color {
   private M$getHSLString = (
     showA: 0 | 1,
     showAlpha: 0 | 1,
-    decimalPoints: number
+    decimalPoints: number,
   ): string => {
     const outputStack: Array<number | string> = [
       `${this.hue}deg`,

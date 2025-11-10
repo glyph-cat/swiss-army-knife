@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 // Reference: https://stackoverflow.com/a/61532563/5810737
 
 require('ts-node').register({

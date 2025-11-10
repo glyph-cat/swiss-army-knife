@@ -18,7 +18,7 @@ test('No initial styles', () => {
 
 test('With initial styles and custom precedence level', () => {
   styleManager = new StyleManager([
-    ['.foo', { display: 'grid' }]
+    ['.foo', { display: 'grid' }],
   ], PrecedenceLevel.LOW)
   const styleElements = document.head.querySelectorAll('style')
   expect(styleElements.length).toBe(1)
@@ -40,7 +40,7 @@ describe(StyleManager.prototype.set.name, () => {
 
   test('With initial styles from constructor', () => {
     styleManager = new StyleManager([
-      ['.foo', { display: 'grid' }]
+      ['.foo', { display: 'grid' }],
     ])
     styleManager.set('.bar', { color: 'gray' })
     expect(styleManager.element.innerHTML).toBe('.foo{display:grid}.bar{color:gray}')

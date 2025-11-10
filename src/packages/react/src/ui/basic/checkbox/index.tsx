@@ -101,7 +101,7 @@ export const Checkbox = forwardRef(({
 }: CheckboxProps, forwardedRef: ForwardedRef<Checkbox>): JSX.Element => {
 
   const { palette } = useThemeContext()
-  const tint = tryResolvePaletteColor($color, palette)
+  const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
   const [boxSize, iconSize, spinnerSize] = CHECKBOX_SIZE_PRESETS[size] ?? CHECKBOX_SIZE_PRESETS.m
   const disabled = $disabled ?? busy

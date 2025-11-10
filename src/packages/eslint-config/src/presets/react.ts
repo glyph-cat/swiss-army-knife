@@ -1,6 +1,6 @@
-import type { Linter } from 'eslint'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import { Config, defineConfig } from 'eslint/config'
 import { Severity } from '../abstractions/public'
 import { compat } from '../utils/compat'
 
@@ -16,8 +16,8 @@ export function createReactConfig({
   remapWarn,
   remapError,
   isLibraryAuthoring,
-}: ReactConfigParams): Array<Linter.FlatConfig> {
-  return [
+}: ReactConfigParams): Array<Config> {
+  return defineConfig(
     {
       name: 'eslint-plugin-react',
       ...compat.extends('plugin:react/recommended')[0],
@@ -30,15 +30,16 @@ export function createReactConfig({
         },
       },
     },
-    {
-      name: 'eslint-plugin-react-hooks',
-      ...compat.extends('plugin:react-hooks/recommended')[0],
-    },
+    reactHooksPlugin.configs.flat['recommended-latest'],
+    // {
+    //   name: 'eslint-plugin-react-hooks',
+    //   ...compat.extends('plugin:react-hooks/recommended')[0],
+    // },
     {
       name: '@glyph-cat/eslint-config (react)',
       plugins: {
         'react': reactPlugin,
-        'react-hooks': reactHooksPlugin,
+        // 'react-hooks': reactHooksPlugin,
       },
       rules: {
         'react/display-name': remapOff,
@@ -48,8 +49,8 @@ export function createReactConfig({
         'react/react-in-jsx-scope': remapOff, // React ≥17 has new JSX transform
         'react-hooks/exhaustive-deps': [remapWarn, {
           additionalHooks: 'useInsertionEffect'
-        }]
+        }],
       },
-    }
-  ]
+    },
+  )
 }

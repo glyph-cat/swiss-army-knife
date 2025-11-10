@@ -14,7 +14,7 @@
 export function clampedPush<T>(
   maxSize: number,
   items: Array<T>,
-  array: Array<T>
+  array: Array<T>,
 ): Array<T> {
   const newArray = [...array, ...items]
   const sizeDiff = Math.max(0, newArray.length - maxSize)
@@ -54,7 +54,7 @@ export function clampedUnshift<T>(
   maxSize: number,
   items: Array<T>,
   array: Array<T>,
-  options: ClampedUnshiftOptions = {}
+  options: ClampedUnshiftOptions = {},
 ): Array<T> {
   const newArray = options?.harshJoin
     ? [...items, ...array]

@@ -26,7 +26,7 @@ import { delay } from '../../events/delay'
  */
 export function isResolved(
   promise: Promise<unknown>,
-  flag?: RefObject<boolean>
+  flag?: RefObject<boolean>,
 ): Promise<boolean> | void {
   if (flag) {
     promise.then((): void => {

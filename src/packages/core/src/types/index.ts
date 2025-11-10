@@ -109,7 +109,7 @@ export type PossiblyUndefined<T> = T | undefined
  */
 export type Awaited<T> = T extends PromiseLike<infer U>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ? { 0: Awaited<U>; 1: U }[U extends PromiseLike<any> ? 0 : 1]
+  ? { 0: Awaited<U>, 1: U }[U extends PromiseLike<any> ? 0 : 1]
   : T
 
 /**

@@ -27,7 +27,7 @@ import { ignoreWhenCompilingStyles, selectorsToIgnore, tryValidateCSSSelector } 
  * @public
  */
 export function convertStyleObjectPropertyKeys(
-  styles: ExtendedCSSProperties
+  styles: ExtendedCSSProperties,
 ): StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]> {
   const compiledStyles: StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]> = {}
   for (const rawPropertyKey in styles) {
@@ -44,12 +44,12 @@ const autoprefixerInstance = autoprefixer({
     ? [
       '>0.5%',
       'not dead',
-      'not op_mini all'
+      'not op_mini all',
     ]
     : [
       'last 3 chrome version',
       'last 3 firefox version',
-      'last 5 safari version'
+      'last 5 safari version',
     ],
 })
 

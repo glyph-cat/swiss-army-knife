@@ -1,7 +1,7 @@
 import type { CellType, ISection } from '../../../abstractions'
 
 export interface BaseSizeTrackingData {
-  _start?: number // px
+  M$start?: number // px
   size: number // px
 }
 
@@ -32,17 +32,17 @@ export type SizeTrackableItemProps<SectionData, ItemData> = SizeTrackingBaseProp
 
 export class SizeTrackingArray<SectionData, ItemData> {
 
-  _accumulatedSize: number // px
+  M$accumulatedSize: number // px
 
-  _trackingData: Array<SizeTrackingData<SectionData, ItemData>> = []
+  M$flatData: Array<SizeTrackingData<SectionData, ItemData>> = []
 
   constructor(initialSize: number) {
-    this._accumulatedSize = initialSize
+    this.M$accumulatedSize = initialSize
   }
 
-  _push(item: SizeTrackingData<SectionData, ItemData>): void {
-    this._trackingData.push({ ...item, _start: this._accumulatedSize })
-    this._accumulatedSize += item.size
+  M$push(item: SizeTrackingData<SectionData, ItemData>): void {
+    this.M$flatData.push({ ...item, M$start: this.M$accumulatedSize })
+    this.M$accumulatedSize += item.size
   }
 
 }

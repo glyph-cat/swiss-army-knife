@@ -1,10 +1,10 @@
+/* eslint-disable no-console */
+
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
-
-/* eslint-disable no-console */
 
 type IConsole = typeof console
 type ConsoleKey = keyof IConsole
@@ -23,7 +23,7 @@ const originalMethods: Partial<Record<ConsoleKey, IConsole[ConsoleKey]>> = {}
 beforeEach(() => {
   for (const consoleMethodName of consoleMethodNames) {
     originalMethods[consoleMethodName] = console[consoleMethodName]
-    //// @ts-expect-error This is a wrapper, type-wise, it should be safe.
+    // // @ts-expect-error This is a wrapper, type-wise, it should be safe.
     // console[consoleMethodName] = jest.fn(originalMethods[consoleMethodName])
     console[consoleMethodName] = jest.fn()
   }

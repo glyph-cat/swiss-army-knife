@@ -25,7 +25,7 @@ export class StyleManager extends StyleMap implements IDisposable {
 
   constructor(
     initialStyles: Iterable<readonly [string, ExtendedCSSProperties]> = [],
-    readonly precedenceLevel?: PrecedenceLevel
+    readonly precedenceLevel?: PrecedenceLevel,
   ) {
     super() // KIV
     // For some reason, passing `initialStyles` to `super()` would cause the

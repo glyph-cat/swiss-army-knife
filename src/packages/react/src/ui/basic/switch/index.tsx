@@ -104,7 +104,7 @@ export const Switch = forwardRef(({
 }: SwitchProps, forwardedRef): JSX.Element => {
 
   const { palette } = useThemeContext()
-  const tint = tryResolvePaletteColor($color, palette)
+  const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
   const disabled = $disabled ?? busy
 

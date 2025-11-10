@@ -89,9 +89,9 @@ export const ProgressRing = forwardRef(({
 
   const { palette } = useThemeContext()
 
-  const tint = Color.fromString(tryResolvePaletteColor($color, palette)).toString(ColorFormat.FFFFFF, {
-    suppressAlphaInShortFormats: true,
-  })
+  const tint = Color
+    .fromString(tryResolvePaletteColor($color, palette, palette.primaryColor))
+    .toString(ColorFormat.FFFFFF, { suppressAlphaInShortFormats: true })
   const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
   const indeterminate = !isNumber(value)
   let clampedValue = Math.max(minValue, value)

@@ -12,3 +12,9 @@ export enum CellType {
 }
 
 export const RenderKeyPrefix = CellType
+
+export enum StickyMode {
+  NORMAL = 1,
+  STICKY,
+  RELEASED,
+}

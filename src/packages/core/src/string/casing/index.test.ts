@@ -93,7 +93,6 @@ describe(Casing.prototype.toCamelCase.name, () => {
 
 })
 
-
 describe(Casing.prototype.toMacroCase.name, () => {
 
   test('Happy path', () => {

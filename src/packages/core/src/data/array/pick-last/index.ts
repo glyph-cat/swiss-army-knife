@@ -29,7 +29,7 @@ export function pickLast<T>(array: ReadonlyOrWritableArray<T>, index = 0): T {
  */
 export function pickLastWhere<T>(
   array: ReadonlyOrWritableArray<T>,
-  searchFn: (item: T, index: number) => boolean
+  searchFn: (item: T, index: number) => boolean,
 ): Nullable<T> {
   for (let i = array.length - 1; i >= 0; i--) {
     if (searchFn(array[i], i)) {

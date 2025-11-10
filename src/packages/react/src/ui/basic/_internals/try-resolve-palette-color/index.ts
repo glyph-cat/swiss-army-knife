@@ -1,10 +1,10 @@
-import { IThemePalette, LenientString } from '@glyph-cat/swiss-army-knife'
+import { IThemePalette, LenientString, StringColorValue } from '@glyph-cat/swiss-army-knife'
 import { BasicUIColor } from '../../abstractions'
 
 export function tryResolvePaletteColor(
   color: LenientString<BasicUIColor>,
   palette: IThemePalette,
-  fallbackValue?: IThemePalette[keyof IThemePalette],
+  fallbackValue: StringColorValue,
 ): string {
   if (color) {
     // TODO: [low priority] try regex matching and see if it performs faster
@@ -21,7 +21,6 @@ export function tryResolvePaletteColor(
         return color
     }
   } else {
-    // return fallbackValue ?? ThemeToken.primaryColor
-    return fallbackValue ?? '#808080'
+    return fallbackValue
   }
 }

@@ -15,10 +15,10 @@ import {
  * @public
  */
 export interface ThemeOptions {
-  basePalette?: Partial<IBaseThemePalette>,
-  spacing?: Partial<ISpacingDefinition>,
-  duration?: Partial<IDurationDefinition>,
-  componentParameters?: Partial<IComponentParameters>,
+  basePalette?: Partial<IBaseThemePalette>
+  spacing?: Partial<ISpacingDefinition>
+  duration?: Partial<IDurationDefinition>
+  componentParameters?: Partial<IComponentParameters>
 }
 
 const DEFAULT_PRIMARY_COLOR = '#2b80ff'

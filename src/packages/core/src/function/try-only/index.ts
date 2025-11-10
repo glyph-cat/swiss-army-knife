@@ -15,7 +15,7 @@ import { TypedFunction } from '../../types'
  * @public
  */
 export function tryOnly(
-  callback: TypedFunction<[], void | Promise<void>>
+  callback: TypedFunction<[], void | Promise<void>>,
 ): void | Promise<void> {
   try {
     const executedCallback = callback()

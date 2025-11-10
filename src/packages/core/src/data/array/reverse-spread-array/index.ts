@@ -19,7 +19,7 @@ import { PossiblyUndefined } from '../../../types'
  */
 export function reverseSpreadArray<T>(
   array: Array<T>,
-  itemsToSpread: number
+  itemsToSpread: number,
 ): [Array<T>, ...Array<PossiblyUndefined<T>>] {
   const localArray: Array<T> = [...array]
   const spreadedItems: Array<PossiblyUndefined<T>> = []

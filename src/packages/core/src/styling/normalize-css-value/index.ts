@@ -17,7 +17,7 @@ const keywordsPattern = /(gap|height|margin|padding|position|radius|size|spacing
  */
 export function normalizeCSSValue(
   attributeKey: string,
-  attributeValue: string | number
+  attributeValue: string | number,
 ): string {
   if (keywordsPattern.test(attributeKey)) {
     return serializePixelValue(attributeValue)

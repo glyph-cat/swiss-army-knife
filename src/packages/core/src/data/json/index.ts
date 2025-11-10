@@ -33,7 +33,7 @@ export function trySerializeJSON(value: unknown): string {
  */
 export function tryParseJSON(
   text: string,
-  reviver?: (key: string, value: unknown) => unknown
+  reviver?: (key: string, value: unknown) => unknown,
 ): ReturnType<typeof JSON.parse> {
   if (!isString(text)) { return null }
   try {

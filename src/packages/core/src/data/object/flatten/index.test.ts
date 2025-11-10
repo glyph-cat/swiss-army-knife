@@ -5,15 +5,15 @@ test(getFlattenedObject.name, (): void => {
     building: {
       level_1: {
         room_a: {
-          size: 'large'
-        }
+          size: 'large',
+        },
       },
       level_2: {
         room_b: {
-          size: 'small'
-        }
-      }
-    }
+          size: 'small',
+        },
+      },
+    },
   })
   const answer = {
     'building.level_1.room_a.size': 'large',

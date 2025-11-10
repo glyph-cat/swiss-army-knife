@@ -1,3 +1,4 @@
+import { Config } from 'eslint/config'
 import { NumericSeverity, Severity, StringSeverity } from '../abstractions/public'
 import { createReactConfig } from '../presets/react'
 
@@ -42,7 +43,7 @@ export const BuildRule = {
     ExhaustiveDeps: (
       severity: Severity | NumericSeverity | StringSeverity,
       additionalHooks: Array<string>,
-    ) => {
+    ): Config['rules'] => {
       return {
         'react-hooks/exhaustive-deps': [severity, {
           additionalHooks: `(${additionalHooks.join('|')})`,

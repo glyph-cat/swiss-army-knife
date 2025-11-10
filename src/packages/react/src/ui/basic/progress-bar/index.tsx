@@ -96,7 +96,7 @@ export const ProgressBar = ({
 
   const { palette, componentParameters } = useThemeContext()
 
-  const color = tryResolvePaletteColor($color, palette)
+  const color = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
   const [layoutBasedClassName, maskAngle] = layoutPresets[layout] ?? layoutPresets.horizontal
 

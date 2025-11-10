@@ -13,7 +13,7 @@
 export function clamp(
   value: number,
   lowerBound: number,
-  upperBound: number
+  upperBound: number,
 ): number {
   return Math.min(Math.max(lowerBound, value), upperBound)
 }

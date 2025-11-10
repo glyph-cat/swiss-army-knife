@@ -22,7 +22,7 @@ describe(fullyEnumerate.name, () => {
     test('Enum with numeric values', () => {
       enum SomeEnum {
         FOO = 1,
-        BAR
+        BAR,
       }
       expect(SomeEnum.FOO).toBe(1)
       expect(SomeEnum.BAR).toBe(2)

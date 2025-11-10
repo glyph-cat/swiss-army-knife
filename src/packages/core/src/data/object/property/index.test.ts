@@ -359,7 +359,7 @@ describe(deepSet.name, () => {
         2: [
           null,
           null,
-          { 1: [null, 'foo'] }
+          { 1: [null, 'foo'] },
         ],
       },
     }))
@@ -413,7 +413,7 @@ describe(deepSetMutable.name, () => {
         2: [
           null,
           null,
-          { 1: [null, 'foo'] }
+          { 1: [null, 'foo'] },
         ],
       },
     }))
@@ -479,7 +479,7 @@ describe(complexDeepSet, () => {
     const output2 = complexDeepSet(
       output1,
       ['player', 'preferences', 'graphics', 'effects'],
-      setter2
+      setter2,
     )
     expect(output2).toStrictEqual({
       stageId: 1,
@@ -552,7 +552,7 @@ describe(complexDeepSet, () => {
         2: [
           null,
           null,
-          { 1: [null, 'foo'] }
+          { 1: [null, 'foo'] },
         ],
       },
     }))

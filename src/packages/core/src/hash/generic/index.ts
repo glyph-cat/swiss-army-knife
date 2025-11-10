@@ -48,7 +48,7 @@ export class HashFactory extends BaseHashFactory {
       const shouldBump = collisionCount / possibleCombinationCount >= bumpThreshold
       return HashFactory.create(
         scopedLength + (shouldBump ? Math.ceil(collisionCount / possibleCombinationCount) : 0),
-        scopedCharset
+        scopedCharset,
       )
     })
     this.charset = charset || Charset.DEFAULT

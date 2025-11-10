@@ -16,7 +16,7 @@ const leadingCSSVariableDashPattern = /^--/
  */
 export function injectInlineCSSVariables(
   values: CustomCSSVariablesRecord,
-  target: HTMLElement
+  target: HTMLElement,
 ): CleanupFunction {
   const normalizedKeys: Array<string> = []
   for (const key in values) {

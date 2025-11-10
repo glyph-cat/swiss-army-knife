@@ -25,7 +25,7 @@ export class ScheduledCallback {
    */
   constructor(
     private readonly callback: () => void,
-    readonly triggerTime: Date
+    readonly triggerTime: Date,
   ) { }
 
   /**

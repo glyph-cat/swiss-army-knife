@@ -1,5 +1,5 @@
 import { createTokens } from '../_internals/create-tokens'
-import { BasicUIFlow, BasicUIPosition } from '../abstractions'
+import { BasicUIFlow, BasicUILayout, BasicUIPosition } from '../abstractions'
 
 export const [__TINT, TOKEN_TINT] = createTokens('tint')
 export const [__OVERRIDE_TINT, TOKEN_OVERRIDE_TINT] = createTokens('overrideTint')
@@ -31,6 +31,8 @@ export const BASIC_UI_POSITION_START: BasicUIPosition = 'start'
 export const BASIC_UI_POSITION_END: BasicUIPosition = 'end'
 export const BASIC_UI_FLOW_ROW: BasicUIFlow = 'row'
 export const BASIC_UI_FLOW_COLUMN: BasicUIFlow = 'column'
+export const BASIC_UI_LAYOUT_VERTICAL: BasicUILayout = 'vertical'
+export const BASIC_UI_LAYOUT_HORIZONTAL: BasicUILayout = 'horizontal'
 
 export const COLOR_BLACK = '#000000'
 export const COLOR_WHITE = '#ffffff'

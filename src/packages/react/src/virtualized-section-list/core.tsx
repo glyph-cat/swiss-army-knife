@@ -1,46 +1,145 @@
-import { isObject } from '@glyph-cat/swiss-army-knife'
-import { JSX, memo, useRef, useState } from 'react'
+import { ExtendedCSSProperties, isObject } from '@glyph-cat/swiss-army-knife'
+import {
+  ForwardedRef,
+  forwardRef,
+  JSX,
+  memo,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react'
 import { objectIsShallowEqual } from '../../../equality/src'
+import { forceUpdateReducer } from '../hooks'
 import { ProbeView, SizeAwareContext, useSizeAwareHandle } from '../size-aware'
+import {
+  STYLE_ABSOLUTE,
+  STYLE_AUTO,
+  STYLE_FIXED,
+} from '../styling/constants'
 import { View } from '../ui'
-import { CellType, VirtualizedSectionListProps } from './abstractions'
-import { flattenProps, getRenderKey, SizeTrackingArray } from './utils'
+import { CellType, StickyMode, VirtualizedSectionListProps } from './abstractions'
+import {
+  flattenPropsForDiffing,
+  getFlatData,
+  getPropByCellType,
+  getRenderIndexRange,
+  normalizeProps,
+} from './utils'
+
+/**
+ * @public
+ */
+interface IVirtualizedSectionList {
+  scrollTo
+  scrollBy
+  scrollToItem
+  forceUpdate(): void
+}
 
 /**
  * @public
  */
 export const VirtualizedSectionList = memo(
-  VirtualizedSectionListBase,
+  forwardRef(VirtualizedSectionListBase),
   (prevProps, nextProps) => objectIsShallowEqual(
-    flattenProps(prevProps),
-    flattenProps(nextProps),
+    flattenPropsForDiffing(prevProps),
+    flattenPropsForDiffing(nextProps),
   ),
 )
 
-function VirtualizedSectionListBase<SectionData, ItemData>({
-  sections,
-  stickySectionHeaders,
-  SectionHeader,
-  Item,
-  ItemSeparator,
-  SectionFooter,
-  sectionKeyExtractor,
-  itemKeyExtractor,
-  overscan = { count: 0 },
-  initialScrollPosition = 0,
-  style,
-  TEMP_onScroll,
-}: VirtualizedSectionListProps<SectionData, ItemData>): JSX.Element {
+function VirtualizedSectionListBase<SectionData, ItemData>(
+  $props: VirtualizedSectionListProps<SectionData, ItemData>,
+  ref: ForwardedRef<IVirtualizedSectionList>,
+): JSX.Element {
 
-  const outerElementRef = useRef<View>(null)
-  const [scrollPosition, setScrollPosition] = useState(initialScrollPosition)
-  const [cachedSizes, setCachedSizes] = useState<Record<string, number>>({})
-  const containerSize = 0
-  const visibleStart = scrollPosition
-  // const scrollInsetPaddedVisibleStart = visibleStart + scrollInsetsStartPx
-  const visibleEnd = scrollPosition + containerSize
+  // #region Props
+
+  const [
+    props,
+    isLayoutVertical,
+    primaryDimension,
+    secondaryDimension,
+  ] = normalizeProps($props)
+  const {
+    sections,
+    stickySectionHeaders,
+    SectionHeader,
+    Item,
+    ItemSeparator,
+    SectionFooter,
+    sectionKeyExtractor,
+    itemKeyExtractor,
+    overscan,
+    initialScrollPosition,
+    scrollInsets: {
+      start: scrollInsetsStart,
+      end: scrollInsetsEnd,
+    },
+    layout,
+    style,
+    TEMP_onScroll,
+  } = props
+
+  // #endregion Props
 
   const [probeRef, bounds] = useSizeAwareHandle()
+  const [forceUpdateHash, forceUpdate] = useReducer(forceUpdateReducer, 0)
+  const outerElementRef = useRef<View>(null)
+  const [scrollPosition, setScrollPosition] = useState(initialScrollPosition)
+  const [isScrolling, setIsScrolling] = useState(false)
+  const [containerStart, setContainerStart] = useState(0)
+  const [cachedSizes, setCachedSizes] = useState<Record<string, number>>({})
+
+  const containerSize = bounds?.contentRect.height ?? 0
+  const visibleStart = scrollPosition
+  const visibleEnd = scrollPosition + containerSize
+  const scrollInsetPaddedVisibleStart = visibleStart + scrollInsetsStart
+  const scrollInsetPaddedVisibleEnd = visibleEnd - scrollInsetsEnd
+
+  const {
+    M$sizeTracker: sizeTracker,
+    M$stickyHeaderReleaseMap: stickyHeaderReleaseMap,
+  } = useMemo(() => {
+    return getFlatData(props, scrollInsetsStart, forceUpdateHash)
+  }, [props, scrollInsetsStart, forceUpdateHash])
+
+  // #region Interface exposure
+
+  const scrollTo = useCallback(() => {
+    // ...
+  }, [])
+
+  const scrollBy = useCallback(() => {
+    // ...
+  }, [])
+
+  const scrollToItem = useCallback(() => {
+    // ...
+  }, [])
+
+  useImperativeHandle(ref, () => ({
+    scrollTo,
+    scrollBy,
+    scrollToItem,
+    forceUpdate,
+  }), [scrollBy, scrollTo, scrollToItem])
+
+  // #endregion Interface exposure
+
+  // #region Effects
+
+  useEffect(() => {
+    // ...
+    return () => {
+      // ...
+    }
+  }, [])
+
+  // #endregion Effects
 
   return (
     <View>
@@ -49,129 +148,128 @@ function VirtualizedSectionListBase<SectionData, ItemData>({
         <SizeAwareContext value={bounds}>
           <View
             style={{
-              height: bounds.contentRect.height,
-              overflow: 'auto',
-              width: bounds.contentRect.width,
+              [primaryDimension]: bounds.contentRect.height,
+              overflow: STYLE_AUTO,
               ...style,
             }}
             onScroll={TEMP_onScroll}
           >
-            {(() => {
+            <View
+              style={{
+                height: sizeTracker.M$accumulatedSize,
+              }}
+            >
+              {(() => {
 
-              const scrollInsetsStartPx = 0 // KIV/TODO
-              const sizeTracker = new SizeTrackingArray<SectionData, ItemData>(scrollInsetsStartPx)
+                if (sections.length <= 0) { return null } // Early exit
 
-              return sections.reduce((acc, section, sectionIndex) => {
-
-                const { data: sectionData, items } = section
-                const sectionKey = sectionKeyExtractor(sectionData, sectionIndex, items)
-
-                // #region Section Header
-
-                const renderSectionHeaderKey = getRenderKey(CellType.SECTION_HEADER, sectionKey)
-                acc.push(
-                  <SectionHeader.component
-                    key={renderSectionHeaderKey}
-                    items={items}
-                    style={{
-                      height: SectionHeader.size,
-                      position: 'absolute',
-                      top: sizeTracker._accumulatedSize,
-                      width: '100%', // TODO: Necessary for vertical list, adjust for horizontal
-                    }}
-                    data={sectionData}
-                  />
+                const {
+                  indexStart,
+                  indexEnd,
+                  scrollInsetPaddedIndexStart,
+                } = getRenderIndexRange(
+                  props,
+                  visibleStart,
+                  visibleEnd,
+                  sizeTracker,
+                  scrollInsetPaddedVisibleStart,
                 )
-                sizeTracker._push({
-                  type: CellType.SECTION_HEADER,
-                  props: {
-                    renderKey: renderSectionHeaderKey,
-                    sectionKey,
-                    ...section,
-                  },
-                  size: SectionHeader.size,
-                })
 
-                // #endregion Section Header
+                let keyOfHeaderThatShouldBeSticky = ''
+                let keyOfNextSection = ''
+                let indexOfNextSection = -1
 
-                section.items.forEach((item, itemIndex) => {
+                // Determine indices to render
+                let renderIndexStack: Array<number> = []
 
-                  const itemKey = itemKeyExtractor(item, itemIndex, section.data, sectionIndex)
-
-                  // #region Item
-
-                  const renderItemKey = getRenderKey(CellType.ITEM, itemKey)
-                  acc.push(
-                    <Item.component
-                      key={renderItemKey}
-                      style={{
-                        height: Item.size,
-                        position: 'absolute',
-                        top: sizeTracker._accumulatedSize,
-                        width: '100%',
-                      }}
-                      sectionKey={sectionKey}
-                      section={section}
-                      data={item}
-                    />
-                  )
-                  sizeTracker._push({
-                    type: CellType.ITEM,
-                    props: {
-                      renderKey: renderItemKey,
-                      sectionKey: sectionKey,
-                      section,
-                      itemKey,
-                      data: item,
-                    },
-                    size: Item.size,
-                  })
-
-                  // #endregion Item
-
-                  if (ItemSeparator) {
-                    const renderItemSeparatorKey = getRenderKey(CellType.ITEM_SEPARATOR, itemKey)
-                    acc.push(
-                      <ItemSeparator.component
-                        key={renderItemSeparatorKey}
-                        style={{
-                          height: ItemSeparator.size,
-                          position: 'absolute',
-                          top: sizeTracker._accumulatedSize,
-                          width: '100%',
-                        }}
-                        sectionKey={sectionKey}
-                        section={section}
-                        data={item}
-                      />
-                    )
-                    sizeTracker._push({
-                      type: CellType.ITEM_SEPARATOR,
-                      props: {
-                        renderKey: renderItemSeparatorKey,
-                        sectionKey: sectionKey,
-                        section,
-                        itemKey,
-                        data: item,
-                      },
-                      size: ItemSeparator.size,
-                    })
+                if (indexStart === indexEnd) {
+                  renderIndexStack.push(indexStart)
+                } else {
+                  // NOTE: Render range is inclusive of `indexStart` and `indexEnd`
+                  for (let i = indexStart; i <= indexEnd; i++) {
+                    renderIndexStack.push(i)
                   }
-
-                })
-
-                // #region Item Separator
-
-                if (SectionFooter) {
-                  const sectionFooterKey = getRenderKey(CellType.SECTION_FOOTER, sectionKey)
                 }
 
-                // #endregion Item Separator
+                const sectionHeadersThatShouldBeInReleaseMode = new Set<number>()
 
-                return acc
+                if (stickySectionHeaders && scrollPosition >= 0) {
+                  // ...
+                }
 
-              }, [])
-            })()}
+                const { M$flatData: flatData } = sizeTracker
+
+                return renderIndexStack.map((renderIndex) => {
+
+                  const {
+                    type: currentCellType,
+                    props: currentCellComponentProps,
+                    M$start: currentCellStart,
+                    size: currentCellSize,
+                    // secrets: currentCellSecrets,
+                  } = flatData[renderIndex]
+
+                  const isHeaderType = currentCellType === CellType.SECTION_HEADER ||
+                    currentCellType === CellType.SECTION_FOOTER
+                  const {
+                    component: RenderCellComponent,
+                    // trackScrolling,
+                    // trackVisibility,
+                    // trackSticky,
+                    // estimated,
+                  } = getPropByCellType(props, currentCellType)
+
+                  const shouldBeSticky = isHeaderType && stickySectionHeaders && currentCellComponentProps.sectionKey === keyOfHeaderThatShouldBeSticky
+
+                  let nextSectionHeaderStart = 0
+                  let shouldReleaseSticky = false
+
+                  if (flatData[indexOfNextSection]) {
+                    nextSectionHeaderStart = flatData[indexOfNextSection].M$start
+                    shouldReleaseSticky = nextSectionHeaderStart - currentCellSize < scrollInsetPaddedVisibleStart
+                  }
+
+                  const shouldReleaseStickyAsPrev = sectionHeadersThatShouldBeInReleaseMode.has(renderIndex)
+                  let stickyMode = StickyMode.NORMAL
+
+                  let anchorStart = '' // temp
+                  const virtualizationStyles: ExtendedCSSProperties = {}
+                  if (shouldBeSticky) {
+                    if (shouldReleaseSticky) {
+                      virtualizationStyles.position = STYLE_ABSOLUTE
+                      virtualizationStyles[anchorStart] = nextSectionHeaderStart - currentCellSize
+                      stickyMode = StickyMode.RELEASED
+                    } else {
+                      virtualizationStyles.position = STYLE_FIXED
+                      virtualizationStyles[anchorStart] = containerStart
+                      stickyMode = StickyMode.STICKY
+                    }
+                    virtualizationStyles.zIndex = 1
+                  } else {
+                    if (shouldReleaseStickyAsPrev) {
+                      virtualizationStyles.position = STYLE_ABSOLUTE
+                      virtualizationStyles[anchorStart] = stickyHeaderReleaseMap[currentCellComponentProps.renderKey]
+                      stickyMode = StickyMode.RELEASED
+                      virtualizationStyles.zIndex = 1
+                    } else {
+                      virtualizationStyles.position = STYLE_ABSOLUTE
+                      virtualizationStyles[anchorStart] = currentCellStart
+                      virtualizationStyles.zIndex = 0
+                    }
+                  }
+
+                  return null
+                  // return (
+                  //   <RenderCellComponent
+                  //     key={currentCellComponentProps.renderKey}
+                  //     style={virtualizationStyles}
+                  //   />
+                  // )
+
+                })
+
+              })()}
+            </View>
           </View>
         </SizeAwareContext>
       )}
@@ -179,3 +277,47 @@ function VirtualizedSectionListBase<SectionData, ItemData>({
   )
 
 }
+
+// acc.push(
+//   <SectionHeader.component
+//     key={renderSectionHeaderKey}
+//     items={items}
+//     style={{
+//       height: SectionHeader.size,
+//       position: STYLE_ABSOLUTE,
+//       top: sizeTracker._accumulatedSize,
+//       width: STYLE_100_PERCENT, // TODO: Necessary for vertical list, adjust for horizontal
+//     }}
+//     data={sectionData}
+//   />
+// )
+
+// acc.push(
+//   <Item.component
+//     key={renderItemKey}
+//     style={{
+//       height: Item.size,
+//       position: STYLE_ABSOLUTE,
+//       top: sizeTracker._accumulatedSize,
+//       width: STYLE_100_PERCENT,
+//     }}
+//     sectionKey={sectionKey}
+//     section={section}
+//     data={item}
+//   />
+// )
+
+// acc.push(
+//   <ItemSeparator.component
+//     key={renderItemSeparatorKey}
+//     style={{
+//       height: ItemSeparator.size,
+//       position: STYLE_ABSOLUTE,
+//       top: sizeTracker._accumulatedSize,
+//       width: STYLE_100_PERCENT,
+//     }}
+//     sectionKey={sectionKey}
+//     section={section}
+//     data={item}
+//   />
+// )

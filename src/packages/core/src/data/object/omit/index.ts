@@ -13,7 +13,7 @@ import { hasProperty } from '../property'
  */
 export function Omit<SourceObject, Key extends PropertyKey>(
   fromObject: SourceObject,
-  keys: [Key | keyof SourceObject, ...Array<Key | keyof SourceObject>]
+  keys: [Key | keyof SourceObject, ...Array<Key | keyof SourceObject>],
   // NOTE: `keyof SourceObject` for autocomplete only
 ): Omit<SourceObject, Key> {
   let payload: Omit<SourceObject, Key> = fromObject

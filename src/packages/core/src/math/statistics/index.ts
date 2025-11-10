@@ -48,7 +48,7 @@ export class NumericDataSet {
 
   constructor(
     readonly values: ReadonlyArray<number>,
-    readonly options?: Readonly<NumericDataSetOptions>
+    readonly options?: Readonly<NumericDataSetOptions>,
   ) { }
 
   get size(): number {

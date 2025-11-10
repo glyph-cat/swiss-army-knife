@@ -16,7 +16,7 @@
  */
 export function getRandomNumber(
   lowerBoundInclusive: number,
-  upperBoundExclusive: number
+  upperBoundExclusive: number,
   // ^ Designed this way to make it easy to use with arrays
 ): number {
   // TODO [medium priority]: use `crypto.getRandomValues`???

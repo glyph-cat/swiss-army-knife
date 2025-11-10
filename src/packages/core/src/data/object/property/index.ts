@@ -21,7 +21,7 @@ export type ObjectPathSegments = Array<PropertyKey> | string
  */
 export function hasProperty<T, K extends LenientString<keyof T> | number>(
   object: T,
-  propertyName: K
+  propertyName: K,
 ): object is T & Record<K, unknown> { // TODO; unknown -> T[keyof T] ???
   if (!object) { return false } // Early exit
   return Object.prototype.hasOwnProperty.call(object, propertyName)
@@ -38,7 +38,7 @@ export function hasProperty<T, K extends LenientString<keyof T> | number>(
  */
 export function hasEitherProperties(
   object: unknown,
-  propertyNames: Array<PropertyKey>
+  propertyNames: Array<PropertyKey>,
 ): boolean {
   if (IS_CLIENT_ENV) {
     if (propertyNames.length < 1) {
@@ -65,7 +65,7 @@ export function hasEitherProperties(
  */
 export function hasTheseProperties(
   object: unknown,
-  propertyNames: Array<PropertyKey>
+  propertyNames: Array<PropertyKey>,
 ): boolean {
   if (IS_CLIENT_ENV) {
     if (propertyNames.length < 1) {
@@ -157,7 +157,7 @@ export function getObjectPathSegments(path: string): Array<StrictPropertyKey> {
  */
 export function hasDeepProperty(
   object: unknown,
-  propertyPath: ObjectPathSegments
+  propertyPath: ObjectPathSegments,
 ): boolean {
   return deepGet(object, propertyPath)[1]
 }
@@ -179,7 +179,7 @@ export function hasDeepProperty(
  */
 export function hasEitherDeepProperties(
   object: unknown,
-  propertyPaths: Array<ObjectPathSegments>
+  propertyPaths: Array<ObjectPathSegments>,
 ): boolean {
   if (IS_CLIENT_ENV) {
     if (propertyPaths.length < 1) {
@@ -212,7 +212,7 @@ export function hasEitherDeepProperties(
  */
 export function hasTheseDeepProperties(
   object: unknown,
-  propertyPaths: Array<ObjectPathSegments>
+  propertyPaths: Array<ObjectPathSegments>,
 ): boolean {
   if (IS_CLIENT_ENV) {
     if (propertyPaths.length < 1) {
@@ -242,7 +242,7 @@ export function hasTheseDeepProperties(
  */
 export function deepGet<T = unknown>(
   object: PossiblyUndefined<unknown>,
-  pathSegments: ObjectPathSegments
+  pathSegments: ObjectPathSegments,
 ): [value: PossiblyUndefined<T>, exists: boolean] {
   if (!object) { return [undefined, false] } // Early exit
   let valueRef: PossiblyUndefined<unknown> = object
@@ -293,7 +293,7 @@ export function deepGet<T = unknown>(
 export function deepSetMutable(
   object: unknown,
   pathSegments: ObjectPathSegments,
-  value: unknown
+  value: unknown,
 ): void {
   let valueRef: unknown = object
   if (!Array.isArray(pathSegments)) {
@@ -358,7 +358,7 @@ export function deepSetMutable(
 export function deepSet<T>(
   object: T,
   pathSegments: ObjectPathSegments,
-  value: unknown
+  value: unknown,
 ): T {
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
@@ -373,10 +373,10 @@ function recursiveAssign<T>(
   object: T,
   objectExists: boolean,
   pathSegments: Array<PropertyKey>,
-  value: unknown
+  value: unknown,
 ): T {
   const [pathSegment, ...nextPathSegments] = pathSegments
-  if (Array.isArray(object) || !objectExists && isNumber(pathSegment)) {
+  if (Array.isArray(object) || (!objectExists && isNumber(pathSegment))) {
     const arr = [...(object as Array<unknown>) ?? []]
     arr[pathSegment] = nextPathSegments.length > 0
       ? recursiveAssign(
@@ -424,7 +424,7 @@ function recursiveAssign<T>(
 export function complexDeepSet<T, K = unknown>(
   object: T,
   pathSegments: ObjectPathSegments,
-  setter: (value: K, exists: boolean) => unknown
+  setter: (value: K, exists: boolean) => unknown,
 ): T {
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
@@ -439,11 +439,11 @@ function complexRecursiveAssign<T, K>(
   object: T,
   pathSegments: Array<PropertyKey>,
   setter: (value: K, exists: boolean) => unknown,
-  exists: boolean
+  exists: boolean,
 ): T {
   const [pathSegment, ...nextPathSegments] = pathSegments
   const nextExists = exists ? Object.prototype.hasOwnProperty.call(object, pathSegment) : false
-  if (Array.isArray(object) || !exists && isNumber(pathSegment)) {
+  if (Array.isArray(object) || (!exists && isNumber(pathSegment))) {
     const arr = [...(exists ? object as Array<unknown> : [])]
     arr[pathSegment] = nextPathSegments.length > 0
       ? complexRecursiveAssign(arr[pathSegment], nextPathSegments, setter, nextExists)
@@ -497,7 +497,7 @@ export interface DeepRemoveOptions {
 export function deepRemove<T>(
   object: T,
   pathSegments: ObjectPathSegments,
-  options?: DeepRemoveOptions
+  options?: DeepRemoveOptions,
 ): T {
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
@@ -508,7 +508,7 @@ export function deepRemove<T>(
 function recursiveRemove<T>(
   object: T,
   pathSegments: Array<PropertyKey>,
-  options: DeepRemoveOptions
+  options: DeepRemoveOptions,
 ): [filteredObject: T, nextPropertyExists?: boolean] {
 
   if (isNullOrUndefined(object)) {

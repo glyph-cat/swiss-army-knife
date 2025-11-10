@@ -1,6 +1,6 @@
 import { ExtendedCSSProperties } from '@glyph-cat/swiss-army-knife'
 import { ComponentType, UIEventHandler } from 'react'
-import { ViewProps } from '../../ui'
+import { BasicUILayout, ViewProps } from '../../ui'
 
 export enum StickyState {
   NORMAL,
@@ -48,6 +48,7 @@ export interface SectionFooterCellProps<SectionData, ItemData> extends SectionCe
 
 export interface BaseCellConfig {
   size: number // px
+  // todo: alternatively, accept `() => number` for scenarios where size are variable but can still be determined without needing to wait for render, given the item data or ID
   // trackScrolling?: boolean
   // estimated?: boolean // JIT size measurement, `size` is still mandatory, required as initial size
   // trackVisibility?: TrackVisibility
@@ -113,5 +114,21 @@ export interface VirtualizedSectionListProps<SectionData, ItemData> {
   /**
    * @defaultValue `undefined`
    */
+  scrollInsets?: VirtualizedListScrollInsets
+  /**
+   * @defaultValue `BasicUILayout.vertical`
+   */
+  layout?: BasicUILayout
+  /**
+   * @defaultValue `undefined`
+   */
   style?: ExtendedCSSProperties
+}
+
+/**
+ * @public
+ */
+export interface VirtualizedListScrollInsets {
+  start?: number
+  end?: number
 }

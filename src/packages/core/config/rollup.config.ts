@@ -90,9 +90,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
   ]
 
   const replaceValues: Record<string, string> = {
-    'process.env.BUILD_HASH': JSON.stringify(
-      execSync('git rev-parse HEAD').toString().trim()
-    ),
+    'process.env.BUILD_HASH': JSON.stringify(execSync('git rev-parse HEAD').toString().trim()),
     'process.env.BUILD_TYPE': JSON.stringify(buildEnv),
     'process.env.IS_INTERNAL_DEBUG_ENV': JSON.stringify('false'),
     'process.env.PACKAGE_VERSION': JSON.stringify(version),

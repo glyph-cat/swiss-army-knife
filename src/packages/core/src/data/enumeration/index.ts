@@ -17,7 +17,7 @@ import { hasProperty } from '../object/property'
 export function fullyEnumerate<Enum extends object>(enumObj: Enum): void {
   const allKeys = Object.keys(enumObj)
   for (const key of allKeys) {
-    //// @ts-expect-error because we are forcefully injecting values
+    // // @ts-expect-error because we are forcefully injecting values
     enumObj[enumObj[key]] = key
   }
 }
@@ -46,7 +46,7 @@ export type Enumeration<K extends StrictPropertyKey, V extends StrictPropertyKey
  * @public
  */
 export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyKey>(
-  entries: Record<K, V>
+  entries: Record<K, V>,
 ): Enumeration<K, V> {
   const enumeration = {} as Enumeration<K, V>
   for (const key in entries) {
@@ -113,7 +113,7 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
    */
   add(
     key: StrictPropertyKey,
-    value: StrictPropertyKey
+    value: StrictPropertyKey,
   ): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
     newMutableEnumeration.M$enumeration[key] = value

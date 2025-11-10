@@ -14,7 +14,7 @@ export class SQLUtil<Table, Column> {
    */
   createTable(
     name: Table,
-    columnDefinitions: Array<string>
+    columnDefinitions: Array<string>,
   ): string {
     return `CREATE TABLE ${name}(${columnDefinitions.join(',')})`
   }
@@ -30,7 +30,7 @@ export class SQLUtil<Table, Column> {
    */
   createTableIfNotExists(
     name: Table,
-    columnDefinitions: Array<string>
+    columnDefinitions: Array<string>,
   ): string {
     return `CREATE TABLE IF NOT EXISTS ${name}(${columnDefinitions.join(',')})`
   }

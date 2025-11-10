@@ -68,9 +68,7 @@ export function useSizeAwareHandle(): SizeAwareHandle {
     const target = probeRef.current
     if (!target) { return } // Early exit
     const resizeObserver = new ResizeObserver((entries) => {
-      if (entries.length > 0) {
-        setBounds(entries[0])
-      }
+      setBounds(entries[0] ?? null)
     })
     resizeObserver.observe(target)
     return () => { resizeObserver.disconnect() }

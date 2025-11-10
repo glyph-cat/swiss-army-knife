@@ -1,5 +1,5 @@
-import type { Linter } from 'eslint'
 import jestPlugin from 'eslint-plugin-jest'
+import { Config } from 'eslint/config'
 import jestPackage from 'jest/package.json' assert { type: 'json' }
 import { Severity } from '../abstractions/public'
 
@@ -11,7 +11,7 @@ export interface JestConfigParams {
 
 export function createJestConfig({
   remapOff,
-}: JestConfigParams): Array<Linter.FlatConfig> {
+}: JestConfigParams): Array<Config> {
   return [
     {
       name: 'eslint-plugin-jest',

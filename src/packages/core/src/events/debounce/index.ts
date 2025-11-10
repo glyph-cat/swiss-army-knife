@@ -13,7 +13,7 @@ import { TypedFunction } from '../../types'
  */
 export function createDebouncedCallback<C extends TypedFunction>(
   callback: C,
-  timeout?: number
+  timeout?: number,
 ): C {
   let timer: ReturnType<typeof setTimeout>
   const debouncedCallback = (...args: any[]) => {

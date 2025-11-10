@@ -16,7 +16,7 @@ import { isUndefined } from '../type-check'
  */
 export function areDepsEqual(
   deps1: Array<unknown>,
-  deps2: Array<unknown>
+  deps2: Array<unknown>,
 ): boolean {
   if (deps1.length !== deps2.length) { return false } // Early exit
   for (let i = 0; i < deps1.length; i++) {
@@ -43,7 +43,7 @@ export function areDepsEqual(
  * @public
  */
 export function memoize<A extends Array<unknown>, R>(
-  callback: (...args: A) => R
+  callback: (...args: A) => R,
 ): (...args: A) => R {
   let cachedArgs: A
   let cachedResult: R

@@ -18,7 +18,7 @@ export type TruthRecord<Key extends StrictPropertyKey = StrictPropertyKey> = Par
  * @public
  */
 export function TruthRecord<T extends StrictPropertyKey>(
-  array: Array<T> | Readonly<Array<T>>
+  array: Array<T> | Readonly<Array<T>>,
 ): Readonly<TruthRecord<T>> {
   const obj = {} as TruthRecord<T>
   for (const item of array) {
@@ -45,7 +45,7 @@ export type ReadonlyTruthRecord<Key extends StrictPropertyKey = StrictPropertyKe
  * @public
  */
 export function ReadonlyTruthRecord<T extends StrictPropertyKey>(
-  array: Array<T> | Readonly<Array<T>>
+  array: Array<T> | Readonly<Array<T>>,
 ): ReadonlyTruthRecord<T> {
   return Object.freeze(TruthRecord(array))
 }

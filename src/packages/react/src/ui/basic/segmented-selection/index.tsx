@@ -70,7 +70,7 @@ export function SegmentedSelection<Value>({
 }: SegmentedSelectionProps<Value>): JSX.Element {
 
   const { palette } = useThemeContext()
-  const tint = tryResolvePaletteColor($color, palette)
+  const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
   const containerRef = useRef<View>(null)
   useEffect(() => {

@@ -23,7 +23,7 @@ export function isBoolean(value: unknown): value is boolean {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isFunction<Args extends any[] = any[], Payload = any>(
-  value: unknown
+  value: unknown,
 ): value is TypedFunction<Args, Payload> {
   return typeof value === 'function'
 }
@@ -125,7 +125,7 @@ export function isSymbol(value: unknown): value is symbol {
  * @public
  */
 export function isThenable<T = unknown>(executedFn: unknown): executedFn is Promise<T> {
-  //// @ts-expect-error because we are forcefully probing at the property.
+  // // @ts-expect-error because we are forcefully probing at the property.
   return isFunction(executedFn?.['then'])
 }
 

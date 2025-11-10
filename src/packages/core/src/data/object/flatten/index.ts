@@ -21,7 +21,7 @@ export type FlattenedKeyOf<ObjectType extends object> =
  * @public
  */
 export function getFlattenedObject<T extends object>(
-  object: T
+  object: T,
 ): Record<FlattenedKeyOf<T>, unknown> {
   const payload = {} as Record<FlattenedKeyOf<T>, unknown>
   for (const key in object) {
