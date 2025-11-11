@@ -16,6 +16,7 @@ import { objectIsShallowEqual } from '../../../equality/src'
 import { forceUpdateReducer } from '../hooks'
 import { ProbeView, SizeAwareContext, useSizeAwareHandle } from '../size-aware'
 import {
+  STYLE_100_PERCENT,
   STYLE_ABSOLUTE,
   STYLE_AUTO,
   STYLE_FIXED,
@@ -63,7 +64,8 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
     isLayoutVertical,
     primaryDimension,
     secondaryDimension,
-  ] = normalizeProps($props)
+  ] = useMemo(() => normalizeProps($props), [$props])
+
   const {
     sections,
     stickySectionHeaders,
@@ -75,10 +77,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
     itemKeyExtractor,
     overscan,
     initialScrollPosition,
-    scrollInsets: {
-      start: scrollInsetsStart,
-      end: scrollInsetsEnd,
-    },
+    scrollInsets,
     layout,
     style,
     TEMP_onScroll,
@@ -97,15 +96,17 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
   const containerSize = bounds?.contentRect.height ?? 0
   const visibleStart = scrollPosition
   const visibleEnd = scrollPosition + containerSize
-  const scrollInsetPaddedVisibleStart = visibleStart + scrollInsetsStart
-  const scrollInsetPaddedVisibleEnd = visibleEnd - scrollInsetsEnd
+  const scrollInsetPaddedVisibleStart = visibleStart + scrollInsets.start
+  const scrollInsetPaddedVisibleEnd = visibleEnd - scrollInsets.end
 
   const {
     M$sizeTracker: sizeTracker,
     M$stickyHeaderReleaseMap: stickyHeaderReleaseMap,
   } = useMemo(() => {
-    return getFlatData(props, scrollInsetsStart, forceUpdateHash)
-  }, [props, scrollInsetsStart, forceUpdateHash])
+    return getFlatData(props, scrollInsets.start, forceUpdateHash)
+  }, [props, scrollInsets.start, forceUpdateHash])
+
+  const listSize = sizeTracker.M$accumulatedSize + scrollInsets.end
 
   // #region Interface exposure
 
@@ -156,7 +157,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
           >
             <View
               style={{
-                height: sizeTracker.M$accumulatedSize,
+                height: listSize,
               }}
             >
               {(() => {
@@ -172,6 +173,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                   visibleStart,
                   visibleEnd,
                   sizeTracker,
+                  listSize,
                   scrollInsetPaddedVisibleStart,
                 )
 
@@ -232,39 +234,54 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                   const shouldReleaseStickyAsPrev = sectionHeadersThatShouldBeInReleaseMode.has(renderIndex)
                   let stickyMode = StickyMode.NORMAL
 
-                  let anchorStart = '' // temp
-                  const virtualizationStyles: ExtendedCSSProperties = {}
+                  let anchorStart = 'top' // temp
+                  const virtualizationStyles: ExtendedCSSProperties = {
+                    [primaryDimension]: Item.size,
+                    [secondaryDimension]: STYLE_100_PERCENT,
+                  }
                   if (shouldBeSticky) {
                     if (shouldReleaseSticky) {
-                      virtualizationStyles.position = STYLE_ABSOLUTE
                       virtualizationStyles[anchorStart] = nextSectionHeaderStart - currentCellSize
+                      virtualizationStyles.position = STYLE_ABSOLUTE
                       stickyMode = StickyMode.RELEASED
                     } else {
-                      virtualizationStyles.position = STYLE_FIXED
                       virtualizationStyles[anchorStart] = containerStart
+                      virtualizationStyles.position = STYLE_FIXED
                       stickyMode = StickyMode.STICKY
                     }
                     virtualizationStyles.zIndex = 1
                   } else {
                     if (shouldReleaseStickyAsPrev) {
-                      virtualizationStyles.position = STYLE_ABSOLUTE
                       virtualizationStyles[anchorStart] = stickyHeaderReleaseMap[currentCellComponentProps.renderKey]
+                      virtualizationStyles.position = STYLE_ABSOLUTE
                       stickyMode = StickyMode.RELEASED
                       virtualizationStyles.zIndex = 1
                     } else {
-                      virtualizationStyles.position = STYLE_ABSOLUTE
                       virtualizationStyles[anchorStart] = currentCellStart
+                      virtualizationStyles.position = STYLE_ABSOLUTE
                       virtualizationStyles.zIndex = 0
                     }
                   }
 
+                  if (currentCellType === CellType.ITEM) {
+                    return (
+                      <RenderCellComponent
+                        key={currentCellComponentProps.renderKey}
+                        section={currentCellComponentProps.section}
+                        data={currentCellComponentProps.data}
+                        sectionKey={currentCellComponentProps.sectionKey}
+                        style={virtualizationStyles}
+                      // style={{
+                      //   ...virtualizationStyles,
+                      //   [primaryDimension]: Item.size,
+                      //   [secondaryDimension]: STYLE_100_PERCENT,
+                      //   // position: STYLE_ABSOLUTE,
+                      // }}
+                      />
+                    )
+                  }
+
                   return null
-                  // return (
-                  //   <RenderCellComponent
-                  //     key={currentCellComponentProps.renderKey}
-                  //     style={virtualizationStyles}
-                  //   />
-                  // )
 
                 })
 

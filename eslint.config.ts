@@ -42,6 +42,7 @@ module.exports = defineConfig(
         // 'useKeyDownListener',
         // 'useKeyUpListener',
       ]),
+      'import/no-unresolved': Severity.OFF, // temp
       'react/forbid-elements': [Severity.ERROR, {
         forbid: [
           {

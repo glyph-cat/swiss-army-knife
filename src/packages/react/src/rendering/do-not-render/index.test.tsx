@@ -11,8 +11,10 @@ function App(): JSX.Element {
       <p>Hello, world!</p>
       <DoNotRender>
         <p>
-          The world is a cruel and unjust place.<br />
-          There is no harmony in the universe.<br />
+          The world is a cruel and unjust place.
+          <br />
+          There is no harmony in the universe.
+          <br />
           The only constant is suffering.
         </p>
       </DoNotRender>

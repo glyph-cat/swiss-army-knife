@@ -1,5 +1,5 @@
 import jestPlugin from 'eslint-plugin-jest'
-import { Config } from 'eslint/config'
+import { Config, defineConfig } from 'eslint/config'
 import jestPackage from 'jest/package.json' assert { type: 'json' }
 import { Severity } from '../abstractions/public'
 
@@ -12,22 +12,32 @@ export interface JestConfigParams {
 export function createJestConfig({
   remapOff,
 }: JestConfigParams): Array<Config> {
-  return [
-    {
-      name: 'eslint-plugin-jest',
-      ...jestPlugin.configs['flat/recommended'],
-      settings: {
-        version: jestPackage.version,
-      },
-    },
+  return defineConfig(
+    jestPlugin.configs['flat/recommended'],
+    // {
+    //   name: 'eslint-plugin-jest',
+    //   ...jestPlugin.configs['flat/recommended'],
+    // },
     {
       name: '@glyph-cat/eslint-config (jest)',
-      plugins: {
-        'jest': jestPlugin,
-      },
+      // plugins: {
+      //   'jest': jestPlugin,
+      // },
       rules: {
         'jest/valid-title': remapOff,
       },
+      // KIV: still not sure if `files` works as intended
+      // files: [
+      //   '**.test.js',
+      //   '**.test.jsx',
+      //   '**.test.ts',
+      //   '**.test.tsx',
+      // ],
+      settings: {
+        jest: {
+          version: jestPackage.version,
+        },
+      },
     },
-  ]
+  )
 }

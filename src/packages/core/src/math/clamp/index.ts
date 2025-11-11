@@ -17,3 +17,18 @@ export function clamp(
 ): number {
   return Math.min(Math.max(lowerBound, value), upperBound)
 }
+
+/**
+ * Checks if the given number is within the specified range.
+ * @param value - The value to be clamped.
+ * @param lowerBound - The minimum value allowed.
+ * @param upperBound - The maximum value allowed.
+ * @public
+ */
+export function isClamped(
+  value: number,
+  lowerBound: number,
+  upperBound: number,
+): boolean {
+  return value >= lowerBound && value <= upperBound
+}

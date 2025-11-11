@@ -106,7 +106,35 @@ export interface VirtualizedSectionListProps<SectionData, ItemData> {
   /**
    * @defaultValue `{ count: 0 }`
    */
-  overscan?: { count: number } | { pixels: number }
+  overscan?: {
+    /**
+     * Number of cells to overscan. This applies to both ends of the list.
+     * A value of `1` means that 1 cell will be overscanned for top and bottom areas each.
+     * @defaultValue `0`
+     */
+    count: number
+    /**
+     * The minimum size overscanned cells should take up.
+     * This is useful for lists with very contrasting cell sizes.
+     * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
+     * @defaultValue `0`
+     */
+    pixels?: never
+  } | {
+    /**
+     * Number of cells to overscan. This applies to both ends of the list.
+     * A value of `1` means that 1 cell will be overscanned for top and bottom areas each.
+     * @defaultValue `0`
+     */
+    count?: never
+    /**
+     * The minimum size overscanned cells should take up.
+     * This is useful for lists with very contrasting cell sizes.
+     * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
+     * @defaultValue `0`
+     */
+    pixels: number
+  }
   /**
    * @defaultValue `0`
    */
@@ -132,3 +160,46 @@ export interface VirtualizedListScrollInsets {
   start?: number
   end?: number
 }
+
+/**
+ * @public
+ */
+export interface VirtualizedListOverScanOptionByCount {
+  /**
+   * Number of cells to overscan. This applies to both ends of the list.
+   * A value of `1` means that 1 cell will be overscanned for top and bottom areas each.
+   * @defaultValue `0`
+   */
+  count: number
+  /**
+   * The minimum size overscanned cells should take up.
+   * This is useful for lists with very contrasting cell sizes.
+   * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
+   * @defaultValue `0`
+   */
+  pixels?: never
+}
+
+/**
+ * @public
+ */
+export interface VirtualizedListOverScanOptionByMinSize {
+  /**
+   * Number of cells to overscan. This applies to both ends of the list.
+   * A value of `1` means that 1 cell will be overscanned for top and bottom areas each.
+   * @defaultValue `0`
+   */
+  count?: never
+  /**
+   * The minimum size overscanned cells should take up.
+   * This is useful for lists with very contrasting cell sizes.
+   * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
+   * @defaultValue `0`
+   */
+  pixels: number
+}
+
+/**
+ * @public
+ */
+export type VirtualizedListOverScanOption = VirtualizedListOverScanOptionByCount | VirtualizedListOverScanOptionByMinSize

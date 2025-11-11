@@ -29,7 +29,7 @@ test.skip('With Strict Mode', () => {
   const tester = new HookTester({
     useHook: () => {
       const payload = useConstructor(factory, (instance) => { instance.dispose() })
-      const [, forceUpdate] = useReducer(c => c + 1, 0)
+      const [, forceUpdate] = useReducer((c) => c + 1, 0)
       return { payload, forceUpdate }
     },
     actions: {
@@ -65,7 +65,7 @@ test('Without Strict Mode', () => {
   const tester = new HookTester({
     useHook: () => {
       const payload = useConstructor(factory, (instance) => { instance.dispose() })
-      const [, forceUpdate] = useReducer(c => c + 1, 0)
+      const [, forceUpdate] = useReducer((c) => c + 1, 0)
       return { payload, forceUpdate }
     },
     actions: {

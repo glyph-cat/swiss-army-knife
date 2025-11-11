@@ -83,12 +83,14 @@ export const BasicButton = forwardRef(({
       data-template={template}
     >
       {busy
-        ? <ProgressRing
-          className={styles.busyIndicator}
-          size={24}
-          thickness={4}
-          color='#808080'
-        />
+        ? (
+          <ProgressRing
+            className={styles.busyIndicator}
+            size={24}
+            thickness={4}
+            color='#808080'
+          />
+        )
         : <View className={styles.contentContainer}>{children}</View>
       }
     </ButtonBase>

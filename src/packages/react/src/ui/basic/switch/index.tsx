@@ -135,11 +135,13 @@ export const Switch = forwardRef(({
     }, containerRef.current)
   }, [tint, effectiveSize])
 
-  const progressRingElement = busy && <ProgressRing
-    color='#808080'
-    {...effectiveProgressRingPresets}
-    {...progressRingProps}
-  />
+  const progressRingElement = busy && (
+    <ProgressRing
+      color='#808080'
+      {...effectiveProgressRingPresets}
+      {...progressRingProps}
+    />
+  )
 
   return (
     <label ref={containerRef} className={styles.container}>

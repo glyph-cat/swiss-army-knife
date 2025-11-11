@@ -3,7 +3,6 @@ import {
   ExtendedCSSProperties,
   getFirstKey,
   InternalError,
-  SafeAreaInset,
   StringRecord,
 } from '@glyph-cat/swiss-army-knife'
 import { STYLE_HEIGHT, STYLE_WIDTH } from '../../../../styling/constants'

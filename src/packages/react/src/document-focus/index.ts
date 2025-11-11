@@ -9,9 +9,10 @@ const THRESHOLD = 50 // ms
 export function useDocumentFocus(): boolean {
 
   const lastPointerMoveTime = useRef<number>(null)
-  if (isNull(lastPointerMoveTime.current)) {
-    lastPointerMoveTime.current = Date.now()
-  }
+  // KIV: Will this work safely?
+  // if (isNull(lastPointerMoveTime.current)) {
+  //   lastPointerMoveTime.current = Date.now()
+  // }
 
   useEffect(() => {
     const onMouseMove = () => { lastPointerMoveTime.current = Date.now() }
@@ -22,7 +23,10 @@ export function useDocumentFocus(): boolean {
   const [isFocused, setFocusState] = useState(false)
   useEffect(() => {
     const intervalRef = setInterval(() => {
-      if (Date.now() - lastPointerMoveTime.current > (THRESHOLD * 2)) {
+      if (
+        isNull(lastPointerMoveTime.current) ||
+        (Date.now() - lastPointerMoveTime.current) > (THRESHOLD * 2)
+      ) {
         setFocusState(document.hasFocus())
       }
     }, THRESHOLD)

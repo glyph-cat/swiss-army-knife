@@ -83,8 +83,8 @@ export interface MaterialIconStyleSheetProps {
  * See https://fonts.google.com/icons?icon.set=Material+Icons
  */
 export const MATERIAL_ICON_DEFAULTS: {
-  size: number,
-  variant: MaterialIconVariant,
+  size: number
+  variant: MaterialIconVariant
 } = {
   size: 28, // px
   variant: 'filled',

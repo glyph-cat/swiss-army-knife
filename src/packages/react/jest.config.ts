@@ -3,7 +3,7 @@ import { Config } from '@jest/types'
 const config: Config.InitialOptions = {
   moduleNameMapper: {
     '@glyph-cat/swiss-army-knife': '<rootDir>/../core/src',
-    '@glyph-cat/react-test-utils':'<rootDir>/../react-test-utils/src',
+    '@glyph-cat/react-test-utils': '<rootDir>/../react-test-utils/src',
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },
   setupFiles: [

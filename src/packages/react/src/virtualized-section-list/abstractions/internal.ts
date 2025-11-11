@@ -5,7 +5,7 @@ export enum DimensionIdentifier {
 
 export enum CellType {
   SECTION_HEADER = 1,
-  // SECTION_SEPARATOR,
+  // KIV: not sure if we really need `SECTION_SEPARATOR`
   SECTION_FOOTER,
   ITEM,
   ITEM_SEPARATOR,

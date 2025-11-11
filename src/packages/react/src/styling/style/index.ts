@@ -18,6 +18,7 @@ export function Style({
   }, [precedence])
   useInsertionEffect(() => {
     if (!styleElement) { return } // Early exit
+    // eslint-disable-next-line react-hooks/immutability
     styleElement.textContent = Array.isArray(children) ? children.join('') : children
   }, [children, styleElement])
   return null
