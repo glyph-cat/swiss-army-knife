@@ -53,12 +53,14 @@ export function autoForwardExports(entryPath: string): void {
         : true // self is the '.ts' file already
       if (!hasIndexFile) { directoriesWithMissingIndexFiles.push(subPath) }
       const indicator = hasIndexFile ? chalk.green('✓') : chalk.red('×')
-      const isAbstractionsOrConstants = item === 'abstractions' || item === 'constants'
+      const shouldForwardOnlyPublicExports = item === 'abstractions' ||
+        item === 'constants' ||
+        item === 'utils' // TODO: Check file contents for export lines to determine instead
       console.log(chalk.gray(` ${connector} ${indicator} ${hasIndexFile
-        ? item + (isAbstractionsOrConstants ? chalk.cyan.dim('/public') : '')
+        ? item + (shouldForwardOnlyPublicExports ? chalk.cyan.dim('/public') : '')
         : chalk.red(`${item} (missing index file)`)}`
       ))
-      if (isAbstractionsOrConstants) {
+      if (shouldForwardOnlyPublicExports) {
         codeLineStack.push(`export * from './${item}/public'`)
       } else {
         codeLineStack.push(`export * from './${itemIsDirectory ? item : item.replace(/\.(j|t)sx?$/, '')}'`)

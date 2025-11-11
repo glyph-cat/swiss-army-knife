@@ -99,7 +99,7 @@ export function findOverscannedIndex<SectionData, ItemData>(
     index = nextIndex
 
     // NOTE: Separator types are ignored
-    if (flatData[index].type !== CellType.ITEM_SEPARATOR) {
+    if (flatData[index].cellType !== CellType.ITEM_SEPARATOR) {
       overscanCountTracker += 1
     }
 

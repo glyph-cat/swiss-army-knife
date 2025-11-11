@@ -1,33 +1,34 @@
 import type { CellType, ISection } from '../../../abstractions'
 
 export interface BaseSizeTrackingData {
-  M$start?: number // px
-  size: number // px
+  /**
+   * Start position in pixels.
+   */
+  M$start?: number
+  /**
+   * Size of the cell in pixels.
+   */
+  size: number
 }
 
-export type SizeTrackingData<SectionData, ItemData> = SectionSizeTrackingData<SectionData, ItemData> | ItemSizeTrackingData<SectionData, ItemData>
+export interface SizeTrackingData<SectionData, ItemData> extends BaseSizeTrackingData {
+  cellType: CellType
+  section: ISection<SectionData, ItemData>
+  sectionKey: string
+  item?: ItemData
+  itemKey?: string
+}
 
 export interface SectionSizeTrackingData<SectionData, ItemData> extends BaseSizeTrackingData {
   type: CellType.SECTION_HEADER | CellType.SECTION_FOOTER
-  props: SizeTrackingSectionProps<SectionData, ItemData>
-}
-
-export interface ItemSizeTrackingData<SectionData, ItemData> extends BaseSizeTrackingData {
-  type: CellType.ITEM | CellType.ITEM_SEPARATOR
-  props: SizeTrackableItemProps<SectionData, ItemData>
-}
-
-export interface SizeTrackingBaseProps {
-  renderKey: string
+  section: ISection<SectionData, ItemData>
   sectionKey: string
 }
 
-export type SizeTrackingSectionProps<SectionData, ItemData> = SizeTrackingBaseProps & ISection<SectionData, ItemData>
-
-export type SizeTrackableItemProps<SectionData, ItemData> = SizeTrackingBaseProps & {
-  section: ISection<SectionData, ItemData>
+export interface ItemSizeTrackingData<SectionData, ItemData> extends Omit<SectionSizeTrackingData<SectionData, ItemData>, 'type'> {
+  type: CellType.ITEM | CellType.ITEM_SEPARATOR
+  item: ItemData
   itemKey: string
-  data: ItemData
 }
 
 export class SizeTrackingArray<SectionData, ItemData> {

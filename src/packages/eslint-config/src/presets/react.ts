@@ -47,6 +47,7 @@ export function createReactConfig({
       // },
       rules: {
         '@stylistic/jsx-curly-brace-presence': OFF, // KIV: prefer to have most of the time to make searching string values easier, except for props such as `layout='vertical'`
+        '@stylistic/jsx-one-expression-per-line': Severity.OFF,
         '@stylistic/jsx-quotes': [remapWarn, 'prefer-single'],
         'react/display-name': remapOff,
         'react/no-children-prop': remapError,

@@ -1,6 +1,7 @@
 import { ExtendedCSSProperties } from '@glyph-cat/swiss-army-knife'
 import { ComponentType, UIEventHandler } from 'react'
-import { BasicUILayout, ViewProps } from '../../ui'
+import { BasicUILayout } from '../../ui'
+import { CellType } from './internal'
 
 export enum StickyState {
   NORMAL,
@@ -106,35 +107,7 @@ export interface VirtualizedSectionListProps<SectionData, ItemData> {
   /**
    * @defaultValue `{ count: 0 }`
    */
-  overscan?: {
-    /**
-     * Number of cells to overscan. This applies to both ends of the list.
-     * A value of `1` means that 1 cell will be overscanned for top and bottom areas each.
-     * @defaultValue `0`
-     */
-    count: number
-    /**
-     * The minimum size overscanned cells should take up.
-     * This is useful for lists with very contrasting cell sizes.
-     * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
-     * @defaultValue `0`
-     */
-    pixels?: never
-  } | {
-    /**
-     * Number of cells to overscan. This applies to both ends of the list.
-     * A value of `1` means that 1 cell will be overscanned for top and bottom areas each.
-     * @defaultValue `0`
-     */
-    count?: never
-    /**
-     * The minimum size overscanned cells should take up.
-     * This is useful for lists with very contrasting cell sizes.
-     * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
-     * @defaultValue `0`
-     */
-    pixels: number
-  }
+  overscan?: VirtualizedListOverScanOption
   /**
    * @defaultValue `0`
    */
@@ -151,6 +124,20 @@ export interface VirtualizedSectionListProps<SectionData, ItemData> {
    * @defaultValue `undefined`
    */
   style?: ExtendedCSSProperties
+  /**
+   * @defaultValue `false`
+   */
+  disableVirtualization?: boolean
+}
+
+/**
+ * @public
+ */
+export interface IVirtualizedSectionList {
+  scrollTo(position: number): void
+  scrollTo(cellType: CellType, key: string): void
+  scrollBy(size: number): void
+  forceUpdate(): void
 }
 
 /**

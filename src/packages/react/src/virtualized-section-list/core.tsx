@@ -1,4 +1,4 @@
-import { ExtendedCSSProperties, isObject } from '@glyph-cat/swiss-army-knife'
+import { ExtendedCSSProperties, InternalError, isNull, isObject } from '@glyph-cat/swiss-army-knife'
 import {
   ForwardedRef,
   forwardRef,
@@ -11,6 +11,7 @@ import {
   useReducer,
   useRef,
   useState,
+  WheelEvent,
 } from 'react'
 import { objectIsShallowEqual } from '../../../equality/src'
 import { forceUpdateReducer } from '../hooks'
@@ -22,24 +23,20 @@ import {
   STYLE_FIXED,
 } from '../styling/constants'
 import { View } from '../ui'
-import { CellType, StickyMode, VirtualizedSectionListProps } from './abstractions'
+import {
+  CellType,
+  IVirtualizedSectionList,
+  StickyMode,
+  VirtualizedSectionListProps,
+} from './abstractions'
 import {
   flattenPropsForDiffing,
   getFlatData,
   getPropByCellType,
   getRenderIndexRange,
+  getRenderKey,
   normalizeProps,
 } from './utils'
-
-/**
- * @public
- */
-interface IVirtualizedSectionList {
-  scrollTo
-  scrollBy
-  scrollToItem
-  forceUpdate(): void
-}
 
 /**
  * @public
@@ -81,13 +78,17 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
     layout,
     style,
     TEMP_onScroll,
+    disableVirtualization,
   } = props
 
   // #endregion Props
 
   const [probeRef, bounds] = useSizeAwareHandle()
   const [forceUpdateHash, forceUpdate] = useReducer(forceUpdateReducer, 0)
+
   const outerElementRef = useRef<View>(null)
+  const containerRef = useRef<View>(null)
+
   const [scrollPosition, setScrollPosition] = useState(initialScrollPosition)
   const [isScrolling, setIsScrolling] = useState(false)
   const [containerStart, setContainerStart] = useState(0)
@@ -110,35 +111,35 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
 
   // #region Interface exposure
 
-  const scrollTo = useCallback(() => {
+  const scrollTo = useCallback((...args: [number] | [CellType, string]) => {
     // ...
   }, [])
 
-  const scrollBy = useCallback(() => {
-    // ...
-  }, [])
-
-  const scrollToItem = useCallback(() => {
+  const scrollBy = useCallback((size: number) => {
     // ...
   }, [])
 
   useImperativeHandle(ref, () => ({
     scrollTo,
     scrollBy,
-    scrollToItem,
     forceUpdate,
-  }), [scrollBy, scrollTo, scrollToItem])
+  }), [scrollBy, scrollTo])
 
   // #endregion Interface exposure
 
   // #region Effects
 
   useEffect(() => {
-    // ...
-    return () => {
-      // ...
+    if (isNull(bounds)) { return } // Early exit
+    const target = containerRef.current
+    if (!target) { return } // Early exit
+    const onScroll = (e: Event) => {
+      setScrollPosition(target.scrollTop)
+      TEMP_onScroll?.(e as any)
     }
-  }, [])
+    target.addEventListener('scroll', onScroll)
+    return () => { target.removeEventListener('scroll', onScroll) }
+  }, [TEMP_onScroll, bounds])
 
   // #endregion Effects
 
@@ -148,12 +149,12 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
       {isObject(bounds) && (
         <SizeAwareContext value={bounds}>
           <View
+            ref={containerRef}
             style={{
               [primaryDimension]: bounds.contentRect.height,
               overflow: STYLE_AUTO,
               ...style,
             }}
-            onScroll={TEMP_onScroll}
           >
             <View
               style={{
@@ -187,9 +188,15 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                 if (indexStart === indexEnd) {
                   renderIndexStack.push(indexStart)
                 } else {
-                  // NOTE: Render range is inclusive of `indexStart` and `indexEnd`
-                  for (let i = indexStart; i <= indexEnd; i++) {
-                    renderIndexStack.push(i)
+                  if (disableVirtualization) {
+                    for (let i = 0; i < sizeTracker.M$flatData.length; i++) {
+                      renderIndexStack.push(i)
+                    }
+                  } else {
+                    // NOTE: Render range is inclusive of `indexStart` and `indexEnd`
+                    for (let i = indexStart; i <= indexEnd; i++) {
+                      renderIndexStack.push(i)
+                    }
                   }
                 }
 
@@ -203,25 +210,28 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
 
                 return renderIndexStack.map((renderIndex) => {
 
+                  console.log('renderIndex', renderIndex)
                   const {
-                    type: currentCellType,
-                    props: currentCellComponentProps,
                     M$start: currentCellStart,
                     size: currentCellSize,
-                    // secrets: currentCellSecrets,
+                    cellType,
+                    section,
+                    sectionKey,
+                    item,
+                    itemKey,
                   } = flatData[renderIndex]
 
-                  const isHeaderType = currentCellType === CellType.SECTION_HEADER ||
-                    currentCellType === CellType.SECTION_FOOTER
+                  const isHeaderType = cellType === CellType.SECTION_HEADER ||
+                    cellType === CellType.SECTION_FOOTER
                   const {
                     component: RenderCellComponent,
                     // trackScrolling,
                     // trackVisibility,
                     // trackSticky,
                     // estimated,
-                  } = getPropByCellType(props, currentCellType)
+                  } = getPropByCellType(props, cellType)
 
-                  const shouldBeSticky = isHeaderType && stickySectionHeaders && currentCellComponentProps.sectionKey === keyOfHeaderThatShouldBeSticky
+                  const shouldBeSticky = isHeaderType && stickySectionHeaders && sectionKey === keyOfHeaderThatShouldBeSticky
 
                   let nextSectionHeaderStart = 0
                   let shouldReleaseSticky = false
@@ -236,7 +246,6 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
 
                   let anchorStart = 'top' // temp
                   const virtualizationStyles: ExtendedCSSProperties = {
-                    [primaryDimension]: Item.size,
                     [secondaryDimension]: STYLE_100_PERCENT,
                   }
                   if (shouldBeSticky) {
@@ -252,7 +261,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                     virtualizationStyles.zIndex = 1
                   } else {
                     if (shouldReleaseStickyAsPrev) {
-                      virtualizationStyles[anchorStart] = stickyHeaderReleaseMap[currentCellComponentProps.renderKey]
+                      virtualizationStyles[anchorStart] = stickyHeaderReleaseMap[getRenderKey(CellType.SECTION_HEADER, sectionKey)]
                       virtualizationStyles.position = STYLE_ABSOLUTE
                       stickyMode = StickyMode.RELEASED
                       virtualizationStyles.zIndex = 1
@@ -263,25 +272,64 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                     }
                   }
 
-                  if (currentCellType === CellType.ITEM) {
-                    return (
-                      <RenderCellComponent
-                        key={currentCellComponentProps.renderKey}
-                        section={currentCellComponentProps.section}
-                        data={currentCellComponentProps.data}
-                        sectionKey={currentCellComponentProps.sectionKey}
-                        style={virtualizationStyles}
-                      // style={{
-                      //   ...virtualizationStyles,
-                      //   [primaryDimension]: Item.size,
-                      //   [secondaryDimension]: STYLE_100_PERCENT,
-                      //   // position: STYLE_ABSOLUTE,
-                      // }}
-                      />
-                    )
+                  switch (cellType) {
+                    // NOTE: cell types are sorted by typical frequency
+                    case CellType.ITEM: {
+                      return (
+                        <Item.component
+                          key={getRenderKey(cellType, itemKey)}
+                          section={section}
+                          sectionKey={sectionKey} // KIV: do we need this?
+                          data={item}
+                          style={{
+                            ...virtualizationStyles,
+                            [primaryDimension]: Item.size,
+                          }}
+                        />
+                      )
+                    }
+                    case CellType.ITEM_SEPARATOR: {
+                      return (
+                        <ItemSeparator.component
+                          key={getRenderKey(cellType, itemKey)}
+                          section={section}
+                          sectionKey={sectionKey} // KIV: do we need this?
+                          data={item}
+                          style={{
+                            ...virtualizationStyles,
+                            [primaryDimension]: ItemSeparator.size,
+                          }}
+                        />
+                      )
+                    }
+                    case CellType.SECTION_HEADER: {
+                      return (
+                        <SectionHeader.component
+                          key={getRenderKey(cellType, sectionKey)}
+                          {...section}
+                          style={{
+                            ...virtualizationStyles,
+                            [primaryDimension]: SectionHeader.size,
+                          }}
+                        />
+                      )
+                    }
+                    case CellType.SECTION_FOOTER: {
+                      return (
+                        <SectionFooter.component
+                          key={getRenderKey(cellType, sectionKey)}
+                          {...section}
+                          style={{
+                            ...virtualizationStyles,
+                            [primaryDimension]: SectionFooter.size,
+                          }}
+                        />
+                      )
+                    }
+                    default: {
+                      throw new InternalError(`Unknown cell type "${String(cellType)}"`)
+                    }
                   }
-
-                  return null
 
                 })
 
@@ -294,47 +342,3 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
   )
 
 }
-
-// acc.push(
-//   <SectionHeader.component
-//     key={renderSectionHeaderKey}
-//     items={items}
-//     style={{
-//       height: SectionHeader.size,
-//       position: STYLE_ABSOLUTE,
-//       top: sizeTracker._accumulatedSize,
-//       width: STYLE_100_PERCENT, // TODO: Necessary for vertical list, adjust for horizontal
-//     }}
-//     data={sectionData}
-//   />
-// )
-
-// acc.push(
-//   <Item.component
-//     key={renderItemKey}
-//     style={{
-//       height: Item.size,
-//       position: STYLE_ABSOLUTE,
-//       top: sizeTracker._accumulatedSize,
-//       width: STYLE_100_PERCENT,
-//     }}
-//     sectionKey={sectionKey}
-//     section={section}
-//     data={item}
-//   />
-// )
-
-// acc.push(
-//   <ItemSeparator.component
-//     key={renderItemSeparatorKey}
-//     style={{
-//       height: ItemSeparator.size,
-//       position: STYLE_ABSOLUTE,
-//       top: sizeTracker._accumulatedSize,
-//       width: STYLE_100_PERCENT,
-//     }}
-//     sectionKey={sectionKey}
-//     section={section}
-//     data={item}
-//   />
-// )
