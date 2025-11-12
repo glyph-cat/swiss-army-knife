@@ -47,8 +47,28 @@ export function normalizeProps<SectionData, ItemData>(
 
 export function getPropByCellType<SectionData, ItemData>(
   props: VirtualizedSectionListProps<SectionData, ItemData>,
+  cellType: CellType.ITEM,
+): VirtualizedSectionListProps<SectionData, ItemData>['Item']
+
+export function getPropByCellType<SectionData, ItemData>(
+  props: VirtualizedSectionListProps<SectionData, ItemData>,
+  cellType: CellType.ITEM_SEPARATOR,
+): VirtualizedSectionListProps<SectionData, ItemData>['ItemSeparator']
+
+export function getPropByCellType<SectionData, ItemData>(
+  props: VirtualizedSectionListProps<SectionData, ItemData>,
+  cellType: CellType.SECTION_HEADER,
+): VirtualizedSectionListProps<SectionData, ItemData>['SectionHeader']
+
+export function getPropByCellType<SectionData, ItemData>(
+  props: VirtualizedSectionListProps<SectionData, ItemData>,
+  cellType: CellType.SECTION_FOOTER,
+): VirtualizedSectionListProps<SectionData, ItemData>['SectionFooter']
+
+export function getPropByCellType<SectionData, ItemData>(
+  props: VirtualizedSectionListProps<SectionData, ItemData>,
   cellType: CellType,
-) {
+): VirtualizedSectionListProps<SectionData, ItemData>[keyof VirtualizedSectionListProps<SectionData, ItemData>] {
   switch (cellType) {
     case CellType.ITEM: return props.Item
     case CellType.ITEM_SEPARATOR: return props.ItemSeparator
@@ -85,6 +105,22 @@ export function getDefaultScrollInsets(
 
 // #region Prop diffing
 
+export function areVirtualizedSectionListPropsEqual<SectionData, ItemData>(
+  prevProps: VirtualizedSectionListProps<SectionData, ItemData>,
+  nextProps: VirtualizedSectionListProps<SectionData, ItemData>,
+): boolean {
+  const {
+    SectionHeader: prevSectionHeader,
+    Item: prevItem,
+    ItemSeparator: prevItemSeparator,
+    SectionFooter: prevSectionFooter,
+    overscan: prevOverscan,
+    scrollInsets: prevScrollInsets,
+    ...remainingPrevProps
+  } = prevProps
+  return
+}
+
 export function flattenOneLevelObject(wrappedReference: StringRecord): StringRecord {
   const objectName = getFirstKey(wrappedReference)[0]
   const targetObject = wrappedReference[objectName]
@@ -97,7 +133,7 @@ export function flattenOneLevelObject(wrappedReference: StringRecord): StringRec
 }
 
 export function flattenPropsForDiffing<SectionData, ItemData>(
-  props: VirtualizedSectionListProps<SectionData, ItemData>
+  props: VirtualizedSectionListProps<SectionData, ItemData>,
 ): StringRecord {
   const {
     SectionHeader,
@@ -105,6 +141,7 @@ export function flattenPropsForDiffing<SectionData, ItemData>(
     ItemSeparator,
     SectionFooter,
     overscan,
+    scrollInsets,
     ...remainingProps
   } = props
   return {

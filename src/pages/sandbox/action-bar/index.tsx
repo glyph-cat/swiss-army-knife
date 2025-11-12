@@ -12,7 +12,7 @@ import {
   View,
 } from '@glyph-cat/swiss-army-knife-react'
 import { JSX, MouseEvent, ReactNode, useCallback, useState } from 'react'
-import { Code } from '~components/sandbox-extensions'
+import { Code } from '~components/sandbox/extensions'
 import { SandboxStyle } from '~constants'
 import styles from './index.module.css'
 

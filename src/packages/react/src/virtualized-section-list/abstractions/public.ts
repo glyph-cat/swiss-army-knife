@@ -164,7 +164,7 @@ export interface VirtualizedListOverScanOptionByCount {
    * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
    * @defaultValue `0`
    */
-  pixels?: never
+  size?: never
 }
 
 /**
@@ -183,7 +183,7 @@ export interface VirtualizedListOverScanOptionByMinSize {
    * A value of `100` means 100 pixels will be overscanned for top and bottom areas each.
    * @defaultValue `0`
    */
-  pixels: number
+  size: number
 }
 
 /**

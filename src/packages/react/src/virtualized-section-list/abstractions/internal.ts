@@ -4,11 +4,12 @@ export enum DimensionIdentifier {
 }
 
 export enum CellType {
-  SECTION_HEADER = 1,
-  // KIV: not sure if we really need `SECTION_SEPARATOR`
-  SECTION_FOOTER,
-  ITEM,
+  ITEM = 1,
   ITEM_SEPARATOR,
+  SECTION_HEADER,
+  SECTION_FOOTER,
+  // SECTION_SEPARATOR,
+  // KIV: not sure if we really need a section separator
 }
 
 export const RenderKeyPrefix = CellType

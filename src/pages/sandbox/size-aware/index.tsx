@@ -10,13 +10,15 @@ const INITIAL_SIZE = 200 // px
 export default function (): JSX.Element {
   return (
     <View className={c(SandboxStyle.NORMAL, styles.container)}>
-      <View style={{
-        backgroundColor: ThemeToken.primaryColor80,
-        height: INITIAL_SIZE,
-        overflow: 'auto',
-        resize: 'both',
-        width: INITIAL_SIZE,
-      }}>
+      <View
+        style={{
+          backgroundColor: ThemeToken.primaryColor80,
+          height: INITIAL_SIZE,
+          overflow: 'auto',
+          resize: 'both',
+          width: INITIAL_SIZE,
+        }}
+      >
         <SizeAwareContainer>
           <CustomView />
         </SizeAwareContainer>

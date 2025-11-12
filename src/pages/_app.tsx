@@ -14,7 +14,8 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Fragment, JSX, StrictMode } from 'react'
 import { AppSideBar, AppSideBarContainer } from '~components/app-sidebar-wrapper'
-import { SandboxErrorBoundary } from '~components/sandbox-error-boundary'
+import { SandboxContainer } from '~components/sandbox'
+import { SandboxErrorBoundary } from '~components/sandbox/error-boundary'
 import { ENV, FixedKeyChordKey } from '~constants'
 import {
   GlobalInputFocusTracker,
@@ -55,14 +56,9 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
             portalManager={GlobalPortalManager}
           >
             <LocalizationProvider>
-              <ClientOnly>
-                <AppSideBar />
-              </ClientOnly>
-              <AppSideBarContainer>
-                <SandboxErrorBoundary>
-                  <Component {...pageProps} />
-                </SandboxErrorBoundary>
-              </AppSideBarContainer>
+              <SandboxContainer>
+                <Component {...pageProps} />
+              </SandboxContainer>
               <PortalCanvas />
             </LocalizationProvider>
             <CheckApplePlatformProvider>

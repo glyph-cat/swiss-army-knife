@@ -2,14 +2,11 @@ import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import importPlugin from 'eslint-plugin-import'
 import { Config, defineConfig } from 'eslint/config'
-import globals from 'globals'
 import ts from 'typescript-eslint'
 import { objectReduce } from '../../../core/src/data/object/reduce'
 import { Severity } from '../abstractions/public'
 import { COMMON_FILE_EXTENSIONS } from '../constants/internal'
-// import { fixupPluginRules } from '@eslint/compat'
-// import typescriptPlugin from '@typescript-eslint/eslint-plugin'
-// import tsParser from '@typescript-eslint/parser'
+import { formatName } from '../utils/format-name'
 
 const OFF = Severity.OFF
 
@@ -46,14 +43,9 @@ export function createBaseConfig({
     js.configs.recommended,
     ts.configs.recommended,
     importPlugin.flatConfigs.recommended,
-    // importPlugin.flatConfigs.react,
-    // importPlugin.flatConfigs['react-native'],
-    // importPlugin.flatConfigs.typescript,
-    // importPlugin.flatConfigs.electron,
-    // TODO: objectMap the recommended rules so that all "error" severity gets changed to 'warn'
-    // stylistic.configs.recommended,
     stylisticConfigsRecommendedWarn,
     {
+      name: formatName('base'),
       rules: {
 
         // #region Code health
@@ -226,15 +218,11 @@ export function createBaseConfig({
       // },
     },
     {
-      // name: '@glyph-cat/eslint-config (ts-only)',
+      name: formatName('ts-only'),
       files: [
         '**/*.ts',
         '**/*.tsx',
       ],
-      // ========== TOFIX ==========
-      // plugins: {
-      //   '@typescript-eslint': typescriptPlugin,
-      // },
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': Severity.WARN,
         '@typescript-eslint/no-var-requires': Severity.WARN,
@@ -243,7 +231,7 @@ export function createBaseConfig({
     {
       // Potentially useful reference:
       // https://github.com/valor-software/eslint-config-valorsoft#how-to-use
-      // name: '@glyph-cat/eslint-config (ignore list)',
+      name: formatName('ignore list'),
       ignores: [
         '**/*.draft*',
         '**/*.scripted*',
@@ -259,11 +247,3 @@ export function createBaseConfig({
   )
 
 }
-
-// plugins: {
-//   '@stylistic': stylistic,
-//   // ========== TOFIX ==========
-//   // '@typescript-eslint': typescriptPlugin,
-//   'import': fixupPluginRules(importPlugin),
-//   // Ref: https://eslint.org/blog/2024/05/eslint-compatibility-utilities
-// },

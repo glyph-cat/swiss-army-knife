@@ -1,9 +1,9 @@
-import { Casing, isString } from '@glyph-cat/swiss-army-knife'
+import { Casing, isString, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { ButtonBase, MaterialSymbol, useActionState, View } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { JSX, MouseEvent, ReactNode, useCallback, useEffect } from 'react'
+import { JSX, MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AppRoute } from '~constants'
 import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
@@ -16,47 +16,23 @@ import styles from './index.module.css'
 
 const BUTTON_HEIGHT = 28 // px
 
-const SIDEBAR_WIDTH = 240 // px
+const STRICT_MODE_ON_COLOR_BG = '#cc440060'
+const STRICT_MODE_OFF_COLOR_BG = '#0066ff60'
+// const STRICT_MODE_ON_COLOR_FG = '#cc662b'
+// const STRICT_MODE_OFF_COLOR_FG = '#2b80ff'
 
-const STRICT_MODE_ON_COLOR = '#c40'
-const STRICT_MODE_OFF_COLOR = '#06f'
+export const SIDEBAR_MARGIN = 10 // px
+export const SIDEBAR_WIDTH = 260 // px
 
-// TODO: Have a search input for sandboxes
-
-export interface AppSideBarContainerProps {
-  children?: ReactNode
-}
-
-export function AppSideBarContainer({
-  children,
-}: AppSideBarContainerProps): JSX.Element {
-  const shouldShowPerformanceDebugger = useStateValue(
-    CustomDebugger.state,
-    (s) => s.showPerformanceDebugger,
-  )
-  return (
-    <View style={{
-      ...(shouldShowPerformanceDebugger ? {
-        left: SIDEBAR_WIDTH,
-        width: `calc(100vw - ${SIDEBAR_WIDTH}px)`,
-      } : {}),
-      padding: 10,
-    }}>
-      {children}
-    </View>
-  )
-}
-
-export function AppSideBar(): JSX.Element {
+export function SandboxSidebar(): JSX.Element {
 
   const { localize } = useLocalization()
+  const router = useRouter()
 
   const {
-    showPerformanceDebugger: shouldShowPerformanceDebugger,
+    // showPerformanceDebugger: shouldShowPerformanceDebugger,
     useStrictMode: shouldUseStrictMode,
   } = useStateValue(CustomDebugger.state)
-
-  const router = useRouter()
 
   const onTriggerSoftReload = useCallback((e: MouseEvent) => {
     if (e.ctrlKey || e.metaKey) {
@@ -75,41 +51,87 @@ export function AppSideBar(): JSX.Element {
     }
   }, [router])
 
-  return shouldShowPerformanceDebugger && (
+  const [isScrolling, setScrollingState] = useState(false)
+  const sidebarContainerRef = useRef<View>(null)
+  useEffect(() => {
+    const target = sidebarContainerRef.current
+    if (!target) { return } // Early exit
+    const onScroll = () => { setScrollingState(true) }
+    const onScrollEnd = () => { setScrollingState(false) }
+    target.addEventListener('scroll', onScroll)
+    target.addEventListener('scrollend', onScrollEnd)
+    return () => {
+      target.removeEventListener('scroll', onScroll)
+      target.removeEventListener('scrollend', onScrollEnd)
+    }
+  }, [])
+
+  return (
     <View
-      className={styles.sidebarContainer}
-      style={{ width: SIDEBAR_WIDTH }}
+      ref={sidebarContainerRef}
+      style={{
+        backgroundColor: ThemeToken.appBgColor2,
+        border: 'solid 1px #80808020',
+        borderRadius: ThemeToken.spacingXL,
+        boxShadow: '0px 3px 20px 0px #00000040',
+        height: `calc(100vh - ${SIDEBAR_MARGIN * 2}px)`,
+        left: 0,
+        margin: SIDEBAR_MARGIN,
+        overflow: 'auto',
+        padding: ThemeToken.spacingM,
+        position: 'fixed',
+        top: 0,
+        width: SIDEBAR_WIDTH,
+        zIndex: 1,
+      }}
     >
-      <View className={styles.buttonsContainer}>
-        <ButtonBase
-          className={styles.buttonBase}
+      <View
+        style={{
+          marginBottom: ThemeToken.spacingM,
+          opacity: isScrolling ? 0.35 : 1,
+          position: 'sticky',
+          top: 0,
+          width: '100%',
+          zIndex: 1,
+        }}
+      >
+        <View
           style={{
-            backgroundColor: shouldUseStrictMode
-              ? STRICT_MODE_ON_COLOR
-              : STRICT_MODE_OFF_COLOR,
-            color: '#ffffff',
-            height: BUTTON_HEIGHT,
-            textTransform: 'uppercase',
+            backgroundColor: ThemeToken.appBgColor3,
+            border: 'solid 1px #80808040',
+            borderRadius: ThemeToken.spacingL,
+            boxShadow: '0px 3px 10px 0px #00000060',
+            overflow: 'hidden',
           }}
-          onClick={CustomDebugger.toggleStrictMode}
         >
-          {`Strict Mode: ${localize(shouldUseStrictMode ? 'ON' : 'OFF')}`}
-        </ButtonBase>
-        <ButtonBase
-          className={styles.buttonBase}
-          onClick={onTriggerSoftReload}
-          style={{ height: BUTTON_HEIGHT }}
-        >
-          {localize('SOFT_RELOAD')}
-        </ButtonBase>
-        <ButtonBase
-          className={styles.buttonBase}
-          onClick={showCreateSandboxPopup}
-          style={{ height: BUTTON_HEIGHT }}
-        >
-          {localize('CREATE_NEW_SANDBOX')}
-        </ButtonBase>
-        <ThemeSelector />
+          <ButtonBase
+            className={styles.buttonBase}
+            onClick={CustomDebugger.toggleStrictMode}
+            style={{
+              backgroundColor: shouldUseStrictMode
+                ? STRICT_MODE_ON_COLOR_BG
+                : STRICT_MODE_OFF_COLOR_BG,
+              height: BUTTON_HEIGHT,
+            }}
+          >
+            {`Strict Mode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
+          </ButtonBase>
+          <ButtonBase
+            className={styles.buttonBase}
+            onClick={onTriggerSoftReload}
+            style={{ height: BUTTON_HEIGHT }}
+          >
+            {'Soft reload'}
+          </ButtonBase>
+          <ButtonBase
+            className={styles.buttonBase}
+            onClick={showCreateSandboxPopup}
+            style={{ height: BUTTON_HEIGHT }}
+          >
+            {'New sandbox'}
+          </ButtonBase>
+          <ThemeSelector />
+        </View>
       </View>
       <SidebarContents />
     </View>
@@ -130,8 +152,20 @@ function SidebarContents(): JSX.Element {
   ] = useActionState<Array<string>>(APIGetAllSandboxes, [])
   useEffect(() => { fetchSandboxes() }, [fetchSandboxes])
 
+  const ulRef = useRef<HTMLUListElement>(null)
+  useLayoutEffect(() => {
+    if (isFetchingSandboxes) { return } // Early exit
+    const target = ulRef.current
+    if (!target) { return } // Early exit
+    const listElement = document.querySelector('li[data-route-matched="true"]')
+    listElement?.scrollIntoView()
+  }, [isFetchingSandboxes])
+
   return (
-    <ul className={styles.ul}>
+    <ul
+      ref={ulRef}
+      className={styles.ul}
+    >
       {sandboxes.map((sandboxName) => {
         const path = `${AppRoute.SANDBOX}/${sandboxName}`
         const onOpenInEditor = async (e: MouseEvent) => {
@@ -160,10 +194,7 @@ function SidebarContents(): JSX.Element {
                 </code>
               </View>
             </Link>
-            <ButtonBase
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={onOpenInEditor}
-            >
+            <ButtonBase onClick={onOpenInEditor}>
               <MaterialSymbol name='edit_document' size={16} />
             </ButtonBase>
           </li>
@@ -179,11 +210,13 @@ function ThemeSelector(): JSX.Element {
   const { localize } = useLocalization()
 
   return (
-    <View style={{
-      height: BUTTON_HEIGHT,
-      gridAutoColumns: '1fr',
-      gridAutoFlow: 'column',
-    }}>
+    <View
+      style={{
+        height: BUTTON_HEIGHT,
+        gridAutoColumns: '1fr',
+        gridAutoFlow: 'column',
+      }}
+    >
       <ButtonBase className={styles.buttonBase} onClick={setAutoTheme}>
         {decorateSelection(
           localize('AUTOMATIC'),

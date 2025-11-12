@@ -15,7 +15,7 @@ export function SandboxStarter(): JSX.Element {
   return (
     <View className={styles.container}>
       <View className={styles.subContainer}>
-        <h1>This is a new sandbox</h1>
+        <h1>{'This is a new sandbox'}</h1>
         <p style={{ fontSize: '14pt' }}>
           {'You can visit '}
           <span className={'a'} onClick={onOpenInEditor}>

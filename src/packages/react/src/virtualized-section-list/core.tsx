@@ -11,7 +11,6 @@ import {
   useReducer,
   useRef,
   useState,
-  WheelEvent,
 } from 'react'
 import { objectIsShallowEqual } from '../../../equality/src'
 import { forceUpdateReducer } from '../hooks'
@@ -48,6 +47,11 @@ export const VirtualizedSectionList = memo(
     flattenPropsForDiffing(nextProps),
   ),
 )
+
+// NOTES:
+// 1. Whether the list is scrolling, this can/should be implemented by dev for
+//    full control (incl. debouncing/throttling) and save development overhead.
+//    `const [isScrolling, setIsScrolling] = useState(false)`
 
 function VirtualizedSectionListBase<SectionData, ItemData>(
   $props: VirtualizedSectionListProps<SectionData, ItemData>,
@@ -86,11 +90,10 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
   const [probeRef, bounds] = useSizeAwareHandle()
   const [forceUpdateHash, forceUpdate] = useReducer(forceUpdateReducer, 0)
 
-  const outerElementRef = useRef<View>(null)
+  // const outerElementRef = useRef<View>(null)
   const containerRef = useRef<View>(null)
 
   const [scrollPosition, setScrollPosition] = useState(initialScrollPosition)
-  const [isScrolling, setIsScrolling] = useState(false)
   const [containerStart, setContainerStart] = useState(0)
   const [cachedSizes, setCachedSizes] = useState<Record<string, number>>({})
 
