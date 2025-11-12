@@ -1,9 +1,26 @@
-import { Casing, isString, ThemeToken } from '@glyph-cat/swiss-army-knife'
-import { ButtonBase, MaterialSymbol, useActionState, View } from '@glyph-cat/swiss-army-knife-react'
+import { Casing, isString, Key, ThemeToken } from '@glyph-cat/swiss-army-knife'
+import {
+  ButtonBase,
+  Input,
+  MaterialSymbol,
+  useActionState,
+  useKeyDownListener,
+  View,
+} from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
+import { fuzzy } from 'fast-fuzzy'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { JSX, MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  JSX,
+  MouseEvent,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import { AppRoute } from '~constants'
 import { APICreateSandbox } from '~services/api/endpoints/sandboxes/create'
 import { APIGetAllSandboxes } from '~services/api/endpoints/sandboxes/get-all'
@@ -18,8 +35,6 @@ const BUTTON_HEIGHT = 28 // px
 
 const STRICT_MODE_ON_COLOR_BG = '#cc440060'
 const STRICT_MODE_OFF_COLOR_BG = '#0066ff60'
-// const STRICT_MODE_ON_COLOR_FG = '#cc662b'
-// const STRICT_MODE_OFF_COLOR_FG = '#2b80ff'
 
 export const SIDEBAR_MARGIN = 10 // px
 export const SIDEBAR_WIDTH = 260 // px
@@ -51,11 +66,50 @@ export function SandboxSidebar(): JSX.Element {
     }
   }, [router])
 
+  const [searchValue, setSearchValue] = useState('')
+  const caseInsensitiveSearchValue = useDeferredValue(searchValue.toLowerCase())
+
+  const [isSearchInputFocused, setSearchInputFocus] = useState(false)
+  const searchInputRef = useRef<Input>(null)
+  useEffect(() => {
+    const target = searchInputRef.current
+    if (!target) { return } // Early exit
+    const onFocus = () => { setSearchInputFocus(true) }
+    const onBlur = () => { setSearchInputFocus(false) }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === Key.Escape) {
+        setSearchValue('')
+      }
+    }
+    target.addEventListener('focus', onFocus)
+    target.addEventListener('blur', onBlur)
+    target.addEventListener('keydown', onKeyDown)
+    return () => {
+      target.removeEventListener('focus', onFocus)
+      target.removeEventListener('blur', onBlur)
+      target.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
+  useKeyDownListener((e) => {
+    const target = searchInputRef.current
+    if (e.key === 'f' && (e.ctrlKey || e.metaKey)) {
+      target?.focus()
+      e.preventDefault()
+    }
+  }, [])
+
   const [isScrolling, setScrollingState] = useState(false)
+  useEffect(() => {
+    const animationFrameRef = setTimeout(() => {
+      setScrollingState(false)
+    }, 10)
+    return () => { clearTimeout(animationFrameRef) }
+  }, [])
   const sidebarContainerRef = useRef<View>(null)
   useEffect(() => {
     const target = sidebarContainerRef.current
     if (!target) { return } // Early exit
+    if (isSearchInputFocused) { return } // Early exit
     const onScroll = () => { setScrollingState(true) }
     const onScrollEnd = () => { setScrollingState(false) }
     target.addEventListener('scroll', onScroll)
@@ -64,16 +118,18 @@ export function SandboxSidebar(): JSX.Element {
       target.removeEventListener('scroll', onScroll)
       target.removeEventListener('scrollend', onScrollEnd)
     }
-  }, [])
+  }, [isSearchInputFocused])
 
   return (
     <View
       ref={sidebarContainerRef}
       style={{
+        alignItems: 'start',
         backgroundColor: ThemeToken.appBgColor2,
         border: 'solid 1px #80808020',
         borderRadius: ThemeToken.spacingXL,
         boxShadow: '0px 3px 20px 0px #00000040',
+        gridAutoRows: 'min-content',
         height: `calc(100vh - ${SIDEBAR_MARGIN * 2}px)`,
         left: 0,
         margin: SIDEBAR_MARGIN,
@@ -130,10 +186,23 @@ export function SandboxSidebar(): JSX.Element {
           >
             {'New sandbox'}
           </ButtonBase>
+          <View className={styles.separator} />
           <ThemeSelector />
+          <View className={styles.separator} />
+          <Input
+            ref={searchInputRef}
+            className={styles.searchInput}
+            placeholder={'Search'}
+            value={searchValue}
+            onChange={useCallback((e) => {
+              setSearchValue(e.target.value)
+            }, [])}
+          />
         </View>
       </View>
-      <SidebarContents />
+      <SidebarContents
+        searchValue={caseInsensitiveSearchValue}
+      />
     </View>
   )
 
@@ -141,7 +210,13 @@ export function SandboxSidebar(): JSX.Element {
 
 const leadingUnderscorePattern = /^_/
 
-function SidebarContents(): JSX.Element {
+interface SidebarContentsProps {
+  searchValue: string
+}
+
+function SidebarContents({
+  searchValue,
+}: SidebarContentsProps): JSX.Element {
 
   const router = useRouter()
 
@@ -166,7 +241,9 @@ function SidebarContents(): JSX.Element {
       ref={ulRef}
       className={styles.ul}
     >
-      {sandboxes.map((sandboxName) => {
+      {(searchValue ? sandboxes.filter((sandboxName) => {
+        return fuzzy(searchValue, sandboxName) > 0.35
+      }) : sandboxes).map((sandboxName) => {
         const path = `${AppRoute.SANDBOX}/${sandboxName}`
         const onOpenInEditor = async (e: MouseEvent) => {
           await APIOpenSandboxInEditor({ sandboxName })

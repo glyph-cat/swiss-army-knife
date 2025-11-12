@@ -226,13 +226,13 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
 
                   const isHeaderType = cellType === CellType.SECTION_HEADER ||
                     cellType === CellType.SECTION_FOOTER
-                  const {
-                    component: RenderCellComponent,
-                    // trackScrolling,
-                    // trackVisibility,
-                    // trackSticky,
-                    // estimated,
-                  } = getPropByCellType(props, cellType)
+                  // const {
+                  //   component: RenderCellComponent,
+                  //   // trackScrolling,
+                  //   // trackVisibility,
+                  //   // trackSticky,
+                  //   // estimated,
+                  // } = getPropByCellType(props, cellType)
 
                   const shouldBeSticky = isHeaderType && stickySectionHeaders && sectionKey === keyOfHeaderThatShouldBeSticky
 

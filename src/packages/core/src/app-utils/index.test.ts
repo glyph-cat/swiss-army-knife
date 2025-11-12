@@ -1,37 +1,30 @@
 import { AppUtils } from '.'
 import { RuntimeStorage } from '../storage/runtime'
 
-// TODO: Mock localStorage and sessionStorage
-// let mockStorage: RuntimeStorage
-// beforeEach(() => { mockStorage = new RuntimeStorage() })
-// afterEach(() => { mockStorage = null! })
+let mockStorage: RuntimeStorage
+beforeEach(() => { mockStorage = new RuntimeStorage() })
+afterEach(() => { mockStorage = null! })
 
-describe(AppUtils.prototype.createStorageKey.name, () => {
-
-  // ...
-
+test(AppUtils.prototype.createStorageKey.name, () => {
+  const { createStorageKey } = new AppUtils('test')
+  expect(createStorageKey('foo')).toBe('test/foo')
 })
 
-describe(AppUtils.prototype.clearStorage.name, () => {
+test(AppUtils.prototype.clearStorage.name, () => {
 
-  // ...
+  const { createStorageKey, clearStorage } = new AppUtils('test')
+  const { createStorageKey: createAltStorageKey } = new AppUtils('test2')
 
-})
+  const storageKeyFoo = createStorageKey('foo')
+  const storageKeyBar = createStorageKey('bar')
+  const storageKeyAlt = createAltStorageKey('alt')
 
-describe(AppUtils.prototype.clearLocalStorage.name, () => {
+  mockStorage.setItem(storageKeyFoo, JSON.stringify({}))
+  mockStorage.setItem(storageKeyBar, JSON.stringify({}))
+  mockStorage.setItem(storageKeyAlt, JSON.stringify({}))
+  clearStorage(mockStorage)
 
-  // ...
-
-})
-
-describe(AppUtils.prototype.clearSessionStorage.name, () => {
-
-  // ...
-
-})
-
-describe(AppUtils.prototype.clearAllStorage.name, () => {
-
-  // ...
+  expect(mockStorage.length).toBe(1)
+  expect(mockStorage.key(0)).toBe(storageKeyAlt)
 
 })

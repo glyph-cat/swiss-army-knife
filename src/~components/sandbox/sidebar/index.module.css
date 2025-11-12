@@ -1,3 +1,9 @@
+.separator {
+  background-color: #80808040;
+  height: 1px;
+  width: 100%;
+}
+
 .buttonsContainer {
   grid-auto-rows: max-content;
 }
@@ -110,4 +116,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.searchInput {
+  font-size: 12pt;
+  padding: var(--spacingS) var(--spacingM);
 }
