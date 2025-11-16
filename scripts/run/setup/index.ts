@@ -8,7 +8,7 @@ function main(): void {
     'react',
     'equality',
     'localization',
-    'localization-react',
+    // 'localization-react',
     'cleanup-manager',
     'react-test-utils',
     'cli-parameter-parser',

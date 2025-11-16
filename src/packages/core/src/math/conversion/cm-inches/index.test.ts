@@ -1,7 +1,7 @@
 import { cmToInches, inchesToCm } from '.'
 
 test(cmToInches.name, () => {
-  expect(cmToInches(1)).toBe(0.3937007874)
+  expect(cmToInches(1)).toBe(0.39370078740157477)
 })
 
 test(inchesToCm.name, () => {
