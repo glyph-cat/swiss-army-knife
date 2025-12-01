@@ -2,6 +2,16 @@ import { isFunction } from '@glyph-cat/swiss-army-knife'
 import { useRef } from 'react'
 
 /**
+ * A better replacement for declaring constants with `useState` or `useMemo`
+ * with an empty dependency list.
+ *
+ * ---
+ *
+ * Regex for searching `useState` for ease of replacement: `\[[a-z0-9_-]+\]\s?=\s?useState`
+ * - This will match code patterns such as:
+ * ```js
+ * const [someConstant] = useState(() => ...)
+ * ```
  * @public
  */
 export function useConstant<T>(valueOrFactory: T | (() => T)): T {

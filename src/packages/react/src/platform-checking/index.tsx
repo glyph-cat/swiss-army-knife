@@ -34,13 +34,13 @@ export function CheckApplePlatformProvider({
   overrideValue,
 }: CheckApplePlatformProviderProps): JSX.Element {
   const isApplePlatform = useConstant(typeof window !== 'undefined' ? checkIsApplePlatform : false)
+  const effectiveValue = overrideValue
+    ? overrideValue
+    : userAgent
+      ? APPLE_PLATFORM_REGEX.test(userAgent)
+      : isApplePlatform
   return (
-    <ApplePlatformContext.Provider value={overrideValue
-      ? overrideValue
-      : userAgent
-        ? APPLE_PLATFORM_REGEX.test(userAgent)
-        : isApplePlatform
-    }>
+    <ApplePlatformContext.Provider value={effectiveValue}>
       {children}
     </ApplePlatformContext.Provider>
   )

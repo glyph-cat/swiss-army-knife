@@ -43,6 +43,7 @@ export function __idFactory__(
  * const componentId = useComponentId(8)
  * console.log(componentId) // 'y28vVlQG'
  * @public
+ * @deprecated
  */
 export function useComponentId(hashLength: number): string
 
@@ -64,6 +65,7 @@ export function useComponentId(hashLength: number): string
  * const componentId = useComponentId(String)
  * console.log(componentId) // 'k28f'
  * @public
+ * @deprecated
  */
 export function useComponentId(idType: typeof String, minimumLength?: number): string
 
@@ -79,6 +81,7 @@ export function useComponentId(idType: typeof String, minimumLength?: number): s
  * const componentId = useComponentId(Number)
  * console.log(componentId) // 1
  * @public
+ * @deprecated
  */
 export function useComponentId(idType: typeof Number): number
 
@@ -93,11 +96,13 @@ export function useComponentId(idType: typeof Number): number
  * const componentId = useComponentId(Symbol)
  * console.log(componentId) // Symbol()
  * @public
+ * @deprecated
  */
 export function useComponentId(idType: typeof Symbol): symbol
 
 /**
  * @public
+ * @deprecated
  */
 export function useComponentId(
   idType: number | typeof String | typeof Number | typeof Symbol,

@@ -1,10 +1,10 @@
-import { ExtendedCSSProperties } from '../abstractions'
+import { CSSPropertiesExtended } from '../abstractions'
 import { compileStyle } from '../compile-styles'
 
 /**
  * @public
  */
-export class StyleMap extends Map<string, ExtendedCSSProperties> {
+export class StyleMap extends Map<string, CSSPropertiesExtended> {
 
   /**
    * Uses {@link compileStyle} to compile a complete CSS syntax string from a

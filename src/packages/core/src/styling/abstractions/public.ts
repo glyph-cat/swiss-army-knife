@@ -8,10 +8,16 @@ export type CSSProperties = Properties<LenientString<number>>
 
 /**
  * @public
+ * @deprecated This type has been renamed to {@link CSSPropertiesExtended|`CSSPropertiesExtended`}.
  */
-export type ExtendedCSSProperties = CSSProperties & Record<string, CSSProperties[keyof CSSProperties]>
+export type ExtendedCSSProperties = CSSPropertiesExtended
 
 /**
  * @public
  */
-export type CustomCSSVariablesRecord = StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]>
+export type CSSPropertiesExtended = CSSProperties & Record<string, CSSProperties[keyof CSSProperties]>
+
+/**
+ * @public
+ */
+export type CustomCSSVariablesRecord = StringRecord<CSSPropertiesExtended[keyof CSSPropertiesExtended]>

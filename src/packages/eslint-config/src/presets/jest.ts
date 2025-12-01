@@ -12,12 +12,14 @@ export interface JestConfigParams {
 
 export function createJestConfig({
   remapOff,
+  remapError,
 }: JestConfigParams): Array<Config> {
   return defineConfig(
     jestPlugin.configs['flat/recommended'],
     {
       name: formatName('jest'),
       rules: {
+        'jest/expect-expect': remapError,
         'jest/valid-title': remapOff,
       },
       files: [

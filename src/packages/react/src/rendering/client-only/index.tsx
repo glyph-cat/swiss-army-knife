@@ -1,5 +1,6 @@
-import { JSX, ReactNode, useEffect, useState } from 'react'
+import { JSX, ReactNode } from 'react'
 import { __setDisplayName } from '../../_internals'
+import { useHydrationState } from '../../hooks/deferral/hydration'
 
 /**
  * @public
@@ -9,23 +10,22 @@ export interface ClientOnlyProps {
 }
 
 /**
- * Suppresses the error in server-side rendered projects:
- * "Expected server HTML to contain a matching <div> in <div>"
+ * Circumvents hydration mismatch error in server-side rendered projects by deferring
+ * the children from being rendered after one cycle.
  *
- * Notes:
- * - In React Native, the only difference is that content rendering is deferred by one cycle.
- * - Might not be a good practice. Use sparingly.
+ * Note: This might not be a good practice, please use sparingly.
+ *
+ * To _always_ defer children from rendering by one cycle,
+ * please use {@link Defer|`Defer`} instead.
  *
  * @see https://github.com/vercel/next.js/discussions/17443#discussioncomment-637879
  * @public
  */
-export function ClientOnly(
-  props: ClientOnlyProps
-): JSX.Element {
-  const { children } = props
-  const [selfIsMounted, setMountedStatus] = useState(false)
-  useEffect(() => { setMountedStatus(true) }, [])
-  return (selfIsMounted ? children : null) as JSX.Element
+export function ClientOnly({
+  children,
+}: ClientOnlyProps): JSX.Element {
+  const isHydrated = useHydrationState()
+  return (isHydrated ? children : null) as JSX.Element
 }
 
 __setDisplayName(ClientOnly)

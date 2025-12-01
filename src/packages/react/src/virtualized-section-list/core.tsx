@@ -1,4 +1,9 @@
-import { ExtendedCSSProperties, InternalError, isNull, isObject } from '@glyph-cat/swiss-army-knife'
+import {
+  CSSPropertiesExtended,
+  InternalError,
+  isNull,
+  isObject,
+} from '@glyph-cat/swiss-army-knife'
 import {
   ForwardedRef,
   forwardRef,
@@ -97,7 +102,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
   const [containerStart, setContainerStart] = useState(0)
   const [cachedSizes, setCachedSizes] = useState<Record<string, number>>({})
 
-  const containerSize = bounds?.contentRect.height ?? 0
+  const containerSize = bounds?.height ?? 0
   const visibleStart = scrollPosition
   const visibleEnd = scrollPosition + containerSize
   const scrollInsetPaddedVisibleStart = visibleStart + scrollInsets.start
@@ -154,7 +159,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
           <View
             ref={containerRef}
             style={{
-              [primaryDimension]: bounds.contentRect.height,
+              [primaryDimension]: bounds.height,
               overflow: STYLE_AUTO,
               ...style,
             }}
@@ -248,7 +253,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                   let stickyMode = StickyMode.NORMAL
 
                   let anchorStart = 'top' // temp
-                  const virtualizationStyles: ExtendedCSSProperties = {
+                  const virtualizationStyles: CSSPropertiesExtended = {
                     [secondaryDimension]: STYLE_100_PERCENT,
                   }
                   if (shouldBeSticky) {

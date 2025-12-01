@@ -25,7 +25,7 @@ test('Factory', () => {
   const tester = new HookTester({
     useHook: () => {
       const constant = useConstant(factory)
-      const [, forceUpdate] = useReducer(c => c + 1, 0)
+      const [, forceUpdate] = useReducer((c) => c + 1, 0)
       return { constant, forceUpdate }
     },
     actions: {

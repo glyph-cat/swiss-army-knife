@@ -8,12 +8,25 @@ import { TypedFunction } from '../../types'
  * tryOnly(() => {
  *   someMethodThatMightThrowError()
  * })
+ * @public
+ */
+export function tryOnly(
+  callback: TypedFunction<[], void>,
+): void
+
+/**
+ * Only try executing code but don't catch if there are any errors. Use sparingly.
+ * @param callback - The callback to try.
  * @example
  * await tryOnly(async () => {
- *   await someMethodThatMightThrowError()
+ *   await someAsyncMethodThatMightThrowError()
  * })
  * @public
  */
+export function tryOnly(
+  callback: TypedFunction<[], Promise<void>>,
+): Promise<void>
+
 export function tryOnly(
   callback: TypedFunction<[], void | Promise<void>>,
 ): void | Promise<void> {

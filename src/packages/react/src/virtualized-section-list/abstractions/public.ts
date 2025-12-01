@@ -1,4 +1,4 @@
-import { ExtendedCSSProperties } from '@glyph-cat/swiss-army-knife'
+import { CSSPropertiesExtended } from '@glyph-cat/swiss-army-knife'
 import { ComponentType, UIEventHandler } from 'react'
 import { BasicUILayout } from '../../ui'
 import { CellType } from './internal'
@@ -18,7 +18,7 @@ export interface ISection<SectionData, ItemData> {
 }
 
 export interface BaseCellProps<PropsAsData> {
-  style: ExtendedCSSProperties
+  style: CSSPropertiesExtended
   data: PropsAsData
   // /**
   //  * Indicates whether the list is scrolling
@@ -123,7 +123,7 @@ export interface VirtualizedSectionListProps<SectionData, ItemData> {
   /**
    * @defaultValue `undefined`
    */
-  style?: ExtendedCSSProperties
+  style?: CSSPropertiesExtended
   /**
    * @defaultValue `false`
    */

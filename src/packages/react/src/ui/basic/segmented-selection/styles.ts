@@ -1,7 +1,7 @@
 import {
   addStyles,
   clientOnly,
-  ExtendedCSSProperties,
+  CSSPropertiesExtended,
   PrecedenceLevel,
   StyleMap,
   ThemeToken,
@@ -86,8 +86,8 @@ clientOnly(() => {
 
 // KIV: This could be a public API
 function EXPERIMENTAL_equalDurationTransition(
-  properties: Array<keyof ExtendedCSSProperties>,
-  duration: ExtendedCSSProperties['transitionDuration'],
+  properties: Array<keyof CSSPropertiesExtended>,
+  duration: CSSPropertiesExtended['transitionDuration'],
 ): string {
   return properties.map((property) => `${property} ${duration}`).join(',')
 }

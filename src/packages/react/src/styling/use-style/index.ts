@@ -23,6 +23,8 @@ export function useStyles<Key extends string>(
   styles: Record<Key, CSSProperties | Record<PseudoClasses, CSSProperties>>
 ): Record<Key, string> {
 
+  // KIV: update regex to use whitelisting strategy instead? newer react versions now return different patterns
+
   const prefix = `st${useId().replace(/:/g, '')}`
   const [classNames, styleContent] = useMemo(() => {
     return getClassNamesAndStyleContent(prefix, styles)

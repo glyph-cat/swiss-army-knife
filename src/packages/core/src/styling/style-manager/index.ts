@@ -1,7 +1,7 @@
 import { clientOnly } from '../../client-only'
 import { createRef } from '../../data'
 import { CleanupFunction, IDisposable, PossiblyUndefined } from '../../types'
-import { ExtendedCSSProperties } from '../abstractions'
+import { CSSPropertiesExtended } from '../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileStyle } from '../compile-styles'
 import { StyleMap } from '../style-map'
@@ -24,7 +24,7 @@ export class StyleManager extends StyleMap implements IDisposable {
   readonly element: HTMLStyleElement
 
   constructor(
-    initialStyles: Iterable<readonly [string, ExtendedCSSProperties]> = [],
+    initialStyles: Iterable<readonly [string, CSSPropertiesExtended]> = [],
     readonly precedenceLevel?: PrecedenceLevel,
   ) {
     super() // KIV
@@ -44,7 +44,7 @@ export class StyleManager extends StyleMap implements IDisposable {
     }
   }
 
-  set(key: string, value: ExtendedCSSProperties): this {
+  set(key: string, value: CSSPropertiesExtended): this {
     super.set(key, value)
     this.M$cache.set(key, compileStyle(key, value))
     this.element.innerHTML = this.M$getCompiledStyles()

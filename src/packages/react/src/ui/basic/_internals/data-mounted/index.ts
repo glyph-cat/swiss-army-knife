@@ -17,9 +17,11 @@ export function mounted(selector: string): string {
  * @param ref - The HTML element which will have a `data-mounted` attribute applied.
  */
 export function useDataMounted(ref: RefObject<HTMLElement>): void {
-  const isMounted = useRef(false)
+  // NOTE: A ref is used here to avoid unnecessary re-rendering.
+  const isMountedRef = useRef(false)
   useLayoutEffect(() => {
-    if (isMounted.current) { return } // Early exit
+    if (isMountedRef.current) { return } // Early exit
+    isMountedRef.current = true
     const animationFrameId = requestAnimationFrame(() => {
       ref.current?.setAttribute(DATA_MOUNTED, TRUE)
     })

@@ -1,6 +1,6 @@
 import {
   Casing,
-  ExtendedCSSProperties,
+  CSSPropertiesExtended,
   isFunction,
   isNullOrUndefined,
   isObject,
@@ -38,7 +38,7 @@ export function ThemeProvider({
   const className = useClassName()
 
   const paletteStyles = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
+    const styleObject: CSSPropertiesExtended = {}
     for (const key in theme.palette) {
       const value = theme.palette[key]
       const token = `--${new Casing(key).toCamelCase()}`
@@ -48,7 +48,7 @@ export function ThemeProvider({
   }, [theme.palette])
 
   const spacingStyles = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
+    const styleObject: CSSPropertiesExtended = {}
     for (const key in theme.spacing) {
       const value = theme.spacing[key]
       const token = `--spacing${key}`
@@ -58,7 +58,7 @@ export function ThemeProvider({
   }, [theme.spacing])
 
   const durationStyles = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
+    const styleObject: CSSPropertiesExtended = {}
     for (const key in theme.duration) {
       const value = theme.duration[key]
       const token = `--duration${new Casing(key).toPascalCase()}`
@@ -68,7 +68,7 @@ export function ThemeProvider({
   }, [theme.duration])
 
   const componentParameters = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
+    const styleObject: CSSPropertiesExtended = {}
     for (const key in theme.componentParameters) {
       const value = theme.componentParameters[key]
       const token = `--${new Casing(key).toCamelCase()}`
@@ -78,7 +78,7 @@ export function ThemeProvider({
   }, [theme.componentParameters])
 
   const customValues = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
+    const styleObject: CSSPropertiesExtended = {}
     for (const key in theme.customValues) {
       const token = `--${new Casing(key).toCamelCase()}`
       styleObject[token] = theme.customValues[key]
@@ -87,7 +87,7 @@ export function ThemeProvider({
   }, [theme.customValues])
 
   const internalValues = useMemo(() => {
-    const styleObject: ExtendedCSSProperties = {}
+    const styleObject: CSSPropertiesExtended = {}
     for (const key in theme.internalValues) {
       const token = `--${new Casing(key).toCamelCase()}`
       styleObject[token] = theme.internalValues[key]

@@ -4,6 +4,7 @@ import {
   isObject,
   Nullable,
   PrecedenceLevel,
+  RectangularBoundary,
   RefObject,
   StyleMap,
 } from '@glyph-cat/swiss-army-knife'
@@ -15,10 +16,11 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
-import { View } from '../ui'
+import { View } from '../ui/core/components/view'
 
 const SIZE_AWARE_VIEW_PROBE_STYLES = 'size-aware-view-probe'
 
@@ -36,7 +38,7 @@ clientOnly(() => {
 /**
  * @public
  */
-export const SizeAwareContext = createContext<Nullable<ResizeObserverEntry>>(null)
+export const SizeAwareContext = createContext<Nullable<RectangularBoundary>>(null)
 
 /**
  * @public
@@ -53,27 +55,45 @@ export const ProbeView = forwardRef((_, probeRef: ForwardedRef<View>): JSX.Eleme
 /**
  * @public
  */
-export type SizeAwareHandle = [
+export type ISizeAwareHandle = [
   probeRef: RefObject<View>,
-  bounds: Nullable<ResizeObserverEntry>,
+  bounds: Nullable<RectangularBoundary>,
 ]
 
 /**
  * @public
  */
-export function useSizeAwareHandle(): SizeAwareHandle {
-  const [bounds, setBounds] = useState<Nullable<ResizeObserverEntry>>(null)
+export function useSizeAwareHandle(): ISizeAwareHandle {
+  const [bounds, setBounds] = useState<Nullable<RectangularBoundary>>(null)
   const probeRef = useRef<View>(null)
   useEffect(() => {
     const target = probeRef.current
     if (!target) { return } // Early exit
     const resizeObserver = new ResizeObserver((entries) => {
-      setBounds(entries[0] ?? null)
+      const entry = entries[0]
+      if (!entry) {
+        setBounds(null)
+        return // Early exit
+      }
+      const newBounds = entry.target.getBoundingClientRect()?.toJSON()
+      if (newBounds) {
+        setBounds({
+          height: newBounds.height,
+          left: newBounds.left,
+          top: newBounds.top,
+          width: newBounds.width,
+        })
+      } else {
+        setBounds(null)
+      }
     })
     resizeObserver.observe(target)
     return () => { resizeObserver.disconnect() }
   }, [])
-  return [probeRef, bounds]
+  return useMemo(() => ([
+    probeRef,
+    bounds,
+  ]), [bounds])
 }
 
 // #region Convenience APIs
@@ -107,7 +127,7 @@ export function SizeAwareContainer({
 /**
  * @public
  */
-export function useSizeAwareContext(): Nullable<ResizeObserverEntry> {
+export function useSizeAwareContext(): Nullable<RectangularBoundary> {
   return useContext(SizeAwareContext)
 }
 

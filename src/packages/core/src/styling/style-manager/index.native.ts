@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UnsupportedPlatformError } from '../../error'
 import { IDisposable } from '../../types'
-import { ExtendedCSSProperties } from '../abstractions'
+import { CSSPropertiesExtended } from '../abstractions'
 import { PrecedenceLevel } from '../add-styles'
 import { StyleMap } from '../style-map'
 
@@ -11,14 +11,14 @@ import { StyleMap } from '../style-map'
 export class StyleManager extends StyleMap implements IDisposable {
 
   constructor(
-    initialStyles: Iterable<readonly [string, ExtendedCSSProperties]> = [],
+    initialStyles: Iterable<readonly [string, CSSPropertiesExtended]> = [],
     readonly precedenceLevel?: PrecedenceLevel,
   ) {
     super() // KIV
     throw new UnsupportedPlatformError()
   }
 
-  set(key: string, value: ExtendedCSSProperties): this {
+  set(key: string, value: CSSPropertiesExtended): this {
     throw new UnsupportedPlatformError()
   }
 

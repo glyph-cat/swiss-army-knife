@@ -1,16 +1,26 @@
 import { isFunction } from '@glyph-cat/swiss-army-knife'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useHydrationState } from '../hooks/deferral/hydration'
 
 /**
  * @public
  */
 export function useMediaQuery(query: string): boolean {
-  const [isMediaQuerySupported] = useState(() => {
-    return typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined'
-  })
+
+  const isHydrated = useHydrationState()
+
+  const isMediaQuerySupported = useMemo(() => {
+    if (isHydrated) {
+      return typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined'
+    } else {
+      return false
+    }
+  }, [isHydrated])
+
   const [matches, setMatchState] = useState(() => {
     return isMediaQuerySupported ? window.matchMedia(query).matches : false
   })
+
   useEffect(() => {
     if (!isMediaQuerySupported) { return } // Early exit
     const mq = window.matchMedia(query)
@@ -25,5 +35,7 @@ export function useMediaQuery(query: string): boolean {
       return () => { mq.removeListener(onChange) }
     }
   }, [isMediaQuerySupported, query])
+
   return matches
+
 }

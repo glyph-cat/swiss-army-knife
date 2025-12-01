@@ -5,11 +5,12 @@ import { useCallback } from 'react'
  * @public
  */
 export function useMergedRefs<T>(
-  ...refs: Array<RefObject<T> | ((node: T) => void | CleanupFunction)>
+  ref1: RefObject<T> | ((node: T) => void | CleanupFunction),
+  ref2: RefObject<T> | ((node: T) => void | CleanupFunction),
 ): ReturnType<typeof mergeRefs> {
   return useCallback((node: T) => {
-    return mergeRefs(...refs)(node)
-  }, [refs])
+    return mergeRefs(ref1, ref2)(node)
+  }, [ref1, ref2])
 }
 
 /**

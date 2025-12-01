@@ -4,7 +4,7 @@ import { __getDisplayName } from '../../_internals'
 import { IS_DEBUG_ENV } from '../../constants'
 import { devWarn } from '../../dev'
 import { StringRecord } from '../../types'
-import { CustomCSSVariablesRecord, ExtendedCSSProperties } from '../abstractions'
+import { CSSPropertiesExtended, CustomCSSVariablesRecord } from '../abstractions'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { normalizeCSSValue } from '../normalize-css-value'
 import { tryFormatAsClassName } from '../try-format-as-class-name'
@@ -27,9 +27,9 @@ import { ignoreWhenCompilingStyles, selectorsToIgnore, tryValidateCSSSelector } 
  * @public
  */
 export function convertStyleObjectPropertyKeys(
-  styles: ExtendedCSSProperties,
-): StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]> {
-  const compiledStyles: StringRecord<ExtendedCSSProperties[keyof ExtendedCSSProperties]> = {}
+  styles: CSSPropertiesExtended,
+): StringRecord<CSSPropertiesExtended[keyof CSSPropertiesExtended]> {
+  const compiledStyles: StringRecord<CSSPropertiesExtended[keyof CSSPropertiesExtended]> = {}
   for (const rawPropertyKey in styles) {
     const propertyValue = styles[rawPropertyKey]
     const propertyKey = mapPropertyNameFromJSToCSS(rawPropertyKey)
@@ -67,7 +67,7 @@ const postcssInstance = postcss([autoprefixerInstance])
  * // Output: '{background-color:#ffffff;font-size:14pt}'
  * @public
  */
-export function compileStyleObjectToString(styles: ExtendedCSSProperties): string {
+export function compileStyleObjectToString(styles: CSSPropertiesExtended): string {
   const compiledStyles: Array<string> = []
   for (const rawPropertyKey in styles) {
     const propertyValue = styles[rawPropertyKey]
@@ -89,7 +89,7 @@ const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null
  * // Output: '.foo{background-color:#ffffff}'
  * @public
  */
-export function compileStyle(key: string, styles: ExtendedCSSProperties): string {
+export function compileStyle(key: string, styles: CSSPropertiesExtended): string {
   if (IS_DEBUG_ENV) {
     if (!selectorsToIgnore.current.has('*')) {
       const selectors = key.split(/\s*[\s>+~,]\s*/g)

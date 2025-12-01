@@ -9,9 +9,9 @@ afterEach(() => { renderResult?.unmount() })
 function App(): JSX.Element {
   return (
     <>
-      <>Hello, world!</>
+      <>{'A'}</>
       <ClientOnly>
-        <>Lorem ipsum</>
+        <>{'B'}</>
       </ClientOnly>
     </>
   )
@@ -19,10 +19,18 @@ function App(): JSX.Element {
 
 test('Server-side', () => {
   const output = renderToString(<App />)
-  expect(output).toBe('Hello, world!')
+  expect(output).toBe('A')
 })
 
-test('Client-side', () => {
-  act(() => { renderResult = render(<App />) })
-  expect(renderResult.container.textContent).toBe('Hello, world!Lorem ipsum')
+describe('Client-side', () => {
+
+  test('Happy path', () => {
+    act(() => { renderResult = render(<App />) })
+    expect(renderResult.container.textContent).toBe('AB')
+  })
+
+  test('Nested', () => {
+    // TODO: when already hydrated and new components are added, they should not wait
+  })
+
 })

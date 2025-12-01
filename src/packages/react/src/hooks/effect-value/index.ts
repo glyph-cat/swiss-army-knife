@@ -20,7 +20,7 @@ export function useEffectValue<T>(
   const [value, setValue] = useState(initialValue)
   useEffect(() => {
     const newValue = getValue()
-    setValue(newValue)
+    setValue(newValue) // eslint-disable-line react-hooks/set-state-in-effect
     return () => { removeValue?.(newValue) }
   }, [...deps]) // eslint-disable-line react-hooks/exhaustive-deps
   return value
@@ -44,7 +44,7 @@ export function useLayoutEffectValue<T>(
   const [value, setValue] = useState(initialValue)
   useLayoutEffect(() => {
     const newValue = getValue()
-    setValue(newValue)
+    setValue(newValue) // eslint-disable-line react-hooks/set-state-in-effect
     return () => { removeValue?.(newValue) }
   }, [...deps]) // eslint-disable-line react-hooks/exhaustive-deps
   return value

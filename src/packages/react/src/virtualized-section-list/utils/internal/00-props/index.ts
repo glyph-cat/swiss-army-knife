@@ -1,6 +1,6 @@
 import {
+  CSSPropertiesExtended,
   Empty,
-  ExtendedCSSProperties,
   getFirstKey,
   InternalError,
   StringRecord,
@@ -81,7 +81,7 @@ export function getPropByCellType<SectionData, ItemData>(
 export function getDefaultScrollInsets(
   isLayoutVertical: boolean,
   isDirectionLtr: boolean,
-): ExtendedCSSProperties {
+): CSSPropertiesExtended {
   // TOFIX: unless there is a way to convert safe insets to pixel-based values
   if (isLayoutVertical) {
     return {
