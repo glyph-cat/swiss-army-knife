@@ -17,7 +17,7 @@ export const BUILD_TYPE = process.env.PACKAGE_BUILD_TYPE as BuildType
  * Hash of the Git commit in which the package's version is built.
  * @public
  */
-export const BUILD_HASH = process.env.PACKAGE_BUILD_HASH as string
+export const BUILD_HASH = process.env.PACKAGE_BUILD_HASH
 
 /**
  * In React Native, the window is not exactly the same as what it is in the

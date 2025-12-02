@@ -5,6 +5,9 @@
     "overrideTsconfig": {
       "compilerOptions": {
         "paths": {
+          "@glyph-cat/foundation": [
+            "./temp/tsc/types/foundation/src"
+          ],
           "@glyph-cat/swiss-army-knife": [
             "./temp/types/core/src"
           ]

@@ -1,4 +1,3 @@
-import { BuildType } from '@glyph-cat/foundation'
 import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
@@ -8,6 +7,7 @@ import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
 import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
+import { BuildType } from '../../foundation/src/build'
 import { version } from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'

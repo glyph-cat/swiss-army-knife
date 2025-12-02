@@ -1,6 +1,17 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/core/src/index.d.ts",
+  "compiler": {
+    "overrideTsconfig": {
+      "compilerOptions": {
+        "paths": {
+          "@glyph-cat/foundation": [
+            "./temp/tsc/types/foundation/src"
+          ]
+        }
+      }
+    }
+  },
   "apiReport": {
     "enabled": false
   },

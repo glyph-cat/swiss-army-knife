@@ -1,5 +1,4 @@
 // import babel from '@rollup/plugin-babel'
-import { BuildType } from '@glyph-cat/foundation'
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
@@ -11,6 +10,7 @@ import {
   setDisplayName,
 } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
+import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [

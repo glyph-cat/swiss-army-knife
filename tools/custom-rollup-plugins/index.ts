@@ -34,12 +34,14 @@ export function customReplace(
   return replace({
     preventAssignment: true,
     values: {
-      'process.env.IS_SOURCE_ENV': JSON.stringify(String(false)),
-      'process.env.IS_PRODUCTION_TARGET': JSON.stringify(
-        typeof isProductionTarget === 'boolean'
-          ? String(isProductionTarget)
-          : 'process.env.NODE_ENV === "production"'
-      ),
+      // === IMPORTANT NOTE ===
+      // All `process.env.__` variables are strings, and in source environment,
+      // it doesn't even have a value, so we can only compare using inverse logic
+      // in conjunction with the `==` operator.
+      'process.env.IS_SOURCE_ENV': JSON.stringify('0'),
+      'process.env.IS_PRODUCTION_TARGET': typeof isProductionTarget === 'boolean'
+        ? JSON.stringify(isProductionTarget ? '1' : '0')
+        : '(process.env.NODE_ENV === "production")',
       'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
         execSync('git rev-parse HEAD').toString().trim(),
       ),
