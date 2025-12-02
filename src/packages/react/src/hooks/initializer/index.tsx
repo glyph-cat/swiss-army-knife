@@ -1,6 +1,6 @@
 import { CleanupFunction } from '@glyph-cat/foundation'
 import { useContext, useEffect, useId, useRef } from 'react'
-import { GCContext } from '../../provider'
+import { GCContext } from '../../provider/context'
 
 /**
  * @public

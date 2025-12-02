@@ -84,6 +84,7 @@ export function findOverscannedIndex<SectionData, ItemData>(
 
   while (
     (isNumber(overscan.count) && (overscanCountTracker < overscan.count)) ||
+    // @ts-ignore - temp
     (isNumber(overscan.pixels) && (overscanMinSizeTracker < overscan.pixels))
   ) {
 

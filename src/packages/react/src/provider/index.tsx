@@ -4,8 +4,6 @@ import { useMountedState } from '../hooks/deferral'
 import { GCContext } from './context'
 import { getContext } from './context/get'
 
-export { GCContext } from './context'
-
 /**
  * @internal
  */
