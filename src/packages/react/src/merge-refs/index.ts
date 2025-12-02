@@ -1,4 +1,5 @@
-import { CleanupFunction, isFunction, RefObject } from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
+import { isFunction } from '@glyph-cat/swiss-army-knife'
 import { useCallback } from 'react'
 
 /**

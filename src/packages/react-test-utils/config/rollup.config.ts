@@ -1,3 +1,4 @@
+import { BuildType } from '@glyph-cat/foundation'
 import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
@@ -8,7 +9,6 @@ import rootPackageJson from '../../../../package.json'
 import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
 import { version } from '../package.json'
-import { BuildType } from '../src/constants/public'
 
 const INPUT_FILE = 'src/index.ts'
 
@@ -43,10 +43,10 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
 
   // Replace values
   const replaceValues = {
-    'process.env.BUILD_HASH': JSON.stringify(
+    'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
       execSync('git rev-parse HEAD').toString().trim()
     ),
-    'process.env.BUILD_TYPE': JSON.stringify(buildEnv),
+    'process.env.PACKAGE_BUILD_TYPE': JSON.stringify(buildEnv),
     'process.env.PACKAGE_VERSION': JSON.stringify(version),
   }
   pluginStack.push(replace({

@@ -1,4 +1,4 @@
-import { RefObject } from '../../data/ref'
+import { RefObject } from '@glyph-cat/foundation'
 import { delay } from '../../events/delay'
 
 /**

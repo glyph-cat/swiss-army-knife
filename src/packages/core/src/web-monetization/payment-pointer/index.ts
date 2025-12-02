@@ -6,6 +6,9 @@ const META_NAME = 'monetization'
 
 /**
  * @public
+ * @deprecated This now only serves as an example of the
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver|`MutationObserver`}
+ * could be used.
  */
 export class PaymentPointerProtector {
 

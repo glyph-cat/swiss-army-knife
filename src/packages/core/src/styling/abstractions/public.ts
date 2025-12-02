@@ -1,5 +1,5 @@
+import { LenientString, StringRecord } from '@glyph-cat/foundation'
 import { Properties } from 'csstype'
-import { LenientString, StringRecord } from '../../types'
 
 /**
  * @public

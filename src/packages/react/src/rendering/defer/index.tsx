@@ -5,7 +5,7 @@ import { useMountedState } from '../../hooks/deferral/mounted'
 /**
  * @public
  */
-export interface DeferProps {
+export interface DeferRenderingProps {
   children?: ReactNode
 }
 
@@ -13,11 +13,11 @@ export interface DeferProps {
  * Defers children from rendering by one cycle.
  * @public
  */
-export function Defer({
+export function DeferRendering({
   children,
-}: DeferProps): JSX.Element {
+}: DeferRenderingProps): JSX.Element {
   const isMounted = useMountedState()
   return (isMounted ? children : null) as JSX.Element
 }
 
-__setDisplayName(Defer)
+__setDisplayName(DeferRendering)

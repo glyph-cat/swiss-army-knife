@@ -1,9 +1,9 @@
+import { CleanupFunction, IDisposable } from '@glyph-cat/foundation'
 import { SimpleStateManager } from 'cotton-box'
 import { IS_DEBUG_ENV } from '../../../constants'
 import { devWarn } from '../../../dev'
 import { UUIDFactory } from '../../../hash'
 import { isNegative } from '../../../math/readability'
-import { CleanupFunction, IDisposable } from '../../../types'
 
 /**
  * @public

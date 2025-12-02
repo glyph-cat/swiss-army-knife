@@ -43,7 +43,7 @@ function getPlugins(): Array<RollupPlugin> {
 
   // Replace values
   const replaceValues = {
-    'process.env.BUILD_HASH': JSON.stringify(
+    'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
       execSync('git rev-parse HEAD').toString().trim()
     ),
     'process.env.PACKAGE_VERSION': JSON.stringify(pkg.version),

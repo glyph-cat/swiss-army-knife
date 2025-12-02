@@ -1,10 +1,14 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { RenderResult, render } from '@testing-library/react'
 import { JSX, act } from 'react'
 import { renderToString } from 'react-dom/server'
 import { ClientOnly } from '.'
 
-let renderResult: RenderResult
-afterEach(() => { renderResult?.unmount() })
+let renderResult: Nullable<RenderResult> = null
+afterEach(() => {
+  renderResult?.unmount()
+  renderResult = null
+})
 
 function App(): JSX.Element {
   return (

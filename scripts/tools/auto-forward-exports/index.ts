@@ -5,7 +5,7 @@
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { DateTime } from 'luxon'
-import { Encoding } from '../../../src/packages/core/src/encoding/constants'
+import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 export function autoForwardExports(entryPath: string): void {
 

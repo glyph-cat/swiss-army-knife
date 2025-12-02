@@ -4,6 +4,7 @@ import { symlinkSync } from 'fs'
 function main(): void {
 
   const PACKAGE_NAMES = [
+    'foundation',
     'core',
     'react',
     'equality',

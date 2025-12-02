@@ -1,4 +1,4 @@
-import { PartialStringRecord } from '@glyph-cat/swiss-army-knife'
+import { PartialStringRecord } from '@glyph-cat/foundation'
 
 /**
  * @public

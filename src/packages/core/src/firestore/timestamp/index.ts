@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NotImplementedError } from '../../error'
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * An abstract class that describes FireStore's TimeStamp class.
  *
@@ -118,4 +118,3 @@ export class ITimestamp {
   valueOf(): string { throw new NotImplementedError() }
 
 }
-/* eslint-enable @typescript-eslint/no-unused-vars */

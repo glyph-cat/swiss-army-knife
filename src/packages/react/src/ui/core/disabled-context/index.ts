@@ -1,4 +1,4 @@
-import { Nullable } from '@glyph-cat/swiss-army-knife'
+import { Nullable } from '@glyph-cat/foundation'
 import { createContext, createElement, JSX, ReactNode, useContext } from 'react'
 
 const BaseContext = createContext<Nullable<boolean>>(null)

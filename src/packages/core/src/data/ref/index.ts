@@ -1,10 +1,4 @@
-import { PossiblyUndefined } from '../../types'
-import { Nullable } from '../nullable'
-
-/**
- * @public
- */
-export type RefObject<T> = { current: T }
+import { Nullable, PossiblyUndefined, RefObject } from '@glyph-cat/foundation'
 
 /**
  * Alternative to React's `createRef`, for when a `RefObject` is needed in a non-React project.

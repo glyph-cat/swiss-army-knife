@@ -1,53 +1,52 @@
-import { Nullable } from '../../data'
+import { IDisposable, Nullable, StringRecord } from '@glyph-cat/foundation'
 import {
   CustomEventListenerOptions,
   EventManager,
 } from '../../events/event-manager'
-import { IDisposable, StringRecord } from '../../types'
 
 export class RuntimeStorage implements Storage, IDisposable {
 
   /**
    * @internal
    */
-  private readonly _eventListeners = new EventManager<RuntimeStorage.Events>()
+  private readonly M$eventListeners = new EventManager<RuntimeStorage.Events>()
 
   /**
    * @internal
    */
-  private _dataStore: StringRecord<string> = {}
+  private M$dataStore: StringRecord<string> = {}
 
   get length(): number {
-    return Object.keys(this._dataStore).length
+    return Object.keys(this.M$dataStore).length
   }
 
   clear(): void {
-    for (const key in this._dataStore) {
+    for (const key in this.M$dataStore) {
       delete this[key]
     }
-    this._dataStore = {}
-    this._eventListeners.post(RuntimeStorage.Events.CLEAR)
+    this.M$dataStore = {}
+    this.M$eventListeners.post(RuntimeStorage.Events.CLEAR)
   }
 
   getItem(key: string): Nullable<string> {
-    return this._dataStore[key] ?? null
+    return this.M$dataStore[key] ?? null
   }
 
   key(index: number): Nullable<string> {
-    return Object.keys(this._dataStore)[index] ?? null
+    return Object.keys(this.M$dataStore)[index] ?? null
   }
 
   removeItem(key: string): void {
-    delete this._dataStore[key]
+    delete this.M$dataStore[key]
     delete this[key]
-    this._eventListeners.post(RuntimeStorage.Events.REMOVE, key)
+    this.M$eventListeners.post(RuntimeStorage.Events.REMOVE, key)
   }
 
   setItem(key: string, value: unknown): void {
     const serializedValue = JSON.stringify(value)
-    this._dataStore[key] = serializedValue
+    this.M$dataStore[key] = serializedValue
     this[key] = serializedValue
-    this._eventListeners.post(RuntimeStorage.Events.SET, key, serializedValue)
+    this.M$eventListeners.post(RuntimeStorage.Events.SET, key, serializedValue)
   }
 
   [key: string]: unknown
@@ -78,18 +77,18 @@ export class RuntimeStorage implements Storage, IDisposable {
     callback: (...args: any[]) => void,
     options?: CustomEventListenerOptions,
   ): void {
-    this._eventListeners.addEventListener(event, callback, options)
+    this.M$eventListeners.addEventListener(event, callback, options)
   }
 
   removeEventListener(
     event: RuntimeStorage.Events,
     callback: (...args: any[]) => void,
   ): void {
-    this._eventListeners.removeEventListener(event, callback)
+    this.M$eventListeners.removeEventListener(event, callback)
   }
 
   dispose(): void {
-    this._eventListeners.dispose()
+    this.M$eventListeners.dispose()
   }
 
 }

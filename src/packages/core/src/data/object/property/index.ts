@@ -1,6 +1,6 @@
+import { LenientString, PlainRecord, PossiblyUndefined, StrictPropertyKey } from '@glyph-cat/foundation'
 import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
-import { LenientString, PlainRecord, PossiblyUndefined, StrictPropertyKey } from '../../../types'
 import { isNullOrUndefined, isNumber } from '../../type-check'
 
 /**

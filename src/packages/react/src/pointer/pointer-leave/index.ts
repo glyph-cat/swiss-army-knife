@@ -1,4 +1,5 @@
-import { isInRange, RefObject } from '@glyph-cat/swiss-army-knife'
+import { RefObject } from '@glyph-cat/foundation'
+import { isInRange } from '@glyph-cat/swiss-army-knife'
 import { useEffect } from 'react'
 
 /**

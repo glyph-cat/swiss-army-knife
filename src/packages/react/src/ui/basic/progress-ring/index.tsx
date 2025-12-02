@@ -1,3 +1,4 @@
+import { LenientString } from '@glyph-cat/foundation'
 import {
   c,
   Color,
@@ -5,7 +6,6 @@ import {
   getPercentage,
   injectInlineCSSVariables,
   isNumber,
-  LenientString,
   px,
 } from '@glyph-cat/swiss-army-knife'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'

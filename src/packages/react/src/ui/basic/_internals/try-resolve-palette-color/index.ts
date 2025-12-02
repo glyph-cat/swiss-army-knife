@@ -1,4 +1,5 @@
-import { IThemePalette, LenientString, StringColorValue } from '@glyph-cat/swiss-army-knife'
+import { LenientString } from '@glyph-cat/foundation'
+import { IThemePalette, StringColorValue } from '@glyph-cat/swiss-army-knife'
 import { BasicUIColor } from '../../abstractions'
 
 export function tryResolvePaletteColor(

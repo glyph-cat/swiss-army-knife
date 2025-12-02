@@ -1,4 +1,6 @@
-export function dependencyDiff(current: IPackageLike, incoming: IPackageLike): Array<string> {
+import { PackageJson } from 'type-fest'
+
+export function dependencyDiff(current: PackageJson, incoming: PackageJson): Array<string> {
   const currentDependencies = getDependenciesAsSet(current)
   const incomingDependencies = getDependenciesAsArray(incoming)
   const missingDependencies = incomingDependencies.filter((dep) => {
@@ -7,13 +9,7 @@ export function dependencyDiff(current: IPackageLike, incoming: IPackageLike): A
   return missingDependencies
 }
 
-interface IPackageLike {
-  dependencies?: Record<string, string>
-  devDependencies?: Record<string, string>
-  peerDependencies?: Record<string, string>
-}
-
-function getDependenciesAsSet(pkg: IPackageLike): Set<string> {
+function getDependenciesAsSet(pkg: PackageJson): Set<string> {
   return new Set([
     ...Object.keys(pkg.dependencies ?? {}),
     ...Object.keys(pkg.devDependencies ?? {}),
@@ -21,7 +17,7 @@ function getDependenciesAsSet(pkg: IPackageLike): Set<string> {
   ])
 }
 
-function getDependenciesAsArray(pkg: IPackageLike): Array<string> {
+function getDependenciesAsArray(pkg: PackageJson): Array<string> {
   return [...getDependenciesAsSet(pkg)].sort()
 }
 

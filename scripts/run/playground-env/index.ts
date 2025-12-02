@@ -1,7 +1,8 @@
 import { execSync } from 'child_process'
 import { writeFileSync } from 'fs'
 import { description, name, version } from '../../../package.json'
-import { DO_NOT_MODIFY_WARNING, Encoding } from '../../../src/packages/core/src'
+import { DO_NOT_MODIFY_WARNING } from '../../../src/packages/core/src/scripting/constants'
+import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 const displayName = '_' // todo
 

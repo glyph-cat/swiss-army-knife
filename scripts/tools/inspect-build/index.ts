@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { readFileSync } from 'fs'
-import { Encoding } from '../../../src/packages/core/src/encoding/constants'
+import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 const REACT_DOM_PATTERN = /(from\s?|require\()('|")react-dom('|")/
 const REACT_NATIVE_PATTERN = /(from\s?|require\()('|")react-native('|")/
@@ -30,7 +30,7 @@ export function inspectBuild(allowReactPackage?: boolean): void {
     errorStack.push('React Native counterparts (Eg: index.native.ts) were not bundled into the final code')
   } else {
     const webAPIReferenceMatches = rnBundle.match(/(window|document|navigator)\./)
-    if (webAPIReferenceMatches?.length > 0) {
+    if (webAPIReferenceMatches?.length && webAPIReferenceMatches.length > 0) {
       const bullet = '\n   - '
       errorStack.push(`React Native bundle cannot contain Web API references:${bullet}${webAPIReferenceMatches.join(bullet)}`)
     }

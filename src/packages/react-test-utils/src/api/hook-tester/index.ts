@@ -1,4 +1,5 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
+import { PartialRecord } from '@glyph-cat/foundation'
 import { RenderResult, render } from '@testing-library/react'
 import {
   ErrorInfo,
@@ -10,7 +11,6 @@ import {
   useEffect,
 } from 'react'
 import { hasProperty } from '../../../../core/src/data/object/property'
-import { PartialRecord } from '../../../../core/src/types'
 import { ICapturedError } from '../../abstractions'
 import { ActionNotExistError, ValueNotExistError } from '../../errors'
 import { ErrorBoundary } from '../../internals'

@@ -1,17 +1,17 @@
 // import babel from '@rollup/plugin-babel'
+import { BuildType } from '@glyph-cat/foundation'
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
-import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
-import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
-import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
+import {
+  customReplace,
+  customTerser,
+  setDisplayName,
+} from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
-import { BuildType } from '../src/constants/public'
-
-const { version } = rootPackageJson
+import packageJson from '../package.json'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.tsx',
@@ -20,17 +20,6 @@ const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.js',
 ]
 
-// const NODE_RESOLVE_EXTENSIONS_WEB = [
-//   // NOTE: This is to accommodate 3rd party libraries in rare cases.
-//   // For this project, always use '.ts' for web implementation.
-//   '.web.tsx',
-//   '.web.jsx',
-//   '.web.ts',
-//   '.web.js',
-//   ...NODE_RESOLVE_EXTENSIONS_BASE,
-// ]
-
-// KIV/TOFIX: This config is being ignored
 const NODE_RESOLVE_EXTENSIONS_RN = [
   '.native.tsx',
   '.native.jsx',
@@ -46,17 +35,20 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
+  '@glyph-cat/foundation',
   '@glyph-cat/swiss-army-knife',
   ...getDependencies(rootPackageJson),
+  ...getDependencies(packageJson),
 ].sort()
 
 interface IPluginConfig {
-  mode?: 'development' | 'production'
-  buildEnv: BuildType
+  buildType: BuildType
+  isProductionTarget?: boolean
 }
 
 function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
-  const { mode, buildEnv } = config
+
+  const { buildType, isProductionTarget } = config
 
   const pluginStack: Array<RollupPlugin> = [
     nodeResolve({
@@ -65,7 +57,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),
     commonjs({ sourceMap: false }),
-    setDisplayName(mode !== 'production'),
+    setDisplayName(!isProductionTarget),
     // babel({
     //   presets: [
     //     // '@babel/preset-env',
@@ -93,32 +85,16 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
         },
       },
     }),
+    customReplace(
+      isProductionTarget,
+      buildType,
+      packageJson.version,
+    ),
+    customTerser(),
   ]
 
-  const replaceValues = {
-    'process.env.BUILD_HASH': JSON.stringify(
-      execSync('git rev-parse HEAD').toString().trim()
-    ),
-    'process.env.BUILD_TYPE': JSON.stringify(buildEnv),
-    'process.env.PACKAGE_VERSION': JSON.stringify(version),
-  }
-  if (mode) {
-    replaceValues['process.env.NODE_ENV'] = JSON.stringify(mode)
-  }
-  pluginStack.push(replace({
-    preventAssignment: true,
-    values: replaceValues,
-  }))
-
-  pluginStack.push(terser({
-    mangle: {
-      properties: {
-        regex: /^(M\$|_)/,
-      },
-    },
-  }))
-
   return pluginStack
+
 }
 
 const config: Array<RollupOptions> = [
@@ -132,7 +108,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: BuildType.CJS,
+      buildType: BuildType.CJS,
     }),
   },
   {
@@ -145,7 +121,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: BuildType.ES,
+      buildType: BuildType.ES,
     }),
   },
   {
@@ -158,8 +134,8 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: BuildType.MJS,
-      mode: 'production',
+      buildType: BuildType.MJS,
+      isProductionTarget: true,
     }),
   },
   {
@@ -172,7 +148,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: BuildType.RN,
+      buildType: BuildType.RN,
     }).map((plugin) => {
       if (plugin.name === 'node-resolve') {
         return nodeResolve({

@@ -1,4 +1,4 @@
-import { CleanupFunction, StringRecord } from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction, StringRecord } from '@glyph-cat/foundation'
 import { JSX, ReactNode, useMemo } from 'react'
 import { useMountedState } from '../hooks/deferral'
 import { GCContext } from './context'
@@ -10,7 +10,13 @@ export { GCContext } from './context'
  * @internal
  */
 export interface IGCContext {
+  /**
+   * @internal
+   */
   M$initializerStore: StringRecord<Array<[unknown, CleanupFunction]>>
+  /**
+   * @internal
+   */
   M$isHydrated: boolean
 }
 

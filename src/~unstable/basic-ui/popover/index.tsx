@@ -1,13 +1,15 @@
 import {
   CleanupFunction,
+  StringRecord,
+  TypedFunction,
+} from '@glyph-cat/foundation'
+import {
   CSSProperties,
   isFunction,
   isNull,
   isNullOrUndefined,
   RectangularBoundary,
   serializePixelValue,
-  StringRecord,
-  TypedFunction,
 } from '@glyph-cat/swiss-army-knife'
 import {
   GenericHTMLProps,

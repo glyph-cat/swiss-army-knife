@@ -1,4 +1,4 @@
-import { RefObject } from '@glyph-cat/swiss-army-knife'
+import { RefObject } from '@glyph-cat/foundation'
 import { useLayoutEffect, useRef } from 'react'
 
 const DATA_MOUNTED = 'data-mounted'

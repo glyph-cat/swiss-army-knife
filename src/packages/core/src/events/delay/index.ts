@@ -1,4 +1,4 @@
-import { TypedFunction } from '../../types'
+import { TypedFunction } from '@glyph-cat/foundation'
 
 /**
  * Create an empty promise that is resolved after a specified time.

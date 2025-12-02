@@ -1,11 +1,10 @@
+import { Nullable, RefObject } from '@glyph-cat/foundation'
 import {
   addStyles,
   clientOnly,
   isObject,
-  Nullable,
   PrecedenceLevel,
   RectangularBoundary,
-  RefObject,
   StyleMap,
 } from '@glyph-cat/swiss-army-knife'
 import {

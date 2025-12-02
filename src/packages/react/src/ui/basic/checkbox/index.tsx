@@ -1,10 +1,10 @@
+import { LenientString } from '@glyph-cat/foundation'
 import {
   c,
   Color,
   ColorFormat,
   injectInlineCSSVariables,
   isUndefinedOrNull,
-  LenientString,
 } from '@glyph-cat/swiss-army-knife'
 import {
   ChangeEvent,

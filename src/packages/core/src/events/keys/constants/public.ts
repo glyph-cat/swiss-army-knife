@@ -1,3 +1,5 @@
+// TODO: Find out if these are actually the same across browsers and OS
+
 /**
  * Common KeyboardEvent.key values.
  * @public

@@ -1,4 +1,5 @@
-import { RefObject, UnsupportedPlatformError } from '@glyph-cat/swiss-army-knife'
+import { RefObject } from '@glyph-cat/foundation'
+import { UnsupportedPlatformError } from '@glyph-cat/swiss-army-knife'
 
 /**
  * @public

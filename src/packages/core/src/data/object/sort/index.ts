@@ -1,4 +1,4 @@
-import { StrictPropertyKey } from '../../../types'
+import { StrictPropertyKey } from '@glyph-cat/foundation'
 
 /**
  * Sort an object by it's key or value.

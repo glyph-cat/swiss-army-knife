@@ -1,5 +1,4 @@
-import { ReadonlyOrWritableArray } from '../../../types'
-import { Nullable } from '../../nullable'
+import { Nullable, ReadWritableArray } from '@glyph-cat/foundation'
 
 /**
  * Picks the last item from an array.
@@ -12,7 +11,7 @@ import { Nullable } from '../../nullable'
  * pickLast([1, 2, 3, 4], 1) // 3
  * @public
  */
-export function pickLast<T>(array: ReadonlyOrWritableArray<T>, index = 0): T {
+export function pickLast<T>(array: ReadWritableArray<T>, index = 0): T {
   return array[Math.max(0, array.length - 1 - index)]
 }
 
@@ -28,7 +27,7 @@ export function pickLast<T>(array: ReadonlyOrWritableArray<T>, index = 0): T {
  * @public
  */
 export function pickLastWhere<T>(
-  array: ReadonlyOrWritableArray<T>,
+  array: ReadWritableArray<T>,
   searchFn: (item: T, index: number) => boolean,
 ): Nullable<T> {
   for (let i = array.length - 1; i >= 0; i--) {

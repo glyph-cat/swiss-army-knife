@@ -1,6 +1,6 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
+import { IDisposable } from '@glyph-cat/foundation'
 import { HookTester } from '@glyph-cat/react-test-utils'
-import { IDisposable } from '@glyph-cat/swiss-army-knife'
 import { useReducer } from 'react'
 import { useConstructor } from '.'
 

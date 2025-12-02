@@ -1,4 +1,4 @@
-import { PossiblyUndefined } from '../../../types'
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 
 /**
  * Organizes key-value pairs such that multiple different values are traced back

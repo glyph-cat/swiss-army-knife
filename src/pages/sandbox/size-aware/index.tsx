@@ -27,22 +27,23 @@ export default function (): JSX.Element {
   )
 }
 
-
 function CustomView(): JSX.Element {
-  const { contentRect } = useSizeAwareContext()
+  const bounds = useSizeAwareContext()
   return (
-    <View style={{
-      height: contentRect.height,
-      width: contentRect.width,
-    }}>
+    <View
+      style={{
+        height: bounds.height,
+        width: bounds.width,
+      }}
+    >
       <View style={{
         border: 'solid 1px #808080',
         margin: ThemeToken.spacingXL,
         placeItems: 'center',
       }}>
         <View style={{ gap: ThemeToken.spacingM }}>
-          <code>height: {contentRect.height}</code>
-          <code>width: {contentRect.width}</code>
+          <code>height: {bounds.height}</code>
+          <code>width: {bounds.width}</code>
         </View>
       </View>
     </View>

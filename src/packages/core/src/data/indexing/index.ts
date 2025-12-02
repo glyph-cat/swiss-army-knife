@@ -1,4 +1,4 @@
-import { PartialRecord, StrictPropertyKey } from '../../types'
+import { PartialRecord, StrictPropertyKey } from '@glyph-cat/foundation'
 
 /**
  * Representation of a JavaScript object that helps to keep track

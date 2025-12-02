@@ -1,4 +1,5 @@
-import { CleanupFunction, devWarn, IDisposable } from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction, IDisposable } from '@glyph-cat/foundation'
+import { devWarn } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { Children, ElementType, Fragment, JSX, ReactNode, useEffect } from 'react'

@@ -18,6 +18,9 @@
     "moduleResolution": "Node",
     "outDir": "./temp/tsc/js",
     "paths": {
+      "@glyph-cat/foundation": [
+        "../foundation/src",
+      ],
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],

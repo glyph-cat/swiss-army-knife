@@ -1,5 +1,5 @@
+import { CleanupFunction } from '@glyph-cat/foundation'
 import { GlobalCSSClassNameFactory } from '../../hash'
-import { CleanupFunction } from '../../types'
 import { CustomCSSVariablesRecord } from '../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileCSSVariables } from '../compile-styles'

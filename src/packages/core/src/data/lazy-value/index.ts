@@ -1,4 +1,4 @@
-import { PossiblyUndefined } from '../../types'
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 
 /**
  * Allows the declaration of a variable lazily. Constructor or functions that

@@ -44,8 +44,8 @@ const config: Array<RollupOptions> = [
         preventAssignment: true,
         values: {
           // 'process.env.NODE_ENV': JSON.stringify('production'),
-          // 'process.env.VERSION': JSON.stringify(version),
-          // 'process.env.BUILD_HASH': JSON.stringify(getRandomHash(6)),
+          // 'process.env.PACKAGE_VERSION': JSON.stringify(version),
+          // 'process.env.PACKAGE_BUILD_HASH': JSON.stringify(getRandomHash(6)),
         },
       }),
       terser({

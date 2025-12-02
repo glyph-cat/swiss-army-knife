@@ -1,5 +1,5 @@
+import { TypedFunction } from '@glyph-cat/foundation'
 import { isThenable } from '../../data/type-check'
-import { TypedFunction } from '../../types'
 
 /**
  * Only try executing code but don't catch if there are any errors. Use sparingly.

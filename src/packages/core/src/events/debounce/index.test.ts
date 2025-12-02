@@ -1,4 +1,4 @@
-import { createDebouncedCallback } from '.'
+import { createDebouncedCallback, createDebouncedPromise } from '.'
 
 describe(createDebouncedCallback.name, () => {
 
@@ -65,6 +65,14 @@ describe(createDebouncedCallback.name, () => {
     jest.advanceTimersByTime(200)
     expect(originalCallback).toHaveBeenCalledTimes(2)
 
+  })
+
+})
+
+describe(createDebouncedPromise.name, () => {
+
+  test('', () => {
+    // TODO: modify fn first to always return reference to same the `Promise<R>`
   })
 
 })

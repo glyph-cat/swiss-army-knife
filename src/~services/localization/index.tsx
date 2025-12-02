@@ -1,5 +1,5 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { Language, LocalizedDictionary } from '@glyph-cat/localization'
-import { Nullable } from '@glyph-cat/swiss-army-knife'
 import { useStateValue } from 'cotton-box-react'
 import { createContext, JSX, ReactNode, useContext, useMemo } from 'react'
 import { UserPreferencesState } from '~services/user-preferences'

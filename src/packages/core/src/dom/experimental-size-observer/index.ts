@@ -1,4 +1,5 @@
-import { CleanupFunction, RectangularBoundary } from '../../types'
+import { CleanupFunction } from '@glyph-cat/foundation'
+import { RectangularBoundary } from '../../types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isJSONequal(a: any, b: any): b is typeof a {

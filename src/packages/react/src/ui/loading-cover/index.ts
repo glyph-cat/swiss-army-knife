@@ -1,11 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {
-  CleanupFunction,
-  deepRemove,
-  deepSet,
-  IDisposable,
-  TruthRecord,
-} from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction, IDisposable } from '@glyph-cat/foundation'
+import { deepRemove, deepSet, TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { ComponentType, createElement, JSX, useEffect } from 'react'

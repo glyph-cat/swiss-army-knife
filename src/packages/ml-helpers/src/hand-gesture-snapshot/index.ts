@@ -1,8 +1,8 @@
+import { StringRecord } from '@glyph-cat/foundation'
 import {
   getAngleFromPointsIn3D,
   isInRange,
   NumericDataSet,
-  StringRecord,
 } from '@glyph-cat/swiss-army-knife'
 import { NormalizedLandmark } from '@mediapipe/hands'
 import { HandPoseLandmark } from '../analyzers'

@@ -5,6 +5,10 @@
       "path": ".."
     },
     {
+      "name": "foundation",
+      "path": "../src/packages/foundation"
+    },
+    {
       "name": "core",
       "path": "../src/packages/core"
     },
@@ -59,6 +63,10 @@
     {
       "name": "sandboxes (web)",
       "path": "../src/pages/sandbox"
+    },
+    {
+      "name": "sandboxes (expo)",
+      "path": "../src/packages/playground-expo/src/~sandboxes"
     }
   ],
   "settings": {

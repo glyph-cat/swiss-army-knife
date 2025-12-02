@@ -2,20 +2,21 @@ import chalk from 'chalk'
 import { execSync } from 'child_process'
 import { readFileSync, writeFileSync } from 'fs'
 import path from 'path'
-import { Encoding } from '../../../src/packages/core/src'
+import { PackageJson } from 'type-fest'
+import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
 
-function run(version: string): void {
+function run(newVersion: string): void {
 
-  if (!version) {
-    console.log(chalk.redBright(`Missing argument "${version}"`))
+  if (!newVersion) {
+    console.log(chalk.redBright(`Missing \`newVersion\``))
     process.exit(1)
   }
 
-  if (!/^\d+\.\d+\.\d+(-[a-z]+\.\d+)?$/.test(version)) {
-    console.log(chalk.redBright(`Invalid version "${version}"`))
+  if (!/^\d+\.\d+\.\d+(-[a-z]+\.\d+)?$/.test(newVersion)) {
+    console.log(chalk.redBright(`\`newVersion\` is invalid: "${newVersion}"`))
     process.exit(1)
   }
 
@@ -28,45 +29,66 @@ function run(version: string): void {
     process.exit(1)
   }
 
-  const PROPERTY_KEY_VERSION = 'version'
-  const PROPERTY_KEY_PEER_DEPENDENCIES = 'peerDependencies'
-  const PROPERTY_KEY_NAME = 'name'
-
   const PACKAGE_JSON = 'package.json'
   const PACKAGES_PATH = path.join('.', 'src', 'packages')
 
   const rootPackageJsonPath = path.join('.', PACKAGE_JSON)
-  const rootPackageJson = readJson(rootPackageJsonPath)
-  rootPackageJson[PROPERTY_KEY_VERSION] = version
-  writeJson(rootPackageJsonPath, rootPackageJson)
+  const rootPackageJson = readPackageJson(rootPackageJsonPath)
+  setPackageVersion(rootPackageJson, newVersion)
+  writePackageJson(rootPackageJsonPath, rootPackageJson)
+
+  const foundationPackageJsonPath = path.join(PACKAGES_PATH, 'foundation', PACKAGE_JSON)
+  const foundationPackageJson = readPackageJson(foundationPackageJsonPath)
+  setPackageVersion(foundationPackageJson, newVersion)
+  writePackageJson(foundationPackageJsonPath, foundationPackageJson)
 
   const corePackageJsonPath = path.join(PACKAGES_PATH, 'core', PACKAGE_JSON)
-  const corePackageJson = readJson(corePackageJsonPath)
-  corePackageJson[PROPERTY_KEY_VERSION] = version
-  writeJson(corePackageJsonPath, corePackageJson)
+  const corePackageJson = readPackageJson(corePackageJsonPath)
+  setPackageVersion(corePackageJson, newVersion)
+  setPeerDependencyVersion(corePackageJson, foundationPackageJson.name!, newVersion)
+  writePackageJson(corePackageJsonPath, corePackageJson)
 
   const reactPackageJsonPath = path.join(PACKAGES_PATH, 'react', PACKAGE_JSON)
-  const reactPackageJson = readJson(reactPackageJsonPath)
-  reactPackageJson[PROPERTY_KEY_VERSION] = version
-  reactPackageJson[PROPERTY_KEY_PEER_DEPENDENCIES][corePackageJson[PROPERTY_KEY_NAME] as string] = version
-  writeJson(reactPackageJsonPath, reactPackageJson)
+  const reactPackageJson = readPackageJson(reactPackageJsonPath)
+  setPackageVersion(reactPackageJson, newVersion)
+  setPeerDependencyVersion(reactPackageJson, foundationPackageJson.name!, newVersion)
+  setPeerDependencyVersion(reactPackageJson, corePackageJson.name!, newVersion)
+  writePackageJson(reactPackageJsonPath, reactPackageJson)
 
   execSync(`git add ${[
     rootPackageJsonPath,
     corePackageJsonPath,
     reactPackageJsonPath,
   ].join(' ')}`)
-  execSync(`git commit -m 'v${version}'`)
-  execSync(`git tag 'v${version}'`)
+  execSync(`git commit -m 'v${newVersion}'`)
+  execSync(`git tag 'v${newVersion}'`)
 
 }
 
 run(process.argv[2])
 
-function readJson(fromPath: string): Record<string, unknown> {
+function readPackageJson(fromPath: string): PackageJson {
   return JSON.parse(readFileSync(fromPath, Encoding.UTF_8))
 }
 
-function writeJson(toPath: string, object: Record<string, unknown>): void {
+function writePackageJson(toPath: string, object: PackageJson): void {
   writeFileSync(toPath, JSON.stringify(object, null, 2), Encoding.UTF_8)
+}
+
+function setPackageVersion(
+  packageObj: PackageJson,
+  version: string,
+): void {
+  packageObj.version = version
+}
+
+function setPeerDependencyVersion(
+  packageObj: PackageJson,
+  dependencyName: string,
+  version: string,
+): void {
+  if (!packageObj.peerDependencies) {
+    packageObj.peerDependencies = {}
+  }
+  packageObj.peerDependencies[dependencyName] = version
 }

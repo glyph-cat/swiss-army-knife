@@ -1,8 +1,8 @@
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 import { ReadOnlyStateManager, SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
 import { createEnumToStringConverter, isFunction } from '../../data'
 import { Dimension2D } from '../../math'
 import { TemplateStyles } from '../../styling'
-import { PossiblyUndefined } from '../../types'
 
 /**
  * @public

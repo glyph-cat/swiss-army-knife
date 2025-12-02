@@ -1,4 +1,9 @@
-import { createEnumToStringConverter, enumerate, fullyEnumerate, MutableEnumeration } from '.'
+import {
+  createEnumToStringConverter,
+  enumerate,
+  fullyEnumerate,
+  MutableEnumeration,
+} from '.'
 import { tryOnly } from '../../function/try-only'
 
 test(createEnumToStringConverter.name, () => {

@@ -1,4 +1,4 @@
-import { StrictPropertyKey } from '../../../types'
+import { StrictPropertyKey } from '@glyph-cat/foundation'
 import { isObject } from '../../type-check'
 import { hasProperty } from '../property'
 

@@ -1,5 +1,6 @@
+import { PartialStringRecord } from '@glyph-cat/foundation'
 import { Language } from '@glyph-cat/localization'
-import { objectIsNotEmpty, PartialStringRecord } from '@glyph-cat/swiss-army-knife'
+import { objectIsNotEmpty } from '@glyph-cat/swiss-army-knife'
 import { GlobalDictionary } from '.'
 
 const defaultLanguage: Language<typeof GlobalDictionary.data> = 'en'

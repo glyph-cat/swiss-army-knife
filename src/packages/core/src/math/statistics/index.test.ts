@@ -1,5 +1,5 @@
+import { TypedFunction } from '@glyph-cat/foundation'
 import { NumericDataSet } from '.'
-import { TypedFunction } from '../../types'
 import { spyFn } from './test-utils'
 
 let resetSpyFn: TypedFunction = null!

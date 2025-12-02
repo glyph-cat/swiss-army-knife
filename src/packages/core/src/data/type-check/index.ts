@@ -1,4 +1,4 @@
-import { PlainRecord, TypedFunction } from '../../types'
+import { PlainRecord, TypedFunction } from '@glyph-cat/foundation'
 
 /**
  * Determine if a value is a boolean.

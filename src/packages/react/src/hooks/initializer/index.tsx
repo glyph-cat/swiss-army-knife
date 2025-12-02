@@ -1,4 +1,4 @@
-import { CleanupFunction } from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction } from '@glyph-cat/foundation'
 import { useContext, useEffect, useId, useRef } from 'react'
 import { GCContext } from '../../provider'
 

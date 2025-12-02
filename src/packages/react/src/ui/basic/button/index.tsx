@@ -1,4 +1,5 @@
-import { c, injectInlineCSSVariables, LenientString } from '@glyph-cat/swiss-army-knife'
+import { LenientString } from '@glyph-cat/foundation'
+import { c, injectInlineCSSVariables } from '@glyph-cat/swiss-army-knife'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'

@@ -1,4 +1,4 @@
-import { Nullable } from '../../data'
+import { Nullable } from '@glyph-cat/foundation'
 
 /**
  * Query selector for the last occurring matching element.

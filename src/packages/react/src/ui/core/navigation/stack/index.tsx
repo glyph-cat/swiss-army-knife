@@ -1,4 +1,5 @@
-import { CleanupFunction, objectIsNotEmpty } from '@glyph-cat/swiss-army-knife'
+import { CleanupFunction } from '@glyph-cat/foundation'
+import { objectIsNotEmpty } from '@glyph-cat/swiss-army-knife'
 import {
   Children,
   createContext,

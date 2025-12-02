@@ -1,5 +1,5 @@
+import { CleanupFunction } from '@glyph-cat/foundation'
 import { UnsupportedPlatformError } from '../../error'
-import { CleanupFunction } from '../../types'
 
 /**
  * @public

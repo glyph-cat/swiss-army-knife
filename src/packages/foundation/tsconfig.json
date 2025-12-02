@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationDir": "./temp/tsc/types",
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "importHelpers": false,
+    "isolatedModules": true,
+    "lib": [
+      "esnext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "./temp/tsc/js",
+    "skipLibCheck": true,
+    "strict": false,
+    "stripInternal": true,
+    "target": "ES2019"
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "jest.config.js",
+    "./src/**/*.draft*",
+    "./src/**/*.old*",
+  ],
+  "include": [
+    "src",
+  ]
+}

@@ -1,4 +1,4 @@
-import { StringRecord } from '@glyph-cat/swiss-army-knife'
+import { StringRecord } from '@glyph-cat/foundation'
 import {
   createContext,
   Dispatch,

@@ -1,4 +1,4 @@
-import { PossiblyUndefined } from '../../../types'
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 
 /**
  * Just as the name suggests, destructure an array the other way round.

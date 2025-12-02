@@ -1,4 +1,4 @@
-import { StringRecord } from '@glyph-cat/swiss-army-knife'
+import { StringRecord } from '@glyph-cat/foundation'
 import { CellType, VirtualizedSectionListProps } from '../../../abstractions'
 import { SizeTrackingArray } from '../00-size-trackable-array'
 

@@ -1,5 +1,5 @@
-import { StringRecord } from '@glyph-cat/swiss-army-knife'
-import { AxiosError } from 'axios'
+import { StringRecord } from '@glyph-cat/foundation'
+import type { AxiosError } from 'axios'
 import { CustomAPIError } from '../base'
 import { LookupDictionary } from './lookup.scripted'
 

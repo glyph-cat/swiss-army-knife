@@ -1,5 +1,4 @@
-import { RefObject } from '../../data/ref'
-import { CleanupFunction } from '../../types'
+import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
 import { querySelectorLast } from '../query-selector-last'
 import {
   DATA_PRECEDENCE_LEVEL,

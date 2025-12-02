@@ -1,4 +1,4 @@
-import { PossiblyUndefined, TypedFunction } from '../types'
+import { PossiblyUndefined, TypedFunction } from '@glyph-cat/foundation'
 
 /**
  * Only invoke the callback in client environment only.

@@ -4,10 +4,10 @@ import {
   getAngleFromPointsIn3D,
   hasProperty,
   NumericDataSet,
-  PartialRecord,
 } from '@glyph-cat/swiss-army-knife'
 import { NormalizedLandmark } from '@mediapipe/hands'
 import { HandPoseLandmark } from '../analyzers'
+import { PartialRecord } from '@glyph-cat/foundation'
 
 /**
  * @public

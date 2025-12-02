@@ -1,6 +1,6 @@
-import { IS_INTERNAL_DEBUG_ENV } from '../../constants'
+import { RefObject } from '@glyph-cat/foundation'
+import { IS_SOURCE_ENV } from '../../constants'
 import { clampedUnshift } from '../array/clamp'
-import { RefObject } from '../ref'
 import { isUndefined } from '../type-check'
 
 /**
@@ -97,7 +97,7 @@ export function deepMemoize<A extends Array<unknown>, R>(
     // If cache not hit, begin calculation:
     const currentResult = callback(...currentArgs)
     cacheStack = clampedUnshift(cacheSize, [[currentArgs, currentResult]], cacheStack)
-    if (IS_INTERNAL_DEBUG_ENV) {
+    if (IS_SOURCE_ENV) {
       cacheSpy!.current = cacheStack
     }
     return currentResult

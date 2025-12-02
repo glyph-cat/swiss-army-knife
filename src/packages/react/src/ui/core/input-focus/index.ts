@@ -1,4 +1,5 @@
-import { IDisposable, RefObject, TruthRecord } from '@glyph-cat/swiss-army-knife'
+import { IDisposable, RefObject } from '@glyph-cat/foundation'
+import { TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { Ref, useCallback, useId, useImperativeHandle, useLayoutEffect, useRef } from 'react'

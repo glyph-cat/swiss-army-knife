@@ -1,9 +1,5 @@
-import {
-  Awaitable,
-  createEnumToStringConverter,
-  LazyValue,
-  StringRecord,
-} from '@glyph-cat/swiss-army-knife'
+import { Awaitable, StringRecord, } from '@glyph-cat/foundation'
+import { createEnumToStringConverter, LazyValue } from '@glyph-cat/swiss-army-knife'
 import { FilesetResolver } from '@mediapipe/tasks-vision'
 import { SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
 import { VisionAnalyzerState, VisionLandmarker, WasmFileset } from '../../abstractions'
@@ -16,24 +12,24 @@ export class FilesetResolverPath {
   /**
    * @internal
    */
-  static _isLocked = false
+  static M$isLocked = false
 
   /**
    * @internal
    */
-  private static _value = '/mediapipe/wasm'
+  private static M$value = '/mediapipe/wasm'
 
-  static get(): string { return this._value }
+  static get(): string { return this.M$value }
 
   /**
    * This can a the path to the wasm hosted on your server.
    * Alternative: https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm
    */
   static set(path: string): void {
-    if (this._isLocked) {
+    if (this.M$isLocked) {
       throw new Error('WASM path cannot be changed because the fileset has been loaded')
     }
-    this._value = path
+    this.M$value = path
   }
 
 }
@@ -65,13 +61,13 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
   /**
    * @internal
    */
-  private static readonly _vision = new LazyValue<Promise<WasmFileset>>(() => {
-    FilesetResolverPath._isLocked = true
+  private static readonly M$vision = new LazyValue<Promise<WasmFileset>>(() => {
+    FilesetResolverPath.M$isLocked = true
     return FilesetResolver.forVisionTasks(FilesetResolverPath.get())
   })
 
   protected static async getVision(): Promise<WasmFileset> {
-    return this._vision.value
+    return this.M$vision.value
   }
 
   protected taskRunner: TaskRunner
@@ -154,7 +150,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
     // if disposed, throw error
     await this.state.wait((s) => s === VisionAnalyzerState.CREATED || s > VisionAnalyzerState.STANDBY)
     // For safety, we don't gate-keep the core stopping logic behind state-checking.
-    this._stopBase()
+    this.M$stopBase()
     if (this.state.get() === VisionAnalyzerState.DISPOSED) { return } // Early exit
     this.state.set(VisionAnalyzerState.STANDBY)
   }
@@ -185,7 +181,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
   /**
    * @internal
    */
-  private _stopBase(): void {
+  private M$stopBase(): void {
     cancelAnimationFrame(this.lastRequestedAnimationFrame)
   }
 

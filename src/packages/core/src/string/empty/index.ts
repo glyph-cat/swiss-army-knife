@@ -1,4 +1,5 @@
-import { isNull, Nullable } from '../../data'
+import { Nullable } from '@glyph-cat/foundation'
+import { isNull } from '../../data'
 
 /**
  * @public

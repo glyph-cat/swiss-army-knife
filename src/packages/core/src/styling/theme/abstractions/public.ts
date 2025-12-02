@@ -1,5 +1,5 @@
+import { StringRecord } from '@glyph-cat/foundation'
 import { Property } from 'csstype'
-import { StringRecord } from '../../../types'
 
 /**
  * @public

@@ -1,0 +1,41 @@
+{
+  "name": "@glyph-cat/foundation",
+  "version": "0.0.0-experimental.87",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "types": "lib/types/index.d.ts",
+  "files": [
+    "assets",
+    "lib"
+  ],
+  "description": "GlyphCat's base constants, type definitions and other structures.",
+  "author": "glyph-cat",
+  "license": "MIT",
+  "readme": "README.md",
+  "scripts": {
+    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "lint": "eslint .",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest -c jest.config.ts",
+    "types": "tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh",
+    "prepack": "tsx ./scripts/run/sync-package",
+    "all": "sh ./scripts/run/all.sh"
+  },
+  "keywords": [
+    "common constants",
+    "common type definitions",
+    "javascript",
+    "typescript"
+  ],
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/foundation#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  }
+}

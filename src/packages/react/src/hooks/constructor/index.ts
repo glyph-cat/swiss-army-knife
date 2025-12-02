@@ -1,10 +1,16 @@
-import { CleanupFunction } from '@glyph-cat/swiss-army-knife'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useInitializer } from '../initializer'
+
+import { CleanupFunction } from '@glyph-cat/foundation'
 import { useEffect, useId, useRef } from 'react'
 
 const store: Record<string, Array<unknown>> = {}
 
 /**
  * @public
+ * @deprecated Prefer using
+ * {@link useInitializer|`useInitializer`}
+ * from now on instead.
  */
 export function useConstructor<T>(factory: () => T, cleanupFn: CleanupFunction<T>): T {
 
@@ -13,7 +19,9 @@ export function useConstructor<T>(factory: () => T, cleanupFn: CleanupFunction<T
   const isInitialized = useRef(false)
   const ref = useRef<T>(null)
   if (!isInitialized.current) {
-    if (!store[id]) { store[id] = [] }
+    if (!store[id]) {
+      store[id] = [] // eslint-disable-line react-hooks/immutability
+    }
     const newInstance = factory()
     store[id].push(newInstance)
     ref.current = newInstance

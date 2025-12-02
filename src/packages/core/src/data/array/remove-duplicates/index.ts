@@ -1,4 +1,4 @@
-import { ReadonlyOrWritableArray } from '../../../types'
+import { ReadWritableArray } from '@glyph-cat/foundation'
 
 /**
  * Remove duplicates from an array using `Set`.
@@ -9,6 +9,6 @@ import { ReadonlyOrWritableArray } from '../../../types'
  * console.log(list) // [1, 2, 3, 4]
  * @public
  */
-export function removeDuplicates<T>(array: ReadonlyOrWritableArray<T>): Array<T> {
+export function removeDuplicates<T>(array: ReadWritableArray<T>): Array<T> {
   return [...new Set(array)]
 }

@@ -5,8 +5,15 @@ import { Watcher } from '../watcher'
 
 export class MockStateManager<State> {
 
-  protected readonly _watcher = new Watcher<[State]>()
-  protected _internalState: State
+  /**
+   * @internal
+   */
+  protected readonly M$watcher = new Watcher<[State]>()
+
+  /**
+   * @internal
+   */
+  protected M$internalState: State
 
   constructor(defaultState: State, cleanupManager: CleanupManager) {
     this.get = this.get.bind(this)
@@ -15,34 +22,34 @@ export class MockStateManager<State> {
     this.unwatchAll = this.unwatchAll.bind(this)
     this.wait = this.wait.bind(this)
     this.dispose = this.dispose.bind(this)
-    this._internalState = defaultState
+    this.M$internalState = defaultState
     cleanupManager.append(this.dispose)
   }
 
   get(): State {
-    return this._internalState
+    return this.M$internalState
   }
 
   set(newState: State): void {
-    this._internalState = newState
-    this._watcher.refresh(this._internalState)
+    this.M$internalState = newState
+    this.M$watcher.refresh(this.M$internalState)
   }
 
   watch(callback: (state: State) => void): () => void {
-    return this._watcher.watch(callback)
+    return this.M$watcher.watch(callback)
   }
 
   unwatchAll(): void {
-    this._watcher.unwatchAll()
+    this.M$watcher.unwatchAll()
   }
 
   wait(expectedValue: State): Promise<State> {
     const fulfillsCondition = ($state: State) => Object.is(expectedValue, $state)
-    if (fulfillsCondition(this._internalState)) {
-      return Promise.resolve(this._internalState)
+    if (fulfillsCondition(this.M$internalState)) {
+      return Promise.resolve(this.M$internalState)
     } else {
       return new Promise((resolve) => {
-        const unwatch = this._watcher.watch((state) => {
+        const unwatch = this.M$watcher.watch((state) => {
           if (fulfillsCondition(state)) {
             unwatch()
             resolve(state)
@@ -53,7 +60,7 @@ export class MockStateManager<State> {
   }
 
   dispose(): void {
-    this._watcher.dispose()
+    this.M$watcher.dispose()
   }
 
 }

@@ -1,4 +1,4 @@
-import { TypedFunction } from '../../types'
+import { TypedFunction } from '@glyph-cat/foundation'
 
 /**
  * @public
@@ -131,18 +131,22 @@ export class AggregateWatcher<A extends Array<unknown>> extends Watcher<A> {
 
   private watchers: Array<Watcher<A>> = []
   private unwatchList: Array<UnwatchCallback> = []
-  private _refresh: typeof this.refresh
+
+  /**
+   * @internal
+   */
+  private M$refresh: typeof this.refresh
 
   constructor(watchers: Array<Watcher<A>>) {
     super()
     this.watchers = watchers
-    this._refresh = this.refresh
+    this.M$refresh = this.refresh
     this.refresh = () => {
       throw new Error('AggregateWatcher does not allow triggering refreshes externally')
     }
     for (const watcher of this.watchers) {
       const unwatch = watcher.watch((...args) => {
-        this._refresh(...args)
+        this.M$refresh(...args)
       })
       this.unwatchList.push(unwatch)
     }

@@ -1,15 +1,15 @@
 import { writeFileSync } from 'fs'
+import { getFirstValue } from '../../../src/packages/core/src/data/object/access'
+import { DO_NOT_MODIFY_WARNING } from '../../../src/packages/core/src/scripting/constants'
+import { Casing } from '../../../src/packages/core/src/string/casing'
 import {
-  Casing,
-  DO_NOT_MODIFY_WARNING,
-  Encoding,
-  getFirstValue,
   IComponentParameters,
   IDurationDefinition,
   ISpacingDefinition,
   IThemePalette,
-  StringRecord,
-} from '../../../src/packages/core/src'
+} from '../../../src/packages/core/src/styling/theme'
+import { Encoding } from '../../../src/packages/foundation/src/encoding'
+import { StringRecord } from '../../../src/packages/foundation/src/records'
 import { THEME_DICTIONARY } from '../../../src/~services/theme/constants'
 
 const SAMPLE_DICTIONARY = getFirstValue(THEME_DICTIONARY)

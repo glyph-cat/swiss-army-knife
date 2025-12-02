@@ -21,6 +21,9 @@
       "@glyph-cat/eslint-config": [
         "./packages/eslint-config"
       ],
+      "@glyph-cat/foundation": [
+        "./packages/foundation/src"
+      ],
       "@glyph-cat/swiss-army-knife": [
         "./packages/core/src"
       ],

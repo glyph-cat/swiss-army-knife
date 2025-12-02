@@ -1,4 +1,4 @@
-import { IS_INTERNAL_DEBUG_ENV } from '../../constants'
+import { IS_SOURCE_ENV } from '../../constants'
 import { isUndefined } from '../../data'
 import { spyFn } from './test-utils'
 
@@ -57,7 +57,7 @@ export class NumericDataSet {
 
   get sum(): number {
     if (isUndefined(this.M$sum)) {
-      if (IS_INTERNAL_DEBUG_ENV) { spyFn.current?.('sum') }
+      if (IS_SOURCE_ENV) { spyFn.current?.('sum') }
       this.M$sum = 0
       for (let i = 0; i < this.values.length; i++) {
         this.M$sum += this.values[i]
@@ -68,7 +68,7 @@ export class NumericDataSet {
 
   get mean(): number {
     if (isUndefined(this.M$mean)) {
-      if (IS_INTERNAL_DEBUG_ENV) { spyFn.current?.('mean') }
+      if (IS_SOURCE_ENV) { spyFn.current?.('mean') }
       this.M$mean = this.sum / this.values.length
     }
     return this.M$mean
@@ -81,7 +81,7 @@ export class NumericDataSet {
    */
   get median(): number {
     if (isUndefined(this.M$median)) {
-      if (IS_INTERNAL_DEBUG_ENV) { spyFn.current?.('median') }
+      if (IS_SOURCE_ENV) { spyFn.current?.('median') }
       if (this.values.length % 2 !== 0) {
         // NOTE: `Math.floor` is used instead of `Math.ceil` because array indices
         // are zero-based.
@@ -98,7 +98,7 @@ export class NumericDataSet {
 
   get variance(): number {
     if (isUndefined(this.M$variance)) {
-      if (IS_INTERNAL_DEBUG_ENV) { spyFn.current?.('variance') }
+      if (IS_SOURCE_ENV) { spyFn.current?.('variance') }
       let differenceOfSumAndMeanSquared = 0
       for (let i = 0; i < this.values.length; i++) {
         differenceOfSumAndMeanSquared += Math.pow(this.values[i] - this.mean, 2)
@@ -112,7 +112,7 @@ export class NumericDataSet {
 
   get stddev(): number {
     if (isUndefined(this.M$stddev)) {
-      if (IS_INTERNAL_DEBUG_ENV) { spyFn.current?.('stddev') }
+      if (IS_SOURCE_ENV) { spyFn.current?.('stddev') }
       this.M$stddev = Math.sqrt(this.variance)
     }
     return this.M$stddev

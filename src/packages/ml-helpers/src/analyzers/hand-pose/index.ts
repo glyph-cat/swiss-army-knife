@@ -35,7 +35,7 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
   // runningMode: 'VIDEO',
 
   // TODO: implement from base class????
-  private static readonly _cache: Record<string, Promise<HandLandmarker>> = {}
+  private static readonly M$cache: Record<string, Promise<HandLandmarker>> = {}
 
   constructor(
     private readonly bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer,
@@ -44,8 +44,8 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
   ) {
     super(bodyPoseAnalyzer.videoElement, {}, async () => {
       const optionsKey = JSON.stringify(handLandmarkerOptions)
-      if (!OnePersonHandPoseAnalyzer._cache[optionsKey]) {
-        OnePersonHandPoseAnalyzer._cache[optionsKey] = HandLandmarker.createFromOptions(
+      if (!OnePersonHandPoseAnalyzer.M$cache[optionsKey]) {
+        OnePersonHandPoseAnalyzer.M$cache[optionsKey] = HandLandmarker.createFromOptions(
           await BaseLandmarkAnalyzer.getVision(),
           {
             ...handLandmarkerOptions,
@@ -53,7 +53,7 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
           }
         )
       }
-      return OnePersonHandPoseAnalyzer._cache[optionsKey]
+      return OnePersonHandPoseAnalyzer.M$cache[optionsKey]
     }, 'OnePersonHandPoseAnalyzer', options)
   }
 

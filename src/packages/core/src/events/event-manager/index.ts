@@ -1,4 +1,4 @@
-import { IDisposable, PartialRecord, StrictPropertyKey } from '../../types'
+import { IDisposable, PartialRecord, StrictPropertyKey } from '@glyph-cat/foundation'
 
 /**
  * @public
@@ -15,7 +15,7 @@ export class EventManager<Key extends StrictPropertyKey> implements IDisposable 
   /**
    * @internal
    */
-  private _isDisposed = false
+  private M$isDisposed = false
 
   readonly listeners: PartialRecord<Key, Set<(...args: any[]) => void>> = {}
 
@@ -24,7 +24,7 @@ export class EventManager<Key extends StrictPropertyKey> implements IDisposable 
     callback: (...args: any[]) => void,
     options?: CustomEventListenerOptions,
   ): void {
-    if (this._isDisposed) { return } // Early exit
+    if (this.M$isDisposed) { return } // Early exit
     if (!this.listeners[key]) {
       this.listeners[key] = new Set()
     }
@@ -46,14 +46,14 @@ export class EventManager<Key extends StrictPropertyKey> implements IDisposable 
   }
 
   post(key: Key, ...args: any[]): void {
-    if (this._isDisposed) { return } // Early exit
+    if (this.M$isDisposed) { return } // Early exit
     this.listeners[key]?.forEach((callback) => {
       callback(...args)
     })
   }
 
   dispose(): void {
-    this._isDisposed = true
+    this.M$isDisposed = true
     for (const key in this.listeners) {
       delete this.listeners[key]
     }

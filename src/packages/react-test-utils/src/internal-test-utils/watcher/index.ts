@@ -2,9 +2,20 @@
 
 export class Watcher<Args extends any[]> {
 
-  private _isDisposed = false
-  private _watcherCollection: Record<number, CallableFunction> = {}
-  private _incrementalWatchId = 0
+  /**
+   * @internal
+   */
+  private M$isDisposed = false
+
+  /**
+   * @internal
+   */
+  private M$watcherCollection: Record<number, CallableFunction> = {}
+
+  /**
+   * @internal
+   */
+  private M$incrementalWatchId = 0
 
   constructor() {
     this.watch = this.watch.bind(this)
@@ -14,25 +25,25 @@ export class Watcher<Args extends any[]> {
   }
 
   watch(callback: ((...args: Args) => void)): (() => void) {
-    const newId = ++this._incrementalWatchId
-    this._watcherCollection[newId] = callback
-    return () => { delete this._watcherCollection[newId] }
+    const newId = ++this.M$incrementalWatchId
+    this.M$watcherCollection[newId] = callback
+    return () => { delete this.M$watcherCollection[newId] }
   }
 
   refresh(...args: Args): void {
-    if (this._isDisposed) { return } // Early exit
-    const callbackStack = Object.values(this._watcherCollection)
+    if (this.M$isDisposed) { return } // Early exit
+    const callbackStack = Object.values(this.M$watcherCollection)
     for (let i = 0; i < callbackStack.length; i++) {
       callbackStack[i](...args)
     }
   }
 
   unwatchAll(): void {
-    this._watcherCollection = {}
+    this.M$watcherCollection = {}
   }
 
   dispose(): void {
-    this._isDisposed = true
+    this.M$isDisposed = true
     this.unwatchAll()
   }
 

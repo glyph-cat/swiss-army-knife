@@ -16,7 +16,7 @@ export interface ClientOnlyProps {
  * Note: This might not be a good practice, please use sparingly.
  *
  * To _always_ defer children from rendering by one cycle,
- * please use {@link Defer|`Defer`} instead.
+ * please use {@link DeferRendering|`DeferRendering`} instead.
  *
  * @see https://github.com/vercel/next.js/discussions/17443#discussioncomment-637879
  * @public

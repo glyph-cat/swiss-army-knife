@@ -1,4 +1,5 @@
-import { Encoding, HttpMethod } from '@glyph-cat/swiss-army-knife'
+import { Encoding } from '@glyph-cat/foundation'
+import { HttpMethod } from '@glyph-cat/swiss-army-knife'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { VALID_SANDBOX_NAME_PATTERN } from '~constants'

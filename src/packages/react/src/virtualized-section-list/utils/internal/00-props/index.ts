@@ -1,9 +1,9 @@
+import { StringRecord } from '@glyph-cat/foundation'
 import {
   CSSPropertiesExtended,
   Empty,
   getFirstKey,
   InternalError,
-  StringRecord,
 } from '@glyph-cat/swiss-army-knife'
 import { STYLE_HEIGHT, STYLE_WIDTH } from '../../../../styling/constants'
 import { BASIC_UI_LAYOUT_VERTICAL } from '../../../../ui/basic/constants'

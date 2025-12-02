@@ -1,4 +1,5 @@
-import { c, delay, Empty, multilineTrim, RefObject } from '@glyph-cat/swiss-army-knife'
+import { RefObject } from '@glyph-cat/foundation'
+import { c, delay, Empty, multilineTrim } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, TextArea, View } from '@glyph-cat/swiss-army-knife-react'
 import ClipboardJS from 'clipboard'
 import { JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'

@@ -1,4 +1,5 @@
-import { hasProperty, LazyValue, LenientString, RefObject } from '@glyph-cat/swiss-army-knife'
+import { LenientString, RefObject } from '@glyph-cat/foundation'
+import { hasProperty, LazyValue } from '@glyph-cat/swiss-army-knife'
 import { IDictionaryData, Language, LocalizationKey, LocalizedValue } from '../abstractions'
 import { LanguageNotFoundError, LocalizationKeyNotFoundError } from '../errors'
 
@@ -40,15 +41,15 @@ export class LocalizationDictionary<DictionaryData extends IDictionaryData> {
   /**
    * @internal
    */
-  private readonly _languages: ReadonlySet<Language<DictionaryData>>
+  private readonly M$languages: ReadonlySet<Language<DictionaryData>>
 
   /**
    * The list of available languages.
    */
-  get languages(): ReadonlySet<Language<DictionaryData>> { return this._languages }
+  get languages(): ReadonlySet<Language<DictionaryData>> { return this.M$languages }
 
   constructor(readonly data: DictionaryData) {
-    this._languages = new Set(Object.keys(data))
+    this.M$languages = new Set(Object.keys(data))
     this.localize = this.localize.bind(this)
     this.tryLocalize = this.tryLocalize.bind(this)
     this.resolveLanguage = this.resolveLanguage.bind(this)

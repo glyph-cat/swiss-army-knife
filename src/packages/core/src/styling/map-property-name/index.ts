@@ -1,5 +1,5 @@
+import { LenientString } from '@glyph-cat/foundation'
 import { Properties } from 'csstype'
-import { LenientString } from '../../types'
 
 const cssVariablePattern = /^--/
 const operaPropertyPattern = /^O/

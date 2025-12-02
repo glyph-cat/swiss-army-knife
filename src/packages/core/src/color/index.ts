@@ -1,4 +1,5 @@
 // #region Imports
+import { LenientString, Nullable, NumericValues3 } from '@glyph-cat/foundation'
 import { IS_CLIENT_ENV } from '../constants'
 import {
   hasProperty,
@@ -7,13 +8,11 @@ import {
   isNumber,
   isObject,
   isString,
-  Nullable,
   trySerializeJSON,
 } from '../data'
 import { devError } from '../dev'
 import { clamp, NumericDataSet } from '../math'
 import { isOutOfRange } from '../math/range'
-import { LenientString, NumericValues3 } from '../types'
 import {
   ColorFormat,
   ContrastingValueSpecifications,
