@@ -2,6 +2,10 @@ GlyphCat's set of common utilities for various platforms/environments (NodeJS, W
 
 ## Packages
 
+### `foundation`
+- Base constants, type definitions and other structures.
+- View release notes [here](https://github.com/glyph-cat/swiss-army-knife/blob/main/docs/changelog).
+
 ### `swiss-army-knife`
 - Non-framework/library-specific common utilities.
 - View release notes [here](https://github.com/glyph-cat/swiss-army-knife/blob/main/docs/changelog).

@@ -1,5 +1,8 @@
 set -e
 
+ECHO "Forwarding exports for 'foundation'..."
+yarn --cwd ./src/packages/foundation afe
+
 ECHO "Forwarding exports for 'core'..."
 yarn --cwd ./src/packages/core afe
 
