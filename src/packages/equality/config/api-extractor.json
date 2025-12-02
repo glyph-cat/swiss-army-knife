@@ -1,6 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/equality/src/index.d.ts",
+  "compiler": {
+    "overrideTsconfig": {
+      "compilerOptions": {
+        "paths": {
+          // Paths are meant to be left out, then API Extractor will show warning:
+          // (TS2307) Cannot find module '...' or its corresponding type declarations;
+          // but output file will import types from package and there will be no overlap.
+          // This is a most likely a happy mistake.
+          "@glyph-cat/foundation": []
+        }
+      }
+    }
+  },
   "apiReport": {
     "enabled": false
   },
