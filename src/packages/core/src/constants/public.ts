@@ -2,22 +2,33 @@ import { BuildType } from '@glyph-cat/foundation'
 import { TimestampId } from '../datetime/timestamp-id'
 
 /**
+ * Git commit hash of which the package was built.
+ * @public
+ */
+export const BUILD_HASH = process.env.PACKAGE_BUILD_HASH as string
+
+/**
+ * The package build type.
+ * @public
+ */
+export const BUILD_TYPE = process.env.PACKAGE_BUILD_TYPE as BuildType
+
+/**
+ * The package version.
+ * @public
+ */
+export const VERSION = process.env.PACKAGE_VERSION
+
+/**
  * Refers to the non-production environment where this library is used by developers.
  * @public
  */
 export const IS_DEBUG_ENV = process.env.NODE_ENV !== 'production'
 
 /**
- * The package's build type.
  * @public
  */
-export const BUILD_TYPE = process.env.PACKAGE_BUILD_TYPE as BuildType
-
-/**
- * Hash of the Git commit in which the package's version is built.
- * @public
- */
-export const BUILD_HASH = process.env.PACKAGE_BUILD_HASH
+export const RUNTIME_ID = TimestampId()
 
 /**
  * In React Native, the window is not exactly the same as what it is in the
@@ -33,17 +44,7 @@ export const BUILD_HASH = process.env.PACKAGE_BUILD_HASH
  */
 export const IS_CLIENT_ENV = IS_DEBUG_ENV ||
   BUILD_TYPE === BuildType.RN ||
-  typeof window !== 'undefined'
+  typeof window !== 'undefined' // KIV: deprecate this?
 // ^ NOTE: `typeof window !== 'undefined'` must be placed at the last because
 // the value remains unknown at compile time, and will result in dead code not
 // trimmed even when `IS_CLIENT_ENV` is undoubtedly true.
-
-/**
- * @public
- */
-export const VERSION = process.env.PACKAGE_VERSION
-
-/**
- * @public
- */
-export const RUNTIME_ID = TimestampId()

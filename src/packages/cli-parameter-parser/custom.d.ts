@@ -18,12 +18,7 @@ declare global {
        */
       IS_PRODUCTION_TARGET?: 'false'
       /**
-       * The package version.
-       * This is a _**custom**_ environment variable available only at build-time.
-       */
-      PACKAGE_VERSION?: string
-      /**
-       * The package build hash.
+       * Git commit hash of which the package was built.
        * This is a _**custom**_ environment variable available only at build-time.
        */
       PACKAGE_BUILD_HASH?: string
@@ -32,6 +27,11 @@ declare global {
        * This is a _**custom**_ environment variable available only at build-time.
        */
       PACKAGE_BUILD_TYPE?: string
+      /**
+       * The package version.
+       * This is a _**custom**_ environment variable available only at build-time.
+       */
+      PACKAGE_VERSION?: string
     }
 
   }
