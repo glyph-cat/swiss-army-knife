@@ -17,7 +17,7 @@ test('Synchronous execution', (): void => {
         setCounter((c: number) => c + 1)
       },
     },
-    values: {
+    get: {
       value(hookData) {
         const [counter] = hookData
         return counter
@@ -66,7 +66,7 @@ test('Asynchronous execution', async (): Promise<void> => {
         setCounter((c: number) => c + 1)
       },
     },
-    values: {
+    get: {
       value(hookData): number {
         const [counter] = hookData
         return counter
@@ -129,7 +129,7 @@ test('Value getter causes error', () => {
 
   const tester = new HookTester({
     useHook: () => useRef(42),
-    values: {
+    get: {
       value1() {
         throw new Error('lorem-ipsum')
       },

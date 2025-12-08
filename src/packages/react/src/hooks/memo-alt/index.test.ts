@@ -26,7 +26,7 @@ test('Dependencies are same', () => {
     actions: {
       setObject: (hookData) => { hookData.setObject({ a: 1, b: 2, c: 3 }) },
     },
-    values: {
+    get: {
       value: (hookData) => hookData.memoizedObject,
     },
   }, cleanupManager)
@@ -61,7 +61,7 @@ test('Dependencies are different', () => {
     actions: {
       setObject: (hookData) => { hookData.setObject({ a: 1, b: 2, c: 7 }) },
     },
-    values: {
+    get: {
       value: (hookData) => hookData.memoizedObject,
     },
   }, cleanupManager)

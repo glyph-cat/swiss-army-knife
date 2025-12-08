@@ -21,7 +21,7 @@ test(useStateAlt.name, () => {
         reset()
       },
     },
-    values: {
+    get: {
       value(hook) {
         const [state] = hook
         return state

@@ -40,7 +40,7 @@ test(useSandboxedState.name, () => {
         setState(DIFFERENT_REFERENCE_DIFFERENT_VALUE)
       },
     },
-    values: {
+    get: {
       value(hookData) {
         return hookData[0][0]
       },

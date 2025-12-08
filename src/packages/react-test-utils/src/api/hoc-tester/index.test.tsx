@@ -59,11 +59,11 @@ test('Synchronous execution', async (): Promise<void> => {
         }))
       },
     },
-    values: {
-      value: ((props) => {
+    get: {
+      value: (props) => {
         const [state] = props.state
         return state.counter
-      }),
+      },
     },
   }, cleanupManager)
 
@@ -107,7 +107,7 @@ test('Asynchronous execution', async (): Promise<void> => {
         }))
       },
     },
-    values: {
+    get: {
       value: (props) => {
         const [state] = props.state
         return state.counter
@@ -158,7 +158,7 @@ test('Value getter causes error', () => {
 
   const tester = new HOCTester({
     factory: (Component) => withCounter(Component),
-    values: {
+    get: {
       value1() {
         throw new Error('lorem-ipsum')
       },

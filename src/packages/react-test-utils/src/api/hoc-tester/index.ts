@@ -21,7 +21,11 @@ import { ErrorBoundary } from '../../internals'
 export interface HOCTesterConfig<Actions extends Record<string, (props: any) => void>, Values extends Record<string, (hocData: ReturnType<any>) => string>> {
   factory(component: ComponentType<any>): ComponentType<any>
   actions?: Actions
+  /**
+   * @deprecated Please use `get` instead.
+   */
   values?: Values
+  get?: Values
   strictMode?: boolean
 }
 
@@ -84,8 +88,18 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
     this.get = this.get.bind(this)
     this.dispose = this.dispose.bind(this)
 
-    const { factory, actions, values, strictMode } = config
+    const {
+      factory,
+      actions,
+      values: UNSAFE_values,
+      get: NEW_values,
+      strictMode,
+    } = config
     this.M$actions = { ...actions } as Actions
+    if (UNSAFE_values) {
+      console.warn('The `values` property will be removed soon, please use `get` instead')
+    }
+    const values = { ...UNSAFE_values, ...NEW_values } // TEMP
     this.M$values = { ...values } as Values
 
     if (cleanupManager) { cleanupManager.append(this.dispose) }
