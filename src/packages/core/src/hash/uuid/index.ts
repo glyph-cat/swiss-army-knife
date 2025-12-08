@@ -1,5 +1,5 @@
+import { Charset } from '@glyph-cat/foundation'
 import { BaseHashFactory } from '../base'
-import { Charset } from '../charset'
 import { HashFactory } from '../generic'
 
 /**

@@ -1,6 +1,6 @@
+import { Charset } from '@glyph-cat/foundation'
 import { pickRandom } from '../../random'
 import { BaseHashFactory } from '../base'
-import { Charset } from '../charset'
 
 const prefixCharset = Charset.ALPHABET_LOWER
 const bodyCharset = Charset.DEFAULT

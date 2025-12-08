@@ -1,4 +1,4 @@
-import { HttpMethod } from '@glyph-cat/swiss-army-knife'
+import { HttpMethod } from '@glyph-cat/foundation'
 import { readdirSync, statSync } from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { validateHeaders } from '~services/api/utils/header-validation'

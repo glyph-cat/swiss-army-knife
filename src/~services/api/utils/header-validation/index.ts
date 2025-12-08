@@ -1,4 +1,5 @@
-import { HttpMethod, IS_DEBUG_ENV } from '@glyph-cat/swiss-army-knife'
+import { HttpMethod } from '@glyph-cat/foundation'
+import { IS_DEBUG_ENV } from '@glyph-cat/swiss-army-knife'
 import { NextApiRequest } from 'next'
 
 export function validateHeaders(

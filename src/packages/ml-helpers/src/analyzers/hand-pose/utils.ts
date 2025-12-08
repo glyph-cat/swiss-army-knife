@@ -1,4 +1,5 @@
-import { getDistance2DByCoordinates, Value3D } from '@glyph-cat/swiss-army-knife'
+import { Value3D } from '@glyph-cat/foundation'
+import { getDistance2DByCoordinates } from '@glyph-cat/swiss-army-knife'
 import type { OnePersonHandPoseAnalyzerResult } from '.'
 
 /**

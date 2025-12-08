@@ -34,5 +34,8 @@
   },
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  },
+  "peerDependencies": {
+    "@glyph-cat/foundation": "*"
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/padded-blocks */
-import { HttpStatus } from '@glyph-cat/swiss-army-knife'
+import { HttpStatus } from '@glyph-cat/foundation'
 import { CustomAPIError } from './base'
 import { CustomErrorCode } from './codes'
 

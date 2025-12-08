@@ -27,7 +27,7 @@ export class StyleManager extends StyleMap implements IDisposable {
     initialStyles: Iterable<readonly [string, CSSPropertiesExtended]> = [],
     readonly precedenceLevel?: PrecedenceLevel,
   ) {
-    super() // KIV
+    super()
     // For some reason, passing `initialStyles` to `super()` would cause the
     // `.set` method of this child class to be invoked, rather than the super class.
     // Update: This problem is tricky and niche, there seems to be a post on S.O.

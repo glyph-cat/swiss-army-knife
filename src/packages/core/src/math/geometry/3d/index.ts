@@ -1,4 +1,4 @@
-import { Value3D } from '../../abstractions'
+import { Value3D } from '@glyph-cat/foundation'
 
 /**
  * Gets the distance between two 3D points.

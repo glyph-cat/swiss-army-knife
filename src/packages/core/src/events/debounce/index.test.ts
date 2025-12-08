@@ -71,6 +71,33 @@ describe(createDebouncedCallback.name, () => {
 
 describe(createDebouncedPromise.name, () => {
 
+  test('Arguments are forwarded accordingly', () => {
+
+    const originalCallback = jest.fn()
+    const debouncedCallback = createDebouncedPromise(originalCallback, 200)
+
+    debouncedCallback('a', 'b', 'c', 'd', 'e')
+    jest.advanceTimersByTime(200)
+    expect(originalCallback).toHaveBeenNthCalledWith(1, 'a', 'b', 'c', 'd', 'e')
+
+  })
+
+  test('Continuous calls', () => {
+
+    const originalCallback = jest.fn()
+    const debouncedCallback = createDebouncedPromise(originalCallback, 200)
+
+    // debouncedCallback()
+    // expect(originalCallback).toHaveBeenCalledTimes(0)
+
+    // debouncedCallback()
+    // expect(originalCallback).toHaveBeenCalledTimes(0)
+
+    // jest.advanceTimersByTime(200)
+    // expect(originalCallback).toHaveBeenCalledTimes(1)
+
+  })
+
   test('', () => {
     // TODO: modify fn first to always return reference to same the `Promise<R>`
   })

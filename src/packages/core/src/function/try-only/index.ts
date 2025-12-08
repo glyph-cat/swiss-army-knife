@@ -1,18 +1,6 @@
 import { TypedFunction } from '@glyph-cat/foundation'
+import { Empty } from '../../data'
 import { isThenable } from '../../data/type-check'
-
-/**
- * Only try executing code but don't catch if there are any errors. Use sparingly.
- * @param callback - The callback to try.
- * @example
- * tryOnly(() => {
- *   someMethodThatMightThrowError()
- * })
- * @public
- */
-export function tryOnly(
-  callback: TypedFunction<[], void>,
-): void
 
 /**
  * Only try executing code but don't catch if there are any errors. Use sparingly.
@@ -27,6 +15,19 @@ export function tryOnly(
   callback: TypedFunction<[], Promise<void>>,
 ): Promise<void>
 
+/**
+ * Only try executing code but don't catch if there are any errors. Use sparingly.
+ * @param callback - The callback to try.
+ * @example
+ * tryOnly(() => {
+ *   someMethodThatMightThrowError()
+ * })
+ * @public
+ */
+export function tryOnly(
+  callback: TypedFunction<[], void>,
+): void
+
 export function tryOnly(
   callback: TypedFunction<[], void | Promise<void>>,
 ): void | Promise<void> {
@@ -34,7 +35,9 @@ export function tryOnly(
     const executedCallback = callback()
     if (isThenable(executedCallback)) {
       return new Promise((resolve) => {
-        executedCallback.then(() => { resolve() })
+        executedCallback.catch(Empty.FUNCTION).finally(() => {
+          resolve()
+        })
       })
     }
   } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars

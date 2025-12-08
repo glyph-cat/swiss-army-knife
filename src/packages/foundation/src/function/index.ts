@@ -1,4 +1,10 @@
 /**
+ * An alternative expression for `() => void`.
+ * @public
+ */
+export type EmptyFunction = () => void
+
+/**
  * A representation of a generic JavaScript function with type inference.
  * @example
  * let getSum: TypedFunction<[a: number, b: number], number>

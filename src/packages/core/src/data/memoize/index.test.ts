@@ -1,68 +1,55 @@
-import { areDepsEqual, deepMemoize, memoize } from '.'
+import { isJSONequal } from '@glyph-cat/equality'
+import { Value2D } from '@glyph-cat/foundation'
+import { deepMemoize, memoize } from '.'
 import { createRef } from '../ref'
 
-describe(areDepsEqual.name, (): void => {
+describe(memoize.name, (): void => {
 
-  describe('true', (): void => {
+  test('Simple', () => {
 
-    test('Primitive types', (): void => {
-      const deps1 = [42, true, 'foo']
-      const deps2 = [42, true, 'foo']
-      expect(areDepsEqual(deps1, deps2)).toBe(true)
-    })
+    const add = jest.fn((num1: number, num2: number): number => num1 + num2)
+    const memoizedAdd = memoize(add)
 
-    test('Object types', (): void => {
-      const arr = []
-      const obj = {}
-      const deps1 = [arr, obj]
-      const deps2 = [arr, obj]
-      expect(areDepsEqual(deps1, deps2)).toBe(true)
-    })
+    expect(memoizedAdd(1, 2)).toBe(3)
+    expect(add).toHaveBeenCalledTimes(1)
+    expect(add).toHaveBeenNthCalledWith(1, 1, 2)
 
-  })
+    expect(memoizedAdd(1, 2)).toBe(3)
+    expect(add).toHaveBeenCalledTimes(1)
+    expect(add).toHaveBeenNthCalledWith(1, 1, 2)
 
-  describe('false', (): void => {
+    expect(memoizedAdd(3, 4)).toBe(7)
+    expect(add).toHaveBeenCalledTimes(2)
+    expect(add).toHaveBeenNthCalledWith(2, 3, 4)
 
-    test('Primitive types', (): void => {
-      const deps1 = [42, false, 'foo']
-      const deps2 = [42, true, 'bar']
-      expect(areDepsEqual(deps1, deps2)).toBe(false)
-    })
-
-    test('Object types', (): void => {
-      const arr = []
-      const obj = {}
-      const deps1 = [arr, obj]
-      const deps2 = [arr, {}]
-      expect(areDepsEqual(deps1, deps2)).toBe(false)
-    })
-
-    test('Different length', (): void => {
-      const deps1 = [42, true, 'foo']
-      const deps2 = [42, true]
-      expect(areDepsEqual(deps1, deps2)).toBe(false)
-    })
+    expect(memoizedAdd(1, 2)).toBe(3)
+    expect(add).toHaveBeenCalledTimes(3)
+    expect(add).toHaveBeenNthCalledWith(3, 1, 2)
 
   })
 
-})
+  test('Complex', () => {
 
-test(memoize.name, (): void => {
+    const addX = jest.fn((p1: Value2D, p2: Value2D): number => p1.x + p2.x)
+    const memoizedAddX = memoize(addX, (a, b) => {
+      const [prevP1, prevP2] = a
+      const [nextP1, nextP2] = b
+      return isJSONequal(prevP1, nextP1) && isJSONequal(prevP2, nextP2)
+    })
 
-  const add = jest.fn((num1: number, num2: number): number => num1 + num2)
-  const memoizedAdd = memoize(add)
+    expect(memoizedAddX({ x: 1, y: 2 }, { x: 2, y: 2 })).toBe(3)
+    expect(addX).toHaveBeenCalledTimes(1)
 
-  memoizedAdd(1, 2)
-  expect(add).toHaveBeenNthCalledWith(1, 1, 2)
+    expect(memoizedAddX({ x: 1, y: 2 }, { x: 2, y: 2 })).toBe(3)
+    expect(addX).toHaveBeenCalledTimes(1)
 
-  memoizedAdd(1, 2)
-  expect(add).toHaveBeenNthCalledWith(1, 1, 2)
+    expect(memoizedAddX({ x: 3, y: 2 }, { x: 4, y: 2 })).toBe(7)
+    expect(addX).toHaveBeenCalledTimes(2)
 
-  memoizedAdd(3, 4)
-  expect(add).toHaveBeenNthCalledWith(2, 3, 4)
+    expect(memoizedAddX({ x: 1, y: 2 }, { x: 2, y: 2 })).toBe(3)
+    expect(addX).toHaveBeenCalledTimes(3)
 
-  memoizedAdd(1, 2)
-  expect(add).toHaveBeenNthCalledWith(3, 1, 2)
+  })
 
 })
 

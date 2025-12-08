@@ -39,11 +39,21 @@ test(compileStyle.name, () => {
 describe(compileCSSVariables.name, () => {
 
   test('Without identifier', () => {
-    compileCSSVariables({ size: 36, duration: '300ms', color: '#00ff00' })
+    const output = compileCSSVariables({
+      size: 36,
+      duration: '300ms',
+      color: '#00ff00',
+    })
+    expect(output).toBe('--size:36px;--duration:300ms;--color:#00ff00')
   })
 
   test('With identifier', () => {
-    compileCSSVariables({ size: 36, duration: '300ms', color: '#00ff00' }, 'foo')
+    const output = compileCSSVariables({
+      size: 36,
+      duration: '300ms',
+      color: '#00ff00',
+    }, 'foo')
+    expect(output).toBe('.foo{--size:36px;--duration:300ms;--color:#00ff00}')
   })
 
 })

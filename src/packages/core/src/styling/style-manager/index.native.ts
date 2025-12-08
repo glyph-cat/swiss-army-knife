@@ -14,7 +14,7 @@ export class StyleManager extends StyleMap implements IDisposable {
     initialStyles: Iterable<readonly [string, CSSPropertiesExtended]> = [],
     readonly precedenceLevel?: PrecedenceLevel,
   ) {
-    super() // KIV
+    super()
     throw new UnsupportedPlatformError()
   }
 

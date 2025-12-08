@@ -43,7 +43,8 @@ export function __idFactory__(
  * const componentId = useComponentId(8)
  * console.log(componentId) // 'y28vVlQG'
  * @public
- * @deprecated
+ * @deprecated Prefer {@link https://react.dev/reference/react/useId|`useId`}
+ * wherever possible.
  */
 export function useComponentId(hashLength: number): string
 
@@ -65,7 +66,8 @@ export function useComponentId(hashLength: number): string
  * const componentId = useComponentId(String)
  * console.log(componentId) // 'k28f'
  * @public
- * @deprecated
+ * @deprecated Prefer {@link https://react.dev/reference/react/useId|`useId`}
+ * wherever possible.
  */
 export function useComponentId(idType: typeof String, minimumLength?: number): string
 
@@ -81,7 +83,8 @@ export function useComponentId(idType: typeof String, minimumLength?: number): s
  * const componentId = useComponentId(Number)
  * console.log(componentId) // 1
  * @public
- * @deprecated
+ * @deprecated Prefer {@link https://react.dev/reference/react/useId|`useId`}
+ * wherever possible.
  */
 export function useComponentId(idType: typeof Number): number
 
@@ -96,13 +99,15 @@ export function useComponentId(idType: typeof Number): number
  * const componentId = useComponentId(Symbol)
  * console.log(componentId) // Symbol()
  * @public
- * @deprecated
+ * @deprecated Prefer {@link https://react.dev/reference/react/useId|`useId`}
+ * wherever possible.
  */
 export function useComponentId(idType: typeof Symbol): symbol
 
 /**
  * @public
- * @deprecated
+ * @deprecated Prefer {@link https://react.dev/reference/react/useId|`useId`}
+ * wherever possible.
  */
 export function useComponentId(
   idType: number | typeof String | typeof Number | typeof Symbol,

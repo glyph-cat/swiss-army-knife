@@ -1,3 +1,4 @@
+import { Dimension2D } from '@glyph-cat/foundation'
 import {
   drawConnectors,
   drawLandmarks,
@@ -8,7 +9,7 @@ import {
   OnePersonHandPoseAnalyzer,
   VisionAnalyzerState,
 } from '@glyph-cat/ml-helpers'
-import { clamp, Dimension2D, getWindowDimensions, VideoCamera } from '@glyph-cat/swiss-army-knife'
+import { clamp, getWindowDimensions, VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { useWindowDimensions } from '@glyph-cat/swiss-army-knife-react'
 import { NormalizedLandmark, PoseLandmarker } from '@mediapipe/tasks-vision'
 import { CSSProperties, JSX, useLayoutEffect, useMemo, useRef } from 'react'

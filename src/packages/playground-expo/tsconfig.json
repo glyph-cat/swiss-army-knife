@@ -3,9 +3,21 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
+      "@glyph-cat/foundation": [
+        "../foundation/src",
+      ],
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
+      "@glyph-cat/cleanup-manager": [
+        "../cleanup-manager/src",
+      ],
+      "@glyph-cat/react-test-utils": [
+        "../react-test-utils/src",
+      ],
       "@/*": [
         "./*"
-      ]
+      ],
     }
   },
   "include": [

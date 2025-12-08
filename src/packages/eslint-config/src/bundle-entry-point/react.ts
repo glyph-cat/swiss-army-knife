@@ -33,6 +33,7 @@ export const EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS: Readonly<Array<string>> =
   'useKeyUpListener',
   'useEffectValue',
   'useClickAwayListener',
+  'useMemoAlt',
 ]
 
 /**

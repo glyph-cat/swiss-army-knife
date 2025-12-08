@@ -1,29 +1,8 @@
+import { arrayIsShallowEqual } from '@glyph-cat/equality'
 import { RefObject } from '@glyph-cat/foundation'
 import { IS_SOURCE_ENV } from '../../constants'
 import { clampedUnshift } from '../array/clamp'
 import { isUndefined } from '../type-check'
-
-/**
- * A equality checking function similar to React's.
- * @param deps1 - First set of dependencies
- * @param deps2 - Second set of dependencies
- * @returns A boolean indicating whether both sets of dependencies are equal.
- * @example
- * const deps1 = [42, true, 'foo']
- * const deps2 = [42, false, 'bar']
- * const areEqual = areDepsEqual(deps1, deps2)
- * @public
- */
-export function areDepsEqual(
-  deps1: Array<unknown>,
-  deps2: Array<unknown>,
-): boolean {
-  if (deps1.length !== deps2.length) { return false } // Early exit
-  for (let i = 0; i < deps1.length; i++) {
-    if (!Object.is(deps1[i], deps2[i])) { return false } // Early exit
-  }
-  return true
-}
 
 /**
  * A wrapper around any function that will memoize the results based on the
@@ -44,7 +23,9 @@ export function areDepsEqual(
  */
 export function memoize<A extends Array<unknown>, R>(
   callback: (...args: A) => R,
+  areDepsEqual?: (a: A, b: A) => boolean,
 ): (...args: A) => R {
+  areDepsEqual ??= arrayIsShallowEqual
   let cachedArgs: A
   let cachedResult: R
   return (...currentArgs: A): R => {
@@ -87,7 +68,7 @@ export function deepMemoize<A extends Array<unknown>, R>(
   return (...currentArgs: A) => {
     for (let i = 0; i < cacheStack.length; i++) {
       const [cachedArgs, cachedResults] = cacheStack[i]
-      if (areDepsEqual(cachedArgs, currentArgs)) {
+      if (arrayIsShallowEqual(cachedArgs, currentArgs)) {
         // KIV: Probably not worth the effort
         // // Move cached item to front
         // cacheStack.unshift(cacheStack.splice(i, 1)[0])

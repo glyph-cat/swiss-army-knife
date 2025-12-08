@@ -17,6 +17,7 @@ function main(): void {
     'ml-helpers',
     'crayon',
     'eslint-config',
+    'playground-expo',
   ] as const
 
   const cwd = process.cwd()

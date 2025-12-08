@@ -34,7 +34,7 @@ export function createReactConfig({
         'react/react-in-jsx-scope': remapOff, // React ≥17 has new JSX transform
         'react-hooks/refs': OFF,
         'react-hooks/exhaustive-deps': [remapWarn, {
-          additionalHooks: 'useInsertionEffect'
+          additionalHooks: 'useInsertionEffect',
         }],
       },
     },

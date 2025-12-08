@@ -1,4 +1,4 @@
-import { HttpStatus } from '@glyph-cat/swiss-army-knife'
+import { HttpStatus } from '@glyph-cat/foundation'
 
 export class CustomAPIError<Data = unknown> extends Error {
 

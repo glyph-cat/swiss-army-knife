@@ -1,4 +1,4 @@
-import { Nullable, TypedFunction } from '@glyph-cat/foundation'
+import { EmptyFunction, Nullable, TypedFunction } from '@glyph-cat/foundation'
 
 /**
  * Creates a debounced callback.
@@ -11,16 +11,16 @@ import { Nullable, TypedFunction } from '@glyph-cat/foundation'
  * window.addEventListener('resize', debouncedFn)
  * @public
  */
-export function createDebouncedCallback<C extends TypedFunction>(
-  callback: C,
+export function createDebouncedCallback<A extends Array<unknown>>(
+  callback: (...args: A) => void,
   timeout?: number,
-): C {
+): (...args: A) => void {
   let timeoutRef: ReturnType<typeof setTimeout>
   const debouncedCallback = (...args: any[]) => {
     clearTimeout(timeoutRef)
-    timeoutRef = setTimeout(() => { callback(...args) }, timeout)
+    timeoutRef = setTimeout(() => { callback(...args as A) }, timeout)
   }
-  return debouncedCallback as C
+  return debouncedCallback
 }
 
 /**
@@ -34,14 +34,14 @@ export function createDebouncedCallback<C extends TypedFunction>(
  * const value = await debouncedFn()
  * @public
  */
-export function createDebouncedPromise<A extends Array<unknown>, R>(
-  callback: (...args: A) => R,
+export function createDebouncedPromise<A extends Array<unknown>>(
+  callback: (...args: A) => void,
   timeout?: number
-): (...args: A) => Promise<R> {
+): (...args: A) => Promise<void> {
   let timeoutRef: ReturnType<typeof setTimeout>
-  let promiseRef: Nullable<Promise<R>> = null
-  let resolveRef: Nullable<TypedFunction<[R], void>> = null
-  return (...args: A): Promise<R> => {
+  let promiseRef: Nullable<Promise<void>> = null
+  let resolveRef: EmptyFunction
+  return (...args: A): Promise<void> => {
     if (!promiseRef) {
       promiseRef = new Promise((resolve) => {
         resolveRef = resolve
@@ -49,8 +49,8 @@ export function createDebouncedPromise<A extends Array<unknown>, R>(
     }
     clearTimeout(timeoutRef)
     timeoutRef = setTimeout(() => {
-      resolveRef(callback(...args))
-      resolveRef = null
+      callback(...args)
+      resolveRef()
       promiseRef = null
     }, timeout)
     return promiseRef

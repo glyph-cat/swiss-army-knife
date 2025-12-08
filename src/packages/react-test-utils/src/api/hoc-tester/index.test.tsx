@@ -108,10 +108,10 @@ test('Asynchronous execution', async (): Promise<void> => {
       },
     },
     values: {
-      value: ((props) => {
+      value: (props) => {
         const [state] = props.state
         return state.counter
-      }),
+      },
     },
   }, cleanupManager)
 

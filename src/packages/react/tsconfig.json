@@ -24,6 +24,9 @@
       "@glyph-cat/swiss-army-knife": [
         "../core/src",
       ],
+      "@glyph-cat/equality": [
+        "../equality/src",
+      ],
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],

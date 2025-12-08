@@ -1,4 +1,4 @@
-import { HttpMethod } from '@glyph-cat/swiss-army-knife'
+import { HttpMethod } from '@glyph-cat/foundation'
 import { execSync } from 'child_process'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { VALID_SANDBOX_NAME_PATTERN } from '~constants'

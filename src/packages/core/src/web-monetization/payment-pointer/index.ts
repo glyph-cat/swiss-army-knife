@@ -26,7 +26,7 @@ export class PaymentPointerProtector {
    * @internal
    */
   private M$headObserver: MutationObserver
-  // KIV: Properties 'name' and 'content' do not exist under mutationStack[number].target
+  // Properties 'name' and 'content' do not exist under mutationStack[number].target
 
   constructor(readonly paymentPointer: string) {
     this.guard = this.guard.bind(this)

@@ -20,17 +20,21 @@ test(LinearEquation2D.fromPointAndGradient.name, () => {
   expect(equation.c).toBe(3)
 })
 
-// test(LinearEquation2D.fromPoints.name, () => {
-//   //
-// })
+test(LinearEquation2D.fromPoints.name, () => {
+  //
+})
 
-// test(LinearEquation2D.calcFromPointAndGradient.name, () => {
-//   //
-// })
+test(LinearEquation2D.calcFromPointAndGradient.name, () => {
+  //
+})
 
-// test(LinearEquation2D.calcFromPoints.name, () => {
-//   //
-// })
+test(LinearEquation2D.calcFromPoints.name, () => {
+  //
+})
+
+test(LinearEquation2D.prototype.calc.name, () => {
+  //
+})
 
 // =============================================================================
 

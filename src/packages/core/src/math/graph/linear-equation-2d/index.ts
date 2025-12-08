@@ -1,4 +1,4 @@
-import { Value2D } from '../../abstractions'
+import { Value2D } from '@glyph-cat/foundation'
 
 /**
  * @public

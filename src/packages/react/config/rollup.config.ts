@@ -10,6 +10,7 @@ import {
   setDisplayName,
 } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
+import { getSiblingPackages } from '../../../../tools/get-sibling-packages'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -35,8 +36,7 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
-  '@glyph-cat/foundation',
-  '@glyph-cat/swiss-army-knife',
+  ...getSiblingPackages(),
   ...getDependencies(rootPackageJson),
   ...getDependencies(packageJson),
 ].sort()

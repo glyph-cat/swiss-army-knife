@@ -1,4 +1,5 @@
-import { HttpStatus, devError } from '@glyph-cat/swiss-army-knife'
+import { HttpStatus } from '@glyph-cat/foundation'
+import { devError } from '@glyph-cat/swiss-army-knife'
 import { NextApiResponse } from 'next'
 import { CustomAPIError } from '~services/api/errors/base'
 

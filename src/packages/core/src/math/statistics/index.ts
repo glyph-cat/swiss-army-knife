@@ -58,10 +58,7 @@ export class NumericDataSet {
   get sum(): number {
     if (isUndefined(this.M$sum)) {
       if (IS_SOURCE_ENV) { spyFn.current?.('sum') }
-      this.M$sum = 0
-      for (let i = 0; i < this.values.length; i++) {
-        this.M$sum += this.values[i]
-      }
+      this.M$sum = this.values.reduce((acc, value) => acc + value, 0)
     }
     return this.M$sum
   }
@@ -99,10 +96,9 @@ export class NumericDataSet {
   get variance(): number {
     if (isUndefined(this.M$variance)) {
       if (IS_SOURCE_ENV) { spyFn.current?.('variance') }
-      let differenceOfSumAndMeanSquared = 0
-      for (let i = 0; i < this.values.length; i++) {
-        differenceOfSumAndMeanSquared += Math.pow(this.values[i] - this.mean, 2)
-      }
+      const differenceOfSumAndMeanSquared = this.values.reduce((acc, value) => {
+        return acc + Math.pow(value - this.mean, 2)
+      }, 0)
       this.M$variance = differenceOfSumAndMeanSquared / (
         this.values.length - (this.options?.forPopulation ? 0 : 1)
       )
