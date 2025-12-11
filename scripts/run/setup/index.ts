@@ -22,14 +22,6 @@ function main(): void {
 
 main()
 
-function tryReadlinkSync(targetPath: string): Nullable<string> {
-  try {
-    return readlinkSync(targetPath)
-  } catch (e) {
-    return null
-  }
-}
-
 function linkNodeModules(cwd: string, packageName: string): void {
 
   const sourcePath = Path.join(cwd, node_modules)
@@ -69,4 +61,12 @@ function linkNodeModules(cwd: string, packageName: string): void {
     console.error(e)
   }
 
+}
+
+function tryReadlinkSync(targetPath: string): Nullable<string> {
+  try {
+    return readlinkSync(targetPath)
+  } catch (e) {
+    return null
+  }
 }
