@@ -1,5 +1,3 @@
-import { TypedFunction } from '@glyph-cat/foundation'
-import { Empty } from '../../data'
 import { isThenable } from '../../data/type-check'
 
 /**
@@ -10,10 +8,9 @@ import { isThenable } from '../../data/type-check'
  *   await someAsyncMethodThatMightThrowError()
  * })
  * @public
+ * @returns `true` if the callback does not throw any error, otherwise `false`.
  */
-export function tryOnly(
-  callback: TypedFunction<[], Promise<void>>,
-): Promise<void>
+export function tryOnly(callback: () => Promise<void>): Promise<boolean>
 
 /**
  * Only try executing code but don't catch if there are any errors. Use sparingly.
@@ -23,24 +20,26 @@ export function tryOnly(
  *   someMethodThatMightThrowError()
  * })
  * @public
+ * @returns `true` if the callback does not throw any error, otherwise `false`.
  */
-export function tryOnly(
-  callback: TypedFunction<[], void>,
-): void
+export function tryOnly(callback: () => void): boolean
 
 export function tryOnly(
-  callback: TypedFunction<[], void | Promise<void>>,
-): void | Promise<void> {
+  callback: () => void | Promise<void>,
+): boolean | Promise<boolean> {
   try {
     const executedCallback = callback()
     if (isThenable(executedCallback)) {
       return new Promise((resolve) => {
-        executedCallback.catch(Empty.FUNCTION).finally(() => {
-          resolve()
+        executedCallback.catch(() => {
+          resolve(false)
+        }).finally(() => {
+          resolve(true)
         })
       })
     }
   } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
-    // Do nothing
+    return false
   }
+  return true
 }

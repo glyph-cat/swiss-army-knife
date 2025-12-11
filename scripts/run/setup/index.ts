@@ -1,41 +1,72 @@
 import chalk from 'chalk'
-import { symlinkSync } from 'fs'
+import { existsSync, readlinkSync, rmSync, symlinkSync, unlinkSync } from 'fs'
 import Path from 'path'
+import { isString } from '../../../src/packages/core/src/data'
+import { Nullable } from '../../../src/packages/foundation/src/nullable'
+import { getSiblingPackages } from '../../../tools/get-sibling-packages'
+
+const node_modules = 'node_modules'
 
 function main(): void {
-  const PACKAGE_NAMES = [
-    'foundation',
-    'core',
-    'react',
-    'equality',
-    'localization',
-    // 'localization-react',
-    'cleanup-manager',
-    'react-test-utils',
-    'cli-parameter-parser',
-    // 'project-helpers',
-    'ml-helpers',
-    'crayon',
-    'eslint-config',
-    'playground-expo',
-  ] as const
-  for (const packageName of PACKAGE_NAMES) {
-    linkNodeModules(process.cwd(), packageName)
+  console.log(`Creating symlinks for ${node_modules}...`)
+  const IGNORE_LIST = new Set([
+    'localization-react',
+    'project-helpers',
+  ])
+  const packageDirectoryNames = Object.keys(getSiblingPackages()).sort((a, b) => a < b ? -1 : 1)
+  for (const packageDirectoryName of packageDirectoryNames) {
+    if (IGNORE_LIST.has(packageDirectoryName)) { continue }
+    linkNodeModules(process.cwd(), packageDirectoryName)
   }
 }
 
 main()
 
-function linkNodeModules(cwd: string, packageName: string): void {
-  const node_modules = 'node_modules'
+function tryReadlinkSync(targetPath: string): Nullable<string> {
   try {
-    symlinkSync(
-      Path.join(cwd, node_modules),
-      Path.join(cwd, 'src', 'packages', packageName, node_modules),
-    )
-    console.log(chalk.green(' ✓ ') + `Linked ${node_modules} to ${packageName} package`)
+    return readlinkSync(targetPath)
   } catch (e) {
-    console.log(chalk.red(' × ') + `Failed to link ${node_modules} to ${packageName} package`)
+    return null
+  }
+}
+
+function linkNodeModules(cwd: string, packageName: string): void {
+
+  const sourcePath = Path.join(cwd, node_modules)
+  const targetPath = Path.join(cwd, 'src', 'packages', packageName, node_modules)
+
+  if (existsSync(targetPath)) {
+    const symlinkPath = tryReadlinkSync(targetPath)
+    if (isString(symlinkPath)) {
+      if (symlinkPath === sourcePath) {
+        console.log(` ✓ ${packageName} - Already linked`)
+        return // Early exit
+      } else {
+        try {
+          unlinkSync(targetPath)
+        } catch (e) {
+          console.log(chalk.red(' × ') + `${packageName} - Failed to link, another symlink already exists`)
+          console.log(e)
+          return // Early exit
+        }
+      }
+    } else {
+      try {
+        rmSync(targetPath, { recursive: true })
+      } catch (e) {
+        console.log(chalk.red(' × ') + `${packageName} - Failed to link, another folder already exists but could not be removed`)
+        console.log(e)
+        return // Early exit
+      }
+    }
+  }
+
+  try {
+    symlinkSync(sourcePath, targetPath)
+    console.log(chalk.green(' + ') + `${packageName} - Link created`)
+  } catch (e) {
+    console.log(chalk.red(' + ') + `${packageName} - Failed to create link`)
     console.error(e)
   }
+
 }
