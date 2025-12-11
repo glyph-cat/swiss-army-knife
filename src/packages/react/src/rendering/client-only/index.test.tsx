@@ -33,8 +33,25 @@ describe('Client-side', () => {
     expect(renderResult.container.textContent).toBe('AB')
   })
 
-  test('Nested', () => {
+  test.skip('Nested', () => {
+
+    function OuterComponent(): JSX.Element {
+      return (
+        <ClientOnly>
+          <InnerComponent />
+        </ClientOnly>
+      )
+    }
+    function InnerComponent(): JSX.Element {
+      return (
+        <ClientOnly>
+          {'innerText'}
+        </ClientOnly>
+      )
+    }
     // TODO: when already hydrated and new components are added, they should not wait
+    expect('').toBe('')
+
   })
 
 })

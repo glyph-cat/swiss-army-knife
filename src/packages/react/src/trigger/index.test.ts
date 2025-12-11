@@ -1,5 +1,5 @@
 import { Trigger } from '.'
 
-test(Trigger.name, () => {
-  // ...
+test.skip(Trigger.name, () => {
+  expect('').toBe('')
 })

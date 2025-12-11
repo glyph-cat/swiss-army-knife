@@ -5,6 +5,7 @@
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { DateTime } from 'luxon'
+import Path from 'path'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 export function autoForwardExports(entryPath: string): void {
@@ -46,7 +47,7 @@ export function autoForwardExports(entryPath: string): void {
         console.log(chalk.gray(` ${connector} ${chalk.yellow(`# ${item} (skipped)`)}`))
         continue
       }
-      const subPath = `${directoryPath}/${item}`
+      const subPath = Path.join(directoryPath, item)
       const itemIsDirectory = statSync(subPath).isDirectory()
       const hasIndexFile = itemIsDirectory
         ? checkIndexFile(subPath)
@@ -74,7 +75,7 @@ export function autoForwardExports(entryPath: string): void {
     codeLineStack.push(`\n// Generated on: ${now.toSQL()}.`)
 
     writeFileSync(
-      `${directoryPath}/index.scripted.ts`,
+      Path.join(directoryPath, 'index.scripted.ts'),
       codeLineStack.join('\n') + '\n',
       Encoding.UTF_8,
     )
@@ -93,7 +94,7 @@ function crawl(dirPath: string, callback: (filePath: string) => void) {
 
   const allItemsInDir = readdirSync(dirPath)
   for (const item of allItemsInDir) {
-    const nextPath = `${dirPath}/${item}`
+    const nextPath = Path.join(dirPath, item)
     if (statSync(nextPath).isDirectory()) {
       crawl(nextPath, callback)
     } else {

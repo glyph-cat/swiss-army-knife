@@ -9,9 +9,11 @@ import { useConstant } from '../constant'
  * @param factory - The factory function.
  * @param deps - The dependency list.
  * @param isEqual - The function that evaluates whether the dependency list from
- * the previous and next renders are equal.
+ * the previous and next renders are equal. It does not need to be wrapped in
+ * [`useCallback`](https://react.dev/reference/react/useCallback)
+ * but it is also expected that by design, the comparison logic should _never_ change.
  * The default is {@link arrayIsShallowEqual|`arrayIsShallowEqual`}
- * from '@glyph-cat/equality'.
+ * from `@glyph-cat/equality`.
  * @returns The memoized value.
  * @public
  */

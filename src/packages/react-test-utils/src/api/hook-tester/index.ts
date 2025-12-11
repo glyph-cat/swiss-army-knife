@@ -5,6 +5,7 @@ import {
   ErrorInfo,
   Fragment,
   JSX,
+  PropsWithChildren,
   StrictMode,
   act,
   createElement,
@@ -48,6 +49,7 @@ export interface HookTesterConfig<
   values?: Values
   get?: Values
   strictMode?: boolean
+  wrapper?(props: PropsWithChildren): JSX.Element
 }
 
 /**
@@ -138,6 +140,7 @@ export class HookTester<
       values: UNSAFE_values,
       get: NEW_values,
       strictMode,
+      wrapper: Wrapper,
     } = config
     this.M$useHook = useHook
     this.M$hookParameters = (hookParameters ? [...hookParameters] : []) as HookParams
@@ -157,7 +160,10 @@ export class HookTester<
           {},
           createElement(ErrorBoundary, {
             onError: this.onError,
-          }, createElement(this.ContainerComponent))
+          }, Wrapper
+            ? createElement(Wrapper, createElement(this.ContainerComponent))
+            : createElement(this.ContainerComponent)
+          )
         )
       )
     })

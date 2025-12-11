@@ -1,5 +1,7 @@
+import { objectIsShallowEqual } from '@glyph-cat/equality'
 import {
   CleanupFunction,
+  EmptyFunction,
   LenientString,
   PartialRecord,
   StringRecord,
@@ -27,9 +29,8 @@ import {
   useState,
 } from 'react'
 import { __getDisplayName, __setDisplayName } from '../_internals'
+import { GenericHTMLProps } from '../abstractions'
 import { useMemoAlt } from '../hooks/memo-alt'
-import { GenericHTMLProps } from '../index.scripted'
-import { View } from '../ui/core/components/view'
 
 interface ITriggerContext<T> {
   trigger: T
@@ -59,7 +60,10 @@ export function Trigger({
   children,
 }: TriggerProps): JSX.Element {
   const [trigger, setTrigger] = useState<unknown>(null)
-  const contextValue = useMemo(() => ({ trigger, setTrigger }), [trigger])
+  const contextValue = useMemo(() => ({
+    trigger,
+    setTrigger,
+  }), [trigger])
   return (
     <TriggerContext value={contextValue}>
       {children}
@@ -139,42 +143,31 @@ function TriggerSpawn({
   ...$events
 }: TriggerSpawnProps): JSX.Element {
   const { trigger } = useTriggerContext<HTMLElement>()
-  const events = useMemoAlt(() => $events, [$events])
-  // WARNING: specifying `events` as a dep will probably cause infinite rendering
-  // `useMemo` with custom diffing logic?
+  const [shouldShowContent, setContentVisibility] = useState(false)
+  const events = useMemoAlt(() => {
+    return $events
+  }, [$events], ([prevEvents], [nextEvents]) => {
+    // NOTE: `events` need to be memoized with a special equality comparator
+    // or else it would cause infinite rendering.
+    return objectIsShallowEqual(prevEvents, nextEvents)
+  })
   useEffect(() => {
     if (!trigger) { return } // Early exit
     const handlers = objectReduce(events, (acc, _, event) => {
-      const handler = () => { }
+      const handler = () => { setContentVisibility((v) => !v) }
       trigger.addEventListener(event, handler)
-      acc.push(handler)
+      acc.push([event, handler])
       return acc
-    }, [])
-    return () => { handlers.forEach((handler) => handler()) }
+    }, [] as Array<[keyof HTMLElementEventMap, EmptyFunction]>)
+    return () => {
+      handlers.forEach(([event, handler]) => {
+        trigger.removeEventListener(event, handler)
+      })
+    }
     // NOTE: This doesn't play very nicely with elements that have exit animations, may be have a `TriggerAnimatedSpawn` that deliberately adds delay and useContext to signal unmounting?
   }, [events, trigger])
-  return !!trigger && (
-    null
-  )
+  return (!!trigger && shouldShowContent) && <>{children}</>
 }
 
 __setDisplayName(TriggerSpawn)
 Trigger.Spawn = TriggerSpawn
-
-function Example(): JSX.Element {
-  return (
-    <>
-      <Trigger>
-        <Trigger.Target>
-          <View>{'Hello world'}</View>
-        </Trigger.Target>
-        <Trigger.Spawn click>
-          <View>{'Hello sekai'}</View>
-        </Trigger.Spawn>
-        <Trigger.Spawn scrollend>
-          <View>{'Hello sekai'}</View>
-        </Trigger.Spawn>
-      </Trigger>
-    </>
-  )
-}

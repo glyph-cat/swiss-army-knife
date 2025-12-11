@@ -1,17 +1,19 @@
+import { arrayIsShallowEqual } from '@glyph-cat/equality'
 import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
 import { isFunction } from '@glyph-cat/swiss-army-knife'
-import { useCallback } from 'react'
+import { useMemoAlt } from '../hooks'
 
 /**
  * @public
  */
 export function useMergedRefs<T>(
-  ref1: RefObject<T> | ((node: T) => void | CleanupFunction),
-  ref2: RefObject<T> | ((node: T) => void | CleanupFunction),
+  ...refs: Array<RefObject<T> | ((node: T) => void | CleanupFunction)>
 ): ReturnType<typeof mergeRefs> {
-  return useCallback((node: T) => {
-    return mergeRefs(ref1, ref2)(node)
-  }, [ref1, ref2])
+  return useMemoAlt(
+    () => mergeRefs(...refs),
+    [refs],
+    ([previousRefs], [nextRefs]) => arrayIsShallowEqual(previousRefs, nextRefs),
+  )
 }
 
 /**
@@ -29,9 +31,7 @@ export function mergeRefs<T>(
       }
     }
     return () => {
-      // References:
-      // - https://react.dev/reference/react-dom/components/common#react-19-added-cleanup-functions-for-ref-callbacks
-      // - https://react.dev/reference/react-dom/components/common#react-19-added-cleanup-functions-for-ref-callbacks
+      // Reference: https://react.dev/reference/react-dom/components/common#react-19-added-cleanup-functions-for-ref-callbacks
       for (const ref of refs) {
         if (isFunction(ref)) {
           ref(null)
