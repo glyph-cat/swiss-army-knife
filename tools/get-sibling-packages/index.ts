@@ -1,6 +1,6 @@
-import { pickLast } from '@glyph-cat/swiss-army-knife'
 import { readdirSync } from 'fs'
 import Path from 'path'
+import { pickLast } from '../../src/packages/core/src/data/array/pick-last'
 import { StringRecord } from '../../src/packages/foundation/src/records'
 import { readPackageJson } from '../read-package-json'
 

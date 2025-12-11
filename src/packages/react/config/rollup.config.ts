@@ -36,7 +36,7 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
-  ...getSiblingPackages(),
+  ...Object.values(getSiblingPackages()),
   ...getDependencies(rootPackageJson),
   ...getDependencies(packageJson),
 ].sort()

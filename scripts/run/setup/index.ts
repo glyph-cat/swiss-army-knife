@@ -13,7 +13,7 @@ function main(): void {
     'localization-react',
     'project-helpers',
   ])
-  const packageDirectoryNames = Object.keys(getSiblingPackages()).sort((a, b) => a < b ? -1 : 1)
+  const packageDirectoryNames = Object.keys(getSiblingPackages()).sort()
   for (const packageDirectoryName of packageDirectoryNames) {
     if (IGNORE_LIST.has(packageDirectoryName)) { continue }
     linkNodeModules(process.cwd(), packageDirectoryName)
@@ -39,13 +39,13 @@ function linkNodeModules(cwd: string, packageName: string): void {
     const symlinkPath = tryReadlinkSync(targetPath)
     if (isString(symlinkPath)) {
       if (symlinkPath === sourcePath) {
-        console.log(` ✓ ${packageName} - Already linked`)
+        console.log(chalk.gray(` ✓ ${packageName} · Already linked`))
         return // Early exit
       } else {
         try {
           unlinkSync(targetPath)
         } catch (e) {
-          console.log(chalk.red(' × ') + `${packageName} - Failed to link, another symlink already exists`)
+          console.log(chalk.red(` × ${packageName} · Failed to link, another symlink already exists but could not be removed`))
           console.log(e)
           return // Early exit
         }
@@ -54,7 +54,7 @@ function linkNodeModules(cwd: string, packageName: string): void {
       try {
         rmSync(targetPath, { recursive: true })
       } catch (e) {
-        console.log(chalk.red(' × ') + `${packageName} - Failed to link, another folder already exists but could not be removed`)
+        console.log(chalk.red(` × ${packageName} · Failed to link, another folder already exists but could not be removed`))
         console.log(e)
         return // Early exit
       }
@@ -63,9 +63,9 @@ function linkNodeModules(cwd: string, packageName: string): void {
 
   try {
     symlinkSync(sourcePath, targetPath)
-    console.log(chalk.green(' + ') + `${packageName} - Link created`)
+    console.log(chalk.green(` + ${packageName} · Link created`))
   } catch (e) {
-    console.log(chalk.red(' + ') + `${packageName} - Failed to create link`)
+    console.log(chalk.red(` × ${packageName} · Failed to create link`))
     console.error(e)
   }
 
