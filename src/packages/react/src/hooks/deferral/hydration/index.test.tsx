@@ -1,67 +1,29 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
 import { HookTester } from '@glyph-cat/react-test-utils'
-import React, { JSX, useReducer } from 'react'
+import { JSX } from 'react'
 import { renderToString } from 'react-dom/server'
 import { useHydrationState } from '.'
-import { GCProvider } from '../../../provider'
+import { RuntimeContext, RuntimeManager } from '../../../runtime-manager'
 import { useForceUpdate } from '../../force-update'
-import { baseReducer } from '../internal'
 
 let cleanupManager: CleanupManager
 beforeEach(() => { cleanupManager = new CleanupManager() })
 afterEach(() => { cleanupManager.run() })
 
-describe(`Without ${GCProvider.name}`, () => {
+let runtimeManager: RuntimeManager
+beforeEach(() => { runtimeManager = new RuntimeManager() })
+afterEach(() => { runtimeManager = null })
 
-  test('Server-side rendering', () => {
-    function TestComponent(): JSX.Element {
-      return <>{String(useHydrationState())}</>
-    }
-    expect(renderToString(<TestComponent />)).toBe(String(false))
-  })
-
-  test('Client-side rendering', () => {
-
-    const tester = new HookTester({
-      useHook: () => {
-        const isHydrated = useHydrationState()
-        const forceUpdate = useForceUpdate()
-        return { isHydrated, forceUpdate }
-      },
-      actions: {
-        forceUpdate: (hookData) => { hookData.forceUpdate() },
-      },
-      get: {
-        value: (hookData) => hookData.isHydrated,
-      },
-    }, cleanupManager)
-
-    expect(tester.renderCount).toBe(2)
-    expect(tester.get('value')).toBe(true)
-
-    tester.action('forceUpdate')
-    expect(tester.get('value')).toBe(true)
-
-  })
-
+test('Server-side rendering', () => {
+  function TestComponent(): JSX.Element {
+    return <>{String(useHydrationState())}</>
+  }
+  expect(renderToString(<TestComponent />)).toBe(String(false))
 })
 
-describe(`With ${GCProvider.name}`, () => {
+describe('Client-side rendering', () => {
 
-  test('Server-side rendering', () => {
-    function TestComponent(): JSX.Element {
-      return <>{String(useHydrationState())}</>
-    }
-    expect(renderToString(
-      <GCProvider>
-        <TestComponent />
-      </GCProvider>
-    )).toBe(String(false))
-  })
-
-  test.skip('Client-side rendering', () => {
-
-    jest.spyOn(React, 'useReducer')
+  test('First render', () => {
 
     const tester = new HookTester({
       useHook: () => {
@@ -76,19 +38,46 @@ describe(`With ${GCProvider.name}`, () => {
         value: (hookData) => hookData.isHydrated,
       },
       wrapper: ({ children }) => (
-        <GCProvider>
+        <RuntimeContext value={runtimeManager}>
           {children}
-        </GCProvider>
+        </RuntimeContext>
       ),
     }, cleanupManager)
 
-    expect(useReducer).toHaveBeenCalledWith(baseReducer, true)
+    expect(tester.renderCount).toBe(2)
+    expect(tester.get('value')).toBe(true)
 
-    // expect(tester.renderCount).toBe(2)
-    // expect(tester.get('value')).toBe(true)
+    tester.action('forceUpdate')
+    expect(tester.get('value')).toBe(true)
 
-    // tester.action('forceUpdate')
-    // expect(tester.get('value')).toBe(true)
+  })
+
+  test('Subsequent render', () => {
+
+    // Simulate that hydration has already completed
+    runtimeManager.M$hydrationState.set(true)
+
+    const tester = new HookTester({
+      useHook: () => {
+        const isHydrated = useHydrationState()
+        const forceUpdate = useForceUpdate()
+        return { isHydrated, forceUpdate }
+      },
+      actions: {
+        forceUpdate: (hookData) => { hookData.forceUpdate() },
+      },
+      get: {
+        value: (hookData) => hookData.isHydrated,
+      },
+      wrapper: ({ children }) => (
+        <RuntimeContext value={runtimeManager}>
+          {children}
+        </RuntimeContext>
+      ),
+    }, cleanupManager)
+
+    expect(tester.renderCount).toBe(1)
+    expect(tester.get('value')).toBe(true)
 
   })
 

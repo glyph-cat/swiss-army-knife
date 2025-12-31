@@ -1,5 +1,5 @@
 import { JSX, ReactNode } from 'react'
-import { __setDisplayName } from '../../_internals'
+import { __setDisplayName, useTestProbe } from '../../_internals'
 import { useHydrationState } from '../../hooks/deferral/hydration'
 
 /**
@@ -24,6 +24,7 @@ export interface ClientOnlyProps {
 export function ClientOnly({
   children,
 }: ClientOnlyProps): JSX.Element {
+  useTestProbe(ClientOnly.name) // KIV: Make sure this gets removed after bundling
   const isHydrated = useHydrationState()
   return (isHydrated ? children : null) as JSX.Element
 }

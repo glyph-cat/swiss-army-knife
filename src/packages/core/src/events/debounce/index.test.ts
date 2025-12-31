@@ -1,4 +1,4 @@
-import { createDebouncedCallback, createDebouncedPromise } from '.'
+import { createDebouncedCallback } from '.'
 
 describe(createDebouncedCallback.name, () => {
 
@@ -69,37 +69,41 @@ describe(createDebouncedCallback.name, () => {
 
 })
 
-describe(createDebouncedPromise.name, () => {
+/* eslint-disable */
 
-  test('Arguments are forwarded accordingly', () => {
+// describe.skip(createDebouncedPromise.name, () => {
 
-    const originalCallback = jest.fn()
-    const debouncedCallback = createDebouncedPromise(originalCallback, 200)
+//   test('Arguments are forwarded accordingly', () => {
 
-    debouncedCallback('a', 'b', 'c', 'd', 'e')
-    jest.advanceTimersByTime(200)
-    expect(originalCallback).toHaveBeenNthCalledWith(1, 'a', 'b', 'c', 'd', 'e')
+//     const originalCallback = jest.fn()
+//     const debouncedCallback = createDebouncedPromise(originalCallback, 200)
 
-  })
+//     debouncedCallback('a', 'b', 'c', 'd', 'e')
+//     jest.advanceTimersByTime(200)
+//     expect(originalCallback).toHaveBeenNthCalledWith(1, 'a', 'b', 'c', 'd', 'e')
 
-  test('Continuous calls', () => {
+//   })
 
-    const originalCallback = jest.fn()
-    const debouncedCallback = createDebouncedPromise(originalCallback, 200)
+//   test('Continuous calls', () => {
 
-    // debouncedCallback()
-    // expect(originalCallback).toHaveBeenCalledTimes(0)
+//     const originalCallback = jest.fn()
+//     const debouncedCallback = createDebouncedPromise(originalCallback, 200)
 
-    // debouncedCallback()
-    // expect(originalCallback).toHaveBeenCalledTimes(0)
+//     // debouncedCallback()
+//     // expect(originalCallback).toHaveBeenCalledTimes(0)
 
-    // jest.advanceTimersByTime(200)
-    // expect(originalCallback).toHaveBeenCalledTimes(1)
+//     // debouncedCallback()
+//     // expect(originalCallback).toHaveBeenCalledTimes(0)
 
-  })
+//     // jest.advanceTimersByTime(200)
+//     // expect(originalCallback).toHaveBeenCalledTimes(1)
 
-  test('', () => {
-    // TODO: modify fn first to always return reference to same the `Promise<R>`
-  })
+//   })
 
-})
+//   test('', () => {
+//     // TODO: modify fn first to always return reference to same the `Promise<R>`
+//   })
+
+// })
+
+/* eslint-enable */

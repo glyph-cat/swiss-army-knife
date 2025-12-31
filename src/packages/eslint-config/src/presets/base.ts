@@ -150,6 +150,7 @@ export function createBaseConfig({
 
         '@typescript-eslint/ban-ts-comment': remapWarn,
         'import/no-anonymous-default-export': OFF,
+        'import/no-named-as-default': OFF,
         'no-restricted-imports': [remapError, {
           paths: [
             {

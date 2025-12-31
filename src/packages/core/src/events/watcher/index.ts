@@ -12,6 +12,7 @@ export type UnwatchCallback = TypedFunction<[], void>
 
 /**
  * @public
+ * @deprecated
  */
 export interface WatcherStats {
   count: {
@@ -112,6 +113,7 @@ export class Watcher<A extends Array<unknown>> {
    * const [watchersAdded, watchersRemoved] = stats
    * @returns A object containing the number of watchers added and those that
    * have been removed.
+   * @deprecated
    */
   get stats(): WatcherStats {
     return {
@@ -126,6 +128,7 @@ export class Watcher<A extends Array<unknown>> {
 
 /**
  * @public
+ * @deprecated
  */
 export class AggregateWatcher<A extends Array<unknown>> extends Watcher<A> {
 

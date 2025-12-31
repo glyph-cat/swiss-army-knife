@@ -1,0 +1,9 @@
+.container {
+  min-height: 90vh;
+  place-items: center;
+}
+
+.subContainer {
+  gap: var(--spacingM);
+  place-items: center;
+}

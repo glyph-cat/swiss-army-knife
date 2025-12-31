@@ -155,6 +155,7 @@ export function ThemeProvider({
     if (isFunction(refProp)) {
       refProp(node)
     } else if (refProp) {
+      // eslint-disable-next-line react-hooks/immutability
       refProp.current = node
     }
     containerRef.current = node

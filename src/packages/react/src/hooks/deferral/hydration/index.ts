@@ -1,14 +1,13 @@
-import { useContext, useEffect, useReducer } from 'react'
-import { GCContext } from '../../../provider/context'
-import { baseReducer } from '../internal'
+import { useSimpleStateValue } from 'cotton-box-react'
+import { useContext, useEffect } from 'react'
+import { RuntimeContext } from '../../../runtime-manager'
 
 /**
  * Used to indicate if hydration has occurred.
  *
  * This works similarly to {@link useMountedState|`useMountedState`},
- * but if wrapped in {@link GCProvider|`GCProvider`} and it has already been
- * mounted, then this hook returns `true` immediately instead of waiting for
- * another render.
+ * but if the hooks has been called by other components in preceding renders,
+ * then it immediately returns `true` instead of waiting for another render.
  *
  * ---
  *
@@ -17,8 +16,11 @@ import { baseReducer } from '../internal'
  * @public
  */
 export function useHydrationState(): boolean {
-  const { M$isHydrated } = useContext(GCContext)
-  const [isHydrated, setAsHydrated] = useReducer(baseReducer, M$isHydrated)
-  useEffect(() => { setAsHydrated() }, [])
+  const { M$hydrationState } = useContext(RuntimeContext)
+  const isHydrated = useSimpleStateValue(M$hydrationState)
+  useEffect(() => {
+    if (isHydrated) { return } // Early exit
+    M$hydrationState.set(true)
+  }, [M$hydrationState, isHydrated])
   return isHydrated
 }

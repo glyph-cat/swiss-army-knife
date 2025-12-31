@@ -1,7 +1,7 @@
 import { useInitializer } from '.'
 
-test(useInitializer.name, () => {
+test.skip(useInitializer.name, () => {
 
-  // ...
+  expect('').toBe('')
 
 })

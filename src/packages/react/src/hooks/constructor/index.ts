@@ -6,11 +6,10 @@ import { useEffect, useId, useRef } from 'react'
 
 const store: Record<string, Array<unknown>> = {}
 
+// @deprecated Prefer using {@link useInitializer|`useInitializer`} from now on instead.
+
 /**
  * @public
- * @deprecated Prefer using
- * {@link useInitializer|`useInitializer`}
- * from now on instead.
  */
 export function useConstructor<T>(factory: () => T, cleanupFn: CleanupFunction<T>): T {
 

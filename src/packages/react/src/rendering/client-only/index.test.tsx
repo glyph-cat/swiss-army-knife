@@ -1,6 +1,8 @@
 import { Nullable } from '@glyph-cat/foundation'
+import { TestProbe, TestProbeProvider } from '@glyph-cat/react-test-utils'
 import { RenderResult, render } from '@testing-library/react'
-import { JSX, act } from 'react'
+import { Watcher } from 'cotton-box'
+import { JSX, act, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { ClientOnly } from '.'
 
@@ -9,6 +11,13 @@ afterEach(() => {
   renderResult?.unmount()
   renderResult = null
 })
+
+let testProbe: Nullable<TestProbe> = null
+beforeEach(() => { testProbe = new TestProbe() })
+afterEach(() => { testProbe = null })
+
+let watcher: Watcher<[]>
+afterEach(() => { watcher?.dispose() })
 
 function App(): JSX.Element {
   return (
@@ -33,24 +42,31 @@ describe('Client-side', () => {
     expect(renderResult.container.textContent).toBe('AB')
   })
 
-  test.skip('Nested', () => {
+  test('Nested', () => {
 
-    function OuterComponent(): JSX.Element {
-      return (
+    watcher = new Watcher<[]>()
+
+    function FirstLevel(): JSX.Element {
+      const [hasDelayed, setDelayState] = useState(false)
+      useEffect(() => {
+        return watcher.watch(() => { setDelayState(true) })
+      }, [])
+      return hasDelayed && <ClientOnly />
+    }
+
+    act(() => {
+      renderResult = render(
         <ClientOnly>
-          <InnerComponent />
+          <TestProbeProvider value={testProbe}>
+            <FirstLevel />
+          </TestProbeProvider>
         </ClientOnly>
       )
-    }
-    function InnerComponent(): JSX.Element {
-      return (
-        <ClientOnly>
-          {'innerText'}
-        </ClientOnly>
-      )
-    }
-    // TODO: when already hydrated and new components are added, they should not wait
-    expect('').toBe('')
+    })
+    expect(testProbe.getRenderCount(ClientOnly.name)).toBeNull()
+
+    act(() => { watcher.refresh() })
+    expect(testProbe.getRenderCount(ClientOnly.name)).toBe(1)
 
   })
 

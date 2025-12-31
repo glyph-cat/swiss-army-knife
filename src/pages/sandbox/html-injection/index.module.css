@@ -1,0 +1,20 @@
+.container {
+  grid-template-columns: 1fr 1fr;
+}
+
+.contentContainer {
+  max-height: 100vh;
+  overflow: auto;
+}
+
+.noContentHintContainer {
+  gap: var(--spacingM);
+  opacity: 0.35;
+  place-items: center;
+}
+
+.noContentHintLabel {
+  font-size: 14pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

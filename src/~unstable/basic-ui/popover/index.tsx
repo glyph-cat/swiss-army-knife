@@ -18,7 +18,7 @@ import {
   useCoreNavigationBranch,
   useCoreNavigationStack,
   useKeyDownListener,
-  usePointerLeaveListener,
+  useMoveAwayListener,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
 import { Property } from 'csstype'
@@ -229,7 +229,7 @@ export function PopoverContent({
     setMenuVisibility(false)
   }, [], triggerElementRef, dismissOnClickAway)
 
-  usePointerLeaveListener(() => {
+  useMoveAwayListener(() => {
     setMenuVisibility(false)
   }, [], triggerElementRef, dismissOnPointerLeave)
 

@@ -161,7 +161,7 @@ export class HookTester<
           createElement(ErrorBoundary, {
             onError: this.onError,
           }, Wrapper
-            ? createElement(Wrapper, createElement(this.ContainerComponent))
+            ? createElement(Wrapper, {}, createElement(this.ContainerComponent))
             : createElement(this.ContainerComponent)
           )
         )

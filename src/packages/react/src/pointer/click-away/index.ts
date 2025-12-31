@@ -1,37 +1,26 @@
 import { RefObject } from '@glyph-cat/foundation'
-import { isInRange } from '@glyph-cat/swiss-army-knife'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 /**
  * A hook that listens for click events that are not within a HTML element's boundaries.
- * @param callback - The function to invoke upon click-away.
- * @param deps - React hook dependency array.
- * @param elementRef - A {@link RefObject} containing the HTML element.
+ * @param callback - The function to invoke upon click-away, it does not need to
+ * be memoized or wrapped in [`useCallback`](https://react.dev/reference/react/useCallback).
+ * @param elementRef - A {@link RefObject|`RefObject`} containing the HTML element.
  * @param enabled - Determines if the listener should be enabled. Defaults to `true`.
  * @public
  */
 export function useClickAwayListener(
   callback: () => void,
-  deps: Array<unknown>,
   elementRef: RefObject<HTMLElement>,
-  enabled: boolean = false,
+  enabled: boolean = true,
 ): void {
+  const callbackRef = useRef<typeof callback>(null)
+  callbackRef.current = callback
   useEffect(() => {
-    if (!enabled) { return } // Early exit
+    if (!enabled || !elementRef.current) { return } // Early exit
     const onClickAway = (e: MouseEvent) => {
-      const element = elementRef.current
-      if (!element) { return } // Early exit
-      const {
-        left,
-        top,
-        height,
-        width,
-      } = element.getBoundingClientRect()
-      if (
-        !isInRange(e.clientX, left, left + width) ||
-        !isInRange(e.clientY, top, top + height)
-      ) {
-        callback()
+      if (!Object.is(e.target, elementRef.current)) {
+        callbackRef.current()
       }
     }
     window.addEventListener('click', onClickAway)
@@ -40,6 +29,5 @@ export function useClickAwayListener(
       window.removeEventListener('click', onClickAway)
       window.removeEventListener('contextmenu', onClickAway)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...deps, enabled, elementRef])
+  }, [enabled, elementRef])
 }
