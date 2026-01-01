@@ -1,5 +1,5 @@
 import { JSX, ReactNode } from 'react'
-import { __setDisplayName } from '../../_internals'
+import { __setDisplayName, useTestProbe } from '../../_internals'
 import { useMountedState } from '../../hooks/deferral/mounted'
 
 /**
@@ -16,6 +16,7 @@ export interface DeferRenderingProps {
 export function DeferRendering({
   children,
 }: DeferRenderingProps): JSX.Element {
+  useTestProbe(DeferRendering.name)
   const isMounted = useMountedState()
   return (isMounted ? children : null) as JSX.Element
 }

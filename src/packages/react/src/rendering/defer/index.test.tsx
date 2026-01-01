@@ -1,16 +1,25 @@
 import { Nullable } from '@glyph-cat/foundation'
-import { ComponentTester, useComponentTesterProbe } from '@glyph-cat/react-test-utils'
+import {
+  TestProbe,
+  TestProbeProvider,
+  useComponentTesterProbe,
+} from '@glyph-cat/react-test-utils'
+import { render, RenderResult } from '@testing-library/react'
 import { act, JSX } from 'react'
 import { renderToString } from 'react-dom/server'
 import { DeferRendering } from '.'
 
-let componentTester: Nullable<ComponentTester> = null
+let renderResult: Nullable<RenderResult> = null
 afterEach(() => {
-  componentTester?.dispose()
-  componentTester = null
+  renderResult?.unmount()
+  renderResult = null
 })
 
-function App(): JSX.Element {
+let testProbe: Nullable<TestProbe> = null
+beforeEach(() => { testProbe = new TestProbe() })
+afterEach(() => { testProbe = null })
+
+function TestComponent(): JSX.Element {
   useComponentTesterProbe()
   return (
     <>
@@ -23,13 +32,18 @@ function App(): JSX.Element {
 }
 
 test('Server-side rendering', () => {
-  const output = renderToString(<App />)
+  const output = renderToString(<TestComponent />)
   expect(output).toBe('A')
 })
 
 test('Client-side rendering', () => {
-  componentTester = new ComponentTester(App)
-  act(() => { componentTester.render() })
-  expect(componentTester.renderResult.container.textContent).toBe('AB')
-  expect(componentTester.renderCount).toBe(2) // TOFIX: because <DeferRendering> itself is not probed
+  act(() => {
+    renderResult = render(
+      <TestProbeProvider value={testProbe}>
+        <TestComponent />
+      </TestProbeProvider>
+    )
+  })
+  expect(testProbe.getRenderCount(DeferRendering.name)).toBe(2)
+  expect(renderResult.container.textContent).toBe('AB')
 })

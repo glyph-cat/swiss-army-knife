@@ -34,13 +34,13 @@ clientOnly(() => {
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export const SizeAwareContextLegacy = createContext<Nullable<ResizeObserverEntry>>(null)
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export const ProbeViewLegacy = forwardRef((_, probeRef: ForwardedRef<View>): JSX.Element => {
   return (
@@ -53,7 +53,7 @@ export const ProbeViewLegacy = forwardRef((_, probeRef: ForwardedRef<View>): JSX
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export type SizeAwareHandleLegacy = [
   probeRef: RefObject<View>,
@@ -62,7 +62,7 @@ export type SizeAwareHandleLegacy = [
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export function useSizeAwareHandleLegacy(): SizeAwareHandleLegacy {
   const [bounds, setBounds] = useState<Nullable<ResizeObserverEntry>>(null)
@@ -94,7 +94,7 @@ export function useSizeAwareHandleLegacy(): SizeAwareHandleLegacy {
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export interface SizeAwareContainerLegacyProps {
   children?: ReactNode
@@ -102,7 +102,7 @@ export interface SizeAwareContainerLegacyProps {
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export function SizeAwareContainerLegacy({
   children,
@@ -122,7 +122,7 @@ export function SizeAwareContainerLegacy({
 
 /**
  * @public
- * @deprecated
+ * @deprecated This is a legacy version.
  */
 export function useSizeAwareContextLegacy(): Nullable<ResizeObserverEntry> {
   return useContext(SizeAwareContextLegacy)

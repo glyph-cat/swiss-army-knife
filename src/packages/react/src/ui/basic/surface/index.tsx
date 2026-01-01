@@ -5,12 +5,18 @@ import { SmartView } from '../../core'
 
 // EXPERIMENTAL!!!
 
+/**
+ * @public
+ */
 export interface SurfaceProps {
   children?: ReactNode
   borderRadius?: number
   superEllipse?: number
 }
 
+/**
+ * @public
+ */
 export function Surface({
   children,
   borderRadius = 10,

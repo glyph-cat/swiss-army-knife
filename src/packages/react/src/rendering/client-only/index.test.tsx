@@ -1,8 +1,8 @@
 import { Nullable } from '@glyph-cat/foundation'
 import { TestProbe, TestProbeProvider } from '@glyph-cat/react-test-utils'
-import { RenderResult, render } from '@testing-library/react'
+import { render, RenderResult } from '@testing-library/react'
 import { Watcher } from 'cotton-box'
-import { JSX, act, useEffect, useState } from 'react'
+import { act, JSX, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { ClientOnly } from '.'
 
@@ -65,7 +65,7 @@ describe('Client-side', () => {
     })
     expect(testProbe.getRenderCount(ClientOnly.name)).toBeNull()
 
-    act(() => { watcher.refresh() })
+    act(() => { watcher.post() })
     expect(testProbe.getRenderCount(ClientOnly.name)).toBe(1)
 
   })
