@@ -12,7 +12,12 @@ export interface SandboxContainerProps {
 
 export function SandboxContainer(props: SandboxContainerProps): JSX.Element {
   const router = useRouter()
-  if (!router.pathname.includes(AppRoute.SANDBOX)) { return null }
+  if (
+    !router.pathname.includes(AppRoute.SANDBOX) &&
+    !router.asPath.includes(AppRoute.SANDBOX)
+  ) {
+    return null // Early exit
+  }
   return <Content {...props} />
 }
 

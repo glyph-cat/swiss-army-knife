@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useInitializer } from '../initializer'
+// import { useInitializer } from '../initializer'
 
 import { CleanupFunction } from '@glyph-cat/foundation'
 import { useEffect, useId, useRef } from 'react'
