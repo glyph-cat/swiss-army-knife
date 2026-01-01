@@ -1,12 +1,13 @@
-import { View } from '@glyph-cat/swiss-army-knife-react'
-import { JSX } from 'react'
+import { useRouter } from 'next/router'
+import { JSX, useEffect } from 'react'
+import { AppRoute } from '~constants'
 
 function RootScreen(): JSX.Element {
-  return (
-    <View>
-      {/* ... */}
-    </View>
-  )
+  const router = useRouter()
+  useEffect(() => {
+    router.replace(AppRoute.SANDBOX)
+  }, [router])
+  return null
 }
 
 export default RootScreen

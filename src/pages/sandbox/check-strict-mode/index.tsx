@@ -1,5 +1,5 @@
 import { c } from '@glyph-cat/swiss-army-knife'
-import { ButtonBase, View } from '@glyph-cat/swiss-army-knife-react'
+import { View } from '@glyph-cat/swiss-army-knife-react'
 import { useCheckStrictMode } from 'packages/react/src/strict-mode'
 import { Fragment, JSX, StrictMode, useReducer } from 'react'
 import { SandboxStyle } from '~constants'
@@ -12,12 +12,12 @@ export default function (): JSX.Element {
   const StrictModeWrapper = shouldUseStrictMode ? StrictMode : Fragment
   return (
     <View className={c(SandboxStyle.NORMAL, styles.container)}>
-      <ButtonBase
+      <button
         className={styles.strictModeToggleButton}
         onClick={toggleStrictMode}
       >
-        {`StrictMode: ${shouldUseStrictMode ? 'ON' : shouldUseStrictMode}`}
-      </ButtonBase>
+        {`StrictMode: ${shouldUseStrictMode ? 'ON' : 'OFF'}`}
+      </button>
       <StrictModeWrapper>
         <Content />
       </StrictModeWrapper>
@@ -28,8 +28,18 @@ export default function (): JSX.Element {
 function Content(): JSX.Element {
   const isRunningInStrictMode = useCheckStrictMode()
   return (
-    <span>
-      Is using <code>StrictMode</code>: {isRunningInStrictMode ? 'Yes' : 'No'}
-    </span>
+    <pre>
+      <code>
+        <span style={{ color: '#2b80ff' }}>{'const '}</span>
+        <span style={{ color: '#3fa2ffff' }}>{'isRunningInStrictMode'}</span>
+        <span>{' = '}</span>
+        <span style={{ color: '#bc9123ff' }}>{'useCheckStrictMode'}</span>
+        <span>{'()'}</span>
+        <br />
+        <span style={{ color: '#008000' }}>
+          {`// ${isRunningInStrictMode}`}
+        </span>
+      </code>
+    </pre>
   )
 }

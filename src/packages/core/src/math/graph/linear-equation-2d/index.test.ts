@@ -21,11 +21,13 @@ test(LinearEquation2D.fromPointAndGradient.name, () => {
 })
 
 test(LinearEquation2D.fromPoints.name, () => {
-  //
+  const equation = LinearEquation2D.fromPoints({ x: 0, y: 0 }, { x: 0, y: 0 }) // todo
+  expect(equation.m).toBe(1.5)
+  expect(equation.c).toBe(3)
 })
 
 test(LinearEquation2D.calcFromPointAndGradient.name, () => {
-  //
+  expect(LinearEquation2D.calcFromPointAndGradient({ x: 2, y: 6 }, 1.5, 3)).toBe(7.5)
 })
 
 test(LinearEquation2D.calcFromPoints.name, () => {
