@@ -24,7 +24,7 @@ export interface ClientOnlyProps {
 export function ClientOnly({
   children,
 }: ClientOnlyProps): JSX.Element {
-  useTestProbe(ClientOnly.name) // KIV: Make sure this gets removed after bundling
+  useTestProbe(ClientOnly.name)
   const isHydrated = useHydrationState()
   return (isHydrated ? children : null) as JSX.Element
 }
