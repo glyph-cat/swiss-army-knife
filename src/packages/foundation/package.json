@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/foundation",
-  "version": "0.0.0-experimental.87",
+  "version": "0.0.0-experimental.88",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "types": "lib/types/index.d.ts",
