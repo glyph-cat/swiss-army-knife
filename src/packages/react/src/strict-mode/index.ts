@@ -4,6 +4,9 @@ import { useId } from 'react'
 const StrictModeCheckStore: StringRecord<Array<unknown>> = {}
 
 /**
+ * NOTE: This relies on the [`useId`](https://react.dev/reference/react/useId)
+ * hook which is only available in React 18 and above.
+ *
  * @returns `true` if the component calling this hook is running in
  * [`StrictMode`](https://react.dev/reference/react/StrictMode).
  */

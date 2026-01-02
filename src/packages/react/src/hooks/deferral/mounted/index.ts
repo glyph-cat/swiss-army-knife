@@ -1,5 +1,4 @@
 import { useEffect, useReducer } from 'react'
-import { baseReducer } from '../internal'
 
 /**
  * Used to indicate if a component has mounted.
@@ -10,4 +9,8 @@ export function useMountedState(): boolean {
   const [isMounted, setAsMounted] = useReducer(baseReducer, false)
   useEffect(() => { setAsMounted() }, [])
   return isMounted
+}
+
+function baseReducer(): boolean {
+  return true
 }
