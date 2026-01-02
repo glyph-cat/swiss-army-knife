@@ -57,6 +57,7 @@ function run(newVersion: string): void {
 
   execSync(`git add ${[
     rootPackageJsonPath,
+    foundationPackageJsonPath,
     corePackageJsonPath,
     reactPackageJsonPath,
   ].join(' ')}`)
