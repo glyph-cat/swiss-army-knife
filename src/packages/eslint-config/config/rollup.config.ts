@@ -1,10 +1,13 @@
 import commonjs from '@rollup/plugin-commonjs'
-import json from '@rollup/plugin-json'
+// import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import { dependencies, devDependencies } from '../package.json'
+import { PackageJson } from 'type-fest'
+import rootPackageJson from '../../../../package.json'
+import { getDependencies } from '../../../../tools/get-dependencies'
+import packageJson from '../package.json'
 
 function getConfig(inputPath: string, outputPath: string): RollupOptions {
   return {
@@ -16,8 +19,10 @@ function getConfig(inputPath: string, outputPath: string): RollupOptions {
       sourcemap: false,
     },
     external: [
-      ...Object.keys(dependencies),
-      ...Object.keys(devDependencies),
+      ...getDependencies(rootPackageJson),
+      ...getDependencies(packageJson as PackageJson),
+      // ...Object.keys(dependencies),
+      // ...Object.keys(devDependencies),
       '@eslint/js',
       '@eslint/eslintrc',
       //   '@stylistic/eslint-plugin',
@@ -34,7 +39,7 @@ function getConfig(inputPath: string, outputPath: string): RollupOptions {
       nodeResolve({
         extensions: ['.ts'],
       }),
-      json(),
+      // json(),
       typescript({
         tsconfigOverride: {
           compilerOptions: {

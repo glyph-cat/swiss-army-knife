@@ -3,11 +3,13 @@ import * as $EqArr from '../array-is-shallow-equal'
 import * as $EqObj from '../object-is-shallow-equal'
 
 beforeEach(() => {
+  /* eslint-disable import/namespace */
   // NOTE: Unable to mock when we `import { foo } from './foo'`
   // @ts-expect-error: This is acceptable for testing
   $EqArr.arrayIsShallowEqual = jest.fn($EqArr.arrayIsShallowEqual)
   // @ts-expect-error: This is acceptable for testing
   $EqObj.objectIsShallowEqual = jest.fn($EqObj.objectIsShallowEqual)
+  /* eslint-enable import/namespace */
 })
 
 test('[], []', () => {

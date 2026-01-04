@@ -1,7 +1,4 @@
-require('ts-node').register({
-  compilerOptions: {
-    module: 'CommonJS',
-  },
-})
+/* eslint-disable no-undef */
 
+require('tsx/cjs')
 module.exports = require('./rollup.config.ts')

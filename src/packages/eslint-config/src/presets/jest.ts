@@ -1,6 +1,6 @@
 import jestPlugin from 'eslint-plugin-jest'
 import { Config, defineConfig } from 'eslint/config'
-import jestPackage from 'jest/package.json' assert { type: 'json' }
+// import jestPackage from 'jest/package.json' assert { type: 'json' }
 import { Severity } from '../abstractions/public'
 import { formatName } from '../utils/format-name'
 
@@ -28,11 +28,12 @@ export function createJestConfig({
         '**/*.test.ts',
         '**/*.test.tsx',
       ],
-      settings: {
-        jest: {
-          version: jestPackage.version,
-        },
-      },
+      // settings: {
+      //   jest: {
+      //     // version: require('jest/package.json').version,
+      //     version: jestPackage.version,
+      //   },
+      // },
     },
   )
 }

@@ -7,6 +7,7 @@ import typescript from 'rollup-plugin-typescript2'
 import rootPackageJson from '../../../../package.json'
 import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
+import { getSiblingPackages } from '../../../../tools/get-sibling-packages'
 import { BuildType } from '../../foundation/src/build'
 import { version } from '../package.json'
 
@@ -14,6 +15,7 @@ const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
   ...getDependencies(rootPackageJson),
+  ...Object.values(getSiblingPackages()),
 ]
 
 interface IPluginConfig {
