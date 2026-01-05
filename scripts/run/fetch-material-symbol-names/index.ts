@@ -17,18 +17,18 @@ async function run(): Promise<void> {
   // This is how the page is structured and how it can be navigated as of 02 Sep 2024.
 
   console.info('Scrolling through the page...')
-  await scrollToBottomUntilCannotScrollAnymore(page)
+  await scrollToPageBottom(page)
   await page.waitForSelector('#main-content > div > div > gf-icons > div > icons-page > icons-group:last-child')
 
   console.info('Getting icon names...')
-  let quotedIconNameStack = await page.evaluate(() => {
+  let fetchedIconNames = await page.evaluate(() => {
     const arr: Array<string> = []
     // <gf-load-icon-font _ngcontent-ng-c651786718="" _nghost-ng-c1526427138="" class="">view_object_track</gf-load-icon-font>
     // #main-content > div > div > gf-icons > div > icons-page > icons-group:nth-child(18) > div > button.ng-star-inserted > span.icon-asset.material-symbols-outlined > gf-load-icon-font
     // const stack = document.querySelectorAll('button[class="ng-star-inserted"] > span > span')
     const stack = document.querySelectorAll('gf-load-icon-font')
     for (const item of stack) {
-      arr.push(`'${item.textContent}'`)
+      arr.push(item.textContent)
     }
     return arr
   })
@@ -37,16 +37,26 @@ async function run(): Promise<void> {
   await page.close()
   await browser.close()
 
-  // console.log({ quotedIconNameStack })
-  if (quotedIconNameStack.length <= 0) {
+  // console.log({ fetchedIconNames })
+  if (fetchedIconNames.length <= 0) {
     throw new Error('Unable to find any icons')
   }
 
-  console.info('Writing to file...')
-  quotedIconNameStack = removeDuplicates(quotedIconNameStack)
-  const now = new Date()
+  console.info('Normalizing retrieved data...')
+  fetchedIconNames = removeDuplicates(fetchedIconNames)
+  fetchedIconNames.sort()
+  const quotedIconNameStack = fetchedIconNames.map((icon) => `'${icon}'`)
+
   const fileTitle = './src/packages/react/src/material-symbols/names.ts'
+  console.info(`Writing to '${fileTitle}'...`)
+  const now = new Date()
   const bullet = '  | '
+  const docBlock = [
+    '/**',
+    ` * Last updated: ${now.toDateString()} ${now.toTimeString()}`,
+    ' * @public',
+    ' */',
+  ].join('\n')
   const fileBody = [
     '/* eslint-disable */',
     DO_NOT_MODIFY_WARNING,
@@ -55,13 +65,12 @@ async function run(): Promise<void> {
     '', // (Empty line)
     'import { LenientString } from \'@glyph-cat/foundation\'',
     '', // (Empty line)
-    '/**',
-    ` * Last updated: ${now.toDateString()} ${now.toTimeString()}`,
-    ' * @public',
-    ' */',
-    'export type MaterialSymbolName = LenientString<',
+    docBlock,
+    'export type MaterialSymbolName = LenientString<StrictMaterialSymbolName>',
+    '', // (Empty line)
+    docBlock,
+    'export type StrictMaterialSymbolName =',
     bullet + quotedIconNameStack.join(`\n${bullet}`),
-    '>',
     '', // (Empty line)
   ].join('\n')
   // console.log('=== fileTitle ===')
@@ -77,7 +86,7 @@ run()
 /**
  * @see https://stackoverflow.com/a/67829516/5810737
  */
-async function scrollToBottomUntilCannotScrollAnymore(page: Page): Promise<void> {
+async function scrollToPageBottom(page: Page): Promise<void> {
   await page.evaluate(async () => {
     let scrollPosition = 0
     let documentHeight = document.body.scrollHeight
