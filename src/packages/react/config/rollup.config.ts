@@ -7,6 +7,7 @@ import rootPackageJson from '../../../../package.json'
 import {
   customReplace,
   customTerser,
+  removeTestProbes,
   setDisplayName,
 } from '../../../../tools/custom-rollup-plugins'
 import { getDependencies } from '../../../../tools/get-dependencies'
@@ -58,6 +59,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     }),
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
+    removeTestProbes(),
     // babel({
     //   presets: [
     //     // '@babel/preset-env',

@@ -25,6 +25,24 @@ export function setDisplayName(enabled: boolean): Plugin {
   }
 }
 
+export function removeTestProbes(): Plugin {
+  return {
+    name: 'remove-test-probes',
+    transform(code) {
+      // If `.+` then will also cause the declaration `export function useTestProbe()...` to match
+      const testProbeSyntaxPattern = /useTestProbe\([A-za-z0-9_.]+\)/
+      if (testProbeSyntaxPattern.test(code)) {
+        console.log('output\n\n', code.split('\n').filter((line) => {
+          return !testProbeSyntaxPattern.test(line)
+        }).join('\n'))
+      }
+      return code.split('\n').filter((line) => {
+        return !testProbeSyntaxPattern.test(line)
+      }).join('\n')
+    },
+  }
+}
+
 export function customReplace(
   isProductionTarget: PossiblyUndefined<boolean>,
   buildEnv: string,

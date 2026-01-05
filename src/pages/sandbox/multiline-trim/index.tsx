@@ -6,6 +6,8 @@ import { JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 
 import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
 
+// TODO: Use Monaco Editor with option: Editor > Render Whitespace > all
+
 export default function (): JSX.Element {
 
   const { localize } = useLocalization()
