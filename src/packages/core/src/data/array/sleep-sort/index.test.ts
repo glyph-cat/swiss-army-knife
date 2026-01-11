@@ -1,4 +1,6 @@
-import { sleepSort } from '.'
+import { createSleepSorter } from '.'
+
+const sleepSort = createSleepSorter()
 
 describe(sleepSort.name, (): void => {
 

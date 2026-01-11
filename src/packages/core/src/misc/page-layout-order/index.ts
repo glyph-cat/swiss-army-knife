@@ -3,12 +3,12 @@ import { Nullable } from '@glyph-cat/foundation'
 /**
  * @public
  */
-export type PaperSingleSideLayout = [left: Nullable<number>, right: Nullable<number>]
+export type PrintPaperSingleSideLayout = [left: Nullable<number>, right: Nullable<number>]
 
 /**
  * @public
  */
-export type PaperDoubleSideLayout = [front: PaperSingleSideLayout, back: PaperSingleSideLayout]
+export type PrintPaperDoubleSideLayout = [front: PrintPaperSingleSideLayout, back: PrintPaperSingleSideLayout]
 
 /**
  * Calculates the page layout order for a book.
@@ -16,10 +16,10 @@ export type PaperDoubleSideLayout = [front: PaperSingleSideLayout, back: PaperSi
  * @returns An array of `PaperDoubleSideLayout` where the size of the array also
  * indicates the number of papers required.
  */
-export function getPageLayoutOrder(pageCount: number): Array<PaperDoubleSideLayout> {
+export function getPrintPageLayoutOrder(pageCount: number): Array<PrintPaperDoubleSideLayout> {
 
   const papersNeeded = Math.ceil(pageCount / 4)
-  const paperStack: Array<PaperDoubleSideLayout> = []
+  const paperStack: Array<PrintPaperDoubleSideLayout> = []
   const paddedPageCount = papersNeeded * 4
 
   /**

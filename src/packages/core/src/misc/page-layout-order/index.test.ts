@@ -1,51 +1,51 @@
-import { getPageLayoutOrder } from '.'
+import { getPrintPageLayoutOrder } from '.'
 
 test('1 Paper', () => {
-  expect(getPageLayoutOrder(1)).toStrictEqual([[[null, 1], [null, null]]])
-  expect(getPageLayoutOrder(2)).toStrictEqual([[[null, 1], [2, null]]])
-  expect(getPageLayoutOrder(3)).toStrictEqual([[[null, 1], [2, 3]]])
-  expect(getPageLayoutOrder(4)).toStrictEqual([[[4, 1], [2, 3]]])
+  expect(getPrintPageLayoutOrder(1)).toStrictEqual([[[null, 1], [null, null]]])
+  expect(getPrintPageLayoutOrder(2)).toStrictEqual([[[null, 1], [2, null]]])
+  expect(getPrintPageLayoutOrder(3)).toStrictEqual([[[null, 1], [2, 3]]])
+  expect(getPrintPageLayoutOrder(4)).toStrictEqual([[[4, 1], [2, 3]]])
 })
 
 test('2 Papers', () => {
-  expect(getPageLayoutOrder(5)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(5)).toStrictEqual([
     [[null, 1], [2, null]],
     [[null, 3], [4, 5]]
   ])
-  expect(getPageLayoutOrder(6)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(6)).toStrictEqual([
     [[null, 1], [2, null]],
     [[6, 3], [4, 5]]
   ])
-  expect(getPageLayoutOrder(7)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(7)).toStrictEqual([
     [[null, 1], [2, 7]],
     [[6, 3], [4, 5]]
   ])
-  expect(getPageLayoutOrder(8)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(8)).toStrictEqual([
     [[8, 1], [2, 7]],
     [[6, 3], [4, 5]]
   ])
 })
 
 test('Other arbitrary number of papers', () => {
-  expect(getPageLayoutOrder(11)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(11)).toStrictEqual([
     [[null, 1], [2, 11]],
     [[10, 3], [4, 9]],
     [[8, 5], [6, 7]],
   ])
-  expect(getPageLayoutOrder(16)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(16)).toStrictEqual([
     [[16, 1], [2, 15]],
     [[14, 3], [4, 13]],
     [[12, 5], [6, 11]],
     [[10, 7], [8, 9]],
   ])
-  expect(getPageLayoutOrder(20)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(20)).toStrictEqual([
     [[20, 1], [2, 19]],
     [[18, 3], [4, 17]],
     [[16, 5], [6, 15]],
     [[14, 7], [8, 13]],
     [[12, 9], [10, 11]],
   ])
-  expect(getPageLayoutOrder(37)).toStrictEqual([
+  expect(getPrintPageLayoutOrder(37)).toStrictEqual([
     [[null, 1], [2, null]],
     [[null, 3], [4, 37]],
     [[36, 5], [6, 35]],

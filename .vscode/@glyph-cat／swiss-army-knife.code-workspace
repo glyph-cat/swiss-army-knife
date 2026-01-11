@@ -21,6 +21,10 @@
       "path": "../src/packages/equality"
     },
     {
+      "name": "css utils",
+      "path": "../src/packages/css-utils"
+    },
+    {
       "name": "localization",
       "path": "../src/packages/localization"
     },
