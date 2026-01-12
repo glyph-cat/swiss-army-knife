@@ -1,4 +1,4 @@
-import { isString } from '../../data'
+import { isString } from '@glyph-cat/type-checking'
 
 /**
  * Determine if a whole string is lower case.

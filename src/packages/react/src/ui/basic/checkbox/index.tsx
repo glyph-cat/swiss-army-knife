@@ -4,8 +4,8 @@ import {
   Color,
   ColorFormat,
   injectInlineCSSVariables,
-  isUndefinedOrNull,
 } from '@glyph-cat/swiss-army-knife'
+import { isUndefinedOrNull } from '@glyph-cat/type-checking'
 import {
   ChangeEvent,
   ForwardedRef,

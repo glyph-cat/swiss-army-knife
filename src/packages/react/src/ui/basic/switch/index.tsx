@@ -4,8 +4,8 @@ import {
   Color,
   ColorFormat,
   injectInlineCSSVariables,
-  isNumber,
 } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import {
   FormEvent,
   forwardRef,

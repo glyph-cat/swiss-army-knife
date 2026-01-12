@@ -18,6 +18,9 @@
       "@glyph-cat/swiss-army-knife": [
         "../core/src",
       ],
+      "@glyph-cat/type-checking": [
+        "../type-checking/src",
+      ],
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],

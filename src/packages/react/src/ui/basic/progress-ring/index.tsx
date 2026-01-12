@@ -5,9 +5,9 @@ import {
   ColorFormat,
   getPercentage,
   injectInlineCSSVariables,
-  isNumber,
   px,
 } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'

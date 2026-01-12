@@ -1,13 +1,11 @@
 import {
   Casing,
   CSSPropertiesExtended,
-  isFunction,
-  isNullOrUndefined,
-  isObject,
   PrecedenceLevel,
   StyleManager,
   StyleMap,
 } from '@glyph-cat/swiss-army-knife'
+import { isFunction, isNullOrUndefined, isObject } from '@glyph-cat/type-checking'
 import {
   Children,
   createElement,

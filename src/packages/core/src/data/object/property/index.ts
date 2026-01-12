@@ -4,9 +4,9 @@ import {
   PossiblyUndefined,
   StrictPropertyKey,
 } from '@glyph-cat/foundation'
+import { isNullOrUndefined, isNumber } from '@glyph-cat/type-checking'
 import { IS_CLIENT_ENV } from '../../../constants'
 import { devError } from '../../../dev'
-import { isNullOrUndefined, isNumber } from '../../type-check'
 
 /**
  * @public

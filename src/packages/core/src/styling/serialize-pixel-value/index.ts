@@ -1,4 +1,4 @@
-import { isNumber } from '../../data'
+import { isNumber } from '@glyph-cat/type-checking'
 
 /**
  * Converts number to pixel string, and leaves string values untouched.

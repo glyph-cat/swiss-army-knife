@@ -1,4 +1,5 @@
-import { clamp, isClamped, isNumber } from '@glyph-cat/swiss-army-knife'
+import { clamp, isClamped } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { CellType, VirtualizedListOverScanOption } from '../../../abstractions'
 import { SizeTrackingArray, SizeTrackingData } from '../00-size-trackable-array'
 

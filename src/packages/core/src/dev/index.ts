@@ -1,6 +1,6 @@
 import { ReadWritableArray } from '@glyph-cat/foundation'
+import { isString } from '@glyph-cat/type-checking'
 import { IS_DEBUG_ENV } from '../constants'
-import { isString } from '../data/type-check'
 
 /**
  * @public

@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import { existsSync, readlinkSync, rmSync, symlinkSync, unlinkSync } from 'fs'
 import Path from 'path'
-import { isString } from '../../../src/packages/core/src/data'
 import { Nullable } from '../../../src/packages/foundation/src/nullable'
+import { isString } from '../../../src/packages/type-checking/src/is-string'
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
 
 const node_modules = 'node_modules'
@@ -13,7 +13,7 @@ function main(): void {
     'localization-react',
     'project-helpers',
   ])
-  const packageDirectoryNames = Object.keys(getSiblingPackages()).sort()
+  const packageDirectoryNames = Object.keys(getSiblingPackages({ tryOnly: true })).sort()
   for (const packageDirectoryName of packageDirectoryNames) {
     if (IGNORE_LIST.has(packageDirectoryName)) { continue }
     linkNodeModules(process.cwd(), packageDirectoryName)

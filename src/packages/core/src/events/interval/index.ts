@@ -1,5 +1,5 @@
 import { TypedFunction } from '@glyph-cat/foundation'
-import { isFunction, isNumber } from '../../data'
+import { isFunction, isNumber } from '@glyph-cat/type-checking'
 import { devError } from '../../dev'
 import { delay } from '../delay'
 

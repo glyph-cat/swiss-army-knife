@@ -1,6 +1,6 @@
+import { isString } from '@glyph-cat/type-checking'
 import { __setDisplayName } from '../../../_internals'
 import { IS_DEBUG_ENV } from '../../../constants'
-import { isString } from '../../../data'
 import { createRef } from '../../../data/ref'
 import { HTML_ELEMENT_TAGS } from '../../../html'
 

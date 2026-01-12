@@ -1,4 +1,4 @@
-import { isString } from '@glyph-cat/swiss-army-knife'
+import { isString } from '@glyph-cat/type-checking'
 import { ComponentType, HTMLElementType, JSX } from 'react'
 
 /**

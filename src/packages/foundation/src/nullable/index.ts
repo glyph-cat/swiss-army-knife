@@ -8,9 +8,9 @@ export type Nullable<T> = T | null
 /**
  * Converts a value to `null` if it is undefined.
  * @param value - The value to check/convert.
- * @returns `null` if undefined, otherwise the original value.
+ * @returns `null` if null or undefined, otherwise the original value.
  * @public
  */
 export function Nullable<T>(value?: T): Nullable<T> {
-  return typeof value === 'undefined' ? null : value
+  return value ?? null
 }

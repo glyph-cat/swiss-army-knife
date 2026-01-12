@@ -1,4 +1,4 @@
-import { isFunction } from '../../data/type-check'
+import { isFunction } from '@glyph-cat/type-checking'
 
 const ATTR_NAME = 'name'
 const ATTR_CONTENT = 'content'

@@ -1,6 +1,6 @@
 import { arrayIsShallowEqual } from '@glyph-cat/equality'
 import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
-import { isFunction } from '@glyph-cat/swiss-army-knife'
+import { isFunction } from '@glyph-cat/type-checking'
 import { useMemoAlt } from '../hooks'
 
 /**

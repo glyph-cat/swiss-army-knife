@@ -1,4 +1,4 @@
-import { isString } from '../../data'
+import { isString } from '@glyph-cat/type-checking'
 import { devError } from '../../dev'
 import { isOutOfRange } from '../../math/range'
 import { SerializedColor } from '../abstractions'

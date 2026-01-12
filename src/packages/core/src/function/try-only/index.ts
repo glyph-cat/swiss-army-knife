@@ -1,4 +1,4 @@
-import { isThenable } from '../../data/type-check'
+import { isThenable } from '@glyph-cat/type-checking'
 
 /**
  * Only try executing code but don't catch if there are any errors. Use sparingly.

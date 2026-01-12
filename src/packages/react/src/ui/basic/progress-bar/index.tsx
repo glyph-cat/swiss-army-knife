@@ -4,10 +4,10 @@ import {
   clamp,
   getPercentage,
   injectInlineCSSVariables,
-  isNumber,
   percent,
   serializePixelValue,
 } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { JSX, useEffect, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'

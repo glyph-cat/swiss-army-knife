@@ -1,0 +1,40 @@
+{
+  "name": "@glyph-cat/type-checking",
+  "version": "1.0.0",
+  "description": "Type checking helper functions.",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "unpkg": "lib/umd/index.js",
+  "files": [
+    "lib"
+  ],"types": "lib/types/index.d.ts",
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "clean": "rm -rf ./lib ./temp/tsc",
+    "lint": "eslint .",
+    "debug": "scope=\"debug\" jest -c ./jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "yarn tsc --declaration",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh",
+    "test": "jest -c ./jest.config.ts",
+    "all": "sh ./scripts/run/all.sh"
+  },
+  "keywords": [
+    "Type checking"
+  ],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/type-checking#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  },
+  "peerDependencies": {
+    "@glyph-cat/foundation": "*"
+  }
+}

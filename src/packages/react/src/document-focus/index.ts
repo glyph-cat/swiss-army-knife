@@ -1,4 +1,4 @@
-import { isNull } from '@glyph-cat/swiss-army-knife'
+import { isNull } from '@glyph-cat/type-checking'
 import { useEffect, useRef, useState } from 'react'
 
 const THRESHOLD = 50 // ms

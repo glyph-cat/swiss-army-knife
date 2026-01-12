@@ -1,5 +1,5 @@
+import { isUndefined } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
-import { isUndefined } from '../../data'
 import { spyFn } from './test-utils'
 
 // References:

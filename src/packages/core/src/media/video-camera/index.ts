@@ -1,6 +1,7 @@
 import { Dimension2D, PossiblyUndefined } from '@glyph-cat/foundation'
+import { isFunction } from '@glyph-cat/type-checking'
 import { ReadOnlyStateManager, SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
-import { createEnumToStringConverter, isFunction } from '../../data'
+import { createEnumToStringConverter } from '../../data'
 import { TemplateStyles } from '../../styling'
 
 /**

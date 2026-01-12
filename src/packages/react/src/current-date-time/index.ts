@@ -1,4 +1,4 @@
-import { isNumber } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { useEffect, useState } from 'react'
 
 /**

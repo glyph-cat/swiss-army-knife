@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isObject } from '../../../core/src/data/type-check'
+import { isObject } from '../../../type-checking/src/is-object'
 
 /**
  * Compares each item in the object using [`Object.is`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is).

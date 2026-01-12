@@ -1,4 +1,4 @@
-import { isFunction } from '@glyph-cat/swiss-army-knife'
+import { isFunction } from '@glyph-cat/type-checking'
 import { useCallback, useRef, useState } from 'react'
 
 /**

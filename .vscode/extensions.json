@@ -2,5 +2,7 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "expo.vscode-expo-tools",
+    "mechatroner.rainbow-csv",
+    "streetsidesoftware.code-spell-checker",
   ]
 }

@@ -2,7 +2,6 @@ import { Nullable, RefObject } from '@glyph-cat/foundation'
 import {
   addStyles,
   clientOnly,
-  isObject,
   PrecedenceLevel,
   RectangularBoundary,
   StyleMap,
@@ -20,6 +19,7 @@ import {
   useState,
 } from 'react'
 import { View } from '../ui/core/components/view'
+import { isObject } from '@glyph-cat/type-checking'
 
 const SIZE_AWARE_VIEW_PROBE_STYLES = 'size-aware-view-probe'
 

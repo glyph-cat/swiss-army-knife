@@ -1,8 +1,8 @@
 import { arrayIsShallowEqual } from '@glyph-cat/equality'
 import { RefObject } from '@glyph-cat/foundation'
+import { isUndefined } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
 import { clampedUnshift } from '../array/clamp'
-import { isUndefined } from '../type-check'
 
 /**
  * A wrapper around any function that will memoize the results based on the

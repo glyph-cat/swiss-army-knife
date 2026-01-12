@@ -1,6 +1,6 @@
+import { isUndefined } from '@glyph-cat/type-checking'
 import { enumerate } from '../../data/enumeration'
 import { LazyValue } from '../../data/lazy-value'
-import { isUndefined } from '../../data/type-check'
 
 /**
  * Ciphers a string with rot-13.

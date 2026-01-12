@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    /*
+     * Adapted from an answer from https://gitanswer.com/ts-node-syntaxerror-cannot-use-import-statement-outside-a-module-typescript-531672072
+     */
+    "module": "commonjs",
+    "resolveJsonModule": true
+  }
+}

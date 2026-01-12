@@ -1,5 +1,6 @@
 import { Nullable, StringRecord } from '@glyph-cat/foundation'
-import { IS_DEBUG_ENV, isNumber } from '@glyph-cat/swiss-army-knife'
+import { IS_DEBUG_ENV } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { createContext, useContext } from 'react'
 
 /**

@@ -1,6 +1,7 @@
 import { Nullable } from '.'
 
 test(Nullable.name, () => {
+  expect(Nullable(null)).toBe(null)
   expect(Nullable(undefined)).toBe(null)
   expect(Nullable('foo-bar')).toBe('foo-bar')
   expect(Nullable('')).toBe('')

@@ -4,7 +4,13 @@ import { pickLast } from '../../src/packages/core/src/data/array/pick-last'
 import { StringRecord } from '../../src/packages/foundation/src/records'
 import { readPackageJson } from '../read-package-json'
 
-export function getSiblingPackages(): StringRecord<string> {
+export interface GetSiblingPackagesOptions {
+  tryOnly?: boolean
+}
+
+export function getSiblingPackages({
+  tryOnly = false,
+}: GetSiblingPackagesOptions = {}): StringRecord<string> {
 
   const cwd = process.cwd()
   const cwdChunks = cwd.split(Path.sep).filter((chunk) => !!chunk)
@@ -25,9 +31,15 @@ export function getSiblingPackages(): StringRecord<string> {
   return readdirSync(packagesDirectory).filter((item) => {
     return !PATTERN_CONTAINS_DOT.test(item)
   }).reduce((acc, packageName) => {
-    const packageObject = readPackageJson(Path.join(packagesDirectory, packageName))
-    if (packageObject.private !== true) {
-      acc[packageName] = packageObject.name
+    try {
+      const packageObject = readPackageJson(Path.join(packagesDirectory, packageName))
+      if (packageObject.private !== true) {
+        acc[packageName] = packageObject.name
+      }
+    } catch (e) {
+      if (!tryOnly) {
+        throw e
+      }
     }
     return acc
   }, {} as StringRecord<string>)

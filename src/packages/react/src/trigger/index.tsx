@@ -7,14 +7,8 @@ import {
   StringRecord,
   TypedFunction,
 } from '@glyph-cat/foundation'
-import {
-  devError,
-  IS_DEBUG_ENV,
-  isFunction,
-  isNullOrUndefined,
-  Key,
-  objectReduce,
-} from '@glyph-cat/swiss-army-knife'
+import { devError, IS_DEBUG_ENV, Key, objectReduce } from '@glyph-cat/swiss-army-knife'
+import { isFunction, isNullOrUndefined } from '@glyph-cat/type-checking'
 import {
   createContext,
   Dispatch,

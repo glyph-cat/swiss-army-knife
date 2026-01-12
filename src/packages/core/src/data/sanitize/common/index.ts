@@ -1,5 +1,5 @@
+import { isObject } from '@glyph-cat/type-checking'
 import { trim } from '../../../string/trim'
-import { isObject } from '../../type-check'
 
 /**
  * @public

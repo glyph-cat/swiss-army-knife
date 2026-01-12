@@ -21,6 +21,10 @@
       "path": "../src/packages/equality"
     },
     {
+      "name": "type checking",
+      "path": "../src/packages/type-checking"
+    },
+    {
       "name": "css utils",
       "path": "../src/packages/css-utils"
     },
@@ -55,6 +59,10 @@
     {
       "name": "crayon",
       "path": "../src/packages/crayon"
+    },
+    {
+      "name": "sleep-sort",
+      "path": "../src/packages/sleep-sort"
     },
     {
       "name": "eslint-config",

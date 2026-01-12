@@ -1,4 +1,5 @@
-import { HashFactory, isNumber } from '@glyph-cat/swiss-army-knife'
+import { HashFactory } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { useState } from 'react'
 
 let __numericComponentIdCounter__ = 0

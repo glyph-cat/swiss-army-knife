@@ -1,4 +1,5 @@
-import { c, CSSProperties, isNumber } from '@glyph-cat/swiss-army-knife'
+import { c, CSSProperties } from '@glyph-cat/swiss-army-knife'
+import { isNumber } from '@glyph-cat/type-checking'
 import { createElement, JSX, useContext } from 'react'
 import { __setDisplayName } from '../../_internals'
 import { MaterialSymbolOptions } from '../abstractions'

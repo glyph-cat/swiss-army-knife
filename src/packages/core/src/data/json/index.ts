@@ -1,4 +1,4 @@
-import { isString } from '../type-check'
+import { isString } from '@glyph-cat/type-checking'
 
 /**
  * Clone an object by stringifying then parsing it back into a JavaScript object.
