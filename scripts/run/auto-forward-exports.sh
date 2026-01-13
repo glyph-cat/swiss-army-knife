@@ -15,8 +15,8 @@ yarn --cwd ./src/packages/equality afe
 ECHO "Forwarding exports for 'localization'..."
 yarn --cwd ./src/packages/localization afe
 
-ECHO "Forwarding exports for 'localization-react'..."
-yarn --cwd ./src/packages/localization-react afe
+# ECHO "Forwarding exports for 'localization-react'..."
+# yarn --cwd ./src/packages/localization-react afe
 
 ECHO "Forwarding exports for 'cleanup-manager'..."
 yarn --cwd ./src/packages/cleanup-manager afe
