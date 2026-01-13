@@ -13,7 +13,7 @@ function main(): void {
     'localization-react',
     'project-helpers',
   ])
-  const packageDirectoryNames = Object.keys(getSiblingPackages({ tryOnly: true })).sort()
+  const packageDirectoryNames = Object.keys(getSiblingPackages()).sort()
   for (const packageDirectoryName of packageDirectoryNames) {
     if (IGNORE_LIST.has(packageDirectoryName)) { continue }
     linkNodeModules(process.cwd(), packageDirectoryName)
