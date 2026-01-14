@@ -52,6 +52,6 @@
   ],
   "include": [
     "src",
-    "custom.d.ts", "../css-utils/src/utils/try-format-as-class-name",
+    "custom.d.ts", "../css-utils/src/utils/try-format-as-class-name", "../foundation/src/error", "../foundation/src/html",
   ]
 }

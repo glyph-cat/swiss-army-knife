@@ -1,5 +1,4 @@
-import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
-import { UnsupportedPlatformError } from '../../error'
+import { CleanupFunction, RefObject, UnsupportedPlatformError } from '@glyph-cat/foundation'
 import { PrecedenceLevel } from './constants'
 
 /**

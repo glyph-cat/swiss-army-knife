@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NotImplementedError } from '../../error'
+import { NotImplementedError } from '@glyph-cat/foundation'
 
 /**
  * An abstract class that describes FireStore's TimeStamp class.

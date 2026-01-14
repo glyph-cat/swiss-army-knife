@@ -1,8 +1,8 @@
+import { HTML_ELEMENT_TAGS } from '@glyph-cat/foundation'
 import { isString } from '@glyph-cat/type-checking'
 import { __setDisplayName } from '../../../_internals'
 import { IS_DEBUG_ENV } from '../../../constants'
 import { createRef } from '../../../data/ref'
-import { HTML_ELEMENT_TAGS } from '../../../html'
 
 export const selectorPatternsToIgnore = createRef<Array<RegExp>>(null)
 export const selectorsToIgnore = createRef<Set<string>>(null)

@@ -1,5 +1,5 @@
+import { UnsupportedPlatformError } from '@glyph-cat/foundation'
 import type { inspect as $inspect } from 'util'
-import { UnsupportedPlatformError } from '../../../error'
 
 /**
  * @internal

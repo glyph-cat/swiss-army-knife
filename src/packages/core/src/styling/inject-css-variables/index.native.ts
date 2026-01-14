@@ -1,4 +1,4 @@
-import { UnsupportedPlatformError } from '../../error'
+import { UnsupportedPlatformError } from '@glyph-cat/foundation'
 
 export function injectInlineCSSVariables(): void {
   throw new UnsupportedPlatformError()
