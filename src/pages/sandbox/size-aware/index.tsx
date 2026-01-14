@@ -1,4 +1,5 @@
-import { c, ThemeToken } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
+import { ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
 import { SizeAwareContainer, useSizeAwareContext } from 'packages/react/src/size-aware'
 import { JSX } from 'react'

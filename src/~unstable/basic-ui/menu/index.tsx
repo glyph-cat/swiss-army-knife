@@ -1,4 +1,5 @@
-import { c, TemplateStyles } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
+import { TemplateStyles } from '@glyph-cat/swiss-army-knife'
 import { BasicUISize, MaterialSymbol, View } from '@glyph-cat/swiss-army-knife-react'
 import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {

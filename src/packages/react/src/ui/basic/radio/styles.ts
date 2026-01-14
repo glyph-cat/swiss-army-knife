@@ -1,7 +1,7 @@
+import { Empty } from '@glyph-cat/foundation'
 import {
   addStyles,
   clientOnly,
-  Empty,
   PrecedenceLevel,
   StyleMap,
   ThemeToken,

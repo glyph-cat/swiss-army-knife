@@ -1,5 +1,6 @@
+import { c } from '@glyph-cat/css-utils'
 import { OnePersonBodyPoseAnalyzer, VisionAnalyzerState } from '@glyph-cat/ml-helpers'
-import { c, VideoCamera } from '@glyph-cat/swiss-army-knife'
+import { VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, useCallback, useEffect, useState } from 'react'

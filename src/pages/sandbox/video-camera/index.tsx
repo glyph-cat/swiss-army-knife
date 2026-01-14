@@ -1,4 +1,5 @@
-import { c, ThemeToken, tryOnly, VideoCamera } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
+import { ThemeToken, tryOnly, VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, useCallback, useEffect, useState } from 'react'

@@ -1,6 +1,6 @@
 import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
-import { StringRecord } from '@glyph-cat/foundation'
-import { Empty, getFirstKey, InternalError } from '@glyph-cat/swiss-army-knife'
+import { Empty, StringRecord } from '@glyph-cat/foundation'
+import { getFirstKey, InternalError } from '@glyph-cat/swiss-army-knife'
 import { STYLE_HEIGHT, STYLE_WIDTH } from '../../../../styling/constants'
 import { BASIC_UI_LAYOUT_VERTICAL } from '../../../../ui/basic/constants'
 import { CellType, VirtualizedSectionListProps } from '../../../abstractions'

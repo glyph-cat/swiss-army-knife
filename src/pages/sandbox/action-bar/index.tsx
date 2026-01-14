@@ -1,4 +1,5 @@
-import { c, Empty } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
+import { Empty } from '@glyph-cat/foundation'
 import {
   ButtonBase as Button,
   CoreNavigationBranch,

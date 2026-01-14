@@ -1,4 +1,5 @@
-import { c, ColorScheme } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
+import { ColorScheme } from '@glyph-cat/swiss-army-knife'
 import {
   DeferRendering,
   MaterialSymbol,

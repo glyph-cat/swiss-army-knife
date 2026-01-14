@@ -1,6 +1,6 @@
-import { arrayIsShallowEqual } from '../../../../../equality/src/array-is-shallow-equal'
+import { arrayIsShallowEqual } from '@glyph-cat/equality'
+import { Empty } from '@glyph-cat/foundation'
 import { getRandomNumber } from '../../../random/number'
-import { Empty } from '../../empty'
 
 /**
  * Fisher Yates shuffle.

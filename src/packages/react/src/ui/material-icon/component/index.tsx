@@ -1,4 +1,6 @@
-import { c, removeDuplicates } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
+import { TypedFunction } from '@glyph-cat/foundation'
+import { removeDuplicates } from '@glyph-cat/swiss-army-knife'
 import { JSX, useEffect } from 'react'
 import {
   MATERIAL_ICON_DEFAULTS,
@@ -6,7 +8,6 @@ import {
   MaterialIconStyleSheetProps,
   MaterialIconVariant,
 } from '../schema'
-import { TypedFunction } from '@glyph-cat/foundation'
 
 /**
  * A convenience wrapper component around the Material Icon fonts.

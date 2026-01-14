@@ -1,5 +1,4 @@
-import { CleanupFunction } from '@glyph-cat/foundation'
-import { Empty } from '../../data'
+import { CleanupFunction, Empty } from '@glyph-cat/foundation'
 import { NavigatorState } from './constants'
 
 const EVENT_ONLINE = 'online'
