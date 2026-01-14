@@ -1,7 +1,7 @@
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import { CleanupFunction, IDisposable, PossiblyUndefined } from '@glyph-cat/foundation'
 import { clientOnly } from '../../client-only'
 import { createRef } from '../../data'
-import { CSSPropertiesExtended } from '../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileStyle } from '../compile-styles'
 import { StyleMap } from '../style-map'

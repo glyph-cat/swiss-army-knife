@@ -1,10 +1,5 @@
-import {
-  Casing,
-  CSSPropertiesExtended,
-  PrecedenceLevel,
-  StyleManager,
-  StyleMap,
-} from '@glyph-cat/swiss-army-knife'
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
+import { Casing, PrecedenceLevel, StyleManager, StyleMap } from '@glyph-cat/swiss-army-knife'
 import { isFunction, isNullOrUndefined, isObject } from '@glyph-cat/type-checking'
 import {
   Children,

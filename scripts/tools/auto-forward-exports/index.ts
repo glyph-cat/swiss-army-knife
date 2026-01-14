@@ -54,9 +54,7 @@ export function autoForwardExports(entryPath: string): void {
         : true // self is the '.ts' file already
       if (!hasIndexFile) { directoriesWithMissingIndexFiles.push(subPath) }
       const indicator = hasIndexFile ? chalk.green('✓') : chalk.red('×')
-      const shouldForwardOnlyPublicExports = item === 'abstractions' ||
-        item === 'constants' ||
-        item === 'utils' // TODO: Check file contents for export lines to determine instead
+      const shouldForwardOnlyPublicExports = FILES_WITH_INTERNAL_AND_PUBLIC_EXPORTS.has(item) && (hasIndexFile && hasInternalAndPublicExports(Path.join(subPath, 'index.ts')))
       console.log(chalk.gray(` ${connector} ${indicator} ${hasIndexFile
         ? item + (shouldForwardOnlyPublicExports ? chalk.cyan.dim('/public') : '')
         : chalk.red(`${item} (missing index file)`)}`
@@ -107,4 +105,18 @@ function crawl(dirPath: string, callback: (filePath: string) => void) {
 function checkIndexFile(directoryPath: string): boolean {
   const items = readdirSync(directoryPath)
   return !!items.find((item) => /^index\.tsx?$/.test(item))
+}
+
+const FILES_WITH_INTERNAL_AND_PUBLIC_EXPORTS = new Set([
+  'abstractions',
+  'constants',
+  'utils',
+])
+const REGEX_EXPORT_ALL_FROM_INTERNAL = /export\s+\*\s+from\s+'\.\/internal'/
+const REGEX_EXPORT_ALL_FROM_PUBLIC = /export\s+\*\s+from\s+'\.\/public'/
+
+function hasInternalAndPublicExports(pathToFile: string): boolean {
+  const fileContents = readFileSync(pathToFile, Encoding.UTF_8)
+  return REGEX_EXPORT_ALL_FROM_INTERNAL.test(fileContents) &&
+    REGEX_EXPORT_ALL_FROM_PUBLIC.test(fileContents)
 }

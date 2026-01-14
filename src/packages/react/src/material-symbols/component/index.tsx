@@ -1,4 +1,5 @@
-import { c, CSSProperties } from '@glyph-cat/swiss-army-knife'
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
+import { c } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import { createElement, JSX, useContext } from 'react'
 import { __setDisplayName } from '../../_internals'
@@ -17,7 +18,7 @@ export interface MaterialSymbolProps extends Partial<MaterialSymbolOptions> {
    */
   name: MaterialSymbolName
   className?: string
-  style?: CSSProperties
+  style?: CSSPropertiesExtended
 }
 
 /**
@@ -97,7 +98,7 @@ function createFontVariationSettingsProp(
   weight: MaterialSymbolOptions['weight'],
   grade: MaterialSymbolOptions['grade'],
   opticalSize: MaterialSymbolOptions['opticalSize'],
-): Partial<Pick<CSSProperties, 'fontVariationSettings'>> {
+): Partial<Pick<CSSPropertiesExtended, 'fontVariationSettings'>> {
   const list = createFontVariationSettings(fill, weight, grade, opticalSize)
   return list.length > 0 ? { fontVariationSettings: list.join(',') } : {}
 }

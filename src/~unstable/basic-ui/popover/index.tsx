@@ -1,16 +1,10 @@
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import {
   CleanupFunction,
   StringRecord,
   TypedFunction,
 } from '@glyph-cat/foundation'
-import {
-  CSSProperties,
-  isFunction,
-  isNull,
-  isNullOrUndefined,
-  RectangularBoundary,
-  serializePixelValue,
-} from '@glyph-cat/swiss-army-knife'
+import { RectangularBoundary, serializePixelValue } from '@glyph-cat/swiss-army-knife'
 import {
   GenericHTMLProps,
   Portal,
@@ -21,6 +15,7 @@ import {
   useMoveAwayListener,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
+import { isFunction, isNull, isNullOrUndefined } from '@glyph-cat/type-checking'
 import { Property } from 'csstype'
 import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {
@@ -93,6 +88,7 @@ export function PopoverTrigger({
           if (isFunction(propRef)) {
             cleanupRef = (propRef(node) as TypedFunction) ?? (() => { propRef(null) })
           } else {
+            // eslint-disable-next-line react-hooks/immutability
             propRef.current = node
             cleanupRef = () => { propRef.current = null }
           }
@@ -227,11 +223,11 @@ export function PopoverContent({
 
   useClickAwayListener(() => {
     setMenuVisibility(false)
-  }, [], triggerElementRef, dismissOnClickAway)
+  }, triggerElementRef, dismissOnClickAway)
 
   useMoveAwayListener(() => {
     setMenuVisibility(false)
-  }, [], triggerElementRef, dismissOnPointerLeave)
+  }, triggerElementRef, dismissOnPointerLeave)
 
   useKeyDownListener((e) => {
     if (e.key === 'Escape') {
@@ -282,7 +278,7 @@ function resolvePopoverStyle(
   align: PopoverContentAlignment,
   offset: Property.Margin<number>,
   sideOffset: Property.Margin<number>,
-): CSSProperties {
+): CSSPropertiesExtended {
   if (!contentBound) {
     return {
       opacity: 0,

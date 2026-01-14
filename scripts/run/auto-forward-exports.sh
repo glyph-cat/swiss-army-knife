@@ -12,6 +12,12 @@ yarn --cwd ./src/packages/react afe
 ECHO "Forwarding exports for 'equality'..."
 yarn --cwd ./src/packages/equality afe
 
+ECHO "Forwarding exports for 'type-checking'..."
+yarn --cwd ./src/packages/type-checking afe
+
+ECHO "Forwarding exports for 'css-utils'..."
+yarn --cwd ./src/packages/css-utils afe
+
 ECHO "Forwarding exports for 'localization'..."
 yarn --cwd ./src/packages/localization afe
 
@@ -32,6 +38,12 @@ yarn --cwd ./src/packages/ml-helpers afe
 
 # ECHO "Forwarding exports for 'project-helpers'..."
 # yarn --cwd ./src/packages/project-helpers afe
+
+# ECHO "Forwarding exports for 'crayon'..."
+# yarn --cwd ./src/packages/crayon afe
+
+ECHO "Forwarding exports for 'sleep-sort'..."
+yarn --cwd ./src/packages/sleep-sort afe
 
 ECHO "Forwarding exports for playground..."
 yarn afe-playground

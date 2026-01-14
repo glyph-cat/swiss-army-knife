@@ -1,4 +1,4 @@
-import { CSSProperties } from '@glyph-cat/swiss-army-knife'
+import { CSSProperties } from '@glyph-cat/css-utils'
 
 /**
  * @public

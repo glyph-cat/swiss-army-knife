@@ -7,7 +7,8 @@
   "unpkg": "lib/umd/index.js",
   "files": [
     "lib"
-  ],"types": "lib/types/index.d.ts",
+  ],
+  "types": "lib/types/index.d.ts",
   "scripts": {
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "clean": "rm -rf ./lib ./temp/tsc",
@@ -35,6 +36,7 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
+    "@glyph-cat/foundation": "0.0.0-experimental.88",
     "@sinonjs/fake-timers": "^15.0.0"
   }
 }

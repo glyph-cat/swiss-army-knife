@@ -18,36 +18,45 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@glyph-cat/eslint-config": [
-        "./packages/eslint-config"
-      ],
       "@glyph-cat/foundation": [
-        "./packages/foundation/src"
+        "./packages/foundation/src",
       ],
       "@glyph-cat/swiss-army-knife": [
-        "./packages/core/src"
+        "./packages/core/src",
       ],
       "@glyph-cat/swiss-army-knife-react": [
-        "./packages/react/src"
+        "./packages/react/src",
       ],
       "@glyph-cat/equality": [
-        "./packages/equality/src"
+        "./packages/equality/src",
+      ],
+      "@glyph-cat/type-checking": [
+        "./packages/type-checking/src",
+      ],
+      "@glyph-cat/css-utils": [
+        "./packages/css-utils/src",
       ],
       "@glyph-cat/localization": [
-        "./packages/localization/src"
+        "./packages/localization/src",
       ],
-      "@glyph-cat/localization-react": [
-        "./packages/localization-react/src"
-      ],
+      // "@glyph-cat/localization-react": [
+      //   "./packages/localization-react/src",
+      // ],
       "@glyph-cat/cleanup-manager": [
-        "./packages/cleanup-manager/src"
+        "./packages/cleanup-manager/src",
       ],
       "@glyph-cat/react-test-utils": [
-        "./packages/react-test-utils/src"
+        "./packages/react-test-utils/src",
       ],
       "@glyph-cat/ml-helpers": [
-        "./packages/ml-helpers/src"
-      ]
+        "./packages/ml-helpers/src",
+      ],
+      "@glyph-cat/sleep-sort": [
+        "./packages/sleep-sort/src",
+      ],
+      "@glyph-cat/eslint-config": [
+        "./packages/eslint-config",
+      ],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

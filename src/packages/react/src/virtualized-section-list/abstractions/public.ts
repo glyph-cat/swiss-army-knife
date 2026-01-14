@@ -1,4 +1,4 @@
-import { CSSPropertiesExtended } from '@glyph-cat/swiss-army-knife'
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import { ComponentType, UIEventHandler } from 'react'
 import { BasicUILayout } from '../../ui'
 import { CellType } from './internal'

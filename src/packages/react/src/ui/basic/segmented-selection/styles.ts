@@ -1,7 +1,7 @@
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import {
   addStyles,
   clientOnly,
-  CSSPropertiesExtended,
   PrecedenceLevel,
   StyleMap,
   ThemeToken,

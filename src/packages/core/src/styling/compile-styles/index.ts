@@ -1,13 +1,16 @@
+import {
+  CSSPropertiesExtended,
+  CustomCSSVariablesRecord,
+  tryFormatAsClassName,
+} from '@glyph-cat/css-utils'
 import { StringRecord } from '@glyph-cat/foundation'
 import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
 import { __getDisplayName } from '../../_internals'
 import { IS_DEBUG_ENV } from '../../constants'
 import { devWarn } from '../../dev'
-import { CSSPropertiesExtended, CustomCSSVariablesRecord } from '../abstractions'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { normalizeCSSValue } from '../normalize-css-value'
-import { tryFormatAsClassName } from '../try-format-as-class-name'
 import { ignoreWhenCompilingStyles, selectorsToIgnore, tryValidateCSSSelector } from './validator'
 
 /**

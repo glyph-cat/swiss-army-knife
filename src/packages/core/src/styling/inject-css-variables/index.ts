@@ -1,6 +1,6 @@
+import { CustomCSSVariablesRecord } from '@glyph-cat/css-utils'
 import { CleanupFunction } from '@glyph-cat/foundation'
 import { GlobalCSSClassNameFactory } from '../../hash'
-import { CustomCSSVariablesRecord } from '../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileCSSVariables } from '../compile-styles'
 import { normalizeCSSValue } from '../normalize-css-value'

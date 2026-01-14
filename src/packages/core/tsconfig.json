@@ -27,6 +27,9 @@
       "@glyph-cat/type-checking": [
         "../type-checking/src",
       ],
+      "@glyph-cat/css-utils": [
+        "../css-utils/src",
+      ],
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],
@@ -49,6 +52,6 @@
   ],
   "include": [
     "src",
-    "custom.d.ts",
+    "custom.d.ts", "../css-utils/src/utils/try-format-as-class-name",
   ]
 }
