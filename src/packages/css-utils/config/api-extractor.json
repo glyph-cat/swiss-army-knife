@@ -9,7 +9,8 @@
           // (TS2307) Cannot find module '...' or its corresponding type declarations;
           // but output file will import types from package and there will be no overlap.
           // This is a most likely a happy mistake.
-          "@glyph-cat/foundation": []
+          "@glyph-cat/foundation": [],
+          "@glyph-cat/type-checking": []
         }
       }
     }

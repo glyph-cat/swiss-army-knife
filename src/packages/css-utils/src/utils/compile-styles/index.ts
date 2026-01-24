@@ -1,16 +1,12 @@
-import {
-  CSSPropertiesExtended,
-  CustomCSSVariablesRecord,
-  tryFormatAsClassName,
-} from '@glyph-cat/css-utils'
 import { StringRecord } from '@glyph-cat/foundation'
 import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
 import { __getDisplayName } from '../../_internals'
+import { CSSPropertiesExtended, CustomCSSVariablesRecord } from '../../abstractions'
 import { IS_DEBUG_ENV } from '../../constants'
-import { devWarn } from '../../dev'
 import { mapPropertyNameFromJSToCSS } from '../map-property-name'
 import { normalizeCSSValue } from '../normalize-css-value'
+import { tryFormatAsClassName } from '../try-format-as-class-name'
 import { ignoreWhenCompilingStyles, selectorsToIgnore, tryValidateCSSSelector } from './validator'
 
 /**
@@ -100,7 +96,7 @@ export function compileStyle(key: string, styles: CSSPropertiesExtended): string
         const selector = $selector.replace(/:.+$/, '')
         if (checkedSelectors.has(selector)) { continue }
         if (!tryValidateCSSSelector(selector)) {
-          devWarn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${__getDisplayName(ignoreWhenCompilingStyles)}(['${selector}'])`)
+          console.warn(`Found unrecognized element "${selector}" when compiling styles. If this was intentional or if it is a valid web component, you can suppress this warning by calling ${__getDisplayName(ignoreWhenCompilingStyles)}(['${selector}'])`)
         }
         checkedSelectors.add(selector)
       }

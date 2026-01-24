@@ -1,5 +1,5 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { Nullable, PartialRecord } from '@glyph-cat/foundation'
+import { InternalError, Nullable, PartialRecord } from '@glyph-cat/foundation'
 import { RenderResult, render } from '@testing-library/react'
 import {
   ErrorInfo,
@@ -226,7 +226,7 @@ export class HookTester<
     if (this.M$forceUpdateRef) {
       act((): void => { this.M$forceUpdateRef() })
     } else {
-      throw new Error('Unable to trigger force update. This might indicate an internal error where the test container component could not be rendered in the first place.')
+      throw new InternalError('Unable to trigger force update. This might indicate a problem where the test container component could not be rendered in the first place.')
     }
   }
 

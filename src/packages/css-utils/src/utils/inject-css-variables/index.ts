@@ -1,6 +1,6 @@
-import { CustomCSSVariablesRecord } from '@glyph-cat/css-utils'
-import { CleanupFunction } from '@glyph-cat/foundation'
-import { GlobalCSSClassNameFactory } from '../../hash'
+import { Charset, CleanupFunction } from '@glyph-cat/foundation'
+import { pickRandom } from '../../../../core/src/random/pick'
+import { CustomCSSVariablesRecord } from '../../abstractions'
 import { addStyles, PrecedenceLevel } from '../add-styles'
 import { compileCSSVariables } from '../compile-styles'
 import { normalizeCSSValue } from '../normalize-css-value'
@@ -47,7 +47,7 @@ export function injectCSSVariables(
   target?: HTMLElement,
   precedenceLevel: PrecedenceLevel = PrecedenceLevel.HIGH,
 ): CleanupFunction {
-  const className = GlobalCSSClassNameFactory.create()
+  const className = createClassName()
   const compiledVariables = compileCSSVariables(values, className)
   const removeStyles = addStyles(compiledVariables, precedenceLevel)
   target ??= document.body
@@ -56,4 +56,12 @@ export function injectCSSVariables(
     target.classList.remove(className)
     removeStyles()
   }
+}
+
+function createClassName(): string {
+  let newClassName = pickRandom(Charset.ALPHABET_LOWER) // prefix charset
+  while (newClassName.length < 12) { // arbitrary length
+    newClassName += pickRandom(Charset.DEFAULT) // body charset
+  }
+  return newClassName
 }

@@ -1,4 +1,4 @@
-import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
+import { CSSPropertiesExtended } from '../../index.scripted'
 import { compileStyle } from '../compile-styles'
 
 /**

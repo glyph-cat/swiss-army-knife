@@ -1,20 +1,35 @@
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
-import terser from '@rollup/plugin-terser'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
+import {
+  customReplace,
+  customTerser,
+  setDisplayName,
+} from '../../../../tools/custom-rollup-plugins'
+import { BuildType } from '../../foundation/src/build'
+import packageJson from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
-const UMD_NAME = 'Equality'
+const UMD_NAME = 'SleepSort'
 
-function getPlugins(): Array<RollupPlugin> {
+interface IPluginConfig {
+  buildType: BuildType
+  isProductionTarget?: boolean
+}
+
+function getPlugins({
+  buildType,
+  isProductionTarget,
+}: IPluginConfig): Array<RollupPlugin> {
 
   const pluginStack: Array<RollupPlugin> = [
     nodeResolve({
       extensions: ['.ts'],
     }),
     commonjs({ sourceMap: false }),
+    setDisplayName(!isProductionTarget),
     typescript({
       tsconfigOverride: {
         compilerOptions: {
@@ -27,13 +42,12 @@ function getPlugins(): Array<RollupPlugin> {
         ],
       },
     }),
-    terser({
-      mangle: {
-        properties: {
-          regex: /^(M\$|_)/,
-        },
-      },
-    })
+    customReplace(
+      isProductionTarget,
+      buildType,
+      packageJson.version,
+    ),
+    customTerser(),
   ]
 
   return pluginStack
@@ -49,7 +63,7 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
-    plugins: getPlugins(),
+    plugins: getPlugins({ buildType: BuildType.CJS }),
   },
   {
     // EcmaScript
@@ -60,7 +74,23 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
-    plugins: getPlugins(),
+    plugins: getPlugins({
+      buildType: BuildType.ES,
+    }),
+  },
+  {
+    // EcmaScript (minified)
+    input: INPUT_FILE,
+    output: {
+      file: 'lib/es/index.mjs',
+      format: 'es',
+      exports: 'named',
+      sourcemap: false,
+    },
+    plugins: getPlugins({
+      buildType: BuildType.MJS,
+      isProductionTarget: true,
+    }),
   },
   {
     // UMD
@@ -72,7 +102,24 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: true,
     },
-    plugins: getPlugins(),
+    plugins: getPlugins({
+      buildType: BuildType.UMD,
+    }),
+  },
+  {
+    // UMD (minified)
+    input: INPUT_FILE,
+    output: {
+      file: 'lib/umd/index.min.js',
+      format: 'umd',
+      name: UMD_NAME,
+      exports: 'named',
+      sourcemap: true,
+    },
+    plugins: getPlugins({
+      buildType: BuildType.UMD_MIN,
+      isProductionTarget: true,
+    }),
   },
 ]
 

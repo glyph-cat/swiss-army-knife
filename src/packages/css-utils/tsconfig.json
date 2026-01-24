@@ -15,6 +15,9 @@
       "@glyph-cat/foundation": [
         "../foundation/src",
       ],
+      "@glyph-cat/type-checking": [
+        "../type-checking/src",
+      ],
     },
     "skipLibCheck": true,
     "sourceMap": true,

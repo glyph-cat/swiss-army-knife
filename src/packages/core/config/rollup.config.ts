@@ -43,9 +43,10 @@ interface IPluginConfig {
   isProductionTarget?: boolean
 }
 
-function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
-
-  const { buildType, isProductionTarget } = config
+function getPlugins({
+  buildType,
+  isProductionTarget,
+}: IPluginConfig): Array<RollupPlugin> {
 
   const pluginStack: Array<RollupPlugin> = [
     nodeResolve({
