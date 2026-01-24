@@ -1,4 +1,4 @@
-import { Casing, isString, Key, ThemeToken } from '@glyph-cat/swiss-army-knife'
+import { Casing, Key, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import {
   ButtonBase,
   Input,
@@ -7,6 +7,7 @@ import {
   useKeyDownListener,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
+import { isString } from '@glyph-cat/type-checking'
 import { useStateValue } from 'cotton-box-react'
 import { fuzzy } from 'fast-fuzzy'
 import Link from 'next/link'

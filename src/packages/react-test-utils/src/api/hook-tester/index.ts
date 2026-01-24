@@ -1,5 +1,5 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { PartialRecord } from '@glyph-cat/foundation'
+import { Nullable, PartialRecord } from '@glyph-cat/foundation'
 import { RenderResult, render } from '@testing-library/react'
 import {
   ErrorInfo,
@@ -12,6 +12,7 @@ import {
   useEffect,
 } from 'react'
 import { hasProperty } from '../../../../core/src/data/object/property'
+import { useForceUpdate } from '../../../../react/src/hooks/force-update'
 import { ICapturedError } from '../../abstractions'
 import { ActionNotExistError, ValueNotExistError } from '../../errors'
 import { ErrorBoundary } from '../../internals'
@@ -177,10 +178,16 @@ export class HookTester<
 
     const { M$useHook: useHook } = this
 
+    // #region Hooks
     /* eslint-disable react-hooks/rules-of-hooks */
+
+    this.M$forceUpdateRef = useForceUpdate()
+
     const hookData = useHook(...this.M$hookParameters)
     useEffect(() => { this.M$renderCount += 1 })
+
     /* eslint-enable react-hooks/rules-of-hooks */
+    // #endregion Hooks
 
     for (const actionKey in this.M$actions) {
       const actionCallback = this.M$actions[actionKey]
@@ -208,6 +215,19 @@ export class HookTester<
 
     return null!
 
+  }
+
+  /**
+   * @internal
+   */
+  private M$forceUpdateRef: (Nullable<() => void>) = null
+
+  forceUpdate(): void {
+    if (this.M$forceUpdateRef) {
+      act((): void => { this.M$forceUpdateRef() })
+    } else {
+      throw new Error('Unable to trigger force update. This might indicate an internal error where the test container component could not be rendered in the first place.')
+    }
   }
 
   action(...actionKeys: Array<keyof Actions>): number {

@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import { JSX } from 'react'
 import styles from './index.module.css'
 

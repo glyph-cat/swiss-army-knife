@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import sandboxStyles from './sandboxStyles.module.css'
 
 export const INTERNAL_APP_IDENTIFIER = 'glyph-cat-playground-react'

@@ -6,6 +6,7 @@ const config: Config.InitialOptions = {
     '@glyph-cat/swiss-army-knife': '<rootDir>/../core/src',
     '@glyph-cat/equality': '<rootDir>/../equality/src',
     '@glyph-cat/type-checking': '<rootDir>/../type-checking/src',
+    '@glyph-cat/css-utils': '<rootDir>/../css-utils/src',
     '@glyph-cat/react-test-utils': '<rootDir>/../react-test-utils/src',
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },

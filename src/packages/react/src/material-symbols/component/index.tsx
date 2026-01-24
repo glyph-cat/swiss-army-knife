@@ -1,5 +1,5 @@
 import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import { isNumber } from '@glyph-cat/type-checking'
 import { createElement, JSX, useContext } from 'react'
 import { __setDisplayName } from '../../_internals'

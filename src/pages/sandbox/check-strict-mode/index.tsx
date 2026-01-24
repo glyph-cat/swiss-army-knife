@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import { View } from '@glyph-cat/swiss-army-knife-react'
 import { useCheckStrictMode } from 'packages/react/src/strict-mode'
 import { Fragment, JSX, StrictMode, useReducer } from 'react'

@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import { View } from '@glyph-cat/swiss-army-knife-react'
 import { JSX } from 'react'
 import { SandboxStyle } from '~constants'

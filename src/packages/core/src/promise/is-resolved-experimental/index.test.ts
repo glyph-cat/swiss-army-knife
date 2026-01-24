@@ -1,10 +1,10 @@
+import { Empty } from '@glyph-cat/foundation'
 import {
   EXPERIMENTAL_isPending,
   EXPERIMENTAL_isRejected,
   EXPERIMENTAL_isResolved,
   EXPERIMENTAL_isSettled,
 } from '.'
-import { Empty } from '../../data'
 import { delay } from '../../events'
 
 jest.useRealTimers()

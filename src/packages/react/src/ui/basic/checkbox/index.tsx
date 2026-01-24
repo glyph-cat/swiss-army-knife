@@ -1,6 +1,6 @@
+import { c } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import {
-  c,
   Color,
   ColorFormat,
   injectInlineCSSVariables,

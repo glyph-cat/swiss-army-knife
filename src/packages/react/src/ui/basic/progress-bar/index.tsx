@@ -1,10 +1,9 @@
+import { c, percent } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import {
-  c,
   clamp,
   getPercentage,
   injectInlineCSSVariables,
-  percent,
   serializePixelValue,
 } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'

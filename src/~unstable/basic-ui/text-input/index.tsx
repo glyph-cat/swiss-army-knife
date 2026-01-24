@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import { Input, InputProps } from '@glyph-cat/swiss-army-knife-react'
 import { ForwardedRef, forwardRef, JSX } from 'react'
 import { styles } from './styles'

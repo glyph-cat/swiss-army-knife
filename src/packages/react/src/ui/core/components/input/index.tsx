@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/swiss-army-knife'
+import { c } from '@glyph-cat/css-utils'
 import { isBoolean } from '@glyph-cat/type-checking'
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { useCommonFocusableRefHandler } from '../../input-focus'
