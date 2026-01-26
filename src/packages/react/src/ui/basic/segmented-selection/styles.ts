@@ -1,11 +1,5 @@
-import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
-import {
-  addStyles,
-  clientOnly,
-  PrecedenceLevel,
-  StyleMap,
-  ThemeToken,
-} from '@glyph-cat/swiss-army-knife'
+import { addStyles, CSSPropertiesExtended, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
+import { clientOnly, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import { TOKEN_OVERRIDE_TINT as TOKEN_TINT } from '../constants'
 

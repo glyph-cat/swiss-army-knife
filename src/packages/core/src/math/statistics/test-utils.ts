@@ -1,5 +1,4 @@
-import { TypedFunction } from '@glyph-cat/foundation'
-import { createRef } from '../../data/ref'
+import { createRef, TypedFunction } from '@glyph-cat/foundation'
 
 type MethodName = 'sum' | 'mean' | 'median' | 'variance' | 'stddev'
 

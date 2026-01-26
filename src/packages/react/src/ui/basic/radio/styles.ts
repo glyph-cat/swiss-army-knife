@@ -1,11 +1,6 @@
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { Empty } from '@glyph-cat/foundation'
-import {
-  addStyles,
-  clientOnly,
-  PrecedenceLevel,
-  StyleMap,
-  ThemeToken,
-} from '@glyph-cat/swiss-army-knife'
+import { clientOnly, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import {
   CHECKBOX_OR_RADIO_ACTIVE_COLOR,

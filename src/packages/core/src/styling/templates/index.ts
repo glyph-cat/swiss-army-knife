@@ -1,6 +1,5 @@
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { clientOnly } from '../../client-only'
-import { addStyles, PrecedenceLevel } from '../add-styles'
-import { StyleMap } from '../style-map'
 
 /**
  * @public

@@ -1,5 +1,6 @@
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { Nullable } from '@glyph-cat/foundation'
-import { addStyles, PrecedenceLevel, StyleMap, ThemeToken } from '@glyph-cat/swiss-army-knife'
+import { ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { clientOnly } from '../../../../../../core/src/client-only'
 import { useDerivedDisabledState } from '../../disabled-context'
 import { useCoreNavigationStack } from '../../navigation/stack'

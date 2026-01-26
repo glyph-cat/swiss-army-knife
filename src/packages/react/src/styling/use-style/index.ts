@@ -1,4 +1,4 @@
-import { mapPropertyNameFromJSToCSS, normalizeCSSValue } from '@glyph-cat/swiss-army-knife'
+import { mapPropertyNameFromJSToCSS, normalizeCSSValue } from '@glyph-cat/css-utils'
 import { CSSProperties, useId, useInsertionEffect, useMemo } from 'react'
 import { PseudoClasses } from './abstractions'
 

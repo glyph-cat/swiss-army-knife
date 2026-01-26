@@ -1,11 +1,5 @@
-import {
-  addStyles,
-  clientOnly,
-  InternalToken,
-  PrecedenceLevel,
-  StyleMap,
-  ThemeToken,
-} from '@glyph-cat/swiss-army-knife'
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
+import { clientOnly, InternalToken, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { mounted } from '../_internals/data-mounted'
 import { prefixBasicUIIdentifiers } from '../_internals/prefixing'
 import {

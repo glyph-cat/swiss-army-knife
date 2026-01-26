@@ -1,5 +1,6 @@
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { Nullable, RefObject } from '@glyph-cat/foundation'
-import { addStyles, clientOnly, PrecedenceLevel, StyleMap } from '@glyph-cat/swiss-army-knife'
+import { clientOnly } from '@glyph-cat/swiss-army-knife'
 import { isObject } from '@glyph-cat/type-checking'
 import {
   createContext,

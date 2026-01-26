@@ -1,5 +1,5 @@
 import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
-import { InternalError } from '@glyph-cat/swiss-army-knife'
+import { InternalError } from '@glyph-cat/foundation'
 import { isNull, isObject } from '@glyph-cat/type-checking'
 import {
   ForwardedRef,

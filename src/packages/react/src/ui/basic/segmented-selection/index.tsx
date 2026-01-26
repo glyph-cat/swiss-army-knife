@@ -1,5 +1,5 @@
+import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import { injectInlineCSSVariables } from '@glyph-cat/swiss-army-knife'
 import { isBoolean } from '@glyph-cat/type-checking'
 import {
   Children,

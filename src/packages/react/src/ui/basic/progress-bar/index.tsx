@@ -1,11 +1,6 @@
-import { c, percent } from '@glyph-cat/css-utils'
+import { c, injectInlineCSSVariables, percent, serializePixelValue } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import {
-  clamp,
-  getPercentage,
-  injectInlineCSSVariables,
-  serializePixelValue,
-} from '@glyph-cat/swiss-army-knife'
+import { clamp, getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import { JSX, useEffect, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'

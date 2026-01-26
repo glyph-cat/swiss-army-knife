@@ -1,4 +1,5 @@
-import { createRef, removeDuplicates } from '@glyph-cat/swiss-army-knife'
+import { createRef } from '@glyph-cat/foundation'
+import { removeDuplicates } from '@glyph-cat/swiss-army-knife'
 import { IDictionaryData, Language, LocalizationKey, LocalizedValue } from '../abstractions'
 import { LocalizationDictionary } from '../dictionary'
 import { LocalizationKeyNotFoundError } from '../errors'

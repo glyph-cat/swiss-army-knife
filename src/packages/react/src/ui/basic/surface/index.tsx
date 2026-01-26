@@ -1,4 +1,5 @@
-import { addStyles, PrecedenceLevel, StyleMap, ThemeToken } from '@glyph-cat/swiss-army-knife'
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
+import { ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { JSX, ReactNode } from 'react'
 import { STYLE_NONE } from '../../../styling/constants'
 import { SmartView } from '../../core'

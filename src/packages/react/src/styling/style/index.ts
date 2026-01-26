@@ -1,4 +1,5 @@
-import { addStyles, createRef } from '@glyph-cat/swiss-army-knife'
+import { addStyles } from '@glyph-cat/css-utils'
+import { createRef } from '@glyph-cat/foundation'
 import { JSX, useEffect, useInsertionEffect, useState } from 'react'
 import { StyleProps } from './abstractions'
 

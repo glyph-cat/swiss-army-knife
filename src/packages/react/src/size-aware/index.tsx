@@ -1,11 +1,7 @@
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { Nullable, RefObject } from '@glyph-cat/foundation'
-import {
-  addStyles,
-  clientOnly,
-  PrecedenceLevel,
-  RectangularBoundary,
-  StyleMap,
-} from '@glyph-cat/swiss-army-knife'
+import { clientOnly, RectangularBoundary } from '@glyph-cat/swiss-army-knife'
+import { isObject } from '@glyph-cat/type-checking'
 import {
   createContext,
   ForwardedRef,
@@ -19,7 +15,6 @@ import {
   useState,
 } from 'react'
 import { View } from '../ui/core/components/view'
-import { isObject } from '@glyph-cat/type-checking'
 
 const SIZE_AWARE_VIEW_PROBE_STYLES = 'size-aware-view-probe'
 

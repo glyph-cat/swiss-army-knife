@@ -1,4 +1,4 @@
-import { compileStyle, PrecedenceLevel } from '@glyph-cat/swiss-army-knife'
+import { compileStyle, PrecedenceLevel } from '@glyph-cat/css-utils'
 import { JSX } from 'react'
 import { Style } from '../../styling'
 import { MaterialSymbolOptions, MaterialSymbolVariant } from '../abstractions'

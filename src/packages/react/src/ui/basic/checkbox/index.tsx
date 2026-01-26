@@ -1,10 +1,6 @@
-import { c } from '@glyph-cat/css-utils'
+import { c, injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import {
-  Color,
-  ColorFormat,
-  injectInlineCSSVariables,
-} from '@glyph-cat/swiss-army-knife'
+import { Color, ColorFormat } from '@glyph-cat/swiss-army-knife'
 import { isUndefinedOrNull } from '@glyph-cat/type-checking'
 import {
   ChangeEvent,
