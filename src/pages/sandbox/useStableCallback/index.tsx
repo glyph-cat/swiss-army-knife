@@ -1,7 +1,7 @@
 import { c } from '@glyph-cat/css-utils'
 import { getRandomNumber } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
-import { useStableCallback } from 'packages/react/src/hooks/stable-callback'
+import { useStableCallback } from 'packages/react/src/hooks/callback/stable'
 import { JSX, useCallback, useEffect, useState } from 'react'
 import { SandboxStyle } from '~constants'
 import styles from './index.module.css'
