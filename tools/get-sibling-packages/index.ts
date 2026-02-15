@@ -1,4 +1,4 @@
-import { PACKAGES_DIRECTORIES } from '../../scripts/constants'
+import { PACKAGES_DIRECTORY } from '../../scripts/constants'
 import { StringRecord } from '../../src/packages/foundation/src/records'
 import { getPackages } from '../../src/packages/project-helpers/src/get-packages'
 
@@ -6,5 +6,5 @@ import { getPackages } from '../../src/packages/project-helpers/src/get-packages
 // the auto-forward-exports script.
 
 export function getSiblingPackages(): StringRecord<string> {
-  return getPackages(PACKAGES_DIRECTORIES, { excludePrivatePackages: true })
+  return getPackages(PACKAGES_DIRECTORY, { excludePrivatePackages: true })
 }

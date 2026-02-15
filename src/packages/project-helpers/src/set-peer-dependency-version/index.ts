@@ -1,5 +1,8 @@
 import { PackageJson } from 'type-fest'
 
+/**
+ * @deprecated
+ */
 export function setPeerDependencyVersion(
   packageObj: PackageJson,
   dependencyName: string,

@@ -11,7 +11,7 @@ import {
 } from '../../../src/packages/project-helpers/src/get-package-dependencies'
 import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
-import { PACKAGES_DIRECTORIES } from '../../constants'
+import { PACKAGES_DIRECTORY } from '../../constants'
 
 function run(): void {
 
@@ -25,7 +25,7 @@ function run(): void {
   // Find all imports by crawling through every file
   const dependencyMap = allPackageEntries.reduce((acc, [packageDirectory, packageName]) => {
     const foundImports = getAllGlyphCatImports(
-      path.join(PACKAGES_DIRECTORIES, packageDirectory)
+      path.join(PACKAGES_DIRECTORY, packageDirectory)
     ).filter((foundImport) => {
       // Self reference would have been prohibited by TS, but this is just in case
       // self reference is made as a comment.
@@ -66,7 +66,7 @@ function run(): void {
   const missingMentions = allPackageEntries.reduce((acc, [packageDirectory, packageName]) => {
     const dependencies = dependencyMap[packageName]
     const packageDependencies = getPackageDependencies(
-      readPackageJson(path.join(PACKAGES_DIRECTORIES, packageDirectory))
+      readPackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory))
     )
     // NOTE: Version matching not required because there may be screw-ups in
     // dependent packages and we may want to fallback to earlier versions.
@@ -88,7 +88,7 @@ function run(): void {
       const packageDirectory = allPackageEntries.find(([_, entryPackageName]) => {
         return packageName === entryPackageName
       })![0]
-      const { version } = readPackageJson(path.join(PACKAGES_DIRECTORIES, packageDirectory))
+      const { version } = readPackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory))
       acc[packageName] = version
       return acc
     }, {} as StringRecord<string | undefined>)

@@ -1,13 +1,12 @@
 import chalk from 'chalk'
 import { execSync } from 'child_process'
 import path from 'path'
+import { PackageJson } from 'type-fest'
+import { objectFilter } from '../../../src/packages/core/src/data'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
-import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
-import { setPackageVersion } from '../../../src/packages/project-helpers/src/set-package-version'
-import {
-  setPeerDependencyVersion,
-} from '../../../src/packages/project-helpers/src/set-peer-dependency-version'
-import { writePackageJson } from '../../../src/packages/project-helpers/src/write-package-json'
+import { mutatePackageJson } from '../../../src/packages/project-helpers/src/mutate-package-json'
+import { getSiblingPackages } from '../../../tools/get-sibling-packages'
+import { PACKAGES_DIRECTORY } from '../../constants'
 
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
@@ -33,40 +32,65 @@ function run(newVersion: string): void {
     process.exit(1)
   }
 
-  const PACKAGE_JSON = 'package.json'
-  const PACKAGES_PATH = path.join('.', 'src', 'packages')
+  mutatePackageJson('.', (pkg) => ({
+    ...pkg,
+    version: newVersion,
+  } as PackageJson))
 
-  const rootPackageJsonPath = path.join('.', PACKAGE_JSON)
-  const rootPackageJson = readPackageJson(rootPackageJsonPath)
-  setPackageVersion(rootPackageJson, newVersion)
-  writePackageJson(rootPackageJsonPath, rootPackageJson)
+  const foundationPackageJson = mutatePackageJson(
+    path.join(PACKAGES_DIRECTORY, 'foundation'),
+    (pkg) => ({
+      ...pkg,
+      version: newVersion,
+    } as PackageJson),
+  )
 
-  const foundationPackageJsonPath = path.join(PACKAGES_PATH, 'foundation', PACKAGE_JSON)
-  const foundationPackageJson = readPackageJson(foundationPackageJsonPath)
-  setPackageVersion(foundationPackageJson, newVersion)
-  writePackageJson(foundationPackageJsonPath, foundationPackageJson)
+  const corePackageJson = mutatePackageJson(
+    path.join(PACKAGES_DIRECTORY, 'core'),
+    (pkg) => ({
+      ...pkg,
+      version: newVersion,
+      peerDependencies: {
+        ...pkg.peerDependencies,
+        [foundationPackageJson.name!]: newVersion,
+      },
+    } as PackageJson),
+  )
 
-  const corePackageJsonPath = path.join(PACKAGES_PATH, 'core', PACKAGE_JSON)
-  const corePackageJson = readPackageJson(corePackageJsonPath)
-  setPackageVersion(corePackageJson, newVersion)
-  setPeerDependencyVersion(corePackageJson, foundationPackageJson.name!, newVersion)
-  writePackageJson(corePackageJsonPath, corePackageJson)
+  const reactPackageJson = mutatePackageJson(
+    path.join(PACKAGES_DIRECTORY, 'react'),
+    (pkg) => ({
+      ...pkg,
+      version: newVersion,
+      peerDependencies: {
+        ...pkg.peerDependencies,
+        [foundationPackageJson.name!]: newVersion,
+        [corePackageJson.name!]: newVersion,
+      },
+    } as PackageJson),
+  )
 
-  const reactPackageJsonPath = path.join(PACKAGES_PATH, 'react', PACKAGE_JSON)
-  const reactPackageJson = readPackageJson(reactPackageJsonPath)
-  setPackageVersion(reactPackageJson, newVersion)
-  setPeerDependencyVersion(reactPackageJson, foundationPackageJson.name!, newVersion)
-  setPeerDependencyVersion(reactPackageJson, corePackageJson.name!, newVersion)
-  writePackageJson(reactPackageJsonPath, reactPackageJson)
+  // TODO
+  // - Loop through each sibling packages
+  // - Check if dependencies | devDependencies | peerDependencies contain this package
+  // - If yes, update the package.json as well
 
-  execSync(`git add ${[
-    rootPackageJsonPath,
-    foundationPackageJsonPath,
-    corePackageJsonPath,
-    reactPackageJsonPath,
-  ].join(' ')}`)
-  execSync(`git commit -m 'v${newVersion}'`)
-  execSync(`git tag 'v${newVersion}'`)
+  const essentialPackages = new Set([
+    foundationPackageJson.name!,
+    corePackageJson.name!,
+    reactPackageJson.name!,
+  ])
+  const otherSiblingPackages = objectFilter(
+    getSiblingPackages(),
+    (packageName) => !essentialPackages.has(packageName),
+  )
+  console.log('otherSiblingPackages', otherSiblingPackages)
+
+  // execSync([
+  //   'git add .',
+  //   `git commit -m 'v${newVersion}'`,
+  //   `git tag 'v${newVersion}'`,
+  // ].join(' && '))
 
 }
 
