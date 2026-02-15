@@ -24,7 +24,14 @@ function run(): void {
 
   // Find all imports by crawling through every file
   const dependencyMap = allPackageEntries.reduce((acc, [packageDirectory, packageName]) => {
-    acc[packageName] = getAllGlyphCatImports(path.join(PACKAGES_DIRECTORIES, packageDirectory))
+    const foundImports = getAllGlyphCatImports(
+      path.join(PACKAGES_DIRECTORIES, packageDirectory)
+    ).filter((foundImport) => {
+      // Self reference would have been prohibited by TS, but this is just in case
+      // self reference is made as a comment.
+      return packageName !== foundImport
+    })
+    acc[packageName] = foundImports
     return acc
   }, {} as StringRecord<Array<string>>)
   // console.log('dependencyMap', dependencyMap)
@@ -50,6 +57,7 @@ function run(): void {
         return p === pickLast(arr) ? chalk.yellow(p) : p
       }).join(chalk.grey(' → ')))
     })
+    process.exit(1)
   }
 
   // ———————————————————————————————————————————————————————————————————————————
@@ -97,6 +105,7 @@ function run(): void {
       }).join('\n')))
       console.log(chalk.yellow('```') + '\n')
     })
+    process.exit(1)
   }
 
 }
@@ -132,7 +141,7 @@ function getAllGlyphCatImports(entryPoint: string): Array<string> {
   crawl(path.join(entryPoint, 'src'), crawlHandler)
   crawl(path.join(entryPoint, 'scripts'), crawlHandler)
 
-  return removeDuplicates((foundImportLists.flat()))
+  return removeDuplicates(foundImportLists.flat())
 
 }
 

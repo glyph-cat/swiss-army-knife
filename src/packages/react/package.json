@@ -40,9 +40,18 @@
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
-  "peerDependencies": {
+  "dependencies": {
+    "@glyph-cat/cleanup-manager": "^1.0.0",
+    "@glyph-cat/css-utils": "^1.0.0",
+    "@glyph-cat/equality": "^1.2.0",
     "@glyph-cat/foundation": "0.0.0-experimental.88",
     "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88",
+    "@glyph-cat/type-checking": "^1.0.0"
+  },
+  "peerDependencies": {
     "cotton-box-react": "*"
+  },
+  "devDependencies": {
+    "@glyph-cat/react-test-utils": "^0.8.0"
   }
 }
