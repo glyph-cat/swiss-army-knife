@@ -1,9 +1,13 @@
 import chalk from 'chalk'
 import { execSync } from 'child_process'
-import { readFileSync, writeFileSync } from 'fs'
 import path from 'path'
-import { PackageJson } from 'type-fest'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
+import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
+import { setPackageVersion } from '../../../src/packages/project-helpers/src/set-package-version'
+import {
+  setPeerDependencyVersion,
+} from '../../../src/packages/project-helpers/src/set-peer-dependency-version'
+import { writePackageJson } from '../../../src/packages/project-helpers/src/write-package-json'
 
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
@@ -67,29 +71,3 @@ function run(newVersion: string): void {
 }
 
 run(process.argv[2])
-
-function readPackageJson(fromPath: string): PackageJson {
-  return JSON.parse(readFileSync(fromPath, Encoding.UTF_8))
-}
-
-function writePackageJson(toPath: string, object: PackageJson): void {
-  writeFileSync(toPath, JSON.stringify(object, null, 2), Encoding.UTF_8)
-}
-
-function setPackageVersion(
-  packageObj: PackageJson,
-  version: string,
-): void {
-  packageObj.version = version
-}
-
-function setPeerDependencyVersion(
-  packageObj: PackageJson,
-  dependencyName: string,
-  version: string,
-): void {
-  if (!packageObj.peerDependencies) {
-    packageObj.peerDependencies = {}
-  }
-  packageObj.peerDependencies[dependencyName] = version
-}
