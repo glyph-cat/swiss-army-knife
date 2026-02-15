@@ -36,7 +36,6 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/foundation": "0.0.0-experimental.88",
     "@sinonjs/fake-timers": "^15.0.0"
   }
 }

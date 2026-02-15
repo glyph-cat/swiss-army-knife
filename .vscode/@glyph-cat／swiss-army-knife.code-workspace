@@ -32,10 +32,6 @@
       "name": "localization",
       "path": "../src/packages/localization"
     },
-    // {
-    //   "name": "localization-react",
-    //   "path": "../src/packages/localization-react"
-    // },
     {
       "name": "cleanup manager",
       "path": "../src/packages/cleanup-manager"
@@ -48,10 +44,6 @@
       "name": "cli parameter parser",
       "path": "../src/packages/cli-parameter-parser"
     },
-    // {
-    //   "name": "project helpers",
-    //   "path": "../src/packages/project-helpers"
-    // },
     {
       "name": "ml helpers",
       "path": "../src/packages/ml-helpers"
@@ -67,6 +59,10 @@
     {
       "name": "eslint-config",
       "path": "../src/packages/eslint-config"
+    },
+    {
+      "name": "project helpers",
+      "path": "../src/packages/project-helpers"
     },
     {
       "name": "unstable",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import { IDisposable, UnsupportedPlatformError } from '@glyph-cat/foundation'
+import { CSSPropertiesExtended } from '../../abstractions'
 import { PrecedenceLevel } from '../add-styles'
 import { StyleMap } from '../style-map'
 

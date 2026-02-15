@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { existsSync, readlinkSync, rmSync, symlinkSync, unlinkSync } from 'fs'
-import Path from 'path'
+import path from 'path'
 import { Nullable } from '../../../src/packages/foundation/src/nullable'
 import { isString } from '../../../src/packages/type-checking/src/is-string'
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
@@ -11,7 +11,6 @@ function main(): void {
   console.log(`Creating symlinks for ${node_modules}...`)
   const IGNORE_LIST = new Set([
     'localization-react',
-    'project-helpers',
   ])
   const packageDirectoryNames = Object.keys(getSiblingPackages()).sort()
   for (const packageDirectoryName of packageDirectoryNames) {
@@ -24,8 +23,8 @@ main()
 
 function linkNodeModules(cwd: string, packageName: string): void {
 
-  const sourcePath = Path.join(cwd, node_modules)
-  const targetPath = Path.join(cwd, 'src', 'packages', packageName, node_modules)
+  const sourcePath = path.join(cwd, node_modules)
+  const targetPath = path.join(cwd, 'src', 'packages', packageName, node_modules)
 
   if (existsSync(targetPath)) {
     const symlinkPath = tryReadlinkSync(targetPath)

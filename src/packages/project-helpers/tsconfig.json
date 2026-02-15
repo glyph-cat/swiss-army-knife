@@ -18,14 +18,14 @@
     "noFallthroughCasesInSwitch": true,
     "outDir": "./temp/tsc/js",
     "paths": {
-      "@glyph-cat/swiss-army-knife": [
-        "../core/src",
+      "@glyph-cat/foundation": [
+        "../foundation/src",
       ],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "stripInternal": true,
     "target": "ESNext",
   },

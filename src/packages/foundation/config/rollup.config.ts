@@ -2,15 +2,13 @@ import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import rootPackageJson from '../../../../package.json'
 import {
   customReplace,
   customTerser,
   setDisplayName,
 } from '../../../../tools/custom-rollup-plugins'
-import { getDependencies } from '../../../../tools/get-dependencies'
 import packageJson from '../package.json'
-import { BuildType } from '../src/build'
+import { BuildType, Empty } from '../src'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.tsx',
@@ -21,11 +19,7 @@ const NODE_RESOLVE_EXTENSIONS_BASE = [
 
 const INPUT_FILE = 'src/index.ts'
 
-const EXTERNAL_LIBS = [
-  'node_modules', // TODO: Find out why node_modules is required here, that used to not be the case
-  ...getDependencies(rootPackageJson),
-  ...getDependencies(packageJson),
-].sort()
+const EXTERNAL_LIBS = Empty.ARRAY as Array<string> // Not supposed to have any other dependencies
 
 interface IPluginConfig {
   buildType: BuildType

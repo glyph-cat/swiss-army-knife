@@ -1,4 +1,4 @@
-import { Encoding } from '@glyph-cat/swiss-army-knife'
+import { Encoding } from '@glyph-cat/foundation'
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 

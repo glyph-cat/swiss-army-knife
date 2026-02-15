@@ -3,12 +3,11 @@ import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import rootPackageJson from '../../../../package.json'
-import { getDependencies } from '../../../../tools/get-dependencies'
+import packageJson from '../package.json'
+import { getPackageDependencies } from '../src'
 
 const EXTERNAL_LIBS = [
-  ...getDependencies(rootPackageJson),
-  '@glyph-cat/swiss-army-knife',
+  ...getPackageDependencies(packageJson),
 ].sort()
 
 const config: Array<RollupOptions> = [

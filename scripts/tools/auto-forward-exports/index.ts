@@ -5,7 +5,7 @@
 import chalk from 'chalk'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { DateTime } from 'luxon'
-import Path from 'path'
+import path from 'path'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 export function autoForwardExports(entryPath: string): void {
@@ -13,15 +13,17 @@ export function autoForwardExports(entryPath: string): void {
   const now = DateTime.now()
   const directoriesWithMissingIndexFiles: Array<string> = []
 
-  crawl(entryPath, (filePath: string) => {
+  const indexPattern = /\/index\.ts$/
+  const ignorePattern = /\.(draft|old|scripted|secret)\.?/
+  const exportScriptedSyntaxPattern = /export \* from '\.\/index\.scripted'/
+
+  crawl(entryPath, (filePath) => {
 
     // #region Filtering
-    const indexPattern = /\/index\.ts$/
-    const ignorePattern = /\.(draft|old|scripted|secret)\.?/
     if (!indexPattern.test(filePath)) { return }
     if (ignorePattern.test(filePath)) { return }
     const fileContents = readFileSync(filePath, Encoding.UTF_8)
-    if (!/export \* from '\.\/index\.scripted'/.test(fileContents)) { return }
+    if (!exportScriptedSyntaxPattern.test(fileContents)) { return }
     // #endregion Filtering
 
     // #region Get directory contents
@@ -47,14 +49,14 @@ export function autoForwardExports(entryPath: string): void {
         console.log(chalk.gray(` ${connector} ${chalk.yellow(`# ${item} (skipped)`)}`))
         continue
       }
-      const subPath = Path.join(directoryPath, item)
+      const subPath = path.join(directoryPath, item)
       const itemIsDirectory = statSync(subPath).isDirectory()
       const hasIndexFile = itemIsDirectory
         ? checkIndexFile(subPath)
         : true // self is the '.ts' file already
       if (!hasIndexFile) { directoriesWithMissingIndexFiles.push(subPath) }
       const indicator = hasIndexFile ? chalk.green('✓') : chalk.red('×')
-      const shouldForwardOnlyPublicExports = FILES_WITH_INTERNAL_AND_PUBLIC_EXPORTS.has(item) && (hasIndexFile && hasInternalAndPublicExports(Path.join(subPath, 'index.ts')))
+      const shouldForwardOnlyPublicExports = FILES_WITH_INTERNAL_AND_PUBLIC_EXPORTS.has(item) && (hasIndexFile && hasInternalAndPublicExports(path.join(subPath, 'index.ts')))
       console.log(chalk.gray(` ${connector} ${indicator} ${hasIndexFile
         ? item + (shouldForwardOnlyPublicExports ? chalk.cyan.dim('/public') : '')
         : chalk.red(`${item} (missing index file)`)}`
@@ -73,7 +75,7 @@ export function autoForwardExports(entryPath: string): void {
     codeLineStack.push(`\n// Generated on: ${now.toSQL()}.`)
 
     writeFileSync(
-      Path.join(directoryPath, 'index.scripted.ts'),
+      path.join(directoryPath, 'index.scripted.ts'),
       codeLineStack.join('\n') + '\n',
       Encoding.UTF_8,
     )
@@ -89,17 +91,15 @@ export function autoForwardExports(entryPath: string): void {
 }
 
 function crawl(dirPath: string, callback: (filePath: string) => void) {
-
   const allItemsInDir = readdirSync(dirPath)
   for (const item of allItemsInDir) {
-    const nextPath = Path.join(dirPath, item)
+    const nextPath = path.join(dirPath, item)
     if (statSync(nextPath).isDirectory()) {
       crawl(nextPath, callback)
     } else {
       callback(nextPath)
     }
   }
-
 }
 
 function checkIndexFile(directoryPath: string): boolean {

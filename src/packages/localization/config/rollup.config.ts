@@ -5,16 +5,14 @@ import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import rootPackageJson from '../../../../package.json'
-import { getDependencies } from '../../../../tools/get-dependencies'
-import pkg from '../package.json'
+import { getPackageDependencies } from '../../project-helpers/src'
+import packageJson from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  'node_modules',
-  '@glyph-cat/swiss-army-knife',
-  ...getDependencies(rootPackageJson),
+  'node_modules', // TODO: Find out why node_modules is required here
+  ...getPackageDependencies(packageJson),
 ].sort()
 
 function getPlugins(): Array<RollupPlugin> {
@@ -44,7 +42,7 @@ function getPlugins(): Array<RollupPlugin> {
     'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
       execSync('git rev-parse HEAD').toString().trim()
     ),
-    'process.env.PACKAGE_VERSION': JSON.stringify(pkg.version),
+    'process.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
   }
 
   pluginStack.push(replace({

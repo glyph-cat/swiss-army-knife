@@ -4,18 +4,15 @@ import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import rootPackageJson from '../../../../package.json'
 import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
-import { getDependencies } from '../../../../tools/get-dependencies'
-import { getSiblingPackages } from '../../../../tools/get-sibling-packages'
 import { BuildType } from '../../foundation/src/build'
-import { version } from '../package.json'
+import { getPackageDependencies } from '../../project-helpers/src'
+import packageJson from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  ...getDependencies(rootPackageJson),
-  ...Object.values(getSiblingPackages()),
+  ...getPackageDependencies(packageJson),
 ]
 
 interface IPluginConfig {
@@ -49,7 +46,7 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
       execSync('git rev-parse HEAD').toString().trim()
     ),
     'process.env.PACKAGE_BUILD_TYPE': JSON.stringify(buildEnv),
-    'process.env.PACKAGE_VERSION': JSON.stringify(version),
+    'process.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
   }
   pluginStack.push(replace({
     preventAssignment: true,
