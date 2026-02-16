@@ -16,6 +16,7 @@ import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
 
 async function run(...args: Array<string>): Promise<void> {
 
+  const ESSENTIALS = 'essentials'
   const allSiblingPackages = getSiblingPackages()
 
   const essentialPackages: ReadonlyArray<string> = [
@@ -25,54 +26,45 @@ async function run(...args: Array<string>): Promise<void> {
   ]
 
   const allSiblingPackageEntries = Object.entries(allSiblingPackages)
-  const siblingPackageEntriesExcludingEssentials = allSiblingPackageEntries.filter(
-    ([, packageName]) => !essentialPackages.includes(packageName)
-  )
 
-  const targetNumber = await (async () => {
-    // TOFIX: [low priority] We are supposed to pass the package name from CLI because numbers are not yet known
-    // if (args[0]) { return Number(args[0]) }
+  const targetPackageName: string = await (async () => {
+    if (args[0]) { return args[0] }
+    const siblingPackageEntriesExcludingEssentials = allSiblingPackageEntries.filter(
+      ([, packageName]) => !essentialPackages.includes(packageName)
+    )
     console.log('Please select a target package to bump version:')
-    console.log(`  1. essentials ${chalk.grey(`(${essentialPackages.join(', ')})`)}`)
+    console.log(`  1. ${ESSENTIALS} ${chalk.grey(`(${essentialPackages.join(', ')})`)}`)
     siblingPackageEntriesExcludingEssentials.forEach(([packageDirectory, packageName], index) => {
       const bullet = String(index + 2).padStart(2, ' ')
       console.log(` ${bullet}. ${packageDirectory} ${chalk.grey(`(${packageName})`)}`)
     })
-    return ask(chalk.grey('question') + ' Target: ')
-  })()
-  const isBumpingEssentials = targetNumber === '1'
-  let resolvedTarget: typeof siblingPackageEntriesExcludingEssentials[number]
-  if (isBumpingEssentials) {
-    console.log(
-      'Selected ' +
-      chalk.cyanBright('essentials') +
-      chalk.cyan(` (${essentialPackages.join(', ')})`)
-    )
-  } else {
-    resolvedTarget = siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
+    const targetNumber = await ask(chalk.grey('question') + ' Target: ')
+    if (targetNumber === '1') {
+      return ESSENTIALS // Early exit
+    }
+    const resolvedTarget = siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
     if (!resolvedTarget) {
       console.log(chalk.redBright(`[Error] Invalid target: "${targetNumber}"`))
       process.exit(1)
     }
-    const [targetPackageDirectory, targetPackageName] = resolvedTarget
-    console.log(
-      'Selected ' +
-      chalk.cyanBright(targetPackageDirectory) +
-      chalk.cyan(` (${targetPackageName})`)
-    )
-  }
+    return resolvedTarget[1]
+  })()
+
+  const isBumpingEssentials = targetPackageName === ESSENTIALS
 
   const currentPackageVersion: string = (() => {
     if (isBumpingEssentials) {
       return readPackageJson(PROJECT_ROOT_DIRECTORY).version
     } else {
-      const [targetPackageDirectory] = resolvedTarget!
+      const [targetPackageDirectory] = allSiblingPackageEntries.find(([, packageName]) => {
+        return packageName === targetPackageName
+      })!
       return readPackageJson(path.join(PACKAGES_DIRECTORY, targetPackageDirectory)).version
     }
   })()!
 
   const newVersion = await (async () => {
-    // if (args[1]) { return args[1] }
+    if (args[1]) { return args[1] }
     console.log(chalk.blueBright('info') + ` Current version: ${currentPackageVersion}`)
     return await ask(chalk.grey('question') + ' New version: ')
   })()
@@ -146,7 +138,9 @@ async function run(...args: Array<string>): Promise<void> {
 
   } else {
 
-    const [targetPackageDirectory, targetPackageName] = resolvedTarget!
+    const [targetPackageDirectory] = allSiblingPackageEntries.find(([, packageName]) => {
+      return packageName === targetPackageName
+    })!
 
     const _targetPackageJson = mutatePackageJson(
       path.join(PACKAGES_DIRECTORY, targetPackageDirectory),
