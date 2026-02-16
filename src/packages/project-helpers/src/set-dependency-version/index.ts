@@ -9,7 +9,7 @@ export function setDependencyVersion(
 
   const addVersionIfMentioned = (
     propertyKey: 'dependencies' | 'devDependencies' | 'peerDependencies'
-  ) => (hasProperty(packageJson, dependencyName) ? {
+  ) => (hasProperty(packageJson[propertyKey], dependencyName) ? {
     [propertyKey]: {
       ...packageJson[propertyKey] as object,
       [dependencyName]: version,
