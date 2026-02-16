@@ -15,6 +15,10 @@ import { PACKAGES_DIRECTORY } from '../../constants'
 
 function run(): void {
 
+  console.log('Analyzing dependencies...')
+
+  // ———————————————————————————————————————————————————————————————————————————
+
   // Get all package directory name and NPM name
   const allPackages = getSiblingPackages()
   const allPackageEntries = Object.entries(allPackages)
@@ -35,6 +39,40 @@ function run(): void {
     return acc
   }, {} as StringRecord<Array<string>>)
   // console.log('dependencyMap', dependencyMap)
+
+  // ———————————————————————————————————————————————————————————————————————————
+
+  const aliasStore: Array<string> = []
+
+  function getAlias(packageName: string): string {
+    if (!aliasStore.includes(packageName)) {
+      aliasStore.push(packageName)
+      return `a${aliasStore.length}`
+    } else {
+      return `a${aliasStore.indexOf(packageName) + 1}`
+    }
+  }
+
+  const flowchartBody = Object.entries(dependencyMap).reduce((acc, [packageName, deps]) => {
+    deps.forEach((dep) => {
+      acc.push(`${getAlias(dep)} --> ${getAlias(packageName)}`)
+    })
+    return acc
+  }, [] as Array<string>)
+
+  const aliasDefinitions = aliasStore.map((packageName, index) => {
+    return `a${index + 1}["${packageName}"]`
+  })
+
+  console.log('Dependency map:')
+  console.log(chalk.grey([
+    '```mermaid',
+    'flowchart TD',
+    aliasDefinitions.join('\n'),
+    '',
+    flowchartBody.join('\n'),
+    '```',
+  ].join('\n')))
 
   // ———————————————————————————————————————————————————————————————————————————
 
