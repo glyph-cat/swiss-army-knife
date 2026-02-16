@@ -23,7 +23,7 @@ export function setDependencyVersion(
   //   ...addVersionIfMentioned('peerDependencies'),
   // } as PackageJson
 
-  console.log('packageJson', packageJson, 'dependencyName', dependencyName)
+  // console.log('packageJson', packageJson, 'dependencyName', dependencyName)
   if (hasProperty(packageJson.dependencies, dependencyName)) {
     packageJson.dependencies[dependencyName] = version
   }

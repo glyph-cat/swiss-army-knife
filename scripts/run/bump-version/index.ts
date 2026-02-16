@@ -71,20 +71,24 @@ function run(newVersion: string): void {
     } as PackageJson),
   )
 
-  const essentialPackages = new Set([
+  const essentialPackages = [
     foundationPackageJson.name!,
     corePackageJson.name!,
     reactPackageJson.name!,
-  ])
+  ] as const
+
   const otherSiblingPackages = objectFilter(
     getSiblingPackages(),
-    (packageName) => !essentialPackages.has(packageName),
+    (packageName) => !essentialPackages.includes(packageName),
   )
-  console.log('otherSiblingPackages', otherSiblingPackages)
+  // console.log('otherSiblingPackages', otherSiblingPackages)
 
-  Object.entries(otherSiblingPackages).forEach(([packageDirectory, packageName]) => {
+  Object.entries(otherSiblingPackages).forEach(([packageDirectory]) => {
     mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
-      return setDependencyVersion(pkg, packageName!, newVersion)
+      essentialPackages.forEach((packageName) => {
+        setDependencyVersion(pkg, packageName, newVersion)
+      })
+      return pkg
     })
   })
 
