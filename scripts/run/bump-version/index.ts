@@ -28,7 +28,13 @@ async function run(...args: Array<string>): Promise<void> {
   const allSiblingPackageEntries = Object.entries(allSiblingPackages)
 
   const targetPackageName: string = await (async () => {
-    if (args[0]) { return args[0] }
+    if (args[0]) {
+      if (!allSiblingPackageEntries.find(([, packageName]) => args[0] === packageName)) {
+        console.log(chalk.redBright(`[Error] Invalid target package: "${args[0]}"`))
+        process.exit(1)
+      }
+      return args[0]
+    }
     const siblingPackageEntriesExcludingEssentials = allSiblingPackageEntries.filter(
       ([, packageName]) => !essentialPackagesNames.includes(packageName)
     )
@@ -44,7 +50,7 @@ async function run(...args: Array<string>): Promise<void> {
     }
     const resolvedTarget = siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
     if (!resolvedTarget) {
-      console.log(chalk.redBright(`[Error] Invalid target: "${targetNumber}"`))
+      console.log(chalk.redBright(`[Error] Invalid target number: "${targetNumber}"`))
       process.exit(1)
     }
     return resolvedTarget[1]
