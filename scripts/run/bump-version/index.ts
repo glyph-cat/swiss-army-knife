@@ -29,7 +29,10 @@ async function run(...args: Array<string>): Promise<void> {
 
   const targetPackageName: string = await (async () => {
     if (args[0]) {
-      if (!allSiblingPackageEntries.find(([, packageName]) => args[0] === packageName)) {
+      if (
+        args[0] !== ESSENTIALS &&
+        !allSiblingPackageEntries.find(([, packageName]) => args[0] === packageName)
+      ) {
         console.log(chalk.redBright(`[Error] Invalid target package: "${args[0]}"`))
         process.exit(1)
       }
