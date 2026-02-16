@@ -29,14 +29,19 @@ async function run(...args: Array<string>): Promise<void> {
 
   const targetPackageName: string = await (async () => {
     if (args[0]) {
-      if (
-        args[0] !== ESSENTIALS &&
-        !allSiblingPackageEntries.find(([, packageName]) => args[0] === packageName)
-      ) {
-        console.log(chalk.redBright(`[Error] Invalid target package: "${args[0]}"`))
+      if (args[0] == ESSENTIALS) {
+        return ESSENTIALS // Early exit
+      }
+      const searchResult = allSiblingPackageEntries.find(([packageDirectory]) => {
+        return args[0] === packageDirectory
+      })
+      if (searchResult) {
+        const [, packageName] = searchResult
+        return packageName
+      } else {
+        console.log(chalk.redBright(`[Error] Invalid target package directory: "${args[0]}"`))
         process.exit(1)
       }
-      return args[0]
     }
     const siblingPackageEntriesExcludingEssentials = allSiblingPackageEntries.filter(
       ([, packageName]) => !essentialPackagesNames.includes(packageName)
