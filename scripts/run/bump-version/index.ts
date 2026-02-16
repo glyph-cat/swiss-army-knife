@@ -81,7 +81,6 @@ function run(newVersion: string): void {
     getSiblingPackages(),
     (packageName) => !essentialPackages.includes(packageName),
   )
-  // console.log('otherSiblingPackages', otherSiblingPackages)
 
   Object.entries(otherSiblingPackages).forEach(([packageDirectory]) => {
     mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
@@ -92,12 +91,11 @@ function run(newVersion: string): void {
     })
   })
 
-  process.exit(1) // Script is not yet complete
-  // execSync([
-  //   'git add .',
-  //   `git commit -m 'v${newVersion}'`,
-  //   `git tag 'v${newVersion}'`,
-  // ].join(' && '))
+  execSync([
+    'git add .',
+    `git commit -m 'v${newVersion}'`,
+    `git tag 'v${newVersion}'`,
+  ].join(' && '))
 
 }
 
