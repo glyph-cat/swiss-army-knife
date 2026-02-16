@@ -48,7 +48,7 @@ async function run(...args: Array<string>): Promise<void> {
       chalk.cyan(` (${essentialPackages.join(', ')})`)
     )
   } else {
-    resolvedTarget = siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 1]
+    resolvedTarget = siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
     if (!resolvedTarget) {
       console.log(chalk.redBright(`[Error] Invalid target: "${targetNumber}"`))
       process.exit(1)
