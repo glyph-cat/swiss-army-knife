@@ -6,9 +6,10 @@ import { PackageJson } from 'type-fest'
 import { objectFilter } from '../../../src/packages/core/src/data'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import { mutatePackageJson } from '../../../src/packages/project-helpers/src/mutate-package-json'
+import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
 import { setDependencyVersion } from '../../../src/packages/project-helpers/src/set-dependency-version'
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
-import { PACKAGES_DIRECTORY } from '../../constants'
+import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
 
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
@@ -60,10 +61,18 @@ async function run(...args: Array<string>): Promise<void> {
     )
   }
 
+  const currentPackageVersion: string = (() => {
+    if (isBumpingEssentials) {
+      return readPackageJson(PROJECT_ROOT_DIRECTORY).version
+    } else {
+      const [targetPackageDirectory] = resolvedTarget!
+      return readPackageJson(path.join(PACKAGES_DIRECTORY, targetPackageDirectory)).version
+    }
+  })()!
+
   const newVersion = await (async () => {
     if (args[1]) { return args[1] }
-    const currentVersion = '' // TODO
-    console.log(chalk.blueBright('info') + ` Current version: ${currentVersion}`)
+    console.log(chalk.blueBright('info') + ` Current version: ${currentPackageVersion}`)
     return await ask(chalk.grey('question') + ' New version: ')
   })()
   if (!/^\d+\.\d+\.\d+(-[a-z]+\.\d+)?$/.test(newVersion)) {

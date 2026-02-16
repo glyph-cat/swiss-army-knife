@@ -18,7 +18,7 @@
     "build": "sh ./scripts/run/build.sh",
     "test": "sh ./scripts/run/test.sh",
     "preversion": "ECHO 'Please run `bump-version` instead.' && exit 1;",
-    "bump-version": "yarn tsx ./scripts/run/bump-version",
+    "bump": "yarn tsx ./scripts/run/bump-version",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
