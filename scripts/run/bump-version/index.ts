@@ -162,7 +162,7 @@ async function run(...args: Array<string>): Promise<void> {
 
     Object.entries(otherSiblingPackages).forEach(([packageDirectory]) => {
       mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
-        setDependencyVersion(pkg, targetPackageName, newVersion)
+        setDependencyVersion(pkg, targetPackageName, formatVersion(newVersion))
         return pkg
       })
     })
@@ -195,4 +195,9 @@ function ask(question: string): Promise<string> {
     })
     // rl.on('close', () => { resolve('') })
   })
+}
+
+function formatVersion(version: string | undefined): string {
+  if (!version) { return '*' } // Early exit
+  return /^\d+\.\d+\.\d+$/.test(version) ? `^${version}` : version
 }
