@@ -37,6 +37,10 @@ async function run(...args: Array<string>): Promise<void> {
       })
       if (searchResult) {
         const [, packageName] = searchResult
+        if (essentialPackagesNames.includes(packageName)) {
+          console.log(chalk.blueBright(`[Info] "${args[0]}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
+          return ESSENTIALS // Early exit
+        }
         return packageName
       } else {
         console.log(chalk.redBright(`[Error] Invalid target package directory: "${args[0]}"`))
