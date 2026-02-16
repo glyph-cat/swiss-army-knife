@@ -19,7 +19,7 @@ async function run(...args: Array<string>): Promise<void> {
   const ESSENTIALS = 'essentials'
   const allSiblingPackages = getSiblingPackages()
 
-  const essentialPackages: ReadonlyArray<string> = [
+  const essentialPackagesNames: ReadonlyArray<string> = [
     '@glyph-cat/foundation',
     '@glyph-cat/swiss-army-knife',
     '@glyph-cat/swiss-army-knife-react',
@@ -30,10 +30,10 @@ async function run(...args: Array<string>): Promise<void> {
   const targetPackageName: string = await (async () => {
     if (args[0]) { return args[0] }
     const siblingPackageEntriesExcludingEssentials = allSiblingPackageEntries.filter(
-      ([, packageName]) => !essentialPackages.includes(packageName)
+      ([, packageName]) => !essentialPackagesNames.includes(packageName)
     )
     console.log('Please select a target package to bump version:')
-    console.log(`  1. ${ESSENTIALS} ${chalk.grey(`(${essentialPackages.join(', ')})`)}`)
+    console.log(`  1. ${ESSENTIALS} ${chalk.grey(`(${essentialPackagesNames.join(', ')})`)}`)
     siblingPackageEntriesExcludingEssentials.forEach(([packageDirectory, packageName], index) => {
       const bullet = String(index + 2).padStart(2, ' ')
       console.log(` ${bullet}. ${packageDirectory} ${chalk.grey(`(${packageName})`)}`)
@@ -51,6 +51,23 @@ async function run(...args: Array<string>): Promise<void> {
   })()
 
   const isBumpingEssentials = targetPackageName === ESSENTIALS
+
+  if (isBumpingEssentials) {
+    console.log(
+      'Selected: ' +
+      chalk.cyanBright(ESSENTIALS) +
+      chalk.cyan(`(${essentialPackagesNames.join(', ')})`)
+    )
+  } else {
+    const [targetPackageDirectory] = allSiblingPackageEntries.find(([, packageName]) => {
+      return packageName === targetPackageName
+    })!
+    console.log(
+      'Selected: ' +
+      chalk.cyanBright(targetPackageDirectory) +
+      chalk.cyan(targetPackageName)
+    )
+  }
 
   const currentPackageVersion: string = (() => {
     if (isBumpingEssentials) {
@@ -124,12 +141,12 @@ async function run(...args: Array<string>): Promise<void> {
 
     const otherSiblingPackages = objectFilter(
       allSiblingPackages,
-      (packageName) => !essentialPackages.includes(packageName),
+      (packageName) => !essentialPackagesNames.includes(packageName),
     )
 
     Object.entries(otherSiblingPackages).forEach(([packageDirectory]) => {
       mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
-        essentialPackages.forEach((packageName) => {
+        essentialPackagesNames.forEach((packageName) => {
           setDependencyVersion(pkg, packageName, newVersion)
         })
         return pkg
