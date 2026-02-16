@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@glyph-cat/equality": "^1.2.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.88"
+    "@glyph-cat/foundation": "0.0.0-experimental.88",
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88"
   }
 }
