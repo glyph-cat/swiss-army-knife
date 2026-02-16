@@ -5,6 +5,9 @@
     "overrideTsconfig": {
       "compilerOptions": {
         "paths": {
+          "@glyph-cat/equality": [
+            "./temp/types/equality/src"
+          ],
           "@glyph-cat/foundation": [
             "./temp/types/foundation/src"
           ],

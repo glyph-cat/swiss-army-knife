@@ -1,3 +1,5 @@
+import { isJSONequal } from '@glyph-cat/equality'
+import { JSONclone } from '@glyph-cat/swiss-army-knife'
 import { PackageJson } from 'type-fest'
 import { readPackageJson } from '../read-package-json'
 import { writePackageJson } from '../write-package-json'
@@ -12,7 +14,10 @@ export function mutatePackageJson(
   mutator: (packageJson: PackageJson) => PackageJson,
 ): PackageJson {
   const packageJson = readPackageJson(packagePath)
-  const payload = mutator(packageJson)
-  writePackageJson(packagePath, payload)
-  return payload
+  const initialValues = JSONclone(packageJson)
+  const modifiedValues = mutator(packageJson)
+  if (!isJSONequal(initialValues, modifiedValues)) {
+    writePackageJson(packagePath, modifiedValues)
+  }
+  return modifiedValues
 }
