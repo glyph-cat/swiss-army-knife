@@ -30,7 +30,8 @@ async function run(...args: Array<string>): Promise<void> {
   )
 
   const targetNumber = await (async () => {
-    if (args[0]) { return Number(args[0]) }
+    // TOFIX: [low priority] We are supposed to pass the package name from CLI because numbers are not yet known
+    // if (args[0]) { return Number(args[0]) }
     console.log('Please select a target package to bump version:')
     console.log(`  1. essentials ${chalk.grey(`(${essentialPackages.join(', ')})`)}`)
     siblingPackageEntriesExcludingEssentials.forEach(([packageDirectory, packageName], index) => {
@@ -71,7 +72,7 @@ async function run(...args: Array<string>): Promise<void> {
   })()!
 
   const newVersion = await (async () => {
-    if (args[1]) { return args[1] }
+    // if (args[1]) { return args[1] }
     console.log(chalk.blueBright('info') + ` Current version: ${currentPackageVersion}`)
     return await ask(chalk.grey('question') + ' New version: ')
   })()
