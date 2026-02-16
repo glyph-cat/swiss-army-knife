@@ -199,9 +199,6 @@ async function run(...args: Array<string>): Promise<void> {
 
   }
 
-  // todo
-  console.log('not yet tested')
-  process.exit(1)
   execSync([
     'git add .',
     `git commit -m 'v${newVersion}'`,
