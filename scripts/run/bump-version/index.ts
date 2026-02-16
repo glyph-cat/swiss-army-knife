@@ -55,7 +55,7 @@ async function run(...args: Array<string>): Promise<void> {
   if (isBumpingEssentials) {
     console.log(
       'Selected: ' +
-      chalk.cyanBright(ESSENTIALS) +
+      chalk.cyanBright(ESSENTIALS) + ' ' +
       chalk.cyan(`(${essentialPackagesNames.join(', ')})`)
     )
   } else {
@@ -64,7 +64,7 @@ async function run(...args: Array<string>): Promise<void> {
     })!
     console.log(
       'Selected: ' +
-      chalk.cyanBright(targetPackageDirectory) +
+      chalk.cyanBright(targetPackageDirectory) + ' ' +
       chalk.cyan(targetPackageName)
     )
   }
