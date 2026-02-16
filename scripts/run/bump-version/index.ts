@@ -70,11 +70,6 @@ function run(newVersion: string): void {
     } as PackageJson),
   )
 
-  // TODO
-  // - Loop through each sibling packages
-  // - Check if dependencies | devDependencies | peerDependencies contain this package
-  // - If yes, update the package.json as well
-
   const essentialPackages = new Set([
     foundationPackageJson.name!,
     corePackageJson.name!,
@@ -86,6 +81,11 @@ function run(newVersion: string): void {
   )
   console.log('otherSiblingPackages', otherSiblingPackages)
 
+  // TODO
+  // - Check if dependencies | devDependencies | peerDependencies contain this package
+  // - If yes, update the package.json as well
+
+  process.exit(1) // Script is not yet complete
   // execSync([
   //   'git add .',
   //   `git commit -m 'v${newVersion}'`,

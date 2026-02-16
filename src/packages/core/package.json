@@ -41,13 +41,11 @@
   "dependencies": {
     "@glyph-cat/css-utils": "^1.0.0",
     "@glyph-cat/equality": "^1.2.0",
+    "@glyph-cat/foundation": "0.0.0-experimental.88",
     "@glyph-cat/type-checking": "^1.0.0",
     "autoprefixer": "^10.4.21",
+    "cotton-box": "^0.14.0",
     "postcss": "^8.5.3",
     "query-string": "^9.3.1"
-  },
-  "peerDependencies": {
-    "@glyph-cat/foundation": "0.0.0-experimental.88",
-    "cotton-box": "*"
   }
 }
