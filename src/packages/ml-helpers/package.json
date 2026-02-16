@@ -16,7 +16,7 @@
     "types": "yarn tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh scripts/run/build.sh",
-    "bump": "yarn --cwd ../../../ bump",
+    "bump": "yarn --cwd ../../../ bump ml-helpers",
     "all": "sh scripts/run/all.sh"
   },
   "keywords": [

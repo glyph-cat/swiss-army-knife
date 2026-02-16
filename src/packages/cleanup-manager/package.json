@@ -18,7 +18,7 @@
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "test": "jest -c ./jest.config.ts",
-    "bump": "yarn --cwd ../../../ bump",
+    "bump": "yarn --cwd ../../../ bump cleanup-manager",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [

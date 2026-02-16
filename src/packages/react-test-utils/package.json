@@ -17,7 +17,7 @@
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
-    "bump": "yarn --cwd ../../../ bump",
+    "bump": "yarn --cwd ../../../ bump react-test-utils",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
