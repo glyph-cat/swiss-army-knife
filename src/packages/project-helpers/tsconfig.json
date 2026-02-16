@@ -21,6 +21,9 @@
       "@glyph-cat/foundation": [
         "../foundation/src",
       ],
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

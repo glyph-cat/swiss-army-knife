@@ -1,10 +1,26 @@
+import { hasProperty } from '@glyph-cat/swiss-army-knife'
 import { PackageJson } from 'type-fest'
 
 export function setDependencyVersion(
-  packageObj: PackageJson,
+  packageJson: PackageJson,
   dependencyName: string,
   version: string,
-): void {
-  // TODO: Find: dependencies | devDependencies | peerDependencies
-  // If specified, update the version
+): PackageJson {
+
+  const addVersionIfMentioned = (
+    propertyKey: 'dependencies' | 'devDependencies' | 'peerDependencies'
+  ) => (hasProperty(packageJson.y, dependencyName) ? {
+    [propertyKey]: {
+      ...packageJson[propertyKey] as object,
+      [dependencyName]: version,
+    },
+  } : {})
+
+  return {
+    ...packageJson,
+    ...addVersionIfMentioned('dependencies'),
+    ...addVersionIfMentioned('devDependencies'),
+    ...addVersionIfMentioned('peerDependencies'),
+  } as PackageJson
+
 }

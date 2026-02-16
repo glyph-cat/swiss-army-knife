@@ -5,6 +5,7 @@ import { PackageJson } from 'type-fest'
 import { objectFilter } from '../../../src/packages/core/src/data'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import { mutatePackageJson } from '../../../src/packages/project-helpers/src/mutate-package-json'
+import { setDependencyVersion } from '../../../src/packages/project-helpers/src/set-dependency-version'
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
 import { PACKAGES_DIRECTORY } from '../../constants'
 
@@ -81,9 +82,11 @@ function run(newVersion: string): void {
   )
   console.log('otherSiblingPackages', otherSiblingPackages)
 
-  // TODO
-  // - Check if dependencies | devDependencies | peerDependencies contain this package
-  // - If yes, update the package.json as well
+  Object.entries(otherSiblingPackages).forEach(([packageDirectory, packageName]) => {
+    mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
+      return setDependencyVersion(pkg, packageName!, newVersion)
+    })
+  })
 
   process.exit(1) // Script is not yet complete
   // execSync([
