@@ -1,5 +1,7 @@
 set -e
 
+yarn --cwd ../../.. check-deps
+
 # Cleanup old artifacts
 rm -rf ./lib ./temp/tsc
 
