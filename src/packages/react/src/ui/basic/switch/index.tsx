@@ -1,7 +1,8 @@
-import { c, injectInlineCSSVariables } from '@glyph-cat/css-utils'
+import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import { Color, ColorFormat } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import {
   FormEvent,
   forwardRef,
@@ -152,10 +153,10 @@ export const Switch = forwardRef(({
         disabled={disabled}
       >
         <View className={styles.buttonContainer}>
-          <View className={c(styles.thumbBase, styles.thumbUnchecked)}>
+          <View className={clsx(styles.thumbBase, styles.thumbUnchecked)}>
             {progressRingElement}
           </View>
-          <View className={c(styles.thumbBase, styles.thumbChecked)}>
+          <View className={clsx(styles.thumbBase, styles.thumbChecked)}>
             {progressRingElement}
           </View>
         </View>

@@ -1,5 +1,5 @@
-import { c } from '@glyph-cat/css-utils'
 import { RadioGroup, RadioItem, View } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { useStateValue } from 'cotton-box-react'
 import { JSX, useCallback } from 'react'
 import { SandboxStyle } from '~constants'
@@ -26,7 +26,7 @@ export default function (): JSX.Element {
   })
 
   return (
-    <View className={c(SandboxStyle.NORMAL, styles.container)}>
+    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
 
       <RadioGroup
         value={themeState}

@@ -1,10 +1,10 @@
-import { c } from '@glyph-cat/css-utils'
 import {
   BasicButton,
   PreloadableComponent,
   ProgressRing,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { JSX, lazy, Suspense, useCallback, useState } from 'react'
 import { SandboxStyle } from '~constants'
 import styles from './index.module.css'
@@ -20,7 +20,7 @@ export default function (): JSX.Element {
   const [shouldShowComponentB, setComponentVisibilityB] = useState(false)
 
   return (
-    <View className={c(SandboxStyle.NORMAL, styles.container)}>
+    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
       <View className={styles.subContainer}>
         <BasicButton
           disabled={shouldShowComponentA}

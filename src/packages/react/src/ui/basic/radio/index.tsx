@@ -1,6 +1,7 @@
-import { c, injectInlineCSSVariables } from '@glyph-cat/css-utils'
+import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import { Color, ColorFormat } from '@glyph-cat/swiss-army-knife'
+import clsx from 'clsx'
 import {
   ChangeEvent,
   createContext,
@@ -125,7 +126,7 @@ export function RadioGroup<Value>({
   return (
     <View
       ref={containerRef}
-      className={c(
+      className={clsx(
         styles.container,
         flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
       )}
@@ -170,7 +171,7 @@ export function RadioItem<Value>({
   } = useContext(RadioGroupContext)
   return (
     <label
-      className={c(
+      className={clsx(
         styles.label,
         itemFlow === BASIC_UI_FLOW_ROW ? styles.labelFlowRow : styles.labelFlowColumn,
       )}

@@ -1,6 +1,6 @@
-import { c } from '@glyph-cat/css-utils'
 import { ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { SizeAwareContainer, useSizeAwareContext } from 'packages/react/src/size-aware'
 import { JSX } from 'react'
 import { SandboxStyle } from '~constants'
@@ -10,7 +10,7 @@ const INITIAL_SIZE = 200 // px
 
 export default function (): JSX.Element {
   return (
-    <View className={c(SandboxStyle.NORMAL, styles.container)}>
+    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
       <View
         style={{
           backgroundColor: ThemeToken.primaryColor80,

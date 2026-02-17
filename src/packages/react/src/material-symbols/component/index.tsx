@@ -1,5 +1,6 @@
-import { c, CSSPropertiesExtended } from '@glyph-cat/css-utils'
+import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import { isNumber } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import { createElement, JSX, useContext } from 'react'
 import { __setDisplayName } from '../../_internals'
 import { MaterialSymbolOptions } from '../abstractions'
@@ -54,7 +55,7 @@ export function MaterialSymbol({
   })()
 
   return createElement(renderAs || ctx.renderAs, {
-    className: c(
+    className: clsx(
       `material-symbols-${effectiveVariant}`,
       MATERIAL_SYMBOL_BASE_CLASSNAME,
       className,

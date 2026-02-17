@@ -1,5 +1,6 @@
-import { c, injectInlineCSSVariables } from '@glyph-cat/css-utils'
+import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
+import clsx from 'clsx'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
@@ -77,7 +78,7 @@ export const BasicButton = forwardRef(({
 
   return (
     <ButtonBase
-      className={c(styles.button, className)}
+      className={clsx(styles.button, className)}
       disabled={disabled}
       {...props}
       ref={buttonRef}

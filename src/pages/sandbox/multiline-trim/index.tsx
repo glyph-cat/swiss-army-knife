@@ -1,8 +1,8 @@
-import { c } from '@glyph-cat/css-utils'
 import { Empty, RefObject } from '@glyph-cat/foundation'
 import { delay, multilineTrim } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, TextArea, View } from '@glyph-cat/swiss-army-knife-react'
 import ClipboardJS from 'clipboard'
+import clsx from 'clsx'
 import { JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'
 import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
@@ -57,14 +57,14 @@ export default function (): JSX.Element {
         <View>
           <TextArea
             ref={inputMainRef}
-            className={c(styles.textAreaBase, styles.inputTextArea, 'code')}
+            className={clsx(styles.textAreaBase, styles.inputTextArea, 'code')}
             value={text}
             onChange={useCallback((e) => { setText(e.target.value) }, [])}
             placeholder={localize('ENTER_SOME_TEXT_HERE')}
           />
           <TextArea
             ref={inputOverlayRef}
-            className={c(styles.textAreaBase, styles.textAreaOverlay, 'code')}
+            className={clsx(styles.textAreaBase, styles.textAreaOverlay, 'code')}
             value={textOverlay}
             readOnly
           />
@@ -72,14 +72,14 @@ export default function (): JSX.Element {
         <View>
           <TextArea
             ref={outputMainRef}
-            className={c(styles.textAreaBase, styles.outputTextArea, 'code')}
+            className={clsx(styles.textAreaBase, styles.outputTextArea, 'code')}
             value={sanitizedText}
             placeholder={localize('THE_OUTPUT_WILL_APPEAR_HERE')}
             readOnly
           />
           <TextArea
             ref={outputOverlayRef}
-            className={c(styles.textAreaBase, styles.textAreaOverlay, 'code')}
+            className={clsx(styles.textAreaBase, styles.textAreaOverlay, 'code')}
             value={sanitizedTextOverlay}
             readOnly
           />

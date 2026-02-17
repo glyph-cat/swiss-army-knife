@@ -1,7 +1,8 @@
-import { c, injectInlineCSSVariables, px } from '@glyph-cat/css-utils'
+import { injectInlineCSSVariables, px } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import { Color, ColorFormat, getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
@@ -116,7 +117,7 @@ export const ProgressRing = forwardRef(({
   return (
     <View
       ref={containerRef}
-      className={c(styles.container, className)}
+      className={clsx(styles.container, className)}
       role={role}
       aria-valuemin={minValue}
       aria-valuemax={maxValue}
@@ -129,7 +130,7 @@ export const ProgressRing = forwardRef(({
     >
       <View className={styles.cap} />
       <View className={styles.trailingCapContainer}>
-        <View className={c(
+        <View className={clsx(
           styles.cap,
           allowOvershoot ? styles.capWithShadow : null,
         )} />

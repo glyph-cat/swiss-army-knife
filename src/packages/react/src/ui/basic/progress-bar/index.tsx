@@ -1,7 +1,8 @@
-import { c, injectInlineCSSVariables, percent, serializePixelValue } from '@glyph-cat/css-utils'
+import { injectInlineCSSVariables, percent, serializePixelValue } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import { clamp, getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import { JSX, useEffect, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
@@ -122,7 +123,7 @@ export const ProgressBar = ({
   return (
     <View
       ref={containerRef}
-      className={c(styles.container, layoutBasedClassName)}
+      className={clsx(styles.container, layoutBasedClassName)}
       role={role}
       aria-valuemin={minValue}
       aria-valuemax={maxValue}

@@ -1,7 +1,8 @@
-import { c, injectInlineCSSVariables } from '@glyph-cat/css-utils'
+import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import { Color, ColorFormat } from '@glyph-cat/swiss-army-knife'
 import { isUndefinedOrNull } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import {
   ChangeEvent,
   ForwardedRef,
@@ -137,7 +138,7 @@ export const Checkbox = forwardRef(({
   return (
     <label
       ref={containerRef}
-      className={c(
+      className={clsx(
         styles.container,
         flow === BASIC_UI_FLOW_ROW ? styles.flowRow : styles.flowColumn,
       )}

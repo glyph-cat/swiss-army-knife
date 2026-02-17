@@ -1,4 +1,3 @@
-import { c } from '@glyph-cat/css-utils'
 import { Empty } from '@glyph-cat/foundation'
 import {
   ButtonBase as Button,
@@ -12,6 +11,7 @@ import {
   useCoreNavigationBranch,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { JSX, MouseEvent, ReactNode, useCallback, useState } from 'react'
 import { Code } from '~components/sandbox/extensions'
 import { SandboxStyle } from '~constants'
@@ -27,7 +27,7 @@ export default function (): JSX.Element {
   const hideEditPopup = useCallback(() => { setEditPopupVisibility(false) }, [])
 
   return (
-    <View className={c(SandboxStyle.NORMAL, styles.container)}>
+    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
       <View style={{ border: 'solid 1px #80808080' }}>
         <CoreNavigationStack>
 
