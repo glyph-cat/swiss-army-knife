@@ -86,13 +86,13 @@
     "javascript.preferences.quoteStyle": "single",
     "typescript.preferences.quoteStyle": "single",
     "search.exclude": {
-      "**/node_modules": true,
-      "**/bower_components": true,
       "**/*.code-search": true,
+      "**/*.js": true,
+      "**/bower_components": true,
       "**/lib": true,
-      // TODO: Find a way to include '.draft'
+      "**/node_modules": true,
       "src/packages": true,
-      "src/pages/sandbox/_*/": false,
+      "src/pages/sandbox/_*/": false
     },
     // "typescript.preferences.autoImportFileExcludePatterns": [
     //   // Reference: https://stackoverflow.com/a/76711526/5810737

@@ -1,8 +1,14 @@
-import { isString } from '@glyph-cat/type-checking'
+import { Empty } from '@glyph-cat/foundation'
+import { isNaN, isString } from '@glyph-cat/type-checking'
 import { devError } from '../../dev'
 import { isOutOfRange } from '../../math/range'
 import { SerializedColor } from '../abstractions'
-import { MAX_RGB_VALUE } from '../constants'
+import {
+  DEFAULT_ALPHA_VALUE,
+  DEFAULT_LIGHTNESS_VALUE,
+  DEFAULT_SATURATION_VALUE,
+  MAX_RGB_VALUE,
+} from '../constants'
 
 export type ColorSyntaxPair = [value: number, rawValue: string]
 
@@ -30,8 +36,8 @@ export function getValuesFromHexString(value: string): ColorSyntaxArray {
       parseInt(`${b}${b}`, 16),
       b,
       // Alpha is 0 to 1, but since it is in hex, we can derive using max RGB value:
-      a ? parseInt(`${a}${a}`, 16) / MAX_RGB_VALUE : null,
-      a ?? null,
+      a ? parseInt(`${a}${a}`, 16) / MAX_RGB_VALUE : DEFAULT_ALPHA_VALUE,
+      a ?? Empty.STRING,
     ]
   } else {
     // Format: '#RRGGBB' or '#RRGGBBAA'
@@ -47,8 +53,8 @@ export function getValuesFromHexString(value: string): ColorSyntaxArray {
       g,
       parseInt(b, 16),
       b,
-      a2 ? parseInt(a, 16) / MAX_RGB_VALUE : null,
-      a2 ? a : null,
+      a2 ? parseInt(a, 16) / MAX_RGB_VALUE : DEFAULT_ALPHA_VALUE,
+      a2 ? a : Empty.STRING,
     ]
   }
 }
@@ -74,8 +80,8 @@ export function getValuesFromRGBString(value: string): ColorSyntaxArray {
     greenRaw,
     Number(blueRaw),
     blueRaw,
-    alphaRaw ? Number(alphaRaw.match(/[\d.]+/)[0]) : null,
-    alphaRaw ?? null,
+    alphaRaw ? NumberWithFallback(alphaRaw.match(/[\d.]+/)?.[0], DEFAULT_ALPHA_VALUE) : DEFAULT_ALPHA_VALUE,
+    alphaRaw ?? Empty.STRING,
   ]
 }
 
@@ -96,12 +102,12 @@ export function getValuesFromHSLString(value: string): ColorSyntaxArray {
   return [
     hueStringMatchResult?.[0] ? Number(hueStringMatchResult[0]) : 0,
     hueRaw,
-    Number(saturationRaw.match(/[\d.]+/)[0]),
+    NumberWithFallback(saturationRaw.match(/[\d.]+/)?.[0], DEFAULT_SATURATION_VALUE),
     saturationRaw,
-    Number(lightnessRaw.match(/[\d.]+/)[0]),
+    NumberWithFallback(lightnessRaw.match(/[\d.]+/)?.[0], DEFAULT_LIGHTNESS_VALUE),
     lightnessRaw,
-    alphaRaw ? Number(alphaRaw.match(/[\d.]+/)[0]) : null,
-    alphaRaw ?? null,
+    alphaRaw ? NumberWithFallback(alphaRaw.match(/[\d.]+/)?.[0], DEFAULT_ALPHA_VALUE) : DEFAULT_ALPHA_VALUE,
+    alphaRaw ?? Empty.STRING,
   ]
 }
 
@@ -119,4 +125,9 @@ export function showErrorIfInvalid(
   if (isOutOfRange(value, minValue, maxValue)) {
     devError(`Expected ${name} value to be equal to or between ${minValue} and ${maxValue} but got: ${isString(rawValue) ? `"${rawValue}"` : `\`${rawValue}\``}`)
   }
+}
+
+function NumberWithFallback(value: unknown, fallback: number): number {
+  const parsedNumber = Number(value)
+  return isNaN(parsedNumber) ? fallback : parsedNumber
 }
