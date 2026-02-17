@@ -1,5 +1,5 @@
+import { createRef } from '@glyph-cat/foundation'
 import { isResolved } from '.'
-import { createRef } from '../../data/ref'
 import { delay } from '../../events/delay'
 
 describe(isResolved.name, (): void => {

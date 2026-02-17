@@ -1,7 +1,7 @@
-import { c } from '@glyph-cat/css-utils'
 import { TypedFunction } from '@glyph-cat/foundation'
 import { removeDuplicates } from '@glyph-cat/swiss-army-knife'
-import { JSX, useEffect } from 'react'
+import clsx from 'clsx'
+import { JSX, ReactNode, useEffect } from 'react'
 import {
   MATERIAL_ICON_DEFAULTS,
   MaterialIconProps,
@@ -55,7 +55,7 @@ export function MaterialIcon({
   const { className, style, ...remainingHtmlProps } = htmlProps
   return (
     <span
-      className={c(
+      className={clsx(
         getVariantSpecs(variant)[0],
         className,
       )}
@@ -159,7 +159,7 @@ export function useMaterialIconStyleSheet(
  */
 export function MaterialIconStyleSheet({
   variants,
-}: MaterialIconStyleSheetProps): JSX.Element {
+}: MaterialIconStyleSheetProps): ReactNode {
   useMaterialIconStyleSheet(variants)
   return null
 }

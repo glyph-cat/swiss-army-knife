@@ -17,7 +17,7 @@ import { hasProperty } from '../object/property'
 export function fullyEnumerate<Enum extends object>(enumObj: Enum): void {
   const allKeys = Object.keys(enumObj)
   for (const key of allKeys) {
-    // // @ts-expect-error because we are forcefully injecting values
+    // @ts-expect-error because we are forcefully injecting values
     enumObj[enumObj[key]] = key
   }
 }
@@ -51,8 +51,8 @@ export function enumerate<K extends StrictPropertyKey, V extends StrictPropertyK
   const enumeration = {} as Enumeration<K, V>
   for (const key in entries) {
     const value = entries[key]
-    enumeration[key as StrictPropertyKey] = value as StrictPropertyKey
-    enumeration[value as StrictPropertyKey] = key
+    enumeration[key] = value
+    enumeration[value] = key
   }
   Object.freeze(enumeration)
   return enumeration
@@ -116,8 +116,8 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
     value: StrictPropertyKey,
   ): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
-    newMutableEnumeration.M$enumeration[key] = value
-    newMutableEnumeration.M$enumeration[value] = key
+    newMutableEnumeration.M$enumeration[key as K | V] = value as K | V
+    newMutableEnumeration.M$enumeration[value as K | V] = key as K | V
     return newMutableEnumeration
   }
 
@@ -133,8 +133,8 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
    */
   remove(keyOrValue: StrictPropertyKey): MutableEnumeration<K, V> {
     const newMutableEnumeration = this.clone()
-    const theOtherKeyOrValue = newMutableEnumeration.M$enumeration[keyOrValue]
-    delete newMutableEnumeration.M$enumeration[keyOrValue]
+    const theOtherKeyOrValue = newMutableEnumeration.M$enumeration[keyOrValue as K | V]
+    delete newMutableEnumeration.M$enumeration[keyOrValue as K | V]
     delete newMutableEnumeration.M$enumeration[theOtherKeyOrValue]
     return newMutableEnumeration
   }
@@ -158,7 +158,7 @@ export class MutableEnumeration<K extends StrictPropertyKey, V extends StrictPro
   get(value: V): K
 
   get(keyOrValue: StrictPropertyKey): K | V {
-    return this.M$enumeration[keyOrValue] as K | V
+    return this.M$enumeration[keyOrValue as K | V]
   }
 
   /**

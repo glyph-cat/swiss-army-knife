@@ -26,7 +26,7 @@ export default async function APICreateSandboxHandler(
     }
     mkdirSync(`./src/pages/sandbox/${name}`)
     writeFileSync(`./src/pages/sandbox/${name}/index.tsx`, [
-      'import { c } from \'@glyph-cat/css-utils\'',
+      'import clsx from \'clsx\'',
       'import { View } from \'@glyph-cat/swiss-army-knife-react\'',
       'import { JSX } from \'react\'',
       'import { SandboxStyle } from \'~constants\'',
@@ -36,7 +36,7 @@ export default async function APICreateSandboxHandler(
       '',
       'export default function (): JSX.Element {',
       '  return (',
-      '    <View className={c(SandboxStyle.NORMAL, styles.container)}>',
+      '    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>',
       '      <SandboxStarter />',
       '    </View>',
       '  )',

@@ -1,6 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function __setDisplayName(item: unknown): void { /* ... */ }
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 
-export function __getDisplayName(item: unknown): string {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function __setDisplayName(item: any): void { /* ... */ }
+
+export function __getDisplayName(item: any): string {
   return item['displayName'] ?? item['name']
 }

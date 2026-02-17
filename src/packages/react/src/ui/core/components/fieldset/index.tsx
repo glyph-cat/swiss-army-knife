@@ -1,5 +1,5 @@
-import { c } from '@glyph-cat/css-utils'
 import { isBoolean } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { FIELDSET_STYLES, useInternalDerivedDisabledState } from '../_internals'
 
@@ -29,7 +29,7 @@ export const FieldSet = forwardRef(({
   return createElement('fieldset', {
     ...props,
     ref,
-    className: c(FIELDSET_STYLES, className),
+    className: clsx(FIELDSET_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   }, children)
 })

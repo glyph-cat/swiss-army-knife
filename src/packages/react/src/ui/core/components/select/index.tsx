@@ -1,5 +1,5 @@
-import { c } from '@glyph-cat/css-utils'
 import { isBoolean } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { useCommonFocusableRefHandler } from '../../input-focus'
 import { SELECT_STYLES, useInternalDerivedDisabledState } from '../_internals'
@@ -36,7 +36,7 @@ export const Select = forwardRef(({
   return createElement('select', {
     ...props,
     ref: selectRef,
-    className: c(SELECT_STYLES, className),
+    className: clsx(SELECT_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   }, children)
 })

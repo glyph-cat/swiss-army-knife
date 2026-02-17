@@ -1,6 +1,6 @@
-import { c } from '@glyph-cat/css-utils'
 import { ThemeToken, tryOnly, VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { JSX, useCallback, useEffect, useState } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
@@ -30,7 +30,7 @@ export default function (): JSX.Element {
   }, [])
 
   return (
-    <View className={c(SandboxStyle.NORMAL, styles.container)}>
+    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
       {videoCamera && <Content videoCamera={videoCamera} />}
     </View>
   )

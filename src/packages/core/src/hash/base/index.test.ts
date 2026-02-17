@@ -16,7 +16,7 @@ describe(BaseHashFactory.prototype.track.name, () => {
 
   test('Generator args', () => {
     const generator = jest.fn(() => String(Math.random() * 100))
-    const hashFactory = new BaseHashFactory(generator)
+    const hashFactory = new BaseHashFactory<[string, string, number]>(generator)
     hashFactory.create('foo', 'bar', 42)
     expect(generator).toHaveBeenCalledWith(0, 'foo', 'bar', 42)
   })

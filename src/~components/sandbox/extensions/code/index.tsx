@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/css-utils'
+import clsx from 'clsx'
 import { JSX } from 'react'
 import styles from './index.module.css'
 
@@ -11,7 +11,7 @@ export function Code({
 }: CodeProps): JSX.Element {
   return (
     <code
-      className={c(className, styles.code)}
+      className={clsx(className, styles.code)}
       {...props}
     >
       {children}

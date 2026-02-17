@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { Nullable } from '@glyph-cat/foundation'
 import { isFunction } from '@glyph-cat/type-checking'
 
 const ATTR_NAME = 'name'
@@ -15,17 +18,17 @@ export class PaymentPointerProtector {
   /**
    * @internal
    */
-  private M$metaTagElement: HTMLMetaElement
+  private M$metaTagElement: Nullable<HTMLMetaElement> = null
 
   /**
    * @internal
    */
-  private M$metaObserver: MutationObserver
+  private M$metaObserver: Nullable<MutationObserver> = null
 
   /**
    * @internal
    */
-  private M$headObserver: MutationObserver
+  private M$headObserver: Nullable<MutationObserver> = null
   // Properties 'name' and 'content' do not exist under mutationStack[number].target
 
   constructor(readonly paymentPointer: string) {
@@ -40,11 +43,11 @@ export class PaymentPointerProtector {
     // This makes the element seem like a read-only tag because attribute values
     // are reverted the moment a new value is committed to it
     for (const mutation of mutationStack) {
-      if (mutation.target[ATTR_NAME] !== META_NAME) {
-        mutation.target[ATTR_NAME] = META_NAME
+      if ((mutation.target as any)[ATTR_NAME] !== META_NAME) {
+        (mutation.target as any)[ATTR_NAME] = META_NAME
       }
-      if (mutation.target[ATTR_CONTENT] !== this.paymentPointer) {
-        mutation.target[ATTR_CONTENT] = this.paymentPointer
+      if ((mutation.target as any)[ATTR_CONTENT] !== this.paymentPointer) {
+        (mutation.target as any)[ATTR_CONTENT] = this.paymentPointer
       }
     }
   }
@@ -86,8 +89,8 @@ export class PaymentPointerProtector {
       for (const removedNode of mutation.removedNodes) {
         // In case own payment pointer is deleted
         if (
-          removedNode[ATTR_NAME] === META_NAME &&
-          removedNode[ATTR_CONTENT] === this.paymentPointer
+          (removedNode as any)[ATTR_NAME] === META_NAME &&
+          (removedNode as any)[ATTR_CONTENT] === this.paymentPointer
         ) {
           this.M$stopMetaObserver()
           this.M$startMetaObserver() // New tag is created in the process
@@ -96,8 +99,8 @@ export class PaymentPointerProtector {
       for (const addedNode of mutation.addedNodes) {
         // In case someone else's payment pointer is added
         if (
-          addedNode[ATTR_NAME] === META_NAME &&
-          addedNode[ATTR_CONTENT] !== this.paymentPointer
+          (addedNode as any)[ATTR_NAME] === META_NAME &&
+          (addedNode as any)[ATTR_CONTENT] !== this.paymentPointer
         ) {
           document.head.removeChild(addedNode)
         }

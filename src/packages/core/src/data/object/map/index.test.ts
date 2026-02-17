@@ -1,5 +1,5 @@
+import { createRef } from '@glyph-cat/foundation'
 import { objectMap } from '.'
-import { createRef } from '../../ref'
 
 test(objectMap.name, () => {
   const obj = {

@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
+
 import { TestProbeProvider } from '@glyph-cat/react-test-utils'
 import { useContext } from 'react'
 import { IS_SOURCE_ENV } from '../constants'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function __setDisplayName(item: unknown): void { /* ... */ }
+export function __setDisplayName(item: any): void { /* ... */ }
 
-export function __getDisplayName(item: unknown): string {
+export function __getDisplayName(item: any): string {
   return item['displayName'] ?? item['name']
 }
 
@@ -18,11 +20,11 @@ export enum TypeMarker {
   CoreNavBranchItem,
 }
 
-export function __setTypeMarker(component: unknown, type: TypeMarker): void {
+export function __setTypeMarker(component: any, type: TypeMarker): void {
   component[TypeMarkerKey] = type
 }
 
-export function __getTypeMarker(component: unknown): TypeMarker {
+export function __getTypeMarker(component: any): TypeMarker {
   return component[TypeMarkerKey]
 }
 

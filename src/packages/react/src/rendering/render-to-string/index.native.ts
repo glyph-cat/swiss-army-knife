@@ -1,4 +1,4 @@
-import { UnsupportedPlatformError } from '@glyph-cat/swiss-army-knife'
+import { UnsupportedPlatformError } from '@glyph-cat/foundation'
 
 export function renderToString(): string {
   throw new UnsupportedPlatformError()

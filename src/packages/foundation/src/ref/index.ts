@@ -7,6 +7,11 @@ import { PossiblyUndefined } from '../void-types'
 export type RefObject<T> = { current: T }
 
 /**
+ * @public
+ */
+export type NullableRefObject<T> = { current: Nullable<T> }
+
+/**
  * Alternative to React's `createRef`, for when a `RefObject` is needed in a non-React project.
  * @param value - The value assigned to the ref.
  * @returns A new `RefObject`.
@@ -20,7 +25,7 @@ export function createRef<T>(value: T): RefObject<T>
  * @returns A new `RefObject`.
  * @public
  */
-export function createRef<T>(value: Nullable<T>): RefObject<Nullable<T>>
+export function createRef<T>(value: Nullable<T>): NullableRefObject<T>
 
 /**
  * Alternative to React's `createRef`, for when a `RefObject` is needed in a non-React project.

@@ -1,5 +1,4 @@
-import { Empty, RefObject, StringRecord } from '@glyph-cat/foundation'
-import { createRef } from '@glyph-cat/swiss-army-knife'
+import { createRef, Empty, RefObject, StringRecord } from '@glyph-cat/foundation'
 import { render, RenderResult } from '@testing-library/react'
 import {
   act,

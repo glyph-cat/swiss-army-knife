@@ -1,6 +1,6 @@
-import { c } from '@glyph-cat/css-utils'
 import { TemplateStyles } from '@glyph-cat/swiss-army-knife'
 import { BasicUISize, MaterialSymbol, View } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src/_internals'
 import {
   Children,
@@ -93,7 +93,7 @@ export const MenuList = forwardRef(({
   const hasOverflowDown = false
   return (
     <ul
-      className={c(styles.ul, className)}
+      className={clsx(styles.ul, className)}
       ref={ref}
       {...props}
     >

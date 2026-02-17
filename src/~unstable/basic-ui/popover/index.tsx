@@ -1,10 +1,11 @@
-import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
+import { CSSPropertiesExtended, serializePixelValue } from '@glyph-cat/css-utils'
 import {
   CleanupFunction,
+  Nullable,
   StringRecord,
   TypedFunction,
 } from '@glyph-cat/foundation'
-import { RectangularBoundary, serializePixelValue } from '@glyph-cat/swiss-army-knife'
+import { RectangularBoundary } from '@glyph-cat/swiss-army-knife'
 import {
   GenericHTMLProps,
   Portal,
@@ -35,14 +36,14 @@ import {
 // #region Popover
 
 type ITriggerElementContext = ReturnType<typeof useState<HTMLElement>>
-const TriggerElementContext = createContext<ITriggerElementContext>(null)
+const TriggerElementContext = createContext<Nullable<ITriggerElementContext>>(null)
 
 export interface PopoverProps {
   children: ReactNode
 }
 
 export function Popover({ children: $children }: PopoverProps): JSX.Element {
-  const stateHook = useState<HTMLElement>(null)
+  const stateHook = useState<Nullable<HTMLElement>>(null)
   const [
     triggerElement,
     ...children

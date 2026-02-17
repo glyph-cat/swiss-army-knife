@@ -18,10 +18,13 @@
       "@glyph-cat/type-checking": [
         "../type-checking/src",
       ],
+      "@glyph-cat/cleanup-manager": [
+        "../cleanup-manager/src",
+      ],
     },
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "stripInternal": true,
     "target": "ES2020",
   },

@@ -1,5 +1,5 @@
+import { createRef } from '@glyph-cat/foundation'
 import { objectFilter } from '.'
-import { createRef } from '../../ref'
 
 test(objectFilter.name, () => {
   const obj = {

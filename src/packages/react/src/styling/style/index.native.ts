@@ -1,4 +1,4 @@
-import { UnsupportedPlatformError } from '@glyph-cat/swiss-army-knife'
+import { UnsupportedPlatformError } from '@glyph-cat/foundation'
 import { JSX } from 'react'
 import { StyleProps } from './abstractions'
 

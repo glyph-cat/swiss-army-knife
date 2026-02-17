@@ -1,5 +1,5 @@
-import { c } from '@glyph-cat/css-utils'
 import { Input, InputProps } from '@glyph-cat/swiss-army-knife-react'
+import clsx from 'clsx'
 import { ForwardedRef, forwardRef, JSX } from 'react'
 import { styles } from './styles'
 
@@ -20,7 +20,7 @@ export const TextInput = forwardRef(({
 }: TextInputProps, ref: ForwardedRef<HTMLInputElement>): JSX.Element => {
   return (
     <Input
-      className={c(styles.input, className)}
+      className={clsx(styles.input, className)}
       ref={ref}
       {...props}
     />

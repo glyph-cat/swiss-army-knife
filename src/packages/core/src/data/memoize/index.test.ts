@@ -1,7 +1,6 @@
 import { isJSONequal } from '@glyph-cat/equality'
-import { Value2D } from '@glyph-cat/foundation'
+import { createRef, Value2D } from '@glyph-cat/foundation'
 import { deepMemoize, memoize } from '.'
-import { createRef } from '../ref'
 
 describe(memoize.name, (): void => {
 

@@ -1,4 +1,4 @@
-import { UnsupportedPlatformError } from '@glyph-cat/swiss-army-knife'
+import { UnsupportedPlatformError } from '@glyph-cat/foundation'
 
 export function useMoveAwayListener(): void {
   throw new UnsupportedPlatformError()

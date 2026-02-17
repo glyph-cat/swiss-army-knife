@@ -1,5 +1,5 @@
-import { c } from '@glyph-cat/css-utils'
 import { isBoolean } from '@glyph-cat/type-checking'
+import clsx from 'clsx'
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { useCommonFocusableRefHandler } from '../../input-focus'
 import { INPUT_STYLES, useInternalDerivedDisabledState } from '../_internals'
@@ -36,7 +36,7 @@ export const Input = forwardRef(({
   return createElement('input', {
     ...props,
     ref: inputRef,
-    className: c(INPUT_STYLES, className),
+    className: clsx(INPUT_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   })
 })
@@ -73,7 +73,7 @@ export const TextArea = forwardRef(({
   return createElement('textarea', {
     ...props,
     ref: textAreaRef,
-    className: c(INPUT_STYLES, className),
+    className: clsx(INPUT_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   })
 })

@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/css-utils'
+import clsx from 'clsx'
 import { getRandomNumber } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
 import { useStableCallback } from 'packages/react/src/hooks/callback/stable'
@@ -31,7 +31,7 @@ export default function (): JSX.Element {
   }, [staleCallback])
 
   return (
-    <View className={c(SandboxStyle.NORMAL, styles.container)}>
+    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
       <pre style={{ fontSize: '24pt' }}>
         <code>
           value: {value}

@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
+import { createRef } from '@glyph-cat/foundation'
 import { addStyles } from '.'
-import { createRef } from '../../data/ref'
 import { StyleMap } from '../style-map'
 import {
   DATA_PRECEDENCE_LEVEL,

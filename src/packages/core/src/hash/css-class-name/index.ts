@@ -8,7 +8,7 @@ const bodyCharset = Charset.DEFAULT
 /**
  * @public
  */
-export class CSSClassNameFactory extends BaseHashFactory {
+export class CSSClassNameFactory extends BaseHashFactory<[number]> {
 
   /**
    * Generates a random CSS class name which uniqueness is not guaranteed.

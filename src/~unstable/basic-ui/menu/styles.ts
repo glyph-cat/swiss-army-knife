@@ -1,10 +1,5 @@
-import {
-  addStyles,
-  clientOnly,
-  PrecedenceLevel,
-  StyleMap,
-  ThemeToken,
-} from '@glyph-cat/swiss-army-knife'
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
+import { clientOnly, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { prefixBasicUIIdentifiers } from 'packages/react/src/ui/basic/_internals/prefixing'
 
 export const styles = prefixBasicUIIdentifiers('menu', [

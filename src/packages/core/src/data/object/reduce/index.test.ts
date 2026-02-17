@@ -1,5 +1,5 @@
+import { createRef } from '@glyph-cat/foundation'
 import { objectReduce } from '.'
-import { createRef } from '../../ref'
 
 test(objectReduce.name, () => {
   const obj = {

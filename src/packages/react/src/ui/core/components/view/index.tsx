@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/css-utils'
+import clsx from 'clsx'
 import {
   createElement,
   forwardRef,
@@ -33,7 +33,7 @@ export const View = forwardRef<HTMLDivElement, ViewProps>(({
   // eslint-disable-next-line react/forbid-elements
   return createElement('div', {
     ref: divRef,
-    className: c(VIEW_STYLES, className),
+    className: clsx(VIEW_STYLES, className),
     ...otherProps,
   }, children)
 })

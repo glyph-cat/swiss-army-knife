@@ -191,13 +191,13 @@ export class Color {
    * @internal
    */
   private static readonly M$DEFAULT_INTERNAL_VALUES: InternalValues = {
-    red: null,
-    green: null,
-    blue: null,
+    red: 0,
+    green: 0,
+    blue: 0,
     alpha: Color.MAX_ALPHA_VALUE,
-    hue: null,
-    saturation: null,
-    lightness: null,
+    hue: 0,
+    saturation: 0,
+    lightness: 0,
   }
 
   // #region .fromRGB
@@ -244,7 +244,7 @@ export class Color {
     alpha?: number,
   ): Color {
     if (isNumber(firstArg)) {
-      return Color.fromRGBValues(firstArg, green, blue, alpha)
+      return Color.fromRGBValues(firstArg, green!, blue!, alpha)
     } else if (isString(firstArg)) {
       return Color.fromRGBString(firstArg)
     } else if (isObject(firstArg)) {
@@ -898,7 +898,7 @@ export namespace ColorLookup {
    * ColorLookup.fromCSSName('peachpuff')
    * @public
    */
-  export function fromCSSName(name: LenientString<CSSColor>): Color {
+  export function fromCSSName(name: LenientString<CSSColor>): Nullable<Color> {
     name = name.toLowerCase()
     if (LOOKUP_DICTIONARY.value[name]) {
       return Color.fromHex(`#${LOOKUP_DICTIONARY.value[name]}`)

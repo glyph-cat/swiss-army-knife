@@ -1,16 +1,16 @@
 /**
  * @public
  */
-export type HashGenerator<GeneratorArg = unknown> = (
+export type HashGenerator<GeneratorArgs extends Array<unknown> = Array<unknown>> = (
   collisionCount: number,
-  ...customArgs: Array<GeneratorArg>
+  ...customArgs: GeneratorArgs
 ) => string
 
 /**
  * A base class hash factory for unique hash generation.
  * @public
  */
-export class BaseHashFactory<GeneratorArg = unknown> {
+export class BaseHashFactory<GeneratorArgs extends Array<unknown> = Array<unknown>> {
 
   /**
    * @internal
@@ -21,7 +21,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
     /**
      * @internal
      */
-    private readonly generator: HashGenerator,
+    private readonly generator: HashGenerator<GeneratorArgs>,
   ) {
     this.create = this.create.bind(this)
     this.untrack = this.untrack.bind(this)
@@ -32,7 +32,7 @@ export class BaseHashFactory<GeneratorArg = unknown> {
   /**
    * Creates a new hash.
    */
-  create(...customArgs: Array<GeneratorArg>): string {
+  create(...customArgs: GeneratorArgs): string {
     let hash: string
     let collisionCount = 0
     hash = this.generator(collisionCount, ...customArgs)

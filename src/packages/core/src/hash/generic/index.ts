@@ -1,11 +1,13 @@
-import { Charset } from '@glyph-cat/foundation'
+import { Charset, Nullable } from '@glyph-cat/foundation'
 import { pickRandom } from '../../random'
 import { BaseHashFactory } from '../base'
 
 /**
  * @public
  */
-export class HashFactory extends BaseHashFactory {
+export class HashFactory extends BaseHashFactory<[number, string]> {
+
+  static readonly MINIMUM_LENGTH = 1
 
   /**
    * Generates a random hash which uniqueness is not guaranteed.
@@ -24,6 +26,10 @@ export class HashFactory extends BaseHashFactory {
     return hash
   }
 
+  minimumLength: number
+
+  charset: string
+
   /**
    * A hash factory that generates random hashes while guaranteeing uniqueness.
    * If collision occurs above a set threshold, the hash length will be
@@ -39,8 +45,8 @@ export class HashFactory extends BaseHashFactory {
    * The default value is `0.8`.
    */
   constructor(
-    public minimumLength: number,
-    public charset?: string,
+    minimumLength?: Nullable<number>,
+    charset?: Nullable<string>,
     readonly bumpThreshold: number = 0.8,
   ) {
     super((collisionCount: number, scopedLength: number, scopedCharset: string) => {
@@ -51,15 +57,20 @@ export class HashFactory extends BaseHashFactory {
         scopedCharset,
       )
     })
+    this.minimumLength = minimumLength
+      ? Math.max(HashFactory.MINIMUM_LENGTH, minimumLength)
+      : HashFactory.MINIMUM_LENGTH
     this.charset = charset || Charset.DEFAULT
-    this.minimumLength = Math.max(0, minimumLength)
   }
 
   /**
    * Generates a random hash which uniqueness is guaranteed within the scope of
    * this hash factory instance.
    */
-  create(overwriteMinimumLength?: number, overwriteCharset?: string): string {
+  create(
+    overwriteMinimumLength?: Nullable<number>,
+    overwriteCharset?: Nullable<string>
+  ): string {
     return super.create(
       overwriteMinimumLength || this.minimumLength,
       overwriteCharset || this.charset,

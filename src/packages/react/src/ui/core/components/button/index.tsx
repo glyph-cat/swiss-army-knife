@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/css-utils'
+import clsx from 'clsx'
 import { isBoolean } from '@glyph-cat/type-checking'
 import { createElement, forwardRef, JSX, Ref } from 'react'
 import { BUTTON_STYLES, useInternalDerivedDisabledState } from '../_internals'
@@ -32,7 +32,7 @@ export const ButtonBase = forwardRef(({
   return createElement('button', {
     ...props,
     ref,
-    className: c(BUTTON_STYLES, className),
+    className: clsx(BUTTON_STYLES, className),
     ...(isBoolean(disabled) ? { disabled } : {}),
   })
 })

@@ -1,4 +1,4 @@
-import { CleanupFunction } from '@glyph-cat/foundation'
+import { CleanupFunction, Nullable } from '@glyph-cat/foundation'
 import { RectangularBoundary } from '../../types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +15,7 @@ export class ExperimentalSizeObserver {
   constructor(private readonly element: HTMLElement) { }
 
   observe(callback: (bounds: RectangularBoundary) => void): CleanupFunction {
-    let prevBounds: RectangularBoundary = null
+    let prevBounds: Nullable<RectangularBoundary> = null
     const measureAndUpdateBoundsIfChanged = () => {
       const rawBounds = this.element.getBoundingClientRect()
       const nextBounds: RectangularBoundary = {

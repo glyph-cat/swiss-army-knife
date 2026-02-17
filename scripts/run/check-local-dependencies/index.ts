@@ -13,7 +13,9 @@ import { readPackageJson } from '../../../src/packages/project-helpers/src/read-
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
 import { PACKAGES_DIRECTORY } from '../../constants'
 
-function run(): void {
+function run(...args: Array<string>): void {
+
+  const shouldShowGraph = !!args.find((arg) => arg === '--showGraph' || arg === '-g')
 
   console.log('Analyzing dependencies...')
 
@@ -53,26 +55,32 @@ function run(): void {
     }
   }
 
-  const flowchartBody = Object.entries(dependencyMap).reduce((acc, [packageName, deps]) => {
-    deps.forEach((dep) => {
-      acc.push(`${getAlias(dep)} --> ${getAlias(packageName)}`)
+  // ———————————————————————————————————————————————————————————————————————————
+
+  if (shouldShowGraph) {
+
+    const flowchartBody = Object.entries(dependencyMap).reduce((acc, [packageName, deps]) => {
+      deps.forEach((dep) => {
+        acc.push(`${getAlias(dep)} --> ${getAlias(packageName)}`)
+      })
+      return acc
+    }, [] as Array<string>)
+
+    const aliasDefinitions = aliasStore.map((packageName, index) => {
+      return `a${index + 1}["${packageName}"]`
     })
-    return acc
-  }, [] as Array<string>)
 
-  const aliasDefinitions = aliasStore.map((packageName, index) => {
-    return `a${index + 1}["${packageName}"]`
-  })
+    console.log('Dependency map:')
+    console.log(chalk.grey([
+      '```mermaid',
+      'flowchart TD',
+      aliasDefinitions.join('\n'),
+      '',
+      flowchartBody.join('\n'),
+      '```',
+    ].join('\n')))
 
-  console.log('Dependency map:')
-  console.log(chalk.grey([
-    '```mermaid',
-    'flowchart TD',
-    aliasDefinitions.join('\n'),
-    '',
-    flowchartBody.join('\n'),
-    '```',
-  ].join('\n')))
+  }
 
   // ———————————————————————————————————————————————————————————————————————————
 
@@ -148,7 +156,8 @@ function run(): void {
 
 }
 
-run()
+const [, , ...args] = process.argv
+run(...args)
 
 function crawl(dirPath: string, callback: (filePath: string) => void) {
   const allItemsInDir = readdirSync(dirPath)

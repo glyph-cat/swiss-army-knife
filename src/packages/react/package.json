@@ -48,6 +48,7 @@
     "@glyph-cat/foundation": "0.0.0-experimental.88",
     "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88",
     "@glyph-cat/type-checking": "^1.0.0",
+    "clsx": "^2.1.1",
     "cotton-box-react": "^0.14.0"
   },
   "devDependencies": {

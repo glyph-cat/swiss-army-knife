@@ -29,13 +29,13 @@ function customErrorResponse(
   })
 }
 
-function internalServerErrorResponse(res: NextApiResponse, error: Error): void {
+function internalServerErrorResponse(res: NextApiResponse, error: unknown): void {
   res.status(HttpStatus.INTERNAL_ERROR).send(error)
 }
 
 export function genericTryCatchErrorResponseHandler(
   res: NextApiResponse,
-  error: Error
+  error: unknown
 ): void {
   if (error instanceof CustomAPIError) {
     return customErrorResponse(res, error)

@@ -30,9 +30,9 @@ export function getPrintPageLayoutOrder(pageCount: number): Array<PrintPaperDoub
 
   for (let i = 0; i < papersNeeded; i++) {
     const frontRight = enforceRange((i + 1) + (1 * i)) // Relative page 1
-    const backLeft = enforceRange(frontRight + 1) // Relative page 2
-    const backRight = enforceRange(paddedPageCount - frontRight) // Relative page 3
-    const frontLeft = enforceRange(paddedPageCount - frontRight + 1) // Relative page 4
+    const backLeft = frontRight ? enforceRange(frontRight + 1) : null// Relative page 2
+    const backRight = frontRight ? enforceRange(paddedPageCount - frontRight) : null// Relative page 3
+    const frontLeft = frontRight ? enforceRange(paddedPageCount - frontRight + 1) : null// Relative page 4
     paperStack.push([[frontLeft, frontRight], [backLeft, backRight]])
   }
 

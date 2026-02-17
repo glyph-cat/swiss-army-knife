@@ -1,4 +1,4 @@
-import { PrecedenceLevel } from '@glyph-cat/swiss-army-knife'
+import { PrecedenceLevel } from '@glyph-cat/css-utils'
 
 /**
  * @public

@@ -42,11 +42,17 @@ describe(fullyEnumerate.name, () => {
       }
       expect(SomeEnum.FOO).toBe('a')
       expect(SomeEnum.BAR).toBe('b')
+      // @ts-expect-error
       expect(SomeEnum[SomeEnum.FOO]).toBe(undefined)
+      // @ts-expect-error
       expect(SomeEnum[SomeEnum.BAR]).toBe(undefined)
+      // @ts-expect-error
       SomeEnum[SomeEnum.FOO] = 'FOO'
+      // @ts-expect-error
       SomeEnum[SomeEnum.BAR] = 'BAR'
+      // @ts-expect-error
       expect(SomeEnum[SomeEnum.FOO]).toBe('FOO')
+      // @ts-expect-error
       expect(SomeEnum[SomeEnum.BAR]).toBe('BAR')
     })
 
@@ -59,10 +65,14 @@ describe(fullyEnumerate.name, () => {
     }
     expect(SomeEnum.FOO).toBe('a')
     expect(SomeEnum.BAR).toBe('b')
+    // @ts-expect-error
     expect(SomeEnum[SomeEnum.FOO]).toBe(undefined)
+    // @ts-expect-error
     expect(SomeEnum[SomeEnum.BAR]).toBe(undefined)
     fullyEnumerate(SomeEnum)
+    // @ts-expect-error
     expect(SomeEnum[SomeEnum.FOO]).toBe('FOO')
+    // @ts-expect-error
     expect(SomeEnum[SomeEnum.BAR]).toBe('BAR')
   })
 })
@@ -90,6 +100,7 @@ describe(enumerate.name, (): void => {
   test('Attempt to add new value', (): void => {
     const enumeration = enumerate({ a: 1, b: 2 })
     tryOnly(() => {
+      // @ts-expect-error: On purpose for testing.
       enumeration['c'] = 3
     })
     // Check if structure of original enumeration is still in tact

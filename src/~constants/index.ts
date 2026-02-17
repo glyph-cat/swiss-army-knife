@@ -1,4 +1,4 @@
-import { c } from '@glyph-cat/css-utils'
+import clsx from 'clsx'
 import sandboxStyles from './sandboxStyles.module.css'
 
 export const INTERNAL_APP_IDENTIFIER = 'glyph-cat-playground-react'
@@ -26,8 +26,8 @@ export const APIRoute = {
 } as const
 
 export const SandboxStyle = {
-  NORMAL: c(sandboxStyles.base, sandboxStyles.normal),
-  FULL_HEIGHT: c(sandboxStyles.base, sandboxStyles.fullHeight),
+  NORMAL: clsx(sandboxStyles.base, sandboxStyles.normal),
+  FULL_HEIGHT: clsx(sandboxStyles.base, sandboxStyles.fullHeight),
 } as const
 
 // #region Other exports

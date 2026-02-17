@@ -1,5 +1,5 @@
 import { arrayIsShallowEqual } from '@glyph-cat/equality'
-import { RefObject } from '@glyph-cat/foundation'
+import { Nullable, RefObject } from '@glyph-cat/foundation'
 import { isUndefined } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
 import { clampedUnshift } from '../array/clamp'
@@ -62,7 +62,7 @@ export function deepMemoize<A extends Array<unknown>, R>(
    * @defaultValue `2`
    */
   cacheSize = 2,
-  cacheSpy?: RefObject<Array<[A, R]>>
+  cacheSpy?: RefObject<Nullable<Array<[A, R]>>>
 ): (...args: A) => R {
   let cacheStack: Array<[A, R]> = []
   return (...currentArgs: A) => {
