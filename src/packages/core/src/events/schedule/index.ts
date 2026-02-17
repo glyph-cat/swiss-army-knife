@@ -15,7 +15,7 @@ export class ScheduledCallback {
   /**
    * @internal
    */
-  private M$timeoutId: ReturnType<typeof setTimeout>
+  private M$timeoutId?: ReturnType<typeof setTimeout>
 
   /**
    * @param callback - The callback to be scheduled.

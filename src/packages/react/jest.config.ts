@@ -21,7 +21,7 @@ const config: Config.InitialOptions = {
     '.old',
   ],
   testEnvironment: 'jsdom',
-  testRegex: '.test.(tsx|ts|jsx|js)',
+  testRegex: '.test.(tsx|ts)',
   testTimeout: 1000,
   fakeTimers: {
     enableGlobally: true,

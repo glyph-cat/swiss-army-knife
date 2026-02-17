@@ -24,7 +24,7 @@ test('Only one event type involved', () => {
 
   const listenerKeys = Object.keys(eventManager.listeners)
   expect(listenerKeys).toStrictEqual([String(TestEvent.FOO)])
-  let fooListeners = [...eventManager.listeners[TestEvent.FOO].values()]
+  let fooListeners = [...(eventManager.listeners[TestEvent.FOO]?.values() ?? [])]
   expect(fooListeners.length).toBe(2)
   expect(Object.is(fooListeners[0], onFooEvent1)).toBe(true)
   expect(Object.is(fooListeners[1], onFooEvent2)).toBe(true)
@@ -39,7 +39,7 @@ test('Only one event type involved', () => {
   expect(onFooEvent2).toHaveBeenNthCalledWith(2, 'B')
 
   eventManager.removeEventListener(TestEvent.FOO, onFooEvent1)
-  fooListeners = [...eventManager.listeners[TestEvent.FOO].values()]
+  fooListeners = [...(eventManager.listeners[TestEvent.FOO]?.values() ?? [])]
   expect(fooListeners.length).toBe(1)
   expect(Object.is(fooListeners[0], onFooEvent2)).toBe(true)
 
@@ -60,9 +60,9 @@ test('Multiple event types involved', () => {
 
   const listenerKeys = Object.keys(eventManager.listeners)
   expect(listenerKeys).toStrictEqual([String(TestEvent.FOO), String(TestEvent.BAR)])
-  const fooListeners = [...eventManager.listeners[TestEvent.FOO].values()]
+  const fooListeners = [...(eventManager.listeners[TestEvent.FOO]?.values() ?? [])]
   expect(fooListeners.length).toBe(1)
-  const barListeners = [...eventManager.listeners[TestEvent.BAR].values()]
+  const barListeners = [...(eventManager.listeners[TestEvent.BAR]?.values() ?? [])]
   expect(barListeners.length).toBe(1)
   expect(Object.is(fooListeners[0], onFooEvent)).toBe(true)
   expect(Object.is(barListeners[0], onBarEvent)).toBe(true)

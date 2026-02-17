@@ -86,7 +86,7 @@ test(AggregateWatcher.name, (): void => {
   })
 
   // Test if refresh is disallowed
-  const callback = () => { aw.refresh(null) }
+  const callback = () => { aw.refresh('baz') }
   expect(callback).toThrow()
 
 })

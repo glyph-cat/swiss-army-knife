@@ -11,7 +11,7 @@ export class VaryingInterval {
   /**
    * @internal
    */
-  private M$intervalRef: ReturnType<typeof setInterval>
+  private M$intervalRef?: ReturnType<typeof setInterval>
 
   /**
    * @param callback - The callback to run at the varying intervals.
@@ -51,7 +51,7 @@ export class LongPollingInterval {
   /**
    * @internal
    */
-  private M$shouldRun: boolean
+  private M$shouldRun: boolean = false
 
   /**
    * @internal

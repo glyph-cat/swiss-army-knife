@@ -17,7 +17,7 @@ const config: Config.InitialOptions = {
     '.draft',
     '.old',
   ],
-  testRegex: '.test.(tsx|ts|jsx|js)',
+  testRegex: '.test.(tsx|ts)',
   testTimeout: 1000,
   fakeTimers: {
     enableGlobally: true,

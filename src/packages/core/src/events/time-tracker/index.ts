@@ -1,3 +1,4 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { IS_DEBUG_ENV } from '../../constants'
 import { devError } from '../../dev'
 
@@ -11,7 +12,7 @@ export class TimeTracker {
   /**
    * @internal
    */
-  private readonly M$values: Array<[startTime: number, endTime: number]> = []
+  private readonly M$values: Array<[startTime: number, endTime: Nullable<number>]> = []
 
   /**
    * @internal

@@ -30,7 +30,7 @@ export function getFlattenedObject<T extends object>(
       const flatObject = getFlattenedObject(object[key])
       for (const subKey in flatObject) {
         if (!hasProperty(flatObject, subKey)) { continue }
-        payload[key + '.' + subKey] = flatObject[subKey]
+        payload[(key + '.' + subKey) as FlattenedKeyOf<T>] = flatObject[subKey as keyof typeof flatObject]
       }
     } else {
       payload[key as FlattenedKeyOf<T>] = object[key]

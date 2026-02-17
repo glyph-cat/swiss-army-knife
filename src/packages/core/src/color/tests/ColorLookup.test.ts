@@ -3,7 +3,7 @@ import { Color, ColorLookup } from '..'
 describe(ColorLookup.fromCSSName, (): void => {
 
   test('Color exists', () => {
-    expect(ColorLookup.fromCSSName('cornflowerblue').toString()).toBe('#6495ed')
+    expect(ColorLookup.fromCSSName('cornflowerblue')?.toString()).toBe('#6495ed')
   })
 
   test('Color does not exist', () => {

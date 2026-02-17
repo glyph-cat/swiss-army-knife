@@ -14,7 +14,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      null, null,
+      1, '',
     ])
   })
 
@@ -23,7 +23,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      null, null,
+      1, '',
     ])
   })
 
@@ -32,7 +32,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      null, null,
+      1, '',
     ])
   })
 
@@ -41,7 +41,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      null, null,
+      1, '',
     ])
   })
 
@@ -50,7 +50,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120deg',
       75, '75%',
       25, '25%',
-      null, null,
+      1, '',
     ])
   })
 
@@ -59,7 +59,7 @@ describe(getValuesFromHSLString.name, () => {
       120, '120',
       75, '75',
       25, '25',
-      null, null,
+      1, '',
     ])
   })
 
@@ -95,7 +95,7 @@ describe(getValuesFromHSLString.name, () => {
       0, 'none',
       75, '75%',
       25, '25%',
-      null, null,
+      1, '',
     ])
   })
 
@@ -128,7 +128,7 @@ describe(getValuesFromHexString.name, () => {
         0x88, '8',
         0xcc, 'c',
         0xdd, 'd',
-        null, null,
+        1, '',
       ])
     })
 
@@ -146,7 +146,7 @@ describe(getValuesFromHexString.name, () => {
         0x86, '86',
         0xce, 'ce',
         0xcb, 'cb',
-        null, null,
+        1, '',
       ])
     })
 
@@ -186,7 +186,7 @@ describe(getValuesFromRGBString.name, () => {
       19, '19',
       122, '122',
       127, '127',
-      null, null,
+      1, '',
     ])
   })
 
@@ -195,7 +195,7 @@ describe(getValuesFromRGBString.name, () => {
       19, '19',
       122, '122',
       127, '127',
-      null, null,
+      1, '',
     ])
   })
 
@@ -204,7 +204,7 @@ describe(getValuesFromRGBString.name, () => {
       19, '19',
       122, '122',
       127, '127',
-      null, null,
+      1, '',
     ])
   })
 
@@ -213,7 +213,7 @@ describe(getValuesFromRGBString.name, () => {
       19, '19',
       122, '122',
       127, '127',
-      null, null,
+      1, '',
     ])
   })
 
@@ -222,7 +222,7 @@ describe(getValuesFromRGBString.name, () => {
       19, '19',
       122, '122',
       127, '127',
-      null, null,
+      1, '',
     ])
   })
 

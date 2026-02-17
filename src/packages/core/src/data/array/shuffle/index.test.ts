@@ -38,7 +38,7 @@ describe(shuffle.name, (): void => {
   describe('Special cases', () => {
 
     test('0 items', () => {
-      const originalArray = []
+      const originalArray: Array<unknown> = []
       const output = shuffle(originalArray, true)
       expect(output).toStrictEqual([])
     })
@@ -83,7 +83,7 @@ describe(shuffleMutable.name, (): void => {
   describe('Special cases', () => {
 
     test('0 items', () => {
-      const originalArray = []
+      const originalArray: Array<unknown> = []
       const output = shuffleMutable(originalArray, true)
       expect(output).toStrictEqual([])
     })

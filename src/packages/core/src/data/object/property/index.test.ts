@@ -393,14 +393,17 @@ describe(deepSetMutable.name, () => {
       },
     }
     deepSetMutable(sourceObject, ['player', 'coord', 'z'], 2)
+    // @ts-expect-error because this is a dynamically inserted property
     expect(sourceObject.player.coord['z']).toBe(2)
     deepSetMutable(sourceObject, ['player', 'preferences', 'graphics', 'effects'], 'ultra')
+    // @ts-expect-error because this is a dynamically inserted property
     expect(sourceObject.player['preferences']['graphics']['effects']).toBe('ultra')
   })
 
   test('Single key', () => {
     const sourceObject = {}
     deepSetMutable(sourceObject, ['foo'], 42)
+    // @ts-expect-error because this is a dynamically inserted property
     expect(sourceObject['foo']).toBe(42)
   })
 

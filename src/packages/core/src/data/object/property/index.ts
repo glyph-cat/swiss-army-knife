@@ -300,7 +300,7 @@ export function deepSetMutable(
   pathSegments: ObjectPathSegments,
   value: unknown,
 ): void {
-  let valueRef: unknown = object
+  let valueRef: any = object
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
@@ -308,13 +308,13 @@ export function deepSetMutable(
   for (let i = 0; i <= indexOfParentOfTarget; i++) {
     const pathSegment = pathSegments[i]
     if (i === indexOfParentOfTarget) {
-      valueRef[pathSegment] = value
+      valueRef[pathSegment as keyof typeof valueRef] = value
     } else {
       if (!Object.prototype.hasOwnProperty.call(valueRef, pathSegment)) {
         // If not number, then could be string or symbol:
         valueRef[pathSegment] = isNumber(pathSegments[i + 1]) ? [] : {}
       }
-      valueRef = (valueRef as object)[pathSegment as keyof typeof valueRef]
+      valueRef = valueRef[pathSegment as keyof typeof valueRef]
     }
   }
 }
@@ -383,9 +383,9 @@ function recursiveAssign<T>(
   const [pathSegment, ...nextPathSegments] = pathSegments
   if (Array.isArray(object) || (!objectExists && isNumber(pathSegment))) {
     const arr = [...(object as Array<unknown>) ?? []]
-    arr[pathSegment] = nextPathSegments.length > 0
+    arr[pathSegment as number] = nextPathSegments.length > 0
       ? recursiveAssign(
-        arr[pathSegment],
+        arr[pathSegment as number],
         hasProperty(arr, pathSegment as StrictPropertyKey),
         nextPathSegments,
         value,
@@ -397,7 +397,7 @@ function recursiveAssign<T>(
       ...object,
       [pathSegment]: nextPathSegments.length > 0
         ? recursiveAssign(
-          object?.[pathSegment],
+          object?.[pathSegment as keyof typeof object],
           hasProperty(object, pathSegment as string),
           nextPathSegments,
           value,
@@ -450,16 +450,21 @@ function complexRecursiveAssign<T, K>(
   const nextExists = exists ? Object.prototype.hasOwnProperty.call(object, pathSegment) : false
   if (Array.isArray(object) || (!exists && isNumber(pathSegment))) {
     const arr = [...(exists ? object as Array<unknown> : [])]
-    arr[pathSegment] = nextPathSegments.length > 0
-      ? complexRecursiveAssign(arr[pathSegment], nextPathSegments, setter, nextExists)
-      : setter(object?.[pathSegment] as unknown as K, nextExists)
+    arr[pathSegment as number] = nextPathSegments.length > 0
+      ? complexRecursiveAssign(arr[pathSegment as number], nextPathSegments, setter, nextExists)
+      : setter(object?.[pathSegment as keyof typeof object] as unknown as K, nextExists)
     return arr as T
   } else {
     return {
       ...object,
       [pathSegment]: nextPathSegments.length > 0
-        ? complexRecursiveAssign(object?.[pathSegment], nextPathSegments, setter, nextExists)
-        : setter(object?.[pathSegment], nextExists),
+        ? complexRecursiveAssign(
+          object?.[pathSegment as keyof typeof object],
+          nextPathSegments,
+          setter,
+          nextExists,
+        )
+        : setter((object as any)?.[pathSegment], nextExists),
     }
   }
 }
@@ -513,7 +518,7 @@ export function deepRemove<T>(
 function recursiveRemove<T>(
   object: T,
   pathSegments: Array<PropertyKey>,
-  options: DeepRemoveOptions,
+  options: PossiblyUndefined<DeepRemoveOptions>,
 ): [filteredObject: T, nextPropertyExists?: boolean] {
 
   if (isNullOrUndefined(object)) {
@@ -550,20 +555,20 @@ function recursiveRemove<T>(
   } else {
     // This is to ensure order of keys remain untouched as much as possible
     const shallowCopiedObject = { ...object }
-    const nextProperty = shallowCopiedObject[pathSegment]
+    const nextProperty = shallowCopiedObject[pathSegment as keyof typeof shallowCopiedObject]
     if (nextPathSegments.length > 0) {
       const [
         nextPropertyPostProcess,
         nextPropertyExists,
       ] = recursiveRemove(nextProperty, nextPathSegments, options)
       if (options?.clean && !nextPropertyExists) {
-        delete shallowCopiedObject[pathSegment]
+        delete shallowCopiedObject[pathSegment as keyof typeof shallowCopiedObject]
       } else {
-        shallowCopiedObject[pathSegment] = nextPropertyPostProcess
+        shallowCopiedObject[pathSegment as keyof typeof shallowCopiedObject] = nextPropertyPostProcess
       }
       return [
         shallowCopiedObject as T,
-        options?.clean ? Object.keys(shallowCopiedObject).length > 0 : true,
+        options?.clean ? Object.keys(shallowCopiedObject as object).length > 0 : true,
       ]
     } else {
       const { [pathSegment]: _toRemove, ...remainingItems } = object as PlainRecord

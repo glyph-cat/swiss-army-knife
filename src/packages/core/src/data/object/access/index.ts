@@ -1,3 +1,6 @@
+import { PossiblyUndefined } from '@glyph-cat/foundation'
+import { isUndefined } from '@glyph-cat/type-checking'
+
 /**
  * Gets the nth key of an object.
  * @param object - The source object.
@@ -8,12 +11,12 @@
 export function getNthKey<T>(
   object: T,
   targetPosition: number,
-): keyof T & string {
+): PossiblyUndefined<keyof T & string> {
   if (!object) { return undefined }
   let position = 1
   for (const key in object) {
     if (position === targetPosition) {
-      return key // Early exit
+      return key as keyof T & string // Early exit
     }
     position += 1
   }
@@ -29,9 +32,11 @@ export function getNthKey<T>(
 export function getNthValue<T>(
   object: T,
   targetPosition: number,
-): T[keyof T] {
+): PossiblyUndefined<T[keyof T]> {
   if (!object) { return undefined }
-  return object[getNthKey(object, targetPosition)]
+  const key = getNthKey(object, targetPosition)
+  if (isUndefined(key)) { return undefined } // Early exit
+  return object[key] as T[keyof T]
 }
 
 /**
@@ -40,7 +45,7 @@ export function getNthValue<T>(
  * @returns The key of the object at the 1st position.
  * @public
  */
-export function getFirstKey<T>(object: T): keyof T & string {
+export function getFirstKey<T>(object: T): PossiblyUndefined<keyof T & string> {
   return getNthKey(object, 1)
 }
 
@@ -50,6 +55,6 @@ export function getFirstKey<T>(object: T): keyof T & string {
  * @returns The value of the object at the 1st position.
  * @public
  */
-export function getFirstValue<T>(object: T): T[keyof T] {
+export function getFirstValue<T>(object: T): PossiblyUndefined<T[keyof T]> {
   return getNthValue(object, 1)
 }

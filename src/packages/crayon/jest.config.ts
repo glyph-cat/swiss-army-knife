@@ -9,7 +9,7 @@ const config: Config = {
   // setupFiles: [
   //   '<rootDir>/jest.setup.ts',
   // ],
-  testRegex: '.test.(tsx|ts|jsx|js)',
+  testRegex: '.test.(tsx|ts)',
   testPathIgnorePatterns: [
     '.draft',
     '.old',

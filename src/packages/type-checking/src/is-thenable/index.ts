@@ -10,6 +10,7 @@ import { isFunction } from '../is-function'
  * @returns A boolean indicating whether the value is a promise.
  * @public
  */
-export function isThenable<T = unknown>(executedFn: unknown): executedFn is Promise<T> {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+export function isThenable<T = unknown>(executedFn: any): executedFn is Promise<T> {
   return isFunction(executedFn?.['then'])
 }

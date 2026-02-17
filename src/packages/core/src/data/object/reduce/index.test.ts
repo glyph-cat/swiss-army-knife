@@ -2,12 +2,21 @@ import { createRef } from '@glyph-cat/foundation'
 import { objectReduce } from '.'
 
 test(objectReduce.name, () => {
+
   const obj = {
     foo: 123,
     bar: 456,
     baz: 789,
   }
+
+  interface ITestAccumulator {
+    currentValue: typeof obj[keyof typeof obj]
+    currentKey: keyof typeof obj
+    currentIndex: number
+  }
+
   const objectRef = createRef<typeof obj>(null)
+
   const output = objectReduce(obj, (previousValue, currentValue, currentKey, currentIndex, object) => {
     if (currentIndex === 0) {
       objectRef.current = object
@@ -18,7 +27,8 @@ test(objectReduce.name, () => {
       currentIndex,
     })
     return previousValue
-  }, [])
+  }, [] as Array<ITestAccumulator>)
+
   expect(Object.is(objectRef.current, obj)).toBe(true)
   expect(output).toStrictEqual([
     {
@@ -37,4 +47,5 @@ test(objectReduce.name, () => {
       currentIndex: 2,
     },
   ])
+
 })
