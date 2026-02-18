@@ -37,7 +37,7 @@ export class StyleManager extends StyleMap implements IDisposable {
       precedenceLevel,
       styleElementRef,
     ))
-    this.element = styleElementRef.current
+    this.element = styleElementRef.current!
     for (const [key, value] of initialStyles) {
       this.set(key, value)
     }

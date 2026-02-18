@@ -1,3 +1,4 @@
+import { Awaitable } from '@glyph-cat/foundation'
 import {
   Dispatch,
   SetStateAction,
@@ -5,28 +6,23 @@ import {
   useCallback,
   useRef,
   useState,
-  useTransition,
 } from 'react'
 
 /**
  * @public
  */
-export type CustomActionState<State> = [
-  state: Awaited<State>,
-  dispatch: () => void,
+export type CustomActionState<State = unknown, DispatchArgs extends Array<unknown> = Array<unknown>> = [
+  state: State,
+  dispatch: (...dispatchArgs: DispatchArgs) => Promise<State>,
   isPending: boolean,
   setState: Dispatch<SetStateAction<State>>,
 ]
 
 /**
  * @public
+ * @deprecated This type is no longer used, but is still exported for backward compatibility. Use `CustomActionState` instead.
  */
-export type CustomActionStateWithPayload<State, Payload> = [
-  state: Awaited<State>,
-  dispatch: (payload: Payload) => void,
-  isPending: boolean,
-  setState: Dispatch<SetStateAction<State>>,
-]
+export type CustomActionStateWithPayload<State, DispatchArgs extends Array<unknown> = Array<unknown>> = CustomActionState<State, DispatchArgs>
 
 /**
  * A more lenient version of React's `useActionState`.
@@ -36,53 +32,34 @@ export type CustomActionStateWithPayload<State, Payload> = [
  * - Does not have `permalink` parameter
  * @public
  */
-export function useActionState<State>(
-  action: (state: Awaited<State>) => State | Promise<State>,
-  initialState: Awaited<State>
-): CustomActionState<State>
+export function useActionState<State, DispatchArgs extends Array<unknown> = Array<unknown>>(
+  action: (state: State, ...dispatchArgs: DispatchArgs) => Awaitable<State>,
+  initialState: State,
+  initialIsPending = false,
+): CustomActionState<State> {
 
-/**
- * A more lenient version of React's `useActionState`.
- * - To be used as a semi-drop-in substitution
- * - Action is already wrapped in `startTransition`
- * - State can be modified externally, useful for resetting form errors without re-dispatching
- * - Does not have `permalink` parameter
- * @public
- */
-export function useActionState<State, Payload>(
-  action: (state: Awaited<State>, payload: Payload) => State | Promise<State>,
-  initialState: Awaited<State>
-): CustomActionStateWithPayload<State, Payload>
-
-export function useActionState<State, Payload>(
-  action: (state: Awaited<State>, payload?: Payload) => State | Promise<State>,
-  initialState: Awaited<State>,
-): CustomActionState<State> | CustomActionStateWithPayload<State, Payload> {
-
-  const actionRef = useRef<typeof action>(null)
+  const actionRef = useRef<typeof action>(null!)
   actionRef.current = action
 
   const [state, setState] = useState(initialState)
-  const stateRef = useRef<typeof state>(null)
+  const stateRef = useRef<typeof state>(null!)
   stateRef.current = state
 
   // KIV
   // There seems to be a problem when using `useTransition()` and some descendant
   // component throws an error. It would sometimes cause React to throw:
   // Error: Rendered more hooks than during the previous render.
-  // const [isPending, startTransition] = useTransition()
-  //                                                   ^
-  // const [isPending, startTransition] = useTransition()
-  const [isPending, setIsPending] = useState(false)
-  const dispatch = useCallback(async (payload: Payload) => {
+  const [isPending, setIsPending] = useState(initialIsPending)
+  const dispatch = useCallback(async (...dispatchArgs: DispatchArgs) => {
     setIsPending(true)
-    await startTransition(async () => {
-      setState(await actionRef.current(stateRef.current, payload))
-      setIsPending(false)
+    return new Promise<State>((resolve) => {
+      startTransition(async () => {
+        const newState = await actionRef.current(stateRef.current, ...dispatchArgs)
+        setState(newState)
+        resolve(newState)
+        setIsPending(false)
+      })
     })
-    // startTransition(async () => {
-    //   setState(await actionRef.current(stateRef.current, payload))
-    // })
   }, [])
 
   return [state, dispatch, isPending, setState]

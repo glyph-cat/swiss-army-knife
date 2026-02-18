@@ -11,8 +11,10 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  selectorPatternsToIgnore.current = null
-  selectorsToIgnore.current = null
+  // This ensures that an error is thrown if the values are changed after the test is done
+  // which indicates a test pollution.
+  selectorPatternsToIgnore.current = null!
+  selectorsToIgnore.current = null!
 })
 
 test('Empty string', () => {

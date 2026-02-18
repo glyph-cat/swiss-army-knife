@@ -1,6 +1,8 @@
+import { Empty } from '@glyph-cat/foundation'
+import { isNullOrUndefined } from '@glyph-cat/type-checking'
 import { serializePixelValue } from '../serialize-pixel-value'
 
-const keywordsPattern = /(gap|height|margin|padding|position|radius|size|spacing|width)/i
+const numericKeywordsPattern = /(gap|height|margin|padding|position|radius|size|spacing|width)/i
 
 /**
  * Normalizes CSS values into strings. If it is a size-type property such as width,
@@ -17,9 +19,12 @@ const keywordsPattern = /(gap|height|margin|padding|position|radius|size|spacing
  */
 export function normalizeCSSValue(
   attributeKey: string,
-  attributeValue: string | number,
+  attributeValue: string | number | undefined,
 ): string {
-  if (keywordsPattern.test(attributeKey)) {
+  if (isNullOrUndefined(attributeValue)) {
+    return Empty.STRING
+  }
+  if (numericKeywordsPattern.test(attributeKey)) {
     return serializePixelValue(attributeValue)
   } else {
     return String(attributeValue)

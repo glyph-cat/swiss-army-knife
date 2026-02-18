@@ -1,4 +1,4 @@
-import { CSSPropertiesExtended } from '../../index.scripted'
+import { CSSPropertiesExtended } from '../../abstractions'
 import { compileStyle } from '../compile-styles'
 
 /**

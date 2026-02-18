@@ -76,7 +76,7 @@ export function compileStyleObjectToString(styles: CSSPropertiesExtended): strin
   return postcssInstance.process(compiledStyles.join(';')).css
 }
 
-const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null
+const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null!
 
 /**
  * Uses {@link compileStyleObjectToString} to compile a complete CSS syntax string

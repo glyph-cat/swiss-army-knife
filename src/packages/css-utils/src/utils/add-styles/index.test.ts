@@ -87,7 +87,7 @@ describe(TestGroupFor(PrecedenceLevel.HIGH), () => {
   test('Has no style elements', () => {
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.HIGH))
-    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_HIGH)
+    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_HIGH)!
     expect(element.innerHTML).toBe(mockStyles)
   })
 
@@ -136,7 +136,7 @@ describe(TestGroupFor(PrecedenceLevel.LOW), () => {
   test('Has no style elements', () => {
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
-    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW)
+    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW)!
     expect(element.innerHTML).toBe(mockStyles)
   })
 
@@ -186,7 +186,7 @@ describe(TestGroupFor(PrecedenceLevel.INTERNAL), () => {
   test('Has no style elements', () => {
     const mockStyles = createMockStyles()
     cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
-    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_INTERNAL)
+    const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_INTERNAL)!
     expect(element.innerHTML).toBe(mockStyles)
   })
 

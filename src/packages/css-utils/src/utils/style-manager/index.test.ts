@@ -1,10 +1,13 @@
 /** @jest-environment jsdom */
+import { Nullable } from '@glyph-cat/foundation'
 import { StyleManager } from '.'
 import { DATA_PRECEDENCE_LEVEL, PrecedenceLevel } from '../add-styles/constants'
 
-let styleManager: StyleManager
-beforeEach(() => { styleManager = null })
-afterEach(() => { styleManager?.dispose() })
+let styleManager: Nullable<StyleManager> = null
+afterEach(() => {
+  styleManager?.dispose()
+  styleManager = null
+})
 
 test('No initial styles', () => {
   styleManager = new StyleManager()

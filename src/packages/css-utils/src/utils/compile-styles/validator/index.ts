@@ -3,8 +3,8 @@ import { isString } from '@glyph-cat/type-checking'
 import { __setDisplayName } from '../../../_internals'
 import { IS_DEBUG_ENV } from '../../../constants'
 
-export const selectorPatternsToIgnore = createRef<Array<RegExp>>(null)
-export const selectorsToIgnore = createRef<Set<string>>(null)
+export const selectorPatternsToIgnore = createRef<Array<RegExp>>(null!)
+export const selectorsToIgnore = createRef<Set<string>>(null!)
 
 if (IS_DEBUG_ENV) {
   selectorPatternsToIgnore.current = []

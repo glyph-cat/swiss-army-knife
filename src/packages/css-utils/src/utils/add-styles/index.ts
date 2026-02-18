@@ -1,4 +1,4 @@
-import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
+import { CleanupFunction, Nullable, NullableRefObject } from '@glyph-cat/foundation'
 import { querySelectorLast } from '../query-selector-last'
 import {
   DATA_PRECEDENCE_LEVEL,
@@ -17,10 +17,10 @@ import {
  */
 export function addStyles(
   styles: string,
-  precedenceLevel?: PrecedenceLevel,
-  styleElementRef?: RefObject<HTMLStyleElement>,
+  precedenceLevel?: Nullable<PrecedenceLevel>,
+  styleElementRef?: NullableRefObject<HTMLStyleElement>,
 ): CleanupFunction {
-  precedenceLevel ??= PrecedenceLevel.HIGH
+  precedenceLevel ||= PrecedenceLevel.HIGH
   const styleElement = document.createElement('style')
   styleElement.innerHTML = styles
   styleElement.setAttribute(DATA_PRECEDENCE_LEVEL, String(precedenceLevel))
