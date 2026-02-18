@@ -30,45 +30,53 @@ export function ThemeProvider({
   const isNested = isObject(useContext(ThemeContext))
   const className = useClassName()
 
+  const {
+    palette,
+    spacing,
+    duration,
+    componentParameters: $componentParameters,
+    internalValues: $internalValues,
+  } = theme
+
   const paletteStyles = useMemo(() => {
     const styleObject: CSSPropertiesExtended = {}
-    for (const key in theme.palette) {
-      const value = theme.palette[key]
+    for (const key in palette) {
+      const value = palette[key as keyof typeof palette]
       const token = `--${new Casing(key).toCamelCase()}`
       styleObject[token] = value
     }
     return styleObject
-  }, [theme.palette])
+  }, [palette])
 
   const spacingStyles = useMemo(() => {
     const styleObject: CSSPropertiesExtended = {}
-    for (const key in theme.spacing) {
-      const value = theme.spacing[key]
+    for (const key in spacing) {
+      const value = spacing[key as keyof typeof spacing]
       const token = `--spacing${key}`
       styleObject[token] = `${value}px`
     }
     return styleObject
-  }, [theme.spacing])
+  }, [spacing])
 
   const durationStyles = useMemo(() => {
     const styleObject: CSSPropertiesExtended = {}
-    for (const key in theme.duration) {
-      const value = theme.duration[key]
+    for (const key in duration) {
+      const value = duration[key as keyof typeof duration]
       const token = `--duration${new Casing(key).toPascalCase()}`
       styleObject[token] = `${value}ms`
     }
     return styleObject
-  }, [theme.duration])
+  }, [duration])
 
   const componentParameters = useMemo(() => {
     const styleObject: CSSPropertiesExtended = {}
-    for (const key in theme.componentParameters) {
-      const value = theme.componentParameters[key]
+    for (const key in $componentParameters) {
+      const value = $componentParameters[key as keyof typeof $componentParameters]
       const token = `--${new Casing(key).toCamelCase()}`
       styleObject[token] = value
     }
     return styleObject
-  }, [theme.componentParameters])
+  }, [$componentParameters])
 
   const customValues = useMemo(() => {
     const styleObject: CSSPropertiesExtended = {}
@@ -81,12 +89,12 @@ export function ThemeProvider({
 
   const internalValues = useMemo(() => {
     const styleObject: CSSPropertiesExtended = {}
-    for (const key in theme.internalValues) {
+    for (const key in $internalValues) {
       const token = `--${new Casing(key).toCamelCase()}`
-      styleObject[token] = theme.internalValues[key]
+      styleObject[token] = $internalValues[key as keyof typeof $internalValues]
     }
     return styleObject
-  }, [theme.internalValues])
+  }, [$internalValues])
 
   useInsertionEffect(() => {
     const styleManager = new StyleManager(new StyleMap([
@@ -127,7 +135,7 @@ export function ThemeProvider({
 
   const containerRef = useRef<HTMLElement>(null)
   useLayoutEffect(() => {
-    if (!isNested) { return } // Early exit
+    if (!isNested || !containerRef.current) { return } // Early exit
     const container = containerRef.current
     container.classList.add(className)
     return () => { container.classList.remove(className) }
@@ -144,7 +152,7 @@ export function ThemeProvider({
   }, [$children, isNested])
 
   const assignRef = useCallback((node: HTMLElement) => {
-    const { ref: refProp } = loneChild
+    const { ref: refProp } = loneChild!
     if (isFunction(refProp)) {
       refProp(node)
     } else if (refProp) {
@@ -165,7 +173,7 @@ export function ThemeProvider({
   if (isNested) {
     // `createElement` is used below to suppress the following error:
     // A props object containing a "key" prop is being spread into JSX
-    const { type: Component, props, key } = loneChild
+    const { type: Component, props, key } = loneChild!
     return (
       <ThemeContext.Provider value={theme}>
         {createElement(Component, {

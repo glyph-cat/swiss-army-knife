@@ -1,5 +1,5 @@
 import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
-import { Nullable, RefObject } from '@glyph-cat/foundation'
+import { Nullable, NullableRefObject } from '@glyph-cat/foundation'
 import { clientOnly, RectangularBoundary } from '@glyph-cat/swiss-army-knife'
 import { isObject } from '@glyph-cat/type-checking'
 import {
@@ -50,7 +50,7 @@ export const ProbeView = forwardRef((_, probeRef: ForwardedRef<View>): JSX.Eleme
  * @public
  */
 export type ISizeAwareHandle = [
-  probeRef: RefObject<View>,
+  probeRef: NullableRefObject<View>,
   bounds: Nullable<RectangularBoundary>,
 ]
 

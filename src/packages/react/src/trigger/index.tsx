@@ -3,6 +3,7 @@ import {
   CleanupFunction,
   EmptyFunction,
   LenientString,
+  Nullable,
   PartialRecord,
   StringRecord,
   TypedFunction,
@@ -28,10 +29,10 @@ import { useMemoAlt } from '../hooks/memo-alt'
 
 interface ITriggerContext<T> {
   trigger: T
-  setTrigger: Dispatch<SetStateAction<T>>
+  setTrigger: Dispatch<SetStateAction<Nullable<T>>>
 }
 
-const TriggerContext = createContext<ITriggerContext<unknown>>(null)
+const TriggerContext = createContext<Nullable<ITriggerContext<unknown>>>(null)
 
 function useTriggerContext<T>(): ITriggerContext<T> {
   const triggerContext = useContext(TriggerContext)
@@ -135,7 +136,7 @@ export interface TriggerSpawnProps extends PartialRecord<keyof HTMLElementEventM
 function TriggerSpawn({
   children,
   ...$events
-}: TriggerSpawnProps): JSX.Element {
+}: TriggerSpawnProps): ReactNode {
   const { trigger } = useTriggerContext<HTMLElement>()
   const [shouldShowContent, setContentVisibility] = useState(false)
   const events = useMemoAlt(() => {

@@ -1,5 +1,5 @@
 import { Property } from 'csstype'
-import { JSX, useInsertionEffect } from 'react'
+import { ReactNode, useInsertionEffect } from 'react'
 
 /**
  * @public
@@ -11,7 +11,7 @@ export interface ThemeColorProps {
 /**
  * @public
  */
-export function ThemeColor(props: ThemeColorProps): JSX.Element {
+export function ThemeColor(props: ThemeColorProps): ReactNode {
   const { color } = props
   useThemeColor(color)
   return null

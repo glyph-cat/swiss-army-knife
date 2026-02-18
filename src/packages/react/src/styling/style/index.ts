@@ -1,6 +1,6 @@
 import { addStyles } from '@glyph-cat/css-utils'
-import { createRef } from '@glyph-cat/foundation'
-import { JSX, useEffect, useInsertionEffect, useState } from 'react'
+import { createRef, Nullable } from '@glyph-cat/foundation'
+import { ReactNode, useEffect, useInsertionEffect, useState } from 'react'
 import { StyleProps } from './abstractions'
 
 /**
@@ -9,8 +9,8 @@ import { StyleProps } from './abstractions'
 export function Style({
   children,
   precedence,
-}: StyleProps): JSX.Element {
-  const [styleElement, setStyleElement] = useState<HTMLStyleElement>(null)
+}: StyleProps): ReactNode {
+  const [styleElement, setStyleElement] = useState<Nullable<HTMLStyleElement>>(null)
   useEffect(() => {
     const styleElementRef = createRef<HTMLStyleElement>(null)
     const removeStyles = addStyles('', precedence, styleElementRef)
@@ -18,7 +18,7 @@ export function Style({
     return removeStyles
   }, [precedence])
   useInsertionEffect(() => {
-    if (!styleElement) { return } // Early exit
+    if (!styleElement || !children) { return } // Early exit
     // eslint-disable-next-line react-hooks/immutability
     styleElement.textContent = Array.isArray(children) ? children.join('') : children
   }, [children, styleElement])

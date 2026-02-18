@@ -62,10 +62,10 @@ export const BasicButton = forwardRef(({
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.neutralColor)
 
-  const [size] = sizePresets[$size] ?? sizePresets.m
+  const [size] = ($size && sizePresets[$size]) ?? sizePresets.m
   const disabled = $disabled ?? busy
 
-  const buttonRef = useRef<ButtonBase>(null)
+  const buttonRef = useRef<ButtonBase>(null!)
   useImperativeHandle(forwardedRef, () => buttonRef.current, [])
 
   useEffect(() => {

@@ -15,7 +15,7 @@ export function useMoveAwayListener(
   enabled: boolean = true,
 ): void {
   const isHoveredRef = useRef<boolean>(false)
-  const callbackRef = useRef<typeof callback>(null)
+  const callbackRef = useRef<typeof callback>(null!)
   callbackRef.current = callback
   useEffect(() => {
     if (!enabled || !elementRef.current) { return } // Early exit
