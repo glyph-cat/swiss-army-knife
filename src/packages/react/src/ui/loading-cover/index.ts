@@ -3,7 +3,7 @@ import { CleanupFunction, IDisposable } from '@glyph-cat/foundation'
 import { deepRemove, deepSet, TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { ComponentType, createElement, JSX, useEffect } from 'react'
+import { ComponentType, createElement, ReactNode, useEffect } from 'react'
 
 /**
  * @public
@@ -41,14 +41,14 @@ export class LoadingCoverFactory implements IDisposable {
     return () => { this.M$hooks.set((s) => deepRemove(s, [id])) }
   }
 
-  Canvas = (): JSX.Element => {
+  Canvas = (): ReactNode => {
     const visible = useSimpleStateValue(this.M$hooks, (s) => Object.keys(s).length > 0)
     return createElement(this.component, { visible })
   }
 
   PseudoComponent = ({
     visible = true,
-  }: LoadingCoverPseudoComponentProps): JSX.Element => {
+  }: LoadingCoverPseudoComponentProps): ReactNode => {
     useEffect(() => {
       if (!visible) { return } // Early exit
       return this.show()

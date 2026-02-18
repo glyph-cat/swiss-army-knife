@@ -12,7 +12,7 @@ import { PaymentPointerProps } from './abstractions'
 export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
   const { value } = props
   usePaymentPointer(value)
-  return null
+  return null!
 }
 
 /**

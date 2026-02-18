@@ -88,7 +88,7 @@ export function autoForwardExports(entryPath: string): void {
       codeLineStack.push('export {} // Found no files to export')
     }
     codeLineStack.push(
-      `\n// Generated on: ${now.toDateString()} ${now.toTimeString().match(/\d{2}:\d{2}:\d{2} [a-z]+\+\d{4}/i)[0]}.`,
+      `\n// Generated on: ${now.toDateString()} ${now.toTimeString().replace(/\s\(.+\)$/, '')}.`,
     )
     writeFileSync(
       `${directoryPath}/index.scripted.ts`,

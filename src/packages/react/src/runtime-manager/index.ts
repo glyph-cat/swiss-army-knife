@@ -1,4 +1,4 @@
-import { BuildType, CleanupFunction, StringRecord } from '@glyph-cat/foundation'
+import { BuildType, CleanupFunction, PossiblyUndefined, StringRecord } from '@glyph-cat/foundation'
 import { pickLast } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { createContext } from 'react'
@@ -15,7 +15,7 @@ class InitializerStoreQueue<T> {
     this._array.push(value)
   }
 
-  shift(): InitializerDataPair<T> {
+  shift(): PossiblyUndefined<InitializerDataPair<T>> {
     // console.log(`Shifting, length: ${this._array.length} - 1`)
     return this._array.shift()
   }
@@ -38,7 +38,7 @@ class InitializerStoreCollection<T> {
     this._dict[key].add(value)
   }
 
-  shift(key: string): InitializerDataPair<T> {
+  shift(key: string): PossiblyUndefined<InitializerDataPair<T>> {
     // console.log(`Shifting from collection at key "${key}"`)
     return this._dict[key].shift()
   }

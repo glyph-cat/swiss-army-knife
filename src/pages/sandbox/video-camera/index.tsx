@@ -7,6 +7,7 @@ import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
 import { SandboxStyle } from '~constants'
 import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
+import { Nullable } from '@glyph-cat/foundation'
 
 // To test and make sure it doesn't break:
 // * -> dispose -> dispose -> start
@@ -19,7 +20,7 @@ import styles from './index.module.css'
 
 export default function (): JSX.Element {
 
-  const [videoCamera, setVideoCamera] = useState<VideoCamera>(null)
+  const [videoCamera, setVideoCamera] = useState<Nullable<VideoCamera>>(null)
   useEffect(() => {
     const newVideoCamera = new VideoCamera()
     setVideoCamera(newVideoCamera)

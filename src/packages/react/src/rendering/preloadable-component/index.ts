@@ -29,7 +29,7 @@ export class PreloadableComponent<P = {}> {
       // No error boundaries were necessary as they would serialize into string
       // and not get thrown or cause annoying pop-ups in the dev environment
       // as we would get when using `createRoot` to achieve the equivalent.
-      renderToString(createElement(this.component))
+      renderToString(createElement(this.component as ComponentType))
       this.M$isSuccessful = true
     } catch (e) { // eslint-disable-line @typescript-eslint/no-unused-vars
       this.M$isSuccessful = false

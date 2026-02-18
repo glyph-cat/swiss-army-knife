@@ -11,7 +11,7 @@ import {
 import { useStateValue } from 'cotton-box-react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { Fragment, JSX, StrictMode } from 'react'
+import { Fragment, ReactNode, StrictMode } from 'react'
 import { SandboxContainer } from '~components/sandbox'
 import { ENV, FixedKeyChordKey } from '~constants'
 import {
@@ -30,7 +30,7 @@ const SHORTCUT_KEYS_TO_IGNORE: Readonly<Array<string>> = [
   's', // Save
 ]
 
-function App({ Component, pageProps }: AppProps): JSX.Element {
+function App({ Component, pageProps }: AppProps): ReactNode {
 
   const softReloadKey = useStateValue(CustomDebugger.state, (s) => s.softReloadKey)
   const shouldUseStrictMode = useStateValue(CustomDebugger.state, (s) => s.useStrictMode)
@@ -70,7 +70,7 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
 
 export default App
 
-function KeyListeners(): JSX.Element {
+function KeyListeners(): ReactNode {
   const isAppleOS = useIsApplePlatform()
   useKeyDownListener((e) => {
     const modifierIsKeyActive = isAppleOS ? e.metaKey : e.ctrlKey

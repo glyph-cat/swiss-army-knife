@@ -22,7 +22,7 @@ export function useSelectionController<T>(
   keyExtractor: (item: T) => string,
 ): ISelectionController<T> {
 
-  const keyExtractorRef = useRef<typeof keyExtractor>(null)
+  const keyExtractorRef = useRef<typeof keyExtractor>(null!)
   keyExtractorRef.current = keyExtractor
 
   const [selection, setSelection] = useState<TruthRecord<string>>({})
@@ -41,7 +41,7 @@ export function useSelectionController<T>(
       setSelection(Object.values(allItems).reduce((acc, item) => {
         acc[keyExtractorRef.current(item)] = true
         return acc
-      }, {}))
+      }, {} as TruthRecord<string>))
     } else {
       setSelection({})
     }

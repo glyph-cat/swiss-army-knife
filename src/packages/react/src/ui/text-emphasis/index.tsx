@@ -1,3 +1,4 @@
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 import { isString } from '@glyph-cat/type-checking'
 import { ComponentType, HTMLElementType, JSX } from 'react'
 
@@ -89,7 +90,7 @@ export function TextEmphasis({
   const renderStack = []
   for (let i = 0; i < textStack.length; i++) {
     const text = textStack[i]
-    let patternThatMatched: string | RegExp
+    let patternThatMatched: PossiblyUndefined<string | RegExp>
     for (const currentSafePattern of safePatternStack) {
       if (currentSafePattern.test(text)) {
         patternThatMatched = currentSafePattern

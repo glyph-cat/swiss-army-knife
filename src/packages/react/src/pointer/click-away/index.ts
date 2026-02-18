@@ -14,7 +14,7 @@ export function useClickAwayListener(
   elementRef: RefObject<HTMLElement>,
   enabled: boolean = true,
 ): void {
-  const callbackRef = useRef<typeof callback>(null)
+  const callbackRef = useRef<typeof callback>(null!)
   callbackRef.current = callback
   useEffect(() => {
     if (!enabled || !elementRef.current) { return } // Early exit

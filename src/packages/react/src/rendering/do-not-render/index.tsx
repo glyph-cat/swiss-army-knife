@@ -1,11 +1,11 @@
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { __setDisplayName } from '../../_internals'
 
 /**
  * @public
  */
 export interface DoNotRenderProps {
-  children?: unknown
+  children?: ReactNode
 }
 
 /**
@@ -13,7 +13,7 @@ export interface DoNotRenderProps {
  * @public
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function DoNotRender(props: DoNotRenderProps): JSX.Element {
+export function DoNotRender(props: DoNotRenderProps): ReactNode {
   return null // So that it is compatible with React <18
 }
 

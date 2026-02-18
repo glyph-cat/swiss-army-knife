@@ -60,7 +60,7 @@ export const useMaterialIconStyleSheet = () => { }
  * @deprecated
  */
 export function MaterialIconStyleSheet(): JSX.Element {
-  return null
+  return null!
 }
 
 /**
