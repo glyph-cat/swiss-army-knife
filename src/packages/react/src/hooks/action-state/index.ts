@@ -36,7 +36,7 @@ export function useActionState<State, DispatchArgs extends Array<unknown> = Arra
   action: (state: State, ...dispatchArgs: DispatchArgs) => Awaitable<State>,
   initialState: State,
   initialIsPending = false,
-): CustomActionState<State> {
+): CustomActionState<State, DispatchArgs> {
 
   const actionRef = useRef<typeof action>(null!)
   actionRef.current = action

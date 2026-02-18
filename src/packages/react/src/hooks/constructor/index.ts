@@ -16,7 +16,7 @@ export function useConstructor<T>(factory: () => T, cleanupFn: CleanupFunction<T
   const id = useId()
 
   const isInitialized = useRef(false)
-  const ref = useRef<T>(null)
+  const ref = useRef<T>(null!)
   if (!isInitialized.current) {
     if (!store[id]) {
       store[id] = [] // eslint-disable-line react-hooks/immutability
@@ -27,7 +27,7 @@ export function useConstructor<T>(factory: () => T, cleanupFn: CleanupFunction<T
     isInitialized.current = true
   }
 
-  const cleanupFnRef = useRef<(t: T) => void>(null)
+  const cleanupFnRef = useRef<(t: T) => void>(null!)
   cleanupFnRef.current = cleanupFn
   useEffect(() => () => {
     cleanupFnRef.current(store[id].shift() as T)

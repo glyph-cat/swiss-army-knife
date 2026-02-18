@@ -1,5 +1,6 @@
 import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
-import { isNumber } from '@glyph-cat/type-checking'
+import { PossiblyUndefined } from '@glyph-cat/foundation'
+import { isNumber, isUndefined } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import { createElement, JSX, useContext } from 'react'
 import { __setDisplayName } from '../../_internals'
@@ -103,8 +104,8 @@ function createFontVariationSettingsProp(
   return list.length > 0 ? { fontVariationSettings: list.join(',') } : {}
 }
 
-function determineOpticalSize(size: number): Exclude<MaterialSymbolOptions['opticalSize'], 'auto'> {
-  if (size >= 48) {
+function determineOpticalSize(size: PossiblyUndefined<number>): Exclude<MaterialSymbolOptions['opticalSize'], 'auto'> {
+  if (isUndefined(size) || size >= 48) {
     return 48
   } else if (size >= 40) {
     return 40

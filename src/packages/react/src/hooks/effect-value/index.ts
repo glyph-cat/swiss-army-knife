@@ -1,4 +1,3 @@
-import { Nullable } from '@glyph-cat/foundation'
 import { useEffect, useLayoutEffect, useState } from 'react'
 
 /**
@@ -14,7 +13,7 @@ import { useEffect, useLayoutEffect, useState } from 'react'
 export function useEffectValue<T>(
   getValue: () => T,
   deps: Array<unknown>,
-  initialValue: Nullable<T> = null,
+  initialValue: T,
   removeValue?: (value: T) => void
 ): T {
   const [value, setValue] = useState(initialValue)
@@ -38,7 +37,7 @@ export function useEffectValue<T>(
 export function useLayoutEffectValue<T>(
   getValue: () => T,
   deps: Array<unknown>,
-  initialValue: Nullable<T> = null,
+  initialValue: T,
   removeValue?: (value: T) => void
 ): T {
   const [value, setValue] = useState(initialValue)

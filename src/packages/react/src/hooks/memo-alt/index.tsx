@@ -22,7 +22,7 @@ export function useMemoAlt<T, Deps extends DependencyList>(
   deps: Deps,
   isEqual?: (a: Deps, b: Deps) => boolean,
 ): T {
-  const factoryRef = useRef<typeof factory>(null)
+  const factoryRef = useRef<typeof factory>(null!)
   factoryRef.current = factory
   // Need to pass factory by reference, else first version of factory
   // will be used even when deps change.
@@ -30,5 +30,8 @@ export function useMemoAlt<T, Deps extends DependencyList>(
     () => factoryRef.current(),
     isEqual as typeof arrayIsShallowEqual,
   ))
-  return runFactory(...deps)
+  return runFactory(
+    // @ts-expect-error: Because `runFactory` expects 0 arguments, but are relying on `memoize` to compare the `...deps`.
+    ...deps
+  )
 }

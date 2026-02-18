@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import { MaterialSymbolOptions } from '../abstractions'
 
-export const MaterialSymbolOptionsContext = createContext<MaterialSymbolOptions>({
+export const MaterialSymbolOptionsContext = createContext<Required<MaterialSymbolOptions>>({
   fill: 0,
   weight: 400,
   grade: 0,
