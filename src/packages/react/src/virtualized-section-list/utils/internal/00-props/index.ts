@@ -1,3 +1,4 @@
+// @ts-nocheck Might be pending a re-write
 import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import { Empty, InternalError, StringRecord } from '@glyph-cat/foundation'
 import { getFirstKey } from '@glyph-cat/swiss-army-knife'

@@ -28,7 +28,7 @@ export const View = forwardRef<HTMLDivElement, ViewProps>(({
   className,
   ...otherProps
 }, ref): JSX.Element => {
-  const divRef = useRef<HTMLDivElement>(null)
+  const divRef = useRef<HTMLDivElement>(null!)
   useImperativeHandle(ref, () => divRef.current)
   // eslint-disable-next-line react/forbid-elements
   return createElement('div', {

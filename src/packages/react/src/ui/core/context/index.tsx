@@ -1,3 +1,4 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
 import { createContext, JSX, ReactNode, useContext, useMemo } from 'react'
 import type { InputFocusTracker } from '../input-focus'
@@ -7,12 +8,12 @@ import type { PortalManager } from '../portal-factory'
  * @public
  */
 export interface ICoreUIContext {
-  inputFocusTracker: InputFocusTracker
-  keyChordManager: KeyChordManager
-  portalManager: PortalManager
+  inputFocusTracker?: InputFocusTracker
+  keyChordManager?: KeyChordManager
+  portalManager?: PortalManager
 }
 
-const CoreUIContext = createContext<ICoreUIContext>(null)
+const CoreUIContext = createContext<Nullable<ICoreUIContext>>(null)
 
 /**
  * All components must be provided in the outermost provider.
@@ -52,5 +53,9 @@ export function CoreUIProvider({
  * @public
  */
 export function useCoreUIContext(): ICoreUIContext {
-  return useContext(CoreUIContext)
+  const context = useContext(CoreUIContext)
+  if (!context) {
+    throw new Error('`useCoreUIContext` must be used within <CoreUIProvider>')
+  }
+  return context
 }

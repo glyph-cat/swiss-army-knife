@@ -1,4 +1,5 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
+import { Nullable } from '@glyph-cat/foundation'
 import { RenderResult, render } from '@testing-library/react'
 import { ComponentType, JSX, Suspense, act, createElement, useEffect } from 'react'
 
@@ -10,7 +11,7 @@ export class SuspenseTester {
   /**
    * @internal
    */
-  private M$renderResult: RenderResult = null
+  private M$renderResult: Nullable<RenderResult> = null
 
   /**
    * @internal

@@ -1,5 +1,5 @@
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
-import { LenientString } from '@glyph-cat/foundation'
+import { LenientString, Nullable } from '@glyph-cat/foundation'
 import { Color, ColorFormat } from '@glyph-cat/swiss-army-knife'
 import clsx from 'clsx'
 import {
@@ -34,15 +34,13 @@ import { styles } from './styles'
 
 interface IRadioGroupContext<Value> {
   value: Value
-  disabled: boolean
+  disabled: Nullable<boolean>
   onChange(newValue: Value, event: ChangeEvent<HTMLInputElement>): void
   itemFlow: BasicUIFlow
   position: BasicUIPosition
 }
 
-const RadioGroupContext = createContext<IRadioGroupContext<unknown>>(null)
-
-
+const RadioGroupContext = createContext<Nullable<IRadioGroupContext<unknown>>>(null)
 
 /**
  * @public
@@ -101,9 +99,9 @@ export function RadioGroup<Value>({
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
-  const effectiveSize = RADIO_GROUP_SIZE_PRESETS[size] ?? RADIO_GROUP_SIZE_PRESETS.m
+  const effectiveSize = (size && RADIO_GROUP_SIZE_PRESETS[size]) ?? RADIO_GROUP_SIZE_PRESETS.m
 
-  const containerRef = useRef<View>(null)
+  const containerRef = useRef<View>(null!)
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
@@ -162,13 +160,17 @@ export function RadioItem<Value>({
   children,
   disabled,
 }: RadioItemProps<Value>): JSX.Element {
+  const context = useContext(RadioGroupContext)
+  if (!context) {
+    throw new Error('<RadioItem> must be used within a <RadioGroup>')
+  }
   const {
     value: currentValue,
-    disabled: isParentDisabled,
     onChange,
-    itemFlow,
     position,
-  } = useContext(RadioGroupContext)
+    itemFlow,
+    disabled: isParentDisabled,
+  } = context
   return (
     <label
       className={clsx(
@@ -188,8 +190,10 @@ export function RadioItem<Value>({
         // to use the first parameter of `onChange`, not `event.target.value`.
         // Hence adding `value={String(value)}` would make no sense.
         checked={Object.is(value, currentValue)}
-        disabled={disabled || isParentDisabled}
-        onChange={useCallback((e) => { onChange(value, e) }, [onChange, value])}
+        disabled={Boolean(disabled || isParentDisabled)}
+        onChange={useCallback((e: ChangeEvent<Input>) => {
+          onChange(value, e)
+        }, [onChange, value])}
         type='radio'
       />
       {position === BASIC_UI_POSITION_START && <View>{children}</View>}

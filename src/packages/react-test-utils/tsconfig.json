@@ -18,6 +18,10 @@
       "@glyph-cat/swiss-army-knife": [
         "../core/src",
       ],
+      "@glyph-cat/css-utils": [
+        // This is due to indirect dependency, even though never used.
+        "../css-utils/src",
+      ],
       "@glyph-cat/type-checking": [
         "../type-checking/src",
       ],

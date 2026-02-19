@@ -1,3 +1,5 @@
+import { Nullable } from '@glyph-cat/foundation'
+import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { DependencyList, useEffect } from 'react'
 import { useIsApplePlatform } from '../../../platform-checking'
@@ -27,18 +29,20 @@ export function useKeyChordActivationListener(
     if (!enabled || isAnyInputFocused) { return } // Early exit
     if (!isFocused) { return } // Early exit
     let chordTimestamp: number
-    let releaseKeyChord: ReturnType<typeof keyChordManager.occupyKeyChord> = null
+    let releaseKeyChord: Nullable<ReturnType<KeyChordManager['occupyKeyChord']>> = null
     const onKeyDown = (e: KeyboardEvent) => {
       const now = performance.now()
       const modifierIsKeyActive = isAppleOS ? e.metaKey : e.ctrlKey
-      if (modifierIsKeyActive && e.key === keyChordManager.activationKey) {
-        chordTimestamp = now
-        e.preventDefault()
-        releaseKeyChord = keyChordManager.occupyKeyChord()
-        setTimeout(releaseKeyChord, keyChordManager.timeout)
-      } else if (now - chordTimestamp < keyChordManager.timeout) {
-        callback(e)
-        releaseKeyChord()
+      if (keyChordManager) {
+        if (modifierIsKeyActive && e.key === keyChordManager.activationKey) {
+          chordTimestamp = now
+          e.preventDefault()
+          releaseKeyChord = keyChordManager.occupyKeyChord()
+          setTimeout(releaseKeyChord, keyChordManager.timeout)
+        } else if (now - chordTimestamp < keyChordManager.timeout) {
+          callback(e)
+          releaseKeyChord?.()
+        }
       }
     }
     window.addEventListener(EVENT_KEYDOWN, onKeyDown)
@@ -60,6 +64,9 @@ export function useKeyDownListener(
   ignoreLayerFocus = false, // TODO: rename `ignoreNavigationFocus`?
 ): void {
   const { keyChordManager } = useCoreUIContext()
+  if (!keyChordManager) {
+    throw new Error('`useKeyDownListener` requires `keyChordManager` to be provided in context via <CoreUIProvider>')
+  }
   const isAnyInputFocused = useCheckInputFocus()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
   const navStack = useCoreNavigationStack()
@@ -84,6 +91,9 @@ export function useKeyUpListener(
   ignoreLayerFocus = false, // TODO: rename `ignoreNavigationFocus`?
 ): void {
   const { keyChordManager } = useCoreUIContext()
+  if (!keyChordManager) {
+    throw new Error('`useKeyDownListener` requires `keyChordManager` to be provided in context via <CoreUIProvider>')
+  }
   const isAnyInputFocused = useCheckInputFocus()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
   const navStack = useCoreNavigationStack()

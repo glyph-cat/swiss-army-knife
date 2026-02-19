@@ -87,15 +87,15 @@ export const ProgressRing = forwardRef(({
   const tint = Color
     .fromString(tryResolvePaletteColor($color, palette, palette.primaryColor))
     .toString(ColorFormat.FFFFFF, { suppressAlphaInShortFormats: true })
-  const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
+  const effectiveSize = isNumber(size) ? size : ((size && sizePresets[size]) ?? sizePresets.m)
   const indeterminate = !isNumber(value)
-  let clampedValue = Math.max(minValue, value)
-  if (!allowOvershoot) { clampedValue = Math.min(value, maxValue) }
+  let clampedValue = indeterminate ? minValue : Math.max(minValue, value)
+  if (!allowOvershoot) { clampedValue = indeterminate ? maxValue : Math.min(value, maxValue) }
   const angle = indeterminate ? 0 : 360 * getPercentage(clampedValue, minValue, maxValue)
   // const angle = indeterminate ? 0 : (360 * getPercentage(clampedValue, minValue, maxValue)) % 360
   // KIV: Do we need % 360? (and assign background color to the ring when > 360)
 
-  const containerRef = useRef<View>(null)
+  const containerRef = useRef<View>(null!)
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({

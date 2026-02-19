@@ -170,7 +170,7 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
     act((): void => {
       for (const actionKey of actionKeys) {
         if (hasProperty(this.M$dispatchableActions, actionKey)) {
-          this.M$dispatchableActions[actionKey]()
+          this.M$dispatchableActions[actionKey]!()
         } else {
           throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
         }
@@ -184,7 +184,7 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
     await act(async (): Promise<void> => {
       for (const actionKey of actionKeys) {
         if (hasProperty(this.M$dispatchableActions, actionKey)) {
-          await this.M$dispatchableActions[actionKey]()
+          await this.M$dispatchableActions[actionKey]!()
         } else {
           throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
         }
@@ -199,7 +199,7 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
       if (hasProperty(retrievedValue, 'error')) {
         throw retrievedValue.error
       } else {
-        return retrievedValue.value
+        return retrievedValue!.value!
       }
     } else {
       throw new ValueNotExistError(valueKey, Object.keys(this.M$retrievableValues))

@@ -24,14 +24,16 @@ export function DisabledContext({
 /**
  * @public
  */
-export function useDisabledContext(): boolean {
+export function useDisabledContext(): Nullable<boolean> {
   return useContext(BaseContext)
 }
 
 /**
  * @public
  */
-export function useDerivedDisabledState(disabled: boolean): boolean {
+export function useDerivedDisabledState(
+  disabled: boolean | null | undefined,
+): boolean {
   const ascendantDisabled = useDisabledContext()
-  return disabled ?? ascendantDisabled
+  return Boolean(disabled ?? ascendantDisabled)
 }

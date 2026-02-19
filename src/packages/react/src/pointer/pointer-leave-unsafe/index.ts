@@ -1,4 +1,4 @@
-import { RefObject } from '@glyph-cat/foundation'
+import { NullableRefObject } from '@glyph-cat/foundation'
 import { isInRange } from '@glyph-cat/swiss-army-knife'
 import { useEffect } from 'react'
 
@@ -6,7 +6,7 @@ import { useEffect } from 'react'
  * A hook that listens for pointer events when it leaves a HTML element's boundaries.
  * @param callback - The function to invoke upon pointer leave.
  * @param deps - React hook dependency array.
- * @param elementRef - A {@link RefObject} containing the HTML element.
+ * @param elementRef - A {@link NullableRefObject} containing the HTML element.
  * @param enabled - Determines if the listener should be enabled. Defaults to `true`.
  * @public
  * @deprecated This is an old implementation.
@@ -14,7 +14,7 @@ import { useEffect } from 'react'
 export function usePointerLeaveListener_UNSAFE(
   callback: () => void,
   deps: Array<unknown>,
-  elementRef: RefObject<HTMLElement>,
+  elementRef: NullableRefObject<HTMLElement>,
   enabled: boolean = true,
 ): void {
   useEffect(() => {

@@ -1,3 +1,4 @@
+import { Nullable, PossiblyUndefined } from '@glyph-cat/foundation'
 import {
   Children,
   createContext,
@@ -38,9 +39,9 @@ type ICoreNavigationBranchContext = Pick<ICoreNavigationBranch, 'setFocus' | 'fo
 
 type ICoreNavigationBranchItemContext = Pick<ICoreNavigationBranch, 'isFocused' | 'isFirstItem' | 'isLastItem'>
 
-const CoreNavigationBranchContext = createContext<ICoreNavigationBranchContext>(null)
+const CoreNavigationBranchContext = createContext<Nullable<ICoreNavigationBranchContext>>(null)
 
-const CoreNavigationBranchItemContext = createContext<ICoreNavigationBranchItemContext>(null)
+const CoreNavigationBranchItemContext = createContext<Nullable<ICoreNavigationBranchItemContext>>(null)
 
 /**
  * @public
@@ -48,10 +49,10 @@ const CoreNavigationBranchItemContext = createContext<ICoreNavigationBranchItemC
 export function useCoreNavigationBranch(): ICoreNavigationBranch {
   const rootContext = useContext(CoreNavigationBranchContext)
   const itemContext = useContext(CoreNavigationBranchItemContext)
-  return useMemo(() => ({
-    ...rootContext,
-    ...itemContext,
-    isFocused: rootContext ? itemContext.isFocused : true,
+  return useMemo<ICoreNavigationBranch>(() => ({
+    ...rootContext!, // KIV: dangerous
+    ...itemContext!, // KIV: dangerous
+    isFocused: Boolean(rootContext ? itemContext?.isFocused : true),
   }), [itemContext, rootContext])
 }
 
@@ -82,7 +83,10 @@ export const CoreNavigationBranch = forwardRef(({
 
   const children = Children.toArray($children) as Array<ReactElement<CoreNavigationBranchItemProps>>
 
-  const [focusedItemId, setFocusedItemId] = useState(focusedItem ?? children?.[0]?.props.id)
+  const [
+    focusedItemId,
+    setFocusedItemId,
+  ] = useState<PossiblyUndefined<string>>(focusedItem ?? children?.[0]?.props.id)
 
   // getDerivedStateFromProps
   if (focusedItemId !== focusedItem) {
@@ -124,6 +128,7 @@ export const CoreNavigationBranch = forwardRef(({
           throw new Error(`${__getDisplayName(CoreNavigationBranch)} only allows children of type ${__getDisplayName(CoreNavigationBranchItem)}`)
         }
         acc.push(
+          //@ts-expect-error
           <CoreNavigationBranchItemContext
             key={child.key}
             value={{

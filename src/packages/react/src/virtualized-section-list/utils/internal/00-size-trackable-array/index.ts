@@ -1,3 +1,4 @@
+// @ts-nocheck Might be pending a re-write
 import type { CellType, ISection } from '../../../abstractions'
 
 export interface BaseSizeTrackingData {

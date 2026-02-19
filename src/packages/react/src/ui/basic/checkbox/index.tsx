@@ -100,10 +100,10 @@ export const Checkbox = forwardRef(({
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
-  const [boxSize, iconSize, spinnerSize] = CHECKBOX_SIZE_PRESETS[size] ?? CHECKBOX_SIZE_PRESETS.m
+  const [boxSize, iconSize, spinnerSize] = (size && CHECKBOX_SIZE_PRESETS[size]) ?? CHECKBOX_SIZE_PRESETS.m
   const disabled = $disabled ?? busy
 
-  const inputRef = useRef<Input>(null)
+  const inputRef = useRef<Input>(null!)
   useImperativeHandle(forwardedRef, () => inputRef.current, [])
   useEffect(() => {
     const target = inputRef.current
@@ -115,7 +115,7 @@ export const Checkbox = forwardRef(({
 
   useDataMounted(inputRef)
 
-  const containerRef = useRef<HTMLLabelElement>(null)
+  const containerRef = useRef<HTMLLabelElement>(null!)
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
@@ -150,7 +150,7 @@ export const Checkbox = forwardRef(({
           className={styles.input}
           type='checkbox'
           {...(isUndefinedOrNull(value) ? {} : { checked: value === true })}
-          onChange={useCallback((e) => { onChange?.(e.target.checked, e) }, [onChange])}
+          onChange={useCallback((e: ChangeEvent<Input>) => { onChange?.(e.target.checked, e) }, [onChange])}
           disabled={disabled}
         />
         {busy

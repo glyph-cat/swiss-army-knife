@@ -81,6 +81,9 @@ export function Portal({ children }: PortalProps): ReactNode {
     throw new Error(`Expected <Portal> to have at most one child but got ${childrenCount}`)
   }
   const { portalManager } = useCoreUIContext()
+  if (!portalManager) {
+    throw new Error('`<Portal>` requires `portalManager` to be provided in <CoreUIContext>')
+  }
   const portalId = useConstant(portalManager.requestPortalId)
   useEffect(() => {
     if (!children) { return } // Early exit
@@ -111,6 +114,9 @@ export function Portal({ children }: PortalProps): ReactNode {
  */
 export function PortalCanvas(): JSX.Element {
   const { portalManager } = useCoreUIContext()
+  if (!portalManager) {
+    throw new Error('`<Portal>` requires `portalManager` to be provided in <CoreUIContext>')
+  }
   const portalState = useSimpleStateValue(portalManager.M$state)
   const renderStack = []
   for (const key in portalState) {

@@ -101,7 +101,7 @@ export const ProgressBar = ({
     : 100 * getPercentage(clamp(value, minValue, maxValue), minValue, maxValue)
   )
 
-  const effectiveSize = isNumber(size) ? size : (sizePresets[size] ?? sizePresets.m)
+  const effectiveSize = isNumber(size) ? size : ((size && sizePresets[size]) ?? sizePresets.m)
 
   const $borderRadius = $$borderRadius ?? componentParameters.inputElementBorderRadius
   const containerBorderRadius = isNumber($borderRadius)
@@ -109,7 +109,7 @@ export const ProgressBar = ({
     : effectiveSize * Number($borderRadius.replace('%', '')) / 100
   const fillBorderRadius = `calc(${serializePixelValue(containerBorderRadius)} - ${2 * componentParameters.inputElementBorderSize}px)`
 
-  const containerRef = useRef<View>(null)
+  const containerRef = useRef<View>(null!)
   useEffect(() => {
     return injectInlineCSSVariables({
       [__TINT]: color,

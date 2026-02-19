@@ -1,5 +1,5 @@
 import { arrayIsShallowEqual } from '@glyph-cat/equality'
-import { CleanupFunction, RefObject } from '@glyph-cat/foundation'
+import { CleanupFunction, Nullable, NullableRefObject } from '@glyph-cat/foundation'
 import { isFunction } from '@glyph-cat/type-checking'
 import { useMemoAlt } from '../hooks'
 
@@ -7,8 +7,8 @@ import { useMemoAlt } from '../hooks'
  * @public
  */
 export function useMergedRefs<T>(
-  ...refs: Array<RefObject<T> | ((node: T) => void | CleanupFunction)>
-): ReturnType<typeof mergeRefs> {
+  ...refs: Array<NullableRefObject<T> | ((node: Nullable<T>) => void | CleanupFunction)>
+): ReturnType<typeof mergeRefs<T>> {
   return useMemoAlt(
     () => mergeRefs(...refs),
     [refs],
@@ -20,7 +20,7 @@ export function useMergedRefs<T>(
  * @public
  */
 export function mergeRefs<T>(
-  ...refs: Array<RefObject<T> | ((node: T) => void | CleanupFunction)>
+  ...refs: Array<NullableRefObject<T> | ((node: Nullable<T>) => void | CleanupFunction)>
 ): (node: T) => CleanupFunction {
   return (node: T) => {
     for (const ref of refs) {

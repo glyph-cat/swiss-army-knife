@@ -1,4 +1,4 @@
-import { StringRecord } from '@glyph-cat/foundation'
+import { Nullable, StringRecord } from '@glyph-cat/foundation'
 import {
   createContext,
   Dispatch,
@@ -21,7 +21,7 @@ interface IFormLayoutContext {
   children: StringRecord<IFormLayoutItemSpec>
 }
 
-const FormLayoutContext = createContext<Dispatch<SetStateAction<IFormLayoutContext>>>(null)
+const FormLayoutContext = createContext<Nullable<Dispatch<SetStateAction<IFormLayoutContext>>>>(null)
 
 export interface FormLayoutContainerProps {
   children?: ReactNode
@@ -46,7 +46,7 @@ function FormLayoutContainerContent({
   mode: preferredMode = 'auto',
 }: FormLayoutContainerProps): JSX.Element {
   const [state, setState] = useState<IFormLayoutContext>({ children: {} })
-  const bounds = useSizeAwareContext()
+  const bounds = useSizeAwareContext()!
   const isCompact = preferredMode === 'auto'
     ? bounds.width < 800
     : preferredMode === 'compact'
@@ -111,7 +111,7 @@ export function FormLayoutItem({
   )
 }
 
-function Title({ title }): JSX.Element {
+function Title({ title }: { title: ReactNode }): JSX.Element {
   const bounds = useSizeAwareContext()
   return (
     <View
@@ -126,7 +126,7 @@ function Title({ title }): JSX.Element {
   )
 }
 
-function Children({ children }): JSX.Element {
+function Children({ children }: { children?: ReactNode }): JSX.Element {
   const bounds = useSizeAwareContext()
   return (
     <View

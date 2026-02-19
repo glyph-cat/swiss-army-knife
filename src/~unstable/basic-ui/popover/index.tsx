@@ -22,9 +22,11 @@ import { __getTypeMarker, __setTypeMarker, TypeMarker } from 'packages/react/src
 import {
   Children,
   createContext,
+  Dispatch,
   JSX,
   ReactElement,
   ReactNode,
+  SetStateAction,
   useCallback,
   useContext,
   useEffect,
@@ -35,7 +37,11 @@ import {
 
 // #region Popover
 
-type ITriggerElementContext = ReturnType<typeof useState<HTMLElement>>
+type ITriggerElementContext = [
+  state: Nullable<HTMLElement>,
+  setState: Dispatch<SetStateAction<Nullable<HTMLElement>>>,
+]
+
 const TriggerElementContext = createContext<Nullable<ITriggerElementContext>>(null)
 
 export interface PopoverProps {
@@ -78,7 +84,11 @@ export function PopoverTrigger({
   Children.only(children)
   const child = children as ReactElement<GenericHTMLProps>
   const { type: Component, props: { ref: propRef, ...props }, key } = child
-  const [, setTriggerRef] = useContext(TriggerElementContext)
+  const context = useContext(TriggerElementContext)
+  if (!context) {
+    throw new Error('<PopoverTrigger> must be used within a <Popover>')
+  }
+  const [, setTriggerRef] = context
   // TODO: Allow ref to make programmatically opening/dismissing possible
   return (
     <Component
@@ -118,8 +128,12 @@ interface PopoverContentControllerProps {
 
 function PopoverContentController({
   children,
-}: PopoverContentControllerProps): JSX.Element {
-  const [triggerElement] = useContext(TriggerElementContext)
+}: PopoverContentControllerProps): ReactNode {
+  const context = useContext(TriggerElementContext)
+  if (!context) {
+    throw new Error('<PopoverContentController> must be used within a <Popover>')
+  }
+  const [triggerElement] = context
   const navStack = useCoreNavigationStack()
   const navBranch = useCoreNavigationBranch()
   const isFocused = navStack.isFocused && navBranch.isFocused
@@ -193,11 +207,15 @@ export function PopoverContent({
   dismissOnClickAway = true,
   dismissOnPointerLeave = false,
   dismissOnEscape = true,
-}: PopoverContentProps): JSX.Element {
+}: PopoverContentProps): ReactNode {
 
-  const [anchorBounds, setAnchorBounds] = useState<RectangularBoundary>(null)
+  const [anchorBounds, setAnchorBounds] = useState<Nullable<RectangularBoundary>>(null)
   const [shouldShowMenu, setMenuVisibility] = useState(false)
-  const [triggerElement] = useContext(TriggerElementContext)
+  const context = useContext(TriggerElementContext)
+  if (!context) {
+    throw new Error('<PopoverContent> must be used within a <Popover>')
+  }
+  const [triggerElement] = context
   useEffect(() => {
     if (!triggerElement) { return }
     const onActivation = (e: Event) => {
@@ -213,7 +231,7 @@ export function PopoverContent({
   }, [shouldTrigger, triggerEvent, triggerElement])
 
   useEffect(() => {
-    if (!shouldShowMenu) { return } // Early exit
+    if (!shouldShowMenu || !triggerElement) { return } // Early exit
     const onClick = () => { setMenuVisibility(false) }
     triggerElement.addEventListener('click', onClick)
     return () => { triggerElement.removeEventListener('click', onClick) }
@@ -236,8 +254,8 @@ export function PopoverContent({
     }
   }, [], dismissOnEscape)
 
-  const viewRef = useRef<View>(null)
-  const [contentBound, setContentBound] = useState<RectangularBoundary>(null)
+  const viewRef = useRef<View>(null!)
+  const [contentBound, setContentBound] = useState<Nullable<RectangularBoundary>>(null)
   useLayoutEffect(() => {
     if (!shouldShowMenu) { return } // Early exit
     setTimeout(() => {
@@ -254,8 +272,8 @@ export function PopoverContent({
         ref={viewRef}
         style={{
           ...resolvePopoverStyle(
-            anchorBounds,
-            contentBound,
+            anchorBounds!, // KIV: very dangerous
+            contentBound!, // KIV: very dangerous
             position,
             align,
             offset,
@@ -354,7 +372,7 @@ function getVerticalAlignOffset(
   }
 }
 
-function getElementBound(element: HTMLElement): RectangularBoundary {
+function getElementBound(element: HTMLElement): Nullable<RectangularBoundary> {
   if (!element) { return null }
   const { left, top, width, height } = element.getBoundingClientRect()
   return { left, top, width, height }

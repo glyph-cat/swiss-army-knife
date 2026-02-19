@@ -1,5 +1,5 @@
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
-import { LenientString } from '@glyph-cat/foundation'
+import { LenientString, Nullable } from '@glyph-cat/foundation'
 import { isBoolean } from '@glyph-cat/type-checking'
 import {
   Children,
@@ -34,7 +34,7 @@ interface ISegmentedSelectionContext<Value> {
   disabled: boolean
 }
 
-const SegmentedSelectionContext = createContext<ISegmentedSelectionContext<unknown>>(null)
+const SegmentedSelectionContext = createContext<Nullable<ISegmentedSelectionContext<unknown>>>(null)
 
 /**
  * @public
@@ -74,18 +74,18 @@ export function SegmentedSelection<Value>({
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
 
-  const containerRef = useRef<View>(null)
+  const containerRef = useRef<View>(null!)
   useEffect(() => {
     return injectInlineCSSVariables({
       [__TINT]: tint,
     }, containerRef.current)
   }, [tint])
 
-  const contextValue = useMemo(() => ({
+  const contextValue = useMemo<ISegmentedSelectionContext<Value>>(() => ({
     value,
     onChange,
-    size,
-    disabled,
+    size: size ?? 'm',
+    disabled: Boolean(disabled),
   }), [disabled, onChange, size, value])
 
   return (
@@ -149,12 +149,16 @@ export function SegmentedSelectionItem<Value>({
   children,
   disabled: $disabled,
 }: SegmentedSelectionItemProps<Value>): JSX.Element {
+  const context = useContext(SegmentedSelectionContext)
+  if (!context) {
+    throw new Error('<SegmentedSelectionItem> must be used within a <SegmentedSelection>')
+  }
   const {
     value: selectedValue,
     onChange,
     size,
     disabled: parentDisabled,
-  } = useContext(SegmentedSelectionContext)
+  } = context
   const disabled = $disabled || parentDisabled
   return (
     <BasicButton

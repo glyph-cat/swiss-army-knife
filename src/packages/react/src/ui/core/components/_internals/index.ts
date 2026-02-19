@@ -5,7 +5,9 @@ import { clientOnly } from '../../../../../../core/src/client-only'
 import { useDerivedDisabledState } from '../../disabled-context'
 import { useCoreNavigationStack } from '../../navigation/stack'
 
-export function useInternalDerivedDisabledState(disabled: boolean): Nullable<boolean> {
+export function useInternalDerivedDisabledState(
+  disabled: boolean | null | undefined,
+): Nullable<boolean> {
   const { isFocused } = useCoreNavigationStack()
   // Focusability takes precedence, if not focused, then element should be disabled,
   // even if the props specifies `disabled=false`.

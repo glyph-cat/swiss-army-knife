@@ -1,3 +1,4 @@
+//@ts-nocheck Low-key abandoned
 import { Empty } from '@glyph-cat/foundation'
 import {
   ButtonBase as Button,

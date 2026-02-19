@@ -6,7 +6,7 @@ import { createContext, useContext } from 'react'
 /**
  * @internal
  */
-export const TestProbeProvider = createContext<TestProbe>(null)
+export const TestProbeProvider = createContext<Nullable<TestProbe>>(null)
 
 /**
  * @internal

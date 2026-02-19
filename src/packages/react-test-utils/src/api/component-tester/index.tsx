@@ -2,7 +2,8 @@ import { IDisposable, Nullable, StringRecord } from '@glyph-cat/foundation'
 import { render, RenderResult } from '@testing-library/react'
 import { ComponentType, createContext, JSX, StrictMode, useContext } from 'react'
 
-const ComponentTesterContext = createContext<ComponentTester<unknown>>(null)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ComponentTesterContext = createContext<Nullable<ComponentTester<any>>>(null)
 
 /**
  * @public
@@ -35,7 +36,7 @@ export class ComponentTester<P = StringRecord> implements IDisposable {
   /**
    * @internal
    */
-  private M$renderResult: RenderResult
+  private M$renderResult: Nullable<RenderResult> = null
   get renderResult(): Nullable<RenderResult> {
     return this.M$renderResult
   }
@@ -56,18 +57,18 @@ export class ComponentTester<P = StringRecord> implements IDisposable {
     readonly name?: string,
     readonly strictMode = false,
   ) {
-    const AdapterComponent = (props: P): JSX.Element => {
+    const AdapterComponent: typeof this.Component = (props) => {
       return (
         <ComponentTesterContext.Provider value={this}>
-          <Component {...props} />
+          <Component {...props as JSX.IntrinsicAttributes & P} />
         </ComponentTesterContext.Provider>
       )
     }
     if (strictMode) {
-      this.Component = (props: P): JSX.Element => {
+      this.Component = (props) => {
         return (
           <StrictMode>
-            <AdapterComponent {...props} />
+            <AdapterComponent {...props as JSX.IntrinsicAttributes & P} />
           </StrictMode>
         )
       }
@@ -77,7 +78,9 @@ export class ComponentTester<P = StringRecord> implements IDisposable {
   }
 
   render(props?: P): void {
-    this.M$renderResult = render(<this.Component {...props} />)
+    this.M$renderResult = render(
+      <this.Component {...props as JSX.IntrinsicAttributes & P} />
+    )
   }
 
   dispose(): void {

@@ -102,8 +102,8 @@ export class HookTester<
   /**
    * @internal
    */
-  private M$hookReturnedValue: HookReturnedType
-  get hookReturnedValue(): HookReturnedType { return this.M$hookReturnedValue }
+  private M$hookReturnedValue: Nullable<HookReturnedType> = null
+  get hookReturnedValue(): Nullable<HookReturnedType> { return this.M$hookReturnedValue }
 
   /**
    * @internal
@@ -224,7 +224,7 @@ export class HookTester<
 
   forceUpdate(): void {
     if (this.M$forceUpdateRef) {
-      act((): void => { this.M$forceUpdateRef() })
+      act((): void => { this.M$forceUpdateRef!() })
     } else {
       throw new InternalError('Unable to trigger force update. This might indicate a problem where the test container component could not be rendered in the first place.')
     }
@@ -235,7 +235,7 @@ export class HookTester<
     act((): void => {
       for (const actionKey of actionKeys) {
         if (hasProperty(this.M$dispatchableActions, actionKey)) {
-          this.M$dispatchableActions[actionKey]()
+          this.M$dispatchableActions[actionKey]!()
         } else {
           throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
         }
@@ -249,7 +249,7 @@ export class HookTester<
     await act(async (): Promise<void> => {
       for (const actionKey of actionKeys) {
         if (hasProperty(this.M$dispatchableActions, actionKey)) {
-          await this.M$dispatchableActions[actionKey]()
+          await this.M$dispatchableActions[actionKey]!()
         } else {
           throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
         }
@@ -264,7 +264,7 @@ export class HookTester<
       if (hasProperty(retrievedValue, 'error')) {
         throw retrievedValue.error
       } else {
-        return retrievedValue.value
+        return retrievedValue!.value!
       }
     } else {
       throw new ValueNotExistError(valueKey, Object.keys(this.M$retrievableValues))

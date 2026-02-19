@@ -7,6 +7,7 @@ import {
   FormEvent,
   forwardRef,
   JSX,
+  MouseEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -105,14 +106,16 @@ export const Switch = forwardRef(({
 
   const disabled = $disabled ?? busy
 
-  const effectiveSize = isNumber(size) ? size : (SWITCH_SIZE_PRESETS[size] ?? SWITCH_SIZE_PRESETS.m)
-  const effectiveProgressRingPresets = progressRingPresets[size] ?? progressRingPresets.m
+  const effectiveSize = isNumber(size)
+    ? size
+    : ((size && SWITCH_SIZE_PRESETS[size]) ?? SWITCH_SIZE_PRESETS.m)
+  const effectiveProgressRingPresets = (size && progressRingPresets[size]) ?? progressRingPresets.m
 
-  const buttonRef = useRef<ButtonBase>(null)
+  const buttonRef = useRef<ButtonBase>(null!)
   useImperativeHandle(forwardedRef, () => buttonRef.current, [])
   useDataMounted(buttonRef)
 
-  const containerRef = useRef<HTMLLabelElement>(null)
+  const containerRef = useRef<HTMLLabelElement>(null!)
   useEffect(() => {
     const tintSource = Color.fromString(tint)
     return injectInlineCSSVariables({
@@ -149,7 +152,9 @@ export const Switch = forwardRef(({
         type='button'
         role='switch'
         aria-checked={value}
-        onClick={useCallback((e) => { onChange?.(!value, e) }, [onChange, value])}
+        onClick={useCallback((e: MouseEvent<ButtonBase>) => {
+          onChange?.(!value, e)
+        }, [onChange, value])}
         disabled={disabled}
       >
         <View className={styles.buttonContainer}>

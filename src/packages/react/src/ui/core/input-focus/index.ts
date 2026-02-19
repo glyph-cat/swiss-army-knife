@@ -1,4 +1,4 @@
-import { IDisposable, RefObject } from '@glyph-cat/foundation'
+import { IDisposable, NullableRefObject } from '@glyph-cat/foundation'
 import { TruthRecord } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
@@ -69,6 +69,9 @@ export class InputFocusTracker implements IDisposable {
  */
 export function useCheckInputFocus(): boolean {
   const { inputFocusTracker } = useCoreUIContext()
+  if (!inputFocusTracker) {
+    throw new Error('`useCheckInputFocus` requires `inputFocusTracker` to be provided in <CoreUIContext>')
+  }
   return useSimpleStateValue(inputFocusTracker.M$IsAnyInputInFocusState)
 }
 
@@ -77,22 +80,26 @@ export function useCheckInputFocus(): boolean {
  */
 export function useCommonFocusableRefHandler<Props extends IAutoFocusableProps, T extends IFocusableElementWithEventListener>({
   autoFocus,
-}: Props, ref: Ref<T>): RefObject<T> {
+}: Props, ref: Ref<T>): NullableRefObject<T> {
 
   const { inputFocusTracker } = useCoreUIContext()
+  if (!inputFocusTracker) {
+    throw new Error('`useCheckInputFocus` requires `inputFocusTracker` to be provided in <CoreUIContext>')
+  }
   const componentId = useId()
   const elementRef = useRef<T>(null)
-  useImperativeHandle(ref, () => elementRef.current)
+  useImperativeHandle(ref, () => elementRef.current!)
 
   const onBlur = useCallback(() => {
     inputFocusTracker.registerBlur(componentId)
   }, [componentId, inputFocusTracker])
 
   useLayoutEffect(() => {
+    const target = elementRef.current
+    if (!target) { return }
     const onFocus = () => {
       inputFocusTracker.registerFocus(componentId)
     }
-    const target = elementRef.current
     target.addEventListener('focus', onFocus)
     target.addEventListener('blur', onBlur)
     return () => {

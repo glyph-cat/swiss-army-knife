@@ -1,4 +1,4 @@
-import { CleanupFunction } from '@glyph-cat/foundation'
+import { CleanupFunction, Nullable } from '@glyph-cat/foundation'
 import { objectIsNotEmpty } from '@glyph-cat/swiss-army-knife'
 import {
   Children,
@@ -38,9 +38,9 @@ type ICoreNavigationStackItemContext = Pick<ICoreNavigationStack, 'isFocused'> &
   id: CoreNavigationId
 }
 
-const CoreNavigationStackContext = createContext<ICoreNavigationStackContext>(null)
+const CoreNavigationStackContext = createContext<Nullable<ICoreNavigationStackContext>>(null)
 
-const CoreNavigationStackItemContext = createContext<ICoreNavigationStackItemContext>(null)
+const CoreNavigationStackItemContext = createContext<Nullable<ICoreNavigationStackItemContext>>(null)
 
 /**
  * @public
@@ -48,10 +48,10 @@ const CoreNavigationStackItemContext = createContext<ICoreNavigationStackItemCon
 export function useCoreNavigationStack(): ICoreNavigationStack {
   const rootContext = useContext(CoreNavigationStackContext)
   const itemContext = useContext(CoreNavigationStackItemContext)
-  return useMemo(() => ({
+  return useMemo<ICoreNavigationStack>(() => ({
     ...rootContext,
     ...itemContext,
-    isFocused: rootContext ? itemContext.isFocused : true,
+    isFocused: Boolean(rootContext ? itemContext?.isFocused : true),
   }), [itemContext, rootContext])
 }
 
@@ -113,6 +113,7 @@ export function CoreNavigationStack({
         const currentItemId = child.props.id
         const isLastItem = currentIndex === (arr.length - 1)
         acc.push(
+          //@ts-expect-error
           <CoreNavigationStackItemContext.Provider
             key={child.key}
             value={{
@@ -179,9 +180,14 @@ interface CoreNavigationStackDynamicItemProps {
 function CoreNavigationStackDynamicItem({
   id,
   children,
-}: CoreNavigationStackDynamicItemProps): JSX.Element {
-  const { __addDynamicChildren } = useContext(CoreNavigationStackContext)
-  const { id: referrerId } = useContext(CoreNavigationStackItemContext)
+}: CoreNavigationStackDynamicItemProps): ReactNode {
+  const coreNavigationStackContext = useContext(CoreNavigationStackContext)
+  const coreNavigationStackItemContext = useContext(CoreNavigationStackItemContext)
+  if (!coreNavigationStackContext || !coreNavigationStackItemContext) {
+    throw new Error('<CoreNavigationStackDynamicItem> must be used within a <CoreNavigationStackItem>')
+  }
+  const { __addDynamicChildren } = coreNavigationStackContext
+  const { id: referrerId } = coreNavigationStackItemContext
   useEffect(() => {
     // KIV: This should've caused problems in Strict Mode, but apparently is not.
     // 1. Add id to `{}`
