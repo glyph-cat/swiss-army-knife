@@ -29,7 +29,7 @@ export class SandboxErrorBoundary extends Component<SandboxErrorBoundaryProps, S
             <span>{String(this.state.error)}</span>
             <pre className={styles.details}>
               <code>
-                {this.state.errorInfo.componentStack}
+                {this.state.errorInfo?.componentStack}
               </code>
             </pre>
           </View>
