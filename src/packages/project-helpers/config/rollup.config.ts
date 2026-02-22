@@ -5,7 +5,7 @@ import typescript from 'rollup-plugin-typescript2'
 import packageJson from '../package.json'
 import { getPackageDependencies } from '../src'
 
-//@ts-expect-error
+// @ts-expect-error because we rely on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
 
 const EXTERNAL_LIBS = [

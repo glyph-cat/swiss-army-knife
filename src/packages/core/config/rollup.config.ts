@@ -11,7 +11,7 @@ import { BuildType } from '../../foundation/src/build'
 import { getPackageDependencies } from '../../project-helpers/src'
 import packageJson from '../package.json'
 
-//@ts-expect-error
+// @ts-expect-error because we rely on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
