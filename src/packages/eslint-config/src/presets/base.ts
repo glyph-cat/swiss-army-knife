@@ -1,3 +1,4 @@
+import { RuleConfig } from '@eslint/core'
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import importPlugin from 'eslint-plugin-import'
@@ -24,19 +25,23 @@ export function createBaseConfig({
   // Converts all 'error' severity to 'warn'
   const stylisticConfigsRecommendedWarn: typeof stylistic.configs.recommended = {
     ...stylistic.configs.recommended,
-    rules: objectReduce(stylistic.configs.recommended.rules, (acc, ruleValue, ruleName) => {
-      if (ruleValue === 'error' || ruleValue === Severity.ERROR) {
-        acc[ruleName] = remapWarn
-      } else if (
-        Array.isArray(ruleValue) &&
-        (ruleValue[0] === 'error' || ruleValue[0] === Severity.ERROR)
-      ) {
-        acc[ruleName] = [Severity.WARN, ...ruleValue.slice(1)]
-      } else {
-        acc[ruleName] = ruleValue
-      }
-      return acc
-    }, {} as typeof stylistic.configs.recommended.rules),
+    rules: objectReduce(
+      stylistic.configs.recommended.rules,
+      (acc, ruleValue: RuleConfig, ruleName) => {
+        if (ruleValue === 'error' || ruleValue === Severity.ERROR) {
+          acc[ruleName] = remapWarn
+        } else if (
+          Array.isArray(ruleValue) &&
+          (ruleValue[0] === 'error' || ruleValue[0] === Severity.ERROR)
+        ) {
+          acc[ruleName] = [Severity.WARN, ...ruleValue.slice(1)]
+        } else {
+          acc[ruleName] = ruleValue
+        }
+        return acc
+      },
+      {} as Exclude<typeof stylistic.configs.recommended.rules, undefined>
+    ),
   }
 
   return defineConfig(

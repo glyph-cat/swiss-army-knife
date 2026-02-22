@@ -1,14 +1,13 @@
-import { Nullable } from '@glyph-cat/foundation'
 import { createContext, createElement, JSX, ReactNode, useContext } from 'react'
 
-const BaseContext = createContext<Nullable<boolean>>(null)
+const BaseContext = createContext<boolean | null | undefined>(null)
 
 /**
  * @public
  */
 export interface DisabledContextProviderProps {
   children?: ReactNode
-  disabled: Nullable<boolean>
+  disabled: boolean | null | undefined
 }
 
 /**
@@ -24,7 +23,7 @@ export function DisabledContext({
 /**
  * @public
  */
-export function useDisabledContext(): Nullable<boolean> {
+export function useDisabledContext(): boolean | null | undefined {
   return useContext(BaseContext)
 }
 
