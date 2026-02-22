@@ -32,7 +32,7 @@ export default async function APICreateSandboxHandler(
       'import { SandboxStyle } from \'~constants\'',
       'import styles from \'./index.module.css\'',
       '',
-      'import { SandboxStarter } from \'~components/sandbox-starter\'',
+      'import { SandboxStarter } from \'~components/sandbox/starter\'',
       '',
       'export default function (): JSX.Element {',
       '  return (',
