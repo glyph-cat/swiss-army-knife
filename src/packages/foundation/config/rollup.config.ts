@@ -9,7 +9,7 @@ import {
 import packageJson from '../package.json'
 import { BuildType, Empty } from '../src'
 
-// @ts-expect-error because we rely on an old version
+// @ts-expect-error because we are relying on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
