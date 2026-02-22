@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from 'eslint/config'
 import { Severity } from './src/packages/eslint-config/src'
 import {

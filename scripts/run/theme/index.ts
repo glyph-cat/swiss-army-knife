@@ -12,7 +12,7 @@ import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import { StringRecord } from '../../../src/packages/foundation/src/records'
 import { THEME_DICTIONARY } from '../../../src/~services/theme/constants'
 
-const SAMPLE_DICTIONARY = getFirstValue(THEME_DICTIONARY)
+const SAMPLE_DICTIONARY = getFirstValue(THEME_DICTIONARY)!
 
 interface ISnippet {
   description: string

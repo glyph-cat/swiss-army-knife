@@ -5,7 +5,7 @@ import { hasPackageJson } from '../has-package-json'
 /**
  * Get the path that points to the root directory of the current project.
  * This is performed by checking for `package.json` file in directories that
- * preceed the current one.
+ * precede the current one.
  *
  * If current directory is not in any project directory at all, `null` will be returned.
  * @public
@@ -18,5 +18,5 @@ export function getProjectRootDirectory(currentDirectory: string): Nullable<stri
       return probePath
     }
   }
-  return currentDirectory
+  return null
 }

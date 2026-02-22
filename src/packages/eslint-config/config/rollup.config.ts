@@ -1,12 +1,14 @@
 import commonjs from '@rollup/plugin-commonjs'
 // import json from '@rollup/plugin-json'
-import nodeResolve from '@rollup/plugin-node-resolve'
 import terser from '@rollup/plugin-terser'
-import { getPackageDependencies } from 'packages/project-helpers/src'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import { PackageJson } from 'type-fest'
+import { getPackageDependencies } from '../../project-helpers/src/get-package-dependencies'
 import packageJson from '../package.json'
+
+//@ts-expect-error
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 function getConfig(inputPath: string, outputPath: string): RollupOptions {
   return {

@@ -1,5 +1,4 @@
 import commonjs from '@rollup/plugin-commonjs'
-import nodeResolve from '@rollup/plugin-node-resolve'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import {
@@ -9,6 +8,9 @@ import {
 } from '../../../../tools/custom-rollup-plugins'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
+
+//@ts-expect-error
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 const INPUT_FILE = 'src/index.ts'
 

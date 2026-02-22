@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/bundle-entry-point/jest.d.ts",
+  "mainEntryPointFilePath": "<projectFolder>/temp/tsc/types/eslint-config/src/bundle-entry-point/jest.d.ts",
   "apiReport": {
     "enabled": false
   },

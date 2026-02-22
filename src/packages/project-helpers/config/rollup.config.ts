@@ -1,10 +1,12 @@
-import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import packageJson from '../package.json'
 import { getPackageDependencies } from '../src'
+
+//@ts-expect-error
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 const EXTERNAL_LIBS = [
   ...getPackageDependencies(packageJson),

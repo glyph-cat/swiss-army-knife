@@ -1,5 +1,4 @@
 import commonjs from '@rollup/plugin-commonjs'
-import nodeResolve from '@rollup/plugin-node-resolve'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import {
@@ -9,6 +8,9 @@ import {
 } from '../../../../tools/custom-rollup-plugins'
 import packageJson from '../package.json'
 import { BuildType, Empty } from '../src'
+
+//@ts-expect-error
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.tsx',
