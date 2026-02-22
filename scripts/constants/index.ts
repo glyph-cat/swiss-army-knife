@@ -7,11 +7,10 @@ import {
 // the auto-forward-exports script.
 
 export const PROJECT_ROOT_DIRECTORY: string = (() => {
-  const payload = getProjectRootDirectory(
-    (path.sep === '/' ? '/' : '') + process.cwd()
-  )
+  const cwd = process.cwd()
+  const payload = getProjectRootDirectory((path.sep === '/' ? '/' : '') + cwd)
   if (!payload) {
-    throw new Error('Failed to determine project root directory')
+    throw new Error(`Failed to determine project root directory from: "${cwd}"`)
   }
   return payload
 })()

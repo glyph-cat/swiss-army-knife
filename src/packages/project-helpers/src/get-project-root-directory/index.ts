@@ -12,8 +12,8 @@ import { hasPackageJson } from '../has-package-json'
  */
 export function getProjectRootDirectory(currentDirectory: string): Nullable<string> {
   const currentDirectoryChunks = currentDirectory.split(path.sep).filter((chunk) => !!chunk)
-  for (let i = 1; i < currentDirectoryChunks.length; i++) {
-    const probePath = path.join(...currentDirectoryChunks.slice(0, i))
+  for (let i = 1; i <= currentDirectoryChunks.length; i++) {
+    const probePath = (path.sep === '/' ? '/' : '') + path.join(...currentDirectoryChunks.slice(0, i))
     if (hasPackageJson(probePath)) {
       return probePath
     }
