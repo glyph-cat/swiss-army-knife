@@ -4,7 +4,7 @@ import { useSimpleStateValue } from 'cotton-box-react'
 import { DependencyList, useEffect } from 'react'
 import { useIsApplePlatform } from '../../../platform-checking'
 import { useCoreUIContext } from '../context'
-import { useCheckInputFocus } from '../input-focus'
+import { useAnyInputFocusState } from '../input-focus'
 import { useCoreNavigationBranch } from '../navigation/branch'
 import { useCoreNavigationStack } from '../navigation/stack'
 
@@ -20,7 +20,7 @@ export function useKeyChordActivationListener(
   enabled = true,
 ): void {
   const { keyChordManager } = useCoreUIContext()
-  const isAnyInputFocused = useCheckInputFocus()
+  const isAnyInputFocused = useAnyInputFocusState()
   const isAppleOS = useIsApplePlatform()
   const navStack = useCoreNavigationStack()
   const navBranch = useCoreNavigationBranch()
@@ -67,7 +67,7 @@ export function useKeyDownListener(
   if (!keyChordManager) {
     throw new Error('`useKeyDownListener` requires `keyChordManager` to be provided in context via <CoreUIProvider>')
   }
-  const isAnyInputFocused = useCheckInputFocus()
+  const isAnyInputFocused = useAnyInputFocusState()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
   const navStack = useCoreNavigationStack()
   const navBranch = useCoreNavigationBranch()
@@ -94,7 +94,7 @@ export function useKeyUpListener(
   if (!keyChordManager) {
     throw new Error('`useKeyDownListener` requires `keyChordManager` to be provided in context via <CoreUIProvider>')
   }
-  const isAnyInputFocused = useCheckInputFocus()
+  const isAnyInputFocused = useAnyInputFocusState()
   const isOccupiedByKeyChord = useSimpleStateValue(keyChordManager.isOccupied)
   const navStack = useCoreNavigationStack()
   const navBranch = useCoreNavigationBranch()

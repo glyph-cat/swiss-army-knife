@@ -17,7 +17,7 @@ import {
 import { __setDisplayName } from '../../../_internals'
 import { MaterialSymbol } from '../../../material-symbols'
 import { useThemeContext } from '../../../styling'
-import { Input, View } from '../../core'
+import { View } from '../../core'
 import { useDataMounted } from '../_internals/data-mounted'
 import { resolveContrastingValue } from '../_internals/resolve-contrasting-color'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
@@ -80,7 +80,7 @@ export interface CheckboxProps {
 /**
  * @public
  */
-export type Checkbox = Input
+export type Checkbox = HTMLInputElement
 
 /**
  * @public
@@ -103,7 +103,7 @@ export const Checkbox = forwardRef(({
   const [boxSize, iconSize, spinnerSize] = (size && CHECKBOX_SIZE_PRESETS[size]) ?? CHECKBOX_SIZE_PRESETS.m
   const disabled = $disabled ?? busy
 
-  const inputRef = useRef<Input>(null!)
+  const inputRef = useRef<HTMLInputElement>(null!)
   useImperativeHandle(forwardedRef, () => inputRef.current, [])
   useEffect(() => {
     const target = inputRef.current
@@ -145,12 +145,12 @@ export const Checkbox = forwardRef(({
     >
       {(position === BASIC_UI_POSITION_END && children) && <View>{children}</View>}
       <View className={styles.checkbox}>
-        <Input
+        <input
           ref={inputRef}
           className={styles.input}
           type='checkbox'
           {...(isUndefinedOrNull(value) ? {} : { checked: value === true })}
-          onChange={useCallback((e: ChangeEvent<Input>) => { onChange?.(e.target.checked, e) }, [onChange])}
+          onChange={useCallback((e: ChangeEvent<HTMLInputElement>) => { onChange?.(e.target.checked, e) }, [onChange])}
           disabled={disabled}
         />
         {busy

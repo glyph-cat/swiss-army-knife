@@ -15,7 +15,7 @@ import {
 } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
-import { Input, View } from '../../core'
+import { View } from '../../core'
 import { useInternalDerivedDisabledState } from '../../core/components/_internals'
 import { tryResolvePaletteColor } from '../_internals/try-resolve-palette-color'
 import { BasicUIColor, BasicUIFlow, BasicUIPosition, BasicUISize } from '../abstractions'
@@ -184,14 +184,14 @@ export function RadioItem<Value>({
       }}
     >
       {position === BASIC_UI_POSITION_END && <View>{children}</View>}
-      <Input
+      <input
         className={styles.input}
         // NOTE: `value` is omitted, in this custom component, the proper way is
         // to use the first parameter of `onChange`, not `event.target.value`.
         // Hence adding `value={String(value)}` would make no sense.
         checked={Object.is(value, currentValue)}
         disabled={Boolean(disabled || isParentDisabled)}
-        onChange={useCallback((e: ChangeEvent<Input>) => {
+        onChange={useCallback((e: ChangeEvent<HTMLInputElement>) => {
           onChange(value, e)
         }, [onChange, value])}
         type='radio'

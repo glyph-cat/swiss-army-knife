@@ -1,7 +1,6 @@
 import { Casing, Key, ThemeToken } from '@glyph-cat/swiss-army-knife'
 import {
   ButtonBase,
-  Input,
   MaterialSymbol,
   useActionState,
   useKeyDownListener,
@@ -13,6 +12,7 @@ import { fuzzy } from 'fast-fuzzy'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {
+  ChangeEvent,
   JSX,
   MouseEvent,
   useCallback,
@@ -71,7 +71,7 @@ export function SandboxSidebar(): JSX.Element {
   const caseInsensitiveSearchValue = useDeferredValue(searchValue.toLowerCase())
 
   const [isSearchInputFocused, setSearchInputFocus] = useState(false)
-  const searchInputRef = useRef<Input>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     const target = searchInputRef.current
     if (!target) { return } // Early exit
@@ -190,12 +190,12 @@ export function SandboxSidebar(): JSX.Element {
           <View className={styles.separator} />
           <ThemeSelector />
           <View className={styles.separator} />
-          <Input
+          <input
             ref={searchInputRef}
             className={styles.searchInput}
             placeholder={'Search'}
             value={searchValue}
-            onChange={useCallback((e) => {
+            onChange={useCallback((e: ChangeEvent<HTMLInputElement>) => {
               setSearchValue(e.target.value)
             }, [])}
           />

@@ -74,10 +74,10 @@ module.exports = defineConfig(
             element: 'div',
             message: 'Use <View> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
           },
-          {
-            element: 'input',
-            message: 'Use <Input> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
-          },
+          // {
+          //   element: 'input',
+          //   message: 'Use <Input> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
+          // },
           {
             element: 'textarea',
             message: 'Use <TextArea> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',

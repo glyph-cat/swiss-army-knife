@@ -22,8 +22,8 @@ const createClassName = (name: string): string => `gc-core-${name}`
 
 export const VIEW_STYLES = createClassName('view')
 export const BUTTON_STYLES = createClassName('button')
-export const INPUT_STYLES = createClassName('input')
-export const SELECT_STYLES = createClassName('select')
+// export const INPUT_STYLES = createClassName('input')
+// export const SELECT_STYLES = createClassName('select')
 export const FIELDSET_STYLES = createClassName('fieldset')
 
 clientOnly(() => {
@@ -50,20 +50,20 @@ clientOnly(() => {
     [`.${BUTTON_STYLES}:disabled`, {
       cursor: ThemeToken.interactiveDisabledCursor,
     }],
-    [`.${INPUT_STYLES}`, {
-      backgroundColor: 'transparent',
-      border: 'none',
-      display: 'grid',
-      fontFamily: 'inherit',
-      margin: 0,
-      outline: 'none',
-      padding: 0,
-    }],
-    [`.${SELECT_STYLES}`, {
-      fontFamily: 'inherit'
-    }],
-    [`.${FIELDSET_STYLES}`, {
-      fontFamily: 'inherit'
-    }],
+    // [`.${INPUT_STYLES}`, {
+    //   backgroundColor: 'transparent',
+    //   border: 'none',
+    //   display: 'grid',
+    //   fontFamily: 'inherit',
+    //   margin: 0,
+    //   outline: 'none',
+    //   padding: 0,
+    // }],
+    // [`.${SELECT_STYLES}`, {
+    //   fontFamily: 'inherit'
+    // }],
+    // [`.${FIELDSET_STYLES}`, {
+    //   fontFamily: 'inherit'
+    // }],
   ]).compile(), PrecedenceLevel.INTERNAL)
 })

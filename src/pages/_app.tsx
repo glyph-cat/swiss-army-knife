@@ -14,11 +14,7 @@ import Head from 'next/head'
 import { Fragment, ReactNode, StrictMode } from 'react'
 import { SandboxContainer } from '~components/sandbox'
 import { ENV, FixedKeyChordKey } from '~constants'
-import {
-  GlobalInputFocusTracker,
-  GlobalKeyChordManager,
-  GlobalPortalManager,
-} from '~services/core-ui'
+import { GlobalKeyChordManager, GlobalPortalManager } from '~services/core-ui'
 import { CustomDebugger } from '~services/debugging'
 import { LocalizationProvider } from '~services/localization'
 import { CustomThemeProvider } from '~services/theme'
@@ -48,7 +44,6 @@ function App({ Component, pageProps }: AppProps): ReactNode {
       <MaterialSymbolsProvider variant='rounded' fill={1}>
         <CustomThemeProvider>
           <CoreUIProvider
-            inputFocusTracker={GlobalInputFocusTracker}
             keyChordManager={GlobalKeyChordManager}
             portalManager={GlobalPortalManager}
           >
