@@ -42,8 +42,8 @@ yarn --cwd ./src/packages/ml-helpers afe
 # ECHO "Forwarding exports for 'crayon'..."
 # yarn --cwd ./src/packages/crayon afe
 
-ECHO "Forwarding exports for 'sleep-sort'..."
-yarn --cwd ./src/packages/sleep-sort afe
+# ECHO "Forwarding exports for 'sleep-sort'..."
+# yarn --cwd ./src/packages/sleep-sort afe
 
 ECHO "Forwarding exports for playground..."
 yarn afe-playground

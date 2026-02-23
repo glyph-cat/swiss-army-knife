@@ -13,7 +13,7 @@ export function autoForwardExports(entryPath: string): void {
   const now = DateTime.now()
   const directoriesWithMissingIndexFiles: Array<string> = []
 
-  const indexPattern = /\/index\.ts$/
+  const indexPattern = /(\/|\\)index\.ts$/
   const ignorePattern = /\.(draft|old|scripted|secret)\.?/
   const exportScriptedSyntaxPattern = /export \* from '\.\/index\.scripted'/
 
