@@ -37,6 +37,11 @@ export function createReactConfig({
           additionalHooks: 'useInsertionEffect',
         }],
       },
+      settings: {
+        react: {
+          version: 'detect',
+        },
+      },
     },
   )
 }
