@@ -1,6 +1,6 @@
 import { CleanupFunction, createRef } from '@glyph-cat/foundation'
 import { ReadOnlyStateManager, SimpleStateManager } from 'cotton-box'
-import { setup } from './setup'
+import { setupInputFocusTracker } from './setup'
 
 // Goal: to help block custom shortcut keys from being triggered since they are
 // not relevant to the text input.
@@ -24,7 +24,7 @@ function refreshState(): void {
   )
 }
 
-setup(documentHasFocusWithinRef, refreshState)
+setupInputFocusTracker(documentHasFocusWithinRef, refreshState)
 
 /**
  * @param componentId - A unique identifier that represents the component being in focus.

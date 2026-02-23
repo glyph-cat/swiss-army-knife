@@ -1,7 +1,7 @@
 import { RefObject } from '@glyph-cat/foundation'
 import { clientOnly } from '../../../client-only'
 
-export function setup(
+export function setupInputFocusTracker(
   documentHasFocusWithinRef: RefObject<boolean>,
   refreshState: () => void,
 ): void {
