@@ -4,6 +4,35 @@
   grid-auto-rows: max-content;
 }
 
+.base::before {
+  background-color: #ff000008;
+  content: " ";
+  height: 100vh;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.base::after {
+  content: "style deprecated";
+  /* color: #808080; */
+  transform: rotate(-15deg);
+  display: grid;
+  font-size: 120pt;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  opacity: 0.35;
+  place-items: center;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+}
+
 .normal {
 }
 
