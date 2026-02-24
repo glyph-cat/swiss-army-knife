@@ -17,6 +17,10 @@
       "path": "../src/packages/react"
     },
     {
+      "name": "react-ui",
+      "path": "../src/packages/react-ui"
+    },
+    {
       "name": "equality",
       "path": "../src/packages/equality"
     },
