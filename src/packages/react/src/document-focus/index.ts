@@ -26,6 +26,7 @@ export function useDocumentFocus(): boolean {
     // Only start observing when document is clearly not in focus
     // if (isFocused) { return }
     // Probably should not use 'mousemove' alone, should consider touchscreen platforms
+    // (mouse/key/pointer?)
     // but still, only observe for changes when document is not in focus
     const intervalRef = setInterval(() => {
       if (
