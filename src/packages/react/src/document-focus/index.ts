@@ -22,6 +22,11 @@ export function useDocumentFocus(): boolean {
 
   const [isFocused, setFocusState] = useState(false)
   useEffect(() => {
+    // KIV
+    // Only start observing when document is clearly not in focus
+    // if (isFocused) { return }
+    // Probably should not use 'mousemove' alone, should consider touchscreen platforms
+    // but still, only observe for changes when document is not in focus
     const intervalRef = setInterval(() => {
       if (
         isNull(lastPointerMoveTime.current) ||
@@ -35,7 +40,7 @@ export function useDocumentFocus(): boolean {
         clearInterval(intervalRef)
       }
     }
-  }, [])
+  }, [isFocused])
 
   return isFocused
 
