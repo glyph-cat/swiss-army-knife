@@ -96,7 +96,8 @@
       "**/lib": true,
       "**/node_modules": true,
       "src/packages": true,
-      "src/pages/sandbox/_*/": false
+      "src/pages/sandbox/_*/": false,
+      "temp/": true,
     },
     // "typescript.preferences.autoImportFileExcludePatterns": [
     //   // Reference: https://stackoverflow.com/a/76711526/5810737

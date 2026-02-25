@@ -17,7 +17,7 @@ export function SandboxStarter(): JSX.Element {
       <View className={styles.subContainer}>
         <h1>{'This is a new sandbox'}</h1>
         <p style={{ fontSize: '14pt' }}>
-          {'You can visit '}
+          {'Visit '}
           <span className={'a'} onClick={onOpenInEditor}>
             <code>{router.asPath}.tsx</code>
           </span>
@@ -27,3 +27,5 @@ export function SandboxStarter(): JSX.Element {
     </View>
   )
 }
+
+export default SandboxStarter

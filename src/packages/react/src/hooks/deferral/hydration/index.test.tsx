@@ -3,7 +3,7 @@ import { HookTester } from '@glyph-cat/react-test-utils'
 import { JSX } from 'react'
 import { renderToString } from 'react-dom/server'
 import { useHydrationState } from '.'
-import { RuntimeContext, RuntimeManager } from '../../../runtime-manager'
+import { RuntimeContext, RuntimeManager } from '../../../runtime-manager.old'
 import { useForceUpdate } from '../../force-update'
 
 let cleanupManager: CleanupManager

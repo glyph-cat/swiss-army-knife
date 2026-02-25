@@ -25,6 +25,9 @@ export const APIRoute = {
   },
 } as const
 
+/**
+ * @deprecated
+ */
 export const SandboxStyle = {
   NORMAL: clsx(sandboxStyles.base, sandboxStyles.normal),
   FULL_HEIGHT: clsx(sandboxStyles.base, sandboxStyles.fullHeight),

@@ -37,6 +37,7 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
+  // @ts-expect-error: This is a problem with TypeFest's definition for `peerDependenciesMeta`.
   ...getPackageDependencies(packageJson),
 ].sort()
 

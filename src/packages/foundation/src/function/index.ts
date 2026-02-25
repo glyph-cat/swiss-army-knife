@@ -17,4 +17,19 @@ export type TypedFunction<Args extends any[] = any[], Payload = any> = (...args:
 /**
  * @public
  */
-export type CleanupFunction<T = unknown> = (object?: T) => void
+export type CleanupFunction = () => void
+
+/**
+ * @public
+ */
+export type CleanupFunctionWithArgs<T extends Array<unknown>> = (...args: T) => void
+
+/**
+ * @public
+ */
+export type Factory<T> = () => T
+
+/**
+ * @public
+ */
+export type FactoryWithArgs<T, Args extends Array<unknown>> = (...args: Args) => T

@@ -4,9 +4,8 @@ import {
   ProgressRing,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
-import { JSX, lazy, Suspense, useCallback, useState } from 'react'
-import { SandboxStyle } from '~constants'
+import { lazy, ReactNode, Suspense, useCallback, useState } from 'react'
+import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
 const preloadableComponentB = new PreloadableComponent(lazy(() => import('./sample-component-b')))
@@ -14,13 +13,13 @@ const preloadableComponentB = new PreloadableComponent(lazy(() => import('./samp
 const SampleComponentA = lazy(() => import('./sample-component-a'))
 const SampleComponentB = preloadableComponentB.component
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const [shouldShowComponentA, setComponentVisibilityA] = useState(false)
   const [shouldShowComponentB, setComponentVisibilityB] = useState(false)
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       <View className={styles.subContainer}>
         <BasicButton
           disabled={shouldShowComponentA}
@@ -58,7 +57,7 @@ export default function (): JSX.Element {
           )}
         </View>
       </View>
-    </View>
+    </SandboxContent>
   )
 
 }

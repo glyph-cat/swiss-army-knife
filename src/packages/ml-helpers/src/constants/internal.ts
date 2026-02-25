@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 
 /**
- * Is current execution environment based on package source code?
+ * Is current execution scope based on package source code?
  * @internal
  */
 export const IS_SOURCE_ENV = process.env.IS_SOURCE_ENV != '0'

@@ -1,6 +1,6 @@
 import { useSimpleStateValue } from 'cotton-box-react'
 import { useContext, useEffect } from 'react'
-import { RuntimeContext } from '../../../runtime-manager'
+import { RuntimeContext } from '../../../runtime-manager.old'
 
 /**
  * Used to indicate if hydration has occurred.

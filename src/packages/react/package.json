@@ -49,7 +49,24 @@
     "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88",
     "@glyph-cat/type-checking": "^1.0.0",
     "clsx": "^2.1.1",
+    "cotton-box": "^0.14.0",
     "cotton-box-react": "^0.14.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": "*",
+    "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@glyph-cat/react-test-utils": "^0.8.0"

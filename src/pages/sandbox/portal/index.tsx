@@ -1,18 +1,17 @@
-import { Portal, View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
+import { Portal } from '@glyph-cat/swiss-army-knife-react'
 import { JSX } from 'react'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       <Portal>
         <h1 style={{ placeSelf: 'center' }}>
           {'Hello, world!'}
         </h1>
       </Portal>
       <Portal>{undefined}</Portal>
-    </View>
+    </SandboxContent>
   )
 }

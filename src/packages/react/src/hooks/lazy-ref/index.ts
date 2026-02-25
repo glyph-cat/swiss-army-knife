@@ -1,10 +1,10 @@
-import { RefObject } from '@glyph-cat/foundation'
+import { Factory, RefObject } from '@glyph-cat/foundation'
 import { useRef } from 'react'
 
 /**
  * @public
  */
-export function useLazyRef<T>(factory: (() => T)): RefObject<T> {
+export function useLazyRef<T>(factory: Factory<T>): RefObject<T> {
   const isInitialized = useRef(false)
   const refValue = useRef<T>(null!)
   if (!isInitialized.current) {

@@ -23,7 +23,7 @@ export default async function APIOpenSandboxInEditorHandler(
       throw new InvalidSandboxNameError(sandboxName)
     }
 
-    execSync(`code "$PWD/src/pages/sandbox/${sandboxName}/index.tsx"`)
+    execSync(`code -g "$PWD/src/pages/sandbox/${sandboxName}/index.tsx":10:7`)
 
     return emptyResponse(res)
   } catch (e) {

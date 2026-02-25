@@ -1,13 +1,12 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { ThemeToken, tryOnly, VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { JSX, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
-import { Nullable } from '@glyph-cat/foundation'
 
 // To test and make sure it doesn't break:
 // * -> dispose -> dispose -> start
@@ -18,7 +17,7 @@ import { Nullable } from '@glyph-cat/foundation'
 // * -> start -> dispose -> dispose
 // * -> stop -> dispose -> dispose
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const [videoCamera, setVideoCamera] = useState<Nullable<VideoCamera>>(null)
   useEffect(() => {
@@ -31,9 +30,9 @@ export default function (): JSX.Element {
   }, [])
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       {videoCamera && <Content videoCamera={videoCamera} />}
-    </View>
+    </SandboxContent>
   )
 }
 
@@ -41,7 +40,7 @@ interface ContentProps {
   videoCamera: VideoCamera
 }
 
-function Content({ videoCamera }: ContentProps): JSX.Element {
+function Content({ videoCamera }: ContentProps): ReactNode {
 
   const { localize } = useLocalization()
 

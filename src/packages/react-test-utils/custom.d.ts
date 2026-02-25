@@ -8,7 +8,7 @@ declare global {
        */
       NODE_ENV?: 'development' | 'production' | 'test'
       /**
-       * Is current execution environment based on package source code?
+       * Is current execution scope based on package source code?
        * This is a _**custom**_ environment variable available only at build-time.
        */
       IS_SOURCE_ENV?: '0'
