@@ -1,2 +1,27 @@
 .container {
+  gap: var(--spacingM);
+}
+
+.visualizerContainer {
+  gap: var(--spacingS);
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+}
+
+.visualizerItem {
+  aspect-ratio: 1;
+  background-color: #80808020;
+  border: solid 1px #80808040;
+  color: #80808040;
+  border-radius: var(--spacingM);
+  font-size: 16pt;
+  place-items: center;
+  transform: scale(0.9);
+  transition-duration: 0.3s;
+}
+
+.visualizerItem[data-active="true"] {
+  background-color: #80ff8020;
+  border: solid 1px #00aa00;
+  color: #00aa00;
+  transform: scale(1);
 }

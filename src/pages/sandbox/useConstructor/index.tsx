@@ -1,59 +1,77 @@
 import { StringRecord } from '@glyph-cat/foundation'
-import { ClientOnly, forceUpdateReducer, useConstructor } from '@glyph-cat/swiss-army-knife-react'
+import { objectMap } from '@glyph-cat/swiss-army-knife'
+import { ClientOnly, forceUpdateReducer, useConstructor, View } from '@glyph-cat/swiss-army-knife-react'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
 import { IDisposable } from 'monaco-editor'
 import { ReactNode, useReducer } from 'react'
 import { SandboxContent } from '~components/sandbox/content'
-import { CustomDebugger } from '~services/debugging'
 import styles from './index.module.css'
 
 export default function (): ReactNode {
-  const [key, bumpKey] = useReducer(forceUpdateReducer, 0)
   return (
-    <SandboxContent>
-      <button onClick={CustomDebugger.toggleStrictMode}>toggleStrictMode</button>
-      <button onClick={bumpKey}>bumpKey</button>
-      <Content key={key} />
-      <br />
-      <br />
-      <br />
-      {/* <pre style={{ backgroundColor: '#2b4b6a80' }}>
-        <code>
-          {renderToStaticMarkup(<Content />)}
-        </code>
-      </pre> */}
+    <SandboxContent className={styles.container}>
+      <span>
+        History of IDs are being tracked globally for visibility.
+        <br />
+        Toggle Strict Mode or trigger Soft Reload from the sidebar to observe the results.
+      </span>
+      <Content />
     </SandboxContent>
   )
 }
 
 function Content(): ReactNode {
 
-  const [, forceUpdate] = useReducer(forceUpdateReducer, 0)
+  const [forceUpdateCounter, forceUpdate] = useReducer(forceUpdateReducer, 0)
 
   const lazyValue = useConstructor(() => {
     const foo = new Foo()
     return [foo, foo.dispose]
   })
 
-  const disposalState = useSimpleStateValue(DisposalState)
-
   return (
     <>
-      <button onClick={forceUpdate}>forceUpdate</button>
-      {/* <>{String(arrRef.current)}</> */}
-      <pre style={{ fontSize: '12pt' }}>
-        <code>
-          <ClientOnly>
-            id: {lazyValue.id}
-          </ClientOnly>
-          <br />
-          <ClientOnly>
-            {JSON.stringify(disposalState, null, 2)}
-          </ClientOnly>
-        </code>
-      </pre>
+      <span>
+        Triggering
+        <button
+          style={{ display: 'inline-block', marginInline: '0.5em' }}
+          onClick={forceUpdate}
+        >
+          forceUpdate
+        </button>
+        on parent component will not affect the hook.
+      </span>
+      <span>
+        Instance ID: <code><ClientOnly>{lazyValue.id}</ClientOnly></code>
+        <br />
+        Force Update Counter: <code>{forceUpdateCounter}</code>
+      </span>
+      <ClientOnly>
+        <StateVisualizer />
+      </ClientOnly>
     </>
+  )
+}
+
+function StateVisualizer(): ReactNode {
+  const disposalState = useSimpleStateValue(DisposalState)
+  return (
+    <View className={styles.visualizerContainer}>
+      {objectMap(disposalState, (disposed, key) => {
+        return (
+          <View
+            key={key}
+            className={styles.visualizerItem}
+            data-active={!disposed}
+          >
+            <code>
+              {key}
+            </code>
+          </View>
+        )
+      })}
+    </View>
   )
 }
 
@@ -61,7 +79,7 @@ const DisposalState = new SimpleStateManager<StringRecord<boolean>>({})
 
 class Foo implements IDisposable {
 
-  static idCounter: number = 1000
+  static idCounter: number = 0
 
   // readonly id = String(Math.round(Date.now() / 1000))
   readonly id = String(++Foo.idCounter)
