@@ -9,7 +9,10 @@ export function SandboxStarter(): JSX.Element {
   const router = useRouter()
 
   const onOpenInEditor = useCallback(async () => {
-    await APIOpenSandboxInEditor({ sandboxName: router.asPath.replace(/^\/sandbox\//, '') })
+    await APIOpenSandboxInEditor({
+      sandboxName: router.asPath.replace(/^\/sandbox\//, ''),
+      isNew: true,
+    })
   }, [router.asPath])
 
   return (

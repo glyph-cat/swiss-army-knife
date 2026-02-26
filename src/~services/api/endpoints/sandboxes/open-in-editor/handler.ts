@@ -16,14 +16,14 @@ export default async function APIOpenSandboxInEditorHandler(
 ): Promise<void> {
   try {
     validateHeaders(req, [HttpMethod.POST])
-    const { sandboxName } = req.body as APIOpenSandboxInEditorParams
+    const { sandboxName, isNew } = req.body as APIOpenSandboxInEditorParams
 
     // CodeQL js/command-line-injection
     if (!VALID_SANDBOX_NAME_PATTERN.test(sandboxName)) {
       throw new InvalidSandboxNameError(sandboxName)
     }
 
-    execSync(`code -g "$PWD/src/pages/sandbox/${sandboxName}/index.tsx":10:7`)
+    execSync(`code -g "$PWD/src/pages/sandbox/${sandboxName}/index.tsx"${isNew ? ':10:7' : ''}`)
 
     return emptyResponse(res)
   } catch (e) {
