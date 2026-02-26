@@ -1,4 +1,5 @@
-import { BuildType } from '@glyph-cat/foundation'
+import { BuildType, PossiblyUndefined } from '@glyph-cat/foundation'
+import { devError, devWarn } from '@glyph-cat/swiss-army-knife'
 import {
   Children,
   createElement,
@@ -24,23 +25,31 @@ export interface ForwardProps<T> {
    * @defaultValue `false`
    */
   byMerging?: boolean
+  /**
+   * Override the name displayed when logging warnings/errors from this component.
+   * This is meant for library authors only.
+   */
+  displayName?: string
 }
 
 /**
  * @public
  */
-export const Forward = forwardRef(function Forward<T>(
-  { children, byMerging }: ForwardProps<T>,
-  ref: ForwardedRef<T>,
-): ReactNode {
-  // if (BUILD_TYPE === BuildType.RN) {
-  //   const trailingMessage = ' in React Native, as it is the only possible way to forward refs. The prop can be omitted here will still always be treated as `true`.'
-  //   if (byMerging) {
-  //     devWarn('`byMerging` prop is not needed' + trailingMessage)
-  //   } else {
-  //     devError('`byMerging` prop cannot be `false`' + trailingMessage)
-  //   }
-  // }
+export const Forward = forwardRef(function Forward<T>({
+  children,
+  byMerging,
+  displayName,
+}: ForwardProps<T>, ref: ForwardedRef<T>): ReactNode {
+  // If display name is provided, assume component is used by library author
+  // who is supposed to be aware that `byMerging` is not required in RN.
+  if (BUILD_TYPE === BuildType.RN && !displayName) {
+    const trailingMessage = ' in React Native, as it is the only possible way to forward refs. The prop can be omitted here will still always be treated as `true`.'
+    if (byMerging) {
+      devWarn('`byMerging` prop is not needed' + trailingMessage)
+    } else {
+      devError('`byMerging` prop cannot be `false`' + trailingMessage)
+    }
+  }
   if (BUILD_TYPE === BuildType.RN || byMerging) {
     return (
       <ForwardByMergingRefs ref={ref}>
@@ -53,7 +62,7 @@ export const Forward = forwardRef(function Forward<T>(
     // element instance.
     // TODO: Check if this part is excluded from React Native bundle.
     return (
-      <ForwardByFindingDOMElement ref={ref}>
+      <ForwardByFindingDOMElement ref={ref} displayName={displayName}>
         {children}
       </ForwardByFindingDOMElement>
     )
@@ -73,11 +82,7 @@ const ForwardByMergingRefs = forwardRef(function ForwardByMergingRefs<T>(
 })
 
 interface ForwardByFindingDOMElementProps extends PropsWithChildren {
-  /**
-   * Override the name displayed when logging warnings/errors from this component.
-   * This is meant for library authors only.
-   */
-  displayName?: string
+  displayName: PossiblyUndefined<string>
 }
 
 const ForwardByFindingDOMElement = forwardRef(function ForwardByFindingDOMElement<T>(
