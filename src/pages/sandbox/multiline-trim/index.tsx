@@ -1,9 +1,9 @@
-import { Empty, RefObject } from '@glyph-cat/foundation'
+import { Empty, NullableRefObject } from '@glyph-cat/foundation'
 import { delay, multilineTrim } from '@glyph-cat/swiss-army-knife'
-import { BasicButton, TextArea, View } from '@glyph-cat/swiss-army-knife-react'
+import { BasicButton, View } from '@glyph-cat/swiss-army-knife-react'
 import ClipboardJS from 'clipboard'
 import clsx from 'clsx'
-import { JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'
 import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
 
@@ -55,14 +55,16 @@ export default function (): JSX.Element {
       </View>
       <View className={styles.contentContainer}>
         <View>
-          <TextArea
+          <textarea
             ref={inputMainRef}
             className={clsx(styles.textAreaBase, styles.inputTextArea, 'code')}
             value={text}
-            onChange={useCallback((e) => { setText(e.target.value) }, [])}
+            onChange={useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+              setText(e.target.value)
+            }, [])}
             placeholder={localize('ENTER_SOME_TEXT_HERE')}
           />
-          <TextArea
+          <textarea
             ref={inputOverlayRef}
             className={clsx(styles.textAreaBase, styles.textAreaOverlay, 'code')}
             value={textOverlay}
@@ -70,14 +72,14 @@ export default function (): JSX.Element {
           />
         </View>
         <View>
-          <TextArea
+          <textarea
             ref={outputMainRef}
             className={clsx(styles.textAreaBase, styles.outputTextArea, 'code')}
             value={sanitizedText}
             placeholder={localize('THE_OUTPUT_WILL_APPEAR_HERE')}
             readOnly
           />
-          <TextArea
+          <textarea
             ref={outputOverlayRef}
             className={clsx(styles.textAreaBase, styles.textAreaOverlay, 'code')}
             value={sanitizedTextOverlay}
@@ -97,14 +99,15 @@ function addOverlayCharacters(value: string): string {
 }
 
 function useSyncedScrolling<E extends HTMLElement>(
-  sourceElementRef: RefObject<E>,
-  listenerElementsRef: Array<RefObject<E>>,
+  sourceElementRef: NullableRefObject<E>,
+  listenerElementsRef: Array<NullableRefObject<E>>,
 ): void {
   useEffect(() => {
     const target = sourceElementRef.current
-    const onRefresh = (e: WheelEvent) => {
+    if (!target) { return }
+    const onRefresh = (e: Event) => {
       for (const listenerElement of listenerElementsRef) {
-        listenerElement.current.scroll({ top: (e.target as E).scrollTop })
+        listenerElement.current?.scroll({ top: (e.target as E).scrollTop })
       }
     }
     target.addEventListener('scroll', onRefresh)

@@ -78,10 +78,10 @@ module.exports = defineConfig(
           //   element: 'input',
           //   message: 'Use <Input> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
           // },
-          {
-            element: 'textarea',
-            message: 'Use <TextArea> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
-          },
+          // {
+          //   element: 'textarea',
+          //   message: 'Use <TextArea> from \'@glyph-cat/swiss-army-knife-react\' instead whenever possible',
+          // },
         ],
       }],
       'react/no-unknown-property': [Severity.ERROR, {
