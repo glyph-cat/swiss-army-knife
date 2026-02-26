@@ -1,6 +1,7 @@
-import { BuildType, CleanupFunction, Factory } from '@glyph-cat/foundation'
+import { CleanupFunction, Factory } from '@glyph-cat/foundation'
+import { IS_CLIENT_ENV } from '@glyph-cat/swiss-army-knife'
 import { createContext, useCallback, useContext, useEffect, useId, useRef } from 'react'
-import { BUILD_TYPE, IS_SOURCE_ENV } from '../../constants'
+import { IS_SOURCE_ENV } from '../../constants'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const StoreContext = createContext(new Map<string, Array<ValueWithCleanup<any>>>())
@@ -35,7 +36,7 @@ export function useConstructor<T>(factory: Factory<ValueWithCleanup<T>>): T {
   const store = useContext(StoreContext)
   const factoryRef = useRef<typeof factory>(null!)
 
-  if (typeof window !== 'undefined') {
+  if (IS_CLIENT_ENV) {
 
     if (!store.has(id)) { store.set(id, []) }
     const bufferStack = store.get(id)!
@@ -81,7 +82,7 @@ export function useConstructor<T>(factory: Factory<ValueWithCleanup<T>>): T {
     }
   }, [flushBufferStack])
 
-  if (BUILD_TYPE === BuildType.RN || typeof window !== 'undefined') {
+  if (IS_CLIENT_ENV) {
     const bufferStack = flushBufferStack()
     return bufferStack.at(-1)![0]
   } else {

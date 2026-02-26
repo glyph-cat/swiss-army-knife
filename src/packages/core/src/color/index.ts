@@ -7,7 +7,7 @@ import {
   isObject,
   isString,
 } from '@glyph-cat/type-checking'
-import { IS_CLIENT_ENV } from '../constants'
+import { IS_DEBUG_ENV } from '../constants'
 import { hasProperty, trySerializeJSON } from '../data'
 import { devError } from '../dev'
 import { clamp, NumericDataSet } from '../math'
@@ -250,7 +250,7 @@ export class Color {
     } else if (isObject(firstArg)) {
       return Color.fromRGBObject(firstArg)
     }
-    if (IS_CLIENT_ENV) {
+    if (IS_DEBUG_ENV) {
       devError([
         'Invalid RGB parameter.',
         '',
@@ -386,7 +386,7 @@ export class Color {
     } else if (isObject(firstArg)) {
       return Color.fromHSLObject(firstArg)
     }
-    if (IS_CLIENT_ENV) {
+    if (IS_DEBUG_ENV) {
       devError([
         'Invalid HSL parameter.',
         '',

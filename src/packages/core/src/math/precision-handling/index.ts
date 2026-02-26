@@ -1,4 +1,4 @@
-import { IS_CLIENT_ENV } from '../../constants'
+import { IS_DEBUG_ENV } from '../../constants'
 import { devWarn } from '../../dev'
 
 /**
@@ -18,7 +18,7 @@ export class MathFactory {
   private readonly offset: number
 
   constructor(public readonly decimals: number) {
-    if (IS_CLIENT_ENV) {
+    if (IS_DEBUG_ENV) {
       if (decimals < 0) {
         devWarn(`Expected \`decimal\` to be >=1 but got ${decimals}`)
       } else if (decimals === 0) {

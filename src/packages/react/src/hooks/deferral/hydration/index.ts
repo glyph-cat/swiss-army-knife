@@ -1,6 +1,8 @@
+import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { useContext, useEffect } from 'react'
-import { RuntimeContext } from '../../../runtime-manager.old'
+import { useEffect } from 'react'
+
+const HydrationState = new SimpleStateManager(false)
 
 /**
  * Used to indicate if hydration has occurred.
@@ -16,11 +18,10 @@ import { RuntimeContext } from '../../../runtime-manager.old'
  * @public
  */
 export function useHydrationState(): boolean {
-  const { M$hydrationState } = useContext(RuntimeContext)
-  const isHydrated = useSimpleStateValue(M$hydrationState)
+  const isHydrated = useSimpleStateValue(HydrationState)
   useEffect(() => {
     if (isHydrated) { return } // Early exit
-    M$hydrationState.set(true)
-  }, [M$hydrationState, isHydrated])
+    HydrationState.set(true)
+  }, [isHydrated])
   return isHydrated
 }

@@ -18,9 +18,9 @@ export default function (): ReactNode {
       <View>
         <Forward ref={specialRef}>
           <></>
-          {/* <span>hello</span> */}
+          <span>hello</span>
           {/* <span>world</span> */}
-          hello world
+          {/* hello world */}
           <></>
         </Forward>
         <span>not me</span>

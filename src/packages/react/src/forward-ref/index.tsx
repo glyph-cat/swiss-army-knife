@@ -1,11 +1,18 @@
-import { ForwardedRef, forwardRef, ReactNode, Ref, useImperativeHandle, useRef } from 'react'
-
-// This helps avoid using `mergeRefs` to intercept the props and reconstruct the ReactElement.
-
-// For React Native, mergeRefs is the only possible way.
-// But for HTML, under what circumstances should we use mergeRefs?
-// Is it possible to combine in the same component and dynamically pick a strategy?
-// `mergeRefs` prop?
+import { BuildType } from '@glyph-cat/foundation'
+import {
+  Children,
+  createElement,
+  ForwardedRef,
+  forwardRef,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  Ref,
+  useImperativeHandle,
+  useRef,
+} from 'react'
+import { BUILD_TYPE } from '../constants'
+import { useMergedRefs } from '../merge-refs'
 
 /**
  * @public
@@ -13,13 +20,68 @@ import { ForwardedRef, forwardRef, ReactNode, Ref, useImperativeHandle, useRef }
 export interface ForwardProps<T> {
   ref?: Ref<T>
   children?: ReactNode
+  /**
+   * @defaultValue `false`
+   */
+  byMerging?: boolean
 }
 
 /**
  * @public
  */
 export const Forward = forwardRef(function Forward<T>(
-  { children }: ForwardProps<T>,
+  { children, byMerging }: ForwardProps<T>,
+  ref: ForwardedRef<T>,
+): ReactNode {
+  // if (BUILD_TYPE === BuildType.RN) {
+  //   const trailingMessage = ' in React Native, as it is the only possible way to forward refs. The prop can be omitted here will still always be treated as `true`.'
+  //   if (byMerging) {
+  //     devWarn('`byMerging` prop is not needed' + trailingMessage)
+  //   } else {
+  //     devError('`byMerging` prop cannot be `false`' + trailingMessage)
+  //   }
+  // }
+  if (BUILD_TYPE === BuildType.RN || byMerging) {
+    return (
+      <ForwardByMergingRefs ref={ref}>
+        {children}
+      </ForwardByMergingRefs>
+    )
+  } else {
+    // Finding DOM element is preferred as it is more versatile and safer since
+    // it does not intercept or modify the props, nor does it reconstruct a new
+    // element instance.
+    // TODO: Check if this part is excluded from React Native bundle.
+    return (
+      <ForwardByFindingDOMElement ref={ref}>
+        {children}
+      </ForwardByFindingDOMElement>
+    )
+  }
+})
+
+const ForwardByMergingRefs = forwardRef(function ForwardByMergingRefs<T>(
+  { children: $children }: PropsWithChildren,
+  ref: ForwardedRef<T>,
+): ReactNode {
+  const children = Children.only($children) as ReactElement<{ ref: Ref<T> }>
+  const mergedRef = useMergedRefs(ref, children.props.ref)
+  return createElement(children.type, {
+    ...children.props,
+    ref: mergedRef,
+  })
+})
+
+interface ForwardByFindingDOMElementProps extends PropsWithChildren {
+  /**
+   * Override the name displayed when logging warnings/errors from this component.
+   * This is meant for library authors only.
+   */
+  displayName?: string
+}
+
+const ForwardByFindingDOMElement = forwardRef(function ForwardByFindingDOMElement<T>(
+  { children, displayName }: ForwardByFindingDOMElementProps,
   ref: ForwardedRef<T>,
 ): ReactNode {
   const leadingRef = useRef<HTMLDivElement>(null)
@@ -30,10 +92,10 @@ export const Forward = forwardRef(function Forward<T>(
     if (Object.is(candidate, trailingRef.current)) { return null as T }
     if (!Object.is(candidate.nextElementSibling, trailingRef.current)) {
       // Log error, but still allow first candidate to be used.
-      console.error(`<Forward> should have only one DOM element child (near: ${(candidate.nodeName || candidate.tagName)?.toLowerCase() || String(candidate)})`)
+      console.error(`<${displayName || 'Forward'}> should have only one DOM element child (near: ${formatCandidateName(candidate)})`)
     }
     return candidate as T
-  }, [])
+  }, [displayName])
   return (
     <>
       {/* eslint-disable-next-line react/forbid-elements */}
@@ -44,3 +106,12 @@ export const Forward = forwardRef(function Forward<T>(
     </>
   )
 })
+
+function formatCandidateName(candidate: Element): string {
+  if (candidate) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (candidate.tagName || candidate.nodeName || (candidate as any).name).toLowerCase()
+  } else {
+    return String(candidate)
+  }
+}

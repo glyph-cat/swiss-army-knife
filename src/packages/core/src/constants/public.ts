@@ -42,9 +42,7 @@ export const RUNTIME_ID = TimestampId()
  *
  * @public
  */
-export const IS_CLIENT_ENV = IS_DEBUG_ENV ||
-  BUILD_TYPE === BuildType.RN ||
-  typeof window !== 'undefined' // KIV: deprecate this?
-// ^ NOTE: `typeof window !== 'undefined'` must be placed at the last because
-// the value remains unknown at compile time, and will result in dead code not
-// trimmed even when `IS_CLIENT_ENV` is undoubtedly true.
+export const IS_CLIENT_ENV = BUILD_TYPE === BuildType.RN || typeof window !== 'undefined'
+// NOTE: `typeof window !== 'undefined'` must be placed at the last because
+// the value remains unknown at compile time (of this library), and will result
+// in dead code not trimmed even when `IS_CLIENT_ENV` is supposed to be true.

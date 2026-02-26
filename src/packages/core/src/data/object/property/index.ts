@@ -5,7 +5,7 @@ import {
   StrictPropertyKey,
 } from '@glyph-cat/foundation'
 import { isNullOrUndefined, isNumber } from '@glyph-cat/type-checking'
-import { IS_CLIENT_ENV } from '../../../constants'
+import { IS_DEBUG_ENV } from '../../../constants'
 import { devError } from '../../../dev'
 
 /**
@@ -45,7 +45,7 @@ export function hasEitherProperties(
   object: unknown,
   propertyNames: Array<PropertyKey>,
 ): boolean {
-  if (IS_CLIENT_ENV) {
+  if (IS_DEBUG_ENV) {
     if (propertyNames.length < 1) {
       devError('Expected there to be at least one property name but got none')
     }
@@ -72,7 +72,7 @@ export function hasTheseProperties(
   object: unknown,
   propertyNames: Array<PropertyKey>,
 ): boolean {
-  if (IS_CLIENT_ENV) {
+  if (IS_DEBUG_ENV) {
     if (propertyNames.length < 1) {
       devError('Expected there to be at least one property name but got none')
     }
@@ -186,7 +186,7 @@ export function hasEitherDeepProperties(
   object: unknown,
   propertyPaths: Array<ObjectPathSegments>,
 ): boolean {
-  if (IS_CLIENT_ENV) {
+  if (IS_DEBUG_ENV) {
     if (propertyPaths.length < 1) {
       devError('Expected there to be at least one property path but got none')
     }
@@ -219,7 +219,7 @@ export function hasTheseDeepProperties(
   object: unknown,
   propertyPaths: Array<ObjectPathSegments>,
 ): boolean {
-  if (IS_CLIENT_ENV) {
+  if (IS_DEBUG_ENV) {
     if (propertyPaths.length < 1) {
       devError('Expected there to be at least one property path but got none')
     }
@@ -254,7 +254,7 @@ export function deepGet<T = unknown>(
   if (!Array.isArray(pathSegments)) {
     pathSegments = getObjectPathSegments(pathSegments)
   }
-  if (IS_CLIENT_ENV) {
+  if (IS_DEBUG_ENV) {
     if (pathSegments.length <= 0) {
       devError('Expected there to be at least one path segment but got none')
     }
