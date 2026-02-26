@@ -13,7 +13,7 @@ import { reactStaticSanitizeHTMLString } from '~unstable/react-sanitize'
 // Inspired by https://stackoverflow.com/a/77161592/5810737
 
 // KIV: NotFoundError "Failed to execute 'removeChild' on 'Node'" will be thrown
-// This happens during unmounting.
+// This happens during unmounting (also caught by StrictMode).
 
 export interface HTMLCommentProps {
   children?: unknown
