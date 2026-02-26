@@ -62,7 +62,7 @@ export function SandboxSidebar(): JSX.Element {
     const newSandboxName = window.prompt('New sandbox name:')
     if (isString(newSandboxName)) {
       await APICreateSandbox({ name: newSandboxName })
-      await APIOpenSandboxInEditor({ sandboxName: newSandboxName })
+      await APIOpenSandboxInEditor({ sandboxName: newSandboxName, isNew: true })
       router.push(`${AppRoute.SANDBOX}/${newSandboxName}`)
     }
   }, [router])
