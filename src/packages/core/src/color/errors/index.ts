@@ -10,7 +10,7 @@ export class InvalidColorStringError extends Error {
   }
 
   constructor(value: string) {
-    super(InvalidColorStringError.formatMessage(value))
+    super(`Invalid color string "${value}"`)
   }
 
 }

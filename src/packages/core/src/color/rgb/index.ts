@@ -1,6 +1,7 @@
 import { isNaN, isNumber, isString } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
 import { devError } from '../../dev'
+import { rgbConstructorSpyRef } from '../_internals'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
@@ -13,7 +14,6 @@ import {
   RGBA_LEADING_SYNTAX_PATTERN,
 } from '../constants'
 import { InvalidColorRangeError, InvalidColorStringError } from '../errors'
-import { rgbConstructorSpyRef } from '../_internals'
 
 /**
  * @public
@@ -51,7 +51,13 @@ export class RGBColor extends BaseColorObject {
       .replace(RGBA_LEADING_SYNTAX_PATTERN, '')
       .replace(CLOSING_BRACKET_PATTERN, '')
       .split(DELIMITER_PATTERN)
-    return new RGBColor(Number($r), Number($g), Number($b), $a ? Number($a) : undefined)
+    return new RGBColor(
+      Number($r),
+      Number($g),
+      Number($b),
+      $a ? Number($a) : undefined,
+      literalValue,
+    )
   }
 
   static fromJSON({ r, g, b, a }: OptionalAlpha<RGBJson>): RGBColor {
@@ -87,11 +93,14 @@ export class RGBColor extends BaseColorObject {
       if (isNaN(a) || (isNumber(a) && (a < MIN_ALPHA || a > MAX_ALPHA))) {
         throw new InvalidColorRangeError('a', a, MIN_RGB, MAX_RGB)
       }
-    } catch (e) {
+    } catch (error) {
       if (isString(literalValue)) {
-        devError(InvalidColorStringError.formatMessage(literalValue))
+        const overrideError = new InvalidColorStringError(literalValue)
+        devError(overrideError.message)
+        throw overrideError
+      } else {
+        throw error
       }
-      throw e
     }
     super(a)
   }

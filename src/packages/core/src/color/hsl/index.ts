@@ -1,6 +1,8 @@
-import { isNumber } from '@glyph-cat/type-checking'
+import { isNumber, isString } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
+import { devError } from '../../dev'
 import { radToDeg } from '../../math'
+import { hslConstructorSpyRef } from '../_internals'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
@@ -9,7 +11,7 @@ import {
   HSLA_LEADING_SYNTAX_PATTERN,
   MIN_HUE,
 } from '../constants'
-import { hslConstructorSpyRef } from '../_internals'
+import { InvalidColorStringError } from '../errors'
 
 /**
  * @public
@@ -89,6 +91,17 @@ export class HSLColor extends BaseColorObject {
     // eslint-disable-next-line prefer-rest-params
     if (IS_SOURCE_ENV) { hslConstructorSpyRef.current?.(...arguments) }
     // TODO: range validation
+    try {
+
+    } catch (error) {
+      if (isString(literalValue)) {
+        const overrideError = new InvalidColorStringError(literalValue)
+        devError(overrideError.message)
+        throw overrideError
+      } else {
+        throw error
+      }
+    }
     super(a)
   }
 
