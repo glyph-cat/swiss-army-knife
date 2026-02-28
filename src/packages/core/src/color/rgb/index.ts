@@ -1,4 +1,4 @@
-import { isNaN, isNumber, isString } from '@glyph-cat/type-checking'
+import { isBoolean, isNaN, isNumber, isString } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
 import { devError } from '../../dev'
 import { rgbConstructorSpyRef } from '../_internals'
@@ -38,7 +38,7 @@ export type RGBTuple = [
  * @public
  */
 export interface RGBToStringOptions {
-  // TODO
+  includeAlpha?: boolean
 }
 
 /**
@@ -106,7 +106,7 @@ export class RGBColor extends BaseColorObject {
   }
 
   toString(options?: RGBToStringOptions): string {
-    if (isNumber(this.a)) {
+    if ((this.a !== 1 && !isBoolean(options?.includeAlpha)) || options?.includeAlpha) {
       return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`
     } else {
       return `rgb(${this.r}, ${this.g}, ${this.b})`

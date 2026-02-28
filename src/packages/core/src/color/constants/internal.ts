@@ -1,7 +1,7 @@
 export const RGBA_LEADING_SYNTAX_PATTERN = /^rgba?\(\s*/i
 export const HSLA_LEADING_SYNTAX_PATTERN = /^hsla?\(\s*/i
 export const CLOSING_BRACKET_PATTERN = /\s*\)$/
-export const DELIMITER_PATTERN = /\s*(\s|,)\s*/
+export const DELIMITER_PATTERN = /\s*[\s,]\s*/
 export const HEX_COLOR_PATTERN = /^#([\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i
 export const HEX_EXTRACTION_PATTERN = /[\da-f]+/i
 export const RGBA_QUICK_MATCH_PATTERN = /r/i

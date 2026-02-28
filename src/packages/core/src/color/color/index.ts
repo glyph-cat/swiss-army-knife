@@ -23,8 +23,10 @@ import {
 import { HexColor } from '../hex'
 import { HSLColor } from '../hsl'
 import { RGBColor } from '../rgb'
-import { getLuminance, hslToRgb, rgbToHsl } from '../utils'
 import { getDoubleDigitHex } from '../utils/get-double-digit-hex'
+import { getLuminance } from '../utils/get-luminance'
+import { hslToRgb } from '../utils/hsl-to-rgb'
+import { rgbToHsl } from '../utils/rgb-to-hsl'
 
 /**
  * @public
@@ -127,9 +129,9 @@ export class Color {
       if (Object.is(format, Color.hex) || Object.is(format, HexColor)) {
         return this.toHex().toString(...options as [string])
       } else if (Object.is(format, Color.rgb) || Object.is(format, RGBColor)) {
-        return this.toRGB().toString(...options)
+        return this.toRGB().toString(...options as Parameters<RGBColor['toString']>)
       } else if (Object.is(format, Color.hsl) || Object.is(format, HSLColor)) {
-        return this.toHSL().toString(...options)
+        return this.toHSL().toString(...options as Parameters<HSLColor['toString']>)
       } else {
         throw new Error(`Invalid format: ${format}`)
       }
