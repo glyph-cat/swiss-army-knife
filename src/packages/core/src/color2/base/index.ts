@@ -1,4 +1,4 @@
-import { ColorConstants } from '../constants'
+import { MAX_ALPHA } from '../constants'
 
 /**
  * @public
@@ -18,7 +18,7 @@ export abstract class BaseColorObject {
   readonly a: number
 
   constructor(a?: number) {
-    this.a = a ?? ColorConstants.MAX_ALPHA
+    this.a = a ?? MAX_ALPHA
   }
 
   abstract toString(): string

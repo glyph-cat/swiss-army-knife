@@ -1,13 +1,15 @@
 import { isNumber } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
+import { radToDeg } from '../../math'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
   CLOSING_BRACKET_PATTERN,
   DELIMITER_PATTERN,
   HSLA_LEADING_SYNTAX_PATTERN,
+  MIN_HUE,
 } from '../constants'
-import { hslConstructorSpyRef } from '../internals'
+import { hslConstructorSpyRef } from '../_internals'
 
 /**
  * @public
@@ -40,13 +42,27 @@ export interface HSLToStringOptions {
  */
 export class HSLColor extends BaseColorObject {
 
-  static fromString(value: string): HSLColor {
-    const [$h, $s, $l, $a] = value
+  static fromString(literalValue: string): HSLColor {
+    const [$h, $s, $l, $a] = literalValue.toLowerCase()
       .replace(HSLA_LEADING_SYNTAX_PATTERN, '')
       .replace(CLOSING_BRACKET_PATTERN, '')
       .replaceAll('%', '')
       .split(DELIMITER_PATTERN)
-    return new HSLColor(Number($h), Number($s), Number($l), $a ? Number($a) : undefined)
+    const hue = (() => {
+      if ($h === 'none') {
+        return MIN_HUE
+      } else {
+        const parsedH = Number($h)
+        return $h.includes('rad') ? radToDeg(parsedH) : parsedH
+      }
+    })()
+    return new HSLColor(
+      hue,
+      Number($s),
+      Number($l),
+      $a ? Number($a) : undefined,
+      literalValue,
+    )
   }
 
   static fromJSON({ h, s, l, a }: OptionalAlpha<HSLJson>): HSLColor {

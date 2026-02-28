@@ -1,8 +1,19 @@
-export const RGBA_LEADING_SYNTAX_PATTERN = /^rgba?\(/i
-export const HSLA_LEADING_SYNTAX_PATTERN = /^hsla?\(/i
-export const CLOSING_BRACKET_PATTERN = /\)$/
-export const DELIMITER_PATTERN = /\s*,\s*/
+export const RGBA_LEADING_SYNTAX_PATTERN = /^rgba?\(\s*/i
+export const HSLA_LEADING_SYNTAX_PATTERN = /^hsla?\(\s*/i
+export const CLOSING_BRACKET_PATTERN = /\s*\)$/
+export const DELIMITER_PATTERN = /\s*(\s|,)\s*/
 export const HEX_COLOR_PATTERN = /^#([\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i
 export const HEX_EXTRACTION_PATTERN = /[\da-f]+/i
 export const RGBA_QUICK_MATCH_PATTERN = /r/i
 export const HSLA_QUICK_MATCH_PATTERN = /h/i
+
+export const MIN_ALPHA = 0
+export const MAX_ALPHA = 1
+export const MIN_RGB = 0
+export const MAX_RGB = 255
+export const MIN_HUE = 0
+export const MAX_HUE = 360
+export const MIN_SATURATION = 0
+export const MAX_SATURATION = 100
+export const MIN_LIGHTNESS = 0
+export const MAX_LIGHTNESS = 100

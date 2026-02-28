@@ -1,13 +1,13 @@
 import { Color } from '.'
-import { InvalidColorStringError, InvalidColorValueError } from './errors'
-import { HexColor } from './hex'
-import { HSLColor } from './hsl'
 import {
   hexConstructorSpyRef,
   hslConstructorSpyRef,
   rgbConstructorSpyRef,
-} from './internals'
-import { RGBColor } from './rgb'
+} from '../_internals'
+import { InvalidColorStringError, InvalidColorValueError } from '../errors'
+import { HexColor } from '../hex'
+import { HSLColor } from '../hsl'
+import { RGBColor } from '../rgb'
 
 beforeEach(() => {
   rgbConstructorSpyRef.current = jest.fn()

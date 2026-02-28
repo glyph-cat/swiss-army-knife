@@ -5,12 +5,15 @@ import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
   CLOSING_BRACKET_PATTERN,
-  ColorConstants,
   DELIMITER_PATTERN,
+  MAX_ALPHA,
+  MAX_RGB,
+  MIN_ALPHA,
+  MIN_RGB,
   RGBA_LEADING_SYNTAX_PATTERN,
 } from '../constants'
 import { InvalidColorRangeError, InvalidColorStringError } from '../errors'
-import { rgbConstructorSpyRef } from '../internals'
+import { rgbConstructorSpyRef } from '../_internals'
 
 /**
  * @public
@@ -43,8 +46,8 @@ export interface RGBToStringOptions {
  */
 export class RGBColor extends BaseColorObject {
 
-  static fromString(value: string): RGBColor {
-    const [$r, $g, $b, $a] = value
+  static fromString(literalValue: string): RGBColor {
+    const [$r, $g, $b, $a] = literalValue
       .replace(RGBA_LEADING_SYNTAX_PATTERN, '')
       .replace(CLOSING_BRACKET_PATTERN, '')
       .split(DELIMITER_PATTERN)
@@ -72,17 +75,17 @@ export class RGBColor extends BaseColorObject {
     // eslint-disable-next-line prefer-rest-params
     if (IS_SOURCE_ENV) { rgbConstructorSpyRef.current?.(...arguments) }
     try {
-      if (isNaN(r) || r < ColorConstants.MIN_RGB || r > ColorConstants.MAX_RGB) {
-        throw new InvalidColorRangeError('r', r, ColorConstants.MIN_RGB, ColorConstants.MAX_RGB)
+      if (isNaN(r) || r < MIN_RGB || r > MAX_RGB) {
+        throw new InvalidColorRangeError('r', r, MIN_RGB, MAX_RGB)
       }
-      if (isNaN(g) || g < ColorConstants.MIN_RGB || g > ColorConstants.MAX_RGB) {
-        throw new InvalidColorRangeError('g', g, ColorConstants.MIN_RGB, ColorConstants.MAX_RGB)
+      if (isNaN(g) || g < MIN_RGB || g > MAX_RGB) {
+        throw new InvalidColorRangeError('g', g, MIN_RGB, MAX_RGB)
       }
-      if (isNaN(b) || b < ColorConstants.MIN_RGB || b > ColorConstants.MAX_RGB) {
-        throw new InvalidColorRangeError('b', b, ColorConstants.MIN_RGB, ColorConstants.MAX_RGB)
+      if (isNaN(b) || b < MIN_RGB || b > MAX_RGB) {
+        throw new InvalidColorRangeError('b', b, MIN_RGB, MAX_RGB)
       }
-      if (isNaN(a) || (isNumber(a) && (a < ColorConstants.MIN_ALPHA || a > ColorConstants.MAX_ALPHA))) {
-        throw new InvalidColorRangeError('a', a, ColorConstants.MIN_RGB, ColorConstants.MAX_RGB)
+      if (isNaN(a) || (isNumber(a) && (a < MIN_ALPHA || a > MAX_ALPHA))) {
+        throw new InvalidColorRangeError('a', a, MIN_RGB, MAX_RGB)
       }
     } catch (e) {
       if (isString(literalValue)) {

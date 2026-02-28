@@ -1,8 +1,8 @@
 import { IS_SOURCE_ENV } from '../../constants'
 import { BaseColorObject } from '../base'
-import { ColorConstants, HEX_COLOR_PATTERN, HEX_EXTRACTION_PATTERN } from '../constants'
+import { HEX_COLOR_PATTERN, HEX_EXTRACTION_PATTERN, MAX_ALPHA, MAX_RGB } from '../constants'
 import { InvalidColorStringError } from '../errors'
-import { hexConstructorSpyRef } from '../internals'
+import { hexConstructorSpyRef } from '../_internals'
 import { RGBColor, RGBJson, RGBTuple } from '../rgb'
 
 /**
@@ -40,7 +40,7 @@ export class HexColor extends BaseColorObject implements RGBJson {
         parseInt(`${r}${r}`, 16),
         parseInt(`${g}${g}`, 16),
         parseInt(`${b}${b}`, 16),
-        a ? parseInt(`${a}${a}`, 16) / ColorConstants.MAX_RGB : ColorConstants.MAX_ALPHA,
+        a ? parseInt(`${a}${a}`, 16) / MAX_RGB : MAX_ALPHA,
         literalValue,
       )
     } else {
@@ -54,7 +54,7 @@ export class HexColor extends BaseColorObject implements RGBJson {
         parseInt(r, 16),
         parseInt(g, 16),
         parseInt(b, 16),
-        (a1 || a2) ? parseInt(a, 16) / ColorConstants.MAX_RGB : ColorConstants.MAX_ALPHA,
+        (a1 || a2) ? parseInt(a, 16) / MAX_RGB : MAX_ALPHA,
         literalValue,
       )
     }
