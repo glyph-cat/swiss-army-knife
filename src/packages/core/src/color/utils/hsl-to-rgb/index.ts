@@ -11,6 +11,7 @@ import { NumericValues3 } from '@glyph-cat/foundation'
  * @param hue - The hue, in degrees, represented by an integer between `0` to `360`.
  * @param saturation - The saturation, in percentage, represented by an integer between `0` to `100`.
  * @param lightness - The lightness, in percentage, represented by an integer between `0` to `100`.
+ * @param alpha - This parameter will be ignored, it exists only for type compatibility purposes.
  * @returns A tuple containing 3 numbers (each between `0` to `255`) that represent
  * the `[red, green, blue]` values.
  * @public
@@ -19,6 +20,7 @@ export function hslToRgb(
   hue: number,
   saturation: number,
   lightness: number,
+  alpha?: number,
 ): NumericValues3 {
   saturation /= 100
   lightness /= 100

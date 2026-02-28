@@ -96,8 +96,7 @@ export class Color {
 
   get luminance(): number {
     if (!this.M$luminance) {
-      const [r, g, b] = this.toRGB().valueOf()
-      this.M$luminance = getLuminance(r, g, b)
+      this.M$luminance = getLuminance(...this.toRGB().valueOf())
     }
     return this.M$luminance
   }

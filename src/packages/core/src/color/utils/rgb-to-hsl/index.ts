@@ -6,12 +6,18 @@ import { MAX_HUE, MAX_LIGHTNESS, MAX_RGB, MAX_SATURATION } from '../../constants
  * @param red - The red value represented by an integer between `0` to `255`.
  * @param green - The green value represented by an integer between `0` to `255`.
  * @param blue - The blue value represented by an integer between `0` to `255`.
+ * @param alpha - This parameter will be ignored, it exists only for type compatibility purposes.
  * @returns A tuple containing 3 numbers that represent the `[hue, saturation, lightness]`
  * where hue is an integer between `0` to `360`, and saturation and lightness
  * are each integers between `0` to `100`.
  * @public
  */
-export function rgbToHsl(red: number, green: number, blue: number): NumericValues3 {
+export function rgbToHsl(
+  red: number,
+  green: number,
+  blue: number,
+  alpha?: number,
+): NumericValues3 {
   // Reference: https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl
   const r = red / MAX_RGB
   const g = green / MAX_RGB
