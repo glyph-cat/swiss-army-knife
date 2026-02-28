@@ -1,16 +1,14 @@
 import { ThemeToken } from '@glyph-cat/swiss-army-knife'
 import { View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
 import { SizeAwareContainer, useSizeAwareContext } from 'packages/react/src/size-aware'
-import { JSX } from 'react'
-import { SandboxStyle } from '~constants'
-import styles from './index.module.css'
+import { ReactNode } from 'react'
+import { SandboxContent } from '~components/sandbox/content'
 
 const INITIAL_SIZE = 200 // px
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent>
       <View
         style={{
           backgroundColor: ThemeToken.primaryColor80,
@@ -24,11 +22,11 @@ export default function (): JSX.Element {
           <CustomView />
         </SizeAwareContainer>
       </View>
-    </View>
+    </SandboxContent>
   )
 }
 
-function CustomView(): JSX.Element {
+function CustomView(): ReactNode {
   const bounds = useSizeAwareContext()
   return (
     <View

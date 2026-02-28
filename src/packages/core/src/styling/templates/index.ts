@@ -5,6 +5,7 @@ import { clientOnly } from '../../client-only'
  * @public
  */
 export const TemplateStyles = {
+  display_none: 'display_none',
   hidden: 'hidden',
   noScroll: 'noScroll',
   a: 'a',
@@ -13,6 +14,9 @@ export const TemplateStyles = {
 
 clientOnly(() => {
   addStyles(new StyleMap([
+    [`.${TemplateStyles.display_none}`, {
+      display: 'none',
+    }],
     [`.${TemplateStyles.hidden}`, {
       // NOTE: For some reason, if top and left is less than twice the amount of the video size,
       // then the promise returned by `navigator.mediaDevices.getUserMedia` will never resolve

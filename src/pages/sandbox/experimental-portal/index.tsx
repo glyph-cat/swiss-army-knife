@@ -1,14 +1,12 @@
-import { View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
 import { JSX } from 'react'
 import { IFrameExample } from '~components/iframe-example'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
 
       <IFrameExample
         title='Normal'
@@ -44,6 +42,6 @@ export default function (): JSX.Element {
         </Portal>
       </PortalProvider> */}
 
-    </View>
+    </SandboxContent>
   )
 }

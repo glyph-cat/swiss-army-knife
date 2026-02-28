@@ -1,5 +1,5 @@
 import { BuildType, PossiblyUndefined } from '@glyph-cat/foundation'
-import { devError, devWarn } from '@glyph-cat/swiss-army-knife'
+import { devError, devWarn, TemplateStyles } from '@glyph-cat/swiss-army-knife'
 import {
   Children,
   createElement,
@@ -28,6 +28,10 @@ export interface ForwardProps<T> {
   /**
    * Override the name displayed when logging warnings/errors from this component.
    * This is meant for library authors only.
+   *
+   * This interface should be extended as this property would not be included in
+   * the final bundle.
+   * @internal
    */
   displayName?: string
 }
@@ -96,18 +100,31 @@ const ForwardByFindingDOMElement = forwardRef(function ForwardByFindingDOMElemen
     if (!candidate) { return null as T }
     if (Object.is(candidate, trailingRef.current)) { return null as T }
     if (!Object.is(candidate.nextElementSibling, trailingRef.current)) {
-      // Log error, but still allow first candidate to be used.
-      console.error(`<${displayName || 'Forward'}> should have only one DOM element child (near: ${formatCandidateName(candidate)})`)
+      if (leadingRef.current) {
+        leadingRef.current.outerHTML = '<!-- Please inspect below this line -->'
+      }
+      if (trailingRef.current) {
+        trailingRef.current.outerHTML = '<!-- Please inspect above this line -->'
+      }
+      const errorMessage = `<${displayName || 'Forward'}> can only have one DOM element child`
+      console.error(errorMessage, candidate.parentElement)
+      throw new Error(errorMessage)
     }
     return candidate as T
   }, [displayName])
   return (
     <>
-      {/* eslint-disable-next-line react/forbid-elements */}
-      <div ref={leadingRef} style={{ display: 'none' }} />
+      <i
+        ref={leadingRef}
+        className={TemplateStyles.display_none}
+      // dangerouslySetInnerHTML={{ __html: '<!-- Forward boundary start -->' }}
+      />
       {children}
-      {/* eslint-disable-next-line react/forbid-elements */}
-      <div ref={trailingRef} style={{ display: 'none' }} />
+      <i
+        ref={trailingRef}
+        className={TemplateStyles.display_none}
+      // dangerouslySetInnerHTML={{ __html: '<!-- Forward boundary end -->' }}
+      />
     </>
   )
 })

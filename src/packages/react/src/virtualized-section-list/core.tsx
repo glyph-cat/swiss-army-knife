@@ -1,6 +1,5 @@
 // @ts-nocheck Might be pending a re-write
 import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
-import { InternalError } from '@glyph-cat/foundation'
 import { isNull, isObject } from '@glyph-cat/type-checking'
 import {
   ForwardedRef,
@@ -16,6 +15,7 @@ import {
   useState,
 } from 'react'
 import { objectIsShallowEqual } from '../../../equality/src'
+import { throwInternalError } from '../_internals'
 import { forceUpdateReducer } from '../hooks'
 import { ProbeView, SizeAwareContext, useSizeAwareHandle } from '../size-aware'
 import {
@@ -333,7 +333,7 @@ function VirtualizedSectionListBase<SectionData, ItemData>(
                       )
                     }
                     default: {
-                      throw new InternalError(`Unknown cell type "${String(cellType)}"`)
+                      throwInternalError(`Unknown cell type "${String(cellType)}"`)
                     }
                   }
 

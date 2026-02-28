@@ -1,5 +1,6 @@
-import { ExperimentalPortal, useMountedState, View } from '@glyph-cat/swiss-army-knife-react'
+import { useMountedState, View } from '@glyph-cat/swiss-army-knife-react'
 import { ReactNode, useRef } from 'react'
+import { ExperimentalPortal } from '~unstable/experimental-portal'
 
 export default function Example(): ReactNode {
   const containerRef = useRef<View>(null)

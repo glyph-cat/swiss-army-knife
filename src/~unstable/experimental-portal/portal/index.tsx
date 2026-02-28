@@ -2,7 +2,7 @@ import { CleanupFunction, Nullable, NumericRecord } from '@glyph-cat/foundation'
 import { IS_DEBUG_ENV, objectMap } from '@glyph-cat/swiss-army-knife'
 import { createContext, Fragment, Key, ReactElement, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { __getDisplayName, __setDisplayName } from '../../_internals'
+// import { __getDisplayName, __setDisplayName } from '../../_internals'
 
 // —————————————————————————————————————————————————————————————————————————————
 
@@ -79,7 +79,7 @@ export function ExperimentalPortalProvider({
 
 }
 
-__setDisplayName(ExperimentalPortalProvider)
+// __setDisplayName(ExperimentalPortalProvider)
 
 // —————————————————————————————————————————————————————————————————————————————
 

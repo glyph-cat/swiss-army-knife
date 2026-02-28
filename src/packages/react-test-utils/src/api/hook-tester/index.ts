@@ -1,5 +1,5 @@
 import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { InternalError, Nullable, PartialRecord } from '@glyph-cat/foundation'
+import { Nullable, PartialRecord } from '@glyph-cat/foundation'
 import { RenderResult, render } from '@testing-library/react'
 import {
   ErrorInfo,
@@ -13,6 +13,7 @@ import {
 } from 'react'
 import { hasProperty } from '../../../../core/src/data/object/property'
 import { useForceUpdate } from '../../../../react/src/hooks/force-update'
+import { throwInternalError } from '../../_internals'
 import { ICapturedError } from '../../abstractions'
 import { ActionNotExistError, ValueNotExistError } from '../../errors'
 import { ErrorBoundary } from '../../internals'
@@ -226,7 +227,7 @@ export class HookTester<
     if (this.M$forceUpdateRef) {
       act((): void => { this.M$forceUpdateRef!() })
     } else {
-      throw new InternalError('Unable to trigger force update. This might indicate a problem where the test container component could not be rendered in the first place.')
+      throwInternalError('Unable to trigger force update. This might indicate a problem where the test container component could not be rendered in the first place.')
     }
   }
 

@@ -6,7 +6,6 @@ import {
   createContext,
   ForwardedRef,
   forwardRef,
-  JSX,
   ReactNode,
   useContext,
   useEffect,
@@ -37,7 +36,7 @@ export const SizeAwareContext = createContext<Nullable<RectangularBoundary>>(nul
 /**
  * @public
  */
-export const ProbeView = forwardRef((_, probeRef: ForwardedRef<View>): JSX.Element => {
+export const ProbeView = forwardRef((_, probeRef: ForwardedRef<View>): ReactNode => {
   return (
     <View
       ref={probeRef}
@@ -104,7 +103,7 @@ export interface SizeAwareContainerProps {
  */
 export function SizeAwareContainer({
   children,
-}: SizeAwareContainerProps): JSX.Element {
+}: SizeAwareContainerProps): ReactNode {
   const [probeRef, bounds] = useSizeAwareHandle()
   return (
     <>
@@ -121,8 +120,12 @@ export function SizeAwareContainer({
 /**
  * @public
  */
-export function useSizeAwareContext(): Nullable<RectangularBoundary> {
-  return useContext(SizeAwareContext)
+export function useSizeAwareContext(): RectangularBoundary {
+  const context = useContext(SizeAwareContext)
+  if (!context) {
+    throw new Error('`useSizeAwareContext` can only be used within a <SizeAwareContext> or <SizeAwareContainer>')
+  }
+  return context
 }
 
 // #endregion Convenience APIs

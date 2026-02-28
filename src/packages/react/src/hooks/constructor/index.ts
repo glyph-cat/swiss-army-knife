@@ -12,6 +12,9 @@ const StoreContext = createContext(new Map<string, Array<ValueWithCleanup<any>>>
 export type ValueWithCleanup<T> = [T, CleanupFunction]
 
 /**
+ * ### Usable in React v19 and above only.
+ *
+ * -----------------------------------------------------------------------------
  * A hook that initializes a value while a component is rendering for the _**first time**_
  * and performs cleanup only when the component is _**really being unmounted**_.
  *
@@ -20,7 +23,6 @@ export type ValueWithCleanup<T> = [T, CleanupFunction]
  * [`<StrictMode>`](https://react.dev/reference/react/StrictMode).
  *
  * -----------------------------------------------------------------------------
- *
  * Known issue: When rendered by
  * [`renderToStaticMarkup`](https://react.dev/reference/react-dom/server/renderToStaticMarkup)
  * or [`renderToString`](https://react.dev/reference/react-dom/server/renderToString)

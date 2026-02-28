@@ -119,6 +119,16 @@
 }
 
 .searchInput {
+  background-color: transparent;
+  border: solid 1px transparent;
+  border-bottom-left-radius: var(--spacingL);
+  border-bottom-right-radius: var(--spacingL);
+  outline: none;
   font-size: 12pt;
   padding: var(--spacingS) var(--spacingM);
+}
+
+.searchInput:focus {
+  border-color: #80808080;
+  background-color: #80808020;
 }

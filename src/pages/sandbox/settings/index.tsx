@@ -1,14 +1,12 @@
-import { RadioGroup, RadioItem, View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
+import { RadioGroup, RadioItem } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
 import { JSX, useCallback } from 'react'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import { useLocalization } from '~services/localization'
 import { ThemeState, ThemeStateValue } from '~services/theme'
 import { ThemeId } from '~services/theme/abstractions'
 import { UserPreferencesState } from '~services/user-preferences'
 import { IUserPreferences } from '~services/user-preferences/abstractions'
-import styles from './index.module.css'
 
 export default function (): JSX.Element {
 
@@ -26,7 +24,7 @@ export default function (): JSX.Element {
   })
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent>
 
       <RadioGroup
         value={themeState}
@@ -53,6 +51,6 @@ export default function (): JSX.Element {
         <RadioItem value={'zh'}>{'中文'}</RadioItem>
       </RadioGroup>
 
-    </View>
+    </SandboxContent>
   )
 }

@@ -1,6 +1,7 @@
 import { JSX, ReactNode } from 'react'
 import { __setDisplayName, useTestProbe } from '../../_internals'
 import { useHydrationState } from '../../hooks/deferral/hydration'
+import { DeferRendering } from '../defer'
 
 /**
  * @public

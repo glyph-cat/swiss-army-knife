@@ -1,10 +1,7 @@
-import clsx from 'clsx'
 import { getRandomNumber } from '@glyph-cat/swiss-army-knife'
-import { View } from '@glyph-cat/swiss-army-knife-react'
 import { useStableCallback } from 'packages/react/src/hooks/callback/stable'
 import { JSX, useCallback, useEffect, useState } from 'react'
-import { SandboxStyle } from '~constants'
-import styles from './index.module.css'
+import { SandboxContent } from '~components/sandbox/content'
 
 export default function (): JSX.Element {
 
@@ -31,7 +28,7 @@ export default function (): JSX.Element {
   }, [staleCallback])
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent>
       <pre style={{ fontSize: '24pt' }}>
         <code>
           value: {value}
@@ -44,6 +41,6 @@ export default function (): JSX.Element {
         <br /><br />
         Upon opening the browser console, we can also see that <code>{'\'Initializing effect...\''}</code> is only being logged once because the reference to <code>stableCallback</code> does not change.
       </p>
-    </View>
+    </SandboxContent>
   )
 }
