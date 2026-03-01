@@ -121,11 +121,11 @@ export const Checkbox = forwardRef(({
     return injectInlineCSSVariables({
       [__SIZE]: boxSize,
       [__TINT]: tint,
-      [__TINT_40]: tintSource.toHex().transform((prevValues) => ({
+      [__TINT_40]: tintSource.asHex().transform((prevValues) => ({
         ...prevValues,
         a: 0.4,
       })).toString(),
-      [__TINT_STRONGER]: tintSource.toHSL().transform((prevValues) => ({
+      [__TINT_STRONGER]: tintSource.asHSL().transform((prevValues) => ({
         ...prevValues,
         l: prevValues.l * 1.2,
       })).toString(),

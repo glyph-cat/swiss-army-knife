@@ -58,7 +58,6 @@ export class HSLColor extends BaseColorObject {
       .replace(CLOSING_BRACKET_PATTERN, '')
       .replaceAll('%', '')
       .split(DELIMITER_PATTERN)
-    console.log('x', [$h, $s, $l, $a])
     const hue = (() => {
       if ($h === 'none') {
         return MIN_HUE

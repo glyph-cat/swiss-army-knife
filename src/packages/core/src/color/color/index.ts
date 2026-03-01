@@ -98,12 +98,12 @@ export class Color {
 
   get luminance(): number {
     if (!this.M$luminance) {
-      this.M$luminance = getLuminance(...this.toRGB().valueOf())
+      this.M$luminance = getLuminance(...this.asRGB().valueOf())
     }
     return this.M$luminance
   }
 
-  toRGB(): RGBColor {
+  asRGB(): RGBColor {
     if (this.source instanceof RGBColor) {
       return this.source
     } else if (this.source instanceof HexColor) {
@@ -115,7 +115,7 @@ export class Color {
     throwInternalError(new MalformedColorSourceError())
   }
 
-  toHex(): HexColor {
+  asHex(): HexColor {
     if (this.source instanceof HexColor) {
       return this.source
     } else if (this.source instanceof RGBColor) {
@@ -139,7 +139,7 @@ export class Color {
     throwInternalError(new MalformedColorSourceError())
   }
 
-  toHSL(): HSLColor {
+  asHSL(): HSLColor {
     if (this.source instanceof HSLColor) {
       return this.source
     } else if (this.source instanceof RGBColor) {
@@ -176,11 +176,11 @@ export class Color {
   ): string {
     if (format) {
       if (Object.is(format, Color.hex) || Object.is(format, HexColor)) {
-        return this.toHex().toString(...options as Parameters<HexColor['toString']>)
+        return this.asHex().toString(...options as Parameters<HexColor['toString']>)
       } else if (Object.is(format, Color.rgb) || Object.is(format, RGBColor)) {
-        return this.toRGB().toString(...options as Parameters<RGBColor['toString']>)
+        return this.asRGB().toString(...options as Parameters<RGBColor['toString']>)
       } else if (Object.is(format, Color.hsl) || Object.is(format, HSLColor)) {
-        return this.toHSL().toString(...options as Parameters<HSLColor['toString']>)
+        return this.asHSL().toString(...options as Parameters<HSLColor['toString']>)
       } else {
         throw new Error(`Invalid format: ${format}`)
       }

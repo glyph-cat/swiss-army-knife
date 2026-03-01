@@ -100,7 +100,7 @@ export const ProgressRing = forwardRef(({
     const tint = new Color(tryResolvePaletteColor($color, palette, palette.primaryColor))
     return injectInlineCSSVariables({
       [__TINT]: tint.toString(),
-      [__TINT_40]: tint.toRGB().transform((prevValues) => ({
+      [__TINT_40]: tint.asRGB().transform((prevValues) => ({
         ...prevValues,
         a: 0.4,
       })).toString(),

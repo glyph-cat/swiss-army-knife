@@ -107,11 +107,11 @@ export function RadioGroup<Value>({
     return injectInlineCSSVariables({
       [__SIZE]: effectiveSize,
       [__TINT]: tint,
-      [__TINT_40]: tintSource.toRGB().transform((prevValues) => ({
+      [__TINT_40]: tintSource.asRGB().transform((prevValues) => ({
         ...prevValues,
         a: 0.4,
       })).toString(),
-      [__TINT_STRONGER]: tintSource.toHSL().transform((prevValues) => ({
+      [__TINT_STRONGER]: tintSource.asHSL().transform((prevValues) => ({
         ...prevValues,
         l: prevValues.l * 1.2
       })).toString(),

@@ -95,19 +95,19 @@ describe('Instantiation', () => {
 
 })
 
-describe(Color.prototype.toRGB.name, () => {
+describe(Color.prototype.asRGB.name, () => {
 
   describe('Source is RGB', () => {
 
     test('Color object', () => {
       const source = new RGBColor(43, 128, 255)
       const color = new Color(source)
-      expect(Object.is(color.toRGB(), color.source)).toBe(true)
+      expect(Object.is(color.asRGB(), color.source)).toBe(true)
     })
 
     test('String', () => {
       const color = new Color('rgb(43, 128, 255)')
-      expect(color.toRGB().valueOf()).toStrictEqual([43, 128, 255, 1])
+      expect(color.asRGB().valueOf()).toStrictEqual([43, 128, 255, 1])
     })
 
   })
@@ -117,13 +117,13 @@ describe(Color.prototype.toRGB.name, () => {
     test('Color object', () => {
       const source = new HexColor('#2b80ff')
       const color = new Color(source)
-      expect(Object.is(color.toRGB(), source.M$rgbReference)).toBe(true)
+      expect(Object.is(color.asRGB(), source.M$rgbReference)).toBe(true)
       expect(Object.is(source.M$rgbReference, (color.source as HexColor).M$rgbReference)).toBe(true)
     })
 
     test('String', () => {
       const color = new Color('#2b80ff')
-      expect(color.toRGB().valueOf()).toStrictEqual([43, 128, 255, 1])
+      expect(color.asRGB().valueOf()).toStrictEqual([43, 128, 255, 1])
     })
 
   })
@@ -133,13 +133,13 @@ describe(Color.prototype.toRGB.name, () => {
     test('Color object', () => {
       const source = new HSLColor(216, 100, 58)
       const color = new Color(source)
-      expect(color.toRGB().valueOf()).toStrictEqual([41, 126, 255, 1])
+      expect(color.asRGB().valueOf()).toStrictEqual([41, 126, 255, 1])
       // Slightly altered during conversion, was [43, 128, 255, 1]
     })
 
     test('String', () => {
       const color = new Color('hsl(216, 100%, 58%)')
-      expect(color.toRGB().valueOf()).toStrictEqual([41, 126, 255, 1])
+      expect(color.asRGB().valueOf()).toStrictEqual([41, 126, 255, 1])
       // Slightly altered during conversion, was [43, 128, 255, 1]
     })
 
@@ -147,19 +147,19 @@ describe(Color.prototype.toRGB.name, () => {
 
 })
 
-describe(Color.prototype.toHex.name, () => {
+describe(Color.prototype.asHex.name, () => {
 
   describe('Source is RGB', () => {
 
     test('Color object', () => {
       const source = new RGBColor(43, 128, 255)
       const color = new Color(source)
-      expect(color.toHex().valueOf()).toStrictEqual([43, 128, 255, 1])
+      expect(color.asHex().valueOf()).toStrictEqual([43, 128, 255, 1])
     })
 
     test('String', () => {
       const color = new Color('rgb(43, 128, 255)')
-      expect(color.toHex().valueOf()).toStrictEqual([43, 128, 255, 1])
+      expect(color.asHex().valueOf()).toStrictEqual([43, 128, 255, 1])
     })
 
   })
@@ -169,13 +169,13 @@ describe(Color.prototype.toHex.name, () => {
     test('Color object', () => {
       const source = new HexColor('#2b80ff')
       const color = new Color(source)
-      expect(Object.is(color.toHex(), color.source)).toBe(true)
+      expect(Object.is(color.asHex(), color.source)).toBe(true)
     })
 
     test('String', () => {
       const source = '#2b80ff'
       const color = new Color(source)
-      expect(color.toHex().literalValue).toBe(source)
+      expect(color.asHex().literalValue).toBe(source)
     })
 
   })
@@ -185,13 +185,13 @@ describe(Color.prototype.toHex.name, () => {
     test('Color object', () => {
       const source = new HSLColor(216, 100, 58)
       const color = new Color(source)
-      expect(color.toHex().valueOf()).toStrictEqual([41, 126, 255, 1])
+      expect(color.asHex().valueOf()).toStrictEqual([41, 126, 255, 1])
       // Slightly altered during conversion, was [43, 128, 255, 1]
     })
 
     test('String', () => {
       const color = new Color('hsl(216, 100%, 58%)')
-      expect(color.toHex().valueOf()).toStrictEqual([41, 126, 255, 1])
+      expect(color.asHex().valueOf()).toStrictEqual([41, 126, 255, 1])
       // Slightly altered during conversion, was [43, 128, 255, 1]
     })
 
@@ -199,19 +199,19 @@ describe(Color.prototype.toHex.name, () => {
 
 })
 
-describe(Color.prototype.toHSL.name, () => {
+describe(Color.prototype.asHSL.name, () => {
 
   describe('Source is RGB', () => {
 
     test('Color object', () => {
       const source = new RGBColor(43, 128, 255)
       const color = new Color(source)
-      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+      expect(color.asHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
     })
 
     test('String', () => {
       const color = new Color('rgb(43, 128, 255)')
-      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+      expect(color.asHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
     })
 
   })
@@ -221,12 +221,12 @@ describe(Color.prototype.toHSL.name, () => {
     test('Color object', () => {
       const source = new HexColor('#2b80ff')
       const color = new Color(source)
-      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+      expect(color.asHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
     })
 
     test('String', () => {
       const color = new Color('#2b80ff')
-      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+      expect(color.asHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
     })
 
   })
@@ -236,13 +236,13 @@ describe(Color.prototype.toHSL.name, () => {
     test('Color object', () => {
       const source = new HSLColor(216, 100, 58)
       const color = new Color(source)
-      expect(Object.is(color.toHSL(), source)).toBe(true)
+      expect(Object.is(color.asHSL(), source)).toBe(true)
 
     })
 
     test('String', () => {
       const color = new Color('hsl(216, 100%, 58%)')
-      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+      expect(color.asHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
     })
 
   })

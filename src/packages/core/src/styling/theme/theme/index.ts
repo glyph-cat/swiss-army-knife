@@ -22,7 +22,7 @@ export interface ThemeOptions {
 }
 
 const DEFAULT_PRIMARY_COLOR = '#2b80ff'
-const DEFAULT_PRIMARY_COLOR_SOURCE = new Color(DEFAULT_PRIMARY_COLOR).toHSL()
+const DEFAULT_PRIMARY_COLOR_SOURCE = new Color(DEFAULT_PRIMARY_COLOR).asHSL()
 
 /**
  * @public
@@ -41,7 +41,7 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
       DEFAULT_PRIMARY_COLOR_SOURCE.h,
       DEFAULT_PRIMARY_COLOR_SOURCE.s * 0.15,
       Math.min(DEFAULT_PRIMARY_COLOR_SOURCE.l * 1.2, 100),
-    )).toHex().toString(),
+    )).asHex().toString(),
     infoColor: '#00cccc',
     successColor: '#008000',
     warnColor: '#ee6600',
@@ -59,7 +59,7 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
       DEFAULT_PRIMARY_COLOR_SOURCE.h,
       DEFAULT_PRIMARY_COLOR_SOURCE.s * 0.15,
       DEFAULT_PRIMARY_COLOR_SOURCE.l * 0.4,
-    )).toHex().toString(),
+    )).asHex().toString(),
     infoColor: '#00cccc',
     successColor: '#00aa00',
     warnColor: '#ff8000',
@@ -129,13 +129,13 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
 
     const { primaryColor, appBgColor, appTextColor, separatorColor } = mergedBasePalette
 
-    const primaryColorHSL = new Color(primaryColor).toHSL()
-    const primaryColorLighter = new Color(adjustLightness(primaryColorHSL, 1.1)).toHex().toString()
-    const primaryColorDarker = new Color(adjustLightness(primaryColorHSL, 0.9)).toHex().toString()
+    const primaryColorHSL = new Color(primaryColor).asHSL()
+    const primaryColorLighter = new Color(adjustLightness(primaryColorHSL, 1.1)).asHex().toString()
+    const primaryColorDarker = new Color(adjustLightness(primaryColorHSL, 0.9)).asHex().toString()
 
-    const appBgColorHSL = new Color(appBgColor).toHSL()
-    const appTextColorHSL = new Color(appTextColor).toHSL()
-    const separatorColorHSL = new Color(separatorColor).toHSL()
+    const appBgColorHSL = new Color(appBgColor).asHSL()
+    const appTextColorHSL = new Color(appTextColor).asHSL()
+    const separatorColorHSL = new Color(separatorColor).asHSL()
 
     this.palette = {
       ...mergedBasePalette,
@@ -149,16 +149,16 @@ export class Theme<CustomValues extends CSSVariableRecord = CSSVariableRecord> i
       primaryTextColor: primaryColor,
       primaryTextColorLighter: primaryColorLighter,
       primaryTextColorDarker: primaryColorDarker,
-      appBgColor2: new Color(adjustLightness(appBgColorHSL, isLightColorScheme ? 0.9 : 1.1)).toHex().toString(),
-      appBgColor3: new Color(adjustLightness(appBgColorHSL, isLightColorScheme ? 0.8 : 1.2)).toHex().toString(),
-      appBgColor4: new Color(adjustLightness(appBgColorHSL, isLightColorScheme ? 0.7 : 1.3)).toHex().toString(),
-      appTextColor2: new Color(adjustLightness(appTextColorHSL, isLightColorScheme ? 1.1 : 0.9)).toHex().toString(),
-      appTextColor3: new Color(adjustLightness(appTextColorHSL, isLightColorScheme ? 1.2 : 0.8)).toHex().toString(),
-      appTextColor4: new Color(adjustLightness(appTextColorHSL, isLightColorScheme ? 1.3 : 0.7)).toHex().toString(),
+      appBgColor2: new Color(adjustLightness(appBgColorHSL, isLightColorScheme ? 0.9 : 1.1)).asHex().toString(),
+      appBgColor3: new Color(adjustLightness(appBgColorHSL, isLightColorScheme ? 0.8 : 1.2)).asHex().toString(),
+      appBgColor4: new Color(adjustLightness(appBgColorHSL, isLightColorScheme ? 0.7 : 1.3)).asHex().toString(),
+      appTextColor2: new Color(adjustLightness(appTextColorHSL, isLightColorScheme ? 1.1 : 0.9)).asHex().toString(),
+      appTextColor3: new Color(adjustLightness(appTextColorHSL, isLightColorScheme ? 1.2 : 0.8)).asHex().toString(),
+      appTextColor4: new Color(adjustLightness(appTextColorHSL, isLightColorScheme ? 1.3 : 0.7)).asHex().toString(),
       appTextColorStrong: isLightColorScheme ? '#000000' : '#ffffff',
-      separatorColor2: new Color(adjustLightness(separatorColorHSL, isLightColorScheme ? 1.1 : 0.9)).toHex().toString(),
-      separatorColor3: new Color(adjustLightness(separatorColorHSL, isLightColorScheme ? 1.2 : 0.8)).toHex().toString(),
-      separatorColor4: new Color(adjustLightness(separatorColorHSL, isLightColorScheme ? 1.3 : 0.7)).toHex().toString(),
+      separatorColor2: new Color(adjustLightness(separatorColorHSL, isLightColorScheme ? 1.1 : 0.9)).asHex().toString(),
+      separatorColor3: new Color(adjustLightness(separatorColorHSL, isLightColorScheme ? 1.2 : 0.8)).asHex().toString(),
+      separatorColor4: new Color(adjustLightness(separatorColorHSL, isLightColorScheme ? 1.3 : 0.7)).asHex().toString(),
     }
 
     this.spacing = {
