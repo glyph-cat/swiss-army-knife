@@ -1,17 +1,25 @@
-import { isNumber, isString } from '@glyph-cat/type-checking'
+import { isBoolean, isNaN, isNumber, isString } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
 import { devError } from '../../dev'
 import { radToDeg } from '../../math'
-import { hslConstructorSpyRef } from '../_internals'
+import { hslConstructorSpyRef, hslToStringSpyRef } from '../_internals'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
   CLOSING_BRACKET_PATTERN,
+  DEG_RAD_PATTERN,
   DELIMITER_PATTERN,
   HSLA_LEADING_SYNTAX_PATTERN,
+  MAX_ALPHA,
+  MAX_HUE,
+  MAX_LIGHTNESS,
+  MAX_SATURATION,
+  MIN_ALPHA,
   MIN_HUE,
+  MIN_LIGHTNESS,
+  MIN_SATURATION,
 } from '../constants'
-import { InvalidColorStringError } from '../errors'
+import { InvalidColorRangeError, InvalidColorStringError } from '../errors'
 
 /**
  * @public
@@ -36,7 +44,7 @@ export type HSLTuple = [
  * @public
  */
 export interface HSLToStringOptions {
-  // TODO
+  includeAlpha?: boolean
 }
 
 /**
@@ -50,18 +58,21 @@ export class HSLColor extends BaseColorObject {
       .replace(CLOSING_BRACKET_PATTERN, '')
       .replaceAll('%', '')
       .split(DELIMITER_PATTERN)
+    console.log('x', [$h, $s, $l, $a])
     const hue = (() => {
       if ($h === 'none') {
         return MIN_HUE
-      } else {
-        const parsedH = Number($h)
+      } else if ($h) {
+        const parsedH = Number($h.replace(DEG_RAD_PATTERN, ''))
         return $h.includes('rad') ? radToDeg(parsedH) : parsedH
+      } else {
+        return NaN
       }
     })()
     return new HSLColor(
       hue,
-      Number($s),
-      Number($l),
+      Number($s || NaN),
+      Number($l || NaN),
       $a ? Number($a) : undefined,
       literalValue,
     )
@@ -90,9 +101,19 @@ export class HSLColor extends BaseColorObject {
   ) {
     // eslint-disable-next-line prefer-rest-params
     if (IS_SOURCE_ENV) { hslConstructorSpyRef.current?.(...arguments) }
-    // TODO: range validation
     try {
-
+      if (isNaN(h) || h < MIN_HUE || h > MAX_HUE) {
+        throw new InvalidColorRangeError('h', h, MIN_HUE, MAX_HUE)
+      }
+      if (isNaN(s) || s < MIN_SATURATION || s > MAX_SATURATION) {
+        throw new InvalidColorRangeError('s', s, MIN_SATURATION, MAX_SATURATION)
+      }
+      if (isNaN(l) || l < MIN_LIGHTNESS || l > MAX_LIGHTNESS) {
+        throw new InvalidColorRangeError('l', l, MIN_LIGHTNESS, MAX_LIGHTNESS)
+      }
+      if (isNaN(a) || (isNumber(a) && (a < MIN_ALPHA || a > MAX_ALPHA))) {
+        throw new InvalidColorRangeError('a', a, MIN_ALPHA, MAX_ALPHA)
+      }
     } catch (error) {
       if (isString(literalValue)) {
         const overrideError = new InvalidColorStringError(literalValue)
@@ -106,10 +127,12 @@ export class HSLColor extends BaseColorObject {
   }
 
   toString(options?: HSLToStringOptions): string {
-    if (isNumber(this.a)) {
-      return `hsla(${this.h}, ${this.s}, ${this.l}, ${this.a})`
+    // eslint-disable-next-line prefer-rest-params
+    if (IS_SOURCE_ENV) { hslToStringSpyRef.current?.(...arguments) }
+    if ((this.a !== 1 && !isBoolean(options?.includeAlpha)) || options?.includeAlpha) {
+      return `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.a})`
     } else {
-      return `hsl(${this.h}, ${this.s}, ${this.l})`
+      return `hsl(${this.h}, ${this.s}%, ${this.l}%)`
     }
   }
 

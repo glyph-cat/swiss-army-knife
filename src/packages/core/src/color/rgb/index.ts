@@ -1,7 +1,7 @@
 import { isBoolean, isNaN, isNumber, isString } from '@glyph-cat/type-checking'
 import { IS_SOURCE_ENV } from '../../constants'
 import { devError } from '../../dev'
-import { rgbConstructorSpyRef } from '../_internals'
+import { rgbConstructorSpyRef, rgbToStringSpyRef } from '../_internals'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
@@ -52,9 +52,9 @@ export class RGBColor extends BaseColorObject {
       .replace(CLOSING_BRACKET_PATTERN, '')
       .split(DELIMITER_PATTERN)
     return new RGBColor(
-      Number($r),
-      Number($g),
-      Number($b),
+      Number($r || NaN),
+      Number($g || NaN),
+      Number($b || NaN),
       $a ? Number($a) : undefined,
       literalValue,
     )
@@ -91,7 +91,7 @@ export class RGBColor extends BaseColorObject {
         throw new InvalidColorRangeError('b', b, MIN_RGB, MAX_RGB)
       }
       if (isNaN(a) || (isNumber(a) && (a < MIN_ALPHA || a > MAX_ALPHA))) {
-        throw new InvalidColorRangeError('a', a, MIN_RGB, MAX_RGB)
+        throw new InvalidColorRangeError('a', a, MIN_ALPHA, MAX_ALPHA)
       }
     } catch (error) {
       if (isString(literalValue)) {
@@ -106,6 +106,8 @@ export class RGBColor extends BaseColorObject {
   }
 
   toString(options?: RGBToStringOptions): string {
+    // eslint-disable-next-line prefer-rest-params
+    if (IS_SOURCE_ENV) { rgbToStringSpyRef.current?.(...arguments) }
     if ((this.a !== 1 && !isBoolean(options?.includeAlpha)) || options?.includeAlpha) {
       return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`
     } else {

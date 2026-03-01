@@ -103,47 +103,6 @@ export class Color {
     return this.M$luminance
   }
 
-  toString(): string
-
-  toString(
-    format: typeof RGBColor | typeof Color.rgb,
-    ...options: Parameters<RGBColor['toString']>
-  ): string
-
-  toString(
-    format: typeof HexColor | typeof Color.hex,
-    ...options: Parameters<HexColor['toString']>
-  ): string
-
-  toString(
-    format: typeof HSLColor | typeof Color.hsl,
-    ...options: Parameters<HSLColor['toString']>
-  ): string
-
-  toString(
-    format?: typeof RGBColor | typeof HexColor | typeof HSLColor |
-      typeof Color.rgb | typeof Color.hsl | typeof Color.hex,
-    ...options: Parameters<(RGBColor | HexColor | HSLColor)['toString']>
-  ): string {
-    if (format) {
-      if (Object.is(format, Color.hex) || Object.is(format, HexColor)) {
-        return this.toHex().toString(...options as Parameters<HexColor['toString']>)
-      } else if (Object.is(format, Color.rgb) || Object.is(format, RGBColor)) {
-        return this.toRGB().toString(...options as Parameters<RGBColor['toString']>)
-      } else if (Object.is(format, Color.hsl) || Object.is(format, HSLColor)) {
-        return this.toHSL().toString(...options as Parameters<HSLColor['toString']>)
-      } else {
-        throw new Error(`Invalid format: ${format}`)
-      }
-    } else {
-      if (this.M$originalValue) {
-        return this.M$originalValue
-      } else {
-        return this.source.toString()
-      }
-    }
-  }
-
   toRGB(): RGBColor {
     if (this.source instanceof RGBColor) {
       return this.source
@@ -191,6 +150,47 @@ export class Color {
       return new HSLColor(...rgbToHsl(r, g, b), a)
     }
     throwInternalError(new MalformedColorSourceError())
+  }
+
+  toString(): string
+
+  toString(
+    format: typeof RGBColor | typeof Color.rgb,
+    ...options: Parameters<RGBColor['toString']>
+  ): string
+
+  toString(
+    format: typeof HexColor | typeof Color.hex,
+    ...options: Parameters<HexColor['toString']>
+  ): string
+
+  toString(
+    format: typeof HSLColor | typeof Color.hsl,
+    ...options: Parameters<HSLColor['toString']>
+  ): string
+
+  toString(
+    format?: typeof RGBColor | typeof HexColor | typeof HSLColor |
+      typeof Color.rgb | typeof Color.hsl | typeof Color.hex,
+    ...options: Parameters<(RGBColor | HexColor | HSLColor)['toString']>
+  ): string {
+    if (format) {
+      if (Object.is(format, Color.hex) || Object.is(format, HexColor)) {
+        return this.toHex().toString(...options as Parameters<HexColor['toString']>)
+      } else if (Object.is(format, Color.rgb) || Object.is(format, RGBColor)) {
+        return this.toRGB().toString(...options as Parameters<RGBColor['toString']>)
+      } else if (Object.is(format, Color.hsl) || Object.is(format, HSLColor)) {
+        return this.toHSL().toString(...options as Parameters<HSLColor['toString']>)
+      } else {
+        throw new Error(`Invalid format: ${format}`)
+      }
+    } else {
+      if (this.M$originalValue) {
+        return this.M$originalValue
+      } else {
+        return this.source.toString()
+      }
+    }
   }
 
 }

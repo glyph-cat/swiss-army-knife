@@ -96,7 +96,7 @@ describe(RGBColor.fromString.name, () => {
     })
 
     test('Custom alpha', () => {
-      const color = RGBColor.fromString('rgb(43, 128, 255, 0.65)')
+      const color = RGBColor.fromString('rgba(43, 128, 255, 0.65)')
       expect(color.valueOf()).toStrictEqual([43, 128, 255, 0.65])
       expect(color.toJSON()).toStrictEqual({ r: 43, g: 128, b: 255, a: 0.65 })
     })
@@ -180,7 +180,7 @@ test(RGBColor.fromJSON.name, () => {
 
 describe(RGBColor.prototype.toString.name, () => {
 
-  describe('Contains alpha', () => {
+  describe('Does not contain alpha', () => {
 
     test('includeAlpha: true', () => {
       const color = new RGBColor(43, 128, 255)
@@ -199,7 +199,7 @@ describe(RGBColor.prototype.toString.name, () => {
 
   })
 
-  describe('Does not contain alpha', () => {
+  describe('Contains alpha', () => {
 
     test('includeAlpha: true', () => {
       const color = new RGBColor(43, 128, 255, 0.65)

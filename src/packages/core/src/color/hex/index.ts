@@ -1,5 +1,5 @@
 import { IS_SOURCE_ENV } from '../../constants'
-import { hexConstructorSpyRef } from '../_internals'
+import { hexConstructorSpyRef, hexToStringSpyRef } from '../_internals'
 import { BaseColorObject } from '../base'
 import { HEX_COLOR_PATTERN, HEX_EXTRACTION_PATTERN, MAX_ALPHA, MAX_RGB } from '../constants'
 import { InvalidColorStringError } from '../errors'
@@ -71,22 +71,24 @@ export class HexColor extends BaseColorObject implements RGBJson {
   }
 
   toString(format?: HexColorFormat): string {
+    // eslint-disable-next-line prefer-rest-params
+    if (IS_SOURCE_ENV) { hexToStringSpyRef.current?.(...arguments) }
     if (format) {
       const { r, g, b, a } = this.M$rgbReference
       const rr = getDoubleDigitHex(r)
       const gg = getDoubleDigitHex(g)
       const bb = getDoubleDigitHex(b)
-      const aa = getDoubleDigitHex(a)
+      const aa = getDoubleDigitHex(a * MAX_RGB)
       const rrggbbMatches = rr[0] === rr[1] && gg[0] === gg[1] && bb[0] === bb[1]
       if (format === '#rgb') {
         if (rrggbbMatches) {
-          return '#' + r + g + b
+          return '#' + rr[0] + gg[0] + bb[0]
         } else {
           format = '#rrggbb' // fallback
         }
       } else if (format === '#rgba') {
         if (rrggbbMatches && aa[0] === aa[1]) {
-          return '#' + r + g + b + a
+          return '#' + rr[0] + gg[0] + bb[0] + aa[0]
         } else {
           format = '#rrggbbaa' // fallback
         }
