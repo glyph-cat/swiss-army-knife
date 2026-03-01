@@ -1,6 +1,7 @@
 import { PROJECT_ROOT_DIRECTORY } from '../../scripts/constants'
 import { getPackageDependencies } from '../../src/packages/project-helpers/src/get-package-dependencies'
 import { readPackageJson } from '../../src/packages/project-helpers/src/read-package-json'
+import { getSiblingPackages } from '../get-sibling-packages'
 
 /**
  * @deprecated This is a temporary solution. Sub-packages should specify their
@@ -8,5 +9,8 @@ import { readPackageJson } from '../../src/packages/project-helpers/src/read-pac
  * the root.
  */
 export function getDependenciesFromRoot(): Array<string> {
-  return getPackageDependencies(readPackageJson(PROJECT_ROOT_DIRECTORY))
+  return [
+    ...Object.values(getSiblingPackages()),
+    ...getPackageDependencies(readPackageJson(PROJECT_ROOT_DIRECTORY)),
+  ]
 }

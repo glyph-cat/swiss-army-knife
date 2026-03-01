@@ -6,6 +6,7 @@ import {
   customTerser,
   setDisplayName,
 } from '../../../../tools/custom-rollup-plugins'
+import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -13,6 +14,14 @@ import packageJson from '../package.json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 
 const INPUT_FILE = 'src/index.ts'
+
+const EXTERNAL_LIBS = [
+  ...getDependenciesFromRoot(),
+].sort()
+
+const SHARED_GLOBALS = {
+  '@sinonjs/fake-timers': 'fakeTimers',
+}
 
 const UMD_NAME = 'SleepSort'
 
@@ -65,6 +74,7 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
+    external: EXTERNAL_LIBS,
     plugins: getPlugins({ buildType: BuildType.CJS }),
   },
   {
@@ -76,6 +86,7 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
+    external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildType: BuildType.ES,
     }),
@@ -89,6 +100,7 @@ const config: Array<RollupOptions> = [
       exports: 'named',
       sourcemap: false,
     },
+    external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildType: BuildType.MJS,
       isProductionTarget: true,
@@ -103,7 +115,9 @@ const config: Array<RollupOptions> = [
       name: UMD_NAME,
       exports: 'named',
       sourcemap: true,
+      globals: SHARED_GLOBALS,
     },
+    external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildType: BuildType.UMD,
     }),
@@ -117,7 +131,9 @@ const config: Array<RollupOptions> = [
       name: UMD_NAME,
       exports: 'named',
       sourcemap: true,
+      globals: SHARED_GLOBALS,
     },
+    external: EXTERNAL_LIBS,
     plugins: getPlugins({
       buildType: BuildType.UMD_MIN,
       isProductionTarget: true,

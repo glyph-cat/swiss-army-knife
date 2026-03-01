@@ -31,7 +31,7 @@ export function drawLandmarks(
   for (const landmark of landmarks) {
     const { x, y } = landmark
     ctx.beginPath()
-    ctx.arc(x * ctx.canvas.width, y * ctx.canvas.height, style.radius, 0, 2 * Math.PI)
+    ctx.arc(x * ctx.canvas.width, y * ctx.canvas.height, mergedStyle.radius, 0, 2 * Math.PI)
     ctx.fillStyle = mergedStyle.color
     ctx.fill()
   }

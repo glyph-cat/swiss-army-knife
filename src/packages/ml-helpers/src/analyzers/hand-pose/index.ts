@@ -1,3 +1,4 @@
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 import { reflect1D } from '@glyph-cat/swiss-army-knife'
 import {
   HandLandmarker,
@@ -57,13 +58,15 @@ export class OnePersonHandPoseAnalyzer extends BaseLandmarkAnalyzer<HandLandmark
     }, 'OnePersonHandPoseAnalyzer', options)
   }
 
-  protected getProcessedResult(rawResult: HandLandmarkerResult): OnePersonHandPoseAnalyzerResult {
+  protected getProcessedResult(
+    rawResult: HandLandmarkerResult,
+  ): PossiblyUndefined<OnePersonHandPoseAnalyzerResult> {
     const bodyPoseResult = this.bodyPoseAnalyzer.result.get()
     const processedLandmarks: OnePersonHandPoseAnalyzerResult = {}
     const flipHorizontally = this.options?.flipHorizontally
     for (const landmarks of rawResult.landmarks) {
       const subLandmark: Array<NormalizedLandmark> = []
-      let wrist: NormalizedLandmark
+      let wrist!: NormalizedLandmark
       for (let i = 0; i < landmarks.length; i++) {
         const landmark = landmarks[i]
         const flippedLandmark = {

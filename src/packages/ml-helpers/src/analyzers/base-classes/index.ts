@@ -1,4 +1,4 @@
-import { Awaitable, StringRecord, } from '@glyph-cat/foundation'
+import { Awaitable, PossiblyUndefined, StringRecord } from '@glyph-cat/foundation'
 import { createEnumToStringConverter, LazyValue } from '@glyph-cat/swiss-army-knife'
 import { FilesetResolver } from '@mediapipe/tasks-vision'
 import { SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
@@ -70,8 +70,8 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
     return this.M$vision.value
   }
 
-  protected taskRunner: TaskRunner
-  protected lastRequestedAnimationFrame: number
+  protected taskRunner?: TaskRunner
+  protected lastRequestedAnimationFrame?: number
   readonly result: SimpleStateManager<Result>
   readonly state: SimpleFiniteStateManager<VisionAnalyzerState>
 
@@ -81,7 +81,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
     private readonly getTaskRunner: () => Awaitable<TaskRunner>,
     readonly detectionMethodName: DetectionMethod,
     classDisplayName: string,
-    options: VisionAnalyzerOptions,
+    options: VisionAnalyzerOptions | undefined,
   ) {
 
     this.initialize = this.initialize.bind(this)
@@ -108,7 +108,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
       serializeState: createEnumToStringConverter(VisionAnalyzerState),
     })
 
-    if (options.initializeImmediately) {
+    if (options?.initializeImmediately) {
       this.initialize()
     }
 
@@ -162,7 +162,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
     // if active, can dispose
     // if disposed, throw error
     await this.state.wait((s) => s !== VisionAnalyzerState.INITIALIZING)
-    cancelAnimationFrame(this.lastRequestedAnimationFrame)
+    cancelAnimationFrame(this.lastRequestedAnimationFrame!)
     // taskRunner.close()
     this.result.dispose()
     this.state.trySet(VisionAnalyzerState.DISPOSED)
@@ -182,7 +182,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
    * @internal
    */
   private M$stopBase(): void {
-    cancelAnimationFrame(this.lastRequestedAnimationFrame)
+    cancelAnimationFrame(this.lastRequestedAnimationFrame!)
   }
 
   /**
@@ -190,7 +190,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
    */
   private async performAnalysis(): Promise<void> {
     if (this.state.get() !== VisionAnalyzerState.ACTIVE) { return } // Early exit
-    const result = this.taskRunner[this.detectionMethodName](this.videoElement, performance.now())
+    const result = this.taskRunner![this.detectionMethodName](this.videoElement, performance.now())
     const processedResult = this.getProcessedResult(result as ReturnType<TaskRunner[typeof this.detectionMethodName]>)
     if (processedResult) { this.result.set(processedResult) }
     this.lastRequestedAnimationFrame = requestAnimationFrame(this.performAnalysis)
@@ -198,7 +198,7 @@ export abstract class BaseVisionAnalyzer<TaskRunner extends StringRecord<any>, R
 
   protected abstract getProcessedResult(
     rawResult: ReturnType<TaskRunner[typeof this.detectionMethodName]>
-  ): Result
+  ): PossiblyUndefined<Result>
 
 }
 
@@ -219,7 +219,7 @@ export abstract class BaseLandmarkAnalyzer<Landmarker extends VisionLandmarker, 
     initialResult: Result,
     getTaskRunner: () => Awaitable<Landmarker>,
     displayName: string,
-    options: LandmarkAnalyzerOptions,
+    options: LandmarkAnalyzerOptions | undefined,
   ) {
     super(
       videoElement,

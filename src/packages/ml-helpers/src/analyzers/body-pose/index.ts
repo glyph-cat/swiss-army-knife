@@ -1,3 +1,4 @@
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 import { reflect1D } from '@glyph-cat/swiss-army-knife'
 import {
   NormalizedLandmark,
@@ -53,7 +54,9 @@ export class OnePersonBodyPoseAnalyzer extends BaseLandmarkAnalyzer<PoseLandmark
     }, 'OnePersonBodyPoseAnalyzer', options)
   }
 
-  protected getProcessedResult(rawResult: PoseLandmarkerResult): OnePersonBodyPoseAnalyzerResult {
+  protected getProcessedResult(
+    rawResult: PoseLandmarkerResult,
+  ): PossiblyUndefined<OnePersonBodyPoseAnalyzerResult> {
     const processedLandmarks: OnePersonBodyPoseAnalyzerResult = []
     if (rawResult.landmarks.length <= 0) { return }
     const landmarks = rawResult.landmarks[0]

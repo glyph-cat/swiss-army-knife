@@ -17,6 +17,13 @@ const EXTERNAL_LIBS = [
   ...getDependenciesFromRoot(),
 ].sort()
 
+const SHARED_GLOBALS = {
+  '@glyph-cat/foundation': 'GCFoundation',
+  '@glyph-cat/type-checking': 'TypeChecking',
+  autoprefixer: 'autoprefixer',
+  postcss: 'postcss',
+}
+
 const INPUT_FILE = 'src/index.ts'
 
 const UMD_NAME = 'CssUtils'
@@ -111,10 +118,7 @@ const config: Array<RollupOptions> = [
       name: UMD_NAME,
       exports: 'named',
       sourcemap: true,
-      globals: {
-        autoprefixer: 'autoprefixer',
-        postcss: 'postcss',
-      },
+      globals: SHARED_GLOBALS,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
@@ -130,10 +134,7 @@ const config: Array<RollupOptions> = [
       name: UMD_NAME,
       exports: 'named',
       sourcemap: true,
-      globals: {
-        autoprefixer: 'autoprefixer',
-        postcss: 'postcss',
-      },
+      globals: SHARED_GLOBALS,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({

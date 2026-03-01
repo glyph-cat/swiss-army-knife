@@ -39,6 +39,8 @@
   "dependencies": {
     "@glyph-cat/cleanup-manager": "^1.0.0",
     "@glyph-cat/foundation": "0.0.0-experimental.88",
-    "@glyph-cat/type-checking": "^1.0.0"
+    "@glyph-cat/type-checking": "^1.0.0",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.3"
   }
 }

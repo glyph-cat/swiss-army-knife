@@ -106,16 +106,22 @@ export class ComplexHandGesture {
       const curlDefinition = fingerCurlStates[curlState as Finger]
       if (hasProperty(curlDefinition, 'is')) {
         compactFingerCurlExpression[curlState as Finger] = {
+          // TOFIX
+          // @ts-expect-error
           curlStates: new Set([curlDefinition.is]),
           is: true,
         }
       } else if (hasProperty(curlDefinition, 'isOneOf')) {
         compactFingerCurlExpression[curlState as Finger] = {
+          // TOFIX
+          // @ts-expect-error
           curlStates: new Set([...curlDefinition.isOneOf]),
           is: true,
         }
       } else if (hasProperty(curlDefinition, 'isNot')) {
         compactFingerCurlExpression[curlState as Finger] = {
+          // TOFIX
+          // @ts-expect-error
           curlStates: new Set([curlDefinition.isNot]),
           is: false,
         }
@@ -134,12 +140,12 @@ export class ComplexHandGesture {
       if (!hasProperty(this.M$compactFingerCurlExpression, curlState)) { continue }
       const fingerCurlResult = ComplexHandGesture.determineFingerCurl(hand, curlState as Finger)
       const curlDefinition = this.M$compactFingerCurlExpression[curlState as Finger]
-      if (curlDefinition.is) {
+      if (curlDefinition?.is) {
         if (!curlDefinition.curlStates.has(fingerCurlResult)) {
           return false
         }
       } else {
-        if (curlDefinition.curlStates.has(fingerCurlResult)) {
+        if (curlDefinition?.curlStates.has(fingerCurlResult)) {
           return false
         }
       }

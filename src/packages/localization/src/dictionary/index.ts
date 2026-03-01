@@ -1,4 +1,4 @@
-import { LenientString, RefObject } from '@glyph-cat/foundation'
+import { LenientString, NullableRefObject } from '@glyph-cat/foundation'
 import { hasProperty, LazyValue } from '@glyph-cat/swiss-army-knife'
 import { IDictionaryData, Language, LocalizationKey, LocalizedValue } from '../abstractions'
 import { LanguageNotFoundError, LocalizationKeyNotFoundError } from '../errors'
@@ -98,7 +98,7 @@ export class LocalizationDictionary<DictionaryData extends IDictionaryData> {
   tryLocalize(
     language: LenientString<Language<DictionaryData>>,
     key: LenientString<LocalizationKey<DictionaryData>>,
-    valueRef: RefObject<LocalizedValue<DictionaryData>>
+    valueRef: NullableRefObject<LocalizedValue<DictionaryData>>
   ): boolean {
     if (hasProperty(this.data, language)) {
       if (hasProperty(this.data[language], key)) {

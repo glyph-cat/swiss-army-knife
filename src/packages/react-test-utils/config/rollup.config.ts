@@ -12,6 +12,7 @@ import packageJson from '../package.json'
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
+  'react/jsx-runtime',
   ...getDependenciesFromRoot(),
 ]
 

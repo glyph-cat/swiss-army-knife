@@ -1,9 +1,13 @@
-import { UnsupportedPlatformError } from '@glyph-cat/foundation'
+import { Platform } from 'react-native'
 
 /**
  * @public
  */
 export function checkIsApplePlatform(): boolean {
-  // TODO: This should actually be possible if we tap into some React Native APIs
-  throw new UnsupportedPlatformError()
+  const platformOS = Platform.OS
+  return platformOS === 'ios' || platformOS === 'macos'
 }
+
+// #region Miscellaneous exports
+export * from './constants/public'
+// #endregion Miscellaneous exports

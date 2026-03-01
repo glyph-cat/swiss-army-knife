@@ -9,6 +9,7 @@ import { BaseVisionAnalyzer, DetectionMethod, LandmarkAnalyzerOptions } from '..
 import { BodyPoseLandmark, OnePersonBodyPoseAnalyzer } from '../body-pose'
 import { HandPoseLandmark } from '../hand-pose'
 import { getHandedness } from '../hand-pose/utils'
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 
 /**
  * @public
@@ -55,18 +56,20 @@ export class OnePersonHandGestureAnalyzer extends BaseVisionAnalyzer<GestureReco
             numHands: 2,
           }
         )
-        return OnePersonHandGestureAnalyzer.M$cache[optionsKey]
       }
+      return OnePersonHandGestureAnalyzer.M$cache[optionsKey]
     }, DetectionMethod.recognizeForVideo, 'OnePersonHandGestureAnalyzer', options)
   }
 
-  protected getProcessedResult(rawResult: GestureRecognizerResult): OnePersonHandGestureAnalyzerResult {
+  protected getProcessedResult(
+    rawResult: GestureRecognizerResult
+  ): PossiblyUndefined<OnePersonHandGestureAnalyzerResult> {
     const bodyPoseResult = this.bodyPoseAnalyzer.result.get()
     const processedResults: OnePersonHandGestureAnalyzerResult = {}
     for (const landmarksIndex in rawResult.landmarks) {
       const landmarks = rawResult.landmarks[landmarksIndex]
       const subLandmark: Array<NormalizedLandmark> = []
-      let wrist: NormalizedLandmark
+      let wrist!: NormalizedLandmark
       for (let i = 0; i < landmarks.length; i++) {
         const landmark = landmarks[i]
         const flippedLandmark = {

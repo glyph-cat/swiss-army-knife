@@ -1,4 +1,4 @@
-import { createRef } from '@glyph-cat/swiss-army-knife'
+import { createRef } from '@glyph-cat/foundation'
 import {
   LanguageNotFoundError,
   LocalizationDictionary,

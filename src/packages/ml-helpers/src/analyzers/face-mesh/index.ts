@@ -1,3 +1,4 @@
+import { PossiblyUndefined } from '@glyph-cat/foundation'
 import { reflect1D } from '@glyph-cat/swiss-army-knife'
 import {
   FaceLandmarker,
@@ -51,7 +52,9 @@ export class OnePersonFaceMeshAnalyzer extends BaseLandmarkAnalyzer<FaceLandmark
     }, 'OnePersonFaceMeshAnalyzer', options)
   }
 
-  protected getProcessedResult(rawResult: FaceLandmarkerResult): OnePersonFaceMeshAnalyzerResult {
+  protected getProcessedResult(
+    rawResult: FaceLandmarkerResult
+  ): PossiblyUndefined<OnePersonFaceMeshAnalyzerResult> {
     const processedLandmarks: OnePersonFaceMeshAnalyzerResult = []
     if (rawResult.faceLandmarks?.length <= 0) { return }
     const flipHorizontally = this.options?.flipHorizontally
