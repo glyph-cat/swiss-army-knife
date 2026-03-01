@@ -8,8 +8,8 @@ import {
   removeTestProbes,
   setDisplayName,
 } from '../../../../tools/custom-rollup-plugins'
+import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import { BuildType } from '../../foundation/src/build'
-import { getPackageDependencies } from '../../project-helpers/src'
 import packageJson from '../package.json'
 
 // @ts-expect-error because we are relying on an old version
@@ -37,8 +37,7 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
-  // @ts-expect-error: This is a problem with TypeFest's definition for `peerDependenciesMeta`.
-  ...getPackageDependencies(packageJson),
+...getDependenciesFromRoot(),
 ].sort()
 
 interface IPluginConfig {

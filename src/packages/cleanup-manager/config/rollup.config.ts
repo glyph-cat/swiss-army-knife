@@ -4,7 +4,7 @@ import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import { getPackageDependencies } from '../../project-helpers/src'
+import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import packageJson from '../package.json'
 
 // @ts-expect-error because we are relying on an old version
@@ -13,7 +13,7 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  ...getPackageDependencies(packageJson),
+  ...getDependenciesFromRoot(),
 ].sort()
 
 const UMD_NAME = 'CleanupManager'

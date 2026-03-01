@@ -5,14 +5,14 @@ import { execSync } from 'child_process'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
+import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import { BuildType } from '../../foundation/src/build'
-import { getPackageDependencies } from '../../project-helpers/src'
 import packageJson from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  ...getPackageDependencies(packageJson),
+  ...getDependenciesFromRoot(),
 ]
 
 interface IPluginConfig {

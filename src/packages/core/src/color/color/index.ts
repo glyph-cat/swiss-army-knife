@@ -56,6 +56,9 @@ export class Color {
     return new HSLColor(...args)
   }
 
+  /**
+   * @internal
+   */
   private readonly M$originalValue?: string
 
   readonly source: RGBColor | HexColor | HSLColor

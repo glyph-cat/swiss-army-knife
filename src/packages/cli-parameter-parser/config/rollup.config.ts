@@ -3,14 +3,13 @@ import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import { getPackageDependencies } from '../../project-helpers/src'
-import packageJson from '../package.json'
+import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 
 // @ts-expect-error because we are relying on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
 
 const EXTERNAL_LIBS = [
-  ...getPackageDependencies(packageJson),
+  ...getDependenciesFromRoot(),
 ].sort()
 
 const config: Array<RollupOptions> = [

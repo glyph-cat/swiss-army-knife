@@ -48,5 +48,13 @@
     "cotton-box": "^0.14.0",
     "postcss": "^8.5.3",
     "query-string": "^9.3.1"
+  },
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "react-native": {
+      "optional": true
+    }
   }
 }
