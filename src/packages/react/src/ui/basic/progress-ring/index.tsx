@@ -1,6 +1,6 @@
 import { injectInlineCSSVariables, px } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import { Color, ColorFormat, getPercentage } from '@glyph-cat/swiss-army-knife'
+import { Color, getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
@@ -84,9 +84,9 @@ export const ProgressRing = forwardRef(({
 
   const { palette } = useThemeContext()
 
-  const tint = Color
-    .fromString(tryResolvePaletteColor($color, palette, palette.primaryColor))
-    .toString(ColorFormat.FFFFFF, { suppressAlphaInShortFormats: true })
+  // const tint = Color
+  //   .fromString(tryResolvePaletteColor($color, palette, palette.primaryColor))
+  //   .toString(ColorFormat.FFFFFF, { suppressAlphaInShortFormats: true })
   const effectiveSize = isNumber(size) ? size : ((size && sizePresets[size]) ?? sizePresets.m)
   const indeterminate = !isNumber(value)
   let clampedValue = indeterminate ? minValue : Math.max(minValue, value)
@@ -97,20 +97,18 @@ export const ProgressRing = forwardRef(({
 
   const containerRef = useRef<View>(null!)
   useEffect(() => {
-    const tintSource = Color.fromString(tint)
+    const tint = new Color(tryResolvePaletteColor($color, palette, palette.primaryColor))
     return injectInlineCSSVariables({
-      [__TINT]: tint,
-      [__TINT_40]: Color.fromRGBObject({
-        red: tintSource.red,
-        blue: tintSource.blue,
-        green: tintSource.green,
-        alpha: 0.4,
-      }).toString(ColorFormat.FFFFFFFF),
+      [__TINT]: tint.toString(),
+      [__TINT_40]: tint.toRGB().transform((prevValues) => ({
+        ...prevValues,
+        a: 0.4,
+      })).toString(),
       [__SIZE]: effectiveSize,
       [__THICKNESS]: px(thickness),
       ...(indeterminate ? {} : { [__ANGLE]: `${angle}deg` })
     }, containerRef.current)
-  }, [angle, effectiveSize, indeterminate, thickness, tint])
+  }, [$color, angle, effectiveSize, indeterminate, palette, thickness])
 
   useImperativeHandle(forwardedRef, () => containerRef.current, [])
 

@@ -70,6 +70,18 @@ export class HexColor extends BaseColorObject implements RGBJson {
 
   }
 
+  transform(fn: (values: RGBJson) => RGBJson): HexColor {
+    // Special: this logic is copied from `Color` to avoid cyclic dependency.
+    // Direct conversion of one Color object type to another is not allowed by design.
+    const { r, g, b, a } = RGBColor.fromJSON(fn(this.toJSON()))
+    return new HexColor('#' +
+      getDoubleDigitHex(r) +
+      getDoubleDigitHex(g) +
+      getDoubleDigitHex(b) +
+      getDoubleDigitHex(a * MAX_RGB)
+    )
+  }
+
   toString(format?: HexColorFormat): string {
     // eslint-disable-next-line prefer-rest-params
     if (IS_SOURCE_ENV) { hexToStringSpyRef.current?.(...arguments) }
@@ -103,12 +115,12 @@ export class HexColor extends BaseColorObject implements RGBJson {
     return this.literalValue.toLowerCase()
   }
 
-  valueOf(): RGBTuple {
-    return this.M$rgbReference.valueOf()
-  }
-
   toJSON(): RGBJson {
     return this.M$rgbReference.toJSON()
+  }
+
+  valueOf(): RGBTuple {
+    return this.M$rgbReference.valueOf()
   }
 
 }

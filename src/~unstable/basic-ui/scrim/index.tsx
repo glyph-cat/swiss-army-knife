@@ -1,6 +1,8 @@
-import { delay, isFunction, Key } from '@glyph-cat/swiss-army-knife'
+import { Nullable } from '@glyph-cat/foundation'
+import { delay, Key } from '@glyph-cat/swiss-army-knife'
 import { useKeyDownListener, useThemeContext, View } from '@glyph-cat/swiss-army-knife-react'
-import { JSX, ReactNode, useEffect, useState } from 'react'
+import { isFunction } from '@glyph-cat/type-checking'
+import { ReactNode, useEffect, useState } from 'react'
 import { animations, styles } from './styles'
 
 export interface ScrimProps {
@@ -26,17 +28,18 @@ export function Scrim({
   onDismiss,
   dismissOnEscape,
   dismissOnTap,
-}: ScrimProps): JSX.Element {
+}: ScrimProps): ReactNode {
 
   const { duration } = useThemeContext()
   const ENTRANCE_ANIMATION_DURATION = duration.SHORT
   const EXIT_ANIMATION_DURATION = duration.LONG
 
-  const [animationName, setAnimationName] = useState<string>(visible ? animations.in : null)
+  const [animationName, setAnimationName] = useState<Nullable<string>>(visible ? animations.in : null)
   const [shouldRender, setRenderState] = useState(visible)
 
   useEffect(() => {
     if (visible) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRenderState(true)
       setAnimationName(animations.in)
     } else {

@@ -105,6 +105,10 @@ export class RGBColor extends BaseColorObject {
     super(a)
   }
 
+  transform(fn: (values: RGBJson) => RGBJson): RGBColor {
+    return RGBColor.fromJSON(fn(this.toJSON())) // todo: test
+  }
+
   toString(options?: RGBToStringOptions): string {
     // eslint-disable-next-line prefer-rest-params
     if (IS_SOURCE_ENV) { rgbToStringSpyRef.current?.(...arguments) }
@@ -115,12 +119,12 @@ export class RGBColor extends BaseColorObject {
     }
   }
 
-  valueOf(): RGBTuple {
-    return [this.r, this.g, this.b, this.a]
-  }
-
   toJSON(): RGBJson {
     return { r: this.r, g: this.g, b: this.b, a: this.a }
+  }
+
+  valueOf(): RGBTuple {
+    return [this.r, this.g, this.b, this.a]
   }
 
 }

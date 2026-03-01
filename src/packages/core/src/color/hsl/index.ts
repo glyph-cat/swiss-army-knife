@@ -126,6 +126,10 @@ export class HSLColor extends BaseColorObject {
     super(a)
   }
 
+  transform(fn: (values: HSLJson) => HSLJson): HSLColor {
+    return HSLColor.fromJSON(fn(this.toJSON())) // todo: test
+  }
+
   toString(options?: HSLToStringOptions): string {
     // eslint-disable-next-line prefer-rest-params
     if (IS_SOURCE_ENV) { hslToStringSpyRef.current?.(...arguments) }
@@ -136,12 +140,12 @@ export class HSLColor extends BaseColorObject {
     }
   }
 
-  valueOf(): HSLTuple {
-    return [this.h, this.s, this.l, this.a]
-  }
-
   toJSON(): HSLJson {
     return { h: this.h, s: this.s, l: this.l, a: this.a }
+  }
+
+  valueOf(): HSLTuple {
+    return [this.h, this.s, this.l, this.a]
   }
 
 }

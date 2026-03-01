@@ -1,3 +1,4 @@
+import { Empty } from '@glyph-cat/foundation'
 import { Color } from '.'
 import {
   hexConstructorSpyRef,
@@ -9,8 +10,8 @@ import {
 } from '../_internals'
 import { InvalidColorStringError, InvalidColorValueError } from '../errors'
 import { HexColor } from '../hex'
-import { HSLColor } from '../hsl'
-import { RGBColor } from '../rgb'
+import { HSLColor, HSLToStringOptions } from '../hsl'
+import { RGBColor, RGBToStringOptions } from '../rgb'
 
 beforeEach(() => {
   rgbConstructorSpyRef.current = jest.fn()
@@ -133,13 +134,13 @@ describe(Color.prototype.toRGB.name, () => {
       const source = new HSLColor(216, 100, 58)
       const color = new Color(source)
       expect(color.toRGB().valueOf()).toStrictEqual([41, 126, 255, 1])
-      // Slightly altered during conversion [43, 128, 255, 1]
+      // Slightly altered during conversion, was [43, 128, 255, 1]
     })
 
     test('String', () => {
       const color = new Color('hsl(216, 100%, 58%)')
       expect(color.toRGB().valueOf()).toStrictEqual([41, 126, 255, 1])
-      // Slightly altered during conversion [43, 128, 255, 1]
+      // Slightly altered during conversion, was [43, 128, 255, 1]
     })
 
   })
@@ -150,25 +151,49 @@ describe(Color.prototype.toHex.name, () => {
 
   describe('Source is RGB', () => {
 
-    test.skip('Color object', () => { })
+    test('Color object', () => {
+      const source = new RGBColor(43, 128, 255)
+      const color = new Color(source)
+      expect(color.toHex().valueOf()).toStrictEqual([43, 128, 255, 1])
+    })
 
-    test.skip('String', () => { })
+    test('String', () => {
+      const color = new Color('rgb(43, 128, 255)')
+      expect(color.toHex().valueOf()).toStrictEqual([43, 128, 255, 1])
+    })
 
   })
 
   describe('Source is Hex', () => {
 
-    test.skip('Color object', () => { })
+    test('Color object', () => {
+      const source = new HexColor('#2b80ff')
+      const color = new Color(source)
+      expect(Object.is(color.toHex(), color.source)).toBe(true)
+    })
 
-    test.skip('String', () => { })
+    test('String', () => {
+      const source = '#2b80ff'
+      const color = new Color(source)
+      expect(color.toHex().literalValue).toBe(source)
+    })
 
   })
 
   describe('Source is HSL', () => {
 
-    test.skip('Color object', () => { })
+    test('Color object', () => {
+      const source = new HSLColor(216, 100, 58)
+      const color = new Color(source)
+      expect(color.toHex().valueOf()).toStrictEqual([41, 126, 255, 1])
+      // Slightly altered during conversion, was [43, 128, 255, 1]
+    })
 
-    test.skip('String', () => { })
+    test('String', () => {
+      const color = new Color('hsl(216, 100%, 58%)')
+      expect(color.toHex().valueOf()).toStrictEqual([41, 126, 255, 1])
+      // Slightly altered during conversion, was [43, 128, 255, 1]
+    })
 
   })
 
@@ -178,25 +203,47 @@ describe(Color.prototype.toHSL.name, () => {
 
   describe('Source is RGB', () => {
 
-    test.skip('Color object', () => { })
+    test('Color object', () => {
+      const source = new RGBColor(43, 128, 255)
+      const color = new Color(source)
+      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+    })
 
-    test.skip('String', () => { })
+    test('String', () => {
+      const color = new Color('rgb(43, 128, 255)')
+      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+    })
 
   })
 
   describe('Source is Hex', () => {
 
-    test.skip('Color object', () => { })
+    test('Color object', () => {
+      const source = new HexColor('#2b80ff')
+      const color = new Color(source)
+      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+    })
 
-    test.skip('String', () => { })
+    test('String', () => {
+      const color = new Color('#2b80ff')
+      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+    })
 
   })
 
   describe('Source is HSL', () => {
 
-    test.skip('Color object', () => { })
+    test('Color object', () => {
+      const source = new HSLColor(216, 100, 58)
+      const color = new Color(source)
+      expect(Object.is(color.toHSL(), source)).toBe(true)
 
-    test.skip('String', () => { })
+    })
+
+    test('String', () => {
+      const color = new Color('hsl(216, 100%, 58%)')
+      expect(color.toHSL().valueOf()).toStrictEqual([216, 100, 58, 1])
+    })
 
   })
 
@@ -204,35 +251,70 @@ describe(Color.prototype.toHSL.name, () => {
 
 describe(Color.prototype.toString.name, () => {
 
-  test.skip('Using `RGBColor`', () => {
-    // make sure respective toString method is called with parameters forwarded
-  })
+  describe('Without format specified', () => {
 
-  test.skip('Using `Color.rgb`', () => {
-    // make sure respective toString method is called with parameters forwarded
-  })
+    test('Has original (string) value', () => {
+      const color = new Color('#2b80ff')
+      color.toString()
+      expect(hexToStringSpyRef.current).not.toHaveBeenCalled()
+    })
 
-  test.skip('Using `HexColor`', () => {
-    // make sure respective toString method is called with parameters forwarded
-  })
-
-  test.skip('Using `Color.hex`', () => {
-    // make sure respective toString method is called with parameters forwarded
-  })
-
-  test.skip('Using `HSLColor`', () => {
-    // make sure respective toString method is called with parameters forwarded
-  })
-
-  test.skip('Using `Color.hsl`', () => {
-    // make sure respective toString method is called with parameters forwarded
-  })
-
-  test.skip('Hsa original (string) value', () => {
+    test('No original (string) value', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      color.toString()
+      expect(hexToStringSpyRef.current).toHaveBeenCalledWith() // no arguments
+    })
 
   })
 
-  test.skip('No original (string) value', () => {
+  describe('With format specified', () => {
+
+    test('Using `RGBColor`', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      const options: RGBToStringOptions = {}
+      color.toString(RGBColor, options)
+      expect(rgbToStringSpyRef.current).toHaveBeenCalledWith(options)
+    })
+
+    test('Using `Color.rgb`', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      const options: RGBToStringOptions = {}
+      color.toString(Color.rgb, options)
+      expect(rgbToStringSpyRef.current).toHaveBeenCalledWith(options)
+    })
+
+    test('Using `HexColor`', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      color.toString(HexColor, '#rrggbb')
+      expect(hexToStringSpyRef.current).toHaveBeenCalledWith('#rrggbb')
+    })
+
+    test('Using `Color.hex`', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      color.toString(Color.hex, '#rrggbb')
+      expect(hexToStringSpyRef.current).toHaveBeenCalledWith('#rrggbb')
+    })
+
+    test('Using `HSLColor`', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      const options: HSLToStringOptions = {}
+      color.toString(HSLColor, options)
+      expect(hslToStringSpyRef.current).toHaveBeenCalledWith(options)
+    })
+
+    test('Using `Color.hsl`', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      const options: HSLToStringOptions = {}
+      color.toString(Color.hsl, options)
+      expect(hslToStringSpyRef.current).toHaveBeenCalledWith(options)
+    })
+
+    test('Invalid format', () => {
+      const color = new Color(new HexColor('#2b80ff'))
+      expect(() => {
+        color.toString(Empty.FUNCTION as unknown as typeof Color.hsl)
+      }).toThrow()
+    })
 
   })
 

@@ -1,6 +1,6 @@
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString, Nullable } from '@glyph-cat/foundation'
-import { Color, ColorFormat } from '@glyph-cat/swiss-army-knife'
+import { Color } from '@glyph-cat/swiss-army-knife'
 import clsx from 'clsx'
 import {
   ChangeEvent,
@@ -103,21 +103,18 @@ export function RadioGroup<Value>({
 
   const containerRef = useRef<View>(null!)
   useEffect(() => {
-    const tintSource = Color.fromString(tint)
+    const tintSource = new Color(tint)
     return injectInlineCSSVariables({
       [__SIZE]: effectiveSize,
       [__TINT]: tint,
-      [__TINT_40]: Color.fromRGBObject({
-        red: tintSource.red,
-        blue: tintSource.blue,
-        green: tintSource.green,
-        alpha: 0.4,
-      }).toString(ColorFormat.FFFFFFFF),
-      [__TINT_STRONGER]: Color.fromHSLObject({
-        hue: tintSource.hue,
-        saturation: tintSource.saturation,
-        lightness: tintSource.lightness * 1.2,
-      }).toString(ColorFormat.FFFFFFFF),
+      [__TINT_40]: tintSource.toRGB().transform((prevValues) => ({
+        ...prevValues,
+        a: 0.4,
+      })).toString(),
+      [__TINT_STRONGER]: tintSource.toHSL().transform((prevValues) => ({
+        ...prevValues,
+        l: prevValues.l * 1.2
+      })).toString(),
     }, containerRef.current)
   }, [effectiveSize, tint])
 

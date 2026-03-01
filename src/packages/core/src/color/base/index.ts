@@ -23,8 +23,8 @@ export abstract class BaseColorObject {
 
   abstract toString(): string
 
-  abstract valueOf(): unknown
-
   abstract toJSON(): unknown
+
+  abstract valueOf(): unknown
 
 }
