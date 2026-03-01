@@ -201,6 +201,15 @@ test(HSLColor.fromJSON.name, () => {
   expect(color.a).toBe(0.65)
 })
 
+test(HSLColor.prototype.transform.name, () => {
+  const color = new HSLColor(216, 100, 58)
+  const fn = jest.fn(() => ({ h: 1, s: 2, l: 3, a: 0.4 }))
+  const newColor = color.transform(fn)
+  expect(fn).toHaveBeenCalledWith({ h: 216, s: 100, l: 58, a: 1 })
+  expect(color.valueOf()).toStrictEqual([216, 100, 58, 1]) // should not be changed
+  expect(newColor.valueOf()).toStrictEqual([1, 2, 3, 0.4])
+})
+
 describe(HSLColor.prototype.toString.name, () => {
 
   describe('Does not contain alpha', () => {

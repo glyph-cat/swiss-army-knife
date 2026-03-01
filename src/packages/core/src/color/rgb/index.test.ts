@@ -178,6 +178,15 @@ test(RGBColor.fromJSON.name, () => {
   expect(color.a).toBe(0.65)
 })
 
+test(RGBColor.prototype.transform.name, () => {
+  const color = new RGBColor(43, 128, 255)
+  const fn = jest.fn(() => ({ r: 1, g: 2, b: 3, a: 0.4 }))
+  const newColor = color.transform(fn)
+  expect(fn).toHaveBeenCalledWith({ r: 43, g: 128, b: 255, a: 1 })
+  expect(color.valueOf()).toStrictEqual([43, 128, 255, 1]) // should not be changed
+  expect(newColor.valueOf()).toStrictEqual([1, 2, 3, 0.4])
+})
+
 describe(RGBColor.prototype.toString.name, () => {
 
   describe('Does not contain alpha', () => {

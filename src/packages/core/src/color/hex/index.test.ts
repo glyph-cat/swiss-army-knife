@@ -62,6 +62,15 @@ describe('Instantiation', () => {
 
 })
 
+test(HexColor.prototype.transform.name, () => {
+  const color = new HexColor('#2b80ff')
+  const fn = jest.fn(() => ({ r: 1, g: 2, b: 3, a: 0.4 }))
+  const newColor = color.transform(fn)
+  expect(fn).toHaveBeenCalledWith({ r: 43, g: 128, b: 255, a: 1 })
+  expect(color.valueOf()).toStrictEqual([43, 128, 255, 1]) // should not be changed
+  expect(newColor.M$rgbReference.valueOf()).toStrictEqual([1, 2, 3, 0.4])
+})
+
 describe(HexColor.prototype.toString, () => {
 
   describe('No format specified', () => {
