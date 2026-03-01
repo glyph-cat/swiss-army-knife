@@ -59,7 +59,8 @@ export function useCoreNavigationStack(): ICoreNavigationStack {
  * @public
  */
 export interface CoreNavigationStackProps {
-  children?: ReactElementArray<CoreNavigationStackItemProps>
+  children?: ReactNode
+  // children?: ReactElementArray<CoreNavigationStackItemProps>
 }
 
 /**

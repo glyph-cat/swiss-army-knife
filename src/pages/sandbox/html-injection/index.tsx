@@ -8,17 +8,16 @@ import {
   View,
 } from '@glyph-cat/swiss-army-knife-react'
 import Editor from '@monaco-editor/react'
-import clsx from 'clsx'
 import * as $monaco from 'monaco-editor'
 import { editor as $editor } from 'monaco-editor'
 import { JSX, useCallback, useRef, useState } from 'react'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
 export default function (): JSX.Element {
   const [htmlContent, setHtmlContent] = useState('')
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       <SizeAwareContainer>
         <WrappedEditor
           value={htmlContent}
@@ -45,7 +44,7 @@ export default function (): JSX.Element {
             </View>
           )}
       </View>
-    </View>
+    </SandboxContent>
   )
 }
 
@@ -78,7 +77,9 @@ function WrappedEditor({
         height='100vh'
         // height={height}
         // width={width}
-        onChange={onChange}
+        onChange={useCallback((newValue: string | undefined) => {
+          onChange(newValue ?? '')
+        }, [onChange])}
         options={{
           fontSize: 16,
           scrollBeyondLastLine: false,

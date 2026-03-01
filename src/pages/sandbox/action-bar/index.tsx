@@ -1,4 +1,3 @@
-//@ts-nocheck Low-key abandoned
 import { Empty } from '@glyph-cat/foundation'
 import {
   ButtonBase as Button,
@@ -12,13 +11,12 @@ import {
   useCoreNavigationBranch,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
 import { JSX, MouseEvent, ReactNode, useCallback, useState } from 'react'
+import { SandboxContent } from '~components/sandbox/content'
 import { Code } from '~components/sandbox/extensions'
-import { SandboxStyle } from '~constants'
 import styles from './index.module.css'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const [showCreatePopup, setCreatePopupVisibility] = useState(false)
   const onCreate = useCallback(() => { setCreatePopupVisibility(true) }, [])
@@ -28,7 +26,7 @@ export default function (): JSX.Element {
   const hideEditPopup = useCallback(() => { setEditPopupVisibility(false) }, [])
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       <View style={{ border: 'solid 1px #80808080' }}>
         <CoreNavigationStack>
 
@@ -75,39 +73,43 @@ export default function (): JSX.Element {
               </li>
             </ol>
             <Tabs />
-            {showEditPopup && <CoreNavigationStackItem id='edit'>
+            {showEditPopup && (
+              <CoreNavigationStackItem id='edit'>
+                <View style={{
+                  border: 'solid 1px #80808080',
+                  margin: 20,
+                  padding: 20,
+                }}>
+                  <h2>Edit</h2>
+                  <p>This mock popup is an <em>indirect</em> children of <Code>{'<CoreNavigationStackItem>'}</Code>.</p>
+                  <Button onClick={hideEditPopup}>
+                    {'Dismiss popup'}
+                  </Button>
+                </View>
+              </CoreNavigationStackItem>
+            )}
+          </CoreNavigationStackItem>
+
+          {showCreatePopup && (
+            <CoreNavigationStackItem id='create'>
               <View style={{
                 border: 'solid 1px #80808080',
                 margin: 20,
                 padding: 20,
               }}>
-                <h2>Edit</h2>
-                <p>This mock popup is an <em>indirect</em> children of <Code>{'<CoreNavigationStackItem>'}</Code>.</p>
-                <Button onClick={hideEditPopup}>
+                <h2>Create</h2>
+                <p>This mock popup is a direct children of <Code>{'<CoreNavigationStackItem>'}</Code>.</p>
+                <Button onClick={hideCreatePopup}>
                   {'Dismiss popup'}
                 </Button>
               </View>
-            </CoreNavigationStackItem>}
-          </CoreNavigationStackItem>
-
-          {showCreatePopup && <CoreNavigationStackItem id='create'>
-            <View style={{
-              border: 'solid 1px #80808080',
-              margin: 20,
-              padding: 20,
-            }}>
-              <h2>Create</h2>
-              <p>This mock popup is a direct children of <Code>{'<CoreNavigationStackItem>'}</Code>.</p>
-              <Button onClick={hideCreatePopup}>
-                {'Dismiss popup'}
-              </Button>
-            </View>
-          </CoreNavigationStackItem>}
+            </CoreNavigationStackItem>
+          )}
 
         </CoreNavigationStack>
 
       </View>
-    </View>
+    </SandboxContent>
   )
 }
 

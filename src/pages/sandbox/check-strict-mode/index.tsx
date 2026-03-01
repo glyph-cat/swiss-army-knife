@@ -1,8 +1,6 @@
-import { View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
 import { useCheckStrictMode } from 'packages/react/src/strict-mode'
 import { Fragment, JSX, StrictMode, useReducer } from 'react'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
 const strictModeReducer = (s: boolean): boolean => !s
@@ -11,7 +9,7 @@ export default function (): JSX.Element {
   const [shouldUseStrictMode, toggleStrictMode] = useReducer(strictModeReducer, false)
   const StrictModeWrapper = shouldUseStrictMode ? StrictMode : Fragment
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       <button
         className={styles.strictModeToggleButton}
         onClick={toggleStrictMode}
@@ -21,7 +19,7 @@ export default function (): JSX.Element {
       <StrictModeWrapper>
         <Content />
       </StrictModeWrapper>
-    </View>
+    </SandboxContent>
   )
 }
 
