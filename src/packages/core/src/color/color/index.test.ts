@@ -146,7 +146,7 @@ describe(Color.prototype.toRGB.name, () => {
 
 })
 
-describe(Color.prototype.toHSL.name, () => {
+describe(Color.prototype.toHex.name, () => {
 
   describe('Source is RGB', () => {
 
@@ -174,7 +174,7 @@ describe(Color.prototype.toHSL.name, () => {
 
 })
 
-describe(Color.prototype.toHex.name, () => {
+describe(Color.prototype.toHSL.name, () => {
 
   describe('Source is RGB', () => {
 
