@@ -127,7 +127,7 @@ export class Color {
   ): string {
     if (format) {
       if (Object.is(format, Color.hex) || Object.is(format, HexColor)) {
-        return this.toHex().toString(...options as [string])
+        return this.toHex().toString(...options as Parameters<HexColor['toString']>)
       } else if (Object.is(format, Color.rgb) || Object.is(format, RGBColor)) {
         return this.toRGB().toString(...options as Parameters<RGBColor['toString']>)
       } else if (Object.is(format, Color.hsl) || Object.is(format, HSLColor)) {

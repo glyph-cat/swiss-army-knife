@@ -1,9 +1,15 @@
 import { IS_SOURCE_ENV } from '../../constants'
+import { hexConstructorSpyRef } from '../_internals'
 import { BaseColorObject } from '../base'
 import { HEX_COLOR_PATTERN, HEX_EXTRACTION_PATTERN, MAX_ALPHA, MAX_RGB } from '../constants'
 import { InvalidColorStringError } from '../errors'
-import { hexConstructorSpyRef } from '../_internals'
 import { RGBColor, RGBJson, RGBTuple } from '../rgb'
+import { getDoubleDigitHex } from '../utils'
+
+/**
+ * @public
+ */
+export type HexColorFormat = | '#rgb' | '#rgba' | '#rrggbb' | '#rrggbbaa'
 
 /**
  * @public
@@ -64,13 +70,34 @@ export class HexColor extends BaseColorObject implements RGBJson {
 
   }
 
-  toString(format?: string): string {
-    // TODO: If format is specified, use it
-    // if # is present, treat as hex
-    // r = short hex
-    // rr = long hex
-    // r, rr, g, gg, b, bb, a, aa
-    // R, RR, G, GG, B, BB, A, AA
+  toString(format?: HexColorFormat): string {
+    if (format) {
+      const { r, g, b, a } = this.M$rgbReference
+      const rr = getDoubleDigitHex(r)
+      const gg = getDoubleDigitHex(g)
+      const bb = getDoubleDigitHex(b)
+      const aa = getDoubleDigitHex(a)
+      const rrggbbMatches = rr[0] === rr[1] && gg[0] === gg[1] && bb[0] === bb[1]
+      if (format === '#rgb') {
+        if (rrggbbMatches) {
+          return '#' + r + g + b
+        } else {
+          format = '#rrggbb' // fallback
+        }
+      } else if (format === '#rgba') {
+        if (rrggbbMatches && aa[0] === aa[1]) {
+          return '#' + r + g + b + a
+        } else {
+          format = '#rrggbbaa' // fallback
+        }
+      } else if (format === '#rrggbb') {
+        return '#' + rr + gg + bb
+      } else if (format === '#rrggbbaa') {
+        return '#' + rr + gg + bb + aa
+      } else {
+        throw new Error(`Invalid hex format "${format}"`)
+      }
+    }
     return this.literalValue.toLowerCase()
   }
 
