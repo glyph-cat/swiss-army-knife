@@ -76,6 +76,8 @@ export function customTerser(
   return terser({
     mangle: {
       properties: {
+        // TODO: Change all `_variables` to `M$variables` to avoid messing with variables from other libraries that also uses the `_` prefix by accident
+        // KIV: For now, it seems like all are using `M$` already
         regex: /^(M\$|_)/,
         ...otherProperties,
       },

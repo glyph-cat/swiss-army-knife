@@ -4,7 +4,7 @@ import { BaseColorObject } from '../base'
 import { HEX_COLOR_PATTERN, HEX_EXTRACTION_PATTERN, MAX_ALPHA, MAX_RGB } from '../constants'
 import { InvalidColorStringError } from '../errors'
 import { RGBColor, RGBJson, RGBTuple } from '../rgb'
-import { getDoubleDigitHex } from '../utils'
+import { getDoubleDigitHex } from '../utils/get-double-digit-hex'
 
 /**
  * @public
