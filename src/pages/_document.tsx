@@ -1,7 +1,7 @@
 import { Head, Html, Main, NextScript } from 'next/document'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
-function Document(): JSX.Element {
+function Document(): ReactNode {
   return (
     <Html lang='en'>
       <Head />

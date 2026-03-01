@@ -1,8 +1,8 @@
 import { TextEmphasis } from '@glyph-cat/swiss-army-knife-react'
-import { ChangeEvent, JSX, useCallback, useState } from 'react'
+import { ChangeEvent, ReactNode, useCallback, useState } from 'react'
 import { SandboxContent } from '~components/sandbox/content'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
   const [pattern, setPattern] = useState('')
   return (
     <SandboxContent>

@@ -1,9 +1,9 @@
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { IFrameExample } from '~components/iframe-example'
 import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   return (
     <SandboxContent className={styles.container}>

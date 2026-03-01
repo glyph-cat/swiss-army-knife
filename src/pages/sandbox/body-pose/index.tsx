@@ -1,20 +1,20 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { OnePersonBodyPoseAnalyzer, VisionAnalyzerState } from '@glyph-cat/ml-helpers'
 import { VideoCamera } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
-import clsx from 'clsx'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { JSX, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
-import { SandboxStyle } from '~constants'
+import { SandboxContent } from '~components/sandbox/content'
 import { useLocalization } from '~services/localization'
 import { useGameStats } from '~utils/gamestats'
 import styles from './index.module.css'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   useGameStats()
 
-  const [videoCamera, setVideoCamera] = useState<VideoCamera>(null)
+  const [videoCamera, setVideoCamera] = useState<Nullable<VideoCamera>>(null)
   useEffect(() => {
     const newVideoCamera = new VideoCamera()
     setVideoCamera(newVideoCamera)
@@ -24,7 +24,7 @@ export default function (): JSX.Element {
     }
   }, [])
 
-  const [bodyPoseAnalyzer, setBodyPoseAnalyzer] = useState<OnePersonBodyPoseAnalyzer>(null)
+  const [bodyPoseAnalyzer, setBodyPoseAnalyzer] = useState<Nullable<OnePersonBodyPoseAnalyzer>>(null)
   useEffect(() => {
     if (!videoCamera) { return } // Early exit
     const newBodyPoseAnalyzer = new OnePersonBodyPoseAnalyzer(videoCamera.videoElement, {
@@ -42,14 +42,14 @@ export default function (): JSX.Element {
   }, [videoCamera])
 
   return (
-    <View className={clsx(SandboxStyle.NORMAL, styles.container)}>
+    <SandboxContent className={styles.container}>
       {(videoCamera && bodyPoseAnalyzer) && (
         <Content
           videoCamera={videoCamera}
           bodyPoseAnalyzer={bodyPoseAnalyzer}
         />
       )}
-    </View>
+    </SandboxContent>
   )
 }
 
@@ -61,7 +61,7 @@ interface ContentProps {
 function Content({
   videoCamera,
   bodyPoseAnalyzer,
-}: ContentProps): JSX.Element {
+}: ContentProps): ReactNode {
 
   const { localize } = useLocalization()
 
@@ -69,7 +69,7 @@ function Content({
   const bodyPoseAnalyzerState = useSimpleStateValue(bodyPoseAnalyzer.state)
 
   const startCamera = useCallback(async () => {
-    await videoCamera.start()
+    await videoCamera.start(VideoCamera.DEFAULT_CONSTRAINTS)
     await bodyPoseAnalyzer.start()
   }, [bodyPoseAnalyzer, videoCamera])
 
@@ -86,7 +86,7 @@ function Content({
   useEffect(() => {
     return
     const frameRef = requestAnimationFrame(async () => {
-      await videoCamera.start()
+      await videoCamera.start(VideoCamera.DEFAULT_CONSTRAINTS)
       if (bodyPoseAnalyzer.state.get() === VisionAnalyzerState.DISPOSED) { return }
       await bodyPoseAnalyzer.start()
     })

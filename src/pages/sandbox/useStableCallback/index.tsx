@@ -1,9 +1,9 @@
 import { getRandomNumber } from '@glyph-cat/swiss-army-knife'
 import { useStableCallback } from 'packages/react/src/hooks/callback/stable'
-import { JSX, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { SandboxContent } from '~components/sandbox/content'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const unstableValue = getRandomNumber(0, 100)
 

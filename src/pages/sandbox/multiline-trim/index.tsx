@@ -3,13 +3,21 @@ import { delay, multilineTrim } from '@glyph-cat/swiss-army-knife'
 import { BasicButton, View } from '@glyph-cat/swiss-army-knife-react'
 import ClipboardJS from 'clipboard'
 import clsx from 'clsx'
-import { ChangeEvent, JSX, useCallback, useDeferredValue, useEffect, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  ReactNode,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useLocalization } from '~services/localization'
 import styles from './index.module.css'
 
 // TODO: Use Monaco Editor with option: Editor > Render Whitespace > all
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const { localize } = useLocalization()
 

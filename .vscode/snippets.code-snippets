@@ -81,7 +81,7 @@
   "Render Stack": {
     "scope": "typescript,typescriptreact",
     "prefix": "const renderStack",
-    "body": "const renderStack: Array<JSX.Element> = []",
+    "body": "const renderStack: Array<ReactNode> = []",
   },
   "Safe Area Inset Top": {
     "scope": "css",

@@ -10,11 +10,11 @@ import {
 import Editor from '@monaco-editor/react'
 import * as $monaco from 'monaco-editor'
 import { editor as $editor } from 'monaco-editor'
-import { JSX, useCallback, useRef, useState } from 'react'
+import { ReactNode, useCallback, useRef, useState } from 'react'
 import { SandboxContent } from '~components/sandbox/content'
 import styles from './index.module.css'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
   const [htmlContent, setHtmlContent] = useState('')
   return (
     <SandboxContent className={styles.container}>
@@ -56,7 +56,7 @@ interface WrappedEditorProps {
 function WrappedEditor({
   value,
   onChange,
-}: WrappedEditorProps): JSX.Element {
+}: WrappedEditorProps): ReactNode {
   const { height, width } = useSizeAwareContext()
   const colorScheme = useColorScheme()
   const editorRef = useRef<[$editor.IStandaloneCodeEditor, typeof $monaco]>(null)

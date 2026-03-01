@@ -1,6 +1,6 @@
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
-export default function SampleComponentA(): JSX.Element {
+export default function SampleComponentA(): ReactNode {
   return (
     <h1 style={{ textAlign: 'center' }}>
       {'Sample Component A'}

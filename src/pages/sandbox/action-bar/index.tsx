@@ -11,7 +11,7 @@ import {
   useCoreNavigationBranch,
   View,
 } from '@glyph-cat/swiss-army-knife-react'
-import { JSX, MouseEvent, ReactNode, useCallback, useState } from 'react'
+import { MouseEvent, ReactNode, useCallback, useState } from 'react'
 import { SandboxContent } from '~components/sandbox/content'
 import { Code } from '~components/sandbox/extensions'
 import styles from './index.module.css'
@@ -121,7 +121,7 @@ export interface ActionBarProps {
 
 export function ActionBar({
   children,
-}: ActionBarProps): JSX.Element {
+}: ActionBarProps): ReactNode {
   return (
     <View className={styles.actionBar}>
       {children}
@@ -143,7 +143,7 @@ export function ActionBarButton({
   onClick,
   visible = true,
   disabled,
-}: ActionBarButtonProps): JSX.Element {
+}: ActionBarButtonProps): ReactNode {
   return (
     <Button
       onClick={onClick}
@@ -160,7 +160,7 @@ export function ActionBarButton({
 
 // #region Tabs
 
-function Tabs(): JSX.Element {
+function Tabs(): ReactNode {
   const [tabId, setTabId] = useState('tab-01')
   return (
     <View>
@@ -192,7 +192,7 @@ interface TabProps {
 
 function Tab({
   children,
-}: TabProps): JSX.Element {
+}: TabProps): ReactNode {
   const { isFocused } = useCoreNavigationBranch()
   return (
     <View>

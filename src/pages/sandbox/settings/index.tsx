@@ -1,6 +1,6 @@
 import { RadioGroup, RadioItem } from '@glyph-cat/swiss-army-knife-react'
 import { useStateValue } from 'cotton-box-react'
-import { JSX, useCallback } from 'react'
+import { ReactNode, useCallback } from 'react'
 import { SandboxContent } from '~components/sandbox/content'
 import { useLocalization } from '~services/localization'
 import { ThemeState, ThemeStateValue } from '~services/theme'
@@ -8,7 +8,7 @@ import { ThemeId } from '~services/theme/abstractions'
 import { UserPreferencesState } from '~services/user-preferences'
 import { IUserPreferences } from '~services/user-preferences/abstractions'
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const { localize, language } = useLocalization()
 

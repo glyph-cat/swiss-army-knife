@@ -1,7 +1,7 @@
 import { View } from '@glyph-cat/swiss-army-knife-react'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
-function Sandbox(): JSX.Element {
+function Sandbox(): ReactNode {
   return (
     <View
       style={{

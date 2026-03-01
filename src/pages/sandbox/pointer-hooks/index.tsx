@@ -1,12 +1,12 @@
 import { useClickAwayListener, useMoveAwayListener, View } from '@glyph-cat/swiss-army-knife-react'
-import { JSX, useReducer, useRef } from 'react'
+import { ReactNode, useReducer, useRef } from 'react'
 import styles from './index.module.css'
 
 const SIZE = 200 // px
 
 const bumpReducer = (n: number) => n + 1
 
-export default function (): JSX.Element {
+export default function (): ReactNode {
 
   const [clickAwayCount, bumpClickAwayCount] = useReducer(bumpReducer, 0)
   const [moveAwayCount, bumpMoveAwayCount] = useReducer(bumpReducer, 0)
