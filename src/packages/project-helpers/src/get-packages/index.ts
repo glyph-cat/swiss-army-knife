@@ -113,7 +113,7 @@ export class GetPackagesResult {
     let index = 0
     const mappedData: Array<T> = []
     for (const dirName in this.data) {
-      callbackFn(dirName, this.data[dirName], index++)
+      mappedData.push(callbackFn(dirName, this.data[dirName], index++))
     }
     return mappedData
   }
