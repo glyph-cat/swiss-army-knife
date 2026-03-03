@@ -40,6 +40,7 @@
     "@glyph-cat/foundation": "0.0.0-experimental.88",
     "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88",
     "@glyph-cat/swiss-army-knife-react": "0.0.0-experimental.88",
-    "@glyph-cat/type-checking": "0.0.0-experimental.88"
+    "@glyph-cat/type-checking": "0.0.0-experimental.88",
+    "react": "^19.2.4"
   }
 }

@@ -10,7 +10,7 @@ import { getSiblingPackages } from '../get-sibling-packages'
  */
 export function getDependenciesFromRoot(): Array<string> {
   return [
-    ...Object.values(getSiblingPackages()),
-    ...getPackageDependencies(readPackageJson(PROJECT_ROOT_DIRECTORY)),
+    ...getSiblingPackages().map((_, packageData) => packageData.name!),
+    ...Object.keys(getPackageDependencies(readPackageJson(PROJECT_ROOT_DIRECTORY))),
   ]
 }

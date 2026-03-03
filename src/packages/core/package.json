@@ -50,9 +50,13 @@
     "query-string": "^9.3.1"
   },
   "peerDependencies": {
+    "luxon": "^3.7.2",
     "react-native": "*"
   },
   "peerDependenciesMeta": {
+    "luxon": {
+      "optional": true
+    },
     "react-native": {
       "optional": true
     }

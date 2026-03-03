@@ -35,6 +35,7 @@ const EXTERNAL_LIBS = [
   'node_modules', // TODO: Find out why node_modules is required here
   ...getDependenciesFromRoot(),
 ].sort()
+console.log('EXTERNAL_LIBS', EXTERNAL_LIBS)
 
 interface IPluginConfig {
   buildType: BuildType

@@ -12,11 +12,11 @@ function main(): void {
   const IGNORE_LIST = new Set([
     'localization-react',
   ])
-  const packageDirectoryNames = Object.keys(getSiblingPackages()).sort()
-  for (const packageDirectoryName of packageDirectoryNames) {
-    if (IGNORE_LIST.has(packageDirectoryName)) { continue }
-    linkNodeModules(process.cwd(), packageDirectoryName)
-  }
+  getSiblingPackages().forEach((packageDirectoryName) => {
+    if (!IGNORE_LIST.has(packageDirectoryName)) {
+      linkNodeModules(process.cwd(), packageDirectoryName)
+    }
+  })
 }
 
 main()

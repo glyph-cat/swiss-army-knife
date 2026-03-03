@@ -75,7 +75,7 @@ export function MaterialIcon({
  * Manually load/unload material icon stylesheet.
  * @param variants - The list of variants that you need in your app.
  * @example
- * import { loadMaterialIconStyleSheets } from '{:PACKAGE_NAME:}'
+ * import { loadMaterialIconStyleSheets } from '@glyph-cat/swiss-army-knife-react'
  * // To load
  * const unloadMaterialIconStyleSheets = loadMaterialIconStyleSheets('round', 'filled')
  * // To unload
@@ -108,7 +108,7 @@ export function loadMaterialIconStyleSheet(
  * Automatically load/unload material icon stylesheet through a React hook.
  * @param variants - The list of variants that you need in your app.
  * @example
- * import { useMaterialIconStyleSheet } from '{:PACKAGE_NAME:}'
+ * import { useMaterialIconStyleSheet } from '@glyph-cat/swiss-army-knife-react'
  *
  * function App(): JSX.Element {
  *   useMaterialIconStyleSheet(['outlined', 'filled', 'rounded'])
@@ -136,7 +136,7 @@ export function useMaterialIconStyleSheet(
 
 /**
  * @example
- * import { MaterialIcon, MaterialIconStyleSheet } from '{:PACKAGE_NAME:}'
+ * import { MaterialIcon, MaterialIconStyleSheet } from '@glyph-cat/swiss-army-knife-react'
  *
  * function App(): JSX.Element {
  *   return (

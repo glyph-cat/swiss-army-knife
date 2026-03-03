@@ -11,42 +11,53 @@ import {
 } from '../../../src/packages/project-helpers/src/get-package-dependencies'
 import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
 import { getSiblingPackages } from '../../../tools/get-sibling-packages'
-import { PACKAGES_DIRECTORY } from '../../constants'
+import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
+
+console.log('Analyzing dependencies...')
+
+// ———————————————————————————————————————————————————————————————————————————
+
+const allSiblingPackages = getSiblingPackages()
+// console.log('allSiblingPackages', allSiblingPackages)
+const allRootPackageDependencies = getPackageDependencies(readPackageJson(PROJECT_ROOT_DIRECTORY))
+// console.log('allRootPackageDependencies', allRootPackageDependencies)
 
 function run(...args: Array<string>): void {
 
   const shouldShowGraph = !!args.find((arg) => arg === '--showGraph' || arg === '-g')
 
-  console.log('Analyzing dependencies...')
-
-  // ———————————————————————————————————————————————————————————————————————————
-
-  // Get all package directory name and NPM name
-  const allPackages = getSiblingPackages()
-  const allPackageEntries = Object.entries(allPackages)
-  // console.log('allPackageEntries', allPackageEntries)
-
   // ———————————————————————————————————————————————————————————————————————————
 
   // Find all imports by crawling through every file
-  const dependencyMap = allPackageEntries.reduce((acc, [packageDirectory, packageName]) => {
-    const foundImports = getAllGlyphCatImports(
-      path.join(PACKAGES_DIRECTORY, packageDirectory)
+  const dependencyMap = allSiblingPackages.reduce((acc, packageDirectory, packageData) => {
+    const foundImports = getAllImports(
+      path.join(PACKAGES_DIRECTORY, packageDirectory),
     ).filter((foundImport) => {
       // Self reference would have been prohibited by TS, but this is just in case
       // self reference is made as a comment.
-      return packageName !== foundImport
+      return packageData.name !== foundImport
     })
-    acc[packageName] = foundImports
+    acc[packageData.name!] = foundImports
     return acc
   }, {} as StringRecord<Array<string>>)
   // console.log('dependencyMap', dependencyMap)
 
   // ———————————————————————————————————————————————————————————————————————————
 
+  const glyphCatOnlyDependencyMap = Object.entries(dependencyMap).reduce(
+    (acc, [packageName, imports]) => {
+      acc[packageName] = imports.filter((imp) => allSiblingPackages.hasPackage(imp))
+      return acc
+    },
+    {} as typeof dependencyMap
+  )
+  // console.log('glyphCatOnlyDependencyMap', glyphCatOnlyDependencyMap)
+
+  // ———————————————————————————————————————————————————————————————————————————
+
   const aliasStore: Array<string> = []
 
-  function getAlias(packageName: string): string {
+  function getMermaidAlias(packageName: string): string {
     if (!aliasStore.includes(packageName)) {
       aliasStore.push(packageName)
       return `a${aliasStore.length}`
@@ -55,13 +66,11 @@ function run(...args: Array<string>): void {
     }
   }
 
-  // ———————————————————————————————————————————————————————————————————————————
-
   if (shouldShowGraph) {
 
-    const flowchartBody = Object.entries(dependencyMap).reduce((acc, [packageName, deps]) => {
+    const flowchartBody = Object.entries(glyphCatOnlyDependencyMap).reduce((acc, [packageName, deps]) => {
       deps.forEach((dep) => {
-        acc.push(`${getAlias(dep)} --> ${getAlias(packageName)}`)
+        acc.push(`${getMermaidAlias(dep)} --> ${getMermaidAlias(packageName)}`)
       })
       return acc
     }, [] as Array<string>)
@@ -86,16 +95,21 @@ function run(...args: Array<string>): void {
 
   // then for each record, read deps -> get deps of deps recursively and store path in array
   // If array has repeating value, the a cyclic dependency is found, break loop, store error information and move on to check next sub-package
-  const cyclicImportsFound = allPackageEntries.reduce((acc, [, packageName]) => {
-    const cyclicImports = findCyclicImports(packageName, dependencyMap, [])
+  const cyclicImportsFound = allSiblingPackages.reduce((acc, _, packageData) => {
+    const cyclicImports = findCyclicImports(
+      packageData.name!,
+      glyphCatOnlyDependencyMap,
+      [],
+    )
     if (cyclicImports) {
-      acc[packageName] = cyclicImports
+      acc[packageData.name!] = cyclicImports
     }
     return acc
   }, {} as StringRecord<Array<string>>)
   // If no error, package name is not stored into accumulator
   // console.log('cyclicImportsFound', cyclicImportsFound)
 
+  // TOFIX: Display chain seems to be incorrect
   if (objectIsNotEmpty(cyclicImportsFound)) {
     console.log(chalk.redBright('\nError - These packages have cyclic dependencies:'))
     Object.entries(cyclicImportsFound).forEach(([, cyclicImports]) => {
@@ -109,33 +123,34 @@ function run(...args: Array<string>): void {
   // ———————————————————————————————————————————————————————————————————————————
 
   // Check if deps are listed in package.json
-  const missingMentions = allPackageEntries.reduce((acc, [packageDirectory, packageName]) => {
-    const dependencies = dependencyMap[packageName]
-    const packageDependencies = getPackageDependencies(
-      readPackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory))
-    )
+  const missingMentions = allSiblingPackages.reduce((acc, packageDirectory, packageData) => {
+    const dependencies = dependencyMap[packageData.name!]
+    const packageDependencies = Object.keys(getPackageDependencies(packageData))
     // NOTE: Version matching not required because there may be screw-ups in
     // dependent packages and we may want to fallback to earlier versions.
     // Instead, the `bump-version` script will help to update the package.json
     // in child dependencies when a package's version in bumped.
     const missingDependencies = dependencies.filter(dep => !packageDependencies.includes(dep))
     if (missingDependencies.length > 0) {
-      acc[packageName] = missingDependencies
+      acc[packageData.name!] = missingDependencies
     }
     return acc
   }, {} as StringRecord<Array<string>>)
   // If no error, package name is not stored into accumulator
   // `Array<string>` = names of dependencies missing in package.json
+  // console.log('missingMentions', missingMentions)
 
   if (objectIsNotEmpty(missingMentions)) {
     const versionDictionary = removeDuplicates(
       Object.values(missingMentions).flat()
     ).reduce((acc, packageName) => {
-      const packageDirectory = allPackageEntries.find(([_, entryPackageName]) => {
-        return packageName === entryPackageName
-      })![0]
-      const { version } = readPackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory))
-      acc[packageName] = version
+      if (allSiblingPackages.hasPackage(packageName)) {
+        const { version } = allSiblingPackages.getByName(packageName)
+        acc[packageName] = version
+      } else {
+        const version = allRootPackageDependencies[packageName]
+        acc[packageName] = version
+      }
       return acc
     }, {} as StringRecord<string | undefined>)
     // console.log('versionDictionary', versionDictionary)
@@ -154,6 +169,8 @@ function run(...args: Array<string>): void {
     process.exit(1)
   }
 
+  console.log(chalk.green('✓') + ' Dependency analysis complete. No issues were found.')
+
 }
 
 const [, , ...args] = process.argv
@@ -171,32 +188,31 @@ function crawl(dirPath: string, callback: (filePath: string) => void) {
   }
 }
 
-function getAllGlyphCatImports(entryPoint: string): Array<string> {
+function getAllImports(
+  entryPoint: string,
+): Array<string> {
 
   const ignorePattern = /\.(draft|old)\.?/
-  const whitelistedFilePattern = /\.(j|t)sx?$/
+  const whitelistedFilePattern = /\.tsx?$/
 
   const foundImportLists: Array<Array<string>> = []
   const crawlHandler = (filePath: string) => {
     if (ignorePattern.test(filePath)) { return }
     if (!whitelistedFilePattern.test(filePath)) { return }
     const fileContents = readFileSync(filePath, Encoding.UTF_8)
-    const extractedGlyphCatImports = extractGlyphCatImports(fileContents)
-    foundImportLists.push(extractedGlyphCatImports)
+    const extractedImports = fileContents.match(/(?<=from\s['"])[a-zA-Z0-9@/_-]+(?=['"])/g) ?? []
+    foundImportLists.push(extractedImports)
   }
 
   crawl(path.join(entryPoint, 'src'), crawlHandler)
   crawl(path.join(entryPoint, 'scripts'), crawlHandler)
 
-  return removeDuplicates(foundImportLists.flat())
+  const rootInstalledDeps = new Set(Object.keys(getPackageDependencies(readPackageJson(PROJECT_ROOT_DIRECTORY))))
 
-}
+  return removeDuplicates(foundImportLists.flat()).filter((imp) => {
+    return rootInstalledDeps.has(imp) || allSiblingPackages.hasPackage(imp)
+  }).sort()
 
-function extractGlyphCatImports(sourceCode: string): Array<string> {
-  return /from '@glyph-cat\/.+'/g.exec(sourceCode)?.map((y) => {
-    const suffix = 'from \''
-    return y.substring(suffix.length, y.length - 1)
-  }) ?? []
 }
 
 function findCyclicImports(

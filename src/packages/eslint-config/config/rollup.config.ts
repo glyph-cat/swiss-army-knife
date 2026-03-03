@@ -1,10 +1,9 @@
-import commonjs from '@rollup/plugin-commonjs'
 // import json from '@rollup/plugin-json'
+import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 import { RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
-import { PackageJson } from 'type-fest'
-import { getPackageDependencies } from '../../project-helpers/src/get-package-dependencies'
+import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import packageJson from '../package.json'
 
 // @ts-expect-error because we are relying on an old version
@@ -20,7 +19,7 @@ function getConfig(inputPath: string, outputPath: string): RollupOptions {
       sourcemap: false,
     },
     external: [
-      ...getPackageDependencies(packageJson as PackageJson),
+      ...getDependenciesFromRoot(),
       '@eslint/js',
       '@eslint/eslintrc',
       //   '@stylistic/eslint-plugin',

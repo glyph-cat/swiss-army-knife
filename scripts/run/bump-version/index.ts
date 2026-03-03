@@ -25,34 +25,27 @@ async function run(...args: Array<string>): Promise<void> {
     '@glyph-cat/swiss-army-knife-react',
   ]
 
-  const allSiblingPackageEntries = Object.entries(allSiblingPackages)
+  // const allSiblingPackageEntries = Object.entries(allSiblingPackages) // TOFIX
 
   const targetPackageName: string = await (async () => {
     if (args[0]) {
       if (args[0] == ESSENTIALS) {
         return ESSENTIALS // Early exit
       }
-      const searchResult = allSiblingPackageEntries.find(([packageDirectory]) => {
-        return args[0] === packageDirectory
-      })
-      if (searchResult) {
-        const [, packageName] = searchResult
-        if (essentialPackagesNames.includes(packageName)) {
-          console.log(chalk.blueBright(`[Info] "${args[0]}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
-          return ESSENTIALS // Early exit
-        }
-        return packageName
+      const packageData = allSiblingPackages.getByDir(args[0])
+      if (essentialPackagesNames.includes(packageData.name!)) {
+        console.log(chalk.blueBright(`[Info] "${args[0]}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
+        return ESSENTIALS // Early exit
       } else {
-        console.log(chalk.redBright(`[Error] Invalid target package directory: "${args[0]}"`))
-        process.exit(1)
+        return packageData.name!
       }
     }
-    const siblingPackageEntriesExcludingEssentials = allSiblingPackageEntries.filter(
-      ([, packageName]) => !essentialPackagesNames.includes(packageName)
-    )
+    const allSiblingPackagesExcludingEssentials = allSiblingPackages.filter((_, packageData) => {
+      return !essentialPackagesNames.includes(packageData.name!)
+    })
     console.log('Please select a target package to bump version:')
     console.log(`  1. ${ESSENTIALS} ${chalk.grey(`(${essentialPackagesNames.join(', ')})`)}`)
-    siblingPackageEntriesExcludingEssentials.forEach(([packageDirectory, packageName], index) => {
+    allSiblingPackagesExcludingEssentials.forEach((packageDirectory, packageName, index) => {
       const bullet = String(index + 2).padStart(2, ' ')
       console.log(` ${bullet}. ${packageDirectory} ${chalk.grey(`(${packageName})`)}`)
     })
@@ -60,7 +53,8 @@ async function run(...args: Array<string>): Promise<void> {
     if (targetNumber === '1') {
       return ESSENTIALS // Early exit
     }
-    const resolvedTarget = siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
+    // ==================== TEMP ====================
+    const resolvedTarget = null // siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
     if (!resolvedTarget) {
       console.log(chalk.redBright(`[Error] Invalid target number: "${targetNumber}"`))
       process.exit(1)

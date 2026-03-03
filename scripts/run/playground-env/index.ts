@@ -17,7 +17,7 @@ function run(): void {
   })()
 
   writeFileSync(
-    './src/~constants/env/index.scripted.ts',
+    './src/~constants/env/data.scripted.ts',
     [
       DO_NOT_MODIFY_WARNING,
       `export const __SCRIPTED_GIT_COMMIT_SHA__ = ${JSON.stringify(hash)}`,
