@@ -3,6 +3,7 @@ import { execSync } from 'child_process'
 import path from 'path'
 import readline from 'readline'
 import { PackageJson } from 'type-fest'
+import { ParameterParser } from '../../../src/packages/cli-parameter-parser/src'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import { mutatePackageJson } from '../../../src/packages/project-helpers/src/mutate-package-json'
 import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
@@ -13,12 +14,19 @@ import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
 // What this script does:
 // Bumps the versions of the root package along with its sub-packages.
 
-async function run(...args: Array<string>): Promise<void> {
+interface RunOptions {
+  suppliedName?: string
+  /**
+   * Semi dry run, package.json still gets modified.
+   * @defaultValue `false`
+   */
+  dryRun?: boolean
+}
 
-  const [arg0, arg1] = args
-
-  // Semi dry run, package.json still gets modified
-  const dryRun = arg1 === '-d' || arg1 === '--dryRun'
+async function run({
+  suppliedName,
+  dryRun,
+}: RunOptions): Promise<void> {
 
   const gitStatusOutput = execSync('git status --porcelain', {
     encoding: Encoding.UTF_8,
@@ -39,13 +47,13 @@ async function run(...args: Array<string>): Promise<void> {
   ]
 
   const targetPackageName: string = await (async () => {
-    if (arg0) {
-      if (arg0 == ESSENTIALS) {
+    if (suppliedName) {
+      if (suppliedName == ESSENTIALS) {
         return ESSENTIALS // Early exit
       }
-      const packageData = allSiblingPackages.getByDir(arg0)
+      const packageData = allSiblingPackages.getByDir(suppliedName)
       if (essentialPackagesNames.includes(packageData.name!)) {
-        console.log(chalk.blueBright(`[Info] "${arg0}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
+        console.log(chalk.blueBright(`[Info] "${suppliedName}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
         return ESSENTIALS // Early exit
       } else {
         return packageData.name!
@@ -202,7 +210,11 @@ async function run(...args: Array<string>): Promise<void> {
 }
 
 const [, , ...args] = process.argv
-run(...args)
+const parameterParser = new ParameterParser(args)
+run({
+  suppliedName: parameterParser.getOne('n', 'name'),
+  dryRun: parameterParser.getBoolean('d', 'dryRun'),
+})
 
 function ask(question: string): Promise<string> {
   const rl = readline.createInterface({

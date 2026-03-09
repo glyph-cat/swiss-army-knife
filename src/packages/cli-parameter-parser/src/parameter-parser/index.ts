@@ -12,16 +12,15 @@ export class ParameterParser {
 
   constructor(readonly parameters: Readonly<Array<string>>) { }
 
-  getOne(alias: string | null, name: string): string | null {
+  getOne(alias: string | null | undefined, name: string): string | undefined {
     const pattern = argPatternGenerator(alias, name)
     for (let i = 0; i < this.parameters.length; i++) {
       if (pattern.test(this.parameters[i])) {
         this.M$usedParameterIndexes[i] = true
         this.M$usedParameterIndexes[i + 1] = true
-        return this.parameters[i + 1] ?? null
+        return this.parameters[i + 1]
       }
     }
-    return null
   }
 
   getBoolean(alias: string | null, name: string): boolean {

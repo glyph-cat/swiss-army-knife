@@ -5,13 +5,13 @@ describe(ParameterParser.prototype.getOne.name, () => {
   test('Empty array', () => {
     const parameters = new ParameterParser([])
     const output = parameters.getOne('a', 'anything')
-    expect(output).toBe(null)
+    expect(output).toBe(undefined)
   })
 
   test('Not specified', () => {
     const parameters = new ParameterParser(['-b', 'abc'])
     const output = parameters.getOne('a', 'anything')
-    expect(output).toBe(null)
+    expect(output).toBe(undefined)
   })
 
   test('Using alias', () => {

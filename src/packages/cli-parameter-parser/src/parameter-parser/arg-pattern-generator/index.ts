@@ -1,4 +1,4 @@
-export function argPatternGenerator(alias: string | null, name: string): RegExp {
+export function argPatternGenerator(alias: string | null | undefined, name: string): RegExp {
   const regexFlags = 'i'
   if (alias) {
     return new RegExp(`^(-${alias}|--${name})$`, regexFlags)
