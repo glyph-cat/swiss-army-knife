@@ -15,6 +15,11 @@ import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
 
 async function run(...args: Array<string>): Promise<void> {
 
+  const [arg0, arg1] = args
+
+  // Semi dry run, package.json still gets modified
+  const dryRun = arg1 === '-d' || arg1 === '--dryRun'
+
   const gitStatusOutput = execSync('git status --porcelain', {
     encoding: Encoding.UTF_8,
   }).trim()
@@ -34,13 +39,13 @@ async function run(...args: Array<string>): Promise<void> {
   ]
 
   const targetPackageName: string = await (async () => {
-    if (args[0]) {
-      if (args[0] == ESSENTIALS) {
+    if (arg0) {
+      if (arg0 == ESSENTIALS) {
         return ESSENTIALS // Early exit
       }
-      const packageData = allSiblingPackages.getByDir(args[0])
+      const packageData = allSiblingPackages.getByDir(arg0)
       if (essentialPackagesNames.includes(packageData.name!)) {
-        console.log(chalk.blueBright(`[Info] "${args[0]}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
+        console.log(chalk.blueBright(`[Info] "${arg0}" belongs to the "${ESSENTIALS}" group, other packages in the same group will be updated as well.`))
         return ESSENTIALS // Early exit
       } else {
         return packageData.name!
@@ -182,11 +187,17 @@ async function run(...args: Array<string>): Promise<void> {
 
   }
 
-  execSync([
+  const command = [
     'git add .',
     `git commit -m 'v${newVersion}'`,
     `git tag 'v${newVersion}'`,
-  ].join(' && '))
+  ].join(' && ')
+
+  if (dryRun) {
+    execSync(command)
+  } else {
+    console.log(command)
+  }
 
 }
 
