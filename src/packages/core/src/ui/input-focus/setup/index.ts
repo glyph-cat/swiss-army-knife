@@ -8,9 +8,12 @@ export function setupInputFocusTracker(
   clientOnly(() => {
     // According to MDN, 'focusin' and 'focusout' events are not cancellable.
     // This strategy is compatible with 3rd party complex text editors such as Monaco and Lexical.
-    const onFocusIn = () => {
-      documentHasFocusWithinRef.current = true
-      refreshState()
+    const inputElements = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
+    const onFocusIn = (event: FocusEvent) => {
+      if (inputElements.has((event.target as HTMLElement).tagName)) {
+        documentHasFocusWithinRef.current = true
+        refreshState()
+      }
     }
     const onFocusOut = () => {
       documentHasFocusWithinRef.current = false
