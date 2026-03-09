@@ -110,7 +110,7 @@ async function run({
   })()
 
   const newVersion = await (async () => {
-    if (args[1]) { return args[1] }
+    if (suppliedVersion) { return suppliedVersion }
     console.log(chalk.blueBright('info') + ` Current version: ${currentPackageVersion}`)
     return await ask(chalk.grey('question') + ' New version: ')
   })()
