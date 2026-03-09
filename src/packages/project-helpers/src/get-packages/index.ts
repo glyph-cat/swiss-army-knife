@@ -48,6 +48,11 @@ export class GetPackagesResult {
    */
   private readonly M$nameToDirMapping: StringRecord<string> = {}
 
+  /**
+   * @internal
+   */
+  private readonly M$indexToDirMapping: StringRecord<string> = {}
+
   readonly data: StringRecord<PackageJson>
 
   /**
@@ -55,6 +60,7 @@ export class GetPackagesResult {
    */
   constructor(data: StringRecord<PackageJson>) {
     this.data = data
+    let index = 0
     for (const packageDir in data) {
       this.data[packageDir] = Object.freeze(this.data[packageDir])
       const packageJson = data[packageDir]
@@ -62,8 +68,17 @@ export class GetPackagesResult {
         throw new Error(`The \`name\` property is missing from "${path.join(packageDir, PACKAGE_JSON)}"`)
       }
       this.M$nameToDirMapping[packageJson.name] = packageDir
+      this.M$indexToDirMapping[index++] = packageDir
     }
     this.data = Object.freeze(this.data)
+  }
+
+  getByIndex(index: number): PackageJson {
+    const dir = this.M$indexToDirMapping[index]
+    if (!dir) {
+      throw new Error(`Package at index ${index} does not exist`)
+    }
+    return this.getByDir(dir)
   }
 
   hasDir(directoryName: string): boolean {
@@ -73,7 +88,7 @@ export class GetPackagesResult {
   getByDir(directoryName: string): PackageJson {
     const packageJson = this.data[directoryName]
     if (!packageJson) {
-      throw new Error(`Directory "${packageJson}" does not exist`)
+      throw new Error(`Directory "${directoryName}" does not exist`)
     }
     return packageJson
   }
@@ -83,11 +98,15 @@ export class GetPackagesResult {
   }
 
   getByName(packageName: string): PackageJson {
+    return this.getByDir(this.getDirByName(packageName))
+  }
+
+  getDirByName(packageName: string): string {
     const dir = this.M$nameToDirMapping[packageName]
     if (!dir) {
-      throw new Error(`Package "${dir}" does not exist`)
+      throw new Error(`Package "${packageName}" does not exist`)
     }
-    return this.getByDir(dir)
+    return dir
   }
 
   forEach(

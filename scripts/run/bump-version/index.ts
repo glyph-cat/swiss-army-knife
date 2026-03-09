@@ -3,7 +3,6 @@ import { execSync } from 'child_process'
 import path from 'path'
 import readline from 'readline'
 import { PackageJson } from 'type-fest'
-import { objectFilter, objectMap } from '../../../src/packages/core/src/data'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import { mutatePackageJson } from '../../../src/packages/project-helpers/src/mutate-package-json'
 import { readPackageJson } from '../../../src/packages/project-helpers/src/read-package-json'
@@ -16,6 +15,15 @@ import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
 
 async function run(...args: Array<string>): Promise<void> {
 
+  const gitStatusOutput = execSync('git status --porcelain', {
+    encoding: Encoding.UTF_8,
+  }).trim()
+
+  if (gitStatusOutput) {
+    console.log(chalk.redBright('[Error] Cannot bump version when there are uncommitted git changes'))
+    process.exit(1)
+  }
+
   const ESSENTIALS = 'essentials'
   const allSiblingPackages = getSiblingPackages()
 
@@ -24,8 +32,6 @@ async function run(...args: Array<string>): Promise<void> {
     '@glyph-cat/swiss-army-knife',
     '@glyph-cat/swiss-army-knife-react',
   ]
-
-  // const allSiblingPackageEntries = Object.entries(allSiblingPackages) // TOFIX
 
   const targetPackageName: string = await (async () => {
     if (args[0]) {
@@ -45,21 +51,21 @@ async function run(...args: Array<string>): Promise<void> {
     })
     console.log('Please select a target package to bump version:')
     console.log(`  1. ${ESSENTIALS} ${chalk.grey(`(${essentialPackagesNames.join(', ')})`)}`)
-    allSiblingPackagesExcludingEssentials.forEach((packageDirectory, packageName, index) => {
+    allSiblingPackagesExcludingEssentials.forEach((packageDirectory, packageJson, index) => {
       const bullet = String(index + 2).padStart(2, ' ')
-      console.log(` ${bullet}. ${packageDirectory} ${chalk.grey(`(${packageName})`)}`)
+      console.log(` ${bullet}. ${packageDirectory} ${chalk.grey(`(${packageJson.name})`)}`)
     })
     const targetNumber = await ask(chalk.grey('question') + ' Target: ')
     if (targetNumber === '1') {
       return ESSENTIALS // Early exit
     }
     // ==================== TEMP ====================
-    const resolvedTarget = null // siblingPackageEntriesExcludingEssentials[Number(targetNumber) - 2]
+    const resolvedTarget = allSiblingPackagesExcludingEssentials.getByIndex(Number(targetNumber) - 2)
     if (!resolvedTarget) {
       console.log(chalk.redBright(`[Error] Invalid target number: "${targetNumber}"`))
       process.exit(1)
     }
-    return resolvedTarget[1]
+    return resolvedTarget.name!
   })()
 
   const isBumpingEssentials = targetPackageName === ESSENTIALS
@@ -71,9 +77,7 @@ async function run(...args: Array<string>): Promise<void> {
       chalk.cyan(`(${essentialPackagesNames.join(', ')})`)
     )
   } else {
-    const [targetPackageDirectory] = allSiblingPackageEntries.find(([, packageName]) => {
-      return packageName === targetPackageName
-    })!
+    const targetPackageDirectory = allSiblingPackages.getDirByName(targetPackageName)
     console.log(
       'Selected: ' +
       chalk.cyanBright(targetPackageDirectory) + ' ' +
@@ -83,14 +87,12 @@ async function run(...args: Array<string>): Promise<void> {
 
   const currentPackageVersion: string = (() => {
     if (isBumpingEssentials) {
-      return readPackageJson(PROJECT_ROOT_DIRECTORY).version
+      return readPackageJson(PROJECT_ROOT_DIRECTORY).version!
     } else {
-      const [targetPackageDirectory] = allSiblingPackageEntries.find(([, packageName]) => {
-        return packageName === targetPackageName
-      })!
-      return readPackageJson(path.join(PACKAGES_DIRECTORY, targetPackageDirectory)).version
+      const targetPackageDirectory = allSiblingPackages.getDirByName(targetPackageName)
+      return readPackageJson(path.join(PACKAGES_DIRECTORY, targetPackageDirectory)).version!
     }
-  })()!
+  })()
 
   const newVersion = await (async () => {
     if (args[1]) { return args[1] }
@@ -99,15 +101,6 @@ async function run(...args: Array<string>): Promise<void> {
   })()
   if (!/^\d+\.\d+\.\d+(-[a-z]+\.\d+)?$/.test(newVersion)) {
     console.log(chalk.redBright(`[Error] Invalid new version: "${newVersion}"`))
-    process.exit(1)
-  }
-
-  const gitStatusOutput = execSync('git status --porcelain', {
-    encoding: Encoding.UTF_8,
-  }).trim()
-
-  if (gitStatusOutput) {
-    console.log(chalk.redBright('[Error] Cannot bump version when there are uncommitted git changes'))
     process.exit(1)
   }
 
@@ -151,12 +144,11 @@ async function run(...args: Array<string>): Promise<void> {
       } as PackageJson),
     )
 
-    const otherSiblingPackages = objectFilter(
-      allSiblingPackages,
-      (packageName) => !essentialPackagesNames.includes(packageName),
-    )
+    const otherSiblingPackages = allSiblingPackages.filter((_, packageData) => {
+      return !essentialPackagesNames.includes(packageData.name!)
+    })
 
-    Object.entries(otherSiblingPackages).forEach(([packageDirectory]) => {
+    otherSiblingPackages.forEach((packageDirectory) => {
       mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
         essentialPackagesNames.forEach((packageName) => {
           setDependencyVersion(pkg, packageName, newVersion)
@@ -167,9 +159,7 @@ async function run(...args: Array<string>): Promise<void> {
 
   } else {
 
-    const [targetPackageDirectory] = allSiblingPackageEntries.find(([, packageName]) => {
-      return packageName === targetPackageName
-    })!
+    const targetPackageDirectory = allSiblingPackages.getDirByName(targetPackageName)
 
     const _targetPackageJson = mutatePackageJson(
       path.join(PACKAGES_DIRECTORY, targetPackageDirectory),
@@ -179,12 +169,11 @@ async function run(...args: Array<string>): Promise<void> {
       } as PackageJson),
     )
 
-    const otherSiblingPackages = objectFilter(
-      allSiblingPackages,
-      (packageName) => packageName !== targetPackageName,
-    )
+    const otherSiblingPackages = allSiblingPackages.filter((_, packageData) => {
+      return packageData.name !== targetPackageName
+    })
 
-    Object.entries(otherSiblingPackages).forEach(([packageDirectory]) => {
+    otherSiblingPackages.forEach((packageDirectory) => {
       mutatePackageJson(path.join(PACKAGES_DIRECTORY, packageDirectory), (pkg) => {
         setDependencyVersion(pkg, targetPackageName, formatVersion(newVersion))
         return pkg
