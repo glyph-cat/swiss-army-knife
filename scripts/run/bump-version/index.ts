@@ -16,6 +16,7 @@ import { PACKAGES_DIRECTORY, PROJECT_ROOT_DIRECTORY } from '../../constants'
 
 interface RunOptions {
   suppliedName?: string
+  suppliedVersion?: string
   /**
    * Semi dry run, package.json still gets modified.
    * @defaultValue `false`
@@ -25,6 +26,7 @@ interface RunOptions {
 
 async function run({
   suppliedName,
+  suppliedVersion,
   dryRun,
 }: RunOptions): Promise<void> {
 
@@ -213,6 +215,7 @@ const [, , ...args] = process.argv
 const parameterParser = new ParameterParser(args)
 run({
   suppliedName: parameterParser.getOne('n', 'name'),
+  suppliedVersion: parameterParser.getOne('v', 'version'),
   dryRun: parameterParser.getBoolean('d', 'dryRun'),
 })
 
