@@ -48,13 +48,13 @@ describe(LocalizationDictionary.prototype.tryLocalize.name, () => {
   test('Unknown language', () => {
     const valueRef = createRef<string>(null)
     expect(localizationDictionary.tryLocalize('??', 'HELLO', valueRef)).toBeFalse()
-    expect(valueRef.current).toBe(null)
+    expect(valueRef.current).toBeNull()
   })
 
   test('Unknown localized key', () => {
     const valueRef = createRef<string>(null)
     expect(localizationDictionary.tryLocalize('en', 'HEY', valueRef)).toBeFalse()
-    expect(valueRef.current).toBe(null)
+    expect(valueRef.current).toBeNull()
   })
 
 })

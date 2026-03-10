@@ -4,7 +4,7 @@ import { isEven } from '../../../math'
 test(pickLast.name, () => {
   expect(pickLast(['a', 'b', 'c', 'd'])).toBe('d')
   expect(pickLast(['a', 'b', 'c', 'd'], 1)).toBe('c')
-  expect(pickLast([])).toBe(undefined)
+  expect(pickLast([])).toBeUndefined()
 })
 
 describe(pickLastWhere.name, () => {
@@ -37,7 +37,7 @@ describe(pickLastWhere.name, () => {
 
   test('Array is empty', () => {
     const output = pickLastWhere([], (value: number) => isEven(value))
-    expect(output).toBe(null)
+    expect(output).toBeNull()
   })
 
 })

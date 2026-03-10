@@ -12,12 +12,12 @@ describe(isResolved.name, (): void => {
     const flag = createRef(false)
 
     const output1 = isResolved(examplePromise, flag)
-    expect(output1).toBe(undefined)
+    expect(output1).toBeUndefined()
     expect(flag.current).toBeFalse()
 
     await delay(50)
     const output2 = isResolved(examplePromise, flag)
-    expect(output2).toBe(undefined)
+    expect(output2).toBeUndefined()
     expect(flag.current).toBeTrue()
 
   })

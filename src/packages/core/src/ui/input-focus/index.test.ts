@@ -9,18 +9,53 @@ import {
 beforeEach(() => {
   // Make sure test starts with a clean state.
   (AnyInputFocusState as SimpleStateManager<boolean>).reset()
+  document.body.innerHTML = ''
 })
 
 afterEach(() => {
   // Allow tests in other files to start with a clean state.
   (AnyInputFocusState as SimpleStateManager<boolean>).reset()
+  document.body.innerHTML = ''
 })
 
-test('Document has focus within', () => {
-  window.dispatchEvent(new FocusEvent('focusin'))
-  expect(AnyInputFocusState.get()).toBeTrue()
-  window.dispatchEvent(new FocusEvent('focusout'))
-  expect(AnyInputFocusState.get()).toBeFalse()
+describe('Document has focus within', () => {
+
+  test('Target element is <input>', () => {
+    const element = document.createElement('input')
+    document.body.append(element)
+    element.focus()
+    expect(AnyInputFocusState.get()).toBeTrue()
+    element.blur()
+    expect(AnyInputFocusState.get()).toBeFalse()
+  })
+
+  test('Target element is <textarea>', () => {
+    const element = document.createElement('textarea')
+    document.body.append(element)
+    element.focus()
+    expect(AnyInputFocusState.get()).toBeTrue()
+    element.blur()
+    expect(AnyInputFocusState.get()).toBeFalse()
+  })
+
+  test('Target element is <select>', () => {
+    const element = document.createElement('select')
+    document.body.append(element)
+    element.focus()
+    expect(AnyInputFocusState.get()).toBeTrue()
+    element.blur()
+    expect(AnyInputFocusState.get()).toBeFalse()
+  })
+
+  test('Target element is other type', () => {
+    const element = document.createElement('button')
+    document.body.append(element)
+    element.focus()
+    expect(AnyInputFocusState.get()).toBeFalse()
+    element.blur()
+    expect(AnyInputFocusState.get()).toBeFalse()
+  })
+
 })
 
 describe('Component ID is string', () => {

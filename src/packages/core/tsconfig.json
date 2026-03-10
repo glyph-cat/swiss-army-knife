@@ -45,15 +45,11 @@
     "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
-    // NOTE: tests are not excluded so that they can benefit from having the
-    // same config that are being used in the source code.
-    // "./src/**/*.test*",
+    "**/*.test.tsx",
+    "**/*.test.ts",
   ],
   "include": [
-    "src",
-    "custom.d.ts",
-    "../css-utils/src/utils/try-format-as-class-name",
-    "../foundation/src/error",
-    "../foundation/src/html",
+    "./src",
+    "./custom.d.ts",
   ]
 }

@@ -18,6 +18,6 @@ test(ConvergingDictionary.name, () => {
   expect(Object.is(dictionary.resolve(K2), V1)).toBeTrue()
   expect(Object.is(dictionary.resolve(K3), V2)).toBeTrue()
   expect(Object.is(dictionary.resolve(K4), V2)).toBeTrue()
-  expect(dictionary.resolve({})).toBe(undefined)
+  expect(dictionary.resolve({})).toBeUndefined()
 
 })

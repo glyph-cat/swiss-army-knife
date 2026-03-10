@@ -43,9 +43,9 @@ describe(fullyEnumerate.name, () => {
       expect(SomeEnum.FOO).toBe('a')
       expect(SomeEnum.BAR).toBe('b')
       // @ts-expect-error
-      expect(SomeEnum[SomeEnum.FOO]).toBe(undefined)
+      expect(SomeEnum[SomeEnum.FOO]).toBeUndefined()
       // @ts-expect-error
-      expect(SomeEnum[SomeEnum.BAR]).toBe(undefined)
+      expect(SomeEnum[SomeEnum.BAR]).toBeUndefined()
       // @ts-expect-error
       SomeEnum[SomeEnum.FOO] = 'FOO'
       // @ts-expect-error
@@ -66,9 +66,9 @@ describe(fullyEnumerate.name, () => {
     expect(SomeEnum.FOO).toBe('a')
     expect(SomeEnum.BAR).toBe('b')
     // @ts-expect-error
-    expect(SomeEnum[SomeEnum.FOO]).toBe(undefined)
+    expect(SomeEnum[SomeEnum.FOO]).toBeUndefined()
     // @ts-expect-error
-    expect(SomeEnum[SomeEnum.BAR]).toBe(undefined)
+    expect(SomeEnum[SomeEnum.BAR]).toBeUndefined()
     fullyEnumerate(SomeEnum)
     // @ts-expect-error
     expect(SomeEnum[SomeEnum.FOO]).toBe('FOO')

@@ -5,9 +5,14 @@ import { DATA_PRECEDENCE_LEVEL, PrecedenceLevel } from '../add-styles/constants'
 
 let styleManager: Nullable<StyleManager> = null
 afterEach(() => {
-  styleManager?.dispose()
-  styleManager = null
+  if (styleManager) {
+    styleManager.dispose()
+    styleManager = null
+  }
 })
+
+beforeEach(() => { document.head.innerHTML = '' })
+afterEach(() => { document.head.innerHTML = '' })
 
 test('No initial styles', () => {
   styleManager = new StyleManager()

@@ -237,7 +237,7 @@ describe(deepGet.name, () => {
       },
     }
     const [value, exists] = deepGet(sourceObject, ['player', 'coord', 'z'])
-    expect(value).toBe(undefined)
+    expect(value).toBeUndefined()
     expect(exists).toBeFalse()
   })
 
