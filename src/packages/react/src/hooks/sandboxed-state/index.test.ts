@@ -11,8 +11,8 @@ test(useSandboxedState.name, () => {
   // - Ensure mutability of state (object reference is preserved)
   // - Ensure component re-render even when new state points to old state by object reference
 
-  const INITIAL_STATE = []
-  const DIFFERENT_REFERENCE_SAME_VALUE = []
+  const INITIAL_STATE: Array<number> = []
+  const DIFFERENT_REFERENCE_SAME_VALUE: Array<number> = []
   const DIFFERENT_REFERENCE_DIFFERENT_VALUE = [2]
 
   const tester = new HookTester({

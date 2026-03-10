@@ -31,9 +31,10 @@ export function useStateAlt<S>(
 
   const [state, setState] = useState(initialState)
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const resetState = useCallback(() => {
     setState(initialState)
-  }, [initialState])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return [
     state,

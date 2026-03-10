@@ -6,6 +6,9 @@ const config: Config.InitialOptions = {
     '@glyph-cat/type-checking': '<rootDir>/../type-checking/src',
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },
+  setupFilesAfterEnv: [
+    'jest-extended/all',
+  ],
   testPathIgnorePatterns: [
     '.draft',
     '.old',

@@ -8,7 +8,6 @@ const config: Config = {
     '@glyph-cat/css-utils': '<rootDir>/../css-utils/src',
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   // moduleDirectories: [
   //   'node_modules',
   //   'src',
@@ -16,6 +15,9 @@ const config: Config = {
   // setupFiles: [
   //   '<rootDir>/jest.setup.ts',
   // ],
+  setupFilesAfterEnv: [
+    'jest-extended/all',
+  ],
   testRegex: '.test.(tsx|ts)',
   testPathIgnorePatterns: [
     '.draft',

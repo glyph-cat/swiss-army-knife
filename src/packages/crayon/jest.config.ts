@@ -1,7 +1,6 @@
 import { Config } from 'jest'
 
 const config: Config = {
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   // moduleDirectories: [
   //   'node_modules',
   //   'src',
@@ -9,6 +8,9 @@ const config: Config = {
   // setupFiles: [
   //   '<rootDir>/jest.setup.ts',
   // ],
+  setupFilesAfterEnv: [
+    'jest-extended/all',
+  ],
   testRegex: '.test.(tsx|ts)',
   testPathIgnorePatterns: [
     '.draft',

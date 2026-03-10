@@ -36,12 +36,12 @@ test('Factory', () => {
   }, cleanupManager)
 
   expect(factory).toHaveBeenCalledTimes(1)
-  expect(tester.hookReturnedValue.constant).toBe(42)
+  expect(tester.hookReturnedValue!.constant).toBe(42)
   expect(tester.renderCount).toBe(1)
 
   tester.action('forceUpdate')
   expect(factory).toHaveBeenCalledTimes(1)
-  expect(tester.hookReturnedValue.constant).toBe(42)
+  expect(tester.hookReturnedValue!.constant).toBe(42)
   expect(tester.renderCount).toBe(2)
 
 })

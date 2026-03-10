@@ -11,6 +11,7 @@ const config: Config.InitialOptions = {
     '<rootDir>/jest.pre-env-setup.ts',
   ],
   setupFilesAfterEnv: [
+    'jest-extended/all',
     '<rootDir>/jest.post-env-setup.ts',
   ],
   testPathIgnorePatterns: [

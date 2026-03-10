@@ -6,7 +6,8 @@ import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 
 /**
- * A client-side-optimized alternative to {@link $ | `renderToString`} from `'react-dom/server'`.
+ * A client-side-optimized alternative to {@link $ | `renderToString`} from
+ * `'react-dom/server'`.
  *
  * Further reading: [Removing renderToString from the client code](https://react.dev/reference/react-dom/server/renderToString#removing-rendertostring-from-the-client-code)
  * @public
