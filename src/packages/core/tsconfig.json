@@ -49,7 +49,7 @@
     "**/*.test.ts",
   ],
   "include": [
-    "./src",
     "./custom.d.ts",
+    "./src",
   ]
 }

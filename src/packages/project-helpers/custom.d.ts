@@ -1,5 +1,3 @@
-import 'jest-extended'
-
 declare namespace NodeJS {
 
   // NOTE: These are actually not needed for now
