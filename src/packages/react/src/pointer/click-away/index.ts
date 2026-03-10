@@ -23,6 +23,7 @@ export function useClickAwayListener(
         callbackRef.current()
       }
     }
+    // TODO: Test with 'pointer' events 
     window.addEventListener('click', onClickAway)
     window.addEventListener('contextmenu', onClickAway)
     return () => {
