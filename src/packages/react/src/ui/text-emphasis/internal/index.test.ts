@@ -5,21 +5,21 @@ describe('Is regular expression', () => {
   test('caseSensitive = undefined', () => {
     const pattern = /(aeiou)/
     const output = normalizePattern(pattern, undefined)
-    expect(Object.is(output, pattern)).toBe(true)
+    expect(Object.is(output, pattern)).toBeTrue()
     expect(String(output)).toBe('/(aeiou)/')
   })
 
   test('caseSensitive = false', () => {
     const pattern = /(aeiou)/
     const output = normalizePattern(pattern, false)
-    expect(Object.is(output, pattern)).toBe(true)
+    expect(Object.is(output, pattern)).toBeTrue()
     expect(String(output)).toBe('/(aeiou)/')
   })
 
   test('caseSensitive = true', () => {
     const pattern = /(aeiou)/i
     const output = normalizePattern(pattern, true)
-    expect(Object.is(output, pattern)).toBe(true)
+    expect(Object.is(output, pattern)).toBeTrue()
     expect(String(output)).toBe('/(aeiou)/i')
   })
 

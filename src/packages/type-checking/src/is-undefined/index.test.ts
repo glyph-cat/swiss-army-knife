@@ -1,8 +1,8 @@
 import { isUndefined } from '.'
 
 test(isUndefined.name, () => {
-  expect(isUndefined(undefined)).toBe(true)
-  expect(isUndefined(null)).toBe(false)
-  expect(isUndefined(false)).toBe(false)
-  expect(isUndefined({})).toBe(false)
+  expect(isUndefined(undefined)).toBeTrue()
+  expect(isUndefined(null)).toBeFalse()
+  expect(isUndefined(false)).toBeFalse()
+  expect(isUndefined({})).toBeFalse()
 })

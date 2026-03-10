@@ -1,22 +1,22 @@
 import { isDivisibleBy, isDivisibleByN, isEven, isOdd } from '.'
 
 test(isEven.name, () => {
-  expect(isEven(2)).toBe(true)
-  expect(isEven(1)).toBe(false)
+  expect(isEven(2)).toBeTrue()
+  expect(isEven(1)).toBeFalse()
 })
 
 test(isOdd.name, () => {
-  expect(isOdd(1)).toBe(true)
-  expect(isOdd(2)).toBe(false)
+  expect(isOdd(1)).toBeTrue()
+  expect(isOdd(2)).toBeFalse()
 })
 
 test(isDivisibleBy.name, () => {
-  expect(isDivisibleBy(5, 10)).toBe(true)
-  expect(isDivisibleBy(5, 11)).toBe(false)
+  expect(isDivisibleBy(5, 10)).toBeTrue()
+  expect(isDivisibleBy(5, 11)).toBeFalse()
 })
 
 test(isDivisibleByN.name, () => {
   const isDivisibleBy5 = isDivisibleByN(5)
-  expect(isDivisibleBy5(10)).toBe(true)
-  expect(isDivisibleBy5(11)).toBe(false)
+  expect(isDivisibleBy5(10)).toBeTrue()
+  expect(isDivisibleBy5(11)).toBeFalse()
 })

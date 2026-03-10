@@ -17,7 +17,7 @@ test(objectFilter.name, () => {
     }
     return key === 'k1' || value > 50
   })
-  expect(Object.is(objectRef.current, obj)).toBe(true)
+  expect(Object.is(objectRef.current, obj)).toBeTrue()
   expect(output).toStrictEqual({
     k1: 0,
     k4: 60,

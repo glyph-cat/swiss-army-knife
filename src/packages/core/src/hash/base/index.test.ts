@@ -41,9 +41,9 @@ test(BaseHashFactory.prototype.has.name, () => {
   const hashFactory = new BaseHashFactory(() => '1234')
   const hash = hashFactory.create()
   hashFactory.track('5678')
-  expect(hashFactory.has(hash)).toBe(true)
-  expect(hashFactory.has('5678')).toBe(true)
-  expect(hashFactory.has('0000')).toBe(false)
+  expect(hashFactory.has(hash)).toBeTrue()
+  expect(hashFactory.has('5678')).toBeTrue()
+  expect(hashFactory.has('0000')).toBeFalse()
 })
 
 test(BaseHashFactory.prototype.reset.name, () => {

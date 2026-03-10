@@ -45,10 +45,10 @@ describe('Client-side rendering', () => {
     }, cleanupManager)
 
     expect(tester.renderCount).toBe(2)
-    expect(tester.get('value')).toBe(true)
+    expect(tester.get('value')).toBeTrue()
 
     tester.action('forceUpdate')
-    expect(tester.get('value')).toBe(true)
+    expect(tester.get('value')).toBeTrue()
 
   })
 
@@ -77,7 +77,7 @@ describe('Client-side rendering', () => {
     }, cleanupManager)
 
     expect(tester.renderCount).toBe(1)
-    expect(tester.get('value')).toBe(true)
+    expect(tester.get('value')).toBeTrue()
 
   })
 

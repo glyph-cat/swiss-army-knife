@@ -13,7 +13,7 @@ function createLocalizationDictionary() {
 test('Initialization', () => {
   const sourceDictionary = createLocalizationDictionary()
   const localizedDictionary = new LocalizedDictionary(sourceDictionary, 'en')
-  expect(Object.is(localizedDictionary.dictionary, sourceDictionary)).toBe(true)
+  expect(Object.is(localizedDictionary.dictionary, sourceDictionary)).toBeTrue()
   expect(localizedDictionary.language).toBe('en')
   expect(localizedDictionary.M$fallbackLanguageList).toStrictEqual([
     // 'en' <-- this is the current language
@@ -71,7 +71,7 @@ test('Initialization', () => {
 //   test('Valid language', () => {
 //     const sourceDictionary = createLocalizationDictionary()
 //     localizedDictionary = new LocalizedDictionary(sourceDictionary, 'en')
-//     expect(localizedDictionary.trySetLanguage('zh')).toBe(true)
+//     expect(localizedDictionary.trySetLanguage('zh')).toBeTrue()
 //     expect(localizedDictionary.currentLanguage).toBe('zh')
 //     expect(localizedDictionary.languageState.get()).toStrictEqual({
 //       language: 'zh',
@@ -88,7 +88,7 @@ test('Initialization', () => {
 //   test('Invalid language', () => {
 //     const sourceDictionary = createLocalizationDictionary()
 //     localizedDictionary = new LocalizedDictionary(sourceDictionary, 'en')
-//     expect(localizedDictionary.trySetLanguage('??')).toBe(false)
+//     expect(localizedDictionary.trySetLanguage('??')).toBeFalse()
 //     expect(localizedDictionary.currentLanguage).toBe('en')
 //     expect(localizedDictionary.languageState.get()).toStrictEqual({
 //       language: 'en',

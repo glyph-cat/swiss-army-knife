@@ -11,7 +11,7 @@ test(TruthRecord.name, () => {
 
 test(ReadonlyTruthRecord.name, () => {
   const output = ReadonlyTruthRecord(['a', 'b', 'c', 'a'])
-  expect(Object.isFrozen(output)).toBe(true)
+  expect(Object.isFrozen(output)).toBeTrue()
   expect(output).toStrictEqual({
     c: true,
     a: true,

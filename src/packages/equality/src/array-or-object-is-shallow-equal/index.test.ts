@@ -14,39 +14,39 @@ beforeEach(() => {
 
 test('[], []', () => {
   const isEqual = arrayOrObjectIsShallowEqual([], [])
-  expect(isEqual).toBe(true)
+  expect(isEqual).toBeTrue()
   expect($EqArr.arrayIsShallowEqual).toHaveBeenCalledTimes(1)
 })
 
 test('[], {}', () => {
   const isEqual = arrayOrObjectIsShallowEqual([], {})
-  expect(isEqual).toBe(false)
+  expect(isEqual).toBeFalse()
   expect($EqArr.arrayIsShallowEqual).not.toHaveBeenCalledTimes(1)
   expect($EqObj.objectIsShallowEqual).not.toHaveBeenCalledTimes(1)
 })
 
 test('{}, []', () => {
   const isEqual = arrayOrObjectIsShallowEqual({}, [])
-  expect(isEqual).toBe(false)
+  expect(isEqual).toBeFalse()
   expect($EqArr.arrayIsShallowEqual).not.toHaveBeenCalled()
   expect($EqObj.objectIsShallowEqual).not.toHaveBeenCalled()
 })
 
 test('{}, {}', () => {
   const isEqual = arrayOrObjectIsShallowEqual({}, {})
-  expect(isEqual).toBe(true)
+  expect(isEqual).toBeTrue()
   expect($EqObj.objectIsShallowEqual).toHaveBeenCalledTimes(1)
 })
 
 test('{}, primitive type', () => {
   const isEqual = arrayOrObjectIsShallowEqual({}, 'hello')
-  expect(isEqual).toBe(false)
+  expect(isEqual).toBeFalse()
   expect($EqObj.objectIsShallowEqual).toHaveBeenCalledTimes(1)
 })
 
 test('[], primitive type', () => {
   const isEqual = arrayOrObjectIsShallowEqual([], 'hello')
-  expect(isEqual).toBe(false)
+  expect(isEqual).toBeFalse()
   expect($EqArr.arrayIsShallowEqual).not.toHaveBeenCalledTimes(1)
   expect($EqObj.objectIsShallowEqual).not.toHaveBeenCalledTimes(1)
 })
@@ -55,13 +55,13 @@ describe('primitive type, primitive type', () => {
 
   test('Should be equal', () => {
     const isEqual = arrayOrObjectIsShallowEqual('hello', 'hello')
-    expect(isEqual).toBe(true)
+    expect(isEqual).toBeTrue()
     expect($EqObj.objectIsShallowEqual).toHaveBeenCalledTimes(1)
   })
 
   test('Should not be equal', () => {
     const isEqual = arrayOrObjectIsShallowEqual('hello', 'world')
-    expect(isEqual).toBe(false)
+    expect(isEqual).toBeFalse()
     expect($EqObj.objectIsShallowEqual).toHaveBeenCalledTimes(1)
   })
 

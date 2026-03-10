@@ -7,9 +7,9 @@ test(clamp.name, (): void => {
 })
 
 test(isClamped.name, (): void => {
-  expect(isClamped(5, 0, 10)).toBe(true)
-  expect(isClamped(0, 0, 10)).toBe(true)
-  expect(isClamped(-5, 0, 10)).toBe(false)
-  expect(isClamped(10, 0, 10)).toBe(true)
-  expect(isClamped(15, 0, 10)).toBe(false)
+  expect(isClamped(5, 0, 10)).toBeTrue()
+  expect(isClamped(0, 0, 10)).toBeTrue()
+  expect(isClamped(-5, 0, 10)).toBeFalse()
+  expect(isClamped(10, 0, 10)).toBeTrue()
+  expect(isClamped(15, 0, 10)).toBeFalse()
 })

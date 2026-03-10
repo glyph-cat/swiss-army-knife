@@ -6,7 +6,7 @@ test('Normal usage', () => {
     return null
   }
   const preloadableComponent = new PreloadableComponent(TestComponentWithoutContextProvider)
-  expect(preloadableComponent.preload()).toBe(true)
+  expect(preloadableComponent.preload()).toBeTrue()
 })
 
 test('Component without context provider', () => {
@@ -17,5 +17,5 @@ test('Component without context provider', () => {
     return null
   }
   const preloadableComponent = new PreloadableComponent(TestComponentWithoutContextProvider)
-  expect(preloadableComponent.preload()).toBe(false)
+  expect(preloadableComponent.preload()).toBeFalse()
 })

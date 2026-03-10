@@ -160,11 +160,11 @@ describe(MutableEnumeration.name, (): void => {
 
   test(MutableEnumeration.prototype.has.name, (): void => {
     const enumeration = new MutableEnumeration({ a: 1, b: 2 })
-    expect(enumeration.has(1)).toBe(true)
-    expect(enumeration.has(2)).toBe(true)
-    expect(enumeration.has('a')).toBe(true)
-    expect(enumeration.has('b')).toBe(true)
-    expect(enumeration.has('c')).toBe(false)
+    expect(enumeration.has(1)).toBeTrue()
+    expect(enumeration.has(2)).toBeTrue()
+    expect(enumeration.has('a')).toBeTrue()
+    expect(enumeration.has('b')).toBeTrue()
+    expect(enumeration.has('c')).toBeFalse()
   })
 
   test(MutableEnumeration.prototype.clone.name, (): void => {

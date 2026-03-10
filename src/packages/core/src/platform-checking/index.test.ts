@@ -1,10 +1,10 @@
 import { APPLE_PLATFORM_REGEX } from '.'
 
 test('APPLE_PLATFORM_REGEX', () => {
-  expect(APPLE_PLATFORM_REGEX.test('iOS')).toBe(true)
-  expect(APPLE_PLATFORM_REGEX.test('iPhone')).toBe(true)
-  expect(APPLE_PLATFORM_REGEX.test('iPad')).toBe(true)
-  expect(APPLE_PLATFORM_REGEX.test('visionOS')).toBe(true)
-  expect(APPLE_PLATFORM_REGEX.test('xrOS')).toBe(true)
-  expect(APPLE_PLATFORM_REGEX.test('macOS')).toBe(true)
+  expect(APPLE_PLATFORM_REGEX.test('iOS')).toBeTrue()
+  expect(APPLE_PLATFORM_REGEX.test('iPhone')).toBeTrue()
+  expect(APPLE_PLATFORM_REGEX.test('iPad')).toBeTrue()
+  expect(APPLE_PLATFORM_REGEX.test('visionOS')).toBeTrue()
+  expect(APPLE_PLATFORM_REGEX.test('xrOS')).toBeTrue()
+  expect(APPLE_PLATFORM_REGEX.test('macOS')).toBeTrue()
 })

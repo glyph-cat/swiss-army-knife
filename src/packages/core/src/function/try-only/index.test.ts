@@ -18,7 +18,7 @@ describe('Synchronous', () => {
     })
 
     test('Executes synchronously', () => {
-      expect(tryOnly(() => { /* ... */ })).toBe(true)
+      expect(tryOnly(() => { /* ... */ })).toBeTrue()
     })
 
   })
@@ -37,7 +37,7 @@ describe('Synchronous', () => {
     test('Executes synchronously', () => {
       expect(tryOnly(() => {
         throw new CustomTestError()
-      })).toBe(false)
+      })).toBeFalse()
     })
 
   })
@@ -56,7 +56,7 @@ describe('Asynchronous', () => {
     })
 
     test('Executes asynchronously', async () => {
-      await expect(tryOnly(async () => { /* ... */ })).resolves.toBe(true)
+      await expect(tryOnly(async () => { /* ... */ })).resolves.toBeTrue()
     })
 
   })
@@ -75,7 +75,7 @@ describe('Asynchronous', () => {
     test('Executes asynchronously', async () => {
       await expect(tryOnly(async () => {
         throw new CustomTestError()
-      })).resolves.toBe(false)
+      })).resolves.toBeFalse()
     })
 
   })

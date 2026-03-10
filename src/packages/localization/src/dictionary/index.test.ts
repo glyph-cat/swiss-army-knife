@@ -13,7 +13,7 @@ const SOURCE_DICTIONARY = {
 const localizationDictionary = new LocalizationDictionary(SOURCE_DICTIONARY)
 
 test('Initialization', () => {
-  expect(Object.is(localizationDictionary.data, SOURCE_DICTIONARY)).toBe(true)
+  expect(Object.is(localizationDictionary.data, SOURCE_DICTIONARY)).toBeTrue()
   expect(localizationDictionary.data).toStrictEqual(SOURCE_DICTIONARY)
   expect([...localizationDictionary.languages]).toStrictEqual(['en', 'zh'])
 })
@@ -35,25 +35,25 @@ describe(LocalizationDictionary.prototype.tryLocalize.name, () => {
 
   test('Language = en', () => {
     const valueRef = createRef<string>(null)
-    expect(localizationDictionary.tryLocalize('en', 'HELLO', valueRef)).toBe(true)
+    expect(localizationDictionary.tryLocalize('en', 'HELLO', valueRef)).toBeTrue()
     expect(valueRef.current).toBe('Hello')
   })
 
   test('Language = zh', () => {
     const valueRef = createRef<string>(null)
-    expect(localizationDictionary.tryLocalize('zh', 'HELLO', valueRef)).toBe(true)
+    expect(localizationDictionary.tryLocalize('zh', 'HELLO', valueRef)).toBeTrue()
     expect(valueRef.current).toBe('哈咯')
   })
 
   test('Unknown language', () => {
     const valueRef = createRef<string>(null)
-    expect(localizationDictionary.tryLocalize('??', 'HELLO', valueRef)).toBe(false)
+    expect(localizationDictionary.tryLocalize('??', 'HELLO', valueRef)).toBeFalse()
     expect(valueRef.current).toBe(null)
   })
 
   test('Unknown localized key', () => {
     const valueRef = createRef<string>(null)
-    expect(localizationDictionary.tryLocalize('en', 'HEY', valueRef)).toBe(false)
+    expect(localizationDictionary.tryLocalize('en', 'HEY', valueRef)).toBeFalse()
     expect(valueRef.current).toBe(null)
   })
 

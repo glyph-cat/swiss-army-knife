@@ -1,9 +1,9 @@
 import { isNaN } from '.'
 
 test(isNaN.name, () => {
-  expect(isNaN(NaN)).toBe(true)
-  expect(isNaN(42)).toBe(false)
-  expect(isNaN('42')).toBe(false)
-  expect(isNaN(null)).toBe(false)
-  expect(isNaN(undefined)).toBe(false)
+  expect(isNaN(NaN)).toBeTrue()
+  expect(isNaN(42)).toBeFalse()
+  expect(isNaN('42')).toBeFalse()
+  expect(isNaN(null)).toBeFalse()
+  expect(isNaN(undefined)).toBeFalse()
 })

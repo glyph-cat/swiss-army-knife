@@ -20,14 +20,14 @@ describe(shuffle.name, (): void => {
       expect(String(originalArray)).toBe(originalSnapshot)
 
       // Function should return a new array.
-      expect(Object.is(originalArray, output)).toBe(false)
+      expect(Object.is(originalArray, output)).toBeFalse()
 
       // Shuffled order should not be the same as original.
       const snapshotsAreEquivalent = outputSnapshot === originalSnapshot
       if (snapshotsAreEquivalent) {
         console.error(`[Iteration ${i} of ${totalTestIterations}] Expected output snapshot "${outputSnapshot}" to NOT be equal to "${originalSnapshot}" but they were the same.`)
       }
-      expect(snapshotsAreEquivalent).toBe(false)
+      expect(snapshotsAreEquivalent).toBeFalse()
 
     }
   })
@@ -65,14 +65,14 @@ describe(shuffleMutable.name, (): void => {
       const outputSnapshot = String(output)
 
       // Function should return a reference to the original array.
-      expect(Object.is(originalArray, output)).toBe(true)
+      expect(Object.is(originalArray, output)).toBeTrue()
 
       // Shuffled order should not be the same as original.
       const snapshotsAreEquivalent = outputSnapshot === originalSnapshot
       if (snapshotsAreEquivalent) {
         console.error(`[Iteration ${i} of ${totalTestIterations}] Expected output snapshot "${outputSnapshot}" to NOT be equal to "${originalSnapshot}" but they were the same.`)
       }
-      expect(snapshotsAreEquivalent).toBe(false)
+      expect(snapshotsAreEquivalent).toBeFalse()
 
     }
   })

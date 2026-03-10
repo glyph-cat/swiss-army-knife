@@ -52,7 +52,7 @@ test(useMergedRefs.name, () => {
   // Expect ref object to be assigned with appropriate object
   expect(hookGeneratedRefs.length).toBe(1)
   console.log('hookGeneratedRefs[0].current', hookGeneratedRefs[0].current)
-  expect(Object.is(hookGeneratedRefs[0].current, MockComponentInstance)).toBe(true)
+  expect(Object.is(hookGeneratedRefs[0].current, MockComponentInstance)).toBeTrue()
 
   // Expect ref function to be called with appropriate object
   expect(mockRef).toHaveBeenCalledTimes(1)
@@ -77,7 +77,7 @@ describe(mergeRefs.name, () => {
     const mergeRefsHandler = mergeRefs(ref)
 
     const cleanupRefsHandler = mergeRefsHandler(MockComponentInstance)
-    expect(Object.is(ref.current, MockComponentInstance)).toBe(true)
+    expect(Object.is(ref.current, MockComponentInstance)).toBeTrue()
 
     cleanupRefsHandler()
     expect(ref.current).toBeNull()
@@ -110,8 +110,8 @@ describe(mergeRefs.name, () => {
     const mergeRefsHandler = mergeRefs(refObject1, refFunction1, refObject2, refFunction2)
 
     const cleanupRefsHandler = mergeRefsHandler(MockComponentInstance)
-    expect(Object.is(refObject1.current, MockComponentInstance)).toBe(true)
-    expect(Object.is(refObject2.current, MockComponentInstance)).toBe(true)
+    expect(Object.is(refObject1.current, MockComponentInstance)).toBeTrue()
+    expect(Object.is(refObject2.current, MockComponentInstance)).toBeTrue()
     expect(refFunction1).toHaveBeenCalledTimes(1)
     expect(refFunction2).toHaveBeenCalledTimes(1)
     expect(refFunction1).toHaveBeenNthCalledWith(1, MockComponentInstance)

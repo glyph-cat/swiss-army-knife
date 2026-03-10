@@ -3,19 +3,19 @@ import { isNullOrWhitespace } from '.'
 describe(isNullOrWhitespace.name, () => {
 
   test('When is null', () => {
-    expect(isNullOrWhitespace(null)).toBe(true)
+    expect(isNullOrWhitespace(null)).toBeTrue()
   })
 
   test('When is empty string', () => {
-    expect(isNullOrWhitespace('')).toBe(true)
+    expect(isNullOrWhitespace('')).toBeTrue()
   })
 
   test('When is whitespace', () => {
-    expect(isNullOrWhitespace(' ')).toBe(true)
+    expect(isNullOrWhitespace(' ')).toBeTrue()
   })
 
   test('When has content', () => {
-    expect(isNullOrWhitespace('abc')).toBe(false)
+    expect(isNullOrWhitespace('abc')).toBeFalse()
   })
 
 })

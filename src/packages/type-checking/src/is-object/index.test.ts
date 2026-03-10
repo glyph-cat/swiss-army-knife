@@ -1,11 +1,11 @@
 import { isObject } from '.'
 
 test(isObject.name, () => {
-  expect(isObject({})).toBe(true)
-  expect(isObject([])).toBe(true)
-  expect(isObject(null)).toBe(false)
-  expect(isObject(function () { /* ... */ })).toBe(false)
-  expect(isObject('')).toBe(false)
-  expect(isObject(false)).toBe(false)
-  expect(isObject(undefined)).toBe(false)
+  expect(isObject({})).toBeTrue()
+  expect(isObject([])).toBeTrue()
+  expect(isObject(null)).toBeFalse()
+  expect(isObject(function () { /* ... */ })).toBeFalse()
+  expect(isObject('')).toBeFalse()
+  expect(isObject(false)).toBeFalse()
+  expect(isObject(undefined)).toBeFalse()
 })

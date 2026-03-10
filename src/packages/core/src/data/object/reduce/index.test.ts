@@ -29,7 +29,7 @@ test(objectReduce.name, () => {
     return previousValue
   }, [] as Array<ITestAccumulator>)
 
-  expect(Object.is(objectRef.current, obj)).toBe(true)
+  expect(Object.is(objectRef.current, obj)).toBeTrue()
   expect(output).toStrictEqual([
     {
       currentValue: 123,

@@ -24,26 +24,26 @@ describe(hasProperty.name, (): void => {
   })
 
   test('Does exist', (): void => {
-    expect(hasProperty(GET_SAMPLE_OBJECT(), 'foo')).toBe(true)
-    expect(hasProperty(GET_SAMPLE_OBJECT(), 7)).toBe(true)
-    expect(hasProperty(GET_SAMPLE_OBJECT(), $internals)).toBe(true)
+    expect(hasProperty(GET_SAMPLE_OBJECT(), 'foo')).toBeTrue()
+    expect(hasProperty(GET_SAMPLE_OBJECT(), 7)).toBeTrue()
+    expect(hasProperty(GET_SAMPLE_OBJECT(), $internals)).toBeTrue()
   })
 
   test('Does exist, but undefined', (): void => {
-    expect(hasProperty(GET_SAMPLE_OBJECT(), 'bar')).toBe(true)
+    expect(hasProperty(GET_SAMPLE_OBJECT(), 'bar')).toBeTrue()
   })
 
   test('Does not exist', (): void => {
-    expect(hasProperty(GET_SAMPLE_OBJECT(), 'baz')).toBe(false)
+    expect(hasProperty(GET_SAMPLE_OBJECT(), 'baz')).toBeFalse()
   })
 
   test('Non-object types', (): void => {
-    expect(hasProperty(null, 'foo')).toBe(false)
-    expect(hasProperty(undefined, 'foo')).toBe(false)
-    expect(hasProperty(42, 'foo')).toBe(false)
+    expect(hasProperty(null, 'foo')).toBeFalse()
+    expect(hasProperty(undefined, 'foo')).toBeFalse()
+    expect(hasProperty(42, 'foo')).toBeFalse()
     // okay... weird:
-    expect(hasProperty(42, 'toString')).toBe(false)
-    expect(hasProperty(false, 'valueOf')).toBe(false)
+    expect(hasProperty(42, 'toString')).toBeFalse()
+    expect(hasProperty(false, 'valueOf')).toBeFalse()
   })
 
 })
@@ -52,17 +52,17 @@ describe(hasEitherProperties.name, () => {
 
   test('Has none', () => {
     const output = hasEitherProperties({ foo: 1, bar: 2, baz: 3 }, ['qux', 'meow'])
-    expect(output).toBe(false)
+    expect(output).toBeFalse()
   })
 
   test('Has some', () => {
     const output = hasEitherProperties({ foo: 1, bar: 2, baz: 3 }, ['baz', 'meow'])
-    expect(output).toBe(true)
+    expect(output).toBeTrue()
   })
 
   test('Has all', () => {
     const output = hasEitherProperties({ foo: 1, bar: 2, baz: 3 }, ['foo', 'bar', 'baz'])
-    expect(output).toBe(true)
+    expect(output).toBeTrue()
   })
 
 })
@@ -71,17 +71,17 @@ describe(hasTheseProperties.name, () => {
 
   test('Has none', () => {
     const output = hasTheseProperties({ foo: 1, bar: 2, baz: 3 }, ['qux', 'meow'])
-    expect(output).toBe(false)
+    expect(output).toBeFalse()
   })
 
   test('Has some', () => {
     const output = hasTheseProperties({ foo: 1, bar: 2, baz: 3 }, ['baz', 'meow'])
-    expect(output).toBe(false)
+    expect(output).toBeFalse()
   })
 
   test('Has all', () => {
     const output = hasTheseProperties({ foo: 1, bar: 2, baz: 3 }, ['foo', 'bar', 'baz'])
-    expect(output).toBe(true)
+    expect(output).toBeTrue()
   })
 
 })
@@ -131,28 +131,28 @@ describe(hasDeepProperty.name, () => {
 
   test('Does exist', (): void => {
     const sourceObject = { player: { coord: { x: 1, y: undefined } } }
-    expect(hasDeepProperty(sourceObject, 'player.coord.x')).toBe(true)
+    expect(hasDeepProperty(sourceObject, 'player.coord.x')).toBeTrue()
   })
 
   test('Does exist, but undefined', (): void => {
     const sourceObject = { player: { coord: { x: 1, y: undefined } } }
-    expect(hasDeepProperty(sourceObject, 'player.coord.y')).toBe(true)
+    expect(hasDeepProperty(sourceObject, 'player.coord.y')).toBeTrue()
   })
 
   test('Does not exist', (): void => {
     const sourceObject = { player: { coord: { x: 1, y: undefined } } }
-    expect(hasDeepProperty(sourceObject, 'player.coord.z')).toBe(false)
+    expect(hasDeepProperty(sourceObject, 'player.coord.z')).toBeFalse()
   })
 
   test('Preceding properties do not exist', (): void => {
     const sourceObject = { player: { coord: { x: 1, y: undefined } } }
-    expect(hasDeepProperty(sourceObject, 'player.preferences.graphics.effects')).toBe(false)
+    expect(hasDeepProperty(sourceObject, 'player.preferences.graphics.effects')).toBeFalse()
   })
 
   test('Non-object types', (): void => {
-    expect(hasDeepProperty(null, 'foo')).toBe(false)
-    expect(hasDeepProperty(undefined, 'foo')).toBe(false)
-    expect(hasDeepProperty(42, 'foo')).toBe(false)
+    expect(hasDeepProperty(null, 'foo')).toBeFalse()
+    expect(hasDeepProperty(undefined, 'foo')).toBeFalse()
+    expect(hasDeepProperty(42, 'foo')).toBeFalse()
   })
 
 })
@@ -164,7 +164,7 @@ describe(hasEitherDeepProperties.name, () => {
     expect(hasEitherDeepProperties(sourceObject, [
       'player.preferences.graphics.effects',
       'player.preferences.sound.volume',
-    ])).toBe(false)
+    ])).toBeFalse()
   })
 
   test('Has some', () => {
@@ -172,7 +172,7 @@ describe(hasEitherDeepProperties.name, () => {
     expect(hasEitherDeepProperties(sourceObject, [
       'player.preferences.graphics.effects',
       'player.coord.x',
-    ])).toBe(true)
+    ])).toBeTrue()
   })
 
   test('Has all', () => {
@@ -180,7 +180,7 @@ describe(hasEitherDeepProperties.name, () => {
     expect(hasEitherDeepProperties(sourceObject, [
       'player.coord.x',
       'player.coord.y',
-    ])).toBe(true)
+    ])).toBeTrue()
   })
 
 })
@@ -192,7 +192,7 @@ describe(hasTheseDeepProperties.name, () => {
     expect(hasTheseDeepProperties(sourceObject, [
       'player.preferences.graphics.effects',
       'player.preferences.sound.volume',
-    ])).toBe(false)
+    ])).toBeFalse()
   })
 
   test('Has some', () => {
@@ -200,7 +200,7 @@ describe(hasTheseDeepProperties.name, () => {
     expect(hasTheseDeepProperties(sourceObject, [
       'player.preferences.graphics.effects',
       'player.coord.x',
-    ])).toBe(false)
+    ])).toBeFalse()
   })
 
   test('Has all', () => {
@@ -208,7 +208,7 @@ describe(hasTheseDeepProperties.name, () => {
     expect(hasTheseDeepProperties(sourceObject, [
       'player.coord.x',
       'player.coord.y',
-    ])).toBe(true)
+    ])).toBeTrue()
   })
 
 })
@@ -225,7 +225,7 @@ describe(deepGet.name, () => {
     }
     const [value, exists] = deepGet(sourceObject, ['player', 'coord', 'x'])
     expect(value).toBe(1)
-    expect(exists).toBe(true)
+    expect(exists).toBeTrue()
   })
 
   test('Value does not exist', () => {
@@ -238,7 +238,7 @@ describe(deepGet.name, () => {
     }
     const [value, exists] = deepGet(sourceObject, ['player', 'coord', 'z'])
     expect(value).toBe(undefined)
-    expect(exists).toBe(false)
+    expect(exists).toBeFalse()
   })
 
   test('Non-object types', (): void => {
@@ -268,7 +268,7 @@ describe(deepSet.name, () => {
         coord: { x: 2, y: 5 },
       },
     })
-    expect(Object.is(output, sourceObject)).toBe(false)
+    expect(Object.is(output, sourceObject)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -292,7 +292,7 @@ describe(deepSet.name, () => {
       },
     })
     const output1Snapshot = JSON.stringify(output1)
-    expect(Object.is(sourceObject, output1)).toBe(false)
+    expect(Object.is(sourceObject, output1)).toBeFalse()
     expect(output1Snapshot).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
 
@@ -305,8 +305,8 @@ describe(deepSet.name, () => {
         preferences: { graphics: { effects: 'ultra' } },
       },
     })
-    expect(Object.is(output2, sourceObject)).toBe(false)
-    expect(Object.is(output2, output1)).toBe(false)
+    expect(Object.is(output2, sourceObject)).toBeFalse()
+    expect(Object.is(output2, output1)).toBeFalse()
     expect(JSON.stringify(output2)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(output2)).not.toBe(output1Snapshot)
     expect(JSON.stringify(output1)).toBe(output1Snapshot)
@@ -344,7 +344,7 @@ describe(deepSet.name, () => {
     const sourceSnapshot = JSON.stringify(sourceObject)
     const output = deepSet(sourceObject, 'foo', 42)
     expect(output).toStrictEqual({ foo: 42 })
-    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(Object.is(sourceObject, output)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -363,7 +363,7 @@ describe(deepSet.name, () => {
         ],
       },
     }))
-    expect(Object.is(output, sourceObject)).toBe(false)
+    expect(Object.is(output, sourceObject)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -447,7 +447,7 @@ describe(complexDeepSet, () => {
         coord: { x: 2, y: 5 },
       },
     })
-    expect(Object.is(output, sourceObject)).toBe(false)
+    expect(Object.is(output, sourceObject)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -474,7 +474,7 @@ describe(complexDeepSet, () => {
     const output1Snapshot = JSON.stringify(output1)
     expect(setter1).toHaveBeenCalledWith(undefined, false)
     expect(setter1).toHaveBeenCalledTimes(1)
-    expect(Object.is(sourceObject, output1)).toBe(false)
+    expect(Object.is(sourceObject, output1)).toBeFalse()
     expect(output1Snapshot).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
 
@@ -494,8 +494,8 @@ describe(complexDeepSet, () => {
     })
     expect(setter2).toHaveBeenCalledWith(undefined, false)
     expect(setter2).toHaveBeenCalledTimes(1)
-    expect(Object.is(output2, sourceObject)).toBe(false)
-    expect(Object.is(output2, output1)).toBe(false)
+    expect(Object.is(output2, sourceObject)).toBeFalse()
+    expect(Object.is(output2, output1)).toBeFalse()
     expect(JSON.stringify(output2)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(output2)).not.toBe(output1Snapshot)
     expect(JSON.stringify(output1)).toBe(output1Snapshot)
@@ -537,7 +537,7 @@ describe(complexDeepSet, () => {
     expect(setter).toHaveBeenCalledWith(undefined, false)
     expect(setter).toHaveBeenCalledTimes(1)
     expect(output).toStrictEqual({ foo: 42 })
-    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(Object.is(sourceObject, output)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -559,7 +559,7 @@ describe(complexDeepSet, () => {
         ],
       },
     }))
-    expect(Object.is(output, sourceObject)).toBe(false)
+    expect(Object.is(output, sourceObject)).toBeFalse()
     expect(outputSnapshot).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -585,7 +585,7 @@ describe(deepRemove.name, () => {
         coord: { y: 5 },
       },
     })
-    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(Object.is(sourceObject, output)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -609,7 +609,7 @@ describe(deepRemove.name, () => {
         preferences: {},
       },
     })
-    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(Object.is(sourceObject, output)).toBeFalse()
     expect(JSON.stringify(output)).toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -619,7 +619,7 @@ describe(deepRemove.name, () => {
     const sourceSnapshot = JSON.stringify(sourceObject)
     const output = deepRemove(sourceObject, 'foo')
     expect(output).toStrictEqual({ bar: 2 })
-    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(Object.is(sourceObject, output)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -635,7 +635,7 @@ describe(deepRemove.name, () => {
     const sourceSnapshot = JSON.stringify(sourceObject)
     const output = deepRemove(sourceObject, 'foo[1]')
     expect(output).toStrictEqual({ foo: ['a', 'c'] })
-    expect(Object.is(sourceObject, output)).toBe(false)
+    expect(Object.is(sourceObject, output)).toBeFalse()
     expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
     expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
   })
@@ -663,7 +663,7 @@ describe(deepRemove.name, () => {
             preferences: { graphics: {} },
           },
         })
-        expect(Object.is(sourceObject, output)).toBe(false)
+        expect(Object.is(sourceObject, output)).toBeFalse()
         expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
         expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
       })
@@ -673,7 +673,7 @@ describe(deepRemove.name, () => {
         const sourceSnapshot = JSON.stringify(sourceObject)
         const output = deepRemove(sourceObject, 'a[0].b[0].c')
         expect(output).toStrictEqual({ a: [{ b: [{}] }] })
-        expect(Object.is(sourceObject, output)).toBe(false)
+        expect(Object.is(sourceObject, output)).toBeFalse()
         expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
         expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
       })
@@ -683,7 +683,7 @@ describe(deepRemove.name, () => {
         const sourceSnapshot = JSON.stringify(sourceObject)
         const output = deepRemove(sourceObject, '[0].a[0].b[0].c')
         expect(output).toStrictEqual([{ a: [{ b: [{}] }] }])
-        expect(Object.is(sourceObject, output)).toBe(false)
+        expect(Object.is(sourceObject, output)).toBeFalse()
         expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
         expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
       })
@@ -712,7 +712,7 @@ describe(deepRemove.name, () => {
             coord: { x: 1, y: 5 },
           },
         })
-        expect(Object.is(sourceObject, output)).toBe(false)
+        expect(Object.is(sourceObject, output)).toBeFalse()
         expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
         expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
       })
@@ -722,7 +722,7 @@ describe(deepRemove.name, () => {
         const sourceSnapshot = JSON.stringify(sourceObject)
         const output = deepRemove(sourceObject, 'a[0].b[0].c', { clean: true })
         expect(output).toStrictEqual({})
-        expect(Object.is(sourceObject, output)).toBe(false)
+        expect(Object.is(sourceObject, output)).toBeFalse()
         expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
         expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
       })
@@ -732,7 +732,7 @@ describe(deepRemove.name, () => {
         const sourceSnapshot = JSON.stringify(sourceObject)
         const output = deepRemove(sourceObject, '[0].a[0].b[0].c', { clean: true })
         expect(output).toStrictEqual([])
-        expect(Object.is(sourceObject, output)).toBe(false)
+        expect(Object.is(sourceObject, output)).toBeFalse()
         expect(JSON.stringify(output)).not.toBe(sourceSnapshot)
         expect(JSON.stringify(sourceObject)).toBe(sourceSnapshot)
       })

@@ -4,11 +4,11 @@ test('Proof of concept', () => {
 
   expect(GesturePreset.ClosedFist.isMatchedBy(
     HandGestureSample.ClosedFist.FaceFront.ThumbFront
-  )).toBe(true)
+  )).toBeTrue()
 
   expect(GesturePreset.ClosedFist.isMatchedBy(
     HandGestureSample.ClosedFist.FaceFront.ThumbSide
-  )).toBe(true)
+  )).toBeTrue()
 
 })
 

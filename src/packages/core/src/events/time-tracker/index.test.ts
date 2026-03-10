@@ -2,7 +2,7 @@ import { TimeTracker } from '.'
 
 test('Instantiation', () => {
   const timeTracker = new TimeTracker()
-  expect(timeTracker.isRunning).toBe(false)
+  expect(timeTracker.isRunning).toBeFalse()
 })
 
 describe('Start & Stop', () => {
@@ -10,20 +10,20 @@ describe('Start & Stop', () => {
   test('Happy path', () => {
     const timeTracker = new TimeTracker()
     timeTracker.start()
-    expect(timeTracker.isRunning).toBe(true)
+    expect(timeTracker.isRunning).toBeTrue()
     timeTracker.stop()
-    expect(timeTracker.isRunning).toBe(false)
+    expect(timeTracker.isRunning).toBeFalse()
     timeTracker.start()
-    expect(timeTracker.isRunning).toBe(true)
+    expect(timeTracker.isRunning).toBeTrue()
     timeTracker.stop()
-    expect(timeTracker.isRunning).toBe(false)
+    expect(timeTracker.isRunning).toBeFalse()
   })
 
   test('Start when already started', () => {
     const timeTracker = new TimeTracker()
     timeTracker.start()
     timeTracker.start()
-    expect(timeTracker.isRunning).toBe(true)
+    expect(timeTracker.isRunning).toBeTrue()
     expect(console.error).toHaveBeenCalled() // eslint-disable-line no-console
   })
 
@@ -38,7 +38,7 @@ describe('Start & Stop', () => {
     timeTracker.start()
     timeTracker.stop()
     timeTracker.stop()
-    expect(timeTracker.isRunning).toBe(false)
+    expect(timeTracker.isRunning).toBeFalse()
     expect(console.error).toHaveBeenCalled() // eslint-disable-line no-console
   })
 

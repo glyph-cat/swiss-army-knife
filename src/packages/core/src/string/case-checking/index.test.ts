@@ -1,15 +1,15 @@
 import { isLowerCase, isUpperCase } from '.'
 
 test(isLowerCase.name, (): void => {
-  expect(isLowerCase('')).toBe(true)
-  expect(isLowerCase('hello world')).toBe(true)
-  expect(isLowerCase('Hello World')).toBe(false)
-  expect(isLowerCase('HELLO WORLD')).toBe(false)
+  expect(isLowerCase('')).toBeTrue()
+  expect(isLowerCase('hello world')).toBeTrue()
+  expect(isLowerCase('Hello World')).toBeFalse()
+  expect(isLowerCase('HELLO WORLD')).toBeFalse()
 })
 
 test(isUpperCase.name, (): void => {
-  expect(isUpperCase('')).toBe(true)
-  expect(isUpperCase('HELLO WORLD')).toBe(true)
-  expect(isUpperCase('Hello World')).toBe(false)
-  expect(isUpperCase('hello world')).toBe(false)
+  expect(isUpperCase('')).toBeTrue()
+  expect(isUpperCase('HELLO WORLD')).toBeTrue()
+  expect(isUpperCase('Hello World')).toBeFalse()
+  expect(isUpperCase('hello world')).toBeFalse()
 })

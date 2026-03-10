@@ -16,18 +16,18 @@ test(delay.name, () => {
   delay(TOTAL_WAIT_TIME).then(() => { isPromiseResolved = true })
 
   // Not expecting promise to be resolved immediately.
-  expect(isPromiseResolved).toBe(false)
+  expect(isPromiseResolved).toBeFalse()
 
   return new Promise<void>((resolve) => {
 
     setTimeout(() => {
       // Not expecting promise to be resolved halfway through.
-      expect(isPromiseResolved).toBe(false)
+      expect(isPromiseResolved).toBeFalse()
     }, TOTAL_WAIT_TIME / 2)
 
     setTimeout(() => {
       // Expecting promise to be resolved after supposed wait time.
-      expect(isPromiseResolved).toBe(true)
+      expect(isPromiseResolved).toBeTrue()
       resolve()
     }, withPadding(TOTAL_WAIT_TIME))
 
@@ -48,16 +48,16 @@ test.skip(delayByFrame.name, () => {
       delayByFrame(TOTAL_WAIT_FRAMES).then(() => { isPromiseResolved = true })
 
       // Not expecting promise to be resolved immediately.
-      expect(isPromiseResolved).toBe(false)
+      expect(isPromiseResolved).toBeFalse()
 
       setTimeout(() => {
         // Not expecting promise to be resolved halfway through.
-        expect(isPromiseResolved).toBe(false)
+        expect(isPromiseResolved).toBeFalse()
       }, Math.floor(TOTAL_WAIT_FRAMES / 2 * frameTime))
 
       setTimeout(() => {
         // Expecting promise to be resolved after supposed wait time.
-        expect(isPromiseResolved).toBe(true)
+        expect(isPromiseResolved).toBeTrue()
         resolve()
       }, withPadding(TOTAL_WAIT_FRAMES * frameTime))
 

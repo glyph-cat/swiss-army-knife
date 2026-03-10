@@ -14,7 +14,7 @@ test(objectMap.name, () => {
     }
     return { key, value, index }
   })
-  expect(Object.is(objectRef.current, obj)).toBe(true)
+  expect(Object.is(objectRef.current, obj)).toBeTrue()
   expect(output).toStrictEqual([
     { key: 'foo', value: 123, index: 0 },
     { key: 'bar', value: 456, index: 1 },

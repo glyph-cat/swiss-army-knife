@@ -3,19 +3,19 @@ import { isEmptyString } from '.'
 describe(isEmptyString.name, () => {
 
   test('When is null', () => {
-    expect(isEmptyString(null)).toBe(false)
+    expect(isEmptyString(null)).toBeFalse()
   })
 
   test('When is empty string', () => {
-    expect(isEmptyString('')).toBe(true)
+    expect(isEmptyString('')).toBeTrue()
   })
 
   test('When is whitespace', () => {
-    expect(isEmptyString(' ')).toBe(false)
+    expect(isEmptyString(' ')).toBeFalse()
   })
 
   test('When has content', () => {
-    expect(isEmptyString('abc')).toBe(false)
+    expect(isEmptyString('abc')).toBeFalse()
   })
 
 })

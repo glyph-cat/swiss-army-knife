@@ -64,8 +64,8 @@ test(useStableCallback.name, () => {
 
   const generatedNumberInSecondRender = getLastGeneratedNumber()
 
-  expect(Object.is(tester.get('normalCallback'), normalCallbackSnapshot)).toBe(false)
-  expect(Object.is(tester.get('stableCallback'), stableCallbackSnapshot)).toBe(true)
+  expect(Object.is(tester.get('normalCallback'), normalCallbackSnapshot)).toBeFalse()
+  expect(Object.is(tester.get('stableCallback'), stableCallbackSnapshot)).toBeTrue()
 
   normalCallbackSnapshot()
   expect(normalSpyFn).toHaveBeenCalledTimes(2)

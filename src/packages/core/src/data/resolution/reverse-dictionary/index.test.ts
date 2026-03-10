@@ -14,10 +14,10 @@ test(ReverseDictionary.name, () => {
     [K2, [V3, V4]],
   ])
 
-  expect(Object.is(dictionary.resolve(V1), K1)).toBe(true)
-  expect(Object.is(dictionary.resolve(V2), K1)).toBe(true)
-  expect(Object.is(dictionary.resolve(V3), K2)).toBe(true)
-  expect(Object.is(dictionary.resolve(V4), K2)).toBe(true)
+  expect(Object.is(dictionary.resolve(V1), K1)).toBeTrue()
+  expect(Object.is(dictionary.resolve(V2), K1)).toBeTrue()
+  expect(Object.is(dictionary.resolve(V3), K2)).toBeTrue()
+  expect(Object.is(dictionary.resolve(V4), K2)).toBeTrue()
   expect(dictionary.resolve({})).toBeUndefined()
 
 })

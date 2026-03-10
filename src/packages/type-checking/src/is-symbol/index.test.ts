@@ -1,8 +1,8 @@
 import { isSymbol } from '.'
 
 test(isSymbol.name, () => {
-  expect(isSymbol(Symbol())).toBe(true)
-  expect(isSymbol({})).toBe(false)
-  expect(isSymbol(null)).toBe(false)
-  expect(isSymbol(undefined)).toBe(false)
+  expect(isSymbol(Symbol())).toBeTrue()
+  expect(isSymbol({})).toBeFalse()
+  expect(isSymbol(null)).toBeFalse()
+  expect(isSymbol(undefined)).toBeFalse()
 })

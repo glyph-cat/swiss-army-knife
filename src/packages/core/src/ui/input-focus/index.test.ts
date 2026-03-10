@@ -18,9 +18,9 @@ afterEach(() => {
 
 test('Document has focus within', () => {
   window.dispatchEvent(new FocusEvent('focusin'))
-  expect(AnyInputFocusState.get()).toBe(true)
+  expect(AnyInputFocusState.get()).toBeTrue()
   window.dispatchEvent(new FocusEvent('focusout'))
-  expect(AnyInputFocusState.get()).toBe(false)
+  expect(AnyInputFocusState.get()).toBeFalse()
 })
 
 describe('Component ID is string', () => {
@@ -28,24 +28,24 @@ describe('Component ID is string', () => {
   test('Register and unregister with componentId', () => {
     const componentId = 'test-id'
     manuallyRegisterInputFocus(componentId)
-    expect(AnyInputFocusState.get()).toBe(true)
+    expect(AnyInputFocusState.get()).toBeTrue()
     manuallyRegisterInputBlur(componentId)
-    expect(AnyInputFocusState.get()).toBe(false)
+    expect(AnyInputFocusState.get()).toBeFalse()
   })
 
   test('Register with componentId, unregister with callback', () => {
     const componentId = 'test-id'
     const registerInputBlur = manuallyRegisterInputFocus(componentId)
-    expect(AnyInputFocusState.get()).toBe(true)
+    expect(AnyInputFocusState.get()).toBeTrue()
     registerInputBlur()
-    expect(AnyInputFocusState.get()).toBe(false)
+    expect(AnyInputFocusState.get()).toBeFalse()
   })
 
   test('Register without componentId, unregister with callback', () => {
     const registerInputBlur = manuallyRegisterInputFocus()
-    expect(AnyInputFocusState.get()).toBe(true)
+    expect(AnyInputFocusState.get()).toBeTrue()
     registerInputBlur()
-    expect(AnyInputFocusState.get()).toBe(false)
+    expect(AnyInputFocusState.get()).toBeFalse()
   })
 
 })
@@ -55,24 +55,24 @@ describe('Component ID is symbol', () => {
   test('Register and unregister with componentId', () => {
     const componentId = Symbol('test-id')
     manuallyRegisterInputFocus(componentId)
-    expect(AnyInputFocusState.get()).toBe(true)
+    expect(AnyInputFocusState.get()).toBeTrue()
     manuallyRegisterInputBlur(componentId)
-    expect(AnyInputFocusState.get()).toBe(false)
+    expect(AnyInputFocusState.get()).toBeFalse()
   })
 
   test('Register with componentId, unregister with callback', () => {
     const componentId = Symbol('test-id')
     const registerInputBlur = manuallyRegisterInputFocus(componentId)
-    expect(AnyInputFocusState.get()).toBe(true)
+    expect(AnyInputFocusState.get()).toBeTrue()
     registerInputBlur()
-    expect(AnyInputFocusState.get()).toBe(false)
+    expect(AnyInputFocusState.get()).toBeFalse()
   })
 
   test('Register without componentId, unregister with callback', () => {
     const registerInputBlur = manuallyRegisterInputFocus()
-    expect(AnyInputFocusState.get()).toBe(true)
+    expect(AnyInputFocusState.get()).toBeTrue()
     registerInputBlur()
-    expect(AnyInputFocusState.get()).toBe(false)
+    expect(AnyInputFocusState.get()).toBeFalse()
   })
 
 })

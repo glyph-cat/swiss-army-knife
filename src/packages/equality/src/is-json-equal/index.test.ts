@@ -2,28 +2,28 @@ import { isJSONequal } from '.'
 
 test('Empty object', () => {
   const isEqual = isJSONequal({}, {})
-  expect(isEqual).toBe(true)
+  expect(isEqual).toBeTrue()
 })
 
 test('Different property size', () => {
   const prevState = { a: 'foo', b: 42 }
   const nextState = { a: 'foo', b: 42, c: [] }
   const isEqual = isJSONequal(prevState, nextState)
-  expect(isEqual).toBe(false)
+  expect(isEqual).toBeFalse()
 })
 
 test('Same property size, different property names', () => {
   const prevState = { a: 'foo', b: 42 }
   const nextState = { a: 'foo', c: 42 }
   const isEqual = isJSONequal(prevState, nextState)
-  expect(isEqual).toBe(false)
+  expect(isEqual).toBeFalse()
 })
 
 test('Same property size and names, different values', () => {
   const prevState = { a: 'foo', b: 42, c: [] }
   const nextState = { a: 'foo', b: 42, c: [] }
   const isEqual = isJSONequal(prevState, nextState)
-  expect(isEqual).toBe(true)
+  expect(isEqual).toBeTrue()
 })
 
 test('Same property size and names, same values', () => {
@@ -31,7 +31,7 @@ test('Same property size and names, same values', () => {
   const prevState = { a: 'foo', b: 42, c: ARR }
   const nextState = { a: 'foo', b: 42, c: ARR }
   const isEqual = isJSONequal(prevState, nextState)
-  expect(isEqual).toBe(true)
+  expect(isEqual).toBeTrue()
 })
 
 describe('Class objects', () => {
@@ -41,7 +41,7 @@ describe('Class objects', () => {
       new Date('2020/11/26'),
       new Date('2020/11/26')
     )
-    expect(isEqual).toBe(true)
+    expect(isEqual).toBeTrue()
   })
 
   test('Should not be equal', () => {
@@ -49,7 +49,7 @@ describe('Class objects', () => {
       new Date('2020/11/26'),
       new Date('2020/11/27')
     )
-    expect(isEqual).toBe(false)
+    expect(isEqual).toBeFalse()
   })
 
 })

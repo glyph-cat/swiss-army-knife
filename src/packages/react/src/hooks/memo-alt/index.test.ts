@@ -38,7 +38,7 @@ test('Dependencies are same', () => {
   tester.action('setObject')
   const snapshot2 = tester.get('value')
   expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 3 })
-  expect(Object.is(snapshot1, snapshot2)).toBe(true)
+  expect(Object.is(snapshot1, snapshot2)).toBeTrue()
   expect(spyFn).toHaveBeenCalledTimes(1)
 
 })
@@ -73,7 +73,7 @@ test('Dependencies are different', () => {
   tester.action('setObject')
   const snapshot2 = tester.get('value')
   expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 7 })
-  expect(Object.is(snapshot1, snapshot2)).toBe(false)
+  expect(Object.is(snapshot1, snapshot2)).toBeFalse()
   expect(spyFn).toHaveBeenCalledTimes(2)
 
 })

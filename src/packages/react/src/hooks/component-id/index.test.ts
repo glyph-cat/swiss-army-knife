@@ -31,7 +31,7 @@ describe(__idFactory__.name, (): void => {
 
   test('Symbol', (): void => {
     const output = __idFactory__(Symbol)(/* needs invocation */)
-    expect(typeof output === 'symbol').toBe(true)
+    expect(typeof output === 'symbol').toBeTrue()
   })
 
 })

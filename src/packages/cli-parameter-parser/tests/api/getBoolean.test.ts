@@ -5,13 +5,13 @@ wrapper(({ Lib: { ParameterParser } }: TestConfig) => {
   test('Empty array', () => {
     const parameters = new ParameterParser([])
     const output = parameters.getBoolean('a', 'anything')
-    expect(output).toBe(false)
+    expect(output).toBeFalse()
   })
 
   test('Not specified', () => {
     const parameters = new ParameterParser(['-b', 'abc'])
     const output = parameters.getBoolean('a', 'anything')
-    expect(output).toBe(false)
+    expect(output).toBeFalse()
   })
 
   describe('Flag only', () => {
@@ -19,13 +19,13 @@ wrapper(({ Lib: { ParameterParser } }: TestConfig) => {
     test('Using alias', () => {
       const parameters = new ParameterParser(['-a', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(true)
+      expect(output).toBeTrue()
     })
 
     test('Using name', () => {
       const parameters = new ParameterParser(['--anything', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(true)
+      expect(output).toBeTrue()
     })
 
   })
@@ -35,13 +35,13 @@ wrapper(({ Lib: { ParameterParser } }: TestConfig) => {
     test('Using alias', () => {
       const parameters = new ParameterParser(['-a', 'true', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(true)
+      expect(output).toBeTrue()
     })
 
     test('Using name', () => {
       const parameters = new ParameterParser(['--anything', 'true', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(true)
+      expect(output).toBeTrue()
     })
 
     describe('Other truthy values', () => {
@@ -49,25 +49,25 @@ wrapper(({ Lib: { ParameterParser } }: TestConfig) => {
       test('`t`', () => {
         const parameters = new ParameterParser(['--anything', 't', '-x', '...'])
         const output = parameters.getBoolean('a', 'anything')
-        expect(output).toBe(true)
+        expect(output).toBeTrue()
       })
 
       test('`1`', () => {
         const parameters = new ParameterParser(['--anything', '1', '-x', '...'])
         const output = parameters.getBoolean('a', 'anything')
-        expect(output).toBe(true)
+        expect(output).toBeTrue()
       })
 
       test('`y`', () => {
         const parameters = new ParameterParser(['--anything', 'y', '-x', '...'])
         const output = parameters.getBoolean('a', 'anything')
-        expect(output).toBe(true)
+        expect(output).toBeTrue()
       })
 
       test('`yes`', () => {
         const parameters = new ParameterParser(['--anything', 'yes', '-x', '...'])
         const output = parameters.getBoolean('a', 'anything')
-        expect(output).toBe(true)
+        expect(output).toBeTrue()
       })
 
     })
@@ -87,31 +87,31 @@ wrapper(({ Lib: { ParameterParser } }: TestConfig) => {
     test('`n`', () => {
       const parameters = new ParameterParser(['--a', 'n', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(false)
+      expect(output).toBeFalse()
     })
 
     test('`no`', () => {
       const parameters = new ParameterParser(['--anything', 'no', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(false)
+      expect(output).toBeFalse()
     })
 
     test('`f`', () => {
       const parameters = new ParameterParser(['--a', 'f', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(false)
+      expect(output).toBeFalse()
     })
 
     test('`false`', () => {
       const parameters = new ParameterParser(['--anything', 'false', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(false)
+      expect(output).toBeFalse()
     })
 
     test('`0`', () => {
       const parameters = new ParameterParser(['--a', '0', '-x', '...'])
       const output = parameters.getBoolean('a', 'anything')
-      expect(output).toBe(false)
+      expect(output).toBeFalse()
     })
 
   })

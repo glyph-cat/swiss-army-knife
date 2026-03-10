@@ -34,10 +34,10 @@ test('Client-side rendering', () => {
 
   // 1st render
   expect(tester.renderCount).toBe(2)
-  expect(tester.get('value')).toBe(true)
+  expect(tester.get('value')).toBeTrue()
 
   // subsequent renders
   tester.action('forceUpdate')
-  expect(tester.get('value')).toBe(true)
+  expect(tester.get('value')).toBeTrue()
 
 })

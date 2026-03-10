@@ -38,13 +38,13 @@ describe('Instantiation', () => {
     test('Color object', () => {
       const value = new RGBColor(43, 128, 255)
       const color = new Color(value)
-      expect(Object.is(color.source, value)).toBe(true)
+      expect(Object.is(color.source, value)).toBeTrue()
     })
 
     test('String', () => {
       const value = 'rgb(43, 128, 255)'
       const color = new Color(value)
-      expect(color.source instanceof RGBColor).toBe(true)
+      expect(color.source instanceof RGBColor).toBeTrue()
       expect(rgbConstructorSpyRef.current).toHaveBeenCalledWith(43, 128, 255, undefined, value)
     })
 
@@ -55,13 +55,13 @@ describe('Instantiation', () => {
     test('Color object', () => {
       const value = new HexColor('#2b80ff')
       const color = new Color(value)
-      expect(Object.is(color.source, value)).toBe(true)
+      expect(Object.is(color.source, value)).toBeTrue()
     })
 
     test('String', () => {
       const value = '#2b80ff'
       const color = new Color(value)
-      expect(color.source instanceof HexColor).toBe(true)
+      expect(color.source instanceof HexColor).toBeTrue()
       expect(hexConstructorSpyRef.current).toHaveBeenCalledWith('#2b80ff')
     })
 
@@ -72,13 +72,13 @@ describe('Instantiation', () => {
     test('Color object', () => {
       const value = new HSLColor(216, 100, 58)
       const color = new Color(value)
-      expect(Object.is(color.source, value)).toBe(true)
+      expect(Object.is(color.source, value)).toBeTrue()
     })
 
     test('String', () => {
       const value = 'hsl(216, 100%, 58%)'
       const color = new Color(value)
-      expect(color.source instanceof HSLColor).toBe(true)
+      expect(color.source instanceof HSLColor).toBeTrue()
       expect(hslConstructorSpyRef.current).toHaveBeenCalledWith(216, 100, 58, undefined, value)
     })
 
@@ -102,7 +102,7 @@ describe(Color.prototype.asRGB.name, () => {
     test('Color object', () => {
       const source = new RGBColor(43, 128, 255)
       const color = new Color(source)
-      expect(Object.is(color.asRGB(), color.source)).toBe(true)
+      expect(Object.is(color.asRGB(), color.source)).toBeTrue()
     })
 
     test('String', () => {
@@ -117,8 +117,8 @@ describe(Color.prototype.asRGB.name, () => {
     test('Color object', () => {
       const source = new HexColor('#2b80ff')
       const color = new Color(source)
-      expect(Object.is(color.asRGB(), source.M$rgbReference)).toBe(true)
-      expect(Object.is(source.M$rgbReference, (color.source as HexColor).M$rgbReference)).toBe(true)
+      expect(Object.is(color.asRGB(), source.M$rgbReference)).toBeTrue()
+      expect(Object.is(source.M$rgbReference, (color.source as HexColor).M$rgbReference)).toBeTrue()
     })
 
     test('String', () => {
@@ -169,7 +169,7 @@ describe(Color.prototype.asHex.name, () => {
     test('Color object', () => {
       const source = new HexColor('#2b80ff')
       const color = new Color(source)
-      expect(Object.is(color.asHex(), color.source)).toBe(true)
+      expect(Object.is(color.asHex(), color.source)).toBeTrue()
     })
 
     test('String', () => {
@@ -236,7 +236,7 @@ describe(Color.prototype.asHSL.name, () => {
     test('Color object', () => {
       const source = new HSLColor(216, 100, 58)
       const color = new Color(source)
-      expect(Object.is(color.asHSL(), source)).toBe(true)
+      expect(Object.is(color.asHSL(), source)).toBeTrue()
 
     })
 

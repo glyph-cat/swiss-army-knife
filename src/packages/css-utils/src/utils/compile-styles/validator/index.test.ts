@@ -18,26 +18,26 @@ afterEach(() => {
 })
 
 test('Empty string', () => {
-  expect(tryValidateCSSSelector('')).toBe(false)
+  expect(tryValidateCSSSelector('')).toBeFalse()
 })
 
 test('Class name', () => {
-  expect(tryValidateCSSSelector('.foo')).toBe(true)
+  expect(tryValidateCSSSelector('.foo')).toBeTrue()
 })
 
 test('ID', () => {
-  expect(tryValidateCSSSelector('#foo')).toBe(true)
+  expect(tryValidateCSSSelector('#foo')).toBeTrue()
 })
 
 test('Valid HTML element', () => {
-  expect(tryValidateCSSSelector('div')).toBe(true)
+  expect(tryValidateCSSSelector('div')).toBeTrue()
 })
 
 test('Custom web component (registered)', () => {
   ignoreWhenCompilingStyles('foo')
-  expect(tryValidateCSSSelector('foo')).toBe(true)
+  expect(tryValidateCSSSelector('foo')).toBeTrue()
 })
 
 test('Custom web component (unregistered)', () => {
-  expect(tryValidateCSSSelector('foo')).toBe(false)
+  expect(tryValidateCSSSelector('foo')).toBeFalse()
 })

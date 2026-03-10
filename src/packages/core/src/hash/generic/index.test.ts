@@ -55,7 +55,7 @@ describe(HashFactory.prototype.create.name, () => {
     expect(generatedHashes.length).toBe(5)
 
     // Check for length bump
-    expect(generatedHashes.some((hash) => hash.length > minimumLength)).toBe(true)
+    expect(generatedHashes.some((hash) => hash.length > minimumLength)).toBeTrue()
 
     // NOTE:
     // - The collision count is non-unique

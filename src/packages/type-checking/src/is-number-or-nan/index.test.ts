@@ -1,9 +1,9 @@
 import { isNumberOrNaN } from '.'
 
 test(isNumberOrNaN.name, () => {
-  expect(isNumberOrNaN(NaN)).toBe(true)
-  expect(isNumberOrNaN(42)).toBe(true)
-  expect(isNumberOrNaN('42')).toBe(false)
-  expect(isNumberOrNaN(null)).toBe(false)
-  expect(isNumberOrNaN(undefined)).toBe(false)
+  expect(isNumberOrNaN(NaN)).toBeTrue()
+  expect(isNumberOrNaN(42)).toBeTrue()
+  expect(isNumberOrNaN('42')).toBeFalse()
+  expect(isNumberOrNaN(null)).toBeFalse()
+  expect(isNumberOrNaN(undefined)).toBeFalse()
 })

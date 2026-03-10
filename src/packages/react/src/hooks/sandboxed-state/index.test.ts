@@ -47,22 +47,22 @@ test(useSandboxedState.name, () => {
     },
   }, cleanupManager)
 
-  expect(Object.is(tester.get('value'), INITIAL_STATE)).toBe(true)
+  expect(Object.is(tester.get('value'), INITIAL_STATE)).toBeTrue()
 
   expect(tester.action('setStateSameReferenceSameValue')).toBe(1)
-  expect(Object.is(tester.get('value'), INITIAL_STATE)).toBe(true)
+  expect(Object.is(tester.get('value'), INITIAL_STATE)).toBeTrue()
   expect(tester.get('value')).toStrictEqual([])
 
   expect(tester.action('setStateDifferentReferenceSameValue')).toBe(1)
-  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_SAME_VALUE)).toBe(true)
+  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_SAME_VALUE)).toBeTrue()
   expect(tester.get('value')).toStrictEqual([])
 
   expect(tester.action('setStateDifferentReferenceDifferentValue')).toBe(1)
-  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBe(true)
+  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBeTrue()
   expect(tester.get('value')).toStrictEqual([2])
 
   expect(tester.action('setStateSameReferenceDifferentValue')).toBe(1)
-  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBe(true)
+  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBeTrue()
   expect(tester.get('value')).toStrictEqual([2, 1])
 
 })
