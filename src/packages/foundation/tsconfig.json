@@ -2,7 +2,6 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "checkJs": true,
     "declaration": true,
     "declarationDir": "./temp/tsc/types",
     "downlevelIteration": true,
@@ -26,6 +25,8 @@
     "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
+    "**/*.test.tsx",
+    "**/*.test.ts",
   ],
   "include": [
     "src",
