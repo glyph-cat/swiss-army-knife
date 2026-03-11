@@ -22,12 +22,11 @@ const config: Config.InitialOptions = {
     '.old',
   ],
   testEnvironment: 'jsdom',
-  testRegex: '.test.(tsx|ts)',
+  testRegex: '.test.tsx?',
   testTimeout: 1000,
   fakeTimers: {
     enableGlobally: true,
   },
-  // verbose: true,
 }
 
 export default config

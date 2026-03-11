@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 export namespace TestUtils {
 
   export function delay(timeout: number): Promise<void> {

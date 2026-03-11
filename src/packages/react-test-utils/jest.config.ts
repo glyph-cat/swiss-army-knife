@@ -22,8 +22,7 @@ const config: Config.InitialOptions = {
   fakeTimers: {
     enableGlobally: true,
   },
-  testRegex: '.test.(tsx|ts)',
-  // verbose: true,
+  testRegex: '.test.tsx?',
 }
 
 export default config

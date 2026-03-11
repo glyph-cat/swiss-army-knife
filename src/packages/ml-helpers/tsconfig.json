@@ -46,7 +46,7 @@
     "**/*.draft*",
     "**/*.old*",
     "**/*.scripted*",
-    "**/*.test*",
+    "**/*.test.*",
   ],
   "include": [
     "./custom.d.ts",

@@ -26,8 +26,10 @@
     "node_modules",
     "./src/**/*.draft*",
     "./src/**/*.old*",
+    "**/*.test.*",
   ],
   "include": [
+    "./custom.d.ts",
     "./src",
   ],
 }

@@ -94,6 +94,7 @@
     "clsx": "^2.1.1",
     "cotton-box": "^0.14.0",
     "cotton-box-react": "^0.14.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9.38.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-functional": "^9.0.2",

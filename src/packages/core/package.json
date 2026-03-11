@@ -18,7 +18,7 @@
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "bundle": "rollup -c ./config/rollup.config.js",
-    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest -c jest.config.ts",
+    "test": "jest -c jest.config.ts",
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",

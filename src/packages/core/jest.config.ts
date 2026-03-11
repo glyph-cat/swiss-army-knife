@@ -18,12 +18,11 @@ const config: Config.InitialOptions = {
     '.draft',
     '.old',
   ],
-  testRegex: '.test.(tsx|ts)',
+  testRegex: '.test.tsx?',
   testTimeout: 1000,
   fakeTimers: {
     enableGlobally: true,
   },
-  // verbose: true,
 }
 
 export default config

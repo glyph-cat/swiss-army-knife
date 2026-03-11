@@ -14,7 +14,6 @@ const config: Config.InitialOptions = {
     '.old',
   ],
   testRegex: '.test.ts',
-  // verbose: true,
 }
 
 export default config

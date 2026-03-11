@@ -11,7 +11,7 @@ const config: Config = {
   setupFilesAfterEnv: [
     'jest-extended/all',
   ],
-  testRegex: '.test.(tsx|ts)',
+  testRegex: '.test.tsx?',
   testPathIgnorePatterns: [
     '.draft',
     '.old',

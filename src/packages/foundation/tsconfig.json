@@ -25,8 +25,7 @@
     "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
-    "**/*.test.tsx",
-    "**/*.test.ts",
+    "**/*.test.*",
   ],
   "include": [
     "./src",

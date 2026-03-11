@@ -45,8 +45,7 @@
     "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
-    "**/*.test.tsx",
-    "**/*.test.ts",
+    "**/*.test.*",
   ],
   "include": [
     "./custom.d.ts",

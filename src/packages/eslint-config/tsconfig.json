@@ -28,7 +28,7 @@
     "**/*.draft*",
     "**/*.old*",
     "**/*.scripted*",
-    "**/*.test*",
+    "**/*.test.*",
   ],
   "include": [
     "./src",
