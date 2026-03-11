@@ -1,6 +1,5 @@
 import { isString } from '@glyph-cat/type-checking'
-import { throwInternalError } from '../../_internals'
-import { devError } from '../../dev'
+import { devError, throwInternalError } from '../_internals'
 import {
   HSLA_QUICK_MATCH_PATTERN,
   MAX_ALPHA,

@@ -1,8 +1,6 @@
 import { isBoolean, isNaN, isNumber, isString } from '@glyph-cat/type-checking'
-import { IS_SOURCE_ENV } from '../../constants'
-import { devError } from '../../dev'
-import { radToDeg } from '../../math'
-import { hslConstructorSpyRef, hslToStringSpyRef } from '../_internals'
+import { radToDeg } from '../../../core/src/math/conversion/deg-rad'
+import { devError, hslConstructorSpyRef, hslToStringSpyRef } from '../_internals'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
@@ -10,6 +8,7 @@ import {
   DEG_RAD_PATTERN,
   DELIMITER_PATTERN,
   HSLA_LEADING_SYNTAX_PATTERN,
+  IS_SOURCE_ENV,
   MAX_ALPHA,
   MAX_HUE,
   MAX_LIGHTNESS,
@@ -17,7 +16,7 @@ import {
   MIN_ALPHA,
   MIN_HUE,
   MIN_LIGHTNESS,
-  MIN_SATURATION,
+  MIN_SATURATION
 } from '../constants'
 import { InvalidColorRangeError, InvalidColorStringError } from '../errors'
 
@@ -126,7 +125,7 @@ export class HSLColor extends BaseColorObject {
   }
 
   transform(fn: (values: HSLJson) => HSLJson): HSLColor {
-    return HSLColor.fromJSON(fn(this.toJSON())) // todo: test
+    return HSLColor.fromJSON(fn(this.toJSON()))
   }
 
   toString(options?: HSLToStringOptions): string {

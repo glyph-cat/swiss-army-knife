@@ -1,7 +1,12 @@
-import { IS_SOURCE_ENV } from '../../constants'
 import { hexConstructorSpyRef, hexToStringSpyRef } from '../_internals'
 import { BaseColorObject } from '../base'
-import { HEX_COLOR_PATTERN, HEX_EXTRACTION_PATTERN, MAX_ALPHA, MAX_RGB } from '../constants'
+import {
+  HEX_COLOR_PATTERN,
+  HEX_EXTRACTION_PATTERN,
+  IS_SOURCE_ENV,
+  MAX_ALPHA,
+  MAX_RGB,
+} from '../constants'
 import { InvalidColorStringError } from '../errors'
 import { RGBColor, RGBJson, RGBTuple } from '../rgb'
 import { getDoubleDigitHex } from '../utils/get-double-digit-hex'

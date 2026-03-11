@@ -1,17 +1,16 @@
 import { isBoolean, isNaN, isNumber, isString } from '@glyph-cat/type-checking'
-import { IS_SOURCE_ENV } from '../../constants'
-import { devError } from '../../dev'
-import { rgbConstructorSpyRef, rgbToStringSpyRef } from '../_internals'
+import { devError, rgbConstructorSpyRef, rgbToStringSpyRef } from '../_internals'
 import { OptionalAlpha } from '../abstractions'
 import { BaseColorJson, BaseColorObject } from '../base'
 import {
   CLOSING_BRACKET_PATTERN,
   DELIMITER_PATTERN,
+  IS_SOURCE_ENV,
   MAX_ALPHA,
   MAX_RGB,
   MIN_ALPHA,
   MIN_RGB,
-  RGBA_LEADING_SYNTAX_PATTERN,
+  RGBA_LEADING_SYNTAX_PATTERN
 } from '../constants'
 import { InvalidColorRangeError, InvalidColorStringError } from '../errors'
 

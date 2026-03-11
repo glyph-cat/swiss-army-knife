@@ -1,7 +1,7 @@
 {
-  "name": "@glyph-cat/react-ui",
-  "version": "0.0.0",
-  "description": "",
+  "name": "@glyph-cat/color",
+  "version": "1.0.0",
+  "description": "Color parsing and conversion utilities.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "unpkg": "lib/umd/index.js",
@@ -19,14 +19,16 @@
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "test": "jest -c ./jest.config.ts",
-    "bump": "yarn --cwd ../../../ bump -n react-ui",
+    "bump": "yarn --cwd ../../../ bump -n color",
     "all": "sh ./scripts/run/all.sh"
   },
-  "keywords": [],
+  "keywords": [
+    "Type checking"
+  ],
   "author": "glyph-cat",
   "readme": "README.md",
   "license": "MIT",
-  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/react-ui#readme",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/color#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/glyph-cat/swiss-army-knife.git"
@@ -35,13 +37,7 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/color": "^1.0.0",
-    "@glyph-cat/css-utils": "0.0.0-experimental.88",
-    "@glyph-cat/equality": "^1.2.0",
     "@glyph-cat/foundation": "0.0.0-experimental.88",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88",
-    "@glyph-cat/swiss-army-knife-react": "0.0.0-experimental.88",
-    "@glyph-cat/type-checking": "0.0.0-experimental.88",
-    "react": "^19.2.4"
+    "@glyph-cat/type-checking": "^1.0.0"
   }
 }

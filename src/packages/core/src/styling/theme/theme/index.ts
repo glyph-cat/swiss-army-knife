@@ -1,4 +1,4 @@
-import { Color, HSLColor } from '../../../color'
+import { Color, HSLColor } from '@glyph-cat/color'
 import {
   ColorScheme,
   CSSVariableRecord,

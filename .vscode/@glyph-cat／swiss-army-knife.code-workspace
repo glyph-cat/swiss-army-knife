@@ -29,6 +29,10 @@
       "path": "../src/packages/type-checking"
     },
     {
+      "name": "color",
+      "path": "../src/packages/color"
+    },
+    {
       "name": "css utils",
       "path": "../src/packages/css-utils"
     },

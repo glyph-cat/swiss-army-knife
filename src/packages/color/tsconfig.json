@@ -8,11 +8,6 @@
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "./temp/tsc/js",
@@ -20,38 +15,23 @@
       "@glyph-cat/foundation": [
         "../foundation/src",
       ],
-      "@glyph-cat/equality": [
-        "../equality/src",
-      ],
       "@glyph-cat/type-checking": [
         "../type-checking/src",
       ],
-      "@glyph-cat/color": [
-        "../color/src",
-      ],
-      "@glyph-cat/css-utils": [
-        "../css-utils/src",
-      ],
-      "@glyph-cat/cleanup-manager": [
-        "../cleanup-manager/src",
-      ],
     },
     "skipLibCheck": true,
+    "sourceMap": false,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2019"
+    "target": "ES2021",
   },
   "exclude": [
     "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js",
     "./src/**/*.draft*",
     "./src/**/*.old*",
     "**/*.test.*",
   ],
   "include": [
-    "./custom.d.ts",
     "./src",
-  ]
+  ],
 }

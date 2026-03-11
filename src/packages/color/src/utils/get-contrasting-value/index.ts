@@ -1,5 +1,5 @@
 import { isString } from '@glyph-cat/type-checking'
-import { clamp } from '../../../math'
+import { clamp } from '../../../../core/src/math/clamp'
 import { Color } from '../../color'
 import { MAX_RGB, MIN_RGB } from '../../constants'
 
