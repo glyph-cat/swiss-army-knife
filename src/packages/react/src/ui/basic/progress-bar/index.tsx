@@ -86,7 +86,7 @@ export const ProgressBar = ({
   layout = 'horizontal',
   reverse,
   borderRadius: $$borderRadius,
-  role,
+  role = 'progressbar',
 }: ProgressBarProps): JSX.Element => {
 
   const { palette, componentParameters } = useThemeContext()
