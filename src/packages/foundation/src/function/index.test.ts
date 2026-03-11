@@ -133,12 +133,40 @@ describe('Fn', () => {
 
 })
 
-// TODO: CleanupFunction
-// Cleanup function that accepts no parameters
-// Cleanup function that accepts one parameter
-// Cleanup function that accepts multiple parameters
+describe('CleanupFunction', () => {
 
-// TODO: Factory
-// Factory that accepts no parameters
-// Factory that accepts one parameter
-// Factory that accepts multiple parameters
+  test('Accepts no parameters', () => {
+    // TODO
+    expect('').pass('')
+  })
+
+  test('Accepts one parameter', () => {
+    // TODO
+    expect('').pass('')
+  })
+
+  test('Accepts multiple parameters', () => {
+    // TODO
+    expect('').pass('')
+  })
+
+})
+
+describe('Factory', () => {
+
+  test('Accepts no parameters', () => {
+    // TODO
+    expect('').pass('')
+  })
+
+  test('Accepts one parameter', () => {
+    // TODO
+    expect('').pass('')
+  })
+
+  test('Accepts multiple parameters', () => {
+    // TODO
+    expect('').pass('')
+  })
+
+})
