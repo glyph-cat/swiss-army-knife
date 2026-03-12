@@ -1,6 +1,6 @@
+import { Color } from '@glyph-cat/color'
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString, Nullable } from '@glyph-cat/foundation'
-import { Color } from '@glyph-cat/swiss-army-knife'
 import clsx from 'clsx'
 import {
   ChangeEvent,

@@ -1,6 +1,7 @@
+import { Color } from '@glyph-cat/color'
 import { injectInlineCSSVariables, px } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import { Color, getPercentage } from '@glyph-cat/swiss-army-knife'
+import { getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'

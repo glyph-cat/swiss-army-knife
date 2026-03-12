@@ -1,14 +1,14 @@
+import { Color } from '@glyph-cat/color'
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import { Color } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import {
-  FormEvent,
   forwardRef,
   JSX,
   MouseEvent,
   ReactNode,
+  SyntheticEvent,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -53,7 +53,7 @@ const progressRingPresets: Readonly<Record<BasicUISize, Partial<Omit<ProgressRin
 export interface SwitchProps {
   children?: ReactNode
   value?: boolean
-  onChange?(newValue: boolean, event: FormEvent<HTMLButtonElement>): void
+  onChange?(newValue: boolean, event: SyntheticEvent<HTMLButtonElement>): void
   /**
    * @defaultValue `false`
    */

@@ -1,6 +1,6 @@
+import { Color } from '@glyph-cat/color'
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
-import { Color } from '@glyph-cat/swiss-army-knife'
 import { isUndefinedOrNull } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import {

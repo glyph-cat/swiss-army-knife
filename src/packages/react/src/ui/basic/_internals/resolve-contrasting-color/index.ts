@@ -1,4 +1,4 @@
-import { prepareContrastingValue } from '@glyph-cat/swiss-army-knife'
+import { prepareContrastingValue } from '@glyph-cat/color'
 import { COLOR_BLACK, COLOR_WHITE } from '../../constants'
 
 export const resolveContrastingValue = prepareContrastingValue({
