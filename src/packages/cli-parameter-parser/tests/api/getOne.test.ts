@@ -5,13 +5,13 @@ wrapper(({ Lib: { ParameterParser } }: TestConfig) => {
   test('Empty array', () => {
     const parameters = new ParameterParser([])
     const output = parameters.getOne('a', 'anything')
-    expect(output).toBe(null)
+    expect(output).toBeUndefined()
   })
 
   test('Not specified', () => {
     const parameters = new ParameterParser(['-b', 'abc'])
     const output = parameters.getOne('a', 'anything')
-    expect(output).toBe(null)
+    expect(output).toBeUndefined()
   })
 
   test('Using alias', () => {
