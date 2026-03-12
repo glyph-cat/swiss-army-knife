@@ -42,7 +42,7 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/cleanup-manager": "^1.0.0",
+    "@glyph-cat/cleanup-manager": "^1.1.0",
     "@glyph-cat/css-utils": "^1.0.0",
     "@glyph-cat/equality": "^1.3.0",
     "@glyph-cat/foundation": "0.0.0-experimental.88",
