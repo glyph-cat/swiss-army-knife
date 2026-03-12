@@ -204,9 +204,9 @@ async function run({
   ].join(' && ')
 
   if (dryRun) {
-    execSync(command)
-  } else {
     console.log(command)
+  } else {
+    execSync(command)
   }
 
 }
