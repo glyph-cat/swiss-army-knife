@@ -1,5 +1,5 @@
-import { hasProperty } from '@glyph-cat/swiss-army-knife'
 import { PackageJson } from 'type-fest'
+import { hasProperty } from '../../../core/src/data/object'
 
 export function setDependencyVersion(
   packageJson: PackageJson,

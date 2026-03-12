@@ -10,9 +10,6 @@
           ],
           "@glyph-cat/foundation": [
             "./temp/types/foundation/src"
-          ],
-          "@glyph-cat/swiss-army-knife": [
-            "./temp/types/core/src"
           ]
         }
       }
