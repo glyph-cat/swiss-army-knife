@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/localization",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "GlyphCat's localization package",
   "main": "lib/cjs/index.js",
   "types": "lib/types/index.d.ts",
