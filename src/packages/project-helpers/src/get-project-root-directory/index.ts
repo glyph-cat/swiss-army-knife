@@ -13,10 +13,19 @@ import { hasPackageJson } from '../has-package-json'
 export function getProjectRootDirectory(currentDirectory: string): Nullable<string> {
   const currentDirectoryChunks = currentDirectory.split(path.sep).filter((chunk) => !!chunk)
   for (let i = 1; i <= currentDirectoryChunks.length; i++) {
+
+    const unsafeProbePath = path.join(...currentDirectoryChunks.slice(0, i))
+
+    // Windows specific problem:
+    // `path.join("C:.", "package.json"):` --> "C:package.json"
+    // `existsSync("C:package.json")` --> true
+    if (/^[a-z]:.?$/i.test(unsafeProbePath)) { continue }
+
     const probePath = (path.sep === '/' ? '/' : '') + path.join(...currentDirectoryChunks.slice(0, i))
     if (hasPackageJson(probePath)) {
       return probePath
     }
+
   }
   return null
 }

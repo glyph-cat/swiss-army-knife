@@ -136,17 +136,34 @@ describe('Fn', () => {
 describe('CleanupFunction', () => {
 
   test('Accepts no parameters', () => {
-    // TODO
+    const cleanup: CleanupFunction = () => { }
+    cleanup()
+    // @ts-expect-error: Expected 0 arguments, but got 1. ts(2554)
+    cleanup(42)
     expect('').pass('')
   })
 
   test('Accepts one parameter', () => {
-    // TODO
+    const cleanup: CleanupFunction<number> = (value) => { }
+    cleanup(42)
+    // @ts-expect-error: Expected 1 arguments, but got 0. ts(2554)
+    cleanup()
     expect('').pass('')
   })
 
   test('Accepts multiple parameters', () => {
-    // TODO
+    const cleanup: CleanupFunction<[number, string]> = (arg_0, arg_1) => { }
+    cleanup(42, '')
+    // @ts-expect-error: Expected 2 arguments, but got 0. ts(2554)
+    cleanup()
+    expect('').pass('')
+  })
+
+  test('Accepts one array parameter', () => {
+    const cleanup: CleanupFunction<[Array<number>]> = (arr) => { }
+    cleanup([42, 43])
+    // @ts-expect-error: Expected 1 arguments, but got 0. ts(2554)
+    cleanup()
     expect('').pass('')
   })
 
@@ -155,17 +172,24 @@ describe('CleanupFunction', () => {
 describe('Factory', () => {
 
   test('Accepts no parameters', () => {
-    // TODO
+    const validFactory: Factory<number> = () => 42
+    // @ts-expect-error: Type 'void' is not assignable to type 'number'. ts(2322)
+    const invalidFactory: Factory<number> = () => { }
     expect('').pass('')
   })
 
   test('Accepts one parameter', () => {
-    // TODO
+    const validFactory: Factory<string, number> = (value) => 42
+    // @ts-expect-error: Type 'string' is not assignable to type 'boolean'. ts(2322)
+    const invalidFactory: Factory<string, number> = (value: boolean) => 42
     expect('').pass('')
   })
 
   test('Accepts multiple parameters', () => {
-    // TODO
+    const validFactory: Factory<[string, boolean], number> = (arg_0, arg_1) => 42
+    // @ts-expect-error: Target signature provides too few arguments.
+    // Expected 3 or more, but got 2. ts(2322)
+    const invalidFactory: Factory<[string, boolean], number> = (arg_0, arg_1, arg_2) => 42
     expect('').pass('')
   })
 
