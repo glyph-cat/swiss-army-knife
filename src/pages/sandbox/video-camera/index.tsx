@@ -1,8 +1,7 @@
-import { Nullable } from '@glyph-cat/foundation'
 import { ThemeToken, tryOnly, VideoCamera } from '@glyph-cat/swiss-army-knife'
-import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
+import { BasicButton, ProgressRing, useConstructor, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
 import { SandboxContent } from '~components/sandbox/content'
 import { useLocalization } from '~services/localization'
@@ -19,30 +18,10 @@ import styles from './index.module.css'
 
 export default function (): ReactNode {
 
-  const [videoCamera, setVideoCamera] = useState<Nullable<VideoCamera>>(null)
-  useEffect(() => {
+  const videoCamera = useConstructor(() => {
     const newVideoCamera = new VideoCamera()
-    setVideoCamera(newVideoCamera)
-    return () => {
-      setVideoCamera(null)
-      newVideoCamera.dispose()
-    }
-  }, [])
-
-  return (
-    <SandboxContent className={styles.container}>
-      {videoCamera && <Content videoCamera={videoCamera} />}
-    </SandboxContent>
-  )
-}
-
-interface ContentProps {
-  videoCamera: VideoCamera
-}
-
-function Content({ videoCamera }: ContentProps): ReactNode {
-
-  const { localize } = useLocalization()
+    return [newVideoCamera, newVideoCamera.dispose]
+  })
 
   const videoCameraState = useSimpleStateValue(videoCamera.state)
 
@@ -58,6 +37,8 @@ function Content({ videoCamera }: ContentProps): ReactNode {
     videoCamera.dispose()
   }, [videoCamera])
 
+  const { localize } = useLocalization()
+
   const triggerOverconstrainedError = useCallback(async () => {
     tryOnly(async () => {
       await videoCamera.start(VideoCamera.createConstraintWithExactDeviceId('abc'))
@@ -65,38 +46,40 @@ function Content({ videoCamera }: ContentProps): ReactNode {
   }, [videoCamera])
 
   return (
-    <View className={styles.subContainer}>
-      <span>
-        {'state: '}
-        <code>{VideoCamera.State[videoCameraState]}</code>
-      </span>
-      <View className={styles.cameraDisplayContainer}>
-        <CameraDisplay
-          displayMode={CameraDisplayMode.VIDEO_ONLY}
-          videoCamera={videoCamera}
-        />
-        {videoCameraState === VideoCamera.State.STARTING && (
-          <ProgressRing className={styles.progressRing} color='#808080' />
-        )}
-      </View>
-      <View style={{ gap: ThemeToken.spacingM }}>
-        <View className={styles.buttonContainer}>
-          <BasicButton onClick={startCamera} color='primary'>
-            {localize('START')}
-          </BasicButton>
-          <BasicButton onClick={stopCamera}>
-            {localize('STOP')}
-          </BasicButton>
-          <BasicButton onClick={disposeCamera}>
-            {localize('DISPOSE')}
-          </BasicButton>
+    <SandboxContent className={styles.container}>
+      <View className={styles.subContainer}>
+        <span>
+          {'state: '}
+          <code>{VideoCamera.State[videoCameraState]}</code>
+        </span>
+        <View className={styles.cameraDisplayContainer}>
+          <CameraDisplay
+            displayMode={CameraDisplayMode.VIDEO_ONLY}
+            videoCamera={videoCamera}
+          />
+          {videoCameraState === VideoCamera.State.STARTING && (
+            <ProgressRing className={styles.progressRing} color='#808080' />
+          )}
         </View>
-        <View className={styles.buttonContainer}>
-          <BasicButton onClick={triggerOverconstrainedError} color='error'>
-            {'Trigger OverconstrainedError'}
-          </BasicButton>
+        <View style={{ gap: ThemeToken.spacingM }}>
+          <View className={styles.buttonContainer}>
+            <BasicButton onClick={startCamera} color='primary'>
+              {localize('START')}
+            </BasicButton>
+            <BasicButton onClick={stopCamera}>
+              {localize('STOP')}
+            </BasicButton>
+            <BasicButton onClick={disposeCamera}>
+              {localize('DISPOSE')}
+            </BasicButton>
+          </View>
+          <View className={styles.buttonContainer}>
+            <BasicButton onClick={triggerOverconstrainedError} color='error'>
+              {'Trigger OverconstrainedError'}
+            </BasicButton>
+          </View>
         </View>
       </View>
-    </View>
+    </SandboxContent>
   )
 }

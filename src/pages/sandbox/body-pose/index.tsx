@@ -1,9 +1,8 @@
-import { Nullable } from '@glyph-cat/foundation'
 import { OnePersonBodyPoseAnalyzer, VisionAnalyzerState } from '@glyph-cat/ml-helpers'
 import { VideoCamera } from '@glyph-cat/swiss-army-knife'
-import { BasicButton, ProgressRing, View } from '@glyph-cat/swiss-army-knife-react'
+import { BasicButton, ProgressRing, useConstructor, View } from '@glyph-cat/swiss-army-knife-react'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect } from 'react'
 import { CameraDisplay, CameraDisplayMode } from '~components/camera-display'
 import { SandboxContent } from '~components/sandbox/content'
 import { useLocalization } from '~services/localization'
@@ -14,19 +13,15 @@ export default function (): ReactNode {
 
   useGameStats()
 
-  const [videoCamera, setVideoCamera] = useState<Nullable<VideoCamera>>(null)
-  useEffect(() => {
-    const newVideoCamera = new VideoCamera()
-    setVideoCamera(newVideoCamera)
-    return () => {
-      setVideoCamera(null)
-      newVideoCamera.dispose()
-    }
-  }, [])
+  const { localize } = useLocalization()
 
-  const [bodyPoseAnalyzer, setBodyPoseAnalyzer] = useState<Nullable<OnePersonBodyPoseAnalyzer>>(null)
-  useEffect(() => {
-    if (!videoCamera) { return } // Early exit
+  const videoCamera = useConstructor(() => {
+    const newVideoCamera = new VideoCamera()
+    return [newVideoCamera, newVideoCamera.dispose]
+  })
+  const videoCameraState = useSimpleStateValue(videoCamera.state)
+
+  const bodyPoseAnalyzer = useConstructor(() => {
     const newBodyPoseAnalyzer = new OnePersonBodyPoseAnalyzer(videoCamera.videoElement, {
       baseOptions: {
         modelAssetPath: '/mediapipe/models/pose_landmarker_lite.task',
@@ -37,35 +32,8 @@ export default function (): ReactNode {
       initializeImmediately: true,
       flipHorizontally: true,
     })
-    setBodyPoseAnalyzer(newBodyPoseAnalyzer)
-    return () => { newBodyPoseAnalyzer.dispose() }
-  }, [videoCamera])
-
-  return (
-    <SandboxContent className={styles.container}>
-      {(videoCamera && bodyPoseAnalyzer) && (
-        <Content
-          videoCamera={videoCamera}
-          bodyPoseAnalyzer={bodyPoseAnalyzer}
-        />
-      )}
-    </SandboxContent>
-  )
-}
-
-interface ContentProps {
-  videoCamera: VideoCamera
-  bodyPoseAnalyzer: OnePersonBodyPoseAnalyzer
-}
-
-function Content({
-  videoCamera,
-  bodyPoseAnalyzer,
-}: ContentProps): ReactNode {
-
-  const { localize } = useLocalization()
-
-  const videoCameraState = useSimpleStateValue(videoCamera.state)
+    return [newBodyPoseAnalyzer, newBodyPoseAnalyzer.dispose]
+  })
   const bodyPoseAnalyzerState = useSimpleStateValue(bodyPoseAnalyzer.state)
 
   const startCamera = useCallback(async () => {
@@ -94,38 +62,40 @@ function Content({
   }, [bodyPoseAnalyzer, videoCamera])
 
   return (
-    <View className={styles.subContainer}>
-      <code>
-        {'VideoCamera.state: '}
-        {VideoCamera.State[videoCameraState]}
-        <br />
-        {'OnePersonBodyPoseAnalyzer.state: '}
-        {VisionAnalyzerState[bodyPoseAnalyzerState]}
-      </code>
-      <View className={styles.cameraDisplayContainer}>
-        <CameraDisplay
-          displayMode={CameraDisplayMode.ALL}
-          videoCamera={videoCamera}
-          bodyPoseAnalyzer={bodyPoseAnalyzer}
-        />
-        {videoCameraState === VideoCamera.State.STARTING && (
-          <ProgressRing className={styles.progressRing} color='#808080' />
-        )}
+    <SandboxContent className={styles.container}>
+      <View className={styles.subContainer}>
+        <code>
+          {'VideoCamera.state: '}
+          {VideoCamera.State[videoCameraState]}
+          <br />
+          {'OnePersonBodyPoseAnalyzer.state: '}
+          {VisionAnalyzerState[bodyPoseAnalyzerState]}
+        </code>
+        <View className={styles.cameraDisplayContainer}>
+          <CameraDisplay
+            displayMode={CameraDisplayMode.ALL}
+            videoCamera={videoCamera}
+            bodyPoseAnalyzer={bodyPoseAnalyzer}
+          />
+          {videoCameraState === VideoCamera.State.STARTING && (
+            <ProgressRing className={styles.progressRing} color='#808080' />
+          )}
+        </View>
+        <View className={styles.buttonContainer}>
+          <BasicButton
+            onClick={startCamera}
+            disabled={bodyPoseAnalyzerState === VisionAnalyzerState.DISPOSED}
+          >
+            {localize('START')}
+          </BasicButton>
+          <BasicButton onClick={stopCamera}>
+            {localize('STOP')}
+          </BasicButton>
+          <BasicButton onClick={disposeCamera}>
+            {localize('DISPOSE')}
+          </BasicButton>
+        </View>
       </View>
-      <View className={styles.buttonContainer}>
-        <BasicButton
-          onClick={startCamera}
-          disabled={bodyPoseAnalyzerState === VisionAnalyzerState.DISPOSED}
-        >
-          {localize('START')}
-        </BasicButton>
-        <BasicButton onClick={stopCamera}>
-          {localize('STOP')}
-        </BasicButton>
-        <BasicButton onClick={disposeCamera}>
-          {localize('DISPOSE')}
-        </BasicButton>
-      </View>
-    </View>
+    </SandboxContent>
   )
 }

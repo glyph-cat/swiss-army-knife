@@ -33,8 +33,8 @@
       "@glyph-cat/type-checking": [
         "./packages/type-checking/src",
       ],
-      "@glyph-cat/css-color": [
-        "./packages/css-color/src",
+      "@glyph-cat/color": [
+        "./packages/color/src",
       ],
       "@glyph-cat/css-utils": [
         "./packages/css-utils/src",
