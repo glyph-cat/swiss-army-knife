@@ -1,165 +1,51 @@
-import { TypedFunction } from '@glyph-cat/foundation'
+import { Fn, IDisposable } from '@glyph-cat/foundation'
 
 /**
  * @public
  */
-export type WatcherCallback<A extends Array<unknown>> = TypedFunction<A, void>
+export type WatcherCallback<A extends Array<unknown>> = Fn<A, void>
 
 /**
  * @public
  */
-export type UnwatchCallback = TypedFunction<[], void>
-
-/**
- * @public
- * @deprecated
- */
-export interface WatcherStats {
-  count: {
-    /**
-     * Number of callbacks that are still in effect.
-     */
-    active: number
-    /**
-     * Number of callbacks that have been unsubscribed from the {@link Watcher}.
-     */
-    expired: number
-  }
-}
+export type UnwatchCallback = Fn
 
 /**
  * @public
  * @example
- * const myWatcher = new Watcher<[number]>()
+ * const watcher = new Watcher<number>()
  */
-export class Watcher<A extends Array<unknown>> {
+export class Watcher<T> implements IDisposable {
 
   /**
    * @internal
    */
-  private M$watcherCollection: Record<number, CallableFunction> = {}
+  private M$isDisposed = false
 
   /**
    * @internal
    */
-  private M$watchersAdded = 0
+  private M$watcherCollection = new Set<Fn<T>>()
 
-  /**
-   * @internal
-   */
-  private M$watchersRemoved = 0
-
-  /**
-   * @internal
-   */
-  private M$counter = 0
-
-  /**
-   * Accepts a callback and start watching for changes. The callback will be
-   * invoked whenever a refresh is triggered.
-   * @example
-   * let totalScore = 0
-   * const unwatch = myWatcher.watch((newScore: number) => {
-   *   totalScore += newScore
-   * })
-   */
-  watch(callback: WatcherCallback<A>): UnwatchCallback {
-    const currentSubscriberId = ++this.M$counter
-    this.M$watcherCollection[currentSubscriberId] = callback
-    this.M$watchersAdded += 1
-    const unwatch = (): void => {
-      if (!this.M$watcherCollection[currentSubscriberId]) { return } // Early exit
-      delete this.M$watcherCollection[currentSubscriberId]
-      this.M$watchersRemoved += 1
-    }
-    return unwatch
+  watch(callback: Fn<T>): () => void {
+    this.M$watcherCollection.add(callback)
+    return () => { this.M$watcherCollection.delete(callback) }
   }
 
-  // KIV
-  // watchOnce(callback: WatcherCallback<A>): UnwatchCallback {
-  //   const unwatch = this.watch((...args) => {
-  //     callback(...args)
-  //     unwatch()
-  //   })
-  //   return unwatch
-  // }
-
-  /**
-   * Forcefully remove all watchers.
-   * @example
-   * myWatcher.unwatchAll()
-   */
-  unwatchAll(): void {
-    const currentWatcherCount = Object.keys(this.M$watcherCollection).length
-    this.M$watcherCollection = {}
-    this.M$watchersRemoved += currentWatcherCount
-  }
-
-  /**
-   * Triggers a refresh.
-   * * @example
-   * myWatcher.refresh(42)
-   */
-  refresh(...args: A): void {
-    const callbackStack = Object.values(this.M$watcherCollection)
-    for (let i = 0; i < callbackStack.length; i++) {
-      callbackStack[i](...args)
-    }
-  }
-
-  /**
-   * @example
-   * const stats = myWatcher.getStats()
-   * const [watchersAdded, watchersRemoved] = stats
-   * @returns A object containing the number of watchers added and those that
-   * have been removed.
-   * @deprecated
-   */
-  get stats(): WatcherStats {
-    return {
-      count: {
-        active: this.M$watchersAdded,
-        expired: this.M$watchersRemoved,
-      },
-    }
-  }
-
-}
-
-/**
- * @public
- * @deprecated
- */
-export class AggregateWatcher<A extends Array<unknown>> extends Watcher<A> {
-
-  private watchers: Array<Watcher<A>> = []
-  private unwatchList: Array<UnwatchCallback> = []
-
-  /**
-   * @internal
-   */
-  private M$refresh: typeof this.refresh
-
-  constructor(watchers: Array<Watcher<A>>) {
-    super()
-    this.watchers = watchers
-    this.M$refresh = this.refresh
-    this.refresh = () => {
-      throw new Error('AggregateWatcher does not allow triggering refreshes externally')
-    }
-    for (const watcher of this.watchers) {
-      const unwatch = watcher.watch((...args) => {
-        this.M$refresh(...args)
-      })
-      this.unwatchList.push(unwatch)
-    }
+  post(...args: T extends Array<unknown> ? T : [T]): void {
+    if (this.M$isDisposed) { return } // Early exit
+    this.M$watcherCollection.forEach((callback) => {
+      (callback as Fn<Array<unknown>>)(...args)
+    })
   }
 
   unwatchAll(): void {
-    for (const unwatch of this.unwatchList) {
-      unwatch()
-    }
-    super.unwatchAll()
+    this.M$watcherCollection.clear()
+  }
+
+  dispose(): void {
+    this.M$isDisposed = true
+    this.unwatchAll()
   }
 
 }
