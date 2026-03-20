@@ -1,4 +1,4 @@
-import { Fn, IDisposable } from '@glyph-cat/foundation'
+import { Empty, Fn, IDisposable } from '@glyph-cat/foundation'
 
 /**
  * @public
@@ -28,12 +28,12 @@ export class Watcher<T> implements IDisposable {
   private M$watcherCollection = new Set<Fn<T>>()
 
   watch(callback: Fn<T>): () => void {
+    if (this.M$isDisposed) { return Empty.FUNCTION } // Early exit
     this.M$watcherCollection.add(callback)
     return () => { this.M$watcherCollection.delete(callback) }
   }
 
   post(...args: T extends Array<unknown> ? T : [T]): void {
-    if (this.M$isDisposed) { return } // Early exit
     this.M$watcherCollection.forEach((callback) => {
       (callback as Fn<Array<unknown>>)(...args)
     })

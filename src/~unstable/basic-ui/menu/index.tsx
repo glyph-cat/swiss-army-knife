@@ -88,7 +88,7 @@ export const MenuList = forwardRef(({
   useInsertionEffect(() => {
     document.body.classList.add(TemplateStyles.noScroll)
     return () => { document.body.classList.remove(TemplateStyles.noScroll) }
-  })
+  }, [])
   const hasOverflowUp = false
   const hasOverflowDown = false
   return (
