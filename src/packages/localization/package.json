@@ -34,7 +34,7 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/foundation": "0.0.0-experimental.89",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.89"
+    "@glyph-cat/foundation": "0.0.0-experimental.90",
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.90"
   }
 }

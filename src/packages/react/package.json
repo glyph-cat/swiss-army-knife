@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/swiss-army-knife-react",
-  "version": "0.0.0-experimental.89",
+  "version": "0.0.0-experimental.90",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "react-native": "lib/native/index.js",
@@ -56,8 +56,8 @@
     "react": ">=18",
     "react-dom": "*",
     "react-native": "*",
-    "@glyph-cat/foundation": "0.0.0-experimental.89",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.89"
+    "@glyph-cat/foundation": "0.0.0-experimental.90",
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.90"
   },
   "peerDependenciesMeta": {
     "react": {

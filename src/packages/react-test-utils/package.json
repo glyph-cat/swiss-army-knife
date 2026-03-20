@@ -39,8 +39,8 @@
   "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/react-test-utils#readme",
   "dependencies": {
     "@glyph-cat/cleanup-manager": "^1.1.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.89",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.89",
+    "@glyph-cat/foundation": "0.0.0-experimental.90",
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.90",
     "@glyph-cat/type-checking": "^1.0.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",

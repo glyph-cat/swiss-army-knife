@@ -38,9 +38,9 @@
     "@glyph-cat/color": "^1.0.0",
     "@glyph-cat/css-utils": "0.0.0-experimental.88",
     "@glyph-cat/equality": "^1.3.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.89",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.89",
-    "@glyph-cat/swiss-army-knife-react": "0.0.0-experimental.89",
+    "@glyph-cat/foundation": "0.0.0-experimental.90",
+    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.90",
+    "@glyph-cat/swiss-army-knife-react": "0.0.0-experimental.90",
     "@glyph-cat/type-checking": "0.0.0-experimental.88",
     "react": "^19.2.4"
   }

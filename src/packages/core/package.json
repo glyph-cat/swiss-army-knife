@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/swiss-army-knife",
-  "version": "0.0.0-experimental.89",
+  "version": "0.0.0-experimental.90",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
   "react-native": "lib/native/index.js",
@@ -53,7 +53,7 @@
   "peerDependencies": {
     "luxon": "^3.7.2",
     "react-native": "*",
-    "@glyph-cat/foundation": "0.0.0-experimental.89"
+    "@glyph-cat/foundation": "0.0.0-experimental.90"
   },
   "peerDependenciesMeta": {
     "luxon": {
