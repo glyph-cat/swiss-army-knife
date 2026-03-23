@@ -90,7 +90,7 @@ export class LocalizationDictionary<DictionaryData extends IDictionaryData> {
    * value if it exists.
    * @returns `true` if the localized value exists, otherwise `false`.
    * @example
-   * import { createRef } from '@glyph-cat/swiss-army-knife'
+   * import { createRef } from '@glyph-cat/foundation'
    *
    * const valueRef = createRef<string>(null)
    * myDictionary.tryLocalize('en', 'HELLO', valueRef)
