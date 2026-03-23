@@ -33,8 +33,8 @@ export default function (): ReactNode {
     await videoCamera.stop()
   }, [videoCamera])
 
-  const disposeCamera = useCallback(() => {
-    videoCamera.dispose()
+  const disposeCamera = useCallback(async () => {
+    await videoCamera.dispose()
   }, [videoCamera])
 
   const { localize } = useLocalization()

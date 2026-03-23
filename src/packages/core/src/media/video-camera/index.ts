@@ -1,4 +1,4 @@
-import { Dimension2D, PossiblyUndefined } from '@glyph-cat/foundation'
+import { Dimension2D, IDisposable } from '@glyph-cat/foundation'
 import { isFunction } from '@glyph-cat/type-checking'
 import { ReadOnlyStateManager, SimpleFiniteStateManager, SimpleStateManager } from 'cotton-box'
 import { createEnumToStringConverter } from '../../data'
@@ -7,7 +7,7 @@ import { TemplateStyles } from '../../styling'
 /**
  * @public
  */
-export class VideoCamera {
+export class VideoCamera implements IDisposable {
 
   static readonly DEFAULT_CONSTRAINTS: MediaStreamConstraints = {
     video: {
@@ -35,7 +35,7 @@ export class VideoCamera {
   /**
    * @internal
    */
-  private M$mediaStream: PossiblyUndefined<MediaStream>
+  private M$mediaStream?: MediaStream
 
   /**
    * @internal
@@ -129,8 +129,7 @@ export class VideoCamera {
    */
   async stop(): Promise<boolean> {
     await this.M$state.wait((s) => s !== VideoCamera.State.STARTING)
-    this.M$stopBase()
-    return this.M$state.trySet(VideoCamera.State.STOPPED)
+    return this.M$stopBase()
   }
 
   // TODO: [low priority] explore this approach
@@ -158,12 +157,13 @@ export class VideoCamera {
   /**
    * @internal
    */
-  private M$stopBase(): void {
+  private M$stopBase(): boolean {
     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/stop
     if (isFunction(this.M$mediaStream?.getTracks)) {
       this.M$mediaStream.getTracks().forEach((track) => track.stop())
     }
     this.videoElement.pause()
+    return this.M$state.trySet(VideoCamera.State.STOPPED)
   }
 
 }
