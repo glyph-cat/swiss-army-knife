@@ -44,7 +44,6 @@
     "@glyph-cat/type-checking": "^1.0.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
-    "cotton-box": "^0.14.0",
     "react": "^19.2.4"
   }
 }

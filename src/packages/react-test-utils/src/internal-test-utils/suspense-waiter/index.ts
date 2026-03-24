@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react'
 import { MockStateManager } from '../mock-state-manager'
 
-// NOTE: Adapted from 'cotton-box'.
+// NOTE: Adapted from Cotton Box.
 
 export function useSuspenseWaiter(isInitializingState: MockStateManager<boolean>): void {
   const isInitializing = useSyncExternalStore(

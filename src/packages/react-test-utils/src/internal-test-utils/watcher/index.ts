@@ -1,4 +1,4 @@
-// NOTE: Adapted from 'cotton-box'.
+// NOTE: Adapted from Cotton Box.
 
 export class Watcher<Args extends any[]> {
 
