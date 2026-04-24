@@ -1,0 +1,10 @@
+.container {
+  grid-auto-rows: initial;
+  height: 90vh;
+  place-items: center;
+}
+
+.subContainer {
+  gap: 20px;
+  place-items: center;
+}

@@ -1,0 +1,77 @@
+.container {
+  --size: 200px;
+  padding: 100px;
+}
+
+.squircleA {
+  --squircle-displacement: 37px;
+}
+
+.squircleA::after {
+  clip-path: shape(
+    from 0 var(--squircle-displacement),
+    curve to var(--squircle-displacement) 0 with 0 0 / 0 0,
+    hline to calc(100% - var(--squircle-displacement)),
+    curve to 100% var(--squircle-displacement) with 100% 0 / 100% 0,
+    vline to calc(100% - var(--squircle-displacement)),
+    curve to calc(100% - var(--squircle-displacement)) 100% with 100% 100% /
+      100% 100%,
+    hline to var(--squircle-displacement),
+    curve to 0 calc(100% - var(--squircle-displacement)) with 0 100% / 0 100%,
+    close
+  );
+  background-color: #000000cc;
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+}
+
+.squircleA::before {
+  clip-path: shape(
+    from 0 var(--squircle-displacement),
+    curve to var(--squircle-displacement) 0 with 0 0 / 0 0,
+    hline to calc(100% - var(--squircle-displacement)),
+    curve to 100% var(--squircle-displacement) with 100% 0 / 100% 0,
+    vline to calc(100% - var(--squircle-displacement)),
+    curve to calc(100% - var(--squircle-displacement)) 100% with 100% 100% /
+      100% 100%,
+    hline to var(--squircle-displacement),
+    curve to 0 calc(100% - var(--squircle-displacement)) with 0 100% / 0 100%,
+    close
+  );
+  background-color: #2b80ff;
+  content: "";
+  height: calc(100% + 2px);
+  position: absolute;
+  width: calc(100% + 2px);
+  z-index: -1;
+}
+
+.squircleB {
+  --squircle-displacement: 50px;
+  /* box-shadow: 0px 0px 1px 0px #2b80ff; */
+}
+
+.squircleB::before {
+  /* background-color: #134ea7; */
+  background-color: #2b80ff;
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  clip-path: shape(
+    from 0 var(--squircle-displacement),
+    curve to var(--squircle-displacement) 0 with 0 0 / 0 0,
+    hline to calc(100% - var(--squircle-displacement)),
+    curve to 100% var(--squircle-displacement) with 100% 0 / 100% 0,
+    vline to calc(100% - var(--squircle-displacement)),
+    curve to calc(100% - var(--squircle-displacement)) 100% with 100% 100% /
+      100% 100%,
+    hline to var(--squircle-displacement),
+    curve to 0 calc(100% - var(--squircle-displacement)) with 0 100% / 0 100%,
+    close
+  );
+}

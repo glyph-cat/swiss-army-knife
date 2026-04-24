@@ -6,83 +6,87 @@
     },
     {
       "name": "foundation",
-      "path": "../src/packages/foundation"
+      "path": "../packages/foundation"
     },
     {
       "name": "core",
-      "path": "../src/packages/core"
+      "path": "../packages/core"
     },
     {
       "name": "react",
-      "path": "../src/packages/react"
+      "path": "../packages/react"
     },
     {
       "name": "react-ui",
-      "path": "../src/packages/react-ui"
+      "path": "../packages/react-ui"
     },
     {
       "name": "equality",
-      "path": "../src/packages/equality"
+      "path": "../packages/equality"
     },
     {
       "name": "type checking",
-      "path": "../src/packages/type-checking"
+      "path": "../packages/type-checking"
     },
     {
       "name": "color",
-      "path": "../src/packages/color"
+      "path": "../packages/color"
     },
     {
       "name": "css utils",
-      "path": "../src/packages/css-utils"
+      "path": "../packages/css-utils"
     },
     {
       "name": "localization",
-      "path": "../src/packages/localization"
+      "path": "../packages/localization"
     },
     {
       "name": "cleanup manager",
-      "path": "../src/packages/cleanup-manager"
+      "path": "../packages/cleanup-manager"
     },
     {
       "name": "react test utils",
-      "path": "../src/packages/react-test-utils"
+      "path": "../packages/react-test-utils"
     },
     {
       "name": "cli parameter parser",
-      "path": "../src/packages/cli-parameter-parser"
+      "path": "../packages/cli-parameter-parser"
     },
     {
       "name": "ml helpers",
-      "path": "../src/packages/ml-helpers"
+      "path": "../packages/ml-helpers"
     },
     {
       "name": "crayon",
-      "path": "../src/packages/crayon"
+      "path": "../packages/crayon"
     },
     {
       "name": "sleep-sort",
-      "path": "../src/packages/sleep-sort"
+      "path": "../packages/sleep-sort"
     },
     {
       "name": "eslint-config",
-      "path": "../src/packages/eslint-config"
+      "path": "../packages/eslint-config"
     },
     {
       "name": "project helpers",
-      "path": "../src/packages/project-helpers"
+      "path": "../packages/project-helpers"
     },
     {
       "name": "unstable",
-      "path": "../src/~unstable"
+      "path": "../packages/playground-web/src/~unstable"
     },
     {
       "name": "sandboxes (web)",
-      "path": "../src/pages/sandbox"
+      "path": "../packages/playground-web/src/pages/sandbox"
     },
     {
       "name": "sandboxes (expo)",
-      "path": "../src/packages/playground-expo/src/~sandboxes"
+      "path": "../packages/playground-expo/src/~sandboxes"
+    },
+    {
+      "name": "tools",
+      "path": "../packages/tools"
     }
   ],
   "settings": {

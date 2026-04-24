@@ -1,0 +1,16 @@
+.container {
+}
+
+.floatingCameraDisplay {
+  background-color: #222222;
+  border: solid 1px #80808080;
+  bottom: 0;
+  box-shadow: 0px 10px 10px 0px #00000080;
+  border-bottom-color: #00000080;
+  border-top-color: #ffffff80;
+  border-radius: var(--spacingS);
+  margin: var(--spacingM);
+  overflow: hidden;
+  position: absolute;
+  z-index: 1;
+}

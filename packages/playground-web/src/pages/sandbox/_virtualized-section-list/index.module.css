@@ -1,0 +1,17 @@
+.container {
+  min-height: 100vh;
+  place-items: center;
+}
+
+.subContainer {
+  gap: var(--spacingXXL);
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+}
+
+.boundary {
+  border: solid 0.5px;
+  pointer-events: none;
+  position: fixed;
+  z-index: 1;
+}

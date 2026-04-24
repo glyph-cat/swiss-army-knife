@@ -1,0 +1,14 @@
+{
+  "name": "@glyph-cat/playground-web",
+  "private": true,
+  "version": "0.0.0-experimental.90",
+  "description": "GlyphCat's set of common utilities.",
+  "author": "glyph-cat",
+  "license": "MIT",
+  "readme": "README.md",
+  "scripts": {
+    "start": "tsx ./scripts/run/playground-env && next dev --experimental-https -p 3000",
+    "serve": "tsx ./scripts/run/playground-env && next start -p 3000",
+    "lint": "eslint ."
+  }
+}

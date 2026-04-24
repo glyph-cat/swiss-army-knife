@@ -1,0 +1,6 @@
+.container {
+  align-items: center;
+  gap: 20px;
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+}
