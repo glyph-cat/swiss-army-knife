@@ -53,16 +53,6 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/equality",
-      "projectFolder": "packages/equality",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@glyph-cat/type-checking",
-      "projectFolder": "packages/type-checking",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@glyph-cat/swiss-army-knife",
       "projectFolder": "packages/core",
       "shouldPublish": true
@@ -78,18 +68,13 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/react-test-utils",
-      "projectFolder": "packages/react-test-utils",
+      "packageName": "@glyph-cat/equality",
+      "projectFolder": "packages/equality",
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/cleanup-manager",
-      "projectFolder": "packages/cleanup-manager",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@glyph-cat/cli-parameter-parser",
-      "projectFolder": "packages/cli-parameter-parser",
+      "packageName": "@glyph-cat/type-checking",
+      "projectFolder": "packages/type-checking",
       "shouldPublish": true
     },
     {
@@ -108,8 +93,18 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/crayon",
-      "projectFolder": "packages/crayon",
+      "packageName": "@glyph-cat/cleanup-manager",
+      "projectFolder": "packages/cleanup-manager",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/react-test-utils",
+      "projectFolder": "packages/react-test-utils",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/cli-parameter-parser",
+      "projectFolder": "packages/cli-parameter-parser",
       "shouldPublish": true
     },
     {
@@ -118,8 +113,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/project-helpers",
-      "projectFolder": "packages/project-helpers",
+      "packageName": "@glyph-cat/crayon",
+      "projectFolder": "packages/crayon",
       "shouldPublish": true
     },
     {
@@ -133,13 +128,18 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/playground-expo",
-      "projectFolder": "packages/playground-expo",
-      "shouldPublish": false
+      "packageName": "@glyph-cat/project-helpers",
+      "projectFolder": "packages/project-helpers",
+      "shouldPublish": true
     },
     {
       "packageName": "@glyph-cat/playground-web",
       "projectFolder": "packages/playground-web",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@glyph-cat/playground-expo",
+      "projectFolder": "packages/playground-expo",
       "shouldPublish": false
     }
   ]
