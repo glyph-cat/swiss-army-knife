@@ -1,0 +1,146 @@
+/**
+ * This is the main configuration file for Rush.
+ * For full documentation, please see https://rushjs.io
+ */
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+  "rushVersion": "5.174.0",
+  "pnpmVersion": "9.15.9",
+  "nodeSupportedVersionRange": ">=24.11.1 <25.0.0",
+  // "projectFolderMinDepth": 2,
+  // "projectFolderMaxDepth": 2,
+  "repository": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife",
+    "defaultBranch": "main",
+    "defaultRemote": "origin"
+  },
+  /**
+   * Event hooks are customized script actions that Rush executes when specific events occur
+   */
+  "eventHooks": {
+    /**
+     * A list of shell commands to run before "rush install" or "rush update" starts installation
+     */
+    "preRushInstall": [
+      // "common/scripts/pre-rush-install.js"
+    ],
+    /**
+     * A list of shell commands to run after "rush install" or "rush update" finishes installation
+     */
+    "postRushInstall": [],
+    /**
+     * A list of shell commands to run before "rush build" or "rush rebuild" starts building
+     */
+    "preRushBuild": [],
+    /**
+     * A list of shell commands to run after "rush build" or "rush rebuild" finishes building
+     */
+    "postRushBuild": [],
+    /**
+     * A list of shell commands to run before the "rushx" command starts
+     */
+    "preRushx": [],
+    /**
+     * A list of shell commands to run after the "rushx" command finishes
+     */
+    "postRushx": []
+  },
+  "telemetryEnabled": false,
+  "projects": [
+    {
+      "packageName": "@glyph-cat/foundation",
+      "projectFolder": "packages/foundation",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/equality",
+      "projectFolder": "packages/equality",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/type-checking",
+      "projectFolder": "packages/type-checking",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/swiss-army-knife",
+      "projectFolder": "packages/core",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/swiss-army-knife-react",
+      "projectFolder": "packages/react",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/swiss-army-knife-react-ui",
+      "projectFolder": "packages/react-ui",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/react-test-utils",
+      "projectFolder": "packages/react-test-utils",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/cleanup-manager",
+      "projectFolder": "packages/cleanup-manager",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/cli-parameter-parser",
+      "projectFolder": "packages/cli-parameter-parser",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/color",
+      "projectFolder": "packages/color",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/css-utils",
+      "projectFolder": "packages/css-utils",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/localization",
+      "projectFolder": "packages/localization",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/crayon",
+      "projectFolder": "packages/crayon",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/ml-helpers",
+      "projectFolder": "packages/ml-helpers",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/project-helpers",
+      "projectFolder": "packages/project-helpers",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/sleep-sort",
+      "projectFolder": "packages/sleep-sort",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/eslint-config",
+      "projectFolder": "packages/eslint-config",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@glyph-cat/playground-expo",
+      "projectFolder": "packages/playground-expo",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@glyph-cat/playground-web",
+      "projectFolder": "packages/playground-web",
+      "shouldPublish": false
+    }
+  ]
+}
