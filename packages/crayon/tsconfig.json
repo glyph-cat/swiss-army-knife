@@ -13,7 +13,7 @@
       "esnext",
     ],
     "module": "CommonJS",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "outDir": "./temp/tsc/js",
     "resolveJsonModule": true,

@@ -38,5 +38,13 @@
   },
   "bugs": {
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "~29.0.2",
+    "rollup": "~4.60.2",
+    "rollup-plugin-typescript2": "~0.37.0",
+    "@jest/types": "~30.3.0",
+    "@rollup/plugin-node-resolve": "~16.0.3",
+    "jest-extended": "~7.0.0"
   }
 }

@@ -141,6 +141,11 @@
       "packageName": "@glyph-cat/swiss-army-knife-playground-expo",
       "projectFolder": "packages/playground-expo",
       "shouldPublish": false
+    },
+    {
+      "packageName": "@glyph-cat/swiss-army-knife-tools",
+      "projectFolder": "packages/tools",
+      "shouldPublish": false
     }
   ]
 }
