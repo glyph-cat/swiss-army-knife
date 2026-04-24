@@ -10,27 +10,6 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "./temp/tsc/js",
-    "paths": {
-      "@glyph-cat/foundation": [
-        "../foundation/src",
-      ],
-      "@glyph-cat/swiss-army-knife": [
-        "../core/src",
-      ],
-      "@glyph-cat/color": [
-        "../color/src",
-      ],
-      "@glyph-cat/css-utils": [
-        // This is due to indirect dependency, even though never used.
-        "../css-utils/src",
-      ],
-      "@glyph-cat/type-checking": [
-        "../type-checking/src",
-      ],
-      "@glyph-cat/cleanup-manager": [
-        "../cleanup-manager/src",
-      ],
-    },
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,

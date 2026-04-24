@@ -1,5 +1,5 @@
 {
-  "name": "swiss-army-knife-playground-expo",
+  "name": "@glyph-cat/swiss-army-knife-playground-expo",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

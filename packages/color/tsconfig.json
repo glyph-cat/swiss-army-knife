@@ -10,14 +10,6 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "./temp/tsc/js",
-    "paths": {
-      "@glyph-cat/foundation": [
-        "../foundation/src",
-      ],
-      "@glyph-cat/type-checking": [
-        "../type-checking/src",
-      ],
-    },
     "rootDir": "./src",
     "skipLibCheck": true,
     "sourceMap": false,

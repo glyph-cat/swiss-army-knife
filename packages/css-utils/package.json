@@ -37,9 +37,9 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/cleanup-manager": "^1.1.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.90",
-    "@glyph-cat/type-checking": "^1.0.0",
+    "@glyph-cat/cleanup-manager": "workspace:*",
+    "@glyph-cat/foundation": "workspace:*",
+    "@glyph-cat/type-checking": "workspace:*",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.3"
   }

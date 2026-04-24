@@ -31,8 +31,8 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/equality": "^1.3.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.90",
+    "@glyph-cat/equality": "workspace:*",
+    "@glyph-cat/foundation": "workspace:*",
     "chalk": "^5.6.2",
     "type-fest": "^5.4.4"
   }

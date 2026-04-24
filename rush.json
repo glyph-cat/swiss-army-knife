@@ -63,7 +63,7 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/swiss-army-knife-react-ui",
+      "packageName": "@glyph-cat/react-ui",
       "projectFolder": "packages/react-ui",
       "shouldPublish": true
     },
@@ -133,12 +133,12 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/playground-web",
+      "packageName": "@glyph-cat/swiss-army-knife-playground-web",
       "projectFolder": "packages/playground-web",
       "shouldPublish": false
     },
     {
-      "packageName": "@glyph-cat/playground-expo",
+      "packageName": "@glyph-cat/swiss-army-knife-playground-expo",
       "projectFolder": "packages/playground-expo",
       "shouldPublish": false
     }

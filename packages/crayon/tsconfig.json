@@ -17,11 +17,6 @@
     "noFallthroughCasesInSwitch": true,
     "outDir": "./temp/tsc/js",
     "resolveJsonModule": true,
-    "paths": {
-      "@glyph-cat/foundation": [
-        "../foundation/src",
-      ],
-    },
     "rootDir": "./src",
     "skipLibCheck": true,
     "sourceMap": false,

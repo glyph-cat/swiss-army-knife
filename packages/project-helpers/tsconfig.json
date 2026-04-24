@@ -16,14 +16,6 @@
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "outDir": "./temp/tsc/js",
-    "paths": {
-      "@glyph-cat/foundation": [
-        "../foundation/src",
-      ],
-      "@glyph-cat/type-checking": [
-        "../type-checking/src",
-      ],
-    },
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,

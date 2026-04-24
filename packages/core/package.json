@@ -40,11 +40,11 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/color": "^1.0.0",
-    "@glyph-cat/css-utils": "^1.0.0",
-    "@glyph-cat/equality": "^1.3.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.88",
-    "@glyph-cat/type-checking": "^1.0.0",
+    "@glyph-cat/color": "workspace:*",
+    "@glyph-cat/css-utils": "workspace:*",
+    "@glyph-cat/equality": "workspace:*",
+    "@glyph-cat/foundation": "workspace:*",
+    "@glyph-cat/type-checking": "workspace:*",
     "autoprefixer": "^10.4.21",
     "cotton-box": "^0.14.0",
     "postcss": "^8.5.3",
@@ -52,8 +52,7 @@
   },
   "peerDependencies": {
     "luxon": "^3.7.2",
-    "react-native": "*",
-    "@glyph-cat/foundation": "0.0.0-experimental.90"
+    "react-native": "*"
   },
   "peerDependenciesMeta": {
     "luxon": {

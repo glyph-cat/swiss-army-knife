@@ -42,12 +42,12 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/cleanup-manager": "^1.1.0",
-    "@glyph-cat/css-utils": "^1.0.0",
-    "@glyph-cat/equality": "^1.3.0",
-    "@glyph-cat/foundation": "0.0.0-experimental.88",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.88",
-    "@glyph-cat/type-checking": "^1.0.0",
+    "@glyph-cat/cleanup-manager": "workspace:*",
+    "@glyph-cat/css-utils": "workspace:*",
+    "@glyph-cat/equality": "workspace:*",
+    "@glyph-cat/foundation": "workspace:*",
+    "@glyph-cat/swiss-army-knife": "workspace:*",
+    "@glyph-cat/type-checking": "workspace:*",
     "clsx": "^2.1.1",
     "cotton-box": "^0.14.0",
     "cotton-box-react": "^0.14.0"
@@ -55,9 +55,7 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": "*",
-    "react-native": "*",
-    "@glyph-cat/foundation": "0.0.0-experimental.90",
-    "@glyph-cat/swiss-army-knife": "0.0.0-experimental.90"
+    "react-native": "*"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -71,8 +69,8 @@
     }
   },
   "devDependencies": {
-    "@glyph-cat/color": "^1.0.0",
-    "@glyph-cat/react-test-utils": "^0.9.0",
+    "@glyph-cat/color": "workspace:*",
+    "@glyph-cat/react-test-utils": "workspace:*",
     "@testing-library/react": "^16.3.2"
   }
 }

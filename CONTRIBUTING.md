@@ -1,9 +1,15 @@
 # Contributing
 
 ## Dependency Management
-1. Run `yarn install` in the monorepo's root directory to fetch all relevant dependencies.
-2. Run `yarn setup` in the monorepo's root directory to create symbolic links for `node_modules` in every package.
-3. Do not manage dependencies (Eg: `yarn install`, `yarn add`, `yarn remove`) inside the directories of individual packages as they share the same one from the root directory.
+- Run `rush update` in the monorepo's root directory to fetch all relevant dependencies.
+- The package manager is `pnpm`, however, ***do not*** use it directly. Please use `rush` instead.
+
+| PNPM commands                   | Rush equivalents              |
+| ------------------------------- | ----------------------------- |
+| `pnpm install`                  | `rush update`                 |
+| `pnpm add <package>`            | `rush add -p <package>`       |
+| `pnpm add --save-dev <package>` | `rush add --dev -p <package>` |
+| `pnpm remove <package>`         | `rush remove -p <package>`    |
 
 ## Conventions
 For coding conventions, please refer to [docs/Conventions.md](./docs/Conventions.md)
