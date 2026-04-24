@@ -31,6 +31,9 @@ export interface TextEmphasisProps {
   /**
    * This can be a {@link ReactNode|`ReactNode`} or a function that returns a
    * {@link ReactNode|`ReactNode`}, excluding `null` | `undefined` | `boolean` types.
+   *
+   * Pro Tip: You can use the [`<mark>`](https://www.w3schools.com/tags/tag_mark.asp)
+   * element to highlight text in the browser's native style.
    */
   render: TextEmphasisDirectNode | ((text: string, metadata: SimpleTextEmphasisMetadata) => ReactNode)
   /**

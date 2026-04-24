@@ -4,7 +4,6 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationDir": "./temp/tsc/types",
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
@@ -14,7 +13,7 @@
       "esnext"
     ],
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "outDir": "./temp/tsc/js",
     "paths": {
       "@glyph-cat/foundation": [
@@ -36,10 +35,11 @@
         "../cleanup-manager/src",
       ],
     },
+    "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2019"
+    "target": "ES2019",
   },
   "exclude": [
     "node_modules",

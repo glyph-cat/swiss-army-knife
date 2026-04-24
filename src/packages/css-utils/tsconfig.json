@@ -4,12 +4,11 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationDir": "./temp/tsc/types",
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "outDir": "./temp/tsc/js",
     "paths": {
       "@glyph-cat/foundation": [
@@ -22,6 +21,7 @@
         "../cleanup-manager/src",
       ],
     },
+    "rootDir": "./src",
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,

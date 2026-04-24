@@ -24,6 +24,14 @@ export const VERSION = process.env.PACKAGE_VERSION
  * @public
  */
 export const IS_DEBUG_ENV = process.env.NODE_ENV !== 'production'
+// TODO: change
+// export const IS_DEBUG_ENV = (() => {
+//   if (typeof process !== 'undefined') {
+//     return process.env.NODE_ENV !== 'production'
+//   } else {
+//     return import.meta.env.mode
+//   }
+// })()
 
 /**
  * @public
