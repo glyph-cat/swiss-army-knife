@@ -138,12 +138,12 @@
       "shouldPublish": false
     },
     {
-      "packageName": "@glyph-cat/swiss-army-knife-playground-web",
-      "projectFolder": "packages/playground-web",
+      "packageName": "@glyph-cat/playground-nextjs",
+      "projectFolder": "packages/playground-nextjs",
       "shouldPublish": false
     },
     {
-      "packageName": "@glyph-cat/swiss-army-knife-playground-expo",
+      "packageName": "@glyph-cat/playground-expo",
       "projectFolder": "packages/playground-expo",
       "shouldPublish": false
     }

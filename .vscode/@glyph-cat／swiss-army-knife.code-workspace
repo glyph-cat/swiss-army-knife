@@ -81,8 +81,8 @@
       "path": "../packages/playground-web/src/~unstable"
     },
     {
-      "name": "sandboxes (web)",
-      "path": "../packages/playground-web/src/pages/sandbox"
+      "name": "sandboxes (nextjs)",
+      "path": "../packages/playground-nextjs/src/pages/sandbox"
     },
     {
       "name": "sandboxes (expo)",
