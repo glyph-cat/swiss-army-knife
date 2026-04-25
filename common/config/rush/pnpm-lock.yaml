@@ -76,9 +76,18 @@ importers:
       '@rollup/plugin-commonjs':
         specifier: ~29.0.2
         version: 29.0.2(rollup@4.60.2)
+      '@types/luxon':
+        specifier: ~3.7.1
+        version: 3.7.1
+      '@types/node':
+        specifier: ~25.6.0
+        version: 25.6.0
       jest-extended:
         specifier: ~7.0.0
         version: 7.0.0(typescript@5.9.3)
+      luxon:
+        specifier: ~3.7.2
+        version: 3.7.2
       rollup:
         specifier: ~4.60.2
         version: 4.60.2

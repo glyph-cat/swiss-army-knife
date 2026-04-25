@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { Nullable } from '../../../foundation/src/nullable'
-import { hasPackageJson } from '../has-package-json'
+import { hasRushJson } from '../has-rush-json'
 
 /**
  * Get the path that points to the root directory of the current project.
@@ -22,7 +22,7 @@ export function getProjectRootDirectory(currentDirectory: string): Nullable<stri
     if (/^[a-z]:.?$/i.test(unsafeProbePath)) { continue }
 
     const probePath = (path.sep === '/' ? '/' : '') + path.join(...currentDirectoryChunks.slice(0, i))
-    if (hasPackageJson(probePath)) {
+    if (hasRushJson(probePath)) {
       return probePath
     }
 

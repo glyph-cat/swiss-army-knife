@@ -17,6 +17,5 @@ export const PROJECT_ROOT_DIRECTORY: string = (() => {
 
 export const PACKAGES_DIRECTORY = path.join(
   PROJECT_ROOT_DIRECTORY,
-  'src',
   'packages',
 )

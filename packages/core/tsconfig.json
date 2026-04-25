@@ -15,11 +15,19 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "outDir": "./temp/tsc/js",
+    "paths": {
+      "@glyph-cat/foundation": [
+        "../foundation"
+      ]
+    },
     "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
     "target": "ES2019",
+    "types": [
+      "node",
+    ],
   },
   "exclude": [
     "node_modules",
