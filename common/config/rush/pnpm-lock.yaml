@@ -64,6 +64,52 @@ importers:
       '@glyph-cat/foundation':
         specifier: workspace:*
         version: link:../foundation
+    devDependencies:
+      '@glyph-cat/custom-tools':
+        specifier: workspace:*
+        version: link:../tools
+      '@glyph-cat/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@glyph-cat/project-helpers':
+        specifier: workspace:*
+        version: link:../project-helpers
+      '@jest/types':
+        specifier: ~30.3.0
+        version: 30.3.0
+      '@microsoft/api-extractor':
+        specifier: ~7.58.7
+        version: 7.58.7(@types/node@25.6.0)
+      '@rollup/plugin-commonjs':
+        specifier: ~29.0.2
+        version: 29.0.2(rollup@4.60.2)
+      '@rollup/plugin-node-resolve':
+        specifier: ~16.0.3
+        version: 16.0.3(rollup@4.60.2)
+      '@rollup/plugin-typescript':
+        specifier: ~12.3.0
+        version: 12.3.0(rollup@4.60.2)(tslib@2.8.1)(typescript@5.9.3)
+      '@types/jest':
+        specifier: ~30.0.0
+        version: 30.0.0
+      '@types/node':
+        specifier: ~25.6.0
+        version: 25.6.0
+      eslint:
+        specifier: ~10.2.1
+        version: 10.2.1(jiti@2.6.1)
+      jest:
+        specifier: ~30.3.0
+        version: 30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      jest-extended:
+        specifier: ~7.0.0
+        version: 7.0.0(jest@30.3.0(@types/node@25.6.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      rollup:
+        specifier: ~4.60.2
+        version: 4.60.2
+      tsx:
+        specifier: ~4.21.0
+        version: 4.21.0
 
   ../../packages/color:
     dependencies:

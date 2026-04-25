@@ -1,15 +1,17 @@
+import {
+  customReplace,
+  customTerser,
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
-import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
-import { RollupOptions } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
-
-// @ts-expect-error because we are relying on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { RollupOptions } from 'rollup'
+import { BuildType } from '../../foundation/src/build'
+import packageJson from '../package.json'
 
 const EXTERNAL_LIBS = [
-  ...getDependenciesFromRoot(),
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
 ].sort()
 
 const config: Array<RollupOptions> = [
@@ -36,21 +38,12 @@ const config: Array<RollupOptions> = [
           outDir: null,
         },
       }),
-      replace({
-        preventAssignment: true,
-        values: {
-          // 'process.env.NODE_ENV': JSON.stringify('production'),
-          // 'process.env.PACKAGE_VERSION': JSON.stringify(version),
-          // 'process.env.PACKAGE_BUILD_HASH': JSON.stringify(getRandomHash(6)),
-        },
-      }),
-      terser({
-        mangle: {
-          properties: {
-            regex: /^M/,
-          },
-        },
-      }),
+      customReplace(
+        true,
+        BuildType.CJS,
+        packageJson.version,
+      ),
+      customTerser(),
     ],
   },
 ]
