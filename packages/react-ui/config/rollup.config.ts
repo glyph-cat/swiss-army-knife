@@ -76,13 +76,11 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     //   babelHelpers: 'bundled',
     // }),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          jsx: 'react-jsx',
-          declarationDir: null,
-          outDir: null,
-        },
+      compilerOptions: {
+        declaration: false,
+        jsx: 'react-jsx',
+        declarationDir: null,
+        outDir: null,
       },
     }),
     customReplace(

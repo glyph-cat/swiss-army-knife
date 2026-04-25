@@ -1,12 +1,10 @@
 set -e
 
-yarn --cwd ../../.. check-deps
+pnpm run clean
+pnpm run bundle
+pnpm run types
+pnpm run api
 
-yarn clean
-yarn bundle
-yarn types
-yarn api
-
-yarn tsx ./scripts/run/inspect-build
+pnpm exec tsx ./scripts/run/inspect-build
 
 rm -r ./temp/tsc

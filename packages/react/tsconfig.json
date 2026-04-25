@@ -16,11 +16,37 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "outDir": "./temp/tsc/js",
+    "paths": {
+      "@glyph-cat/color": [
+        "../color/src",
+      ],
+      "@glyph-cat/css-utils": [
+        "../css-utils/src",
+      ],
+      "@glyph-cat/equality": [
+        "../equality/src",
+      ],
+      "@glyph-cat/foundation": [
+        "../foundation/src",
+      ],
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
+      "@glyph-cat/type-checking": [
+        "../type-checking/src",
+      ],
+      "@glyph-cat/react-test-utils": [
+        "../react-test-utils/src",
+      ],
+    },
     "rootDir": "..",
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2019"
+    "target": "ES2019",
+    "types": [
+      "node",
+    ]
   },
   "exclude": [
     "node_modules",

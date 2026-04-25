@@ -27,15 +27,10 @@ function getPlugins(): Array<RollupPlugin> {
     }),
     commonjs({ sourceMap: false }),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
-        exclude: [
-          './src/**/*.test*',
-        ],
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
     // commonjs(),

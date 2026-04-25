@@ -38,15 +38,10 @@ function getConfig(inputPath: string, outputPath: string): RollupOptions {
       }),
       // json(),
       typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
-            declarationDir: null,
-            outDir: null,
-          },
-          exclude: [
-            './src/**/*.test*',
-          ],
+        compilerOptions: {
+          declaration: false,
+          declarationDir: null,
+          outDir: null,
         },
       }),
       commonjs(),

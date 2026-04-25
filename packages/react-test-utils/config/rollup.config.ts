@@ -1,11 +1,11 @@
+import {
+  customReplace,
+  customTerser,
+  setDisplayName,
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
-import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
-import { execSync } from 'child_process'
+import typescript from '@rollup/plugin-typescript'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
-import { setDisplayName } from '../../../../tools/custom-rollup-plugins'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -13,55 +13,35 @@ const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
   'react/jsx-runtime',
-  ...getDependenciesFromRoot(),
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
 ]
 
 interface IPluginConfig {
-  buildEnv: BuildType
+  buildType: BuildType
 }
 
-function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
-
-  const { buildEnv } = config
+function getPlugins({
+  buildType,
+}: IPluginConfig): Array<RollupPlugin> {
 
   const pluginStack: Array<RollupPlugin> = [
     commonjs({ sourceMap: false }),
-    setDisplayName(false),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
-        exclude: [
-          './src/**/*.test*',
-        ],
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
-  ]
-
-  // Replace values
-  const replaceValues = {
-    'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
-      execSync('git rev-parse HEAD').toString().trim()
+    setDisplayName(false),
+    customReplace(
+      true,
+      buildType,
+      packageJson.version,
     ),
-    'process.env.PACKAGE_BUILD_TYPE': JSON.stringify(buildEnv),
-    'process.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
-  }
-  pluginStack.push(replace({
-    preventAssignment: true,
-    values: replaceValues,
-  }))
-
-  // Minification and cleanup
-  pluginStack.push(terser({
-    mangle: {
-      properties: {
-        regex: /^(M\$|_)/,
-      },
-    },
-  }))
+    customTerser(),
+  ]
 
   return pluginStack
 
@@ -78,7 +58,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: BuildType.CJS,
+      buildType: BuildType.CJS,
     }),
   },
   {
@@ -91,7 +71,7 @@ const config: Array<RollupOptions> = [
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
-      buildEnv: BuildType.ES,
+      buildType: BuildType.ES,
     }),
   },
 ]

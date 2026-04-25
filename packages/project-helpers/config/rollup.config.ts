@@ -27,16 +27,11 @@ const config: Array<RollupOptions> = [
         preferBuiltins: true,
       }),
       typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
-            declarationDir: null,
-            module: 'ESNext',
-            outDir: null,
-          },
-          exclude: [
-            './src/**/*.test*',
-          ],
+        compilerOptions: {
+          declaration: false,
+          declarationDir: null,
+          // module: 'ESNext',
+          outDir: null,
         },
       }),
       replace({

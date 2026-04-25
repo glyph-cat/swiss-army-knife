@@ -45,7 +45,6 @@ function getPlugins({
   isProductionTarget,
 }: IPluginConfig): Array<RollupPlugin> {
 
-  // @babel/preset-flow
   const pluginStack: Array<RollupPlugin> = [
     nodeResolve({
       // KIV: using @rollup/plugin-node-resolve v14 or above will cause

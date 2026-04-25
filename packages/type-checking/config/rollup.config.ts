@@ -38,15 +38,10 @@ function getPlugins({
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
-        exclude: [
-          './src/**/*.test*',
-        ],
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
     customReplace(

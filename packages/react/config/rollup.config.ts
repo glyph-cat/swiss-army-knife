@@ -1,14 +1,12 @@
-// import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import {
   customReplace,
   customTerser,
   removeTestProbes,
   setDisplayName,
-} from '../../../../tools/custom-rollup-plugins'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
+import commonjs from '@rollup/plugin-commonjs'
+import typescript from '@rollup/plugin-typescript'
+import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -37,7 +35,8 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
-...getDependenciesFromRoot(),
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
 ].sort()
 
 interface IPluginConfig {
@@ -58,31 +57,12 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
     removeTestProbes(),
-    // babel({
-    //   presets: [
-    //     // '@babel/preset-env',
-    //     '@babel/preset-react',
-    //   ],
-    //   plugins: [
-    //     // ['@babel/plugin-proposal-class-properties', {
-    //     //   // loose: true,
-    //     //   // setPublicClassFields: true,
-    //     // }],
-    //     // ['@babel/plugin-transform-classes', {
-    //     //   // loose: true,
-    //     // }],
-    //   ],
-    //   exclude: '**/node_modules/**',
-    //   babelHelpers: 'bundled',
-    // }),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          jsx: 'react-jsx',
-          declarationDir: null,
-          outDir: null,
-        },
+      compilerOptions: {
+        declaration: false,
+        jsx: 'react-jsx',
+        declarationDir: null,
+        outDir: null,
       },
     }),
     customReplace(
