@@ -14,7 +14,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "clean": "rm -rf .cache ./dist ./lib ./temp",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "bundle": "rollup -c ./config/rollup.config.js",
@@ -23,7 +23,6 @@
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "prepack": "tsx ./scripts/run/sync-package",
-    "bump": "yarn --cwd ../../../ bump -n essentials",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
@@ -49,6 +48,17 @@
     "cotton-box": "^0.14.0",
     "postcss": "^8.5.3",
     "query-string": "^9.3.1"
+  },
+  "devDependencies": {
+    "@glyph-cat/custom-tools": "workspace:*",
+    "@glyph-cat/project-helpers": "workspace:*",
+    "@jest/types": "~30.3.0",
+    "@microsoft/api-extractor": "~7.58.7",
+    "@rollup/plugin-commonjs": "~29.0.2",
+    "jest-extended": "~7.0.0",
+    "rollup": "~4.60.2",
+    "rollup-plugin-typescript2": "~0.37.0",
+    "tsx": "~4.21.0"
   },
   "peerDependencies": {
     "luxon": "^3.7.2",

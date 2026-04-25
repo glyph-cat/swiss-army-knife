@@ -9,7 +9,7 @@
   ],
   "types": "lib/types/index.d.ts",
   "scripts": {
-    "clean": "rm -rf ./lib ./temp ./yarn-error.log && mkdir temp lib",
+    "clean": "rm -rf ./lib ./temp && mkdir temp lib",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "test": "jest -c ./jest.config.ts",

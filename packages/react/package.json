@@ -14,7 +14,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "clean": "rm -rf .cache ./dist ./lib ./temp",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "bundle": "rollup -c ./config/rollup.config.js",

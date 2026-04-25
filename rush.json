@@ -133,6 +133,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@glyph-cat/custom-tools",
+      "projectFolder": "packages/tools",
+      "shouldPublish": false
+    },
+    {
       "packageName": "@glyph-cat/swiss-army-knife-playground-web",
       "projectFolder": "packages/playground-web",
       "shouldPublish": false
@@ -140,11 +145,6 @@
     {
       "packageName": "@glyph-cat/swiss-army-knife-playground-expo",
       "projectFolder": "packages/playground-expo",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "@glyph-cat/custom-tools",
-      "projectFolder": "packages/tools",
       "shouldPublish": false
     }
   ]

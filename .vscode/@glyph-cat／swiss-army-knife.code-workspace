@@ -73,6 +73,10 @@
       "path": "../packages/project-helpers"
     },
     {
+      "name": "tools",
+      "path": "../packages/tools"
+    },
+    {
       "name": "unstable",
       "path": "../packages/playground-web/src/~unstable"
     },
@@ -84,10 +88,6 @@
       "name": "sandboxes (expo)",
       "path": "../packages/playground-expo/src/~sandboxes"
     },
-    {
-      "name": "tools",
-      "path": "../packages/tools"
-    }
   ],
   "settings": {
     "files.associations": {

@@ -1,3 +1,3 @@
-import { inspectBuild } from '../../../../../../scripts/tools/inspect-build'
+import { inspectBuild } from '@glyph-cat/custom-tools/inspect-build'
 
 inspectBuild()
