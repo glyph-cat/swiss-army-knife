@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { readFileSync } from 'fs'
+import { readFileSync } from 'node:fs'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 
 const REACT_DOM_PATTERN = /(from\s?|require\()('|")react-dom('|")/

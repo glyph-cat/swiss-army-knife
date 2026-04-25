@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { writeFileSync } from 'fs'
+import { writeFileSync } from 'node:fs'
 import { description, name, version } from '../../../package.json'
 import { DO_NOT_MODIFY_WARNING } from '../../../src/packages/core/src/scripting/constants'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'

@@ -1,5 +1,5 @@
 import { FlatCompat } from '@eslint/eslintrc'
-import path from 'path'
+import path from 'node:path'
 
 // Reference: https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
 

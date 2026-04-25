@@ -1,4 +1,4 @@
-import { BuildType } from '@glyph-cat/foundation'
+import { BuildType } from '../../../foundation/src/build'
 
 /**
  * Git commit hash of which the package was built.

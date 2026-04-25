@@ -1,8 +1,8 @@
-import { Encoding } from '@glyph-cat/foundation'
 import chalk from 'chalk'
-import { existsSync, readFileSync } from 'fs'
-import path from 'path'
+import { existsSync, readFileSync } from 'node:fs'
+import path from 'node:path'
 import { PackageJson } from 'type-fest'
+import { Encoding } from '../../../foundation/src/encoding'
 import { PACKAGE_JSON } from '../constants'
 
 export function readPackageJson(packagePath: string): PackageJson {

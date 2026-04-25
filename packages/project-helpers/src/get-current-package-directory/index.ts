@@ -1,5 +1,5 @@
-import { Nullable } from '@glyph-cat/foundation'
-import path from 'path'
+import path from 'node:path'
+import { Nullable } from '../../../foundation/src/nullable'
 import { hasPackageJson } from '../has-package-json'
 
 /**

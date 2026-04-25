@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs'
+import { writeFileSync } from 'node:fs'
 import { getFirstValue } from '../../../src/packages/core/src/data/object/access'
 import { DO_NOT_MODIFY_WARNING } from '../../../src/packages/core/src/scripting/constants'
 import { Casing } from '../../../src/packages/core/src/string/casing'

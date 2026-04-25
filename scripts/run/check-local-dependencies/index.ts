@@ -1,6 +1,6 @@
 import chalk from 'chalk'
-import { readdirSync, readFileSync, statSync } from 'fs'
-import path from 'path'
+import { readdirSync, readFileSync, statSync } from 'node:fs'
+import path from 'node:path'
 import { objectIsNotEmpty, pickLast, removeDuplicates } from '../../../src/packages/core/src/data'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import { Nullable } from '../../../src/packages/foundation/src/nullable'

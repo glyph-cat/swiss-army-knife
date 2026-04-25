@@ -13,7 +13,7 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-    "clean": "rm -rf .cache ./dist ./lib ./temp ./yarn-error.log",
+    "clean": "rm -rf .cache ./dist ./lib ./temp",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
     "bundle": "rollup -c ./config/rollup.config.js",
@@ -22,7 +22,6 @@
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "prepack": "tsx ./scripts/run/sync-package",
-    "bump": "yarn --cwd ../../../ bump -n essentials",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
@@ -45,6 +44,7 @@
     "rollup-plugin-typescript2": "~0.37.0",
     "@jest/types": "~30.3.0",
     "@rollup/plugin-node-resolve": "~16.0.3",
-    "jest-extended": "~7.0.0"
+    "jest-extended": "~7.0.0",
+    "@glyph-cat/project-helpers": "workspace:*"
   }
 }

@@ -1,6 +1,6 @@
-import { isJSONequal } from '@glyph-cat/equality'
 import { PackageJson } from 'type-fest'
 import { JSONclone } from '../../../core/src/data/json'
+import { isJSONequal } from '../../../equality/src/is-json-equal'
 import { readPackageJson } from '../read-package-json'
 import { writePackageJson } from '../write-package-json'
 

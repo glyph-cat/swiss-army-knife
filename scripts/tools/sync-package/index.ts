@@ -1,4 +1,4 @@
-import { copyFileSync } from 'fs'
+import { copyFileSync } from 'node:fs'
 
 export function syncPackage(): void {
   // KIV: Need reconsideration

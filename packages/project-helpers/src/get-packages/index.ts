@@ -1,7 +1,7 @@
-import { StringRecord } from '@glyph-cat/foundation'
-import { readdirSync } from 'fs'
-import path from 'path'
+import { readdirSync } from 'node:fs'
+import path from 'node:path'
 import { PackageJson } from 'type-fest'
+import { StringRecord } from '../../../foundation/src/records'
 import { PACKAGE_JSON } from '../constants'
 import { readPackageJson } from '../read-package-json'
 

@@ -1,7 +1,7 @@
-import { Encoding } from '@glyph-cat/foundation'
-import { writeFileSync } from 'fs'
-import path from 'path'
+import { writeFileSync } from 'node:fs'
+import path from 'node:path'
 import { PackageJson } from 'type-fest'
+import { Encoding } from '../../../foundation/src/encoding'
 import { PACKAGE_JSON } from '../constants'
 
 /**

@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs'
+import { writeFileSync } from 'node:fs'
 import { DO_NOT_MODIFY_WARNING } from '../../../src/packages/core/src/scripting/constants'
 import { Encoding } from '../../../src/packages/foundation/src/encoding'
 import * as AllCustomAPIErrors from '../../../src/~services/api/errors/list'

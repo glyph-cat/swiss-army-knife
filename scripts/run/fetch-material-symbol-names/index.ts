@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'node:fs'
 import puppeteer, { Page } from 'puppeteer'
 import { removeDuplicates } from '../../../src/packages/core/src/data/array/remove-duplicates'
 import { DO_NOT_MODIFY_WARNING } from '../../../src/packages/core/src/scripting/constants'

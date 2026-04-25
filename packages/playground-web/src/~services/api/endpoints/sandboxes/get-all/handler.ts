@@ -1,5 +1,5 @@
 import { HttpMethod } from '@glyph-cat/foundation'
-import { readdirSync, statSync } from 'fs'
+import { readdirSync, statSync } from 'node:fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { validateHeaders } from '~services/api/utils/header-validation'
 import {

@@ -2,21 +2,9 @@
   "name": "@glyph-cat/project-helpers",
   "version": "1.0.0",
   "description": "Utilities for project workflows.",
-  "main": "lib/cjs/index.js",
-  "types": "lib/types/index.d.ts",
-  "files": [
-    "lib"
-  ],
   "scripts": {
-    "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
-    "test": "ECHO 'No tests to run for now' # jest -c jest.config.ts",
-    "bundle": "rollup -c ./config/rollup.config.js",
-    "types": "yarn tsc --declaration",
-    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
-    "build": "sh scripts/run/build.sh",
-    "bump": "yarn --cwd ../../../ bump -n project-helpers",
-    "all": "sh scripts/run/all.sh"
+    "test": "ECHO 'No tests to run for now' # jest -c jest.config.ts"
   },
   "keywords": [],
   "author": "glyph-cat",
@@ -31,9 +19,12 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/equality": "workspace:*",
-    "@glyph-cat/foundation": "workspace:*",
-    "chalk": "^5.6.2",
+    "chalk": "~5.6.2",
+    "luxon": "~3.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "~25.6.0",
+    "@types/luxon": "~3.7.1",
     "type-fest": "^5.4.4"
   }
 }

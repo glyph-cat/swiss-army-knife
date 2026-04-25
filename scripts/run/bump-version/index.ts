@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { execSync } from 'child_process'
-import path from 'path'
+import path from 'node:path'
 import readline from 'readline'
 import { PackageJson } from 'type-fest'
 import { ParameterParser } from '../../../src/packages/cli-parameter-parser/src'

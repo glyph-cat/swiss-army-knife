@@ -1,5 +1,5 @@
 import { Encoding, HttpMethod } from '@glyph-cat/foundation'
-import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { VALID_SANDBOX_NAME_PATTERN } from '~constants'
 import { ConflictingSandboxNameError, InvalidSandboxNameError } from '~services/api/errors'
