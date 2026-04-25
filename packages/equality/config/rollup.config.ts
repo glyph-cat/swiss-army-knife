@@ -112,7 +112,7 @@ const config: Array<RollupOptions> = [
       format: 'umd',
       name: UMD_NAME,
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
@@ -127,7 +127,7 @@ const config: Array<RollupOptions> = [
       format: 'umd',
       name: UMD_NAME,
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({

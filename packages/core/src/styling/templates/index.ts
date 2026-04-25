@@ -1,6 +1,5 @@
-import { addStyles, StyleMap } from '@glyph-cat/css-utils'
+import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { clientOnly } from '../../client-only'
-import { PRECEDENCE_LEVEL_INTERNAL } from '../../constants'
 
 /**
  * @public
@@ -32,5 +31,5 @@ clientOnly(() => {
     [`.${TemplateStyles.noScroll}`, {
       overflow: 'hidden',
     }],
-  ]).compile(), PRECEDENCE_LEVEL_INTERNAL)
+  ]).compile(), PrecedenceLevel.INTERNAL)
 })

@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export const AUTO = 'auto'
 
 /*

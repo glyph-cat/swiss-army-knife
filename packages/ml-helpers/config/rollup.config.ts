@@ -85,7 +85,7 @@ const config: Array<RollupOptions> = [
       file: 'lib/es/index.mjs',
       format: 'es',
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins(),
@@ -98,7 +98,7 @@ const config: Array<RollupOptions> = [
   //     format: 'umd',
   //     name: UMD_NAME,
   //     exports: 'named',
-  //     sourcemap: true,
+  //     sourcemap: false,
   //     globals: {
   //       '@glyph-cat/swiss-army-knife': 'GCSwissArmyKnife',
   //     },

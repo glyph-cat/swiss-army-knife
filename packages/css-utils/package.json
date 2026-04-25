@@ -37,7 +37,6 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/cleanup-manager": "workspace:*",
     "@glyph-cat/foundation": "workspace:*",
     "@glyph-cat/type-checking": "workspace:*",
     "autoprefixer": "^10.4.27",
@@ -45,13 +44,14 @@
     "postcss": "^8.5.3"
   },
   "devDependencies": {
-    "@types/node": "~25.6.0",
+    "@glyph-cat/cleanup-manager": "workspace:*",
+    "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
     "@microsoft/api-extractor": "~7.58.7",
     "@rollup/plugin-commonjs": "~29.0.2",
+    "@rollup/plugin-node-resolve": "~16.0.3",
+    "@types/node": "~25.6.0",
     "rollup": "~4.60.2",
-    "rollup-plugin-typescript2": "~0.37.0",
-    "@glyph-cat/custom-tools": "workspace:*",
-    "@rollup/plugin-node-resolve": "~16.0.3"
+    "@rollup/plugin-typescript": "~12.3.0"
   }
 }

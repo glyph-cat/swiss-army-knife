@@ -9,7 +9,10 @@ export function setDisplayName(enabled: boolean): Plugin {
   // For now it seems like we need to rely on `global`, would this work in RN though?
   return {
     name: 'set-display-name',
-    transform(code) {
+    transform(code, path) {
+      if (/packages\/[a-zA-Z0-9_-]+\/src\/_internals\/index/.test(path)) {
+        return code
+      }
       const pattern = /__setDisplayName\([a-zA-Z0-9_-]+\)/g
       if (enabled) {
         return code.replace(pattern, (str) => {

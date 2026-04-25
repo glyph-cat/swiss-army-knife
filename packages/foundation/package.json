@@ -47,7 +47,7 @@
     "@rollup/plugin-node-resolve": "~16.0.3",
     "jest-extended": "~7.0.0",
     "rollup": "~4.60.2",
-    "rollup-plugin-typescript2": "~0.37.0",
-    "tsx": "~4.21.0"
+    "tsx": "~4.21.0",
+    "@rollup/plugin-typescript": "~12.3.0"
   }
 }

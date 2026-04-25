@@ -5,8 +5,8 @@ import {
 } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -43,15 +43,10 @@ function getPlugins({
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
-        exclude: [
-          './src/**/*.test*',
-        ],
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
     customReplace(
@@ -115,7 +110,7 @@ const config: Array<RollupOptions> = [
       format: 'umd',
       name: UMD_NAME,
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
       globals: SHARED_GLOBALS,
     },
     external: EXTERNAL_LIBS,
@@ -131,7 +126,7 @@ const config: Array<RollupOptions> = [
       format: 'umd',
       name: UMD_NAME,
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
       globals: SHARED_GLOBALS,
     },
     external: EXTERNAL_LIBS,

@@ -83,7 +83,7 @@ const config: Array<RollupOptions> = [
       file: 'lib/es/index.mjs',
       format: 'es',
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins(),

@@ -1,23 +1,26 @@
-import commonjs from '@rollup/plugin-commonjs'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import {
   customReplace,
   customTerser,
   setDisplayName,
-} from '../../../../tools/custom-rollup-plugins'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
+import commonjs from '@rollup/plugin-commonjs'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
-
-// @ts-expect-error because we are relying on an old version
-import nodeResolve from '@rollup/plugin-node-resolve'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  ...getDependenciesFromRoot(),
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
 ].sort()
+
+const SHARED_GLOBALS = {
+  '@glyph-cat/foundation': 'GCFoundation',
+  '@glyph-cat/type-checking': 'TypeChecking',
+}
 
 const UMD_NAME = 'GCColor'
 
@@ -38,15 +41,10 @@ function getPlugins({
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
-        exclude: [
-          './src/**/*.test*',
-        ],
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
     customReplace(
@@ -110,7 +108,8 @@ const config: Array<RollupOptions> = [
       format: 'umd',
       name: UMD_NAME,
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
+      globals: SHARED_GLOBALS,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({
@@ -125,7 +124,8 @@ const config: Array<RollupOptions> = [
       format: 'umd',
       name: UMD_NAME,
       exports: 'named',
-      sourcemap: true,
+      sourcemap: false,
+      globals: SHARED_GLOBALS,
     },
     external: EXTERNAL_LIBS,
     plugins: getPlugins({

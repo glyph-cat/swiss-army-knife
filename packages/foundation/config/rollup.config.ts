@@ -5,8 +5,8 @@ import {
 } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import packageJson from '../package.json'
 import { BuildType, Empty } from '../src'
 
@@ -37,12 +37,10 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
     customReplace(

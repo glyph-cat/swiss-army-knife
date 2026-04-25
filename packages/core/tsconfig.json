@@ -16,14 +16,23 @@
     "moduleResolution": "bundler",
     "outDir": "./temp/tsc/js",
     "rootDir": "..",
-    // TODO: This would allow imports to be directly linked to source code
-    // but rpt2 would complain that some dependencies of '@glyph-cat/css-utils'
-    // could not be found (eg: csstype)
-    // "paths": {
-    //   "@glyph-cat/css-utils": [
-    //     "../css-utils/src",
-    //   ],
-    // },
+    "paths": {
+      "@glyph-cat/color": [
+        "../color/src",
+      ],
+      "@glyph-cat/css-utils": [
+        "../css-utils/src",
+      ],
+      "@glyph-cat/equality": [
+        "../equality/src",
+      ],
+      "@glyph-cat/foundation": [
+        "../foundation/src",
+      ],
+      "@glyph-cat/type-checking": [
+        "../type-checking/src",
+      ],
+    },
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,

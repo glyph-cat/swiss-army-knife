@@ -4,8 +4,8 @@ import {
   setDisplayName,
 } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
+import typescript from '@rollup/plugin-typescript'
 import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -56,12 +56,10 @@ function getPlugins({
     }),
     commonjs({ sourceMap: false }),
     typescript({
-      tsconfigOverride: {
-        compilerOptions: {
-          declaration: false,
-          declarationDir: null,
-          outDir: null,
-        },
+      compilerOptions: {
+        declaration: false,
+        declarationDir: null,
+        outDir: null,
       },
     }),
     setDisplayName(!isProductionTarget),

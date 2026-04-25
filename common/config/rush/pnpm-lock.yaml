@@ -30,6 +30,40 @@ importers:
       '@glyph-cat/type-checking':
         specifier: workspace:*
         version: link:../type-checking
+    devDependencies:
+      '@glyph-cat/custom-tools':
+        specifier: workspace:*
+        version: link:../tools
+      '@glyph-cat/project-helpers':
+        specifier: workspace:*
+        version: link:../project-helpers
+      '@microsoft/api-extractor':
+        specifier: ~7.58.7
+        version: 7.58.7(@types/node@25.6.0)
+      '@rollup/plugin-commonjs':
+        specifier: ~29.0.2
+        version: 29.0.2(rollup@4.60.2)
+      '@rollup/plugin-node-resolve':
+        specifier: ~16.0.3
+        version: 16.0.3(rollup@4.60.2)
+      '@rollup/plugin-typescript':
+        specifier: ~12.3.0
+        version: 12.3.0(rollup@4.60.2)(tslib@2.8.1)(typescript@5.9.3)
+      '@types/jest':
+        specifier: ~30.0.0
+        version: 30.0.0
+      '@types/node':
+        specifier: ~25.6.0
+        version: 25.6.0
+      jest:
+        specifier: ~30.3.0
+        version: 30.3.0(@types/node@25.6.0)
+      jest-extended:
+        specifier: ~7.0.0
+        version: 7.0.0(jest@30.3.0(@types/node@25.6.0))(typescript@5.9.3)
+      rollup:
+        specifier: ~4.60.2
+        version: 4.60.2
 
   ../../packages/core:
     dependencies:
@@ -88,6 +122,9 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: 13.3.0
         version: 13.3.0(rollup@4.60.2)
+      '@rollup/plugin-typescript':
+        specifier: ~12.3.0
+        version: 12.3.0(rollup@4.60.2)(tslib@2.8.1)(typescript@5.9.3)
       '@stylistic/eslint-plugin':
         specifier: ~5.10.0
         version: 5.10.0(eslint@10.2.1(jiti@2.6.1))
@@ -115,6 +152,9 @@ importers:
       eslint-plugin-jest-extended:
         specifier: ~3.0.1
         version: 3.0.1(eslint@10.2.1(jiti@2.6.1))(typescript@5.9.3)
+      jest:
+        specifier: ~30.3.0
+        version: 30.3.0(@types/node@25.6.0)
       jest-extended:
         specifier: ~7.0.0
         version: 7.0.0(jest@30.3.0(@types/node@25.6.0))(typescript@5.9.3)
@@ -130,9 +170,6 @@ importers:
       rollup:
         specifier: ~4.60.2
         version: 4.60.2
-      rollup-plugin-typescript2:
-        specifier: ~0.37.0
-        version: 0.37.0(rollup@4.60.2)(typescript@5.9.3)
       tsx:
         specifier: ~4.21.0
         version: 4.21.0
@@ -145,9 +182,6 @@ importers:
 
   ../../packages/css-utils:
     dependencies:
-      '@glyph-cat/cleanup-manager':
-        specifier: workspace:*
-        version: link:../cleanup-manager
       '@glyph-cat/foundation':
         specifier: workspace:*
         version: link:../foundation
@@ -164,6 +198,9 @@ importers:
         specifier: ^8.5.3
         version: 8.5.10
     devDependencies:
+      '@glyph-cat/cleanup-manager':
+        specifier: workspace:*
+        version: link:../cleanup-manager
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -179,15 +216,15 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ~16.0.3
         version: 16.0.3(rollup@4.60.2)
+      '@rollup/plugin-typescript':
+        specifier: ~12.3.0
+        version: 12.3.0(rollup@4.60.2)(tslib@2.8.1)(typescript@5.9.3)
       '@types/node':
         specifier: ~25.6.0
         version: 25.6.0
       rollup:
         specifier: ~4.60.2
         version: 4.60.2
-      rollup-plugin-typescript2:
-        specifier: ~0.37.0
-        version: 0.37.0(rollup@4.60.2)(typescript@5.9.3)
 
   ../../packages/equality:
     dependencies:
@@ -270,15 +307,15 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ~16.0.3
         version: 16.0.3(rollup@4.60.2)
+      '@rollup/plugin-typescript':
+        specifier: ~12.3.0
+        version: 12.3.0(rollup@4.60.2)(tslib@2.8.1)(typescript@5.9.3)
       jest-extended:
         specifier: ~7.0.0
         version: 7.0.0(jest@30.3.0(@types/node@25.6.0))(typescript@5.9.3)
       rollup:
         specifier: ~4.60.2
         version: 4.60.2
-      rollup-plugin-typescript2:
-        specifier: ~0.37.0
-        version: 0.37.0(rollup@4.60.2)(typescript@5.9.3)
       tsx:
         specifier: ~4.21.0
         version: 4.21.0
@@ -2088,15 +2125,24 @@ packages:
       rollup:
         optional: true
 
+  '@rollup/plugin-typescript@12.3.0':
+    resolution: {integrity: sha512-7DP0/p7y3t67+NabT9f8oTBFE6gGkto4SA6Np2oudYmZE/m1dt8RB0SjL1msMxFpLo631qjRCcBlAbq1ml/Big==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0||^4.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+
   '@rollup/pluginutils@3.1.0':
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-
-  '@rollup/pluginutils@4.2.1':
-    resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
-    engines: {node: '>= 8.0.0'}
 
   '@rollup/pluginutils@5.3.0':
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
@@ -3681,10 +3727,6 @@ packages:
     resolution: {integrity: sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==}
     engines: {node: '>= 0.8'}
 
-  find-cache-dir@3.3.2:
-    resolution: {integrity: sha512-wXZV5emFEjrridIgED11OoUKLxiYjAcqot/NJdAkOhlJ+vGzwhOAfcG5OX1jP+S0PcjEn8bdMJv+g2jwQ3Onig==}
-    engines: {node: '>=8'}
-
   find-up@4.1.0:
     resolution: {integrity: sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==}
     engines: {node: '>=8'}
@@ -3724,10 +3766,6 @@ packages:
   fresh@0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
-
-  fs-extra@10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
 
   fs-extra@11.3.4:
     resolution: {integrity: sha512-CTXd6rk/M3/ULNQj8FBqBWHYBVYybQ3VPBw0xGKFe3tuH7ytT6ACnvzpIQ3UZtB8yvUKC2cXn1a+x+5EVQLovA==}
@@ -4529,10 +4567,6 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
-
-  make-dir@3.1.0:
-    resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
-    engines: {node: '>=8'}
 
   make-dir@4.0.0:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
@@ -5360,12 +5394,6 @@ packages:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
-
-  rollup-plugin-typescript2@0.37.0:
-    resolution: {integrity: sha512-S1r/4Ufi13Yg/chPlh4iSHWq2Zs/sIAodW5SKUoCQfy/DEQhkS2XRFEtv+NRq3iBO4WHHfqKtDPOC5lJTYm7OQ==}
-    peerDependencies:
-      rollup: '>=1.26.3'
-      typescript: '>=2.4.0'
 
   rollup@4.60.2:
     resolution: {integrity: sha512-J9qZyW++QK/09NyN/zeO0dG/1GdGfyp9lV8ajHnRVLfo/uFsbji5mHnDgn/qYdUHyCkM2N+8VyspgZclfAh0eQ==}
@@ -8035,17 +8063,21 @@ snapshots:
     optionalDependencies:
       rollup: 4.60.2
 
+  '@rollup/plugin-typescript@12.3.0(rollup@4.60.2)(tslib@2.8.1)(typescript@5.9.3)':
+    dependencies:
+      '@rollup/pluginutils': 5.3.0(rollup@4.60.2)
+      resolve: 1.22.12
+      typescript: 5.9.3
+    optionalDependencies:
+      rollup: 4.60.2
+      tslib: 2.8.1
+
   '@rollup/pluginutils@3.1.0(rollup@4.60.2)':
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.3.2
       rollup: 4.60.2
-
-  '@rollup/pluginutils@4.2.1':
-    dependencies:
-      estree-walker: 2.0.2
-      picomatch: 2.3.2
 
   '@rollup/pluginutils@5.3.0(rollup@4.60.2)':
     dependencies:
@@ -9991,12 +10023,6 @@ snapshots:
       statuses: 1.5.0
       unpipe: 1.0.0
 
-  find-cache-dir@3.3.2:
-    dependencies:
-      commondir: 1.0.1
-      make-dir: 3.1.0
-      pkg-dir: 4.2.0
-
   find-up@4.1.0:
     dependencies:
       locate-path: 5.0.0
@@ -10032,12 +10058,6 @@ snapshots:
   freeport-async@2.0.0: {}
 
   fresh@0.5.2: {}
-
-  fs-extra@10.1.0:
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.2.1
-      universalify: 2.0.1
 
   fs-extra@11.3.4:
     dependencies:
@@ -11033,10 +11053,6 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  make-dir@3.1.0:
-    dependencies:
-      semver: 6.3.1
 
   make-dir@4.0.0:
     dependencies:
@@ -12284,16 +12300,6 @@ snapshots:
   rimraf@3.0.2:
     dependencies:
       glob: 7.2.3
-
-  rollup-plugin-typescript2@0.37.0(rollup@4.60.2)(typescript@5.9.3):
-    dependencies:
-      '@rollup/pluginutils': 4.2.1
-      find-cache-dir: 3.3.2
-      fs-extra: 10.1.0
-      rollup: 4.60.2
-      semver: 7.7.4
-      tslib: 2.8.1
-      typescript: 5.9.3
 
   rollup@4.60.2:
     dependencies:
