@@ -1,6 +1,6 @@
-import { PROJECT_ROOT_DIRECTORY } from '../../scripts/constants'
-import { getPackageDependencies } from '../../src/packages/project-helpers/src/get-package-dependencies'
-import { readPackageJson } from '../../src/packages/project-helpers/src/read-package-json'
+import { getPackageDependencies } from '@glyph-cat/project-helpers/src/get-package-dependencies'
+import { readPackageJson } from '@glyph-cat/project-helpers/src/read-package-json'
+import { PROJECT_ROOT_DIRECTORY } from '../constants'
 import { getSiblingPackages } from '../get-sibling-packages'
 
 /**

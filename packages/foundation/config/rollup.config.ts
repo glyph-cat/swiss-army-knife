@@ -1,12 +1,12 @@
-import commonjs from '@rollup/plugin-commonjs'
-import nodeResolve from '@rollup/plugin-node-resolve'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import {
   customReplace,
   customTerser,
   setDisplayName,
-} from '../../../../tools/custom-rollup-plugins'
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
+import commonjs from '@rollup/plugin-commonjs'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
+import typescript from 'rollup-plugin-typescript2'
 import packageJson from '../package.json'
 import { BuildType, Empty } from '../src'
 

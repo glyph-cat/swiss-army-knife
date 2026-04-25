@@ -1,7 +1,7 @@
-import path from 'node:path'
 import {
   getProjectRootDirectory,
-} from '../../src/packages/project-helpers/src/get-project-root-directory'
+} from '@glyph-cat/project-helpers/src/get-project-root-directory'
+import path from 'node:path'
 
 // NOTE: We need to import directly from the file because this tool is used by
 // the auto-forward-exports script.

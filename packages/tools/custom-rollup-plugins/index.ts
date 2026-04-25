@@ -1,9 +1,9 @@
 import replace, { RollupReplaceOptions } from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 import { Plugin } from 'rollup'
 import { ManglePropertiesOptions } from 'terser'
-import { PossiblyUndefined } from '../../src/packages/foundation/src/void-types'
+import { PossiblyUndefined } from '../../foundation/src/void-types'
 
 export function setDisplayName(enabled: boolean): Plugin {
   // For now it seems like we need to rely on `global`, would this work in RN though?

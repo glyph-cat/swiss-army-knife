@@ -143,7 +143,7 @@
       "shouldPublish": false
     },
     {
-      "packageName": "@glyph-cat/swiss-army-knife-tools",
+      "packageName": "@glyph-cat/custom-tools",
       "projectFolder": "packages/tools",
       "shouldPublish": false
     }
