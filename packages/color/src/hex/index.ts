@@ -101,12 +101,16 @@ export class HexColor extends BaseColorObject implements RGBJson {
         if (rrggbbMatches) {
           return '#' + rr[0] + gg[0] + bb[0]
         } else {
+          // TOFIX [high priority]
+          // eslint-disable-next-line no-useless-assignment
           format = '#rrggbb' // fallback
         }
       } else if (format === '#rgba') {
         if (rrggbbMatches && aa[0] === aa[1]) {
           return '#' + rr[0] + gg[0] + bb[0] + aa[0]
         } else {
+          // TOFIX [high priority]
+          // eslint-disable-next-line no-useless-assignment
           format = '#rrggbbaa' // fallback
         }
       } else if (format === '#rrggbb') {

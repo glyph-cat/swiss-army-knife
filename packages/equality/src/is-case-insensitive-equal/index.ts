@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+/**
+ * @public
+ */
 export function isCaseInsensitiveEqual(
   a: any,
   b: any,
@@ -8,6 +11,9 @@ export function isCaseInsensitiveEqual(
   return (a as string)?.toLowerCase?.() === (b as string)?.toLowerCase?.()
 }
 
+/**
+ * @public
+ */
 export function isLocaleCaseInsensitiveEqual(
   a: any,
   b: any,

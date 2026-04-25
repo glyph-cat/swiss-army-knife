@@ -21,7 +21,7 @@
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
-    "prepack": "tsx ./scripts/run/sync-package",
+    "prepack": "# tsx ./scripts/run/sync-package",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
@@ -48,6 +48,8 @@
     "jest-extended": "~7.0.0",
     "rollup": "~4.60.2",
     "tsx": "~4.21.0",
-    "@rollup/plugin-typescript": "~12.3.0"
+    "@rollup/plugin-typescript": "~12.3.0",
+    "eslint": "~10.2.1",
+    "@glyph-cat/eslint-config": "workspace:*"
   }
 }

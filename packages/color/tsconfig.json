@@ -26,6 +26,7 @@
     "target": "ES2021",
     "types": [
       "jest",
+      "node",
     ],
   },
   "exclude": [

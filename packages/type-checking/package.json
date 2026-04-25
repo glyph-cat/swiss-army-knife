@@ -38,5 +38,21 @@
   },
   "dependencies": {
     "@glyph-cat/foundation": "workspace:*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "~29.0.2",
+    "@rollup/plugin-typescript": "~12.3.0",
+    "rollup": "~4.60.2",
+    "@glyph-cat/custom-tools": "workspace:*",
+    "@rollup/plugin-node-resolve": "~16.0.3",
+    "@types/node": "~25.6.0",
+    "@microsoft/api-extractor": "~7.58.7",
+    "tsx": "~4.21.0",
+    "@glyph-cat/eslint-config": "workspace:*",
+    "@glyph-cat/project-helpers": "workspace:*",
+    "eslint": "~10.2.1",
+    "@types/jest": "~30.0.0",
+    "jest": "~30.3.0",
+    "@jest/types": "~30.3.0"
   }
 }

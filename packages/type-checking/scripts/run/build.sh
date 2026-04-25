@@ -1,10 +1,8 @@
 set -e
 
-yarn --cwd ../../.. check-deps
-
-yarn clean
-yarn bundle
-yarn types
-yarn api
+pnpm clean
+pnpm bundle
+pnpm types
+pnpm api
 
 rm -r ./temp/tsc
