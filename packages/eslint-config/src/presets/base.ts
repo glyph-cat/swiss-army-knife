@@ -1,4 +1,4 @@
-import { RuleConfig } from '@eslint/core'
+import { type RuleConfig } from '@eslint/core'
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import importPlugin from 'eslint-plugin-import'

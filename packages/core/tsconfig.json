@@ -15,12 +15,15 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "outDir": "./temp/tsc/js",
-    "paths": {
-      "@glyph-cat/foundation": [
-        "../foundation"
-      ]
-    },
-    "rootDir": "src",
+    "rootDir": "..",
+    // TODO: This would allow imports to be directly linked to source code
+    // but rpt2 would complain that some dependencies of '@glyph-cat/css-utils'
+    // could not be found (eg: csstype)
+    // "paths": {
+    //   "@glyph-cat/css-utils": [
+    //     "../css-utils/src",
+    //   ],
+    // },
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,

@@ -1,5 +1,5 @@
 import { Nullable } from '@glyph-cat/foundation'
-import type { DateTime } from 'luxon'
+import { type DateTime } from 'luxon'
 import { ITimestamp } from '../../firestore/timestamp'
 
 /**

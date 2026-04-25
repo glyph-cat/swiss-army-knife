@@ -88,6 +88,14 @@
       "name": "sandboxes (expo)",
       "path": "../packages/playground-expo/src/~sandboxes"
     },
+    {
+      "name": "playground-nextjs",
+      "path": "../packages/playground-nextjs"
+    },
+    {
+      "name": "playground-expo",
+      "path": "../packages/playground-expo"
+    },
   ],
   "settings": {
     "files.associations": {
