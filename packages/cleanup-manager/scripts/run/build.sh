@@ -1,9 +1,8 @@
 set -e
 
-yarn --cwd ../../.. check-deps
+pnpm run clean
+pnpm run bundle
+pnpm run types
+pnpm run api
 
-# Cleanup old artifacts
-rm -rf ./lib ./temp/tsc
-
-# Actual build process
-yarn bundle && yarn types && yarn api
+rm -r ./temp/tsc

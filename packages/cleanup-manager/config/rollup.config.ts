@@ -1,24 +1,30 @@
+import {
+  customReplace,
+  customTerser,
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
-import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
-import { execSync } from 'child_process'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
-import packageJson from '../package.json'
-
-// @ts-expect-error because we are relying on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
+import { BuildType } from '../../foundation/src/build'
+import packageJson from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  ...getDependenciesFromRoot(),
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
 ].sort()
 
 const UMD_NAME = 'CleanupManager'
 
-function getPlugins(): Array<RollupPlugin> {
+interface IPluginConfig {
+  buildType: BuildType
+}
+
+function getPlugins({
+  buildType,
+}: IPluginConfig): Array<RollupPlugin> {
 
   const pluginStack: Array<RollupPlugin> = [
     nodeResolve({
@@ -33,28 +39,13 @@ function getPlugins(): Array<RollupPlugin> {
       },
     }),
     // commonjs(),
-  ]
-
-  // Replace values
-  const replaceValues = {
-    'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
-      execSync('git rev-parse HEAD').toString().trim()
+    customReplace(
+      true,
+      buildType,
+      packageJson.version,
     ),
-    'process.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
-  }
-
-  pluginStack.push(replace({
-    preventAssignment: true,
-    values: replaceValues,
-  }))
-
-  pluginStack.push(terser({
-    mangle: {
-      properties: {
-        regex: /^(M\$|_)/,
-      },
-    },
-  }))
+    customTerser(),
+  ]
 
   return pluginStack
 }
@@ -70,7 +61,9 @@ const config: Array<RollupOptions> = [
       sourcemap: false,
     },
     external: EXTERNAL_LIBS,
-    plugins: getPlugins(),
+    plugins: getPlugins({
+      buildType: BuildType.CJS,
+    }),
   },
   {
     // EcmaScript (Minified)
@@ -82,7 +75,9 @@ const config: Array<RollupOptions> = [
       sourcemap: false,
     },
     external: EXTERNAL_LIBS,
-    plugins: getPlugins(),
+    plugins: getPlugins({
+      buildType: BuildType.MJS,
+    }),
   },
   {
     // UMD (Minified)
@@ -95,7 +90,9 @@ const config: Array<RollupOptions> = [
       sourcemap: false,
     },
     external: EXTERNAL_LIBS,
-    plugins: getPlugins(),
+    plugins: getPlugins({
+      buildType: BuildType.UMD_MIN,
+    }),
   },
 ]
 

@@ -1,7 +1,7 @@
 set -e
 
-yarn afe
-yarn lint
-yarn test # since we are testing the source code, not the compiled one
-yarn build
-yarn pack
+pnpm run afe
+pnpm run lint
+pnpm run test # since we are testing the source code, not the compiled one
+pnpm run build
+pnpm pack
