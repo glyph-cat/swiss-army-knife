@@ -13,10 +13,9 @@
     "lint": "eslint .",
     "test": "jest -c jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
-    "types": "yarn tsc --declaration",
+    "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh scripts/run/build.sh",
-    "bump": "yarn --cwd ../../../ bump -n ml-helpers",
     "all": "sh scripts/run/all.sh"
   },
   "keywords": [
@@ -42,5 +41,10 @@
     "@mediapipe/hands": "^0.4.1675469240",
     "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
     "cotton-box": "^0.14.0"
+  },
+  "devDependencies": {
+    "eslint": "~10.4.0",
+    "tsx": "~4.22.0",
+    "@glyph-cat/project-helpers": "workspace:*"
   }
 }

@@ -11,7 +11,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "lint": "eslint .",
-    "inspect": "yarn eslint-config-inspector",
+    "inspect": "pnpm exec eslint-config-inspector",
     "build": "sh ./scripts/run/build.sh"
   },
   "author": "glyph-cat",

@@ -17,7 +17,6 @@
     "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
-    "bump": "yarn --cwd ../../../ bump -n react-test-utils",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [
@@ -56,6 +55,8 @@
     "@types/node": "~25.6.0",
     "@types/react": "~19.2.14",
     "jest": "~30.3.0",
-    "rollup": "~4.60.2"
+    "rollup": "~4.60.2",
+    "tsx": "~4.22.0",
+    "eslint": "~10.4.0"
   }
 }

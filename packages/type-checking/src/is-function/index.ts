@@ -5,9 +5,8 @@ import { TypedFunction } from '@glyph-cat/foundation'
  * @param value - The value to check.
  * @example
  * const getSum = (a: number, b: number): number => a + b
- * isTypedFunction<[a: number, b: number], number>(getSum)
+ * isFunction<[a: number, b: number], number>(getSum)
  * // NOTE: Type inference is optional
- * @returns A boolean indicating whether the value is a function.
  * @returns A boolean indicating whether the value is a function.
  * @public
  */

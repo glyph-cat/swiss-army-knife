@@ -15,11 +15,10 @@
     "lint": "eslint .",
     "debug": "scope=\"debug\" jest -c ./jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
-    "types": "yarn tsc --declaration",
+    "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "test": "jest -c ./jest.config.ts",
-    "bump": "yarn --cwd ../../../ bump -n equality",
     "all": "sh ./scripts/run/all.sh"
   },
   "keywords": [

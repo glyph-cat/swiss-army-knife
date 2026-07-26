@@ -13,22 +13,22 @@
 
 ### Standard
 ```sh
-yarn add -D @glyph-cat/eslint-config
+pnpm add -D @glyph-cat/eslint-config
 ```
 
 ### Jest
 ```sh
-yarn add -D @glyph-cat/eslint-config eslint-plugin-jest
+pnpm add -D @glyph-cat/eslint-config eslint-plugin-jest
 ```
 
 ### React
 ```sh
-yarn add -D @glyph-cat/eslint-config eslint-plugin-react eslint-plugin-react-hooks
+pnpm add -D @glyph-cat/eslint-config eslint-plugin-react eslint-plugin-react-hooks
 ```
 
 ### Everything (for easy of copy)
 ```sh
-yarn add -D @glyph-cat/eslint-config eslint-plugin-jest eslint-plugin-react eslint-plugin-react-hooks
+pnpm add -D @glyph-cat/eslint-config eslint-plugin-jest eslint-plugin-react eslint-plugin-react-hooks
 ```
 
 ## Usage
@@ -67,12 +67,12 @@ module.exports = [
 
 ### Key "globals": Global "AudioWorkletGlobalScope " has leading or trailing whitespace.
 
-Solution: Run `yarn why globals` to check the version. Make sure the version of [globals](https://www.npmjs.com/package/globals) is at least v14.X.X. The package can be updated to the latest version by running `yarn upgrade global@latest`.
+Solution: Run `pnpm why globals` to check the version. Make sure the version of [globals](https://www.npmjs.com/package/globals) is at least v14.X.X. The package can be updated to the latest version by running `pnpm update global@latest`.
 
 ### context.getAncestors is not a function ... Rule: "react/jsx-no-bind"
 
-The `eslint-plugin-react` installed might be an old version, run `yarn upgrade eslint-plugin-react@latest` and the problem should be resolved. Working version of `eslint-plugin-react` is `7.34.2` at the time of writing.
+The `eslint-plugin-react` installed might be an old version, run `pnpm update eslint-plugin-react@latest` and the problem should be resolved. Working version of `eslint-plugin-react` is `7.34.2` at the time of writing.
 
 ### context.getSource is not a function ... Rule: "react-hooks/rules-of-hooks"
 
-For the time being, install the `rc` version by running `yarn upgrade eslint-plugin-react@rc` to resolve the problem. (written as of 09 June 2024)
+For the time being, install the `rc` version by running `pnpm update eslint-plugin-react@rc` to resolve the problem. (written as of 09 June 2024)

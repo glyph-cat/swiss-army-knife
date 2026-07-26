@@ -1,3 +1,3 @@
-import { autoForwardExports } from '@glyph-cat/swiss-army-knife-tools'
+import { autoForwardExports } from '@glyph-cat/project-helpers/src/auto-forward-exports'
 
 autoForwardExports( './src/~unstable')

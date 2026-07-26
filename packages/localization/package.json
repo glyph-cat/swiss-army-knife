@@ -13,10 +13,9 @@
     "lint": "eslint .",
     "test": "jest -c jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
-    "types": "yarn tsc --declaration",
+    "types": "tsc --declaration",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh scripts/run/build.sh",
-    "bump": "yarn --cwd ../../../ bump -n localization",
     "all": "sh scripts/run/all.sh"
   },
   "keywords": [
@@ -36,5 +35,10 @@
   "dependencies": {
     "@glyph-cat/foundation": "workspace:*",
     "@glyph-cat/swiss-army-knife": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "~4.22.0",
+    "@glyph-cat/project-helpers": "workspace:*",
+    "eslint": "~10.4.0"
   }
 }
