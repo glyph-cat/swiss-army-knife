@@ -2,7 +2,7 @@ import { customReplace, customTerser } from '@glyph-cat/custom-tools/custom-roll
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
+import { Plugin, RollupOptions } from 'rollup'
 import packageJson from '../package.json'
 import { BuildType, Empty } from '../src'
 
@@ -22,11 +22,11 @@ interface IPluginConfig {
   isProductionTarget?: boolean
 }
 
-function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
+function getPlugins(config: IPluginConfig): Array<Plugin> {
 
   const { buildType, isProductionTarget } = config
 
-  const pluginStack: Array<RollupPlugin> = [
+  const pluginStack: Array<Plugin> = [
     nodeResolve({
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),

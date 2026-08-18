@@ -51,7 +51,7 @@ export function customReplace(
   buildEnv: string,
   version: string,
   otherValues?: RollupReplaceOptions['values'],
-): ReturnType<typeof replace> {
+): Plugin {
   return replace({
     preventAssignment: true,
     values: {
@@ -75,7 +75,7 @@ export function customReplace(
 
 export function customTerser(
   otherProperties?: ManglePropertiesOptions,
-): ReturnType<typeof terser> {
+): Plugin {
   return terser({
     mangle: {
       properties: {

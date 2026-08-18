@@ -44,18 +44,20 @@
     "@glyph-cat/cleanup-manager": "workspace:*",
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
+    "@glyph-cat/eslint-config": "workspace:*",
+    "jest": "~30.4.2",
+    "jest-environment-jsdom": "~30.4.1",
+    "rollup": "~4.62.4",
+    "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-commonjs": "~29.0.3",
     "@rollup/plugin-node-resolve": "~16.0.3",
-    "@types/node": "~26.2.0",
-    "rollup": "~4.62.4",
     "@rollup/plugin-typescript": "~12.3.0",
-    "tsx": "~4.23.12",
+    "@types/jest": "~30.0.0",
+    "@types/node": "~26.2.0",
     "eslint": "~10.8.1",
-    "@glyph-cat/eslint-config": "workspace:*",
-    "jest": "~30.4.2",
-    "@jest/types": "~30.4.1",
-    "jest-environment-jsdom": "~30.4.1",
-    "globals": "~17.11.0"
+    "globals": "~17.11.0",
+    "jest-extended": "~7.0.0",
+    "tsx": "~4.23.12"
   }
 }

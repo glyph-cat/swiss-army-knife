@@ -42,6 +42,7 @@
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/eslint-config": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
+    "rollup": "~4.62.4",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-commonjs": "~29.0.3",
@@ -52,7 +53,6 @@
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
-    "rollup": "~4.62.4",
     "tsx": "~4.23.12"
   }
 }

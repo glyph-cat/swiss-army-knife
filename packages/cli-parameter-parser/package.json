@@ -41,18 +41,19 @@
   "devDependencies": {
     "@glyph-cat/eslint-config": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
-    "@jest/types": "~30.3.0",
-    "@rollup/plugin-commonjs": "~29.0.2",
+    "jest": "~30.3.0",
+    "@glyph-cat/custom-tools": "workspace:*",
+    "rollup": "~4.62.4",
+    "@jest/types": "~30.4.1",
+    "@microsoft/api-extractor": "~7.58.12",
+    "@rollup/plugin-commonjs": "~29.0.3",
     "@rollup/plugin-node-resolve": "~16.0.3",
     "@rollup/plugin-typescript": "~12.3.0",
     "@types/jest": "~30.0.0",
-    "@types/node": "~25.6.0",
-    "eslint": "~10.2.1",
-    "jest": "~30.3.0",
-    "rollup": "~4.60.2",
-    "tsx": "~4.21.0",
-    "@glyph-cat/custom-tools": "workspace:*",
-    "@microsoft/api-extractor": "~7.58.7",
-    "jest-extended": "~7.0.0"
+    "@types/node": "~26.2.0",
+    "eslint": "~10.8.1",
+    "globals": "~17.11.0",
+    "jest-extended": "~7.0.0",
+    "tsx": "~4.23.12"
   }
 }
