@@ -16,6 +16,7 @@
     "clean": "rm -rf .cache ./dist ./lib ./temp",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "bundle": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
     "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
