@@ -1,7 +1,7 @@
 set -e
 
-pnpm run afe
-pnpm run lint
-pnpm run test # since we are testing the source code, not the compiled one
-pnpm run build
-pnpm pack
+rushx afe
+rushx lint
+rushx test # since we are testing the source code, not the compiled one
+rushx build
+rush-pnpm pack

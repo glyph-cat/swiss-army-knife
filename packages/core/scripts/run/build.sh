@@ -1,10 +1,10 @@
 set -e
 
-pnpm run clean
-pnpm run bundle
-pnpm run types
-pnpm run api
+rushx clean
+rushx bundle
+rushx types
+rushx api
 
-pnpm exec tsx ./scripts/run/inspect-build
+rush-pnpm exec tsx ./scripts/run/inspect-build
 
 rm -r ./temp/tsc
