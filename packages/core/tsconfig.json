@@ -2,8 +2,6 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
@@ -12,9 +10,8 @@
       "dom.iterable",
       "esnext"
     ],
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
-    "outDir": "./temp/tsc/js",
     "rootDir": "..",
     "paths": {
       "@glyph-cat/color": [
@@ -36,7 +33,7 @@
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2019",
+    "target": "esnext",
     "types": [
       "jest",
       "node",
