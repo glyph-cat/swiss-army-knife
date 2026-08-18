@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "bundle": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
-    "types": "tsc --declaration",
+    "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
     "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
     "build": "sh ./scripts/run/build.sh",
     "prepack": "# tsx ./scripts/run/sync-package",

@@ -1,6 +1,7 @@
 set -e
 
-rush-pnpm run afe
-rush-pnpm run lint
-rush-pnpm run build
-rush-pnpm pack
+rushx afe
+rushx lint
+rushx build
+rushx test
+rush pack
