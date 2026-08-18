@@ -1,6 +1,8 @@
 import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { clientOnly } from '../../client-only'
 
+// TODO: Move to '@glyph-cat/css-utils'
+
 /**
  * @public
  */

@@ -7,6 +7,7 @@ import {
 } from '@glyph-cat/eslint-config/react'
 import { Severity } from '@glyph-cat/eslint-config/src'
 import { defineConfig } from 'eslint/config'
+import globals from 'globals'
 
 export default defineConfig(
   baseRecommended.map((config) => {
@@ -76,6 +77,19 @@ export default defineConfig(
           'rotation',
         ],
       }],
+    },
+  },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+      sourceType: 'commonjs',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
   {

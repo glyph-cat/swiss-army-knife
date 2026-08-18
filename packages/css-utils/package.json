@@ -38,25 +38,24 @@
   "dependencies": {
     "@glyph-cat/foundation": "workspace:*",
     "@glyph-cat/type-checking": "workspace:*",
-    "autoprefixer": "^10.4.27",
-    "csstype": "~3.2.3",
-    "postcss": "^8.5.3"
+    "csstype": "~3.2.3"
   },
   "devDependencies": {
     "@glyph-cat/cleanup-manager": "workspace:*",
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
-    "@microsoft/api-extractor": "~7.58.7",
-    "@rollup/plugin-commonjs": "~29.0.2",
+    "@microsoft/api-extractor": "~7.58.12",
+    "@rollup/plugin-commonjs": "~29.0.3",
     "@rollup/plugin-node-resolve": "~16.0.3",
-    "@types/node": "~25.6.0",
-    "rollup": "~4.60.2",
+    "@types/node": "~26.2.0",
+    "rollup": "~4.62.4",
     "@rollup/plugin-typescript": "~12.3.0",
-    "tsx": "~4.21.0",
-    "eslint": "~10.2.1",
+    "tsx": "~4.23.12",
+    "eslint": "~10.8.1",
     "@glyph-cat/eslint-config": "workspace:*",
-    "jest": "~30.3.0",
-    "@jest/types": "~30.3.0",
-    "jest-environment-jsdom": "~30.3.0"
+    "jest": "~30.4.2",
+    "@jest/types": "~30.4.1",
+    "jest-environment-jsdom": "~30.4.1",
+    "globals": "~17.11.0"
   }
 }

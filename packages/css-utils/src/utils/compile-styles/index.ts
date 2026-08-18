@@ -1,6 +1,4 @@
 import { StringRecord } from '@glyph-cat/foundation'
-import autoprefixer from 'autoprefixer'
-import postcss from 'postcss'
 import { __getDisplayName } from '../../_internals'
 import { CSSPropertiesExtended, CustomCSSVariablesRecord } from '../../abstractions'
 import { IS_DEBUG_ENV } from '../../constants'
@@ -37,22 +35,22 @@ export function convertStyleObjectPropertyKeys(
   return compiledStyles
 }
 
-const autoprefixerInstance = autoprefixer({
-  grid: 'autoplace',
-  overrideBrowserslist: process.env.NODE_ENV === 'production'
-    ? [
-      '>0.5%',
-      'not dead',
-      'not op_mini all',
-    ]
-    : [
-      'last 3 chrome version',
-      'last 3 firefox version',
-      'last 5 safari version',
-    ],
-})
+// const autoprefixerInstance = autoprefixer({
+//   grid: 'autoplace',
+//   overrideBrowserslist: process.env.NODE_ENV === 'production'
+//     ? [
+//       '>0.5%',
+//       'not dead',
+//       'not op_mini all',
+//     ]
+//     : [
+//       'last 3 chrome version',
+//       'last 3 firefox version',
+//       'last 5 safari version',
+//     ],
+// })
 
-const postcssInstance = postcss([autoprefixerInstance])
+// const postcssInstance = postcss([autoprefixerInstance])
 
 /**
  * Similar to {@link convertStyleObjectPropertyKeys}, but this takes it a step
@@ -73,7 +71,9 @@ export function compileStyleObjectToString(styles: CSSPropertiesExtended): strin
     const propertyKey = mapPropertyNameFromJSToCSS(rawPropertyKey)
     compiledStyles.push(`${propertyKey}:${normalizeCSSValue(propertyKey, propertyValue)}`)
   }
-  return postcssInstance.process(compiledStyles.join(';')).css
+  return compiledStyles.join(';')
+  // KIC: Why are we even using 'autoprefixer' and 'postcss' in the first place?
+  // return postcssInstance.process(compiledStyles.join(';')).css
 }
 
 const checkedSelectors = IS_DEBUG_ENV ? new Set<string>() : null!

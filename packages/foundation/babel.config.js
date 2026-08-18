@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-
+/** @type {import('@babel/core').TransformOptions} */
 module.exports = {
   env: {
     test: {

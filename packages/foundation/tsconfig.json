@@ -2,32 +2,22 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
     "lib": [
       "esnext"
     ],
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
-    "outDir": "./temp/tsc/js",
     "rootDir": "..",
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2019"
+    "target": "esnext",
+    "types": [
+      "node",
+      "jest",
+    ],
   },
-  "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "jest.config.js",
-    "./src/**/*.draft*",
-    "./src/**/*.old*",
-    "**/*.test.*",
-  ],
-  "include": [
-    "./src",
-  ]
 }

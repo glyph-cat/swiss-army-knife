@@ -29,7 +29,7 @@ describe('Fn', () => {
   describe('One arg, no return type', () => {
 
     test('Valid case', () => {
-      const doSomething: Fn<number> = (value) => { value.toFixed(2) }
+      const doSomething: Fn<number> = (value) => { value?.toFixed(2) }
       doSomething(42)
       // @ts-expect-error: Expected 1 arguments, but got 0. ts(2554)
       doSomething()
@@ -52,8 +52,8 @@ describe('Fn', () => {
 
     test('Valid case', () => {
       const doSomething: Fn<[number, number]> = (value0, value1) => {
-        value0.toFixed(2)
-        value1.toFixed(2)
+        value0?.toFixed(2)
+        value1?.toFixed(2)
       }
       doSomething(42, 43)
       // @ts-expect-error: Expected 2 arguments, but got 1.ts(2554)

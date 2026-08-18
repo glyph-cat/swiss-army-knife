@@ -1,8 +1,8 @@
 set -e
 
-pnpm run clean
-pnpm run bundle
-pnpm run types
-pnpm run api
+rush-pnpm run clean
+rush-pnpm run bundle
+rush-pnpm run types
+rush-pnpm run api
 
 rm -r ./temp/tsc

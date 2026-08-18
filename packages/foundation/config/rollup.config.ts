@@ -1,8 +1,4 @@
-import {
-  customReplace,
-  customTerser,
-  setDisplayName,
-} from '@glyph-cat/custom-tools/custom-rollup-plugins'
+import { customReplace, customTerser } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
@@ -35,13 +31,8 @@ function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),
     commonjs({ sourceMap: false }),
-    setDisplayName(!isProductionTarget),
     typescript({
-      compilerOptions: {
-        declaration: false,
-        declarationDir: null,
-        outDir: null,
-      },
+      tsconfig: './tsconfig.build.json',
     }),
     customReplace(
       isProductionTarget,
