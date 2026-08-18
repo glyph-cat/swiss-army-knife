@@ -1,6 +1,6 @@
 // import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
+import { Plugin, RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import {
   customReplace,
@@ -45,11 +45,11 @@ interface IPluginConfig {
   isProductionTarget?: boolean
 }
 
-function getPlugins(config: IPluginConfig): Array<RollupPlugin> {
+function getPlugins(config: IPluginConfig): Array<Plugin> {
 
   const { buildType, isProductionTarget } = config
 
-  const pluginStack: Array<RollupPlugin> = [
+  const pluginStack: Array<Plugin> = [
     nodeResolve({
       // KIV: using @rollup/plugin-node-resolve v14 or above will cause
       // '.native.(t|j)sx?' files to be ignored

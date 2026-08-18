@@ -2,7 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
 import { execSync } from 'child_process'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
+import { Plugin, RollupOptions } from 'rollup'
 import typescript from 'rollup-plugin-typescript2'
 import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import packageJson from '../package.json'
@@ -17,9 +17,9 @@ const EXTERNAL_LIBS = [
   ...getDependenciesFromRoot(),
 ].sort()
 
-function getPlugins(): Array<RollupPlugin> {
+function getPlugins(): Array<Plugin> {
 
-  const pluginStack: Array<RollupPlugin> = [
+  const pluginStack: Array<Plugin> = [
     nodeResolve({
       extensions: ['.ts'],
     }),

@@ -1,5 +1,5 @@
 {
-  "name": "@glyph-cat/react-ui",
+  "name": "@glyph-cat/react-components",
   "version": "0.0.0",
   "description": "",
   "main": "lib/cjs/index.js",
@@ -25,7 +25,7 @@
   "author": "glyph-cat",
   "readme": "README.md",
   "license": "MIT",
-  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/react-ui#readme",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/react-components#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/glyph-cat/swiss-army-knife.git"

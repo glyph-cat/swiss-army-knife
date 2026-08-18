@@ -5,7 +5,7 @@ import {
 } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
-import { RollupOptions, Plugin } from 'rollup'
+import { Plugin, RollupOptions } from 'rollup'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 

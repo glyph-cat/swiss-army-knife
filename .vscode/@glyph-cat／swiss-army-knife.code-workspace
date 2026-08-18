@@ -17,8 +17,8 @@
       "path": "../packages/react"
     },
     {
-      "name": "react-ui",
-      "path": "../packages/react-ui"
+      "name": "react-components",
+      "path": "../packages/react-components"
     },
     {
       "name": "equality",

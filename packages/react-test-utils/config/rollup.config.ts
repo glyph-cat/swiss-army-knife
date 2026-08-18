@@ -5,7 +5,7 @@ import {
 } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
-import { RollupOptions, Plugin as RollupPlugin } from 'rollup'
+import { Plugin, RollupOptions } from 'rollup'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
 
@@ -23,9 +23,9 @@ interface IPluginConfig {
 
 function getPlugins({
   buildType,
-}: IPluginConfig): Array<RollupPlugin> {
+}: IPluginConfig): Array<Plugin> {
 
-  const pluginStack: Array<RollupPlugin> = [
+  const pluginStack: Array<Plugin> = [
     commonjs({ sourceMap: false }),
     typescript({
       compilerOptions: {
