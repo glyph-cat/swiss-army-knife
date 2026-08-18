@@ -62,13 +62,7 @@ export function createBaseConfig({
         'no-shadow': OFF, // See '@typescript-eslint/no-shadow'
 
         // temp
-        // 'import/no-unresolved': OFF,
-        'import/no-unresolved': [remapError, {
-          ignore: [
-            '^!!raw-loader!',
-            'csstype',
-          ],
-        }],
+        'import/no-unresolved': OFF, // Assumes TypeScript project
 
         'import/no-cycle': remapError,
         'import/no-deprecated': OFF, // remapError,

@@ -61,6 +61,6 @@ export default defineConfig(
     ignores: [
       './babel.config.js',
       './config/rollup.config.js',
-    ]
-  }
+    ],
+  },
 )
