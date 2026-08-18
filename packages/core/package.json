@@ -75,7 +75,10 @@
     "luxon": "~3.7.2",
     "react-native": "~0.87.0",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-typescript": "^7",
+    "@testing-library/jest-dom": "~7.0.1"
   },
   "peerDependenciesMeta": {
     "luxon": {
