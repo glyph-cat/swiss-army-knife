@@ -1,32 +1,20 @@
-import { Nullable, StringRecord } from '@glyph-cat/foundation'
+import { Nullable } from '@glyph-cat/foundation'
 import { isNumber } from '@glyph-cat/type-checking'
 import { createContext, useContext } from 'react'
 
-// TODO: Declare self variable
-import { IS_DEBUG_ENV } from '@glyph-cat/swiss-army-knife/src/constants/public'
-
 /**
  * @public
  */
-export const TestProbeProvider = createContext<Nullable<TestProbe>>(null)
+export const TestProbeContext = createContext<Nullable<TestProbe>>(null)
 
 /**
+ * CAUTION: You should configure your bundler or create a custom plugin to
+ * strip away calls made to this hook before shipping as production-ready.
  * @public
  */
-export function useTestProbe(key: string): void {
-  if (!IS_DEBUG_ENV) {
-    return // Early exit
-  }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const testProbe = useContext(TestProbeProvider)
-  if (!testProbe) {
-    return // Early exit - not mandatory
-    // throw new Error('Component must be wrapped in a <TestProbeProvider>')
-  }
-  if (!key) {
-    throw new Error('Missing mandatory parameter `key`')
-  }
-  testProbe.M$bumpRenderCount(key)
+export function useTestProbe(ref: Exclude<unknown, void | undefined | null>): void {
+  const testProbe = useContext(TestProbeContext)
+  testProbe?.M$bumpRenderCount(ref)
 }
 
 /**
@@ -34,24 +22,26 @@ export function useTestProbe(key: string): void {
  */
 export class TestProbe {
 
-  private readonly M$allRenderCount: StringRecord<number> = {}
+  private readonly M$allRenderCount = new Map<Exclude<unknown, void | undefined | null>, number>()
 
   /**
    * @internal
    */
-  M$bumpRenderCount(key: string): void {
-    if (!isNumber(this.M$allRenderCount[key])) {
-      this.M$allRenderCount[key] = 0
+  M$bumpRenderCount(ref: Exclude<unknown, void | undefined | null>): void {
+    const refValue = this.M$allRenderCount.get(ref)
+    if (isNumber(refValue)) {
+      this.M$allRenderCount.set(ref, refValue + 1)
+    } else {
+      this.M$allRenderCount.set(ref, 1)
     }
-    this.M$allRenderCount[key] += 1
   }
 
-  get allRenderCount(): StringRecord<number> {
-    return { ...this.M$allRenderCount }
+  get allRenderCount(): Map<Exclude<unknown, void | undefined | null>, number> {
+    return new Map(this.M$allRenderCount)
   }
 
-  getRenderCount(key: string): Nullable<number> {
-    return this.M$allRenderCount[key] ?? null
+  getRenderCount(ref: Exclude<unknown, void | undefined | null>): Nullable<number> {
+    return this.M$allRenderCount.get(ref) ?? null
   }
 
 }

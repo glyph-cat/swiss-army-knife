@@ -1,286 +1,72 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { Nullable, PartialRecord } from '@glyph-cat/foundation'
-import { RenderResult, render } from '@testing-library/react'
-import {
-  ErrorInfo,
-  Fragment,
-  JSX,
-  PropsWithChildren,
-  StrictMode,
-  act,
-  createElement,
-  useEffect,
-} from 'react'
-import { hasProperty } from '../../../../core/src/data/object/property'
-import { useForceUpdate } from '../../../../react/src/hooks/force-update'
-import { throwInternalError } from '../../_internals'
-import { ICapturedError } from '../../abstractions'
-import { ActionNotExistError, ValueNotExistError } from '../../errors'
-import { ErrorBoundary } from '../../internals'
+import { renderHook } from '@testing-library/react'
+import { createElement, PropsWithChildren, Suspense, useEffect } from 'react'
 
-/**
- * @public
- */
-export type HookFn<Params extends unknown[] = [], ReturnedType = void> = (...args: Params) => ReturnedType
-
-/**
- * @public
- */
-export type HookTesterActionDefinition<HookReturnedType> = (arg: HookReturnedType) => void | Promise<void>
-
-/**
- * @public
- */
-export type HookTesterValueMapper<HookReturnedType> = (arg: HookReturnedType) => unknown
-
-/**
- * @public
- */
-export interface HookTesterConfig<
-  HookParams extends unknown[],
-  HookReturnedType,
-  Actions extends Record<string, HookTesterActionDefinition<HookReturnedType>>,
-  Values extends Record<string, HookTesterValueMapper<HookReturnedType>>
-> {
-  useHook: HookFn<HookParams, HookReturnedType>
-  hookParameters?: HookParams
-  actions?: Actions
-  /**
-   * @deprecated Please use `get` instead.
-   */
-  values?: Values
-  get?: Values
-  strictMode?: boolean
-  wrapper?(props: PropsWithChildren): JSX.Element
+export interface CustomRenderResultMetadata {
+  renderCount: number
 }
 
-/**
- * @public
- */
-export class HookTester<
-  HookParams extends unknown[],
-  HookReturnedType,
-  Actions extends Record<string, HookTesterActionDefinition<HookReturnedType>>,
-  Values extends Record<string, HookTesterValueMapper<HookReturnedType>>
-> {
+export interface CustomRenderHookResult<Result, Props> extends ReturnType<typeof renderHook<Result, Props>> {
+  getMetadata(): CustomRenderResultMetadata
+}
 
-  /**
-   * @internal
-   */
-  private readonly M$useHook: HookFn<HookParams, HookReturnedType>
+export function customRenderHook<Result, Props>(
+  ...args: Parameters<typeof renderHook<Result, Props>>
+): CustomRenderHookResult<Result, Props> {
 
-  /**
-   * @internal
-   */
-  private readonly M$hookParameters: HookParams
+  const metadata = { renderCount: 0 }
 
-  /**
-   * @internal
-   */
-  private readonly M$actions: Actions
+  const [callback, ...remainingArgs] = args
+  const hook = renderHook((...renderArgs) => {
+    metadata.renderCount += 1
+    return callback(...renderArgs)
+  }, ...remainingArgs)
 
-  /**
-   * @internal
-   */
-  private readonly M$values: Values
-
-  /**
-   * @internal
-   */
-  private M$dispatchableActions: PartialRecord<keyof Actions, (() => void | Promise<void>)> = {}
-
-  /**
-   * @internal
-   */
-  private M$retrievableValues: PartialRecord<keyof Values, {
-    value: ReturnType<Values[keyof Values]>
-    error?: never
-  } | {
-    value?: never
-    error: unknown
-  }> = {}
-
-  /**
-   * @internal
-   */
-  private M$hookReturnedValue: Nullable<HookReturnedType> = null
-  get hookReturnedValue(): Nullable<HookReturnedType> { return this.M$hookReturnedValue }
-
-  /**
-   * @internal
-   */
-  private M$renderCount = 0
-  get renderCount(): number { return this.M$renderCount }
-
-  /**
-   * @internal
-   */
-  private M$renderResult!: RenderResult
-  get renderResult(): RenderResult { return this.M$renderResult }
-
-  /**
-   * @internal
-   */
-  readonly M$capturedErrors: Array<ICapturedError> = []
-  get capturedErrors(): Readonly<Array<ICapturedError>> { return this.M$capturedErrors }
-
-  constructor(
-    config: HookTesterConfig<HookParams, HookReturnedType, Actions, Values>,
-    cleanupManager: CleanupManager
-  ) {
-
-    this.onError = this.onError.bind(this)
-    this.action = this.action.bind(this)
-    this.actionAsync = this.actionAsync.bind(this)
-    this.get = this.get.bind(this)
-    this.dispose = this.dispose.bind(this)
-
-    const {
-      useHook,
-      hookParameters,
-      actions,
-      values: UNSAFE_values,
-      get: NEW_values,
-      strictMode,
-      wrapper: Wrapper,
-    } = config
-    this.M$useHook = useHook
-    this.M$hookParameters = (hookParameters ? [...hookParameters] : []) as HookParams
-    this.M$actions = { ...actions } as Actions
-    if (UNSAFE_values) {
-      console.warn('The `values` property will be removed soon, please use `get` instead')
-    }
-    const values = { ...UNSAFE_values, ...NEW_values } // TEMP
-    this.M$values = { ...values } as Values
-
-    if (cleanupManager) { cleanupManager.append(this.dispose) }
-
-    act(() => {
-      this.M$renderResult = render(
-        createElement(
-          strictMode ? StrictMode : Fragment,
-          {},
-          createElement(ErrorBoundary, {
-            onError: this.onError,
-          }, Wrapper
-            ? createElement(Wrapper, {}, createElement(this.ContainerComponent))
-            : createElement(this.ContainerComponent)
-          )
-        )
-      )
-    })
-
+  return {
+    ...hook,
+    getMetadata: () => metadata,
   }
 
-  /**
-   * @internal
-   */
-  private readonly ContainerComponent = (): JSX.Element => {
+}
 
-    const { M$useHook: useHook } = this
+export interface CustomSuspenseTesterResultMetadata extends CustomRenderResultMetadata {
+  isSuspended: boolean
+}
 
-    // #region Hooks
-    /* eslint-disable react-hooks/rules-of-hooks */
+export interface CustomSuspenseTesterResult<Result, Props> extends Omit<CustomRenderHookResult<Result, Props>, 'getMetadata'> {
+  getMetadata(): CustomSuspenseTesterResultMetadata
+}
 
-    this.M$forceUpdateRef = useForceUpdate()
+export function renderSuspenseTester<Result, Props>(
+  ...args: Parameters<typeof customRenderHook<Result, Props>>
+): CustomSuspenseTesterResult<Result, Props> {
 
-    const hookData = useHook(...this.M$hookParameters)
-    useEffect(() => { this.M$renderCount += 1 })
+  const metadata = { isSuspended: false }
 
-    /* eslint-enable react-hooks/rules-of-hooks */
-    // #endregion Hooks
-
-    for (const actionKey in this.M$actions) {
-      const actionCallback = this.M$actions[actionKey]
-      this.M$dispatchableActions[actionKey] = () => actionCallback(hookData)
-      // Although we do not expect any returned value, returning the callback's
-      // returned value is necessary for promises to recognized so that they
-      // can be awaited properly.
-    }
-
-    this.M$hookReturnedValue = hookData
-    this.M$retrievableValues = {}
-    for (const valueKey in this.M$values) {
-      const valueMapper = this.M$values[valueKey]
-      try {
-        const mappedValue = valueMapper(hookData) as ReturnType<Values[keyof Values]>
-        this.M$retrievableValues[valueKey] = { value: mappedValue }
-      } catch (error) {
-        // Error should not be thrown while rendering component, it should be stored
-        // then thrown only when attempting to get the value. Otherwise, value will
-        // not be added to `M$retrievableValues` causing `ValueNotExistError` to be
-        // reported instead.
-        this.M$retrievableValues[valueKey] = { error: error }
-      }
-    }
-
-    return null!
-
+  const FallbackComponent = (): undefined => {
+    useEffect(() => {
+      metadata.isSuspended = true
+      return () => { metadata.isSuspended = false }
+    }, [])
   }
 
-  /**
-   * @internal
-   */
-  private M$forceUpdateRef: (Nullable<() => void>) = null
+  const wrapper = ({ children }: PropsWithChildren) => (
+    createElement(Suspense, {
+      fallback: createElement(FallbackComponent),
+    }, children)
+  )
 
-  forceUpdate(): void {
-    if (this.M$forceUpdateRef) {
-      act((): void => { this.M$forceUpdateRef!() })
-    } else {
-      throwInternalError('Unable to trigger force update. This might indicate a problem where the test container component could not be rendered in the first place.')
-    }
-  }
+  const [callback, options, ...remainingArgs] = args
+  const hook = customRenderHook<Result, Props>(callback, {
+    ...options,
+    wrapper,
+  }, ...remainingArgs)
 
-  action(...actionKeys: Array<keyof Actions>): number {
-    const previousRenderCount = this.M$renderCount
-    act((): void => {
-      for (const actionKey of actionKeys) {
-        if (hasProperty(this.M$dispatchableActions, actionKey)) {
-          this.M$dispatchableActions[actionKey]!()
-        } else {
-          throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
-        }
-      }
-    })
-    return this.M$renderCount - previousRenderCount
-  }
-
-  async actionAsync(...actionKeys: Array<keyof Actions>): Promise<number> {
-    const previousRenderCount = this.M$renderCount
-    await act(async (): Promise<void> => {
-      for (const actionKey of actionKeys) {
-        if (hasProperty(this.M$dispatchableActions, actionKey)) {
-          await this.M$dispatchableActions[actionKey]!()
-        } else {
-          throw new ActionNotExistError(actionKey, Object.keys(this.M$dispatchableActions))
-        }
-      }
-    })
-    return this.M$renderCount - previousRenderCount
-  }
-
-  get(valueKey: keyof Values): ReturnType<Values[keyof Values]> {
-    if (hasProperty(this.M$retrievableValues, valueKey)) {
-      const retrievedValue = this.M$retrievableValues[valueKey]
-      if (hasProperty(retrievedValue, 'error')) {
-        throw retrievedValue.error
-      } else {
-        return retrievedValue!.value!
-      }
-    } else {
-      throw new ValueNotExistError(valueKey, Object.keys(this.M$retrievableValues))
-    }
-  }
-
-  dispose(): void {
-    this.M$renderResult?.unmount()
-  }
-
-  /**
-   * @internal
-   */
-  private onError(error: Error, errorInfo: ErrorInfo): void {
-    this.M$capturedErrors.push({ error, errorInfo })
+  return {
+    ...hook,
+    getMetadata: () => ({
+      ...hook.getMetadata(),
+      ...metadata,
+    }),
   }
 
 }
