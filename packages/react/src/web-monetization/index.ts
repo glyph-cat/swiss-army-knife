@@ -1,5 +1,5 @@
 import { PaymentPointerProtector } from '@glyph-cat/swiss-army-knife'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { useIsomorphicLayoutEffect } from '../hooks/isomorphic-layout-effect'
 import { PaymentPointerProps } from './abstractions'
 

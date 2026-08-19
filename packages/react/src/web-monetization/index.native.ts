@@ -1,5 +1,5 @@
 import { UnsupportedPlatformError } from '@glyph-cat/foundation'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { PaymentPointerProps } from './abstractions'
 
 /**

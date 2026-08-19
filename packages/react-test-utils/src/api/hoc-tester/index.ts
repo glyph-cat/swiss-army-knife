@@ -6,8 +6,8 @@ import {
   createElement,
   ErrorInfo,
   Fragment,
-  JSX,
   Component as ReactComponent,
+  ReactNode,
   StrictMode,
 } from 'react'
 import { hasProperty } from '../../../../core/src/data/object/property'
