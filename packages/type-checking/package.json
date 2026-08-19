@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/type-checking",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Type checking helper functions.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
