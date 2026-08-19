@@ -36,7 +36,6 @@ export default defineConfig(
       '@typescript-eslint/no-namespace': Severity.OFF,
       '@typescript-eslint/no-require-imports': Severity.OFF,
       '@typescript-eslint/no-empty-object-type': Severity.WARN, // temp
-      'import/no-unresolved': Severity.OFF, // temp
     },
   },
 )
