@@ -2,8 +2,6 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
@@ -15,7 +13,6 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
-    "outDir": "./temp/tsc/js",
     "resolveJsonModule": true,
     "rootDir": "..",
     "skipLibCheck": true,

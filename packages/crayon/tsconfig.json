@@ -2,8 +2,6 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,

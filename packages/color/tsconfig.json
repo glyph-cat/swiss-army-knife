@@ -2,14 +2,11 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "./temp/tsc/js",
     "paths": {
       "@glyph-cat/foundation": [
         "../foundation/src",

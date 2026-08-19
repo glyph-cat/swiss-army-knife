@@ -2,8 +2,6 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationDir": "./temp/tsc/types",
     "esModuleInterop": true,
     "types": [
       "node",
@@ -12,7 +10,6 @@
     "isolatedModules": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "./temp/tsc/js",
     // "paths": {
     //   // Used in Rollup config
     //   "@glyph-cat/foundation": [
