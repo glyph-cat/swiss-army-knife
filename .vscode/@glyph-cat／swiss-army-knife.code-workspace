@@ -21,6 +21,10 @@
       "path": "../packages/react-web-components"
     },
     {
+      "name": "react test utils",
+      "path": "../packages/react-test-utils"
+    },
+    {
       "name": "equality",
       "path": "../packages/equality"
     },
@@ -43,10 +47,6 @@
     {
       "name": "cleanup manager",
       "path": "../packages/cleanup-manager"
-    },
-    {
-      "name": "react test utils",
-      "path": "../packages/react-test-utils"
     },
     {
       "name": "cli parameter parser",
