@@ -1,4 +1,4 @@
-import { TypedFunction } from '../function'
+import { Fn } from '../function'
 
 /**
  * @public
@@ -14,4 +14,4 @@ export type Awaitable<T> = T | Promise<T>
  * myString = await getString()
  * @public
  */
-export type AwaitedReturnType<T extends TypedFunction> = Awaited<ReturnType<T>>
+export type AwaitedReturnType<T extends Fn> = Awaited<ReturnType<T>>

@@ -1,4 +1,4 @@
-// import { EmptyFunction, Nullable, TypedFunction } from '@glyph-cat/foundation'
+// import { EmptyFunction, Fn, Nullable } from '@glyph-cat/foundation'
 
 /**
  * Creates a debounced callback.

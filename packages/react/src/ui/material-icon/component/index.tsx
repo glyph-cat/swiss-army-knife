@@ -1,4 +1,4 @@
-import { TypedFunction } from '@glyph-cat/foundation'
+import { Fn } from '@glyph-cat/foundation'
 import { removeDuplicates } from '@glyph-cat/swiss-army-knife'
 import clsx from 'clsx'
 import { JSX, ReactNode, useEffect } from 'react'
@@ -93,7 +93,7 @@ export function MaterialIcon({
  */
 export function loadMaterialIconStyleSheet(
   variants: MaterialIconStyleSheetProps['variants']
-): TypedFunction {
+): Fn {
   const requestUrl = getRequestUrlFromVariants(variants)
   const styleElement = document.createElement('style')
   styleElement.innerHTML = `@import url(${requestUrl})`

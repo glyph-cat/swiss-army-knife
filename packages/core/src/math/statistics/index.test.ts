@@ -1,8 +1,8 @@
-import { TypedFunction } from '@glyph-cat/foundation'
+import { Fn } from '@glyph-cat/foundation'
 import { NumericDataSet } from '.'
 import { spyFn } from './test-utils'
 
-let resetSpyFn: TypedFunction = null!
+let resetSpyFn: Fn = null!
 
 beforeEach(() => {
   spyFn.current = jest.fn()

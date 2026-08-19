@@ -1,4 +1,4 @@
-import { TypedFunction } from '@glyph-cat/foundation'
+import { Fn } from '@glyph-cat/foundation'
 
 /**
  * Determine if a value is a function.
@@ -13,6 +13,6 @@ import { TypedFunction } from '@glyph-cat/foundation'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isFunction<Args extends any[] = any[], Payload = any>(
   value: unknown,
-): value is TypedFunction<Args, Payload> {
+): value is Fn<Args, Payload> {
   return typeof value === 'function'
 }

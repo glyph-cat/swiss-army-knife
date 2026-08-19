@@ -2,11 +2,11 @@ import { objectIsShallowEqual } from '@glyph-cat/equality'
 import {
   CleanupFunction,
   EmptyFunction,
+  Fn,
   LenientString,
   Nullable,
   PartialRecord,
   StringRecord,
-  TypedFunction,
 } from '@glyph-cat/foundation'
 import { devError, IS_DEBUG_ENV, Key, objectReduce } from '@glyph-cat/swiss-army-knife'
 import { isFunction, isNullOrUndefined } from '@glyph-cat/type-checking'
@@ -86,7 +86,7 @@ function TriggerTarget({
         setTrigger(node)
         if (ref) {
           if (isFunction(ref)) {
-            cleanupRef = (ref(node) as TypedFunction) ?? (() => { ref(null) })
+            cleanupRef = (ref(node) as Fn) ?? (() => { ref(null) })
           } else {
             // eslint-disable-next-line react-hooks/immutability
             ref.current = node

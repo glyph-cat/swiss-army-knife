@@ -1,9 +1,9 @@
 import { CSSPropertiesExtended, serializePixelValue } from '@glyph-cat/css-utils'
 import {
   CleanupFunction,
+  Fn,
   Nullable,
   StringRecord,
-  TypedFunction,
 } from '@glyph-cat/foundation'
 import { RectangularBoundary } from '@glyph-cat/swiss-army-knife'
 import {
@@ -97,7 +97,7 @@ export function PopoverTrigger({
         setTriggerRef(node)
         if (propRef) {
           if (isFunction(propRef)) {
-            cleanupRef = (propRef(node) as TypedFunction) ?? (() => { propRef(null) })
+            cleanupRef = (propRef(node) as Fn) ?? (() => { propRef(null) })
           } else {
             // eslint-disable-next-line react-hooks/immutability
             propRef.current = node

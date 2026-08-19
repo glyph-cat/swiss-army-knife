@@ -1,4 +1,4 @@
-import { TypedFunction } from '@glyph-cat/foundation'
+import { Fn } from '@glyph-cat/foundation'
 import { isFunction, isNumber } from '@glyph-cat/type-checking'
 import { devError } from '../../dev'
 import { delay } from '../delay'
@@ -20,7 +20,7 @@ export class VaryingInterval {
    *   console.log('Hello, world!')
    * })
    */
-  constructor(protected readonly callback: TypedFunction<[], void>) { }
+  constructor(protected readonly callback: Fn<[], void>) { }
 
   /**
    * Run the callback with an interval. If there is an interval already exists,
@@ -56,7 +56,7 @@ export class LongPollingInterval {
   /**
    * @internal
    */
-  private readonly M$callback: TypedFunction<[], void>
+  private readonly M$callback: Fn<[], void>
 
   /**
    * @internal
@@ -80,7 +80,7 @@ export class LongPollingInterval {
    *   // Random interval between 1 to 10 seconds
    * )
    */
-  constructor(callback: TypedFunction<[], void>, interval: number | (() => number)) {
+  constructor(callback: Fn<[], void>, interval: number | (() => number)) {
     this.M$callback = callback
     this.M$interval = interval
     this.start = this.start.bind(this)
