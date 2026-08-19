@@ -47,12 +47,13 @@
     "react": "^19.2.8"
   },
   "devDependencies": {
+    "@babel/core": "^7",
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-react": "^7",
+    "@babel/preset-typescript": "^7",
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/eslint-config": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
-    "@types/react": "~19.2.18",
-    "jest": "~30.4.2",
-    "rollup": "~4.62.4",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-commonjs": "~29.0.3",
@@ -60,12 +61,13 @@
     "@rollup/plugin-typescript": "~12.3.0",
     "@types/jest": "~30.0.0",
     "@types/node": "~26.2.0",
+    "@types/react": "~19.2.18",
+    "cspell": "~10.0.1",
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
-    "tsx": "~4.23.12",
-    "cspell": "~10.0.1",
-    "@babel/plugin-transform-modules-commonjs": "^7",
-    "@babel/preset-typescript": "^7"
+    "jest": "~30.4.2",
+    "rollup": "~4.62.4",
+    "tsx": "~4.23.12"
   }
 }
