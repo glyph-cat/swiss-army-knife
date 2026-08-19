@@ -18,8 +18,8 @@ const EXTERNAL_LIBS = [
 const SHARED_GLOBALS = {
   '@glyph-cat/foundation': 'GCFoundation',
   '@glyph-cat/type-checking': 'TypeChecking',
-  autoprefixer: 'autoprefixer',
-  postcss: 'postcss',
+  // autoprefixer: 'autoprefixer',
+  // postcss: 'postcss',
 }
 
 const INPUT_FILE = 'src/index.ts'

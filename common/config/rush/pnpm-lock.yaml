@@ -16,6 +16,12 @@ importers:
         specifier: workspace:*
         version: link:../foundation
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -74,6 +80,12 @@ importers:
         specifier: workspace:*
         version: link:../foundation
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -135,6 +147,12 @@ importers:
         specifier: workspace:*
         version: link:../type-checking
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -314,6 +332,12 @@ importers:
         specifier: workspace:*
         version: link:../foundation
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1
@@ -366,6 +390,12 @@ importers:
         specifier: ~3.2.3
         version: 3.2.3
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/cleanup-manager':
         specifier: workspace:*
         version: link:../cleanup-manager
@@ -527,6 +557,12 @@ importers:
         specifier: ~8.67.0
         version: 8.67.0(eslint@10.8.1(jiti@2.7.0))(typescript@5.9.3)
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@eslint/core':
         specifier: ~1.2.1
         version: 1.2.1
@@ -642,6 +678,12 @@ importers:
         specifier: workspace:*
         version: link:../core
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/project-helpers':
         specifier: workspace:*
         version: link:../project-helpers
@@ -706,6 +748,12 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/project-helpers':
         specifier: workspace:*
         version: link:../project-helpers
@@ -827,6 +875,12 @@ importers:
         specifier: 0.5.1
         version: 0.5.1(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1
@@ -878,6 +932,12 @@ importers:
 
   ../../packages/playground-nextjs:
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1
@@ -927,6 +987,12 @@ importers:
         specifier: ~3.7.2
         version: 3.7.2
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1
@@ -1006,6 +1072,12 @@ importers:
         specifier: ~3.2.3
         version: 3.2.3
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/cleanup-manager':
         specifier: workspace:*
         version: link:../cleanup-manager
@@ -1106,6 +1178,12 @@ importers:
         specifier: ^19.2.4
         version: 19.2.5
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1
@@ -1170,6 +1248,12 @@ importers:
         specifier: ^19.2.4
         version: 19.2.5
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -1228,6 +1312,12 @@ importers:
         specifier: ^15.0.0
         version: 15.3.2
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -1295,6 +1385,12 @@ importers:
         specifier: ~5.50.0
         version: 5.50.0
     devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1

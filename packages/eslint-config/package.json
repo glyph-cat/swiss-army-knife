@@ -64,6 +64,8 @@
     "jest-extended": "~7.0.0",
     "rollup": "~4.62.4",
     "tsx": "~4.23.12",
-    "cspell": "~10.0.1"
+    "cspell": "~10.0.1",
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-typescript": "^7"
   }
 }
