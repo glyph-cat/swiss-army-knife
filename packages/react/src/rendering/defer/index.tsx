@@ -17,7 +17,7 @@ export interface DeferRenderingProps {
 export function DeferRendering({
   children,
 }: DeferRenderingProps): ReactNode {
-  useTestProbe(DeferRendering.name)
+  useTestProbe(DeferRendering)
   const isMounted = useMountedState()
   return isMounted ? children : null
 }

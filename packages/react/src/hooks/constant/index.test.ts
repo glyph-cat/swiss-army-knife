@@ -13,7 +13,7 @@ test('Value', () => {
 test('Factory', () => {
 
   const factory = jest.fn(() => 42)
-  hook = customRenderHook(factory)
+  hook = customRenderHook(() => useConstant(factory))
 
   expect(factory).toHaveBeenCalledTimes(1)
   expect(hook.result.current).toBe(42)

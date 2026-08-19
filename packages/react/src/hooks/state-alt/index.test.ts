@@ -10,14 +10,14 @@ afterEach(() => { hook?.unmount() })
 test(useStateAlt.name, () => {
 
   hook = customRenderHook(useTestHook)
-  expect(hook.result.current).toBe(0)
+  expect(hook.result.current[0]).toBe(0)
 
   act(() => { hook.result.current[1]((c) => c + 1) })
-  expect(hook.result.current).toBe(1)
+  expect(hook.result.current[0]).toBe(1)
   act(() => { hook.result.current[1]((c) => c + 1) })
-  expect(hook.result.current).toBe(2)
+  expect(hook.result.current[0]).toBe(2)
 
   act(() => { hook.result.current[2]() })
-  expect(hook.result.current).toBe(0)
+  expect(hook.result.current[0]).toBe(0)
 
 })

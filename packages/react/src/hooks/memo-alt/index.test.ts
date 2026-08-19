@@ -8,16 +8,20 @@ afterEach(() => { hook?.unmount() })
 
 test('Dependencies are same', () => {
 
+  const INITIAL_PROPS: ITestObject = { a: 1, b: 2, c: 3 }
   const spyFn = jest.fn()
-  hook = customRenderHook((props) => useMemoAlt(() => props, [props]), {
-    initialProps: { a: 1, b: 2, c: 3 },
+  hook = customRenderHook((props) => useMemoAlt(() => {
+    spyFn()
+    return props
+  }, [props]), {
+    initialProps: INITIAL_PROPS,
   })
 
   const snapshot1 = hook.result.current
   expect(snapshot1).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(spyFn).toHaveBeenCalledTimes(1)
 
-  hook.rerender({ a: 1, b: 2, c: 3 })
+  hook.rerender(INITIAL_PROPS)
   const snapshot2 = hook.result.current
   expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(Object.is(snapshot1, snapshot2)).toBeTrue()
@@ -27,18 +31,23 @@ test('Dependencies are same', () => {
 
 test('Dependencies are different', () => {
 
+  const INITIAL_PROPS: ITestObject = { a: 1, b: 2, c: 3 }
   const spyFn = jest.fn()
-  hook = customRenderHook((props) => useMemoAlt(() => props, [props]), {
-    initialProps: { a: 1, b: 2, c: 3 },
+  hook = customRenderHook((props) => useMemoAlt(() => {
+    spyFn()
+    return props
+  }, [props]), {
+    initialProps: INITIAL_PROPS,
   })
 
   const snapshot1 = hook.result.current
   expect(snapshot1).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(spyFn).toHaveBeenCalledTimes(1)
 
-  hook.rerender({ a: 1, b: 2, c: 7 })
+  // Same values, different object reference.
+  hook.rerender({ a: 1, b: 2, c: 3 })
   const snapshot2 = hook.result.current
-  expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 7 })
+  expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(Object.is(snapshot1, snapshot2)).toBeFalse()
   expect(spyFn).toHaveBeenCalledTimes(2)
 

@@ -31,7 +31,8 @@ export function useMemoAlt<T, Deps extends DependencyList>(
     isEqual as typeof arrayIsShallowEqual,
   ))
   return runFactory(
-    // @ts-expect-error: Because `runFactory` expects 0 arguments, but are relying on `memoize` to compare the `...deps`.
+    // @ts-expect-error: `runFactory` expects 0 arguments,
+    // but relies on `memoize` to compare the `...deps`.
     ...deps
   )
 }
