@@ -58,12 +58,7 @@ function getPlugins(config: IPluginConfig): Array<Plugin> {
     setDisplayName(!isProductionTarget),
     removeTestProbes(),
     typescript({
-      compilerOptions: {
-        declaration: false,
-        jsx: 'react-jsx',
-        declarationDir: null,
-        outDir: null,
-      },
+      tsconfig: './tsconfig.build.json',
     }),
     customReplace(
       isProductionTarget,
