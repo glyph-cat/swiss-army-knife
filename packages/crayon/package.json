@@ -37,7 +37,8 @@
     "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
   },
   "dependencies": {
-    "@glyph-cat/foundation": "workspace:*"
+    "@glyph-cat/foundation": "workspace:*",
+    "@glyph-cat/eslint-config": "workspace:*"
   },
   "devDependencies": {
     "rollup": "~4.62.4",

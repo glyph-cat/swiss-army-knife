@@ -328,6 +328,9 @@ importers:
 
   ../../packages/crayon:
     dependencies:
+      '@glyph-cat/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@glyph-cat/foundation':
         specifier: workspace:*
         version: link:../foundation

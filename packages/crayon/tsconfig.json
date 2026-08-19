@@ -13,7 +13,6 @@
     "module": "CommonJS",
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
-    "outDir": "./temp/tsc/js",
     "resolveJsonModule": true,
     "rootDir": "..",
     "skipLibCheck": true,
@@ -21,16 +20,9 @@
     "strict": true,
     "stripInternal": true,
     "target": "esnext",
+    "types": [
+      "jest",
+      "node",
+    ],
   },
-  "exclude": [
-    "node_modules",
-    "**/*.draft*",
-    "**/*.old*",
-    "**/*.scripted*",
-    "**/*.test.*",
-  ],
-  "include": [
-    "./custom.d.ts",
-    "./src/**/*.ts",
-  ],
 }
