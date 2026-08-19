@@ -1103,8 +1103,8 @@ importers:
         specifier: ~29.0.3
         version: 29.0.3(rollup@4.62.4)
       '@rollup/plugin-node-resolve':
-        specifier: ~16.0.3
-        version: 16.0.3(rollup@4.62.4)
+        specifier: 13.3.0
+        version: 13.3.0(rollup@4.62.4)
       '@rollup/plugin-typescript':
         specifier: ~12.3.0
         version: 12.3.0(rollup@4.62.4)(tslib@2.8.1)(typescript@5.9.3)

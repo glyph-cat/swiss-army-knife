@@ -1,3 +1,4 @@
+import 'jest-extended'
 import 'react'
 
 declare module 'react' {

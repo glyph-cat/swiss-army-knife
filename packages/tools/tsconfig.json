@@ -20,6 +20,7 @@
     "stripInternal": true,
     "target": "esnext",
     "types": [
+      "jest",
       "node",
     ]
   },

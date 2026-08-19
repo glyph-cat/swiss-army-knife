@@ -1,3 +1,5 @@
-import { syncPackage } from '../../../../../../scripts/tools/sync-package'
+// import { syncPackage } from '../../../../../../scripts/tools/sync-package'
 
-syncPackage()
+// syncPackage()
+
+export { }
