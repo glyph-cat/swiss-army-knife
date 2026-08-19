@@ -13,8 +13,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {
   ChangeEvent,
-  JSX,
   MouseEvent,
+  ReactNode,
   useCallback,
   useDeferredValue,
   useEffect,
@@ -40,7 +40,7 @@ const STRICT_MODE_OFF_COLOR_BG = '#0066ff60'
 export const SIDEBAR_MARGIN = 10 // px
 export const SIDEBAR_WIDTH = 260 // px
 
-export function SandboxSidebar(): JSX.Element {
+export function SandboxSidebar(): ReactNode {
 
   const { localize } = useLocalization()
   const router = useRouter()
@@ -217,7 +217,7 @@ interface SidebarContentsProps {
 
 function SidebarContents({
   searchValue,
-}: SidebarContentsProps): JSX.Element {
+}: SidebarContentsProps): ReactNode {
 
   const router = useRouter()
 
@@ -282,7 +282,7 @@ function SidebarContents({
   )
 }
 
-function ThemeSelector(): JSX.Element {
+function ThemeSelector(): ReactNode {
 
   const themeState = useStateValue(ThemeState)
   const { localize } = useLocalization()

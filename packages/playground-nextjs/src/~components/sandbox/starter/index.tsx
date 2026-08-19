@@ -1,10 +1,10 @@
 import { View } from '@glyph-cat/swiss-army-knife-react'
 import { useRouter } from 'next/router'
-import { JSX, useCallback } from 'react'
+import { useCallback } from 'react'
 import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
 import styles from './index.module.css'
 
-export function SandboxStarter(): JSX.Element {
+export function SandboxStarter(): ReactNode {
 
   const router = useRouter()
 

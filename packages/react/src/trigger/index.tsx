@@ -13,7 +13,6 @@ import { isFunction, isNullOrUndefined } from '@glyph-cat/type-checking'
 import {
   createContext,
   Dispatch,
-  JSX,
   ReactElement,
   ReactNode,
   SetStateAction,
@@ -43,8 +42,8 @@ function useTriggerContext<T>(): ITriggerContext<T> {
 }
 
 export interface Trigger {
-  Target(): JSX.Element
-  Spawn(): JSX.Element
+  Target(): ReactNode
+  Spawn(): ReactNode
 }
 
 export interface TriggerProps {
@@ -53,7 +52,7 @@ export interface TriggerProps {
 
 export function Trigger({
   children,
-}: TriggerProps): JSX.Element {
+}: TriggerProps): ReactNode {
   const [trigger, setTrigger] = useState<unknown>(null)
   const contextValue = useMemo(() => ({
     trigger,
@@ -72,7 +71,7 @@ export interface TriggerTargetProps {
 
 function TriggerTarget({
   children,
-}: TriggerTargetProps): JSX.Element {
+}: TriggerTargetProps): ReactNode {
   const { setTrigger } = useTriggerContext<HTMLElement>()
   const {
     type: Component,

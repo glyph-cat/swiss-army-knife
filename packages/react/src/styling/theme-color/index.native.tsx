@@ -1,7 +1,7 @@
 import { UnsupportedPlatformError } from '@glyph-cat/foundation'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
-export function ThemeColor(): JSX.Element {
+export function ThemeColor(): ReactNode {
   throw new UnsupportedPlatformError()
 }
 

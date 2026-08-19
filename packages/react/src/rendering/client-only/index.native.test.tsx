@@ -1,11 +1,11 @@
 import { RenderResult, render } from '@testing-library/react'
-import { JSX, act } from 'react'
+import { ReactNode, act } from 'react'
 import { ClientOnly } from './index.native'
 
 let renderResult: RenderResult
 afterEach(() => { renderResult?.unmount() })
 
-function App(): JSX.Element {
+function App(): ReactNode {
   return (
     <>
       <>Hello, world!</>

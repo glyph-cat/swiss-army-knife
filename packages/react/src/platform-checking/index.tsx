@@ -1,5 +1,5 @@
 import { APPLE_PLATFORM_REGEX, checkIsApplePlatform } from '@glyph-cat/swiss-army-knife'
-import { createContext, JSX, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext } from 'react'
 import { useConstant } from '../hooks'
 
 // NOTES:
@@ -32,7 +32,7 @@ export function CheckApplePlatformProvider({
   children,
   userAgent,
   overrideValue,
-}: CheckApplePlatformProviderProps): JSX.Element {
+}: CheckApplePlatformProviderProps): ReactNode {
   const isApplePlatform = useConstant(typeof window !== 'undefined' ? checkIsApplePlatform : false)
   const effectiveValue = overrideValue
     ? overrideValue

@@ -6,7 +6,7 @@ import { PaymentPointerProps } from './abstractions'
  * @public
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
+export function PaymentPointer(props: PaymentPointerProps): ReactNode {
   throw new UnsupportedPlatformError()
 }
 

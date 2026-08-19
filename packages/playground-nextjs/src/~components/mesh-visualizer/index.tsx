@@ -13,7 +13,7 @@ import {
   Text,
 } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { Fragment, JSX, ReactNode, Suspense, useLayoutEffect, useRef } from 'react'
+import { Fragment, ReactNode, Suspense, useLayoutEffect, useRef } from 'react'
 import { DoubleSide, MeshStandardMaterial } from 'three'
 import { OrbitControls as OrbitControlsRefHandle } from 'three-stdlib'
 import styles from './index.module.css'
@@ -172,7 +172,7 @@ interface ConnectionLinesProps {
 function ConnectionLines({
   offsettedLandmarks,
   connectionSet,
-}: ConnectionLinesProps): JSX.Element {
+}: ConnectionLinesProps): ReactNode {
   return (
     <mesh>
       {connectionSet.map((connection, index) => {

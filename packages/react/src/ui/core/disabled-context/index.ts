@@ -16,7 +16,7 @@ export interface DisabledContextProviderProps {
 export function DisabledContext({
   children,
   disabled,
-}: DisabledContextProviderProps): JSX.Element {
+}: DisabledContextProviderProps): ReactNode {
   return createElement(BaseContext.Provider, { value: disabled }, children)
 }
 

@@ -5,7 +5,6 @@ import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import {
   forwardRef,
-  JSX,
   MouseEvent,
   ReactNode,
   SyntheticEvent,
@@ -99,7 +98,7 @@ export const Switch = forwardRef(({
   color: $color,
   position = BASIC_UI_POSITION_START,
   ProgressRingProps: progressRingProps = {},
-}: SwitchProps, forwardedRef): JSX.Element => {
+}: SwitchProps, forwardedRef): ReactNode => {
 
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)

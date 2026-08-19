@@ -2,7 +2,7 @@ import { CSSPropertiesExtended } from '@glyph-cat/css-utils'
 import { PossiblyUndefined } from '@glyph-cat/foundation'
 import { isNumber, isUndefined } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
-import { createElement, JSX, useContext } from 'react'
+import { createElement, ReactNode, useContext } from 'react'
 import { __setDisplayName } from '../../_internals'
 import { MaterialSymbolOptions } from '../abstractions'
 import { MATERIAL_SYMBOL_BASE_CLASSNAME } from '../constants'
@@ -38,7 +38,7 @@ export function MaterialSymbol({
   className,
   style,
   renderAs,
-}: MaterialSymbolProps): JSX.Element {
+}: MaterialSymbolProps): ReactNode {
 
   const ctx = useContext(MaterialSymbolOptionsContext)
   const effectiveVariant = variant || ctx.variant

@@ -46,7 +46,7 @@ export interface BodyMeshVisualizerProps {
 
 export function BodyMeshVisualizer({
   landmarks,
-}: BodyMeshVisualizerProps): JSX.Element {
+}: BodyMeshVisualizerProps): ReactNode {
 
   const offsettedLandmarks: Array<NormalizedLandmark> = (() => {
     if (!landmarks) { return null } // Early exit
@@ -186,7 +186,7 @@ interface ConnectionLinesProps {
 function ConnectionLines({
   offsettedLandmarks,
   connectionSet,
-}: ConnectionLinesProps): JSX.Element {
+}: ConnectionLinesProps): ReactNode {
   return (
     <mesh>
       {connectionSet.map((connection, index) => {

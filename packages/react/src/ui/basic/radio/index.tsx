@@ -5,7 +5,6 @@ import clsx from 'clsx'
 import {
   ChangeEvent,
   createContext,
-  JSX,
   ReactNode,
   useCallback,
   useContext,
@@ -86,7 +85,7 @@ export function RadioGroup<Value>({
   flow = BASIC_UI_FLOW_ROW,
   position = BASIC_UI_POSITION_START,
   itemFlow = BASIC_UI_FLOW_COLUMN,
-}: RadioGroupProps<Value>): JSX.Element {
+}: RadioGroupProps<Value>): ReactNode {
   const disabled = useInternalDerivedDisabledState($disabled)
   const contextValue = useMemo<IRadioGroupContext<Value>>(() => ({
     value,
@@ -156,7 +155,7 @@ export function RadioItem<Value>({
   value,
   children,
   disabled,
-}: RadioItemProps<Value>): JSX.Element {
+}: RadioItemProps<Value>): ReactNode {
   const context = useContext(RadioGroupContext)
   if (!context) {
     throw new Error('<RadioItem> must be used within a <RadioGroup>')

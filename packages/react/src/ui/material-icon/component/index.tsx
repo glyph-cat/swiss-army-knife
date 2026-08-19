@@ -1,7 +1,7 @@
 import { Fn } from '@glyph-cat/foundation'
 import { removeDuplicates } from '@glyph-cat/swiss-army-knife'
 import clsx from 'clsx'
-import { JSX, ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import {
   MATERIAL_ICON_DEFAULTS,
   MaterialIconProps,
@@ -25,7 +25,7 @@ import {
  *
  * @see https://fonts.google.com/icons
  * @example
- * function App(): JSX.Element {
+ * function App(): ReactNode {
  *   return (
  *     <MaterialIcon
  *       name='emoji_people'
@@ -51,7 +51,7 @@ export function MaterialIcon({
   size = MATERIAL_ICON_DEFAULTS.size,
   variant = MATERIAL_ICON_DEFAULTS.variant,
   htmlProps = {},
-}: MaterialIconProps): JSX.Element {
+}: MaterialIconProps): ReactNode {
   const { className, style, ...remainingHtmlProps } = htmlProps
   return (
     <span
@@ -110,7 +110,7 @@ export function loadMaterialIconStyleSheet(
  * @example
  * import { useMaterialIconStyleSheet } from '@glyph-cat/swiss-army-knife-react'
  *
- * function App(): JSX.Element {
+ * function App(): ReactNode {
  *   useMaterialIconStyleSheet(['outlined', 'filled', 'rounded'])
  *   return '...'
  * }
@@ -138,7 +138,7 @@ export function useMaterialIconStyleSheet(
  * @example
  * import { MaterialIcon, MaterialIconStyleSheet } from '@glyph-cat/swiss-army-knife-react'
  *
- * function App(): JSX.Element {
+ * function App(): ReactNode {
  *   return (
  *     <>
  *       <MaterialIconStyleSheet variants={['outlined', 'filled', 'rounded']} />

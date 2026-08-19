@@ -1,11 +1,11 @@
-import { JSX, Key, ReactNode } from 'react'
+import { Key, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { __setDisplayName } from '../../_internals'
 
 /**
  * @public
  */
-export interface DOMPortalProps  {
+export interface DOMPortalProps {
   children: ReactNode
   /**
    * @defaultValue `document.body`
@@ -17,7 +17,7 @@ export interface DOMPortalProps  {
 /**
  * @example
  * import { DOMPortal as Portal } from '@glyph-cat/swiss-army-knife-react'
- * function Example(): JSX.Element {
+ * function Example(): ReactNode {
  *   return (
  *     <Portal>
  *       <h1>Hello, world!</h1>
@@ -30,7 +30,7 @@ export function DOMPortal({
   children,
   container,
   portalKey,
-}: DOMPortalProps): JSX.Element {
+}: DOMPortalProps): ReactNode {
   return createPortal(children, container ?? document.body, portalKey)
 }
 

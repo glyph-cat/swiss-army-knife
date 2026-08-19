@@ -1,26 +1,26 @@
 import { render, RenderResult } from '@testing-library/react'
-import { act, JSX } from 'react'
+import { act, ReactNode } from 'react'
 import { SmartView, useSmartViewContext } from '.'
 import { View } from '../view'
 
 let renderResult: RenderResult = null!
 afterEach(() => {
   renderResult?.unmount()
-  renderResult = null
+  renderResult = null!
 })
 
 const TEST_ID = 'test-container'
 
 test(SmartView.name, () => {
 
-  function DepthTile(): JSX.Element {
+  function DepthTile(): ReactNode {
     const { level } = useSmartViewContext()
     return (
       <SmartView>{`{${level}}`}</SmartView>
     )
   }
 
-  function TestComponent(): JSX.Element {
+  function TestComponent(): ReactNode {
     return (
       <View data-testid={TEST_ID}>
         <DepthTile />

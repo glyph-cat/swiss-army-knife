@@ -1,7 +1,7 @@
 import { ColorScheme } from '@glyph-cat/swiss-army-knife'
 import { useColorScheme } from '@glyph-cat/swiss-army-knife-react'
 import Editor from '@monaco-editor/react'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
 // To import plaintext:
 // - import SANDBOX_CODE from '!!raw-loader!./code.tsx'
@@ -13,7 +13,7 @@ export interface CodeDisplayProps {
 
 export function CodeDisplay({
   value: $value,
-}: CodeDisplayProps): JSX.Element {
+}: CodeDisplayProps): ReactNode {
   const colorScheme = useColorScheme()
   const value = $value.split(/\/\/\s*#\s*(end)?region\s+Example/gi).filter((i) => !!i)[1].trim()
   return (

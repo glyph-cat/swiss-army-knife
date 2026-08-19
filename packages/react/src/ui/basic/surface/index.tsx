@@ -1,6 +1,6 @@
 import { addStyles, PrecedenceLevel, StyleMap } from '@glyph-cat/css-utils'
 import { ThemeToken } from '@glyph-cat/swiss-army-knife'
-import { JSX, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { STYLE_NONE } from '../../../styling/constants'
 import { SmartView } from '../../core'
 
@@ -22,7 +22,7 @@ export function Surface({
   children,
   borderRadius = 10,
   superEllipse = 2,
-}: SurfaceProps): JSX.Element {
+}: SurfaceProps): ReactNode {
   return (
     <SmartView
       style={{

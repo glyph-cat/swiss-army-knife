@@ -1,5 +1,5 @@
 import { compileStyle, PrecedenceLevel } from '@glyph-cat/css-utils'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { Style } from '../../styling'
 import { MaterialSymbolOptions, MaterialSymbolVariant } from '../abstractions'
 import { MATERIAL_SYMBOL_BASE_CLASSNAME } from '../constants'
@@ -16,7 +16,7 @@ export interface MaterialSymbolsOnlineLoaderProps {
  */
 export function MaterialSymbolsOnlineLoader({
   variants,
-}: MaterialSymbolsOnlineLoaderProps): JSX.Element {
+}: MaterialSymbolsOnlineLoaderProps): ReactNode {
   return (
     <Style precedence={PrecedenceLevel.INTERNAL}>
       {variants.map((variant) => {

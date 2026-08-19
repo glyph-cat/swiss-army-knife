@@ -37,7 +37,7 @@ export interface MenuProps {
 // TODO: ARIA role
 // KIV: What happens when we want to use menu and popover together? by theory, we would not need another <Popover> because the context can be shared, but this needs to be tested out first.
 
-export function Menu({ children }: MenuProps): JSX.Element {
+export function Menu({ children }: MenuProps): ReactNode {
   const [triggerElement] = Children.toArray(children) as Array<ReactElement>
   if (__getTypeMarker(triggerElement.type) !== TypeMarker.MenuTrigger) {
     throw new Error('The first children of <Menu> must be a <MenuTrigger>')
@@ -51,7 +51,7 @@ export interface MenuTriggerProps {
 
 export function MenuTrigger({
   children,
-}: MenuTriggerProps): JSX.Element {
+}: MenuTriggerProps): ReactNode {
   return <PopoverTrigger>{children}</PopoverTrigger>
 }
 
@@ -66,7 +66,7 @@ export interface MenuPopoverProps extends PopoverContentProps {
 export function MenuPopover({
   children,
   ...props
-}: MenuPopoverProps): JSX.Element {
+}: MenuPopoverProps): ReactNode {
   return (
     <PopoverContent {...props}>
       {children}
@@ -84,7 +84,7 @@ export const MenuList = forwardRef(({
   children,
   className,
   ...props
-}: MenuListProps, ref: ForwardedRef<HTMLUListElement>): JSX.Element => {
+}: MenuListProps, ref: ForwardedRef<HTMLUListElement>): ReactNode => {
   useInsertionEffect(() => {
     document.body.classList.add(TemplateStyles.noScroll)
     return () => { document.body.classList.remove(TemplateStyles.noScroll) }
@@ -128,7 +128,7 @@ export function MenuItem({
   children,
   disabled,
   ...props
-}: MenuItemProps): JSX.Element {
+}: MenuItemProps): ReactNode {
   return (
     <li
       data-type='item'
@@ -145,6 +145,6 @@ export function MenuItem({
 
 // #endregion MenuItem
 
-export function MenuSeparator(): JSX.Element {
+export function MenuSeparator(): ReactNode {
   return <li data-type='separator' />
 }

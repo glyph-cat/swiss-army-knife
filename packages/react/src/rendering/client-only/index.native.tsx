@@ -1,11 +1,11 @@
-import { JSX } from 'react'
-import { __setDisplayName } from '../../_internals'
+import { ReactNode } from 'react'
 import type { ClientOnlyProps } from '.'
+import { __setDisplayName } from '../../_internals'
 
 export function ClientOnly({
   children,
-}: ClientOnlyProps): JSX.Element {
-  return children as JSX.Element
+}: ClientOnlyProps): ReactNode {
+  return children
 }
 
 __setDisplayName(ClientOnly)

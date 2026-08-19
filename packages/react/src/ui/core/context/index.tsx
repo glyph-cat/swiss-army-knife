@@ -1,6 +1,6 @@
 import { Nullable } from '@glyph-cat/foundation'
 import { KeyChordManager } from '@glyph-cat/swiss-army-knife'
-import { createContext, JSX, ReactNode, useContext, useMemo } from 'react'
+import { createContext, ReactNode, useContext, useMemo } from 'react'
 import type { PortalManager } from '../portal-factory'
 
 /**
@@ -31,7 +31,7 @@ export function CoreUIProvider({
   children,
   keyChordManager,
   portalManager,
-}: CoreUIProviderProps): JSX.Element {
+}: CoreUIProviderProps): ReactNode {
   const parentContext = useContext(CoreUIContext)
   const contextValue = useMemo(() => ({
     ...parentContext,

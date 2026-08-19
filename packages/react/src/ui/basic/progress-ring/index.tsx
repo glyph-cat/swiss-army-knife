@@ -4,7 +4,7 @@ import { LenientString } from '@glyph-cat/foundation'
 import { getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
-import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
+import { ForwardedRef, forwardRef, ReactNode, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
 import { View, ViewProps } from '../../core'
@@ -64,7 +64,7 @@ export interface ProgressRingProps extends ViewProps {
  * @public
  */
 export interface ProgressRing extends View {
-  (props: ProgressRingProps): JSX.Element
+  (props: ProgressRingProps): ReactNode
 }
 
 /**
@@ -81,7 +81,7 @@ export const ProgressRing = forwardRef(({
   allowOvershoot = false,
   className,
   ...props
-}: ProgressRingProps, forwardedRef: ForwardedRef<View>): JSX.Element => {
+}: ProgressRingProps, forwardedRef: ForwardedRef<View>): ReactNode => {
 
   const { palette } = useThemeContext()
 

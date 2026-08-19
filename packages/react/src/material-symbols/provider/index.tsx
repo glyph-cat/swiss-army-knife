@@ -1,4 +1,4 @@
-import { JSX, ReactNode, useContext } from 'react'
+import { ReactNode, useContext } from 'react'
 import { MaterialSymbolOptions } from '../abstractions'
 import { MaterialSymbolOptionsContext } from './internal'
 
@@ -18,11 +18,12 @@ export interface MaterialSymbolsProviderProps extends Partial<MaterialSymbolOpti
 export function MaterialSymbolsProvider({
   children,
   ...otherProps
-}: MaterialSymbolsProviderProps): JSX.Element {
+}: MaterialSymbolsProviderProps): ReactNode {
   const ctx = useContext(MaterialSymbolOptionsContext)
   return (
     <MaterialSymbolOptionsContext.Provider
-      value={{ ...ctx, ...otherProps }}>
+      value={{ ...ctx, ...otherProps }}
+    >
       {children}
     </MaterialSymbolOptionsContext.Provider>
   )

@@ -62,7 +62,7 @@ export function CameraDisplay({
   bodyPoseAnalyzer,
   className,
   style,
-}: CameraDisplayProps): JSX.Element {
+}: CameraDisplayProps): ReactNode {
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const canvasDimensions = useCanvasDimensions()

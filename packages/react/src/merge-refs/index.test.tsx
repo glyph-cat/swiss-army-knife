@@ -3,10 +3,9 @@ import { render, RenderResult } from '@testing-library/react'
 import {
   act,
   ForwardedRef,
-  forwardRef,
-  JSX,
+  forwardRef, ReactNode,
   useImperativeHandle,
-  useRef as useRef_BASE,
+  useRef as useRef_BASE
 } from 'react'
 import { mergeRefs, useMergedRefs } from '.'
 
@@ -32,7 +31,7 @@ test(useMergedRefs.name, () => {
   const MockComponent = forwardRef(function (
     props: StringRecord,
     ref: ForwardedRef<MockComponent>,
-  ): JSX.Element {
+  ): ReactNode {
     useImperativeHandle(ref, () => MockComponentInstance, [])
     return null
   })
@@ -40,7 +39,7 @@ test(useMergedRefs.name, () => {
   const TestComponent = forwardRef(function (
     props: StringRecord,
     ref: ForwardedRef<MockComponent>,
-  ): JSX.Element {
+  ): ReactNode {
     const localRef = useRef<MockComponent>(null)
     const mergedRef = useMergedRefs(ref, localRef)
     return <MockComponent ref={mergedRef} />

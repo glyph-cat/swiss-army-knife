@@ -1,5 +1,5 @@
 import { useTestProbe } from '@glyph-cat/react-test-utils'
-import { JSX, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { __setDisplayName } from '../../_internals'
 import { useMountedState } from '../../hooks/deferral/mounted'
 
@@ -16,10 +16,10 @@ export interface DeferRenderingProps {
  */
 export function DeferRendering({
   children,
-}: DeferRenderingProps): JSX.Element {
+}: DeferRenderingProps): ReactNode {
   useTestProbe(DeferRendering.name)
   const isMounted = useMountedState()
-  return (isMounted ? children : null) as JSX.Element
+  return isMounted ? children : null
 }
 
 __setDisplayName(DeferRendering)

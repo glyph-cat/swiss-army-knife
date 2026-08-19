@@ -1,7 +1,7 @@
 import { TestProbe, TestProbeContext } from '@glyph-cat/react-test-utils'
 import { Watcher } from '@glyph-cat/swiss-army-knife'
 import { render, RenderResult } from '@testing-library/react'
-import { act, JSX, ReactNode, useEffect, useState } from 'react'
+import { act, ReactNode, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { ClientOnly } from '.'
 
@@ -18,7 +18,7 @@ afterEach(() => { testProbe = null! })
 let watcher: Watcher<[]>
 afterEach(() => { watcher?.dispose() })
 
-function App(): JSX.Element {
+function App(): ReactNode {
   return (
     <>
       <>{'A'}</>

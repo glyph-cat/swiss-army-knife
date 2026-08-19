@@ -1,5 +1,5 @@
 import { ClientOnly, View } from '@glyph-cat/swiss-army-knife-react'
-import { JSX, ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { SandboxErrorBoundary } from './error-boundary'
 import { SandboxSidebar, SIDEBAR_MARGIN, SIDEBAR_WIDTH } from './sidebar'
 
@@ -9,7 +9,7 @@ export interface SandboxContainerProps {
 
 export function SandboxContainer({
   children,
-}: SandboxContainerProps): JSX.Element {
+}: SandboxContainerProps): ReactNode {
   const [isInIframe, setIsInIframe] = useState(false)
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

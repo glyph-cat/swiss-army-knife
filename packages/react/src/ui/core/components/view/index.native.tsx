@@ -1,10 +1,10 @@
 import { UnsupportedPlatformError } from '@glyph-cat/foundation'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
-export function View(): JSX.Element {
+export function View(): ReactNode {
   throw new UnsupportedPlatformError()
 }
 
-// export function FocusableView(): JSX.Element {
+// export function FocusableView(): ReactNode {
 //   throw new UnsupportedPlatformError()
 // }

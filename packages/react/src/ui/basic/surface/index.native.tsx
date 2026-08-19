@@ -1,6 +1,6 @@
 import { UnsupportedPlatformError } from '@glyph-cat/foundation'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 
-export function Surface(): JSX.Element {
+export function Surface(): ReactNode {
   throw new UnsupportedPlatformError()
 }

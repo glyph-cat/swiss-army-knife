@@ -6,7 +6,6 @@ import { Nullable } from 'packages/foundation/src/nullable'
 import { StringRecord } from 'packages/foundation/src/records'
 import {
   createContext,
-  JSX,
   ReactNode,
   useCallback,
   useContext,
@@ -31,7 +30,7 @@ export interface CopyableProps {
 export function Copyable({
   children,
   copyButton: CustomCopyButton,
-}: CopyableProps): JSX.Element {
+}: CopyableProps): ReactNode {
 
   const [isCopied, setCopiedState] = useState(false)
   const elementRef = useRef<HTMLElement>(null)

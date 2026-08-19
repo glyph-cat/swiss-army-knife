@@ -1,11 +1,11 @@
 import { UnsupportedPlatformError } from '@glyph-cat/foundation'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { DOMPortalProps } from '.'
 
 /**
  * @public
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function DOMPortal(props: DOMPortalProps): JSX.Element {
+export function DOMPortal(props: DOMPortalProps): ReactNode {
   throw new UnsupportedPlatformError()
 }

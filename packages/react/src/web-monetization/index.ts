@@ -9,7 +9,7 @@ import { PaymentPointerProps } from './abstractions'
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver|`MutationObserver`}
  * could be used in the underlying code.
  */
-export function PaymentPointer(props: PaymentPointerProps): JSX.Element {
+export function PaymentPointer(props: PaymentPointerProps): ReactNode {
   const { value } = props
   usePaymentPointer(value)
   return null!

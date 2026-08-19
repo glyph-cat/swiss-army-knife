@@ -1,6 +1,6 @@
-import clsx from 'clsx'
 import { isBoolean } from '@glyph-cat/type-checking'
-import { createElement, forwardRef, JSX, Ref } from 'react'
+import clsx from 'clsx'
+import { createElement, forwardRef, JSX, ReactNode, Ref } from 'react'
 import { BUTTON_STYLES, useInternalDerivedDisabledState } from '../_internals'
 
 /**
@@ -11,7 +11,7 @@ export type ButtonBaseProps = JSX.IntrinsicElements['button']
 /**
  * @public
  */
-export interface ButtonBase extends HTMLButtonElement { (props: ButtonBaseProps): JSX.Element }
+export interface ButtonBase extends HTMLButtonElement { (props: ButtonBaseProps): ReactNode }
 
 /**
  * A drop-in replacement for the `<button>` element where

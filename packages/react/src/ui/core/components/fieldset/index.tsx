@@ -1,6 +1,6 @@
 import { isBoolean } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
-import { createElement, forwardRef, JSX, Ref } from 'react'
+import { createElement, forwardRef, JSX, ReactNode, Ref } from 'react'
 import { FIELDSET_STYLES, useInternalDerivedDisabledState } from '../_internals'
 
 /**
@@ -11,7 +11,7 @@ export type FieldSetProps = JSX.IntrinsicElements['fieldset']
 /**
  * @public
  */
-export interface FieldSet extends HTMLSelectElement { (props: FieldSetProps): JSX.Element }
+export interface FieldSet extends HTMLSelectElement { (props: FieldSetProps): ReactNode }
 
 /**
  * A drop-in replacement for the `<fieldset>` element.

@@ -1,7 +1,7 @@
 import { Nullable } from '@glyph-cat/foundation'
 import { Language, LocalizedDictionary } from '@glyph-cat/localization'
 import { useStateValue } from 'cotton-box-react'
-import { createContext, JSX, ReactNode, useContext, useMemo } from 'react'
+import { createContext, ReactNode, useContext, useMemo } from 'react'
 import { UserPreferencesState } from '~services/user-preferences'
 import { GlobalDictionary } from './dictionary'
 
@@ -16,7 +16,7 @@ export interface LocalizationProviderProps {
 
 export function LocalizationProvider({
   children,
-}: LocalizationProviderProps): JSX.Element {
+}: LocalizationProviderProps): ReactNode {
   const language = useStateValue(UserPreferencesState, (s) => s.language)
   const contextValue = useMemo(() => new LocalizedDictionary(GlobalDictionary, language), [language])
   return (

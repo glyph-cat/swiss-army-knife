@@ -1,4 +1,4 @@
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { Animated, DimensionValue } from 'react-native'
 import {
   MATERIAL_ICON_DEFAULTS,
@@ -16,7 +16,7 @@ export function MaterialIcon({
   size = MATERIAL_ICON_DEFAULTS.size,
   variant = MATERIAL_ICON_DEFAULTS.variant,
   nativeProps = {},
-}: MaterialIconProps): JSX.Element {
+}: MaterialIconProps): ReactNode {
   const { style, ...remainingNativeProps } = nativeProps
   return (
     <Animated.Text
@@ -59,7 +59,7 @@ export const useMaterialIconStyleSheet = () => { }
  * @public
  * @deprecated
  */
-export function MaterialIconStyleSheet(): JSX.Element {
+export function MaterialIconStyleSheet(): ReactNode {
   return null!
 }
 

@@ -128,7 +128,7 @@ export class HOCTester<Actions extends Record<string, (props: any) => void>, Val
   private createContainerComponent(tester: typeof this) {
     return class ContainerComponent extends ReactComponent {
 
-      render(): JSX.Element {
+      render(): ReactNode {
 
         tester.M$dispatchableActions = {}
         for (const actionKey in tester.M$actions) {

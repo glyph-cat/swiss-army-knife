@@ -1,7 +1,7 @@
 import { injectInlineCSSVariables } from '@glyph-cat/css-utils'
 import { LenientString } from '@glyph-cat/foundation'
 import clsx from 'clsx'
-import { ForwardedRef, forwardRef, JSX, useEffect, useImperativeHandle, useRef } from 'react'
+import { ForwardedRef, forwardRef, ReactNode, useEffect, useImperativeHandle, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
 import { ButtonBase, ButtonBaseProps, View } from '../../core'
@@ -57,7 +57,7 @@ export const BasicButton = forwardRef(({
   disabled: $disabled,
   className,
   ...props
-}: BasicButtonProps, forwardedRef: ForwardedRef<HTMLButtonElement>): JSX.Element => {
+}: BasicButtonProps, forwardedRef: ForwardedRef<HTMLButtonElement>): ReactNode => {
 
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.neutralColor)

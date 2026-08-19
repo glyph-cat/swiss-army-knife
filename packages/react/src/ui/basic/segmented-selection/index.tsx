@@ -5,7 +5,6 @@ import {
   Children,
   createContext,
   Fragment,
-  JSX,
   ReactElement,
   ReactNode,
   useCallback,
@@ -69,7 +68,7 @@ export function SegmentedSelection<Value>({
   disabled,
   size,
   color: $color,
-}: SegmentedSelectionProps<Value>): JSX.Element {
+}: SegmentedSelectionProps<Value>): ReactNode {
 
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)
@@ -148,7 +147,7 @@ export function SegmentedSelectionItem<Value>({
   value,
   children,
   disabled: $disabled,
-}: SegmentedSelectionItemProps<Value>): JSX.Element {
+}: SegmentedSelectionItemProps<Value>): ReactNode {
   const context = useContext(SegmentedSelectionContext)
   if (!context) {
     throw new Error('<SegmentedSelectionItem> must be used within a <SegmentedSelection>')

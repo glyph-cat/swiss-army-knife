@@ -16,7 +16,7 @@ export type ViewProps = JSX.IntrinsicElements['div']
 /**
  * @public
  */
-export interface View extends HTMLDivElement { (props: ViewProps): JSX.Element }
+export interface View extends HTMLDivElement { (props: ViewProps): ReactNode }
 
 /**
  * A drop-in replacement for the `<div>` element where
@@ -27,7 +27,7 @@ export const View = forwardRef<HTMLDivElement, ViewProps>(({
   children,
   className,
   ...otherProps
-}, ref): JSX.Element => {
+}, ref): ReactNode => {
   const divRef = useRef<HTMLDivElement>(null!)
   useImperativeHandle(ref, () => divRef.current)
   // eslint-disable-next-line react/forbid-elements
@@ -59,7 +59,7 @@ export interface FocusableViewProps extends ViewProps {
 // /**
 //  * @public
 //  */
-// export interface IFocusableView extends View { (props: FocusableViewProps): JSX.Element }
+// export interface IFocusableView extends View { (props: FocusableViewProps): ReactNode }
 
 // /**
 //  * A drop-in replacement for the `<div>` element.
@@ -78,7 +78,7 @@ export interface FocusableViewProps extends ViewProps {
 //   ignoreSiblings,
 //   effective = true,
 //   ...otherProps
-// }, ref): JSX.Element => {
+// }, ref): ReactNode => {
 //   // TODO: Should intercept props `onFocus` and `onBlur`; `addEventListener` for focus and blur; imperative ref `.focus` and `.blur` ... first of all, find of if it is possible for divs to be focused (semantically speaking / based on the web standard)
 //   const divRef = useRef<HTMLDivElement>(null)
 //   useImperativeHandle(ref, () => divRef.current)

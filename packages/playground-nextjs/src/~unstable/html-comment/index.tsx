@@ -2,7 +2,6 @@ import { forceUpdateReducer } from '@glyph-cat/swiss-army-knife-react'
 import {
   Component,
   ErrorInfo,
-  JSX,
   PropsWithChildren,
   ReactNode,
   useCallback,
@@ -21,7 +20,7 @@ export interface HTMLCommentProps {
 
 export function HTMLComment({
   children,
-}: HTMLCommentProps): JSX.Element {
+}: HTMLCommentProps): ReactNode {
   const [key, onError] = useReducer(forceUpdateReducer, 0)
   return (
     <HTMLCommentErrorBoundary key={key} onError={onError}>
@@ -65,7 +64,7 @@ class HTMLCommentErrorBoundary extends Component<HTMLCommentErrorBoundaryProps, 
 
 function HTMLCommentBase({
   children,
-}: Required<HTMLCommentProps>): JSX.Element {
+}: Required<HTMLCommentProps>): ReactNode {
   const comment = `<!-- ${reactStaticSanitizeHTMLString(String(children))} -->`
   const transformRefIntoComment = useCallback((node: HTMLElement): void => {
     if (node) {

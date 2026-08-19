@@ -2,7 +2,7 @@
 import { type DeferRendering } from '../defer'
 
 import { useTestProbe } from '@glyph-cat/react-test-utils'
-import { JSX, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { __setDisplayName } from '../../_internals'
 import { useHydrationState } from '../../hooks/deferral/hydration'
 
@@ -27,10 +27,10 @@ export interface ClientOnlyProps {
  */
 export function ClientOnly({
   children,
-}: ClientOnlyProps): JSX.Element {
+}: ClientOnlyProps): ReactNode {
   useTestProbe(ClientOnly)
   const isHydrated = useHydrationState()
-  return (isHydrated ? children : null) as JSX.Element
+  return isHydrated ? children : null
 }
 
 __setDisplayName(ClientOnly)

@@ -2,7 +2,6 @@ import { Nullable, StringRecord } from '@glyph-cat/foundation'
 import {
   createContext,
   Dispatch,
-  JSX,
   ReactNode,
   SetStateAction,
   useContext,
@@ -31,7 +30,7 @@ export interface FormLayoutContainerProps {
   mode?: 'regular' | 'compact' | 'auto'
 }
 
-export function FormLayoutContainer(props: FormLayoutContainerProps): JSX.Element {
+export function FormLayoutContainer(props: FormLayoutContainerProps): ReactNode {
   return (
     <View>
       <SizeAwareContainer>
@@ -44,7 +43,7 @@ export function FormLayoutContainer(props: FormLayoutContainerProps): JSX.Elemen
 function FormLayoutContainerContent({
   children,
   mode: preferredMode = 'auto',
-}: FormLayoutContainerProps): JSX.Element {
+}: FormLayoutContainerProps): ReactNode {
   const [state, setState] = useState<IFormLayoutContext>({ children: {} })
   const bounds = useSizeAwareContext()!
   const isCompact = preferredMode === 'auto'
@@ -74,7 +73,7 @@ export interface FormLayoutItemProps {
 export function FormLayoutItem({
   title,
   children,
-}: FormLayoutItemProps): JSX.Element {
+}: FormLayoutItemProps): ReactNode {
 
   const id = useId()
   const setState = useContext(FormLayoutContext)
@@ -111,7 +110,7 @@ export function FormLayoutItem({
   )
 }
 
-function Title({ title }: { title: ReactNode }): JSX.Element {
+function Title({ title }: { title: ReactNode }): ReactNode {
   const bounds = useSizeAwareContext()
   return (
     <View
@@ -126,7 +125,7 @@ function Title({ title }: { title: ReactNode }): JSX.Element {
   )
 }
 
-function Children({ children }: { children?: ReactNode }): JSX.Element {
+function Children({ children }: { children?: ReactNode }): ReactNode {
   const bounds = useSizeAwareContext()
   return (
     <View

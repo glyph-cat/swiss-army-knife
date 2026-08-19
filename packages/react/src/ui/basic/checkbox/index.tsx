@@ -7,12 +7,11 @@ import {
   ChangeEvent,
   ForwardedRef,
   forwardRef,
-  JSX,
   ReactNode,
   useCallback,
   useEffect,
   useImperativeHandle,
-  useRef,
+  useRef
 } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { MaterialSymbol } from '../../../material-symbols'
@@ -95,7 +94,7 @@ export const Checkbox = forwardRef(({
   color: $color,
   flow = BASIC_UI_FLOW_COLUMN,
   position = BASIC_UI_POSITION_START,
-}: CheckboxProps, forwardedRef: ForwardedRef<Checkbox>): JSX.Element => {
+}: CheckboxProps, forwardedRef: ForwardedRef<Checkbox>): ReactNode => {
 
   const { palette } = useThemeContext()
   const tint = tryResolvePaletteColor($color, palette, palette.primaryColor)

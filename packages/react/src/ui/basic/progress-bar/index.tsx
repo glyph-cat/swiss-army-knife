@@ -3,7 +3,7 @@ import { LenientString } from '@glyph-cat/foundation'
 import { clamp, getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
-import { JSX, useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import { __setDisplayName } from '../../../_internals'
 import { useThemeContext } from '../../../styling'
 import { View } from '../../core'
@@ -87,7 +87,7 @@ export const ProgressBar = ({
   reverse,
   borderRadius: $$borderRadius,
   role = 'progressbar',
-}: ProgressBarProps): JSX.Element => {
+}: ProgressBarProps): ReactNode => {
 
   const { palette, componentParameters } = useThemeContext()
 

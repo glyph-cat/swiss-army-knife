@@ -1,6 +1,6 @@
 import { TestProbe, TestProbeContext, useTestProbe } from '@glyph-cat/react-test-utils'
 import { render, RenderResult } from '@testing-library/react'
-import { act, JSX } from 'react'
+import { act, ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { DeferRendering } from '.'
 
@@ -14,7 +14,7 @@ let testProbe: TestProbe = null!
 beforeEach(() => { testProbe = new TestProbe() })
 afterEach(() => { testProbe = null! })
 
-function TestComponent(): JSX.Element {
+function TestComponent(): ReactNode {
   useTestProbe(TestComponent)
   return (
     <>

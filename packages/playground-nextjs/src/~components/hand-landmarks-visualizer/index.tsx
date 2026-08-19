@@ -32,7 +32,7 @@ export interface HandLandmarksVisualizerProps {
 
 export function HandLandmarksVisualizer({
   landmarks,
-}: HandLandmarksVisualizerProps): JSX.Element {
+}: HandLandmarksVisualizerProps): ReactNode {
 
   const offsettedLandmarks: Array<NormalizedLandmark> = (() => {
     if (!landmarks) { return null } // Early exit

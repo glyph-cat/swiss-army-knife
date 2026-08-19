@@ -1,4 +1,4 @@
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { ThemeProviderProps } from '../abstractions'
 import { ThemeContext } from '../constants'
 
@@ -8,7 +8,7 @@ import { ThemeContext } from '../constants'
 export function ThemeProvider({
   children,
   theme,
-}: ThemeProviderProps): JSX.Element {
+}: ThemeProviderProps): ReactNode {
   return (
     <ThemeContext.Provider value={theme}>
       {children}

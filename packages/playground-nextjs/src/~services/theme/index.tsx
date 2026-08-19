@@ -2,7 +2,7 @@ import { ColorScheme, devError, strictMerge } from '@glyph-cat/swiss-army-knife'
 import { ThemeProvider, useColorScheme } from '@glyph-cat/swiss-army-knife-react'
 import { StateManager } from 'cotton-box'
 import { useStateValue } from 'cotton-box-react'
-import { JSX, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { createStorageKey } from '~utils/app'
 import { IThemeState, ThemeId } from './abstractions'
 import { THEME_DICTIONARY } from './constants'
@@ -66,7 +66,7 @@ export interface CustomThemeProviderProps {
 
 export function CustomThemeProvider({
   children,
-}: CustomThemeProviderProps): JSX.Element {
+}: CustomThemeProviderProps): ReactNode {
   const { auto, id } = useStateValue(ThemeState)
   const prefersDarkTheme = useColorScheme() === ColorScheme.dark
   const effectiveThemeId = auto ? (prefersDarkTheme ? ThemeId.DEFAULT_DARK : ThemeId.DEFAULT_LIGHT) : id

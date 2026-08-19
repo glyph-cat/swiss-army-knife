@@ -1,8 +1,8 @@
-import { createContext, JSX, useContext } from 'react'
+import { createContext, ReactNode, useContext } from 'react'
 import { PreloadableComponent } from '.'
 
 test('Normal usage', () => {
-  function TestComponentWithoutContextProvider(): JSX.Element {
+  function TestComponentWithoutContextProvider(): ReactNode {
     return null
   }
   const preloadableComponent = new PreloadableComponent(TestComponentWithoutContextProvider)
@@ -10,8 +10,8 @@ test('Normal usage', () => {
 })
 
 test('Component without context provider', () => {
-  const TestContext = createContext<string>(null)
-  function TestComponentWithoutContextProvider(): JSX.Element {
+  const TestContext = createContext<string>(null!)
+  function TestComponentWithoutContextProvider(): ReactNode {
     const ctx = useContext(TestContext)
     ctx.toString() // this should cause an error, but should be suppressed.
     return null

@@ -4,7 +4,6 @@ import {
   Children,
   createContext,
   createElement,
-  JSX,
   ReactElement,
   ReactNode,
   useCallback,
@@ -68,7 +67,7 @@ export interface CoreNavigationStackProps {
  */
 export function CoreNavigationStack({
   children: $children,
-}: CoreNavigationStackProps): JSX.Element {
+}: CoreNavigationStackProps): ReactNode {
 
   // VS Code could not tokenize it properly when written in one line in useState<...>
   type DynamicChildrenState = Record<CoreNavigationId, Record<CoreNavigationId, ReactElement<CoreNavigationStackItemProps>>>
@@ -161,7 +160,7 @@ export function CoreNavigationStackItem({
   children,
   __isDirectItem,
   __isBridgedDynamicItem,
-}: CoreNavigationStackItemProps): JSX.Element {
+}: CoreNavigationStackItemProps): ReactNode {
   if (__isDirectItem || __isBridgedDynamicItem) {
     return <>{children}</>
   } else {

@@ -23,7 +23,6 @@ import {
   Children,
   createContext,
   Dispatch,
-  JSX,
   ReactElement,
   ReactNode,
   SetStateAction,
@@ -48,7 +47,7 @@ export interface PopoverProps {
   children: ReactNode
 }
 
-export function Popover({ children: $children }: PopoverProps): JSX.Element {
+export function Popover({ children: $children }: PopoverProps): ReactNode {
   const stateHook = useState<Nullable<HTMLElement>>(null)
   const [
     triggerElement,
@@ -80,7 +79,7 @@ export interface PopoverTriggerProps {
 
 export function PopoverTrigger({
   children,
-}: PopoverTriggerProps): JSX.Element {
+}: PopoverTriggerProps): ReactNode {
   Children.only(children)
   const child = children as ReactElement<GenericHTMLProps>
   const { type: Component, props: { ref: propRef, ...props }, key } = child

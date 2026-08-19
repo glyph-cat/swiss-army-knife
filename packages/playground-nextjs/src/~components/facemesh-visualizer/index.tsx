@@ -49,7 +49,7 @@ export interface FaceMeshVisualizerProps {
 
 export function FaceMeshVisualizer({
   landmarks,
-}: FaceMeshVisualizerProps): JSX.Element {
+}: FaceMeshVisualizerProps): ReactNode {
 
   const offsettedLandmarks: Array<NormalizedLandmark> = (() => {
     if (!landmarks) { return null } // Early exit
@@ -188,7 +188,7 @@ interface ConnectionLinesProps {
 function ConnectionLines({
   offsettedLandmarks,
   connectionSet,
-}: ConnectionLinesProps): JSX.Element {
+}: ConnectionLinesProps): ReactNode {
   return (
     <mesh>
       {connectionSet.map((connection, index) => {

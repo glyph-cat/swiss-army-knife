@@ -3,9 +3,8 @@ import { Casing } from '@glyph-cat/swiss-army-knife'
 import { isFunction, isNullOrUndefined, isObject } from '@glyph-cat/type-checking'
 import {
   Children,
-  createElement,
-  JSX,
-  ReactElement,
+  createElement, ReactElement,
+  ReactNode,
   useCallback,
   useContext,
   useInsertionEffect,
@@ -25,7 +24,7 @@ import { ThemeContext } from '../constants'
 export function ThemeProvider({
   children: $children,
   theme,
-}: ThemeProviderProps): JSX.Element {
+}: ThemeProviderProps): ReactNode {
 
   const isNested = isObject(useContext(ThemeContext))
   const className = useClassName()

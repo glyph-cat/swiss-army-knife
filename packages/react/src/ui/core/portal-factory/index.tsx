@@ -2,7 +2,7 @@ import { CleanupFunction, IDisposable } from '@glyph-cat/foundation'
 import { devWarn } from '@glyph-cat/swiss-army-knife'
 import { SimpleStateManager } from 'cotton-box'
 import { useSimpleStateValue } from 'cotton-box-react'
-import { Children, ElementType, Fragment, JSX, ReactNode, useEffect } from 'react'
+import { Children, ElementType, Fragment, ReactNode, useEffect } from 'react'
 import { useConstant } from '../../../hooks'
 import { useCoreUIContext } from '../context'
 import { IPortalFactoryState, PortalType } from './abstractions'
@@ -112,7 +112,7 @@ export function Portal({ children }: PortalProps): ReactNode {
 /**
  * @public
  */
-export function PortalCanvas(): JSX.Element {
+export function PortalCanvas(): ReactNode {
   const { portalManager } = useCoreUIContext()
   if (!portalManager) {
     throw new Error('`<Portal>` requires `portalManager` to be provided in <CoreUIContext>')

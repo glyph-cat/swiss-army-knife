@@ -1,5 +1,5 @@
 import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
-import { JSX } from 'react'
+import { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { useMountedState } from '.'
 
@@ -7,7 +7,7 @@ let hook: CustomRenderHookResult<boolean, void>
 afterEach(() => { hook?.unmount() })
 
 test('Server-side rendering', () => {
-  function TestComponent(): JSX.Element {
+  function TestComponent(): ReactNode {
     return <>{String(useMountedState())}</>
   }
   expect(renderToString(<TestComponent />)).toBe(String(false))

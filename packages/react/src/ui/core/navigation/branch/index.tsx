@@ -4,7 +4,6 @@ import {
   createContext,
   ForwardedRef,
   forwardRef,
-  JSX,
   ReactElement,
   ReactNode,
   useCallback,
@@ -79,7 +78,7 @@ export interface CoreNavigationBranch {
 export const CoreNavigationBranch = forwardRef(({
   children: $children,
   focusedItem,
-}: CoreNavigationBranchProps, forwardedRef: ForwardedRef<CoreNavigationBranch>): JSX.Element => {
+}: CoreNavigationBranchProps, forwardedRef: ForwardedRef<CoreNavigationBranch>): ReactNode => {
 
   const children = Children.toArray($children) as Array<ReactElement<CoreNavigationBranchItemProps>>
 
@@ -161,7 +160,7 @@ export interface CoreNavigationBranchItemProps {
  */
 export function CoreNavigationBranchItem({
   children,
-}: CoreNavigationBranchItemProps): JSX.Element {
+}: CoreNavigationBranchItemProps): ReactNode {
   return <>{children}</>
 }
 

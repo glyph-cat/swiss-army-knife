@@ -1,4 +1,4 @@
-import { createContext, ForwardedRef, forwardRef, JSX, useContext, useMemo } from 'react'
+import { createContext, ForwardedRef, forwardRef, ReactNode, useContext, useMemo } from 'react'
 import { __setDisplayName } from '../../../../_internals'
 import { View, ViewProps } from '../view'
 
@@ -34,7 +34,7 @@ export type SmartViewProps = ViewProps
 /**
  * @public
  */
-export interface SmartView extends View { (props: ViewProps): JSX.Element }
+export interface SmartView extends View { (props: ViewProps): ReactNode }
 
 /**
  * @public
@@ -42,7 +42,7 @@ export interface SmartView extends View { (props: ViewProps): JSX.Element }
 export const SmartView = forwardRef((
   props: SmartViewProps,
   ref: ForwardedRef<SmartView>,
-): JSX.Element => {
+): ReactNode => {
 
   const currentContext = useContext(SmartViewContext)
 

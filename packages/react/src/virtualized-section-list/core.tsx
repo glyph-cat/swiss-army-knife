@@ -4,8 +4,8 @@ import { isNull, isObject } from '@glyph-cat/type-checking'
 import {
   ForwardedRef,
   forwardRef,
-  JSX,
   memo,
+  ReactNode,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -59,7 +59,7 @@ export const VirtualizedSectionList = memo(
 function VirtualizedSectionListBase<SectionData, ItemData>(
   $props: VirtualizedSectionListProps<SectionData, ItemData>,
   ref: ForwardedRef<IVirtualizedSectionList>,
-): JSX.Element {
+): ReactNode {
 
   // #region Props
 
