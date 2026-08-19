@@ -8,7 +8,7 @@ test(asyncReduce.name, async () => {
     acc.set(value, index)
     return acc
   }, new Map<string, number>())
-  expect(output.entries()).toStrictEqual([
+  expect([...output.entries()]).toStrictEqual([
     ['a', 0],
     ['b', 1],
     ['c', 2],

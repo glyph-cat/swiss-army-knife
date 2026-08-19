@@ -40,11 +40,7 @@ function getPlugins({
     commonjs({ sourceMap: false }),
     setDisplayName(!isProductionTarget),
     typescript({
-      compilerOptions: {
-        declaration: false,
-        declarationDir: null,
-        outDir: null,
-      },
+      tsconfig: './tsconfig.build.json',
     }),
     customReplace(
       isProductionTarget,

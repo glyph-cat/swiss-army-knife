@@ -27,11 +27,7 @@ function getPlugins(): Array<Plugin> {
     }),
     commonjs({ sourceMap: false }),
     typescript({
-      compilerOptions: {
-        declaration: false,
-        declarationDir: null,
-        outDir: null,
-      },
+      tsconfig: './tsconfig.build.json',
     }),
     // commonjs(),
   ]
