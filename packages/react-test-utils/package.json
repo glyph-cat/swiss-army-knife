@@ -44,13 +44,13 @@
     "@glyph-cat/type-checking": "workspace:*",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
-    "react": "^19.2.4"
+    "react": "^19.2.8"
   },
   "devDependencies": {
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
-    "@types/react": "~19.2.14",
-    "jest": "~30.3.0",
+    "@types/react": "~19.2.18",
+    "jest": "~30.4.2",
     "rollup": "~4.62.4",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",

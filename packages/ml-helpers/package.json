@@ -40,8 +40,8 @@
     "@glyph-cat/swiss-army-knife": "workspace:*",
     "@mediapipe/drawing_utils": "^0.3.1675466124",
     "@mediapipe/hands": "^0.4.1675469240",
-    "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
-    "cotton-box": "^0.14.0"
+    "@mediapipe/tasks-vision": "^1.0.1",
+    "cotton-box": "^2.0.0"
   },
   "devDependencies": {
     
