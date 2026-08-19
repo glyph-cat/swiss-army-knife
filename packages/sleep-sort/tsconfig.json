@@ -12,15 +12,10 @@
     "sourceMap": false,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2020",
+    "target": "esnext",
+    "types": [
+      "jest",
+      "node",
+    ],
   },
-  "exclude": [
-    "node_modules",
-    "./src/**/*.draft*",
-    "./src/**/*.old*",
-    "**/*.test.*",
-  ],
-  "include": [
-    "./src",
-  ],
 }

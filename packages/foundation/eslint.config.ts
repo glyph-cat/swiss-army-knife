@@ -30,23 +30,6 @@ export default defineConfig(
       },
     }
   }),
-  {
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-      sourceType: 'commonjs',
-      parserOptions: {
-        // projectService: true,
-        projectService: {
-          allowDefaultProject: ['babel.config.js'],
-        },
-        tsconfigRootDir: import.meta.dirname,
-        // tsconfigRootDir: (import.meta as any).dirname,
-      },
-    },
-  },
   jestRecommended,
   {
     rules: {
@@ -55,6 +38,19 @@ export default defineConfig(
       '@typescript-eslint/no-require-imports': Severity.OFF,
       '@typescript-eslint/no-empty-object-type': Severity.WARN, // temp
       'import/no-unresolved': Severity.OFF, // temp
+    },
+  },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+      sourceType: 'commonjs',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
   {
