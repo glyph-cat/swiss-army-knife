@@ -1,12 +1,15 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
 import { pickLast } from '@glyph-cat/swiss-army-knife'
-import { useCallback } from 'react'
+import { act, useCallback } from 'react'
 import { useStableCallback } from '.'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
+interface HookReturnType {
+  stableCallback(): void
+  normalCallback(): void
+}
+
+let hook: CustomRenderHookResult<HookReturnType, void>
+afterEach(() => { hook?.unmount() })
 
 test(useStableCallback.name, () => {
 
@@ -29,52 +32,42 @@ test(useStableCallback.name, () => {
 
   // #endregion Random number generator
 
-  const tester = new HookTester({
-    useHook: () => {
-      const unstableValue = getRandomNumber()
-      const normalCallback = useCallback(() => { normalSpyFn(unstableValue) }, [unstableValue])
-      const stableCallback = useStableCallback(() => { stableSpyFn(unstableValue) })
-      return { stableCallback, normalCallback }
-    },
-    get: {
-      normalCallback: ({ normalCallback }) => normalCallback,
-      stableCallback: ({ stableCallback }) => stableCallback,
-    },
-  }, cleanupManager)
+  hook = customRenderHook(() => {
+    const unstableValue = getRandomNumber()
+    const normalCallback = useCallback(() => { normalSpyFn(unstableValue) }, [unstableValue])
+    const stableCallback = useStableCallback(() => { stableSpyFn(unstableValue) })
+    return { stableCallback, normalCallback }
+  })
 
-  // #region First render
+  // MARK: First render
 
-  const normalCallbackSnapshot = tester.get('normalCallback')
-  const stableCallbackSnapshot = tester.get('stableCallback')
+  const normalCallbackSnapshot = hook.result.current.normalCallback
+  const stableCallbackSnapshot = hook.result.current.stableCallback
   const generatedNumberInFirstRender = getLastGeneratedNumber()
 
-  normalCallbackSnapshot()
+  act(() => { normalCallbackSnapshot() })
   expect(normalSpyFn).toHaveBeenCalledTimes(1)
   expect(normalSpyFn).toHaveBeenNthCalledWith(1, generatedNumberInFirstRender)
 
-  stableCallbackSnapshot()
+  act(() => { stableCallbackSnapshot() })
   expect(stableSpyFn).toHaveBeenCalledTimes(1)
   expect(stableSpyFn).toHaveBeenNthCalledWith(1, generatedNumberInFirstRender)
 
-  // #endregion First render
+  hook.forceUpdate()
 
-  tester.forceUpdate()
-
-  // #region Second render
+  // MARK: Second render
 
   const generatedNumberInSecondRender = getLastGeneratedNumber()
 
-  expect(Object.is(tester.get('normalCallback'), normalCallbackSnapshot)).toBeFalse()
-  expect(Object.is(tester.get('stableCallback'), stableCallbackSnapshot)).toBeTrue()
+  expect(Object.is(hook.result.current.normalCallback, normalCallbackSnapshot)).toBeFalse()
+  expect(Object.is(hook.result.current.stableCallback, stableCallbackSnapshot)).toBeTrue()
 
-  normalCallbackSnapshot()
+  act(() => { normalCallbackSnapshot() })
   expect(normalSpyFn).toHaveBeenCalledTimes(2)
   expect(normalSpyFn).toHaveBeenNthCalledWith(2, generatedNumberInFirstRender)
 
-  stableCallbackSnapshot()
+  act(() => { stableCallbackSnapshot() })
   expect(stableSpyFn).toHaveBeenCalledTimes(2)
   expect(stableSpyFn).toHaveBeenNthCalledWith(2, generatedNumberInSecondRender)
-
-  // #endregion Second render
 
 })

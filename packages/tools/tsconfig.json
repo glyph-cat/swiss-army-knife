@@ -8,6 +8,7 @@
     "importHelpers": false,
     "isolatedModules": true,
     "lib": [
+      "dom",
       "esnext",
     ],
     "module": "CommonJS",

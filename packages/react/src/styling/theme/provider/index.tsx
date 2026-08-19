@@ -151,6 +151,7 @@ export function ThemeProvider({
     return { type, props, key, ref: refProp }
   }, [$children, isNested])
 
+  // eslint-disable-next-line react-hooks/immutability
   const assignRef = useCallback((node: HTMLElement) => {
     const { ref: refProp } = loneChild!
     if (isFunction(refProp)) {

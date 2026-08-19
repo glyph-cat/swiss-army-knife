@@ -13,23 +13,33 @@
     ],
     "module": "esnext",
     "moduleResolution": "bundler",
+    "paths": {
+      "@glyph-cat/color": [
+        "../color/src",
+      ],
+      "@glyph-cat/css-utils": [
+        "../css-utils/src",
+      ],
+      "@glyph-cat/equality": [
+        "../equality/src",
+      ],
+      "@glyph-cat/foundation": [
+        "../foundation/src",
+      ],
+      "@glyph-cat/swiss-army-knife": [
+        "../core/src",
+      ],
+      "@glyph-cat/type-checking": [
+        "../type-checking/src",
+      ],
+      "@glyph-cat/react-test-utils": [
+        "../react-test-utils/src",
+      ],
+    },
     "rootDir": "..",
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
     "target": "esnext"
   },
-  "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js",
-    "./src/**/*.draft*",
-    "./src/**/*.old*",
-    "**/*.test.*",
-  ],
-  "include": [
-    "./custom.d.ts",
-    "./src",
-  ]
 }

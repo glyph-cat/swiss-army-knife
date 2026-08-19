@@ -1,13 +1,10 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
 import { JSX } from 'react'
 import { renderToString } from 'react-dom/server'
 import { useMountedState } from '.'
-import { useForceUpdate } from '../../force-update'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
+let hook: CustomRenderHookResult<boolean, void>
+afterEach(() => { hook?.unmount() })
 
 test('Server-side rendering', () => {
   function TestComponent(): JSX.Element {
@@ -18,26 +15,14 @@ test('Server-side rendering', () => {
 
 test('Client-side rendering', () => {
 
-  const tester = new HookTester({
-    useHook: () => {
-      const isMounted = useMountedState()
-      const forceUpdate = useForceUpdate()
-      return { isMounted, forceUpdate }
-    },
-    actions: {
-      forceUpdate: (hookData) => { hookData.forceUpdate() },
-    },
-    get: {
-      value: (hookData) => hookData.isMounted,
-    },
-  }, cleanupManager)
+  hook = customRenderHook(() => useMountedState())
 
   // 1st render
-  expect(tester.renderCount).toBe(2)
-  expect(tester.get('value')).toBeTrue()
+  expect(hook.getMetadata().renderCount).toBe(2)
+  expect(hook.result.current).toBeTrue()
 
   // subsequent renders
-  tester.action('forceUpdate')
-  expect(tester.get('value')).toBeTrue()
+  hook.forceUpdate()
+  expect(hook.result.current).toBeTrue()
 
 })

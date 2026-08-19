@@ -1,20 +1,19 @@
-import { Nullable } from '@glyph-cat/foundation'
+import { TestProbe, TestProbeContext } from '@glyph-cat/react-test-utils'
 import { Watcher } from '@glyph-cat/swiss-army-knife'
-import { TestProbe, TestProbeProvider } from '@glyph-cat/react-test-utils'
 import { render, RenderResult } from '@testing-library/react'
-import { act, JSX, useEffect, useState } from 'react'
+import { act, JSX, ReactNode, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { ClientOnly } from '.'
 
-let renderResult: Nullable<RenderResult> = null
+let renderResult: RenderResult = null!
 afterEach(() => {
   renderResult?.unmount()
-  renderResult = null
+  renderResult = null!
 })
 
-let testProbe: Nullable<TestProbe> = null
+let testProbe: TestProbe = null!
 beforeEach(() => { testProbe = new TestProbe() })
-afterEach(() => { testProbe = null })
+afterEach(() => { testProbe = null! })
 
 let watcher: Watcher<[]>
 afterEach(() => { watcher?.dispose() })
@@ -46,7 +45,7 @@ describe('Client-side', () => {
 
     watcher = new Watcher<[]>()
 
-    function FirstLevel(): JSX.Element {
+    function FirstLevel(): ReactNode {
       const [hasDelayed, setDelayState] = useState(false)
       useEffect(() => {
         return watcher.watch(() => { setDelayState(true) })
@@ -57,16 +56,16 @@ describe('Client-side', () => {
     act(() => {
       renderResult = render(
         <ClientOnly>
-          <TestProbeProvider value={testProbe}>
+          <TestProbeContext value={testProbe}>
             <FirstLevel />
-          </TestProbeProvider>
+          </TestProbeContext>
         </ClientOnly>
       )
     })
-    expect(testProbe.getRenderCount(ClientOnly.name)).toBeNull()
+    expect(testProbe.getRenderCount(ClientOnly)).toBeNull()
 
     act(() => { watcher.post() })
-    expect(testProbe.getRenderCount(ClientOnly.name)).toBe(1)
+    expect(testProbe.getRenderCount(ClientOnly)).toBe(1)
 
   })
 

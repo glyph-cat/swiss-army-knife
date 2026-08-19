@@ -1,9 +1,9 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
+import { act } from 'react'
 import { useSandboxedState } from '.'
 
-const cleanupManager = new CleanupManager()
-afterEach(() => { cleanupManager.run() })
+let hook: CustomRenderHookResult<ReturnType<typeof useSandboxedState<Array<number>>>, void>
+afterEach(() => { hook?.unmount() })
 
 test(useSandboxedState.name, () => {
 
@@ -15,54 +15,29 @@ test(useSandboxedState.name, () => {
   const DIFFERENT_REFERENCE_SAME_VALUE: Array<number> = []
   const DIFFERENT_REFERENCE_DIFFERENT_VALUE = [2]
 
-  const tester = new HookTester({
-    useHook: () => {
-      return useSandboxedState<Array<number>>(INITIAL_STATE)
-    },
-    actions: {
-      setStateSameReferenceSameValue(hookData) {
-        const [, setState] = hookData
-        setState(INITIAL_STATE)
-      },
-      setStateSameReferenceDifferentValue(hookData) {
-        const [, setState] = hookData
-        setState((prevState) => {
-          prevState.push(1)
-          return prevState
-        })
-      },
-      setStateDifferentReferenceSameValue(hookData) {
-        const [, setState] = hookData
-        setState(DIFFERENT_REFERENCE_SAME_VALUE)
-      },
-      setStateDifferentReferenceDifferentValue(hookData) {
-        const [, setState] = hookData
-        setState(DIFFERENT_REFERENCE_DIFFERENT_VALUE)
-      },
-    },
-    get: {
-      value(hookData) {
-        return hookData[0][0]
-      },
-    },
-  }, cleanupManager)
+  hook = customRenderHook(() => useSandboxedState<Array<number>>(INITIAL_STATE))
 
-  expect(Object.is(tester.get('value'), INITIAL_STATE)).toBeTrue()
+  expect(Object.is(hook.result.current, INITIAL_STATE)).toBeTrue()
 
-  expect(tester.action('setStateSameReferenceSameValue')).toBe(1)
-  expect(Object.is(tester.get('value'), INITIAL_STATE)).toBeTrue()
-  expect(tester.get('value')).toStrictEqual([])
+  act(() => { hook.result.current[1](INITIAL_STATE) })
+  expect(Object.is(hook.result.current, INITIAL_STATE)).toBeTrue()
+  expect(hook.result.current).toStrictEqual([])
 
-  expect(tester.action('setStateDifferentReferenceSameValue')).toBe(1)
-  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_SAME_VALUE)).toBeTrue()
-  expect(tester.get('value')).toStrictEqual([])
+  act(() => { hook.result.current[1](DIFFERENT_REFERENCE_SAME_VALUE) })
+  expect(Object.is(hook.result.current, DIFFERENT_REFERENCE_SAME_VALUE)).toBeTrue()
+  expect(hook.result.current).toStrictEqual([])
 
-  expect(tester.action('setStateDifferentReferenceDifferentValue')).toBe(1)
-  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBeTrue()
-  expect(tester.get('value')).toStrictEqual([2])
+  act(() => { hook.result.current[1](DIFFERENT_REFERENCE_DIFFERENT_VALUE) })
+  expect(Object.is(hook.result.current, DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBeTrue()
+  expect(hook.result.current).toStrictEqual([2])
 
-  expect(tester.action('setStateSameReferenceDifferentValue')).toBe(1)
-  expect(Object.is(tester.get('value'), DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBeTrue()
-  expect(tester.get('value')).toStrictEqual([2, 1])
+  act(() => {
+    hook.result.current[1]((prevState) => {
+      prevState.push(1)
+      return prevState
+    })
+  })
+  expect(Object.is(hook.result.current, DIFFERENT_REFERENCE_DIFFERENT_VALUE)).toBeTrue()
+  expect(hook.result.current).toStrictEqual([2, 1])
 
 })

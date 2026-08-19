@@ -9,6 +9,7 @@ const config: Config.InitialOptions = {
     '@glyph-cat/color': '<rootDir>/../color/src',
     '@glyph-cat/css-utils': '<rootDir>/../css-utils/src',
     '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
+    '@glyph-cat/react-test-utils': '<rootDir>/../react-test-utils/src',
   },
   setupFiles: [
     '<rootDir>/jest.pre-env-setup.ts',

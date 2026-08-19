@@ -1,49 +1,29 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
+import { act } from '@testing-library/react'
 import { useDebouncedCallback } from '.'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
+let hook: CustomRenderHookResult<ReturnType<typeof useDebouncedCallback>, void>
+afterEach(() => { hook?.unmount() })
 
 test('Invocations overlap', () => {
-
   const spyFn = jest.fn()
-
-  const tester = new HookTester({
-    useHook: () => useDebouncedCallback(spyFn, 100),
-    actions: {
-      invoke(debouncedCallback) {
-        debouncedCallback()
-      },
-    },
-  }, cleanupManager)
-
-  tester.action('invoke', 'invoke')
+  hook = customRenderHook(() => useDebouncedCallback(spyFn, 100))
+  const debouncedCallback = hook.result.current
+  act(() => {
+    debouncedCallback()
+    debouncedCallback()
+  })
   jest.advanceTimersByTime(100)
-
   expect(spyFn).toHaveBeenCalledTimes(1)
-
 })
 
 test('Invocations do not overlap', () => {
-
   const spyFn = jest.fn()
-
-  const tester = new HookTester({
-    useHook: () => useDebouncedCallback(spyFn, 100),
-    actions: {
-      invoke(debouncedCallback) {
-        debouncedCallback()
-      },
-    },
-  }, cleanupManager)
-
-  tester.action('invoke')
+  hook = customRenderHook(() => useDebouncedCallback(spyFn, 100))
+  const debouncedCallback = hook.result.current
+  act(() => { debouncedCallback() })
   jest.advanceTimersByTime(150)
-  tester.action('invoke')
+  act(() => { debouncedCallback() })
   jest.advanceTimersByTime(100)
-
   expect(spyFn).toHaveBeenCalledTimes(2)
-
 })

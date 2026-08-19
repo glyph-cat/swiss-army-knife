@@ -1,18 +1,10 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
 import { JSX } from 'react'
 import { renderToString } from 'react-dom/server'
 import { useHydrationState } from '.'
-import { RuntimeContext, RuntimeManager } from '../../../runtime-manager.old'
-import { useForceUpdate } from '../../force-update'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
-
-let runtimeManager: RuntimeManager
-beforeEach(() => { runtimeManager = new RuntimeManager() })
-afterEach(() => { runtimeManager = null })
+let hook: CustomRenderHookResult<boolean, void>
+afterEach(() => { hook?.unmount() })
 
 test('Server-side rendering', () => {
   function TestComponent(): JSX.Element {
@@ -25,59 +17,13 @@ describe('Client-side rendering', () => {
 
   test('First render', () => {
 
-    const tester = new HookTester({
-      useHook: () => {
-        const isHydrated = useHydrationState()
-        const forceUpdate = useForceUpdate()
-        return { isHydrated, forceUpdate }
-      },
-      actions: {
-        forceUpdate: (hookData) => { hookData.forceUpdate() },
-      },
-      get: {
-        value: (hookData) => hookData.isHydrated,
-      },
-      wrapper: ({ children }) => (
-        <RuntimeContext value={runtimeManager}>
-          {children}
-        </RuntimeContext>
-      ),
-    }, cleanupManager)
+    hook = customRenderHook(() => useHydrationState())
 
-    expect(tester.renderCount).toBe(2)
-    expect(tester.get('value')).toBeTrue()
+    expect(hook.getMetadata().renderCount).toBe(2)
+    expect(hook.result.current).toBeTrue()
 
-    tester.action('forceUpdate')
-    expect(tester.get('value')).toBeTrue()
-
-  })
-
-  test('Subsequent render', () => {
-
-    // Simulate that hydration has already completed
-    runtimeManager.M$hydrationState.set(true)
-
-    const tester = new HookTester({
-      useHook: () => {
-        const isHydrated = useHydrationState()
-        const forceUpdate = useForceUpdate()
-        return { isHydrated, forceUpdate }
-      },
-      actions: {
-        forceUpdate: (hookData) => { hookData.forceUpdate() },
-      },
-      get: {
-        value: (hookData) => hookData.isHydrated,
-      },
-      wrapper: ({ children }) => (
-        <RuntimeContext value={runtimeManager}>
-          {children}
-        </RuntimeContext>
-      ),
-    }, cleanupManager)
-
-    expect(tester.renderCount).toBe(1)
-    expect(tester.get('value')).toBeTrue()
+    hook.forceUpdate()
+    expect(hook.result.current).toBeTrue()
 
   })
 

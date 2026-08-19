@@ -1,54 +1,49 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { Nullable } from '@glyph-cat/foundation'
-import { RenderResult, render } from '@testing-library/react'
-import { ComponentType, JSX, Suspense, act, createElement, useEffect } from 'react'
+import { createElement, PropsWithChildren, Suspense, useEffect } from 'react'
+import {
+  customRenderHook,
+  type CustomRenderHookResult,
+  type CustomRenderResultMetadata,
+} from '../hook-tester'
 
-/**
- * @public
- */
-export class SuspenseTester {
+export interface CustomSuspenseTesterResultMetadata extends CustomRenderResultMetadata {
+  isSuspended: boolean
+}
 
-  /**
-   * @internal
-   */
-  private M$renderResult: Nullable<RenderResult> = null
+export interface CustomSuspenseTesterResult<Result, Props> extends Omit<CustomRenderHookResult<Result, Props>, 'getMetadata'> {
+  getMetadata(): CustomSuspenseTesterResultMetadata
+}
 
-  /**
-   * @internal
-   */
-  private M$componentIsUnderSuspense = false
+export function renderSuspenseTester<Result, Props>(
+  ...args: Parameters<typeof customRenderHook<Result, Props>>
+): CustomSuspenseTesterResult<Result, Props> {
 
-  get componentIsUnderSuspense(): boolean {
-    return this.M$componentIsUnderSuspense
+  const metadata = { isSuspended: false }
+
+  const FallbackComponent = (): undefined => {
+    useEffect(() => {
+      metadata.isSuspended = true
+      return () => { metadata.isSuspended = false }
+    }, [])
   }
 
-  constructor(TestComponent: ComponentType, cleanupManager: CleanupManager) {
+  const wrapper = ({ children }: PropsWithChildren) => (
+    createElement(Suspense, {
+      fallback: createElement(FallbackComponent),
+    }, children)
+  )
 
-    this.dispose = this.dispose.bind(this)
-    if (cleanupManager) { cleanupManager.append(this.dispose) }
+  const [callback, options, ...remainingArgs] = args
+  const hook = customRenderHook<Result, Props>(callback, {
+    ...options,
+    wrapper,
+  }, ...remainingArgs)
 
-    const FallbackComponent = (): JSX.Element => {
-      useEffect(() => {
-        this.M$componentIsUnderSuspense = true
-        return () => { this.M$componentIsUnderSuspense = false }
-      }, [])
-      return null!
-    }
-
-    this.dispose = this.dispose.bind(this)
-
-    act(() => {
-      this.M$renderResult = render(
-        createElement(Suspense, {
-          fallback: createElement(FallbackComponent),
-        }, createElement(TestComponent))
-      )
-    })
-
-  }
-
-  dispose(): void {
-    this.M$renderResult?.unmount()
+  return {
+    ...hook,
+    getMetadata: () => ({
+      ...hook.getMetadata(),
+      ...metadata,
+    }),
   }
 
 }

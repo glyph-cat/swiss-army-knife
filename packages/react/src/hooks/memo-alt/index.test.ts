@@ -1,42 +1,24 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { objectIsShallowEqual } from '@glyph-cat/equality'
-import { HookTester } from '@glyph-cat/react-test-utils'
-import { useState } from 'react'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
 import { useMemoAlt } from '.'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
+type ITestObject = { a: number, b: number, c: number }
+
+let hook: CustomRenderHookResult<ITestObject, ITestObject>
+afterEach(() => { hook?.unmount() })
 
 test('Dependencies are same', () => {
 
   const spyFn = jest.fn()
+  hook = customRenderHook((props) => useMemoAlt(() => props, [props]), {
+    initialProps: { a: 1, b: 2, c: 3 },
+  })
 
-  const tester = new HookTester({
-    useHook: () => {
-      const [object, setObject] = useState({ a: 1, b: 2, c: 3 })
-      const memoizedObject = useMemoAlt(() => {
-        spyFn()
-        return object
-      }, [object], (a, b) => {
-        return objectIsShallowEqual(a[0], b[0])
-      })
-      return { memoizedObject: memoizedObject, setObject }
-    },
-    actions: {
-      setObject: (hookData) => { hookData.setObject({ a: 1, b: 2, c: 3 }) },
-    },
-    get: {
-      value: (hookData) => hookData.memoizedObject,
-    },
-  }, cleanupManager)
-
-  const snapshot1 = tester.get('value')
+  const snapshot1 = hook.result.current
   expect(snapshot1).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(spyFn).toHaveBeenCalledTimes(1)
 
-  tester.action('setObject')
-  const snapshot2 = tester.get('value')
+  hook.rerender({ a: 1, b: 2, c: 3 })
+  const snapshot2 = hook.result.current
   expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(Object.is(snapshot1, snapshot2)).toBeTrue()
   expect(spyFn).toHaveBeenCalledTimes(1)
@@ -46,32 +28,16 @@ test('Dependencies are same', () => {
 test('Dependencies are different', () => {
 
   const spyFn = jest.fn()
+  hook = customRenderHook((props) => useMemoAlt(() => props, [props]), {
+    initialProps: { a: 1, b: 2, c: 3 },
+  })
 
-  const tester = new HookTester({
-    useHook: () => {
-      const [object, setObject] = useState({ a: 1, b: 2, c: 3 })
-      const memoizedObject = useMemoAlt(() => {
-        spyFn()
-        return object
-      }, [object], (a, b) => {
-        return objectIsShallowEqual(a[0], b[0])
-      })
-      return { memoizedObject: memoizedObject, setObject }
-    },
-    actions: {
-      setObject: (hookData) => { hookData.setObject({ a: 1, b: 2, c: 7 }) },
-    },
-    get: {
-      value: (hookData) => hookData.memoizedObject,
-    },
-  }, cleanupManager)
-
-  const snapshot1 = tester.get('value')
+  const snapshot1 = hook.result.current
   expect(snapshot1).toStrictEqual({ a: 1, b: 2, c: 3 })
   expect(spyFn).toHaveBeenCalledTimes(1)
 
-  tester.action('setObject')
-  const snapshot2 = tester.get('value')
+  hook.rerender({ a: 1, b: 2, c: 7 })
+  const snapshot2 = hook.result.current
   expect(snapshot2).toStrictEqual({ a: 1, b: 2, c: 7 })
   expect(Object.is(snapshot1, snapshot2)).toBeFalse()
   expect(spyFn).toHaveBeenCalledTimes(2)

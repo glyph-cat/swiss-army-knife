@@ -1,26 +1,21 @@
-import { Nullable } from '@glyph-cat/foundation'
-import {
-  TestProbe,
-  TestProbeProvider,
-  useComponentTesterProbe,
-} from '@glyph-cat/react-test-utils'
+import { TestProbe, TestProbeContext, useTestProbe } from '@glyph-cat/react-test-utils'
 import { render, RenderResult } from '@testing-library/react'
 import { act, JSX } from 'react'
 import { renderToString } from 'react-dom/server'
 import { DeferRendering } from '.'
 
-let renderResult: Nullable<RenderResult> = null
+let renderResult: RenderResult = null!
 afterEach(() => {
   renderResult?.unmount()
-  renderResult = null
+  renderResult = null!
 })
 
-let testProbe: Nullable<TestProbe> = null
+let testProbe: TestProbe = null!
 beforeEach(() => { testProbe = new TestProbe() })
-afterEach(() => { testProbe = null })
+afterEach(() => { testProbe = null! })
 
 function TestComponent(): JSX.Element {
-  useComponentTesterProbe()
+  useTestProbe(TestComponent)
   return (
     <>
       {'A'}
@@ -39,11 +34,11 @@ test('Server-side rendering', () => {
 test('Client-side rendering', () => {
   act(() => {
     renderResult = render(
-      <TestProbeProvider value={testProbe}>
+      <TestProbeContext value={testProbe}>
         <TestComponent />
-      </TestProbeProvider>
+      </TestProbeContext>
     )
   })
-  expect(testProbe.getRenderCount(DeferRendering.name)).toBe(2)
+  expect(testProbe.getRenderCount(DeferRendering)).toBe(2)
   expect(renderResult.container.textContent).toBe('AB')
 })

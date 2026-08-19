@@ -1,5 +1,6 @@
+import { useTestProbe } from '@glyph-cat/react-test-utils'
 import { JSX, ReactNode } from 'react'
-import { __setDisplayName, useTestProbe } from '../../_internals'
+import { __setDisplayName } from '../../_internals'
 import { useMountedState } from '../../hooks/deferral/mounted'
 
 /**

@@ -1,47 +1,27 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
-import { useReducer } from 'react'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
 import { useConstant } from '.'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
+let hook: CustomRenderHookResult<number, void>
+afterEach(() => { hook?.unmount() })
 
 test('Value', () => {
-
-  const tester = new HookTester({
-    useHook: () => useConstant(42),
-  }, cleanupManager)
-
-  expect(tester.hookReturnedValue).toBe(42)
-  expect(tester.renderCount).toBe(1)
-
+  hook = customRenderHook(() => useConstant(42))
+  expect(hook.result.current).toBe(42)
+  expect(hook.getMetadata().renderCount).toBe(1)
 })
 
 test('Factory', () => {
 
   const factory = jest.fn(() => 42)
-
-  const tester = new HookTester({
-    useHook: () => {
-      const constant = useConstant(factory)
-      const [, forceUpdate] = useReducer((c) => c + 1, 0)
-      return { constant, forceUpdate }
-    },
-    actions: {
-      forceUpdate: (hookData) => {
-        hookData.forceUpdate()
-      },
-    },
-  }, cleanupManager)
+  hook = customRenderHook(factory)
 
   expect(factory).toHaveBeenCalledTimes(1)
-  expect(tester.hookReturnedValue!.constant).toBe(42)
-  expect(tester.renderCount).toBe(1)
+  expect(hook.result.current).toBe(42)
+  expect(hook.getMetadata().renderCount).toBe(1)
 
-  tester.action('forceUpdate')
+  hook.forceUpdate()
   expect(factory).toHaveBeenCalledTimes(1)
-  expect(tester.hookReturnedValue!.constant).toBe(42)
-  expect(tester.renderCount).toBe(2)
+  expect(hook.result.current).toBe(42)
+  expect(hook.getMetadata().renderCount).toBe(2)
 
 })

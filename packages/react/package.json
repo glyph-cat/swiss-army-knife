@@ -80,7 +80,8 @@
     "react-dom": "~19.2.8",
     "react-native": "~0.87.0",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "@glyph-cat/react-test-utils": "workspace:*"
   },
   "peerDependencies": {
     "react": "~19.2.5",

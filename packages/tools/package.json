@@ -5,13 +5,13 @@
     "@glyph-cat/project-helpers": "workspace:*",
     "@rollup/plugin-replace": "~6.0.3",
     "@rollup/plugin-terser": "~1.0.0",
-    "terser": "~5.50.0",
+    "@testing-library/jest-dom": "~7.0.1",
     "chalk": "~6.0.0",
-    "@testing-library/jest-dom": "~7.0.1"
+    "terser": "~5.50.0"
   },
   "devDependencies": {
-    
-    "rollup": "~4.62.4",
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-typescript": "^7",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-commonjs": "~29.0.3",
@@ -19,12 +19,12 @@
     "@rollup/plugin-typescript": "~12.3.0",
     "@types/jest": "~30.0.0",
     "@types/node": "~26.2.0",
+    "cspell": "~10.0.1",
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
-    "tsx": "~4.23.12",
-    "cspell": "~10.0.1",
-    "@babel/plugin-transform-modules-commonjs": "^7",
-    "@babel/preset-typescript": "^7"
+    "puppeteer": "~25.8.0",
+    "rollup": "~4.62.4",
+    "tsx": "~4.23.12"
   }
 }

@@ -1,42 +1,23 @@
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { HookTester } from '@glyph-cat/react-test-utils'
+import { customRenderHook, CustomRenderHookResult } from '@glyph-cat/react-test-utils'
+import { act } from 'react'
 import { useStateAlt } from '.'
 
-const cleanupManager = new CleanupManager()
-afterEach(() => { cleanupManager.run() })
+const useTestHook = () => useStateAlt(0)
+
+let hook: CustomRenderHookResult<ReturnType<typeof useTestHook>, void>
+afterEach(() => { hook?.unmount() })
 
 test(useStateAlt.name, () => {
 
-  const tester = new HookTester({
-    useHook: () => {
-      return useStateAlt(0)
-    },
-    actions: {
-      increment(hook) {
-        const [, setState] = hook
-        setState((c: number) => c + 1)
-      },
-      reset(hook) {
-        const [, , reset] = hook
-        reset()
-      },
-    },
-    get: {
-      value(hook) {
-        const [state] = hook
-        return state
-      },
-    },
-  }, cleanupManager)
+  hook = customRenderHook(useTestHook)
+  expect(hook.result.current).toBe(0)
 
-  expect(tester.get('value')).toBe(0)
+  act(() => { hook.result.current[1]((c) => c + 1) })
+  expect(hook.result.current).toBe(1)
+  act(() => { hook.result.current[1]((c) => c + 1) })
+  expect(hook.result.current).toBe(2)
 
-  tester.action('increment')
-  expect(tester.get('value')).toBe(1)
-  tester.action('increment')
-  expect(tester.get('value')).toBe(2)
-
-  tester.action('reset')
-  expect(tester.get('value')).toBe(0)
+  act(() => { hook.result.current[2]() })
+  expect(hook.result.current).toBe(0)
 
 })

@@ -34,19 +34,3 @@ export function __setTypeMarker(component: any, type: TypeMarker): void {
 export function __getTypeMarker(component: any): TypeMarker {
   return component[TypeMarkerKey]
 }
-
-export function useTestProbe(key: string): void {
-  // if (!IS_SOURCE_ENV) {
-  //   return // Early exit
-  // }
-  // // eslint-disable-next-line react-hooks/rules-of-hooks
-  // const testProbe = useContext(TestProbeProvider)
-  // if (!testProbe) {
-  //   return // Early exit - not mandatory
-  //   // throw new Error('Component must be wrapped in a <TestProbeProvider>')
-  // }
-  // if (!key) {
-  //   throw new Error('Missing mandatory parameter `key`')
-  // }
-  // testProbe.M$bumpRenderCount(key)
-}
