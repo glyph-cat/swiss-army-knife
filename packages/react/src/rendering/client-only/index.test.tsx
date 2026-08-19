@@ -1,7 +1,7 @@
 import { Nullable } from '@glyph-cat/foundation'
+import { Watcher } from '@glyph-cat/swiss-army-knife'
 import { TestProbe, TestProbeProvider } from '@glyph-cat/react-test-utils'
 import { render, RenderResult } from '@testing-library/react'
-import { Watcher } from 'cotton-box'
 import { act, JSX, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { ClientOnly } from '.'

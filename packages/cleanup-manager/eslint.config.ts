@@ -4,31 +4,7 @@ import { Severity } from '@glyph-cat/eslint-config/src'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig(
-  baseRecommended.map((config) => {
-    if (config.name !== '@glyph-cat/eslint-config (base)') {
-      return config // Early exit
-    }
-    const NO_RESTRICTED_IMPORTS = 'no-restricted-imports'
-    return {
-      ...config,
-      rules: {
-        ...config.rules,
-        [NO_RESTRICTED_IMPORTS]: [config.rules[NO_RESTRICTED_IMPORTS][0], {
-          ...config.rules[NO_RESTRICTED_IMPORTS][1],
-          paths: [
-            ...config.rules[NO_RESTRICTED_IMPORTS][1].paths,
-            {
-              name: '@glyph-cat/react-test-utils',
-              importNames: [
-                'useTestProbe',
-              ],
-              message: 'Please import from `_internals` instead',
-            },
-          ],
-        }],
-      },
-    }
-  }),
+  baseRecommended,
   jestRecommended,
   {
     rules: {

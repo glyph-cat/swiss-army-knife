@@ -11,9 +11,6 @@
       "@glyph-cat/cleanup-manager": [
         "../cleanup-manager/src",
       ],
-      // "@glyph-cat/color": [
-      //   "../color/src",
-      // ],
       "@glyph-cat/foundation": [
         "../foundation/src",
       ],

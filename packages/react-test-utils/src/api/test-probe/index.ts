@@ -6,12 +6,12 @@ import { createContext, useContext } from 'react'
 import { IS_DEBUG_ENV } from '@glyph-cat/swiss-army-knife/src/constants/public'
 
 /**
- * @internal
+ * @public
  */
 export const TestProbeProvider = createContext<Nullable<TestProbe>>(null)
 
 /**
- * @internal
+ * @public
  */
 export function useTestProbe(key: string): void {
   if (!IS_DEBUG_ENV) {
@@ -30,7 +30,7 @@ export function useTestProbe(key: string): void {
 }
 
 /**
- * @internal
+ * @public
  */
 export class TestProbe {
 
