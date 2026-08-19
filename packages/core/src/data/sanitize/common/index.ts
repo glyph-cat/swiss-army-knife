@@ -1,3 +1,4 @@
+// cspell:ignore yESSSSSS
 import { isObject } from '@glyph-cat/type-checking'
 import { trim } from '../../../string/trim'
 

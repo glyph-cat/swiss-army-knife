@@ -1,3 +1,4 @@
+// cspell:ignore Uryyb jbeyq
 import { isUndefined } from '@glyph-cat/type-checking'
 import { enumerate } from '../../data/enumeration'
 import { LazyValue } from '../../data/lazy-value'

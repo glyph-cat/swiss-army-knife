@@ -13,6 +13,7 @@
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "clean": "rm -rf ./lib ./temp/tsc",
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "debug": "scope=\"debug\" jest -c ./jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
     "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
@@ -57,6 +58,7 @@
     "ts-node": "~10.9.2",
     "tsx": "~4.23.12",
     "@babel/plugin-transform-modules-commonjs": "^7",
-    "@babel/preset-typescript": "^7"
+    "@babel/preset-typescript": "^7",
+    "cspell": "~10.0.1"
   }
 }

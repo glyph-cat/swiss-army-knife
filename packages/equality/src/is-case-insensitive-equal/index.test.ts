@@ -1,3 +1,4 @@
+// cspell:words İstanbul
 import {
   isCaseInsensitiveEqual,
   isLocaleCaseInsensitiveEqual,

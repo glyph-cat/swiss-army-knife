@@ -4,6 +4,7 @@
   "description": "Utilities for project workflows.",
   "scripts": {
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "test": "ECHO 'No tests to run for now' # jest -c jest.config.ts"
   },
   "keywords": [],
@@ -37,6 +38,7 @@
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "cspell": "~10.0.1"
   }
 }

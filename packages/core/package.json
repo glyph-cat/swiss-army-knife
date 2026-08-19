@@ -17,6 +17,7 @@
     "clean": "rm -rf .cache ./dist ./lib ./temp",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "bundle": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
     "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
@@ -78,7 +79,8 @@
     "@babel/plugin-transform-modules-commonjs": "^7",
     "@babel/preset-typescript": "^7",
     "@testing-library/jest-dom": "~7.0.1",
-    "@rollup/plugin-node-resolve": "13.3.0"
+    "@rollup/plugin-node-resolve": "13.3.0",
+    "cspell": "~10.0.1"
   },
   "peerDependenciesMeta": {
     "luxon": {

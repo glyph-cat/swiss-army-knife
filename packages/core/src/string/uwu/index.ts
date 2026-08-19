@@ -1,3 +1,4 @@
+// cspell:ignore Hewwo fwiend ified pwease
 /**
  * Make text go uwu.
  * @param text - The text to UWU-ify.

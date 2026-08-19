@@ -8,19 +8,19 @@ test(objectSort.name, (): void => {
   }
 
   const userCollection: Record<string, DummyUserSchema> = {
-    'j8Jmawdf': {
+    '11111111': {
       name: 'John',
       age: 28,
     },
-    'V9ijpWih': {
+    '22222222': {
       name: 'Alice',
       age: 24,
     },
-    'aUis01qU': {
+    '33333333': {
       name: 'Belle',
       age: 28,
     },
-    'gezhL5kW': {
+    '44444444': {
       name: 'David',
       age: 24,
     },
@@ -37,19 +37,19 @@ test(objectSort.name, (): void => {
   })
 
   expect(sortedUserCollection).toStrictEqual({
-    'V9ijpWih': {
+    '22222222': {
       name: 'Alice',
       age: 24,
     },
-    'gezhL5kW': {
+    '44444444': {
       name: 'David',
       age: 24,
     },
-    'aUis01qU': {
+    '33333333': {
       name: 'Belle',
       age: 28,
     },
-    'j8Jmawdf': {
+    '11111111': {
       name: 'John',
       age: 28,
     },

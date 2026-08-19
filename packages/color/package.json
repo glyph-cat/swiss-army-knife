@@ -13,6 +13,7 @@
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "clean": "rm -rf ./lib ./temp/tsc",
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "debug": "scope=\"debug\" jest -c ./jest.config.ts",
     "bundle": "rollup -c ./config/rollup.config.js",
     "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
@@ -55,6 +56,7 @@
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "cspell": "~10.0.1"
   }
 }

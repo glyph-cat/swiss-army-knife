@@ -1,3 +1,4 @@
+// cspell:words Bostock
 import { arrayIsShallowEqual } from '@glyph-cat/equality'
 import { Empty } from '@glyph-cat/foundation'
 import { getRandomNumber } from '../../../random/number'

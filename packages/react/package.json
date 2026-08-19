@@ -17,6 +17,7 @@
     "clean": "rm -rf .cache ./dist ./lib ./temp",
     "afe": "tsx ./scripts/run/auto-forward-exports",
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "bundle": "rollup -c ./config/rollup.config.js",
     "test": "jest -c jest.config.ts",
     "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
@@ -75,7 +76,8 @@
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "cspell": "~10.0.1"
   },
   "peerDependencies": {
     "react": "~19.2.5",

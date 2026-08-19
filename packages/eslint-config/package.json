@@ -11,6 +11,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
     "inspect": "pnpm exec eslint-config-inspector",
     "build": "sh ./scripts/run/build.sh"
   },
@@ -62,6 +63,7 @@
     "jest": "~30.4.2",
     "jest-extended": "~7.0.0",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "cspell": "~10.0.1"
   }
 }
