@@ -126,11 +126,11 @@ importers:
         specifier: ~17.11.0
         version: 17.11.0
       jest:
-        specifier: ~30.3.0
-        version: 30.3.0(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3))
+        specifier: ~30.4.2
+        version: 30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3))
       jest-extended:
         specifier: ~7.0.0
-        version: 7.0.0(jest@30.3.0(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3)))(typescript@5.9.3)
+        version: 7.0.0(jest@30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3)))(typescript@5.9.3)
       rollup:
         specifier: ~4.62.4
         version: 4.62.4
