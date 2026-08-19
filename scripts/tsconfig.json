@@ -8,6 +8,6 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "strict": true,
-    "target": "ESNext",
+    "target": "esnext",
   }
 }

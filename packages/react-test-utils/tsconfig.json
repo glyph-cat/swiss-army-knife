@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
       "@glyph-cat/cleanup-manager": [
@@ -31,7 +31,7 @@
     "strict": true,
     "jsx": "react-jsx",
     "stripInternal": true,
-    "target": "ESNext",
+    "target": "esnext",
     "types": [
       "jest",
       "node",

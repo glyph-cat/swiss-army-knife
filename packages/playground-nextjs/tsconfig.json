@@ -13,14 +13,14 @@
       "dom.iterable",
       "esnext"
     ],
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "Bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "esnext"
   },
   "exclude": [
     "node_modules",

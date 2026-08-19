@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "importHelpers": false,
     "isolatedModules": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
       "@glyph-cat/foundation": [

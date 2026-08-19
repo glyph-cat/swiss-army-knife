@@ -20,7 +20,7 @@
     "sourceMap": false,
     "strict": true,
     "stripInternal": true,
-    "target": "ESNext",
+    "target": "esnext",
   },
   "exclude": [
     "node_modules",

@@ -10,7 +10,7 @@
     "lib": [
       "esnext",
     ],
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
@@ -19,7 +19,7 @@
     "sourceMap": false,
     "strict": true,
     "stripInternal": true,
-    "target": "ESNext",
+    "target": "esnext",
   },
   "exclude": [
     "node_modules",

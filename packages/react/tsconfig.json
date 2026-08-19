@@ -11,7 +11,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
       "@glyph-cat/color": [

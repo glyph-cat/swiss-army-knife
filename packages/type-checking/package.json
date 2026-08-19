@@ -40,8 +40,6 @@
     "@glyph-cat/foundation": "workspace:*"
   },
   "devDependencies": {
-    
-    
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/eslint-config": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
