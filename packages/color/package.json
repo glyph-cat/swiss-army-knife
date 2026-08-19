@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/color",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Color parsing and conversion utilities.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
