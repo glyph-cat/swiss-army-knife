@@ -1084,6 +1084,9 @@ importers:
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
+      '@glyph-cat/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@glyph-cat/project-helpers':
         specifier: workspace:*
         version: link:../project-helpers
