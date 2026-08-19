@@ -69,6 +69,16 @@ export default defineConfig(
     },
   },
   {
+    settings: {
+      'import/resolver': {
+        typescript: true,
+      },
+      react: {
+        version: '19',
+      },
+    },
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.node,

@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "jsx": "preserve",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true,
-    "target": "esnext",
-  },
-}

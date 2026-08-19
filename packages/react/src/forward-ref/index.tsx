@@ -39,7 +39,7 @@ export interface ForwardProps<T> {
 /**
  * @public
  */
-export const Forward = forwardRef(function Forward<T>({
+export const Forward = forwardRef(function Forward$<T>({
   children,
   byMerging,
   displayName,
@@ -73,7 +73,7 @@ export const Forward = forwardRef(function Forward<T>({
   }
 })
 
-const ForwardByMergingRefs = forwardRef(function ForwardByMergingRefs<T>(
+const ForwardByMergingRefs = forwardRef(function ForwardByMergingRefs$<T>(
   { children: $children }: PropsWithChildren,
   ref: ForwardedRef<T>,
 ): ReactNode {
@@ -89,7 +89,7 @@ interface ForwardByFindingDOMElementProps extends PropsWithChildren {
   displayName: PossiblyUndefined<string>
 }
 
-const ForwardByFindingDOMElement = forwardRef(function ForwardByFindingDOMElement<T>(
+const ForwardByFindingDOMElement = forwardRef(function ForwardByFindingDOMElement$<T>(
   { children, displayName }: ForwardByFindingDOMElementProps,
   ref: ForwardedRef<T>,
 ): ReactNode {

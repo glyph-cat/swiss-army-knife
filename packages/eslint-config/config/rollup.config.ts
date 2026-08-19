@@ -1,13 +1,10 @@
-// import json from '@rollup/plugin-json'
+import { customTerser } from '@glyph-cat/custom-tools/custom-rollup-plugins'
 import commonjs from '@rollup/plugin-commonjs'
-import terser from '@rollup/plugin-terser'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 import { RollupOptions } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
 import packageJson from '../package.json'
 
-// @ts-expect-error because we are relying on an old version
-import nodeResolve from '@rollup/plugin-node-resolve'
 
 function getConfig(inputPath: string, outputPath: string): RollupOptions {
   return {
@@ -19,24 +16,13 @@ function getConfig(inputPath: string, outputPath: string): RollupOptions {
       sourcemap: false,
     },
     external: [
-      ...getDependenciesFromRoot(),
-      '@eslint/js',
-      '@eslint/eslintrc',
-      //   '@stylistic/eslint-plugin',
-      //   '@typescript-eslint/eslint-plugin',
-      //   '@typescript-eslint/parser',
-      //   'eslint',
-      //   'eslint-plugin-import',
-      //   'eslint-plugin-jest',
-      //   'eslint-plugin-react',
-      //   'eslint-plugin-react-hooks',
-      'globals',
+      ...Object.keys(packageJson.dependencies),
+      ...Object.keys(packageJson.devDependencies),
     ],
     plugins: [
       nodeResolve({
         extensions: ['.ts'],
       }),
-      // json(),
       typescript({
         compilerOptions: {
           declaration: false,
@@ -45,7 +31,7 @@ function getConfig(inputPath: string, outputPath: string): RollupOptions {
         },
       }),
       commonjs(),
-      terser(),
+      customTerser(),
     ],
   }
 }
