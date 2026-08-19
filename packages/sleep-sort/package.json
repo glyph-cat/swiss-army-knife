@@ -1,6 +1,6 @@
 {
   "name": "@glyph-cat/sleep-sort",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Sleep sort algorithm for education/experimental purposes.",
   "main": "lib/cjs/index.js",
   "module": "lib/es/index.js",
