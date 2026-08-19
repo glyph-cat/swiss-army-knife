@@ -24,15 +24,4 @@
     "stripInternal": true,
     "target": "esnext",
   },
-  "exclude": [
-    "node_modules",
-    "**/*.draft*",
-    "**/*.old*",
-    "**/*.scripted*",
-    "**/*.test.*",
-  ],
-  "include": [
-    "./src",
-    "./custom.d.ts"
-  ],
 }

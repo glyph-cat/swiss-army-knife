@@ -19,10 +19,10 @@ export default defineConfig(
       ...config,
       rules: {
         ...config.rules,
-        [NO_RESTRICTED_IMPORTS]: [config.rules[NO_RESTRICTED_IMPORTS][0], {
-          ...config.rules[NO_RESTRICTED_IMPORTS][1],
+        [NO_RESTRICTED_IMPORTS]: [(config.rules![NO_RESTRICTED_IMPORTS] as any)[0], {
+          ...(config.rules![NO_RESTRICTED_IMPORTS] as any)[1],
           paths: [
-            ...config.rules[NO_RESTRICTED_IMPORTS][1].paths,
+            ...(config.rules![NO_RESTRICTED_IMPORTS] as any)[1].paths,
             {
               name: '@glyph-cat/react-test-utils',
               importNames: [

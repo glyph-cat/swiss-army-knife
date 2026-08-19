@@ -5,7 +5,7 @@ import { createReactConfig } from '../presets/react'
 /**
  * @public
  */
-export const recommended = createReactConfig({
+export const recommended: Array<Config> = createReactConfig({
   remapOff: Severity.OFF,
   remapWarn: Severity.WARN,
   remapError: Severity.ERROR,
@@ -14,7 +14,7 @@ export const recommended = createReactConfig({
 /**
  * @public
  */
-export const libraryAuthoring = createReactConfig({
+export const libraryAuthoring: Array<Config> = createReactConfig({
   remapOff: Severity.OFF,
   remapWarn: Severity.ERROR,
   remapError: Severity.ERROR,
