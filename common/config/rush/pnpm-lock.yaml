@@ -1096,9 +1096,6 @@ importers:
       '@glyph-cat/project-helpers':
         specifier: workspace:*
         version: link:../project-helpers
-      '@glyph-cat/react-test-utils':
-        specifier: workspace:*
-        version: link:../react-test-utils
       '@jest/types':
         specifier: ~30.4.1
         version: 30.4.1
@@ -1269,6 +1266,9 @@ importers:
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
+      '@glyph-cat/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@glyph-cat/project-helpers':
         specifier: workspace:*
         version: link:../project-helpers
