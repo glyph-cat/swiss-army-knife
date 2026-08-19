@@ -43,8 +43,9 @@
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/eslint-config": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
-    "jest": "~30.3.0",
-    "rollup": "~4.62.4",
+    "cspell": "~10.0.1",
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-typescript": "^7",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-commonjs": "~29.0.3",
@@ -54,8 +55,9 @@
     "@types/node": "~26.2.0",
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
+    "jest": "~30.4.2",
     "jest-extended": "~7.0.0",
-    "tsx": "~4.23.12",
-    "cspell": "~10.0.1"
+    "rollup": "~4.62.4",
+    "tsx": "~4.23.12"
   }
 }
