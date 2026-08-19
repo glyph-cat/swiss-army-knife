@@ -17,8 +17,8 @@
       "path": "../packages/react"
     },
     {
-      "name": "react-components",
-      "path": "../packages/react-components"
+      "name": "react-web-components",
+      "path": "../packages/react-web-components"
     },
     {
       "name": "equality",
