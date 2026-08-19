@@ -81,7 +81,8 @@
     "react-native": "~0.87.0",
     "rollup": "~4.62.4",
     "tsx": "~4.23.12",
-    "@glyph-cat/react-test-utils": "workspace:*"
+    "@glyph-cat/react-test-utils": "workspace:*",
+    "metro-react-native-babel-preset": "~0.77.0"
   },
   "peerDependencies": {
     "react": "~19.2.5",
