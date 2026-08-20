@@ -42,7 +42,9 @@
     "@glyph-cat/swiss-army-knife": "workspace:*",
     "@glyph-cat/swiss-army-knife-react": "workspace:*",
     "@glyph-cat/type-checking": "workspace:*",
-    "react": "^19.2.8"
+    "react": "^19.2.8",
+    "clsx": "~2.1.1",
+    "csstype": "~3.2.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7",
@@ -59,6 +61,8 @@
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "@types/react": "~19.2.18",
+    "@types/react-dom": "~19.2.4"
   }
 }

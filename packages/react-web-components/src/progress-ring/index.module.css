@@ -1,0 +1,75 @@
+.container {
+  place-items: center;
+  place-self: start;
+  position: relative;
+}
+
+.container > div:nth-child(2) {
+  place-items: center;
+  position: absolute;
+}
+
+.progressRing {
+  display: grid;
+  --maskSize: calc(var(--size) / 2 - var(--thickness));
+  aspect-ratio: 1;
+  background-image: conic-gradient(
+    var(--colorFg) var(--angle),
+    var(--colorBg) var(--angle)
+  );
+  border-radius: var(--size);
+  height: var(--size);
+  mask-image: radial-gradient(
+    circle,
+    transparent var(--maskSize),
+    black var(--maskSize)
+  );
+  position: relative;
+  width: var(--size);
+}
+
+.progressRing[aria-busy="true"] {
+  animation: spin 1.5s infinite linear;
+  background-image: conic-gradient(transparent, var(--colorFg));
+}
+
+.progressRing[data-variant="round"]::before {
+  background-color: var(--colorFg);
+  border-radius: var(--thickness);
+  content: " ";
+  height: var(--thickness);
+  left: calc(50% - var(--thickness) / 2);
+  position: absolute;
+  top: 0;
+  width: var(--thickness);
+}
+
+.progressRing[data-variant="round"][aria-busy="false"] > div:first-child {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: rotate(var(--angle));
+  width: 100%;
+}
+
+.progressRing[data-variant="round"][aria-busy="false"]
+  > div:first-child::before {
+  background-color: var(--colorFg);
+  border-radius: var(--thickness);
+  content: " ";
+  height: var(--thickness);
+  left: calc(50% - var(--thickness) / 2);
+  position: absolute;
+  top: 0;
+  width: var(--thickness);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

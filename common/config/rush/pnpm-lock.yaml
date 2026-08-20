@@ -1035,79 +1035,6 @@ importers:
         specifier: ~4.23.12
         version: 4.23.12
 
-  ../../packages/react-components:
-    dependencies:
-      '@glyph-cat/color':
-        specifier: workspace:*
-        version: link:../color
-      '@glyph-cat/css-utils':
-        specifier: workspace:*
-        version: link:../css-utils
-      '@glyph-cat/equality':
-        specifier: workspace:*
-        version: link:../equality
-      '@glyph-cat/foundation':
-        specifier: workspace:*
-        version: link:../foundation
-      '@glyph-cat/swiss-army-knife':
-        specifier: workspace:*
-        version: link:../core
-      '@glyph-cat/swiss-army-knife-react':
-        specifier: workspace:*
-        version: link:../react
-      '@glyph-cat/type-checking':
-        specifier: workspace:*
-        version: link:../type-checking
-      react:
-        specifier: ^19.2.8
-        version: 19.2.8
-    devDependencies:
-      '@babel/plugin-transform-modules-commonjs':
-        specifier: ^7
-        version: 7.28.6(@babel/core@7.29.0)
-      '@babel/preset-typescript':
-        specifier: ^7
-        version: 7.28.5(@babel/core@7.29.0)
-      '@jest/types':
-        specifier: ~30.4.1
-        version: 30.4.1
-      '@microsoft/api-extractor':
-        specifier: ~7.58.12
-        version: 7.58.12(@types/node@26.2.0)
-      '@rollup/plugin-commonjs':
-        specifier: ~29.0.3
-        version: 29.0.3(rollup@4.62.4)
-      '@rollup/plugin-node-resolve':
-        specifier: ~16.0.3
-        version: 16.0.3(rollup@4.62.4)
-      '@rollup/plugin-typescript':
-        specifier: ~12.3.0
-        version: 12.3.0(rollup@4.62.4)(tslib@2.8.1)(typescript@5.9.3)
-      '@types/jest':
-        specifier: ~30.0.0
-        version: 30.0.0
-      '@types/node':
-        specifier: ~26.2.0
-        version: 26.2.0
-      cspell:
-        specifier: ~10.0.1
-        version: 10.0.1
-      eslint:
-        specifier: ~10.8.1
-        version: 10.8.1(jiti@2.7.0)
-      globals:
-        specifier: ~17.11.0
-        version: 17.11.0
-      jest-extended:
-        specifier: ~7.0.0
-        version: 7.0.0(jest@30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3)))(typescript@5.9.3)
-      rollup:
-        specifier: ~4.62.4
-        version: 4.62.4
-      tsx:
-        specifier: ~4.23.12
-        version: 4.23.12
-
   ../../packages/react-test-utils:
     dependencies:
       '@glyph-cat/cleanup-manager':
@@ -1189,6 +1116,91 @@ importers:
       jest:
         specifier: ~30.4.2
         version: 30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3))
+      jest-extended:
+        specifier: ~7.0.0
+        version: 7.0.0(jest@30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3)))(typescript@5.9.3)
+      rollup:
+        specifier: ~4.62.4
+        version: 4.62.4
+      tsx:
+        specifier: ~4.23.12
+        version: 4.23.12
+
+  ../../packages/react-web-components:
+    dependencies:
+      '@glyph-cat/color':
+        specifier: workspace:*
+        version: link:../color
+      '@glyph-cat/css-utils':
+        specifier: workspace:*
+        version: link:../css-utils
+      '@glyph-cat/equality':
+        specifier: workspace:*
+        version: link:../equality
+      '@glyph-cat/foundation':
+        specifier: workspace:*
+        version: link:../foundation
+      '@glyph-cat/swiss-army-knife':
+        specifier: workspace:*
+        version: link:../core
+      '@glyph-cat/swiss-army-knife-react':
+        specifier: workspace:*
+        version: link:../react
+      '@glyph-cat/type-checking':
+        specifier: workspace:*
+        version: link:../type-checking
+      clsx:
+        specifier: ~2.1.1
+        version: 2.1.1
+      csstype:
+        specifier: ~3.2.3
+        version: 3.2.3
+      react:
+        specifier: ^19.2.8
+        version: 19.2.8
+    devDependencies:
+      '@babel/plugin-transform-modules-commonjs':
+        specifier: ^7
+        version: 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript':
+        specifier: ^7
+        version: 7.28.5(@babel/core@7.29.0)
+      '@jest/types':
+        specifier: ~30.4.1
+        version: 30.4.1
+      '@microsoft/api-extractor':
+        specifier: ~7.58.12
+        version: 7.58.12(@types/node@26.2.0)
+      '@rollup/plugin-commonjs':
+        specifier: ~29.0.3
+        version: 29.0.3(rollup@4.62.4)
+      '@rollup/plugin-node-resolve':
+        specifier: ~16.0.3
+        version: 16.0.3(rollup@4.62.4)
+      '@rollup/plugin-typescript':
+        specifier: ~12.3.0
+        version: 12.3.0(rollup@4.62.4)(tslib@2.8.1)(typescript@5.9.3)
+      '@types/jest':
+        specifier: ~30.0.0
+        version: 30.0.0
+      '@types/node':
+        specifier: ~26.2.0
+        version: 26.2.0
+      '@types/react':
+        specifier: ~19.2.18
+        version: 19.2.18
+      '@types/react-dom':
+        specifier: ~19.2.4
+        version: 19.2.4(@types/react@19.2.18)
+      cspell:
+        specifier: ~10.0.1
+        version: 10.0.1
+      eslint:
+        specifier: ~10.8.1
+        version: 10.8.1(jiti@2.7.0)
+      globals:
+        specifier: ~17.11.0
+        version: 17.11.0
       jest-extended:
         specifier: ~7.0.0
         version: 7.0.0(jest@30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@5.9.3)))(typescript@5.9.3)
