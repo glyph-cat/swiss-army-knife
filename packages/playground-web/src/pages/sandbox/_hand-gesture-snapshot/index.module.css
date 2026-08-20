@@ -1,0 +1,8 @@
+.container {
+}
+
+.landmarkDisplayCanvas {
+  aspect-ratio: 3 / 2;
+  background-color: #000000;
+  border: solid 1px #80808080;
+}

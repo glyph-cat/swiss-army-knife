@@ -138,8 +138,8 @@
       "shouldPublish": false
     },
     {
-      "packageName": "@glyph-cat/playground-nextjs",
-      "projectFolder": "packages/playground-nextjs",
+      "packageName": "@glyph-cat/playground-web",
+      "projectFolder": "packages/playground-web",
       "shouldPublish": false
     },
     {

@@ -40,6 +40,14 @@
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "target": "esnext"
+    "target": "esnext",
+    "types": [
+      "jest",
+      "node",
+    ],
   },
+  "include": [
+    "src/**/*",
+    "custom.d.ts"
+  ]
 }

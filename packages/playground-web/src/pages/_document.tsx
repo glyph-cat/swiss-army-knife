@@ -1,0 +1,16 @@
+import { Head, Html, Main, NextScript } from 'next/document'
+import { ReactNode } from 'react'
+
+function Document(): ReactNode {
+  return (
+    <Html lang='en'>
+      <Head />
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  )
+}
+
+export default Document

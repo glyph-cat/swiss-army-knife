@@ -1,0 +1,34 @@
+import { View } from '@glyph-cat/swiss-army-knife-react'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
+import { APIOpenSandboxInEditor } from '~services/api/endpoints/sandboxes/open-in-editor'
+import styles from './index.module.css'
+
+export function SandboxStarter(): ReactNode {
+
+  const router = useRouter()
+
+  const onOpenInEditor = useCallback(async () => {
+    await APIOpenSandboxInEditor({
+      sandboxName: router.asPath.replace(/^\/sandbox\//, ''),
+      isNew: true,
+    })
+  }, [router.asPath])
+
+  return (
+    <View className={styles.container}>
+      <View className={styles.subContainer}>
+        <h1>{'This is a new sandbox'}</h1>
+        <p style={{ fontSize: '14pt' }}>
+          {'Visit '}
+          <span className={'a'} onClick={onOpenInEditor}>
+            <code>{router.asPath}.tsx</code>
+          </span>
+          {' to begin editing'}
+        </p>
+      </View>
+    </View>
+  )
+}
+
+export default SandboxStarter

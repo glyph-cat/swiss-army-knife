@@ -1,0 +1,12 @@
+.code {
+  background-color: #2b80ff28;
+  border-radius: 5px;
+  color: #146aea;
+  padding: 1px 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .code {
+    color: #63a1ff;
+  }
+}

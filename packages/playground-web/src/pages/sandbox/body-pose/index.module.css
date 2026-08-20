@@ -1,0 +1,24 @@
+.container {
+  height: 90vh;
+  grid-auto-rows: auto;
+  place-items: center;
+}
+
+.subContainer {
+  gap: 10px;
+  place-items: center;
+}
+
+.buttonContainer {
+  gap: 10px;
+  grid-auto-flow: column;
+}
+
+.cameraDisplayContainer {
+  border: solid 1px #80808080;
+}
+
+.progressRing {
+  place-self: center;
+  position: absolute;
+}

@@ -1,0 +1,26 @@
+.container {
+  border: solid 1px #4b4b4b;
+  border-radius: var(--spacingM);
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.title {
+  align-items: center;
+  background-color: #4b4b4b;
+  color: #ffffff;
+  font-size: 10pt;
+  font-weight: bold;
+  height: 28px;
+  letter-spacing: 0.01em;
+  opacity: 0.5;
+  padding-inline: var(--spacingM);
+  text-transform: uppercase;
+}
+
+.iframe {
+  border: none;
+  display: grid;
+  min-height: 240px;
+  width: 100%;
+}

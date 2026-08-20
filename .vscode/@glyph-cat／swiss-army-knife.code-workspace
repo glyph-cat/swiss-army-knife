@@ -81,16 +81,16 @@
       "path": "../packages/playground-web/src/~unstable"
     },
     {
-      "name": "sandboxes (nextjs)",
-      "path": "../packages/playground-nextjs/src/pages/sandbox"
+      "name": "sandboxes (web)",
+      "path": "../packages/playground-web/src/pages/sandbox"
     },
     {
       "name": "sandboxes (expo)",
       "path": "../packages/playground-expo/src/~sandboxes"
     },
     {
-      "name": "playground-nextjs",
-      "path": "../packages/playground-nextjs"
+      "name": "playground-web",
+      "path": "../packages/playground-web"
     },
     {
       "name": "playground-expo",

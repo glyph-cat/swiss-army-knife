@@ -7,6 +7,11 @@ import { type ReactNode } from 'react'
 import { View, ViewProps } from '../view'
 import styles from './index.module.css'
 
+// Refs:
+// https://www.npmjs.com/package/rollup-plugin-postcss
+// https://www.npmjs.com/package/rollup-plugin-styles
+// https://www.npmjs.com/package/rollup-plugin-import-css
+  
 export interface ProgressRingProps extends ViewProps {
   /**
    * @defaultValue `'#808080'`

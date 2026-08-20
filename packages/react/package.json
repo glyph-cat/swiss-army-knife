@@ -60,6 +60,7 @@
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/eslint-config": "workspace:*",
     "@glyph-cat/project-helpers": "workspace:*",
+    "@glyph-cat/react-test-utils": "workspace:*",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-babel": "~7.0.0",
@@ -77,27 +78,11 @@
     "globals": "~17.11.0",
     "jest-extended": "~7.0.0",
     "jest": "~30.4.2",
+    "metro-react-native-babel-preset": "~0.77.0",
     "react-dom": "~19.2.8",
     "react-native": "~0.87.0",
+    "react": "~19.2.8",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12",
-    "@glyph-cat/react-test-utils": "workspace:*",
-    "metro-react-native-babel-preset": "~0.77.0"
-  },
-  "peerDependencies": {
-    "react": "~19.2.5",
-    "react-dom": "*",
-    "react-native": "*"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    },
-    "react-native": {
-      "optional": true
-    }
+    "tsx": "~4.23.12"
   }
 }
