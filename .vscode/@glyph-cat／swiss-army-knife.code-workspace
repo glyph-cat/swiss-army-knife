@@ -17,8 +17,8 @@
       "path": "../packages/react"
     },
     {
-      "name": "react-web-components",
-      "path": "../packages/react-web-components"
+      "name": "react components web",
+      "path": "../packages/react-components-web"
     },
     {
       "name": "react test utils",

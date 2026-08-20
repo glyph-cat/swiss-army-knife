@@ -1,0 +1,74 @@
+{
+  "name": "@glyph-cat/react-components-web",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "unpkg": "lib/umd/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/types/index.d.ts",
+  "scripts": {
+    "afe": "tsx ./scripts/run/auto-forward-exports",
+    "clean": "rm -rf ./lib ./temp/tsc",
+    "lint": "eslint .",
+    "spellcheck": "cspell lint . -c ../../.vscode/cspell.json",
+    "debug": "scope=\"debug\" jest -c ./jest.config.ts",
+    "bundle": "rollup -c ./config/rollup.config.js",
+    "types": "tsc -p ./tsconfig.build.json --declaration --declarationDir ./temp/tsc/types --emitDeclarationOnly",
+    "api": "api-extractor run -c ./config/api-extractor.json --local --verbose",
+    "build": "sh ./scripts/run/build.sh",
+    "test": "jest -c ./jest.config.ts",
+    "all": "sh ./scripts/run/all.sh"
+  },
+  "keywords": [],
+  "author": "glyph-cat",
+  "readme": "README.md",
+  "license": "MIT",
+  "homepage": "https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/react-components-web#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glyph-cat/swiss-army-knife.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glyph-cat/swiss-army-knife/issues"
+  },
+  "dependencies": {
+    "@glyph-cat/color": "workspace:*",
+    "@glyph-cat/css-utils": "workspace:*",
+    "@glyph-cat/equality": "workspace:*",
+    "@glyph-cat/foundation": "workspace:*",
+    "@glyph-cat/swiss-army-knife-react": "workspace:*",
+    "@glyph-cat/swiss-army-knife": "workspace:*",
+    "@glyph-cat/type-checking": "workspace:*",
+    "clsx": "~2.1.1",
+    "csstype": "~3.2.3"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7",
+    "@babel/preset-typescript": "^7",
+    "@glyph-cat/eslint-config": "workspace:*",
+    "@jest/types": "~30.4.1",
+    "@microsoft/api-extractor": "~7.58.12",
+    "@rollup/plugin-babel": "~7.1.0",
+    "@rollup/plugin-commonjs": "~29.0.3",
+    "@rollup/plugin-node-resolve": "~16.0.3",
+    "@rollup/plugin-typescript": "~12.3.0",
+    "@testing-library/jest-dom": "~7.0.1",
+    "@testing-library/react": "~16.3.2",
+    "@types/jest": "~30.0.0",
+    "@types/node": "~26.2.0",
+    "@types/react-dom": "~19.2.4",
+    "@types/react": "~19.2.18",
+    "cspell": "~10.0.1",
+    "eslint": "~10.8.1",
+    "globals": "~17.11.0",
+    "jest-extended": "~7.0.0",
+    "jest": "~30.4.2",
+    "react-dom": "~19.2.8",
+    "react": "^19.2.8",
+    "rollup": "~4.62.4",
+    "tsx": "~4.23.12"
+  }
+}

@@ -1,6 +1,6 @@
 import type * as RushLib from '@microsoft/rush-lib'
-import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
 import { createRequire } from 'module'
 import { readFileSync } from 'node:fs'
 import { type ServerOptions as HttpsServerOptions } from 'node:https'
@@ -10,6 +10,7 @@ import { defineConfig, type PreviewOptions, type ServerOptions } from 'vite'
 const require = createRequire(import.meta.url)
 const { RushConfiguration } = require('@microsoft/rush-lib') as typeof RushLib
 
+// https://vite.dev/config/
 export default defineConfig((env) => {
   const rushConfig = RushConfiguration.loadFromDefaultLocation()
   const monorepoRoot = rushConfig.rushJsonFolder
@@ -19,12 +20,16 @@ export default defineConfig((env) => {
     cert: readFileSync(path.join(certificatesDirectory, 'localhost.pem')),
   }
   const commonViteServerOptions: ServerOptions & PreviewOptions = {
+    port: 3000,
+    host: '0.0.0.0',
     https: httpsOptions,
   }
   return {
+    server: commonViteServerOptions,
+    preview: commonViteServerOptions,
     plugins: [
+      react(),
       tailwindcss(),
-      reactRouter(),
     ],
     resolve: {
       tsconfigPaths: true,
