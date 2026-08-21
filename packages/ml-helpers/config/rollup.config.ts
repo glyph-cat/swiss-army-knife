@@ -1,26 +1,19 @@
+import { customReplace, customTerser } from '@glyph-cat/custom-tools/custom-rollup-plugins'
+import { BuildType } from '@glyph-cat/foundation'
 import commonjs from '@rollup/plugin-commonjs'
-import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
-import { execSync } from 'child_process'
-import { Plugin, RollupOptions } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
-import packageJson from '../package.json'
-
-// @ts-expect-error because we are relying on an old version
 import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { Plugin, RollupOptions } from 'rollup'
+import packageJson from '../package.json'
 
 const INPUT_FILE = 'src/index.ts'
 
 const EXTERNAL_LIBS = [
-  'node_modules',  // TODO: Find out why node_modules is required here
-  ...getDependenciesFromRoot(),
-].sort()
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
+]
 
-// const UMD_NAME = 'MLHelpers'
-
-function getPlugins(): Array<Plugin> {
-
+function getPlugins(buildType: BuildType): Array<Plugin> {
   const pluginStack: Array<Plugin> = [
     nodeResolve({
       extensions: ['.ts'],
@@ -29,30 +22,14 @@ function getPlugins(): Array<Plugin> {
     typescript({
       tsconfig: './tsconfig.build.json',
     }),
+    customReplace(
+      true,
+      buildType,
+      packageJson.version,
+    ),
+    customTerser(),
     // commonjs(),
   ]
-
-  // Replace values
-  const replaceValues = {
-    'process.env.PACKAGE_BUILD_HASH': JSON.stringify(
-      execSync('git rev-parse HEAD').toString().trim()
-    ),
-    'process.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
-  }
-
-  pluginStack.push(replace({
-    preventAssignment: true,
-    values: replaceValues,
-  }))
-
-  pluginStack.push(terser({
-    mangle: {
-      properties: {
-        regex: /^(M\$|_)/,
-      },
-    },
-  }))
-
   return pluginStack
 }
 
@@ -67,7 +44,7 @@ const config: Array<RollupOptions> = [
       sourcemap: false,
     },
     external: EXTERNAL_LIBS,
-    plugins: getPlugins(),
+    plugins: getPlugins(BuildType.CJS),
   },
   {
     // EcmaScript (Minified)
@@ -79,24 +56,8 @@ const config: Array<RollupOptions> = [
       sourcemap: false,
     },
     external: EXTERNAL_LIBS,
-    plugins: getPlugins(),
+    plugins: getPlugins(BuildType.MJS),
   },
-  // {
-  //   // UMD (Minified)
-  //   input: INPUT_FILE,
-  //   output: {
-  //     file: 'lib/umd/index.min.js',
-  //     format: 'umd',
-  //     name: UMD_NAME,
-  //     exports: 'named',
-  //     sourcemap: false,
-  //     globals: {
-  //       '@glyph-cat/swiss-army-knife': 'GCSwissArmyKnife',
-  //     },
-  //   },
-  //   external: EXTERNAL_LIBS,
-  //   plugins: getPlugins(),
-  // },
 ]
 
 export default config

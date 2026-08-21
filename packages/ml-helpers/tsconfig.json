@@ -20,16 +20,9 @@
     "strict": true,
     "stripInternal": true,
     "target": "esnext",
+    "types": [
+      "jest",
+      "node",
+    ]
   },
-  "exclude": [
-    "node_modules",
-    "**/*.draft*",
-    "**/*.old*",
-    "**/*.scripted*",
-    "**/*.test.*",
-  ],
-  "include": [
-    "./custom.d.ts",
-    "./src/**/*.ts",
-  ],
 }

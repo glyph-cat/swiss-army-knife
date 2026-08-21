@@ -1,8 +1,8 @@
 set -e
 
-yarn clean
-yarn bundle
-yarn types
-yarn api
+rushx clean
+rushx bundle
+rushx types
+rushx api
 
 rm -r ./temp/tsc

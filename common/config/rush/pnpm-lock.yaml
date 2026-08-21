@@ -760,6 +760,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7
         version: 7.28.5(@babel/core@7.29.0)
+      '@glyph-cat/custom-tools':
+        specifier: workspace:*
+        version: link:../tools
       '@glyph-cat/project-helpers':
         specifier: workspace:*
         version: link:../project-helpers
@@ -793,6 +796,9 @@ importers:
       globals:
         specifier: ~17.11.0
         version: 17.11.0
+      jest:
+        specifier: ~30.4.2
+        version: 30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@6.0.3))
       jest-extended:
         specifier: ~7.0.0
         version: 7.0.0(jest@30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@6.0.3)))(typescript@6.0.3)
