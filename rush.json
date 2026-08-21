@@ -113,11 +113,6 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/crayon",
-      "projectFolder": "packages/crayon",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@glyph-cat/sleep-sort",
       "projectFolder": "packages/sleep-sort",
       "shouldPublish": true

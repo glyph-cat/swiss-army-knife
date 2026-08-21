@@ -57,10 +57,6 @@
       "path": "../packages/ml-helpers"
     },
     {
-      "name": "crayon",
-      "path": "../packages/crayon"
-    },
-    {
       "name": "sleep-sort",
       "path": "../packages/sleep-sort"
     },

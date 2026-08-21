@@ -36,9 +36,6 @@ GlyphCat's set of common utilities for various platforms/environments (NodeJS, W
 - Helper functions to use in conjunction with machine learning outputs such as mediapipe.
 - View release notes [here](https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/ml-helpers/docs/changelog).
 
-### `crayon`
-- CLI text coloring and decoration utilities.
-- View release notes [here](https://github.com/glyph-cat/swiss-army-knife/tree/main/src/packages/crayon/docs/changelog).
 
 ---
 
