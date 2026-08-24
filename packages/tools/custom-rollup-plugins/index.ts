@@ -51,9 +51,6 @@ export function removeTestProbes(): Plugin {
       const testProbeSyntaxPattern = /useTestProbe\([A-za-z0-9_.]+\)/
       const testProbeImportPattern = /from '@glyph-cat\/react-test-utils'/
       if (testProbeSyntaxPattern.test(code) || testProbeImportPattern.test(code)) {
-        console.log('='.repeat(20))
-        console.log(code)
-        console.log('='.repeat(20))
         return code.split('\n').filter((line) => {
           return !testProbeSyntaxPattern.test(line) && !testProbeImportPattern.test(line)
         }).join('\n')
