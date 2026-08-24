@@ -50,6 +50,7 @@
     "@babel/preset-typescript": "^7",
     "@glyph-cat/custom-tools": "workspace:*",
     "@glyph-cat/eslint-config": "workspace:*",
+    "@glyph-cat/project-helpers": "workspace:*",
     "@jest/types": "~30.4.1",
     "@microsoft/api-extractor": "~7.58.12",
     "@rollup/plugin-babel": "~7.1.0",
@@ -65,15 +66,13 @@
     "cspell": "~10.0.1",
     "eslint": "~10.8.1",
     "globals": "~17.11.0",
+    "identity-obj-proxy": "~3.0.0",
     "jest-extended": "~7.0.0",
     "jest": "~30.4.2",
     "react-dom": "~19.2.8",
     "react": "^19.2.8",
-    "rollup-plugin-import-css": "~4.2.1",
+    "rollup-plugin-postcss": "~4.0.2",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12",
-    "@glyph-cat/project-helpers": "workspace:*",
-    "identity-obj-proxy": "~3.0.0",
-    "rollup-plugin-postcss": "~4.0.2"
+    "tsx": "~4.23.12"
   }
 }
