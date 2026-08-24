@@ -10,11 +10,13 @@ import {
 import { VIEW_STYLES } from '../_internals'
 
 /**
+ * @deprecated Please import from '@glyph-cat/react-components-web' instead.
  * @public
  */
 export type ViewProps = JSX.IntrinsicElements['div']
 
 /**
+ * @deprecated Please import from '@glyph-cat/react-components-web' instead.
  * @public
  */
 export interface View extends HTMLDivElement { (props: ViewProps): ReactNode }
@@ -22,6 +24,7 @@ export interface View extends HTMLDivElement { (props: ViewProps): ReactNode }
 /**
  * A drop-in replacement for the `<div>` element where
  * the display is set to `'grid'` and position is set to `'relative'`.
+ * @deprecated Please import from '@glyph-cat/react-components-web' instead.
  * @public
  */
 export const View = forwardRef<HTMLDivElement, ViewProps>(({
@@ -40,6 +43,7 @@ export const View = forwardRef<HTMLDivElement, ViewProps>(({
 })
 
 /**
+ * @deprecated This will be removed with no replacements due to diminishing returns and complexity.
  * @public
  */
 export interface FocusableViewProps extends ViewProps {

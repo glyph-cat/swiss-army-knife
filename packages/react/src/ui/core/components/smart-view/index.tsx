@@ -5,7 +5,7 @@ import { View, ViewProps } from '../view'
 // #region Context
 
 /**
- * @public
+ * @deprecated This will be removed with no replacements due to diminishing returns and complexity.
  */
 export interface ISmartViewContext {
   level: number
@@ -16,7 +16,7 @@ const SmartViewContext = createContext<ISmartViewContext>({
 })
 
 /**
- * @public
+ * @deprecated This will be removed with no replacements due to diminishing returns and complexity.
  */
 export function useSmartViewContext(): ISmartViewContext {
   return useContext(SmartViewContext)
@@ -27,17 +27,17 @@ export function useSmartViewContext(): ISmartViewContext {
 // #region Component
 
 /**
- * @public
+ * @deprecated This will be removed with no replacements due to diminishing returns and complexity.
  */
 export type SmartViewProps = ViewProps
 
 /**
- * @public
+ * @deprecated This will be removed with no replacements due to diminishing returns and complexity.
  */
 export interface SmartView extends View { (props: ViewProps): ReactNode }
 
 /**
- * @public
+ * @deprecated This will be removed with no replacements due to diminishing returns and complexity.
  */
 export const SmartView = forwardRef((
   props: SmartViewProps,

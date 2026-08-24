@@ -46,8 +46,4 @@
       "node",
     ],
   },
-  "include": [
-    "src/**/*",
-    "custom.d.ts"
-  ]
 }

@@ -1,10 +1,10 @@
 set -e
 
-yarn clean
-yarn bundle
-yarn types
-yarn api
+rushx clean
+rushx bundle
+rushx types
+rushx api
 
-yarn tsx ./scripts/run/inspect-build
+rush-pnpm exec tsx ./scripts/run/inspect-build
 
 rm -r ./temp/tsc

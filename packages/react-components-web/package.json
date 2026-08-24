@@ -71,6 +71,8 @@
     "react": "^19.2.8",
     "rollup-plugin-import-css": "~4.2.1",
     "rollup": "~4.62.4",
-    "tsx": "~4.23.12"
+    "tsx": "~4.23.12",
+    "@glyph-cat/project-helpers": "workspace:*",
+    "identity-obj-proxy": "~3.0.0"
   }
 }

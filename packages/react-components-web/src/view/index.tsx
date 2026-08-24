@@ -10,7 +10,10 @@ export function View({
   ...props
 }: ViewProps): ReactNode {
   return (
-    <div className={clsx(styles.view, className)} {...props}>
+    <div // eslint-disable-line react/forbid-elements
+      className={clsx(styles.view, className)}
+      {...props}
+    >
       {children}
     </div>
   )
