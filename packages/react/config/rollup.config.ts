@@ -49,14 +49,14 @@ function getPlugins(config: IPluginConfig): Array<Plugin> {
   const { buildType, isProductionTarget } = config
 
   const pluginStack: Array<Plugin> = [
+    removeTestProbes(),
+    setDisplayName(!isProductionTarget),
     nodeResolve({
       // KIV: using @rollup/plugin-node-resolve v14 or above will cause
       // '.native.(t|j)sx?' files to be ignored
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),
     commonjs({ sourceMap: false }),
-    setDisplayName(!isProductionTarget),
-    removeTestProbes(),
     typescript({
       tsconfig: './tsconfig.build.json',
     }),

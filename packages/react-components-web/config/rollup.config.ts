@@ -1,19 +1,16 @@
-// import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
-import { Plugin, RollupOptions } from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
 import {
   customReplace,
   customTerser,
   removeTestProbes,
   setDisplayName,
-} from '../../../../tools/custom-rollup-plugins'
-import { getDependenciesFromRoot } from '../../../../tools/get-dependencies'
+} from '@glyph-cat/custom-tools/custom-rollup-plugins'
+import commonjs from '@rollup/plugin-commonjs'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import { Plugin, RollupOptions } from 'rollup'
+import css from 'rollup-plugin-import-css'
 import { BuildType } from '../../foundation/src/build'
 import packageJson from '../package.json'
-
-// @ts-expect-error because we are relying on an old version
-import nodeResolve from '@rollup/plugin-node-resolve'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [
   '.tsx',
@@ -37,7 +34,8 @@ const EXTERNAL_LIBS = [
   'react/jsx-runtime', // https://stackoverflow.com/a/71396781/5810737
   'react-dom/client',
   'react-dom/server',
-  ...getDependenciesFromRoot(),
+  ...Object.keys(packageJson.dependencies),
+  ...Object.keys(packageJson.devDependencies),
 ].sort()
 
 interface IPluginConfig {
@@ -50,14 +48,15 @@ function getPlugins(config: IPluginConfig): Array<Plugin> {
   const { buildType, isProductionTarget } = config
 
   const pluginStack: Array<Plugin> = [
+    removeTestProbes(),
+    setDisplayName(!isProductionTarget),
     nodeResolve({
       // KIV: using @rollup/plugin-node-resolve v14 or above will cause
       // '.native.(t|j)sx?' files to be ignored
       extensions: NODE_RESOLVE_EXTENSIONS_BASE,
     }),
     commonjs({ sourceMap: false }),
-    setDisplayName(!isProductionTarget),
-    removeTestProbes(),
+    css({ inject: true }),
     // babel({
     //   presets: [
     //     // '@babel/preset-env',
@@ -76,12 +75,7 @@ function getPlugins(config: IPluginConfig): Array<Plugin> {
     //   babelHelpers: 'bundled',
     // }),
     typescript({
-      compilerOptions: {
-        declaration: false,
-        jsx: 'react-jsx',
-        declarationDir: null,
-        outDir: null,
-      },
+      tsconfig: './tsconfig.build.json',
     }),
     customReplace(
       isProductionTarget,

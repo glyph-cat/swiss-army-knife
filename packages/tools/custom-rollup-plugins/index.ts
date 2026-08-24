@@ -29,19 +29,36 @@ export function setDisplayName(enabled: boolean): Plugin {
 }
 
 export function removeTestProbes(): Plugin {
+  // const REACT_TEST_UTILS = '@glyph-cat/react-test-utils'
   return {
     name: 'remove-test-probes',
+    // KIV: resolveId was never once called with '@glyph-cat/react-test-utils'
+    // resolveId(source) {
+    //   console.log('source', source)
+    //   if (source === REACT_TEST_UTILS) {
+    //     return `\0${REACT_TEST_UTILS}`
+    //   }
+    //   return null
+    // },
+    // load(id) {
+    //   console.log('id', id)
+    //   if (id === `\0${REACT_TEST_UTILS}`) {
+    //     return '' // No code
+    //   }
+    //   return null
+    // },
     transform(code) {
-      // If `.+` then will also cause the declaration `export function useTestProbe()...` to match
       const testProbeSyntaxPattern = /useTestProbe\([A-za-z0-9_.]+\)/
-      // if (testProbeSyntaxPattern.test(code)) {
-      //   console.log('output\n\n', code.split('\n').filter((line) => {
-      //     return !testProbeSyntaxPattern.test(line)
-      //   }).join('\n'))
-      // }
-      return code.split('\n').filter((line) => {
-        return !testProbeSyntaxPattern.test(line)
-      }).join('\n')
+      const testProbeImportPattern = /from '@glyph-cat\/react-test-utils'/
+      if (testProbeSyntaxPattern.test(code) || testProbeImportPattern.test(code)) {
+        console.log('='.repeat(20))
+        console.log(code)
+        console.log('='.repeat(20))
+        return code.split('\n').filter((line) => {
+          return !testProbeSyntaxPattern.test(line) && !testProbeImportPattern.test(line)
+        }).join('\n')
+      }
+      return code
     },
   }
 }

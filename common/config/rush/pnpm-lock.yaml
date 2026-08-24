@@ -326,61 +326,6 @@ importers:
         specifier: ~4.23.12
         version: 4.23.12
 
-  ../../packages/crayon:
-    dependencies:
-      '@glyph-cat/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@glyph-cat/foundation':
-        specifier: workspace:*
-        version: link:../foundation
-    devDependencies:
-      '@babel/plugin-transform-modules-commonjs':
-        specifier: ^7
-        version: 7.28.6(@babel/core@7.29.0)
-      '@babel/preset-typescript':
-        specifier: ^7
-        version: 7.28.5(@babel/core@7.29.0)
-      '@jest/types':
-        specifier: ~30.4.1
-        version: 30.4.1
-      '@microsoft/api-extractor':
-        specifier: ~7.58.12
-        version: 7.58.12(@types/node@26.2.0)
-      '@rollup/plugin-commonjs':
-        specifier: ~29.0.3
-        version: 29.0.3(rollup@4.62.4)
-      '@rollup/plugin-node-resolve':
-        specifier: ~16.0.3
-        version: 16.0.3(rollup@4.62.4)
-      '@rollup/plugin-typescript':
-        specifier: ~12.3.0
-        version: 12.3.0(rollup@4.62.4)(tslib@2.8.1)(typescript@6.0.3)
-      '@types/jest':
-        specifier: ~30.0.0
-        version: 30.0.0
-      '@types/node':
-        specifier: ~26.2.0
-        version: 26.2.0
-      cspell:
-        specifier: ~10.0.1
-        version: 10.0.1
-      eslint:
-        specifier: ~10.8.1
-        version: 10.8.1(jiti@2.7.0)
-      globals:
-        specifier: ~17.11.0
-        version: 17.11.0
-      jest-extended:
-        specifier: ~7.0.0
-        version: 7.0.0(jest@30.4.2(@types/node@26.2.0)(ts-node@10.9.2(@types/node@26.2.0)(typescript@6.0.3)))(typescript@6.0.3)
-      rollup:
-        specifier: ~4.62.4
-        version: 4.62.4
-      tsx:
-        specifier: ~4.23.12
-        version: 4.23.12
-
   ../../packages/css-utils:
     dependencies:
       '@glyph-cat/foundation':
@@ -1111,6 +1056,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7
         version: 7.29.7(@babel/core@7.29.0)
+      '@glyph-cat/custom-tools':
+        specifier: workspace:*
+        version: link:../tools
       '@glyph-cat/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
@@ -1174,6 +1122,9 @@ importers:
       rollup:
         specifier: ~4.62.4
         version: 4.62.4
+      rollup-plugin-import-css:
+        specifier: ~4.2.1
+        version: 4.2.1(rollup@4.62.4)
       tsx:
         specifier: ~4.23.12
         version: 4.23.12
@@ -6945,6 +6896,12 @@ packages:
     resolution: {integrity: sha512-VD2IE5PUG4Oj8zz2VGykiYd5wbnjdIiSsNQb8Qu5B+noEp+A78mu2iVvpp27g8es14Tk9rofNs5Tku9iQCS4fA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
+
+  rollup-plugin-import-css@4.2.1:
+    resolution: {integrity: sha512-X0TbADEYeCWx0ULS3d9I2vRHT9smhSDkCol8bTCDyI0pAJAZStK0EGo9c4i9hUbOoPeTgWE+hcUjm0V/GoseUQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      rollup: ^2.x.x || ^3.x.x || ^4.x.x
 
   rollup@4.62.4:
     resolution: {integrity: sha512-RXOqwaPsBGjMNMa4sQjDjHieHEZDFoj/Rdr46l2MU5DfEs16wHJPC2RPTPHWhNl+M3aI472LLqFkFKut4SblOg==}
@@ -14503,6 +14460,11 @@ snapshots:
       '@rolldown/binding-openharmony-arm64': 1.2.5
       '@rolldown/binding-win32-arm64-msvc': 1.2.5
       '@rolldown/binding-win32-x64-msvc': 1.2.5
+
+  rollup-plugin-import-css@4.2.1(rollup@4.62.4):
+    dependencies:
+      '@rollup/pluginutils': 5.3.0(rollup@4.62.4)
+      rollup: 4.62.4
 
   rollup@4.62.4:
     dependencies:
