@@ -73,6 +73,7 @@
     "rollup": "~4.62.4",
     "tsx": "~4.23.12",
     "@glyph-cat/project-helpers": "workspace:*",
-    "identity-obj-proxy": "~3.0.0"
+    "identity-obj-proxy": "~3.0.0",
+    "rollup-plugin-postcss": "~4.0.2"
   }
 }
