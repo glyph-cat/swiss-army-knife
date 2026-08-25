@@ -7,41 +7,52 @@ import { type ReactNode } from 'react'
 import { View, ViewProps } from '../view'
 import styles from './index.module.css'
 
+/**
+ * @public
+ */
 export interface ProgressRingProps extends ViewProps {
   /**
+   * The foreground color.
    * @defaultValue `'#808080'`
    */
   colorFg?: Property.Color
   /**
+   * The background color.
    * @defaultValue `'#80808040'` when determinate, `'transparent'` when indeterminate.
    */
   colorBg?: Property.Color
   /**
+   * The current progress value.
+   * Omit this parameter to indicate an indeterminate state.
    * @defaultValue `undefined`
    */
   value?: number
   /**
+   * The minimum value.
    * @defaultValue `0`
    */
   minValue?: number
   /**
+   * The maximum value.
    * @defaultValue `100`
    */
   maxValue?: number
   /**
+   * When expressed as a number, it is equivalent to pixel units (`64` = `64px`).
    * @defaultValue `64`
    */
-  size?: number
+  size?: Property.Height<number>
   /**
+   * Thickness of the ring.
    * @defaultValue `8`
    */
   thickness?: number
-  /**
-   * @defaultValue `'round'`
-   */
-  variant?: 'round' | 'flat'
 }
 
+/**
+ * A circular progress indicator.
+ * @public
+ */
 export function ProgressRing({
   value,
   minValue = 0,
@@ -50,7 +61,6 @@ export function ProgressRing({
   colorBg,
   size = 64,
   thickness = 8,
-  variant = 'round',
   className,
   children,
   style,
@@ -67,7 +77,6 @@ export function ProgressRing({
       aria-valuemax={maxValue}
       aria-busy={!isDeterminate}
       {...isDeterminate ? { 'aria-valuenow': value } : {}}
-      data-variant={variant}
       data-overshoot={isDeterminate && value > maxValue}
       style={{
         '--angle': `${angle}deg`,
@@ -79,7 +88,7 @@ export function ProgressRing({
       }}
       {...props}
     >
-      {(variant === 'round' && isDeterminate) && <View role='presentation' />}
+      {isDeterminate && <View role='presentation' />}
     </View>
   )
   return children ? (

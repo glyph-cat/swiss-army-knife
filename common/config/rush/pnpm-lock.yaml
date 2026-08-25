@@ -770,9 +770,9 @@ importers:
       '@glyph-cat/foundation':
         specifier: workspace:*
         version: link:../foundation
-      '@glyph-cat/react-components-web':
+      '@glyph-cat/react-components':
         specifier: workspace:*
-        version: link:../react-components-web
+        version: link:../react-components
       '@glyph-cat/swiss-army-knife':
         specifier: workspace:*
         version: link:../core
@@ -1020,7 +1020,7 @@ importers:
         specifier: ~4.23.12
         version: 4.23.12
 
-  ../../packages/react-components-web:
+  ../../packages/react-components:
     dependencies:
       '@glyph-cat/color':
         specifier: workspace:*
@@ -10930,23 +10930,23 @@ snapshots:
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.29.2
-      '@babel/types': 7.29.0
+      '@babel/types': 7.29.8
       '@types/babel__generator': 7.27.0
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.28.0
 
   '@types/babel__generator@7.27.0':
     dependencies:
-      '@babel/types': 7.29.0
+      '@babel/types': 7.29.8
 
   '@types/babel__template@7.4.4':
     dependencies:
       '@babel/parser': 7.29.2
-      '@babel/types': 7.29.0
+      '@babel/types': 7.29.8
 
   '@types/babel__traverse@7.28.0':
     dependencies:
-      '@babel/types': 7.29.0
+      '@babel/types': 7.29.8
 
   '@types/esrecurse@4.3.1': {}
 
@@ -11465,7 +11465,7 @@ snapshots:
 
   babel-plugin-istanbul@7.0.1:
     dependencies:
-      '@babel/helper-plugin-utils': 7.28.6
+      '@babel/helper-plugin-utils': 7.29.7
       '@istanbuljs/load-nyc-config': 1.1.0
       '@istanbuljs/schema': 0.1.6
       istanbul-lib-instrument: 6.0.3
