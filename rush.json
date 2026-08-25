@@ -63,8 +63,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@glyph-cat/react-components-web",
-      "projectFolder": "packages/react-components-web",
+      "packageName": "@glyph-cat/react-components",
+      "projectFolder": "packages/react-components",
       "shouldPublish": true
     },
     {

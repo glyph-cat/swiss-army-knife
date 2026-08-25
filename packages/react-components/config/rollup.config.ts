@@ -9,7 +9,7 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import { Plugin, RollupOptions } from 'rollup'
 import postcss from 'rollup-plugin-postcss'
-import { BuildType } from '../../foundation/src/build'
+import { BuildType } from '@glyph-cat/foundation/src/build'
 import packageJson from '../package.json'
 
 const NODE_RESOLVE_EXTENSIONS_BASE = [

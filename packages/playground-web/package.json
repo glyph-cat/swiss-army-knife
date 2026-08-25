@@ -13,7 +13,7 @@
     "@glyph-cat/css-utils": "workspace:*",
     "@glyph-cat/equality": "workspace:*",
     "@glyph-cat/foundation": "workspace:*",
-    "@glyph-cat/react-components-web": "workspace:*",
+    "@glyph-cat/react-components": "workspace:*",
     "@glyph-cat/swiss-army-knife": "workspace:*",
     "@glyph-cat/type-checking": "workspace:*",
     "@microsoft/rush-lib": "~5.178.1",

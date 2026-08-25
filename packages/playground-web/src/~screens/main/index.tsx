@@ -1,4 +1,4 @@
-import { ProgressRing, View } from '@glyph-cat/react-components-web'
+import { ProgressRing, View } from '@glyph-cat/react-components'
 import type { ReactNode } from 'react'
 import styles from './index.module.css'
 
