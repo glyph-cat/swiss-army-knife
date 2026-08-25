@@ -3,7 +3,7 @@ import { getPercentage } from '@glyph-cat/swiss-army-knife'
 import { isNumber } from '@glyph-cat/type-checking'
 import clsx from 'clsx'
 import { type Property } from 'csstype'
-import { type ReactNode } from 'react'
+import { forwardRef, type ReactNode } from 'react'
 import { View, ViewProps } from '../view'
 import styles from './index.module.css'
 
@@ -49,11 +49,15 @@ export interface ProgressRingProps extends ViewProps {
   thickness?: number
 }
 
+export interface ProgressRing extends View {
+  (props: ProgressRingProps): ReactNode
+}
+
 /**
  * A circular progress indicator.
  * @public
  */
-export function ProgressRing({
+export const ProgressRing = forwardRef<View, ProgressRingProps>(function ProgressRingBase({
   value,
   minValue = 0,
   maxValue = 100,
@@ -65,12 +69,13 @@ export function ProgressRing({
   children,
   style,
   ...props
-}: ProgressRingProps): ReactNode {
+}, ref): ReactNode {
   const isDeterminate = isNumber(value) && isNumber(minValue) && isNumber(maxValue)
   const angle = isDeterminate ? (360 * getPercentage(value, minValue, maxValue)) : 0
   colorBg = colorBg ?? (isDeterminate ? '#80808040' : 'transparent')
   const progressRing = (
-    <View
+    <View.Relative
+      ref={ref}
       className={clsx(styles.progressRing, className)}
       role='progressbar'
       aria-valuemin={minValue}
@@ -88,13 +93,13 @@ export function ProgressRing({
       }}
       {...props}
     >
-      {isDeterminate && <View role='presentation' />}
-    </View>
+      {isDeterminate && <View.Absolute role='presentation' />}
+    </View.Relative>
   )
   return children ? (
-    <View className={styles.container}>
+    <View.Relative className={styles.container}>
       {progressRing}
-      <View>{children}</View>
-    </View>
+      <View.Absolute>{children}</View.Absolute>
+    </View.Relative>
   ) : progressRing
-}
+})

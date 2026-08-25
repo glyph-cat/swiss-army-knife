@@ -19,6 +19,7 @@ export default defineConfig(
       '@typescript-eslint/no-namespace': Severity.OFF,
       '@typescript-eslint/no-require-imports': Severity.OFF,
       '@typescript-eslint/no-empty-object-type': Severity.WARN, // temp
+      'no-useless-assignment': Severity.OFF, // temp: false positive
       ...BuildRule.ReactHooks.ExhaustiveDeps(Severity.WARN, [
         ...EXHAUSTIVE_DEPS_DEFAULT_ADDITIONAL_HOOKS,
         // 'useLayeredFocusEffect',

@@ -1,12 +1,10 @@
 .container {
   place-items: center;
   place-self: start;
-  position: relative;
 }
 
 .container > div:nth-child(2) {
   place-items: center;
-  position: absolute;
 }
 
 .progressRing {
@@ -24,7 +22,6 @@
     transparent var(--maskSize),
     black var(--maskSize)
   );
-  position: relative;
   width: var(--size);
 }
 
@@ -47,14 +44,12 @@
 .progressRing[aria-busy="false"] > div:first-child {
   height: 100%;
   left: 0;
-  position: absolute;
   top: 0;
   transform: rotate(var(--angle));
   width: 100%;
 }
 
-.progressRing[aria-busy="false"]
-  > div:first-child::before {
+.progressRing[aria-busy="false"] > div:first-child::before {
   background-color: var(--colorFg);
   border-radius: var(--thickness);
   content: " ";

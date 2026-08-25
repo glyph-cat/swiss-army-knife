@@ -1,3 +1,11 @@
 .view {
   display: grid;
 }
+
+.viewRelative {
+  position: relative;
+}
+
+.viewAbsolute {
+  position: absolute;
+}

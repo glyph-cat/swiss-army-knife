@@ -9,6 +9,7 @@ test(View.name, () => {
   renderResult = render(<View>Hello, World!</View>)
   expect(renderResult.container.tagName).toBe('DIV')
   expect(renderResult.container.textContent).toBe('Hello, World!')
+  // TODO: test to ensure underlying style is `display: grid;`
   const staticMarkup = renderToStaticMarkup(<View>Hello, World!</View>)
   expect(staticMarkup).toBe('<div class="view">Hello, World!</div>')
 })
