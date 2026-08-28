@@ -53,6 +53,10 @@ export interface ProgressRingProps extends ViewProps {
   thickness?: number
 }
 
+/**
+ * A circular progress indicator.
+ * @public
+ */
 export interface ProgressRing extends View {
   (props: ProgressRingProps): ReactNode
 }
