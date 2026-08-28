@@ -43,6 +43,18 @@ export type ViewNamespace = ForwardRefExoticComponent<ViewProps & RefAttributes<
    * @public
    */
   Absolute: ForwardRefExoticComponent<ViewProps & RefAttributes<HTMLDivElement>>
+  /**
+   * A drop-in replacement for the `<div>` element with the following styles:
+   * ```css
+   * .view {
+   *   display: grid;
+   * }
+   * .viewFixed {
+   *   position: fixed;
+   * }
+   * @public
+   */
+  Fixed: ForwardRefExoticComponent<ViewProps & RefAttributes<HTMLDivElement>>
 }
 
 /**
@@ -98,6 +110,22 @@ const AbsoluteView = forwardRef<View, ViewProps>(function AbsoluteViewBase({
   )
 })
 
+const FixedView = forwardRef<View, ViewProps>(function AbsoluteViewBase({
+  children,
+  className,
+  ...props
+}, ref): ReactNode {
+  return (
+    <div // eslint-disable-line react/forbid-elements
+      ref={ref}
+      className={clsx(styles.view, styles.viewFixed, className)}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+})
+
 /**
  * A drop-in replacement for the `<div>` element with the following styles:
  * ```css
@@ -110,4 +138,5 @@ const AbsoluteView = forwardRef<View, ViewProps>(function AbsoluteViewBase({
 export const View = Object.assign(DefaultView, {
   Relative: RelativeView,
   Absolute: AbsoluteView,
+  Fixed: FixedView,
 }) as ViewNamespace

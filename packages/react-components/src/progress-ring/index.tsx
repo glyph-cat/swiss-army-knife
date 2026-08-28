@@ -38,12 +38,16 @@ export interface ProgressRingProps extends ViewProps {
    */
   maxValue?: number
   /**
+   * The (outer) diameter of the ring.
+   *
    * When expressed as a number, it is equivalent to pixel units (`64` = `64px`).
    * @defaultValue `64`
    */
   size?: Property.Height<number>
   /**
    * Thickness of the ring.
+   *
+   * When expressed as a number, it is equivalent to pixel units (`8` = `8px`).
    * @defaultValue `8`
    */
   thickness?: number
@@ -78,10 +82,10 @@ export const ProgressRing = forwardRef<View, ProgressRingProps>(function Progres
       ref={ref}
       className={clsx(styles.progressRing, className)}
       role='progressbar'
-      aria-valuemin={minValue}
-      aria-valuemax={maxValue}
+      aria-valuenow={isDeterminate ? value : undefined}
+      aria-valuemin={isDeterminate ? minValue : undefined}
+      aria-valuemax={isDeterminate ? maxValue : undefined}
       aria-busy={!isDeterminate}
-      {...isDeterminate ? { 'aria-valuenow': value } : {}}
       data-overshoot={isDeterminate && value > maxValue}
       style={{
         '--angle': `${angle}deg`,

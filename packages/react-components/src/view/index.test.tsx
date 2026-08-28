@@ -1,15 +1,32 @@
-import { render, RenderResult } from '@testing-library/react'
-import { renderToStaticMarkup } from 'react-dom/server'
+import { render, screen } from '@testing-library/react'
 import { View } from '.'
 
-let renderResult: RenderResult
-afterEach(() => { renderResult?.unmount() })
+const HELLO_WORLD = 'Hello, World!'
 
-test(View.name, () => {
-  renderResult = render(<View>Hello, World!</View>)
-  expect(renderResult.container.tagName).toBe('DIV')
-  expect(renderResult.container.textContent).toBe('Hello, World!')
-  // TODO: test to ensure underlying style is `display: grid;`
-  const staticMarkup = renderToStaticMarkup(<View>Hello, World!</View>)
-  expect(staticMarkup).toBe('<div class="view">Hello, World!</div>')
+test('Happy Path', () => {
+  render(<View>{HELLO_WORLD}</View>)
+  const element = screen.getByText(HELLO_WORLD)
+  expect(element).toBeInstanceOf(HTMLDivElement)
+  expect(element).toHaveClass('view')
+})
+
+test('Relative', () => {
+  render(<View.Relative>{HELLO_WORLD}</View.Relative>)
+  const element = screen.getByText(HELLO_WORLD)
+  expect(element).toBeInstanceOf(HTMLDivElement)
+  expect(element).toHaveClass('view', 'viewRelative')
+})
+
+test('Absolute', () => {
+  render(<View.Absolute>{HELLO_WORLD}</View.Absolute>)
+  const element = screen.getByText(HELLO_WORLD)
+  expect(element).toBeInstanceOf(HTMLDivElement)
+  expect(element).toHaveClass('view', 'viewAbsolute')
+})
+
+test('Fixed', () => {
+  render(<View.Fixed>{HELLO_WORLD}</View.Fixed>)
+  const element = screen.getByText(HELLO_WORLD)
+  expect(element).toBeInstanceOf(HTMLDivElement)
+  expect(element).toHaveClass('view', 'viewFixed')
 })

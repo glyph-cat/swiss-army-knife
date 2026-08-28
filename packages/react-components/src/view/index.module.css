@@ -9,3 +9,7 @@
 .viewAbsolute {
   position: absolute;
 }
+
+.viewFixed {
+  position: fixed;
+}
