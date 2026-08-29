@@ -1,22 +1,27 @@
+import { Nullable } from '@glyph-cat/foundation'
 import { Key, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { __setDisplayName } from '../../_internals'
 
 /**
  * @public
  */
-export interface DOMPortalProps {
-  children: ReactNode
+export interface PortalProps {
   /**
-   * @defaultValue `document.body`
+   * @defaultValue `undefined`
+   */
+  children?: ReactNode
+  /**
+   * @defaultValue [`document.body`](https://developer.mozilla.org/en-US/docs/Web/API/Document/body)
    */
   container?: Element | DocumentFragment
-  portalKey?: Key
+  /**
+   * @defaultValue `undefined`
+   */
+  portalKey?: Nullable<Key>
 }
 
 /**
  * @example
- * import { DOMPortal as Portal } from '@glyph-cat/swiss-army-knife-react'
  * function Example(): ReactNode {
  *   return (
  *     <Portal>
@@ -26,12 +31,10 @@ export interface DOMPortalProps {
  * }
  * @public
  */
-export function DOMPortal({
+export function Portal({
   children,
   container,
   portalKey,
-}: DOMPortalProps): ReactNode {
+}: PortalProps): ReactNode {
   return createPortal(children, container ?? document.body, portalKey)
 }
-
-__setDisplayName(DOMPortal)
