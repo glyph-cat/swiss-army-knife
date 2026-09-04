@@ -7,7 +7,6 @@
 | `@glyph-cat/swiss-army-knife-react` | `v#.#.#`                      |
 | `@glyph-cat/equality`               | `equality-v#.#.#`             |
 | `@glyph-cat/localization`           | `localization-v#.#.#`         |
-| `@glyph-cat/cleanup-manager`        | `cleanup-manager-v#.#.#`      |
 | `@glyph-cat/react-test-utils`       | `react-test-utils-v#.#.#`     |
 | `@glyph-cat/cli-parameter-parser`   | `cli-parameter-parser-v#.#.#` |
 | `@glyph-cat/ml-helpers`             | `ml-helpers-v#.#.#`           |

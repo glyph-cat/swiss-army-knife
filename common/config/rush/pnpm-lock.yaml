@@ -344,9 +344,6 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7
         version: 7.28.5(@babel/core@7.29.0)
-      '@glyph-cat/cleanup-manager':
-        specifier: workspace:*
-        version: link:../cleanup-manager
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -938,9 +935,6 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7
         version: 7.28.5(@babel/core@7.29.0)
-      '@glyph-cat/cleanup-manager':
-        specifier: workspace:*
-        version: link:../cleanup-manager
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools
@@ -1140,9 +1134,6 @@ importers:
 
   ../../packages/react-test-utils:
     dependencies:
-      '@glyph-cat/cleanup-manager':
-        specifier: workspace:*
-        version: link:../cleanup-manager
       '@glyph-cat/foundation':
         specifier: workspace:*
         version: link:../foundation
@@ -1174,6 +1165,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7
         version: 7.28.5(@babel/core@7.29.0)
+      '@glyph-cat/cleanup-manager':
+        specifier: workspace:*
+        version: link:../cleanup-manager
       '@glyph-cat/custom-tools':
         specifier: workspace:*
         version: link:../tools

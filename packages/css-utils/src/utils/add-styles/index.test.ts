@@ -1,6 +1,5 @@
 /** @jest-environment jsdom */
-import { CleanupManager } from '@glyph-cat/cleanup-manager'
-import { createRef } from '@glyph-cat/foundation'
+import { createRef, Fn } from '@glyph-cat/foundation'
 import { addStyles } from '.'
 import { StyleMap } from '../style-map'
 import {
@@ -10,9 +9,9 @@ import {
   QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW,
 } from './constants'
 
-let cleanupManager: CleanupManager
-beforeEach(() => { cleanupManager = new CleanupManager() })
-afterEach(() => { cleanupManager.run() })
+let cleanupFunctions: Array<Fn>
+beforeEach(() => { cleanupFunctions = [] })
+afterEach(() => { cleanupFunctions.forEach((fn) => fn()) })
 
 beforeEach(() => { document.head.innerHTML = '' })
 afterEach(() => { document.head.innerHTML = '' })
@@ -75,7 +74,7 @@ describe(TestGroupFor(PrecedenceLevel.HIGH), () => {
       <!-- Styles should be added here -->
     `
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.HIGH))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.HIGH))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
     expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
     expect(allStyleElements[1].getAttribute(DATA_TEST_MARKER)).toBe('b')
@@ -86,7 +85,7 @@ describe(TestGroupFor(PrecedenceLevel.HIGH), () => {
 
   test('Has no style elements', () => {
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.HIGH))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.HIGH))
     const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_HIGH)!
     expect(element.innerHTML).toBe(mockStyles)
   })
@@ -105,7 +104,7 @@ describe(TestGroupFor(PrecedenceLevel.LOW), () => {
       <link ${DATA_TEST_MARKER}="e" rel='stylesheet' href='styles.css' />
     `
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.LOW))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
     expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
     expect(allStyleElements[1].getAttribute(DATA_TEST_MARKER)).toBe('b')
@@ -124,7 +123,7 @@ describe(TestGroupFor(PrecedenceLevel.LOW), () => {
       <link ${DATA_TEST_MARKER}="d" rel='stylesheet' href='styles.css' />
     `
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.LOW))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
     expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
     expect(allStyleElements[1].innerHTML).toBe(mockStyles)
@@ -135,7 +134,7 @@ describe(TestGroupFor(PrecedenceLevel.LOW), () => {
 
   test('Has no style elements', () => {
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.LOW))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.LOW))
     const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_LOW)!
     expect(element.innerHTML).toBe(mockStyles)
   })
@@ -154,7 +153,7 @@ describe(TestGroupFor(PrecedenceLevel.INTERNAL), () => {
       <link ${DATA_TEST_MARKER}="e" rel='stylesheet' href='styles.css' />
     `
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
     expect(allStyleElements[0].getAttribute(DATA_TEST_MARKER)).toBe('a')
     expect(allStyleElements[1].innerHTML).toBe(mockStyles)
@@ -174,7 +173,7 @@ describe(TestGroupFor(PrecedenceLevel.INTERNAL), () => {
       <link ${DATA_TEST_MARKER}="d" rel='stylesheet' href='styles.css' />
     `
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
     const allStyleElements = document.head.querySelectorAll(QUERY_SELECTOR_ANY_STYLE_ELEMENT)
     expect(allStyleElements[0].innerHTML).toBe(mockStyles)
     expect(allStyleElements[1].getAttribute(DATA_TEST_MARKER)).toBe('a')
@@ -185,7 +184,7 @@ describe(TestGroupFor(PrecedenceLevel.INTERNAL), () => {
 
   test('Has no style elements', () => {
     const mockStyles = createMockStyles()
-    cleanupManager.append(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
+    cleanupFunctions.push(addStyles(mockStyles, PrecedenceLevel.INTERNAL))
     const element = document.head.querySelector(QUERY_SELECTOR_PRECEDENCE_LEVEL_INTERNAL)!
     expect(element.innerHTML).toBe(mockStyles)
   })

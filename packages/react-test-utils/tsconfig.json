@@ -8,9 +8,6 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
-      "@glyph-cat/cleanup-manager": [
-        "../cleanup-manager/src",
-      ],
       "@glyph-cat/foundation": [
         "../foundation/src",
       ],

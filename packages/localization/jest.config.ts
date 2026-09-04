@@ -7,7 +7,6 @@ const config: Config = {
     '@glyph-cat/type-checking': '<rootDir>/../type-checking/src',
     '@glyph-cat/color': '<rootDir>/../color/src',
     '@glyph-cat/css-utils': '<rootDir>/../css-utils/src',
-    '@glyph-cat/cleanup-manager': '<rootDir>/../cleanup-manager/src',
   },
   // moduleDirectories: [
   //   'node_modules',
